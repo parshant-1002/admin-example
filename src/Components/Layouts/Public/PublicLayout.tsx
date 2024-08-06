@@ -1,11 +1,16 @@
-import { AppLayoutProps } from '../AppLayout.d';
-import Navbar from './Navbar';
+import { ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
 
-function PublicLayout({ children }: AppLayoutProps): JSX.Element {
+interface PublicLayoutProps {
+  children: ReactNode; // ReactNode allows any React children: JSX, strings, fragments, etc.
+}
+export function PublicLayout({ children }: PublicLayoutProps) {
   return (
     <>
-      <Navbar />
-      {children}
+      {/* <Navbar />
+            <Sidebar /> */}
+      <main>{children}</main>
+      <Outlet />
       {/* <Footer /> */}
     </>
   );

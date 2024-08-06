@@ -1,0 +1,271 @@
+// _mixin.scss
+
+@each $aSize, $fSize in (24), (30),(60),(80) {
+  .avtar#{$aSize} {
+    max-height: #{$aSize}px;
+    max-width: #{$aSize}px;
+    min-height: #{$aSize}px;
+    min-width: #{$aSize}px;
+    border-radius: #{$aSize}px;
+  }
+}
+@each $aSize in (38), (44), (64){
+  .btn#{$aSize} {
+    height: #{$aSize}px;
+    width: #{$aSize}px;
+  }
+}
+
+// Circle
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: 100%;
+}
+
+// Link Color
+@mixin linkColor($color) {
+  color: $color;
+  &:hover, &:active, &:focus {
+      color: darken($color, 20%);
+  }
+}
+
+// Button
+@mixin button($bgcolor, $bordercolor, $textcolor) {
+  background-color: $bgcolor;
+  border-color: $bordercolor;
+  color: $textcolor!important;
+  box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .05);
+  @include transition (all, 0.5s, ease-in-out);
+  &:hover, &:focus, &:active{
+    box-shadow: 0px 4px 16px 0px rgba($bgcolor, .15)!important;
+    background-color: ($bgcolor)!important;
+    border-color: ($bordercolor)!important;
+    color: $textcolor;
+  }
+}
+// Outline Button
+@mixin buttonOutline($bgcolor, $bordercolor, $textcolor) {
+  background-color: $bgcolor;
+  border-color: $bordercolor;
+  color: $textcolor!important;
+  box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .25);
+  @include transition (all, 0.5s, ease-in-out);
+  &:hover{
+    box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .25)!important;
+    background-color: $green-light-color-900;
+    border-color: rgba($bordercolor, 1);
+  }
+  &:focus, &:active{
+    box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .25)!important;
+    background: $green-light-color-900!important;
+    border-color: $bordercolor!important;
+  }
+}
+
+@mixin box-sizing($type) {
+  -webkit-box-sizing: $type;
+  -moz-box-sizing: $type;
+  box-sizing: $type;
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  filter: alpha(opacity=($opacity * 100));
+}
+
+@mixin border-radius($r) {
+  border-radius: $r;
+}
+
+@mixin no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@mixin font-size($sizeValue: 1.6) {
+  // font-size: ($sizeValue * 16) + px;
+  font-size: $sizeValue + rem;
+}
+
+//@include fontsize(12);
+// @mixin fontsize($size: 24, $base: 16) {
+//   font-size: $size + px;
+//   font-size: ($size / $base) * 1rem;
+// }
+
+// Position
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+// @include position($absolute, $top: 0, $left: 0);
+
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow: inset $top $left $blur $color;
+    -moz-box-shadow: inset $top $left $blur $color;
+    box-shadow: inset $top $left $blur $color;
+  }
+  @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+@mixin box-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $color: $default) {
+  box-shadow: $x-axis $y-axis $blur $color;
+}
+// @include box-shadow(5px, 5px, 5px, #333);
+
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+
+// Scale
+@mixin scale($scale) {
+  @include transform(scale($scale));
+}
+
+// Translate
+@mixin translate ($x, $y) {
+  @include transform(translate($x, $y));
+}
+
+// Skew
+@mixin skew ($x, $y) {
+  @include transform(skew(#{$x}deg, #{$y}deg));
+}
+
+// Transform Origin
+@mixin transform-origin ($origin) {
+  -webkit-transform-origin: $origin;
+  -moz-transform-origin: $origin;
+  -ms-transform-origin: $origin;
+  transform-origin: $origin;
+}
+
+// Clear Fix
+@mixin clearit {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+  zoom: 1;
+}
+
+@mixin vh() {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// Opacity
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie);
+}
+
+@mixin transition-mixin($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+/* @include transition-mixin(all, 0.2s, ease-in-out)
+
+/* Mixin for transition css */
+@mixin transition($for: all, $time-in: 250ms, $type: ease-in-out, $time-out: 0s) {
+  transition: $for $time-in $type $time-out;
+  -moz-transition: $for $time-in $type $time-out;
+  -webkit-transition: $for $time-in $type $time-out;
+  -o-transition: $for $time-in $type $time-out;
+}
+/* @include transition(all, 0.2s, ease-in-out, 0s); */
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+// position center
+@mixin center($position) {
+  position: absolute;
+  @if $position =='vertical' {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+  @else if $position =='horizontal' {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translate(-50%);
+  }
+  @else if $position =='both' {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+// @include center(both);
+
+// Aspect Ratio
+@mixin aspect-ratio($width, $height) {
+  position: $relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+}
+// @include aspect-ratio(16, 9);
+
+// Animation
+@mixin animation-mixin($name, $from, $to) {
+  @keyframes #{$name} {
+    0% {
+      transform: translate3d($from, 0, 0);
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d($to, 0, 0);
+      opacity: 1;
+    }
+  }
+}
+
+@mixin para{
+  font-size: $font-15;
+  color: $text-color;
+  line-height: 24px;
+}

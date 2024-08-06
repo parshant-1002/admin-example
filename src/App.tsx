@@ -4,7 +4,9 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './Store';
 import RootRouter from './Routes/RootRouter';
-import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.scss';
 
 const baseName = import.meta.env.VITE_BASE_NAME;
 

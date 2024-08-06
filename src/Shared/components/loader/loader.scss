@@ -1,0 +1,74 @@
+@import '../../../assets/scss/base';
+
+$loader-size: 70px;
+$top: 0;
+$left: 0;
+$auto: auto;
+$right: 0;
+$bottom: 0;
+
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin position($position, $top, $left, $right: null, $bottom: null) {
+    position: $position;
+    top: $top;
+    left: $left;
+    right: $right;
+    bottom: $bottom;
+}
+
+@mixin border-radius($radius) {
+    border-radius: $radius;
+}
+
+.loaderModal{
+    @include flexCenter;
+    @include position($fixed, $top, $left);
+    background-color: rgba($black-color, .75);
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000000;
+}
+
+.loader {
+    width: $loader-size;
+    height: $loader-size;
+    border: 3px dotted $white-color;
+    border-style: solid solid dotted dotted;
+    @include border-radius (50%);
+    display: $inline-block;
+    position: $relative;
+    animation: rotation 2s linear infinite;
+    &:after {
+        content: '';
+        margin: $auto;
+        @include position($absolute, $top, $left, $right, $bottom);
+        border: 3px dotted $green-tin-color-600;
+        border-style: solid solid dotted;
+        width: calc($loader-size/2);
+        height: calc($loader-size/2); // Replaced $size with $loader-size
+        @include border-radius (50%);
+        animation: rotationBack 1s linear infinite;
+    }
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes rotationBack {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}

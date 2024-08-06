@@ -1,0 +1,146 @@
+@import '../../../../assets/scss/base';
+
+.custom_tabs {
+    border-bottom: 0!important;
+    column-gap: 5px;
+    li {
+        .nav-link {
+            @include border-radius (10px 10px 0 0);
+            background-color: $transparent;
+            font-weight: $font-medium;
+            @include font-size (1);
+            margin: 0;
+            color: $text-color;
+            border: 1px solid #2a766a;
+            padding: 14px 50px;
+            position: $relative;
+            display: $inline-block;
+            z-index: 2;
+            &.active {
+                color: $text-color;
+                border: 1px solid #2a766a;
+                background: #2a766a;
+                background: linear-gradient(0deg, rgba(42, 118, 106, 1) 21%, rgba(39, 108, 97, 1) 100%);
+            }
+        }
+    }
+}
+.tab-body {
+    padding: 15px;
+    border: 1px solid #2a766a;
+    @include border-radius (0 0 10px 10px);
+}
+
+.uploaded_file {
+    img {
+        max-width: 150px;
+        max-height: 150px;
+        width: 100%;
+        @include border-radius(7px);
+        padding: 10px;
+        object-fit: $contain;
+        background-color: $dark-green-color-900;
+    }
+}
+.file-group {
+    gap: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+    .card-file {
+        padding: 8px;
+        @include border-radius (8px);
+        border: 1px solid $green-tin-color-700;
+        box-shadow: 0 0 10px rgba($black-color, .4);
+        @media (min-width:1200px){
+            width: calc(50% - 5px);
+        }
+        @media (max-width:1200px){
+            width: 100%;
+        }
+        .img_card {
+            gap: .5rem;
+            figure {
+                margin:0;
+                width: 70px;
+                height: 70px;
+                line-height: 1;
+                text-align: $center;
+                @include flexCenter;
+                @include font-size(.725);
+                @include border-radius (7px);
+                border: 1px solid rgba($green-tin-color-700, .9);
+                overflow: $hidden;
+                img, video {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: $contain;
+                    @include border-radius ($inherit);
+                }
+            }
+        }
+        @at-root {
+            .image-card__info {
+                .h6 {
+                    @include font-size (.875);
+                    color: rgba($white-color, .8);
+                }
+            }
+        }
+    }
+}
+
+.file-card.selected {
+    background-color: #e8e8e8;
+}
+
+.no_results {
+    padding: 20px;
+    min-height: 80px;
+    color:$white-color;
+    text-align: $center;
+    @include font-size (1);
+}
+
+
+// File Uploaded
+.upload-file {
+    padding: 40px 15px;
+    text-align: $center;
+    position: $relative;
+    @include flexCenter;
+    cursor: $pointer;
+    @include flex-flow (column);
+    @include border-radius (10px);
+    border: 1px dashed $grey-color-500;
+    .uploaded_pic {
+        border: 1px solid $green-light-color-700;
+        @include border-radius (10px);
+        padding:10px;
+        span {
+            color: $text-color;
+        }
+    }
+}
+
+.upload-text {
+    span {
+        @include font-size (1);
+        font-weight: $font-regular;
+        color: $white-color;
+        line-height: 1.3;
+        small {
+            font-size: $inherit;
+            column-rule-color: $inherit;
+            text-decoration: $underline;
+            &:hover {
+                text-decoration: $none;
+            }
+        }
+    }
+}
+
+.uploaded_file {
+    video {
+        width: 100%;
+    }
+}
