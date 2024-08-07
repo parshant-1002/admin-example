@@ -26,7 +26,8 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
     listAllFiles();
   }, [dispatch]);
 
-  const handleDeleteFile = () => {
+  const handleDeleteFile = (fileId: string | undefined) => {
+    fileId?.includes('0');
     // dispatch(
     //   deleteFiles([fileId], (res, status) => {
     //     if (status === STATUS.SUCCESS) {
