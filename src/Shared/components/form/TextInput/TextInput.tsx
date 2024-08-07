@@ -13,7 +13,7 @@ export function ErrorComponent({
     return render(error);
   }
   return (
-    <span className="block text-red text-md mt-1">
+    <span className="block error text-md mt-1">
       {(error as { message: string })?.message}
     </span>
   );

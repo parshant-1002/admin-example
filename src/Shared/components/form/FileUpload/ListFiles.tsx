@@ -26,8 +26,7 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
     listAllFiles();
   }, [dispatch]);
 
-  const handleDeleteFile = (fileId: string | undefined) => {
-    console.log('fileId:', fileId);
+  const handleDeleteFile = () => {
     // dispatch(
     //   deleteFiles([fileId], (res, status) => {
     //     if (status === STATUS.SUCCESS) {

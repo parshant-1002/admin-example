@@ -13,7 +13,7 @@ function PrivateLayout({ children }: PrivateLayoutProps) {
     <>
       <Navbar />
       <Sidebar items={SIDEBAR_NAV} />
-      <div className="bg-img" />
+      {/* <div className="bg-img" /> */}
       <main id="main" className="main">
         {/* <Breadcrumb /> */}
         {children}

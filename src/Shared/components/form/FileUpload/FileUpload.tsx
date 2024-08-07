@@ -51,7 +51,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState(TABS.LIST_FILES);
     // const dispatch = useDispatch();
-    console.log(fileValue);
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
@@ -114,7 +113,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     const renderSelectedFile = useMemo(() => {
-      console.log(fileValue);
       return (
         fileValue &&
         fileValue?.map((fileData, index) => {

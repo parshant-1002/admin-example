@@ -39,34 +39,33 @@ function AddContentForm({
     const currentErrors = validateField(roadMap[roadMap.length - 1]);
     if (Object.keys(currentErrors).length === 0) {
       setRoadMap([...roadMap, initialState]);
-    } else {
-      const updatedRoadMap = roadMap.map((item, i) =>
-        i === roadMap.length - 1 ? { ...item, errors: currentErrors } : item
-      );
-      console.log('🚀 ~ addLevel ~ updatedRoadMap:', updatedRoadMap);
-      //   setRoadMap(updatedRoadMap);
     }
+    // else {
+    //   const updatedRoadMap = roadMap.map((item, i) =>
+    //     i === roadMap.length - 1 ? { ...item, errors: currentErrors } : item
+    //   );
+    //   //   setRoadMap(updatedRoadMap);
+    // }
   };
 
   const removeLevel = (index: number) => {
     setRoadMap(roadMap.filter((_, i) => i !== index));
   };
 
-  const updateField = (index: number, field: string, value: unknown) => {
-    const updatedRoadMap = roadMap.map((item, i) => {
-      if (i === index) {
-        const newErrors = { ...item.errors };
-        delete newErrors[field];
-
-        return {
-          ...item,
-          [field]: value,
-          errors: newErrors,
-        };
-      }
-      return item;
-    });
-    console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
+  const updateField = () => {
+    // const updatedRoadMap = roadMap.map((item, i) => {
+    //   if (i === index) {
+    //     const newErrors = { ...item.errors };
+    //     delete newErrors[field];
+    //     return {
+    //       ...item,
+    //       [field]: value,
+    //       errors: newErrors,
+    //     };
+    //   }
+    //   return item;
+    // });
+    // console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
     // setRoadMap(updatedRoadMap);
   };
 

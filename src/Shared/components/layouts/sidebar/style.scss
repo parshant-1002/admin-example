@@ -2,7 +2,25 @@
 
 $downArrow : url("../../../../assets/icons/downArrow.svg"); 
 $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
-
+.sub-menu {
+  li {
+      a {
+      position: $relative;
+      color: rgba($white-color, 1);
+      &::before {
+          content: '';
+          background-image: $submenuArrow;
+          background-repeat: $no-repeat;
+          width:18px; height: 15px;
+          background-size: 18px;
+          @include position($absolute, $left:16px, $top:15px);
+      }
+      &.active {
+          background-color: $light-voilet-color-100;
+      }
+      }
+  }
+      }
 .sidebar {
   position: fixed;
   top: 0px;
@@ -16,7 +34,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   scrollbar-width: thin;
   scrollbar-color: $dark-green-color-450 transparent;  
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background:$dark-green-color-900 url(./assets/images/left-bg.png) no-repeat right center;
+  background:$dark-voilet-color-900 url(./assets/images/left-bg.png) no-repeat right center;
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -44,12 +62,12 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   .accordion-collapse {
     .accordion-body {
       // background-color: $dark-green-color-900;
-      background-color: $green-tin-color-700;
+      background-color: $light-voilet-color-100;
     }
     &.show {
       background-color: rgba($white-color, 1)!important;
       .accordion-body {
-        background-color: $green-tin-color-700;
+        background-color: $light-voilet-color-100;
         a{
           color: $white-color !important;
         }
@@ -70,7 +88,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
                 @include position($absolute, $left:16px, $top:15px);
             }
             &.active {
-                background-color: #2d6e5f;
+                background-color: $light-voilet-color-100;
             }
             }
         }
@@ -81,7 +99,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     border: none;
   }
   .accordion-button{
-    background-color: $dark-green-color-900;
+    background-color: $dark-voilet-color-900;
     font-weight: $font-regular;
     font-size: 15px;
     color: $white-color;
@@ -133,7 +151,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 
 .sidebar-nav .nav-link:hover {
   color: $white-color;
-  background: $green-tin-color-700;
+  background: $light-voilet-color-100;
 }
 
 .sidebar-nav .nav-link:hover i {

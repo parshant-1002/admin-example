@@ -67,6 +67,7 @@ export const INPUT_TYPES = {
 };
 
 export const VALIDATION_REGEX = {
+  OTP: /^\d{6}$/,
   EMAIL: /^\S+@\S+\.\S+$/,
   PASSWORD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/i,
   NUMBER: /\d+/g,
@@ -185,6 +186,8 @@ export { STRING };
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
+  OTP_FORM: '/otp-form',
+  QR_CODE: '/qr-code',
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
@@ -230,8 +233,8 @@ const ROUTES = {
 };
 
 const WILDCARD_ROUTES = {
-  PUBLIC: ROUTES.HOMEPAGE,
-  PRIVATE: ROUTES.LOGIN,
+  PUBLIC: ROUTES.LOGIN,
+  PRIVATE: ROUTES.HOMEPAGE,
 };
 
 const ROUTES_CONFIG = {
@@ -239,9 +242,25 @@ const ROUTES_CONFIG = {
     path: ROUTES.HOMEPAGE,
     title: 'Master Plan',
   },
+  VERIFY_EMAIL: {
+    path: ROUTES.VERIFY_EMAIL,
+    title: 'Verify Email',
+  },
+  RESET_PASSWORD: {
+    path: ROUTES.RESET_PASSWORD,
+    title: 'Reset Password',
+  },
   LOGIN: {
     path: ROUTES.LOGIN,
     title: 'Login',
+  },
+  OTP_FORM: {
+    path: ROUTES.OTP_FORM,
+    title: 'Otp',
+  },
+  QR_CODE: {
+    path: ROUTES.QR_CODE,
+    title: 'Qr Code',
   },
   REGISTER: {
     path: ROUTES.REGISTER,
