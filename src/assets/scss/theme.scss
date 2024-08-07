@@ -243,7 +243,7 @@ a.btn {
         }
     }
     &-primary {
-        @include button($dark-voilet-color-900, $transparent, $white-color);
+        @include button($dark-voilet-color-700, $transparent, $white-color);
         span {
             @include flexCenter;
             @include font-size (.875);
@@ -256,7 +256,8 @@ a.btn {
         }
     }
     &-secondary {
-        @include button($dark-green-color-600, $transparent, $white-color);
+        @include button($white-color, $transparent, $grey-color-900);
+        border: 2px solid $grey-color-900;
         overflow: $hidden;
         position: $relative;
         z-index: 1;

@@ -1,26 +1,31 @@
 @import '../../../../assets/scss/base';
 
-$downArrow : url("../../../../assets/icons/downArrow.svg"); 
+$downArrow : url("../../../../assets/icons/downArrow.svg");
 $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
+
 .sub-menu {
   li {
-      a {
+    a {
       position: $relative;
       color: rgba($white-color, 1);
+
       &::before {
-          content: '';
-          background-image: $submenuArrow;
-          background-repeat: $no-repeat;
-          width:18px; height: 15px;
-          background-size: 18px;
-          @include position($absolute, $left:16px, $top:15px);
+        content: '';
+        background-image: $submenuArrow;
+        background-repeat: $no-repeat;
+        width: 18px;
+        height: 15px;
+        background-size: 18px;
+        @include position($absolute, $left: 16px, $top: 15px);
       }
+
       &.active {
-          background-color: $light-voilet-color-100;
+        background-color: $light-voilet-color-100;
       }
-      }
+    }
   }
-      }
+}
+
 .sidebar {
   position: fixed;
   top: 0px;
@@ -32,15 +37,18 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   padding: 10px 0;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: $dark-green-color-450 transparent;  
+  scrollbar-color: $dark-green-color-450 transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background:$dark-voilet-color-900 url(./assets/images/left-bg.png) no-repeat right center;
+  background: $dark-voilet-color-900 url(./assets/images/left-bg.png) no-repeat right center;
+
   .sidebar-nav {
     padding: 0;
     margin: 0;
     list-style: $none;
+
     li {
       border-bottom: 1px solid rgba($white-color, .1);
+
       .nav-link {
         font-weight: $font-regular;
         font-size: 15px;
@@ -50,61 +58,74 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
       }
     }
   }
+
   .accordion-header {
     button {
       padding: 14px 15px;
-      border: 0!important;
+      border: 0 !important;
+
       i {
         margin-right: 10px;
       }
     }
   }
+
   .accordion-collapse {
     .accordion-body {
       // background-color: $dark-green-color-900;
       background-color: $light-voilet-color-100;
     }
+
     &.show {
-      background-color: rgba($white-color, 1)!important;
+      background-color: rgba($white-color, 1) !important;
+
       .accordion-body {
         background-color: $light-voilet-color-100;
-        a{
+
+        a {
           color: $white-color !important;
         }
       }
     }
+
     @at-root {
-        .sub-menu {
+      .sub-menu {
         li {
-            a {
+          a {
             position: $relative;
             color: rgba($white-color, 1);
+
             &::before {
-                content: '';
-                background-image: $submenuArrow;
-                background-repeat: $no-repeat;
-                width:18px; height: 15px;
-                background-size: 18px;
-                @include position($absolute, $left:16px, $top:15px);
+              content: '';
+              background-image: $submenuArrow;
+              background-repeat: $no-repeat;
+              width: 18px;
+              height: 15px;
+              background-size: 18px;
+              @include position($absolute, $left: 16px, $top: 15px);
             }
+
             &.active {
-                background-color: $light-voilet-color-100;
+              background-color: $light-voilet-color-100;
             }
-            }
+          }
         }
-            }
-        }
+      }
+    }
   }
-  .accordion-item{
+
+  .accordion-item {
     border: none;
   }
-  .accordion-button{
+
+  .accordion-button {
     background-color: $dark-voilet-color-900;
     font-weight: $font-regular;
     font-size: 15px;
     color: $white-color;
     border: none;
-    &::after{
+
+    &::after {
       background-image: $downArrow;
       background-size: 14px;
       background-position: $center;
@@ -125,6 +146,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 }
 
 @media (min-width: 1200px) {
+
   .toggle-sidebar #main,
   .toggle-sidebar #footer {
     margin-left: 0;
@@ -150,12 +172,12 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 }
 
 .sidebar-nav .nav-link:hover {
-  color: $white-color;
+  color: $dark-voilet-color-900;
   background: $light-voilet-color-100;
 }
 
 .sidebar-nav .nav-link:hover i {
-  color: $white-color;
+  color: $dark-voilet-color-900;
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -170,7 +192,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 .sidebar-nav .nav-content {
   padding: 0;
   margin: 0;
+
   .sub-menu {
+    background-color: $dark-voilet-color-900;
     li {
       a {
         padding: 10px 0 10px 40px;

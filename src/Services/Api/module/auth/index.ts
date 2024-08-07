@@ -16,6 +16,17 @@ export const loginApi = api.injectEndpoints({
       },
       // Optionally add some hooks or custom logic here
     }),
+    logout: builder.mutation({
+      query: ({ payload }) => ({
+        url: API_END_POINTS.LOGOUT,
+        method: HTTPS_METHODS.POST,
+        body: payload,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+      // Optionally add some hooks or custom logic here
+    }),
     verifyOtp: builder.mutation({
       query: ({ payload }) => ({
         url: API_END_POINTS.VERIFY_OTP,
@@ -66,6 +77,7 @@ export const loginApi = api.injectEndpoints({
 export const {
   useLoginMutation,
   useVerifyOtpMutation,
+  useLogoutMutation,
   //   useRegisterMutation,
   //   useVerifyMutation,
   //   useForgotPasswordMutation,

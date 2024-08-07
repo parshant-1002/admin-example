@@ -191,6 +191,7 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
+  PRODUCTS: '/products',
   VERIFY_EMAIL: '/verify-email',
   FORGOT_PASSWORD: '/forgot/password',
   RESET_PASSWORD: '/auth/reset-password/:token',

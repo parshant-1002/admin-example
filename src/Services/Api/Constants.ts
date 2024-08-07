@@ -3,6 +3,7 @@ export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
 
 export const API_END_POINTS = {
   LOGIN: '/admin/login',
+  LOGOUT: '/admin/logout',
   VERIFY_OTP: '/admin/verifyOTP',
 };
 

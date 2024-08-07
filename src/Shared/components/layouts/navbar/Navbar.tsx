@@ -1,25 +1,42 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 // import { logoutRequest } from '../../../../../store/actions/auth';
 // import { ROUTES } from '../../../../constants/routes';
-import './navbar.scss';
+import { toast } from 'react-toastify';
+import { updateAuthTokenRedux } from '../../../../Store/Common';
 import ProfileDropdown from './ProfileDropdown';
+import './navbar.scss';
+import { useLogoutMutation } from '../../../../Services/Api/module/auth';
+import { ErrorResponse } from '../../../../Models/Apis/Error';
 
 // Define the state type for useSelector
 interface RootState {
-  auth: {
+  common: {
     userData: { profilePicture: string }; // Adjust the type based on your user data structure
   };
 }
 
 function Navbar() {
-  const userData = useSelector((state: RootState) => state?.auth?.userData);
+  const userData = useSelector((state: RootState) => state?.common?.userData);
   const navigate = useNavigate();
-
-  const handleLogout = () => {
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+  const onSuccess = (data: { message: string }) => {
+    toast.success(data?.message);
+    dispatch(updateAuthTokenRedux({ token: null }));
     navigate('/');
+  };
+  const onFailure = (error: ErrorResponse) => {
+    toast.error(error.data.message);
+  };
+  const handleLogout = async () => {
+    try {
+      await logout({ onSuccess, onFailure });
+    } catch {
+      toast.error('Error in login');
+    }
   };
 
   const toggleSidebar = () => {
@@ -31,7 +48,7 @@ function Navbar() {
       <div className="d-flex align-items-center justify-content-between">
         <Link to="" className="logo d-flex align-items-center">
           {/* <img src="assets/img/logo.png" alt="Logo" /> */}
-          {/* <span className="d-none d-lg-block">Solana Admin</span> */}
+          <h4 className="d-none d-lg-block">Penny Auction Admin</h4>
         </Link>
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>
