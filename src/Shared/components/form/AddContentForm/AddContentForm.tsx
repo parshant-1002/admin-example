@@ -52,19 +52,20 @@ function AddContentForm({
     setRoadMap(roadMap.filter((_, i) => i !== index));
   };
 
-  const updateField = () => {
-    // const updatedRoadMap = roadMap.map((item, i) => {
-    //   if (i === index) {
-    //     const newErrors = { ...item.errors };
-    //     delete newErrors[field];
-    //     return {
-    //       ...item,
-    //       [field]: value,
-    //       errors: newErrors,
-    //     };
-    //   }
-    //   return item;
-    // });
+  const updateField = (index: number, field: string, value: unknown) => {
+    roadMap.map((item, i) => {
+      if (i === index) {
+        const newErrors = { ...item.errors };
+        delete newErrors[field];
+
+        return {
+          ...item,
+          [field]: value,
+          errors: newErrors,
+        };
+      }
+      return item;
+    });
     // console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
     // setRoadMap(updatedRoadMap);
   };
