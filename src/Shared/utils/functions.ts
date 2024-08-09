@@ -3,8 +3,9 @@
 /* eslint-disable no-param-reassign */
 import { toast } from 'react-toastify';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
-import { setLoading } from '../../Store/Loader';
 import { store } from '../../Store';
+import { setLoading } from '../../Store/Loader';
+import { FileData } from '../components/form/FileUpload/helpers/modal';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -124,15 +125,10 @@ const convertToLocale = (number: number | string): string => {
   return formattedNumber.toLocaleString(localeCode);
 };
 
-interface FileWithSrc {
-  file: File;
-  src?: string;
-}
-
-const convertFilesToFormData = (files: FileWithSrc[]): FormData[] => {
-  return files.map((fileObj) => {
+const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
+  return (files || [])?.map((fileObj) => {
     const formData = new FormData();
-    formData.append('image', fileObj.file);
+    formData.append(key, fileObj.file);
     return formData;
   });
 };
@@ -164,16 +160,23 @@ const onQueryStarted = async (
   }
 };
 
+function capitalizeFirstLetter(str: string): string {
+  if (!str) return str; // Return the original string if it is empty
+
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 export {
-  onQueryStarted,
+  capitalizeFirstLetter,
   checkOffline,
-  removeEmptyValues,
+  checkValidFileExtension,
   convertFilesToFormData,
   convertToLocale,
   copyToClipboard,
-  checkValidFileExtension,
   getPaginationLimits,
   getStringValue,
-  validateField,
   isErrors,
+  onQueryStarted,
+  removeEmptyValues,
+  validateField,
 };

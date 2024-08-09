@@ -5,8 +5,6 @@ import './style.scss';
 function Dashboard() {
   return (
     <div className="dashboard">
-      <h4 className="text-black">Welcome To Dashboard</h4>
-
       <div className="grid">
         <div className="card">
           <h6>Total Users</h6>

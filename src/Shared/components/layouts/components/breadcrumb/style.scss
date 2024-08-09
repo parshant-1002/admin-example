@@ -1,5 +1,11 @@
 @import '../../../../../assets/scss/base';
 
 .breadcrumb {
-    margin-bottom: 0px!important;
+    margin-bottom: 0px !important;
+
+    li {
+        a {
+            color: $grey-color-900;
+        }
+    }
 }

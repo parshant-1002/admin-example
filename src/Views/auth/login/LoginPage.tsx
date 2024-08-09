@@ -8,6 +8,7 @@ import CustomForm from '../../../Shared/components/form/CustomForm';
 import { ROUTES } from '../../../Shared/constants';
 import LOGIN_FORM_SCHEMA from './helpers/loginSchema';
 import './style.scss';
+import ERROR_MESSAGES from '../../../Shared/constants/messages';
 
 interface LoginResponse {
   message: string;
@@ -44,7 +45,7 @@ function LoginPage() {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error('An unknown error occurred');
+        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
       }
     }
   };

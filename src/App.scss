@@ -211,7 +211,7 @@ $downArrow : url("./assets/icons/downArrow.svg");
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
   @include border-radius (10px);
   &-body {
-    background-color: #2d6e5f;
+    background-color: rgba($white-color, 1);
     @include border-radius (5px);
     padding: 20px;
   }

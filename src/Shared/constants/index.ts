@@ -134,6 +134,8 @@ export const BUTTON_LABELS = {
   SAVE: 'Save',
   CLEAR: 'Clear',
   DOWNLOAD_CSV: 'Download csv ',
+  EDIT: 'Edit',
+  ADD: 'Add',
 };
 export const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',
@@ -192,6 +194,8 @@ const ROUTES = {
   ABOUT: '/about-us',
   USERS: '/users',
   PRODUCTS: '/products',
+  PRODUCTS_ADD: '/products/add',
+  PRODUCTS_LIST: '/products/list',
   VERIFY_EMAIL: '/verify-email',
   FORGOT_PASSWORD: '/forgot/password',
   RESET_PASSWORD: '/auth/reset-password/:token',
@@ -241,7 +245,15 @@ const WILDCARD_ROUTES = {
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'Master Plan',
+    title: 'Welcome To Dashboard',
+  },
+  PRODUCTS_ADD: {
+    path: ROUTES.PRODUCTS_ADD,
+    title: 'Add Product',
+  },
+  PRODUCTS_LIST: {
+    path: ROUTES.PRODUCTS_LIST,
+    title: 'Products',
   },
   VERIFY_EMAIL: {
     path: ROUTES.VERIFY_EMAIL,

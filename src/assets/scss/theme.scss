@@ -51,7 +51,7 @@ h4, .h4,
 h5, .h5,
 h6, .h6 {
     line-height: 1.3;
-    color: $white-color;
+    color: $black-color;
     font-weight: $font-medium;
 }
 h1, .h1 {
@@ -190,7 +190,7 @@ input[type=number] {
 }
 
 .text-primary {
-    color: $green-tin-color-600!important;
+    color: $black-color!important;
 }
 
 // Button CSS
@@ -306,7 +306,7 @@ label {
     @include font-size (.875);
     font-weight: $font-medium;
     text-transform: $capitalize;
-    color: $white-color;
+    color: $black-color;
 }
 .form {
     &-control {

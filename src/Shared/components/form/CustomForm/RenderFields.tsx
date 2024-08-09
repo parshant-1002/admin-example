@@ -72,24 +72,24 @@ function RenderField({
             {...handleRegister(id)}
           />
         );
-      // case INPUT_TYPES.FILE:
-      //   return (
-      //     <TextField
-      //       id={id}
-      //       type={inputType}
-      //       placeholder={field.placeholder}
-      //       accept={field.accept || ''}
-      //       {...handleRegister(id)}
-      //       onChange={({ files, fileData }: { file: File; fileData: string }) =>
-      //         handleInputChange(id, { files, fileData })
-      //       }
-      //       maxLength={maxLength || ''}
-      //       minLength={minLength || ''}
-      //       control={control}
-      //       className={className}
-      //       value={value}
-      //     />
-      //   );
+      case INPUT_TYPES.FILE:
+        return (
+          <TextField
+            id={id}
+            type={inputType}
+            placeholder={field.placeholder}
+            accept={field.accept || ''}
+            {...handleRegister(id)}
+            onChange={(fileSelected: string) =>
+              handleInputChange(id, fileSelected)
+            }
+            maxLength={maxLength || ''}
+            minLength={minLength || ''}
+            control={control}
+            className={className}
+            value={value}
+          />
+        );
       case INPUT_TYPES.SELECT:
         return (
           <Controller

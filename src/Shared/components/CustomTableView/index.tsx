@@ -12,14 +12,14 @@ interface CustomTableViewProps {
   renderTableFooter?: () => React.ReactNode;
   pageSize?: number;
   noDataFound?: string;
-  quickEditRowId?: string;
+  quickEditRowId?: string | null;
   isServerPagination?: boolean;
   handleSortingClick?: (order?: number, sortKey?: string) => void;
   isLoading?: boolean;
 }
-interface Column {
-  title: string;
-  fieldName: string;
+export interface Column {
+  title?: string;
+  fieldName?: string;
   sortable?: boolean;
   sortType?: string;
   width?: string;
@@ -27,7 +27,7 @@ interface Column {
   render?: (row: unknown, value: unknown) => React.ReactNode;
 }
 
-interface Row {
+export interface Row {
   [key: string]: string | number;
 }
 function CustomTableView({
@@ -51,20 +51,21 @@ function CustomTableView({
     : rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
+    // if (!column?.fieldName) return null;
     if (column.isTruncated) {
-      return row[column.fieldName] ? (
-        <TruncatedText text={row[column.fieldName]} />
+      return row[column?.fieldName || ''] ? (
+        <TruncatedText text={row[column?.fieldName || '']} />
       ) : (
         '-'
       );
     }
     if (column.render) {
-      return column.render(row, row[column.fieldName]);
+      return column.render(row, row[column?.fieldName || '']);
     }
-    if (typeof row[column.fieldName] === 'number') {
-      return row[column.fieldName];
+    if (typeof row[column?.fieldName || ''] === 'number') {
+      return row[column?.fieldName || ''];
     }
-    return row[column.fieldName] || '-';
+    return row[column?.fieldName || ''] || '-';
   }, []);
   return (
     <>

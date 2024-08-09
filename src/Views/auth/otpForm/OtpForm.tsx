@@ -16,6 +16,7 @@ import { ErrorResponse } from '../../../Models/Apis/Error';
 import './OtpForm.scss';
 import Button from '../../../Shared/components/form/Button';
 import { Copy } from '../../../assets';
+import ERROR_MESSAGES from '../../../Shared/constants/messages';
 
 interface LoginResponse {
   token: string;
@@ -94,7 +95,7 @@ function OtpForm() {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error('An unknown error occurred');
+        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
       }
     }
   };
