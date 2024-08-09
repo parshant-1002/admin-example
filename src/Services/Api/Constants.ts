@@ -1,12 +1,15 @@
 // eslint-disable-next-line import/prefer-default-export
 export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
+export const { VITE_API_VERSION } = import.meta.env;
 
 export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
+  CATEGORY: '/category',
   LOGOUT: '/admin/logout',
   VERIFY_OTP: '/admin/verifyOTP',
   FILE_UPLOAD: '/file/upload',
+  GET_FILES: '/file/getFiles',
 };
 
 export const HTTPS_METHODS = {

@@ -1,6 +1,6 @@
 const VERSION = import.meta.env.VITE_API_VERSION || 'v1';
 export const API = {
-  BASE_URL: import.meta.env.VITE_API_BASE_URL,
+  BASE_URL: import.meta.env.VITE_BASE_URL,
   GET_CONTENT_DATA: `/${VERSION}/getContentForAdminPanel`,
   UPDATE_CONTENT_DATA: `/${VERSION}/content`,
   LOGIN: `${VERSION}/admin/login`,
@@ -78,7 +78,7 @@ export const VALIDATION_REGEX = {
   USERNAME: /^[a-z0-9]+$/,
 };
 
-export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg';
+export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
@@ -169,6 +169,28 @@ export const TEXT_TYPES = {
 export const SHORT_CODE_NOTE =
   'Note: Ensure there is a space before and after the shortcode.';
 
+export const FILTER_CONSTS = {
+  day: 'day',
+  days: 'days',
+  year: 'year',
+  month: 'month',
+  months: 'months',
+  dateFormat: 'YYYY-MM-DD',
+  six: 6,
+  one: 1,
+  Statistics: 'Statistics',
+  adminStatistics: 'Admin Stats',
+  Asc: '1',
+  Desc: '-1',
+  noDataFound: 'No Data Found',
+  selectCasinoLimit: 'Select Casino Limit',
+  totalRequests: 'Total Requests',
+  averageHourlyHandling: 'Average Hourly Handling',
+  addedCustomerIds: 'Customer ID added',
+  adminName: 'Name',
+  defaultSortKey: 'approvedRequestCount',
+};
+
 /* Constants for RPC Connection the Solana Blockchain */
 // const COMMITMENT_LEVEL = 'processed';
 // export const ENDPOINT =
@@ -246,6 +268,10 @@ const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Welcome To Dashboard',
+  },
+  PRODUCTS: {
+    path: ROUTES.PRODUCTS,
+    title: 'Product',
   },
   PRODUCTS_ADD: {
     path: ROUTES.PRODUCTS_ADD,

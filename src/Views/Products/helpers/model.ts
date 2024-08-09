@@ -1,4 +1,4 @@
-interface Status {
+export interface SelectOption {
   value: number;
   label: string;
 }
@@ -7,6 +7,8 @@ interface Status {
 interface Image {
   url: string;
   title: string;
+  fileURL?: string;
+  fileName?: string;
 }
 
 // Define the main type
@@ -14,9 +16,9 @@ export interface ProductPayload {
   title: string;
   description: string;
   price: string;
-  status: Status;
-  image: Image[];
-  category: Status;
+  status: SelectOption;
+  images: Image[];
+  category: SelectOption[];
   stock: number;
 }
 interface Image {
@@ -26,7 +28,7 @@ interface Image {
 }
 
 // Define the type for the category field
-interface Category {
+export interface Category {
   _id: string;
   name: string;
 }
@@ -41,5 +43,15 @@ export interface ProductResponsePayload {
   bidStartDate: string; // or Date if you prefer to handle it as a Date object
   reservePrice: number;
   images: Image[];
-  category: Category;
+  categories: Category[];
+}
+
+export interface ViewMultiData {
+  data: {
+    title: string;
+    categories?: Category[];
+    imgData?: Image[];
+    size?: 'sm' | 'lg' | 'xl' | undefined;
+  } | null;
+  show?: boolean;
 }

@@ -1,2 +1,4 @@
-export { default as ProductsAdd } from './ProductsAdd';
+import './Product.scss';
+
+export { default as ProductsAdd } from './ProductsForm';
 export { default as ProductsList } from './ProductsList';

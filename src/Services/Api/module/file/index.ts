@@ -18,7 +18,16 @@ export const loginApi = api.injectEndpoints({
       },
       // Optionally add some hooks or custom logic here
     }),
+    getFiles: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.GET_FILES,
+        params,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+    }),
   }),
 });
 
-export const { useFileUploadMutation } = loginApi;
+export const { useFileUploadMutation, useGetFilesQuery } = loginApi;

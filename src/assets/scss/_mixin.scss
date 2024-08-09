@@ -50,17 +50,19 @@
   background-color: $bgcolor;
   border-color: $bordercolor;
   color: $textcolor!important;
-  box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .25);
+  box-shadow: 0px 4px 16px 0px rgba($dark-voilet-color-700, .25);
   @include transition (all, 0.5s, ease-in-out);
   &:hover{
-    box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .25)!important;
-    background-color: $green-light-color-900;
+    box-shadow: 0px 4px 16px 0px rgba($dark-voilet-color-700, .25)!important;
+    background-color: $dark-voilet-color-900;
     border-color: rgba($bordercolor, 1);
+    color: $white-color!important;
   }
   &:focus, &:active{
-    box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .25)!important;
-    background: $green-light-color-900!important;
+    box-shadow: 0px 4px 16px 0px rgba($dark-voilet-color-700, .25)!important;
+    background: $dark-voilet-color-900!important;
     border-color: $bordercolor!important;
+    color: $white-color!important;
   }
 }
 

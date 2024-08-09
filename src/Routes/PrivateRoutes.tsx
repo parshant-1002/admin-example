@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
-import { CustomRouter } from './RootRoutes';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
-import { ProductsAdd, ProductsList } from '../Views/Products';
+import { ProductsList } from '../Views/Products';
+import { CustomRouter } from './RootRoutes';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -12,14 +12,9 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.HOMEPAGE.title,
   },
   {
-    path: ROUTES_CONFIG.PRODUCTS_ADD.path,
-    element: <ProductsAdd initialData={{}} isEdit={false} />,
-    title: ROUTES_CONFIG.PRODUCTS_ADD.title,
-  },
-  {
-    path: ROUTES_CONFIG.PRODUCTS_LIST.path,
+    path: ROUTES_CONFIG.PRODUCTS.path,
     element: <ProductsList />,
-    title: ROUTES_CONFIG.PRODUCTS_LIST.title,
+    title: ROUTES_CONFIG.PRODUCTS.title,
   },
   {
     path: '/wishlist',

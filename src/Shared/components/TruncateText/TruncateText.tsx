@@ -1,3 +1,4 @@
+import { Copy } from '../../../assets';
 import { copyToClipboard } from '../../utils/functions';
 import './style.scss';
 
@@ -16,13 +17,15 @@ function TruncatedText({ text }: TruncatedTextProps) {
   return (
     <span className="d-flex">
       <span>{displayText}</span>
-      <button
-        type="button"
-        className="copy_icon"
-        onClick={() => copyToClipboard(text)}
-      >
-        <i className="bi bi-copy" />
-      </button>
+      {String(text).length > maxLength ? (
+        <button
+          type="button"
+          className="copy_icon"
+          onClick={() => copyToClipboard(text)}
+        >
+          <img src={Copy} alt="" width={15} />
+        </button>
+      ) : null}
     </span>
   );
 }

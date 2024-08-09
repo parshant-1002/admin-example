@@ -1,8 +1,9 @@
 @import '../../../../assets/scss/base';
 
 .custom_tabs {
-    border-bottom: 0!important;
+    border-bottom: 0 !important;
     column-gap: 5px;
+
     li {
         .nav-link {
             @include border-radius (10px 10px 0 0);
@@ -16,15 +17,17 @@
             position: $relative;
             display: $inline-block;
             z-index: 2;
+
             &.active {
                 color: $white-color;
                 border: 1px solid #2a766a;
                 background: $dark-voilet-color-700;
-                background: linear-gradient(0deg, $dark-voilet-color-500 21%,  $dark-voilet-color-700 100%);
+                background: linear-gradient(0deg, $dark-voilet-color-500 21%, $dark-voilet-color-700 100%);
             }
         }
     }
 }
+
 .tab-body {
     padding: 15px;
     border: 1px solid $dark-voilet-color-700;
@@ -32,35 +35,54 @@
 }
 
 .uploaded_file {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     img {
         max-width: 150px;
         max-height: 150px;
+        min-width: 100px;
+        min-height: 100px;
         width: 100%;
         @include border-radius(7px);
         padding: 10px;
         object-fit: $contain;
         background-color: $white-color;
     }
+
+    small {
+        min-width: 150px;
+        min-height: 150px;
+        width: 100%;
+        background-color: $white-color;
+    }
 }
+
 .file-group {
     gap: 10px;
     max-height: 500px;
     overflow-y: auto;
+
     .card-file {
         padding: 8px;
         @include border-radius (8px);
         border: 1px solid $green-tin-color-700;
         box-shadow: 0 0 10px rgba($black-color, .4);
-        @media (min-width:1200px){
+
+        @media (min-width:1200px) {
             width: calc(50% - 5px);
         }
-        @media (max-width:1200px){
+
+        @media (max-width:1200px) {
             width: 100%;
         }
+
         .img_card {
             gap: .5rem;
+
             figure {
-                margin:0;
+                margin: 0;
                 width: 70px;
                 height: 70px;
                 line-height: 1;
@@ -68,9 +90,11 @@
                 @include flexCenter;
                 @include font-size(.725);
                 @include border-radius (7px);
-                border: 1px solid rgba($green-tin-color-700, .9);
+                border: 1px solid rgba($dark-voilet-color-700, .9);
                 overflow: $hidden;
-                img, video {
+
+                img,
+                video {
                     width: 100%;
                     height: 100%;
                     object-fit: $contain;
@@ -78,11 +102,12 @@
                 }
             }
         }
+
         @at-root {
             .image-card__info {
                 .h6 {
                     @include font-size (.875);
-                    color: rgba($white-color, .8);
+                    color: rgba($black-color, .8);
                 }
             }
         }
@@ -96,7 +121,7 @@
 .no_results {
     padding: 20px;
     min-height: 80px;
-    color:$black-color;
+    color: $black-color;
     text-align: $center;
     @include font-size (1);
 }
@@ -112,10 +137,12 @@
     @include flex-flow (column);
     @include border-radius (10px);
     border: 1px dashed $grey-color-500;
+
     .uploaded_pic {
         border: 1px solid $dark-voilet-color-700;
         @include border-radius (10px);
-        padding:10px;
+        padding: 10px;
+
         span {
             color: $dark-voilet-color-700;
         }
@@ -128,10 +155,12 @@
         font-weight: $font-regular;
         color: $black-color;
         line-height: 1.3;
+
         small {
             font-size: $inherit;
             column-rule-color: $inherit;
             text-decoration: $underline;
+
             &:hover {
                 text-decoration: $none;
             }

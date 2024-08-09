@@ -19,7 +19,7 @@ import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
 import { FileData, Files } from './helpers/modal';
-import { useFileUploadMutation } from '../../../../Services/Api/module/fileUpload';
+import { useFileUploadMutation } from '../../../../Services/Api/module/file';
 import { ErrorResponse } from '../../../../Models/Apis/Error';
 
 const TABS = {
@@ -28,7 +28,7 @@ const TABS = {
 };
 interface FileInputProps {
   value: Files[];
-  onChange?: (files: string | undefined) => void;
+  onChange?: (files: Files[] | undefined) => void;
   label?: string;
   subLabel?: string;
   maxSize?: number;
@@ -47,6 +47,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     },
     ref
   ) => {
+    console.log('🚀 ~ value:', value);
     const [chooseFile, setChooseFile] = useState(value);
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
@@ -237,7 +238,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         });
       }
       if (file?.length) {
-        onChange(file?.[0]?.fileURL);
+        onChange(file);
         setChooseFile(file);
         closeModal();
       }
@@ -253,13 +254,19 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           >
             {chooseFile?.length ? 'Change file' : 'Choose file'}
           </Button>
-          {chooseFile && (
-            <span className="uploaded_file">
-              <FileRenderer
-                fileURL={chooseFile?.[0]?.fileURL || chooseFile?.[0]?.url}
-              />
-            </span>
-          )}
+          {chooseFile?.length ? (
+            <div className="p-3">
+              <div className="grid-container">
+                {chooseFile?.map((img) => (
+                  <div key={img.url} className="grid-item m-2">
+                    <span className="uploaded_file">
+                      <FileRenderer fileURL={img.url || img.fileURL} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
         {showModal && (
           <CustomModal

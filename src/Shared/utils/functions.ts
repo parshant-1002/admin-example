@@ -6,6 +6,7 @@ import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { store } from '../../Store';
 import { setLoading } from '../../Store/Loader';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
+import { API } from '../constants';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -107,8 +108,8 @@ const checkValidFileExtension = (
   accept: string
 ): boolean => {
   const validExtensions = accept
-    .replace('image/', '.')
-    .replace('video/', '.')
+    .replace(/image\//g, '.')
+    .replace(/video\//g, '.')
     .split(',')
     .map((type: string) => type.trim());
   const fileExtension = `.${fileUrl?.split('.').pop()?.toLowerCase() || ''}`;
@@ -131,6 +132,14 @@ const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
     formData.append(key, fileObj.file);
     return formData;
   });
+};
+
+const addBaseUrl = (url: string) => {
+  if (!url) return;
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url; // Return unchanged if URL is already complete
+  }
+  return API.BASE_URL + url; // Add base URL if URL is not complete
 };
 
 const onQueryStarted = async (
@@ -179,4 +188,5 @@ export {
   onQueryStarted,
   removeEmptyValues,
   validateField,
+  addBaseUrl,
 };

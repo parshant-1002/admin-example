@@ -33,16 +33,14 @@
     tbody {
         tr {
             position: $relative;
-            border-width: 1px;
-                border-style: solid;
+
             td {
                 background-color: rgba($white-color, 1);
                 color: $black-color;
+                border-color: rgba($white-color, .1);
                 @include font-size (.875);
                 border-width: 0 0 1px;
                 border-style: solid;
-                margin-top: 10px;
-                margin-bottom: 10px;
 
                 @media (min-width:991.99px) {
                     padding: 12px 1rem;
@@ -72,14 +70,18 @@
                 }
             }
 
-            // &:nth-child(odd) {
-            //     td {
-            //         background-color: $dark-voilet-color-200;
-            //         color: $white-color;
-            //         border-width: 0 0 1px;
-            //         border-style: solid;
-            //     }
-            // }
+            &:nth-child(odd) {
+                td {
+                    background-color: $dark-voilet-color-200;
+                    color: $white-color;
+                    border-width: 0 0 1px;
+                    border-style: solid;
+                }
+
+                button {
+                    color: $white-color;
+                }
+            }
 
             Responsive toggle &.tr-expanded {
                 td {

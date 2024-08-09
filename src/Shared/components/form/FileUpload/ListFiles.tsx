@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useGetFilesQuery } from '../../../../Services/Api/module/file';
 import FileRenderer from './FileRenderer';
 import { Files } from './helpers/modal';
+import { Delete } from '../../../../assets';
 
 interface ListFilesProps {
   handleChooseFile: (selectedFiles: Files[]) => void;
 }
 function ListFiles({ handleChooseFile }: ListFilesProps) {
-  const dispatch = useDispatch();
-  const [files] = useState<Files[]>();
   const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
-  const listAllFiles = () => {
-    // dispatch(
-    //   getAllFiles('', (res, statusCode) => {
-    //     if (statusCode === STATUS_CODES.SUCCESS && res.files) {
-    //       setFiles(res.files);
-    //     } else {
-    //       toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-    //     }
-    //   })
-    // );
-  };
-  useEffect(() => {
-    listAllFiles();
-  }, [dispatch]);
+  const { data } = useGetFilesQuery({ startDate: '', endDate: '' });
+  const files = data?.files;
 
   const handleDeleteFile = (fileId: string | undefined) => {
     fileId?.includes('0');
@@ -40,20 +27,17 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
 
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
-    setSelectedFiles([file]);
-    // setSelectedFiles((prevSelectedFiles) => {
-    //     const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
-    //     if (foundIndex > -1) {
-    //         return prevSelectedFiles.filter((f) => f._id !== file._id);
-    //     } else {
-    //         if (selectedFiles.length >= 1) {
-    //             toast.error('Only one file can be selected');
-    //             return prevSelectedFiles;
-    //         } else {
-    //             return [...prevSelectedFiles, file];
-    //         }
-    //     }
-    // });
+    setSelectedFiles((prevSelectedFiles) => {
+      const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
+      if (foundIndex > -1) {
+        return prevSelectedFiles.filter((f) => f._id !== file._id);
+      }
+      // if (selectedFiles?.length >= 1) {
+      //   toast.error('Only one file can be selected');
+      //   return prevSelectedFiles;
+      // }
+      return [...prevSelectedFiles, file];
+    });
   };
 
   return (
@@ -78,7 +62,10 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
                     isSelected ? 'selected' : ''
                   }`}
                 >
-                  <div className="d-flex align-items-center img_card">
+                  <div
+                    className="d-flex align-items-center img_card"
+                    onClick={() => toggleFileSelection(file)}
+                  >
                     <input
                       type="checkbox"
                       checked={isSelected}
@@ -96,10 +83,10 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
                   </div>
                   <button
                     type="button"
-                    className="btn btn44 btn-danger"
+                    className="btn  btn-danger"
                     onClick={() => handleDeleteFile(file._id)}
                   >
-                    <i className="bi bi-trash" />
+                    <img src={Delete} alt="delete" />
                   </button>
                 </div>
               );

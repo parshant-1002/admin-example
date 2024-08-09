@@ -50,7 +50,7 @@ function ConfirmationModal({
             <Button
               type="button"
               onClick={handleClose}
-              className="btn btn-sm btn-outline-primary text-white"
+              className="btn btn-sm btn-outline-primary "
             >
               {cancelButtonText}
             </Button>
