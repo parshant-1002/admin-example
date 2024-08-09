@@ -1,0 +1,147 @@
+/* eslint-disable no-underscore-dangle */
+// libs
+import { useState, Fragment, useCallback } from 'react';
+import { FILTER_ORDER } from '../../constants';
+import './table.scss';
+import TruncatedText from '../TruncateText/TruncateText';
+
+interface CustomTableViewProps {
+  columns?: Column[];
+  rows?: Row[];
+  currentPage?: number;
+  renderTableFooter?: () => React.ReactNode;
+  pageSize?: number;
+  noDataFound?: string;
+  quickEditRowId?: string;
+  isServerPagination?: boolean;
+  handleSortingClick?: (order?: number, sortKey?: string) => void;
+  isLoading?: boolean;
+}
+interface Column {
+  title: string;
+  fieldName: string;
+  sortable?: boolean;
+  sortType?: string;
+  width?: string;
+  isTruncated?: boolean;
+  render?: (row: unknown, value: unknown) => React.ReactNode;
+}
+
+interface Row {
+  [key: string]: string | number;
+}
+function CustomTableView({
+  columns = [],
+  rows = [],
+  currentPage = 0,
+  renderTableFooter = () => <> </>,
+  pageSize = 10,
+  noDataFound = '',
+  quickEditRowId = '',
+  isServerPagination = false,
+  handleSortingClick = () => {},
+  isLoading = false,
+}: CustomTableViewProps) {
+  const [selectedSortType, setSelectedSortType] = useState<number>(
+    FILTER_ORDER.ASCENDING
+  );
+
+  const rowsToBeRendered = isServerPagination
+    ? rows
+    : rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+
+  const getColumnValue = useCallback((row: Row, column: Column) => {
+    if (column.isTruncated) {
+      return row[column.fieldName] ? (
+        <TruncatedText text={row[column.fieldName]} />
+      ) : (
+        '-'
+      );
+    }
+    if (column.render) {
+      return column.render(row, row[column.fieldName]);
+    }
+    if (typeof row[column.fieldName] === 'number') {
+      return row[column.fieldName];
+    }
+    return row[column.fieldName] || '-';
+  }, []);
+  return (
+    <>
+      <div className="table-responsive">
+        <table className="text-white custom-table">
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th
+                  scope="col"
+                  key={column.title}
+                  style={{ width: column?.width || 0 }}
+                  className={column?.sortable ? 'cursor-pointer' : ''}
+                  onClick={() => {
+                    if (!column?.sortable) return;
+                    const sortKey = column.sortType;
+                    const sortOrder =
+                      selectedSortType === FILTER_ORDER.ASCENDING
+                        ? FILTER_ORDER.DESCENDING
+                        : FILTER_ORDER.ASCENDING;
+
+                    handleSortingClick(sortOrder, sortKey);
+                    setSelectedSortType(sortOrder);
+                  }}
+                >
+                  {column.title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading && (
+              <tr>
+                <td colSpan={columns.length}>
+                  <p className="text-center">Loading...</p>
+                </td>
+              </tr>
+            )}
+            {!rows.length
+              ? !isLoading && (
+                  <tr>
+                    <td colSpan={12} className="no-data">
+                      <p className="no-media d-flex justify-content-center align-items-center text-white">
+                        {noDataFound}
+                      </p>
+                    </td>
+                  </tr>
+                )
+              : rowsToBeRendered.map((row) =>
+                  quickEditRowId === row._id ? (
+                    <tr key={row._id}>
+                      <td colSpan={10}>
+                        <h1>Edit</h1>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={row._id} className="tr-item">
+                      {columns.map((column) => (
+                        <Fragment key={`${row._id}-columns`}>
+                          <td data-label={column.title}>
+                            {getColumnValue(row, column)}
+                          </td>
+                        </Fragment>
+                      ))}
+                    </tr>
+                  )
+                )}
+          </tbody>
+        </table>
+      </div>
+      {rows.length ? (
+        <div className="pagination-group d-flex justify-content-end align-items-center">
+          {renderTableFooter()}
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+export default CustomTableView;

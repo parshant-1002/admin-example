@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import PrivateLayout from './Private/PrivateLayout';
 import PublicLayout from './Public/PublicLayout';
 import { AppLayoutProps } from './AppLayout.d';

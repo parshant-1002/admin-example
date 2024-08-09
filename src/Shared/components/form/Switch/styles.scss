@@ -1,0 +1,87 @@
+.switch-container {
+    display: inline-block;
+    cursor: pointer;
+    .switch {
+      width: 40px;
+      height: 18px;
+      border-radius: 25px;
+      background-color: #ccc;
+      position: relative;
+      transition: background-color 0.3s;
+    }
+    
+    .switch.checked {
+      background-color: #5cb85c; /* Green color when switch is on */
+    }
+    
+    .switch-toggle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: #fff;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: transform 0.3s;
+    }
+    
+    .switch.checked .switch-toggle {
+      transform: translateX(25px); /* Move toggle to the right when switch is on */
+    }
+  }
+  
+  
+  
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 18px;
+  
+    & input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+  
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+  
+      &:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        left: 0;
+        top: 0;
+        background-color: white;
+        border-radius: 25px;
+        transition: transform 0.3s;
+      }
+    }
+    input:checked + .slider {
+      background-color: #5cb85c;
+    }
+    
+    input:focus + .slider {
+      box-shadow: 0 0 1px #5cb85c;
+    }
+    
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+      transition: transform 0.3s;
+    }
+  }
+  

@@ -1,0 +1,457 @@
+@import './base';
+// _theme.scss
+* {
+    box-sizing: border-box;
+}
+// html {
+//     scrollbar-width: thin;
+//     scrollbar-color: $green-light-color-800 $dark-green-color-1000;
+// }
+#root {
+    overflow-x: $hidden !important;
+}
+body {
+    margin: 0;
+    background: $body-color;
+    font-family: $Popin-font;
+    font-weight: $font-regular;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $white-color;
+    @include font-size(1);
+    overflow-x: $hidden;
+    min-height: 100vh;
+    scrollbar-width: thin;
+}
+// .scroll {
+//     scrollbar-width: thin !important;
+//     scrollbar-color: $green-light-color-800 $dark-green-color-450;
+// }
+/* Scroll */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-thumb {
+    @include border-radius (10px);
+    background-color: $dark-green-color-450;
+}
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+ul {
+    margin: 0;
+    padding: 0;
+}
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+    line-height: 1.3;
+    color: $white-color;
+    font-weight: $font-medium;
+}
+h1, .h1 {
+    @include font-size(3);
+    @media (min-width: 1600px) {
+        @include font-size(3.125);
+    }
+}
+h2, .h2 {
+    @include font-size(1.85);
+    @media (max-width: 1199.99px) {
+        @include font-size(1.85);
+    }
+    @media (max-width: 767px) {
+        @include font-size(1.45);
+    }
+}
+h3,
+.h3 {
+    @include font-size(1.85);
+    @media (max-width: 991px) {
+        @include font-size(1.75);
+    }
+}
+h4,
+.h4 {
+    @include font-size(1.375);
+    @media (max-width: 1200px) {
+        @include font-size(1.2);
+    }
+}
+h5,
+.h5 {
+    @include font-size(1.475);
+    @media (min-width: 1600px) {
+        @include font-size(1.4);
+    }
+    @media (max-width: 991px) {
+        @include font-size(1.23);
+    }
+}
+h6,
+.h6 {
+    @include font-size(1.1);
+    @media (min-width: 1600px) {
+        @include font-size(1.125);
+    }
+    @media (max-width: 991px) {
+        @include font-size(1);
+    }
+    @media (max-width: 575px) {
+        @include font-size(.875);
+    }
+}
+img {
+    border: 0;
+    height: $auto;
+    @include no-select;
+}
+a,
+img,
+input,
+button {
+    outline: 0 !important;
+}
+a {
+    cursor: $pointer;
+    text-decoration: $none;
+    font-weight: $font-regular;
+    color: $dark-green-color-500;
+    @include transition-mixin (all, .5s, ease-in-out);
+    &:hover,
+    &:focus {
+        color: $dark-green-color-450;
+    }
+}
+p {
+    @include font-size (1);
+    color: $base-color;
+    line-height: 1.4;
+    @media (min-width:1200px) {
+        @include font-size (1.125);
+    }
+    &:last-child {
+        margin-bottom: 0
+    }
+}
+.container {
+    @media (min-width:1400px) {
+        max-width: 1140px;
+    }
+}
+$search_icon: url(../icons/search_icon.svg);
+
+input {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button,
+    &::-webkit-calendar-picker-indicator {
+        @include opacity (0);
+        cursor: $pointer;
+    }
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: $none;
+        display: $none;
+    }
+    // &:-webkit-autofill,
+    // &:-webkit-autofill:hover,
+    // &:-webkit-autofill:focus,
+    // &:-webkit-autofill:active {
+    //     -webkit-text-fill-color: $base-color;
+    //     -webkit-background-clip: text !important;
+    //     -webkit-box-shadow: inset 5px 5px 4px $grey-color-400, inset -5px -5px 4px $grey-color-400 !important;
+    // }
+    &[type="search"] {
+        width: 100%;
+        background-image: $search_icon;
+        background-repeat: $no-repeat;
+        background-color: $dark-green-color-700;
+        background-position: $center $right 10px;
+        background-size: 16px;
+        padding: 10px 35px 10px 10px;
+        border: 1px solid rgba(56, 153, 137, 0.25);
+        @include border-radius (12px);
+        min-height: 38px;
+        @include font-size (1);
+        color: $white-color;
+    }
+    [type="date"]{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+    }
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.text-primary {
+    color: $green-tin-color-600!important;
+}
+
+// Button CSS
+a.btn {
+    @include flexCenter;
+    display: $inline-flex;
+    text-decoration: $none;
+}
+.btn {
+    border-width: 1px;
+    white-space: nowrap;
+    font-weight: $font-regular;
+    &[disabled],
+    &.disabled {
+        pointer-events: $none;
+        @include opacity (0.6);
+    }
+    &-lg {
+        min-width: 180px;
+        min-height: 48px;
+        padding: 0.5rem 1.5rem;
+        @include font-size(1.125);
+        @media (max-width:1200px) {
+            @include font-size(1.1);
+            min-width: 140px;
+        }
+    }
+    &-md {
+        @include border-radius (7px);
+        text-transform: $uppercase;
+        padding: 0.625rem 1rem;
+        @include font-size(.875);
+        min-width: 130px;
+        min-height: 44px;
+    }
+    &-sm {
+        line-height: 1;
+        min-width: 108px;
+        min-height: 44px;
+        max-height: 44px;
+        padding: .55rem 1.2rem;
+        @include font-size(.875);
+        @include border-radius (6px);
+        font-weight: $font-medium;
+        @media (max-width:480px) {
+            padding: .55rem .75rem;
+        }
+        @media (max-width:359px) {
+            @include font-size(.800);
+        }
+    }
+    &-primary {
+        @include button($green-tin-color-700, $transparent, $white-color);
+        span {
+            @include flexCenter;
+            @include font-size (.875);
+            font-weight: $font-regular;
+            color: $white-color;
+        }
+        &[disabled] {
+            background-color: $grey-color-800;
+            border-color: $grey-color-800;
+        }
+    }
+    &-secondary {
+        @include button($dark-green-color-600, $transparent, $white-color);
+        overflow: $hidden;
+        position: $relative;
+        z-index: 1;
+    }
+    &-transparent {
+        @include button($transparent, $transparent, $white-color);
+        &:hover {
+            color: $white-color;
+            border-color: $transparent !important;
+            background-color: $transparent !important;
+        }
+    }
+    &-outline {
+        &-primary {
+            @include buttonOutline($transparent, $green-light-color-800, $dark-green-color-700);
+            box-shadow: 0px 4px 16px 0px rgba(69, 203, 135, 0.25);
+            &:focus {
+                @extend .btn-outline-primary;
+            }
+            &[disabled] {
+                color: $green-color-400;
+            }
+            &.text-white {
+                color: $white-color!important;
+            }
+        }
+    }
+    &-grey {
+        background-color: $text-color;
+        color: $base-color;
+        &:hover {
+            background-color: $grey-color-700;
+            box-shadow: $none !important;
+        }
+    }
+    &-none {
+        background-color: $transparent;
+        border: 0;
+    }
+}
+
+// Input Controls
+label {
+    line-height: 1.1;
+    margin-bottom: 5px;
+    @include font-size (.875);
+    font-weight: $font-medium;
+    text-transform: $capitalize;
+    color: $white-color;
+}
+.form {
+    &-control {
+        height: $auto;
+        min-height: 44px;
+        color: $base-color;
+        @include font-size (.875);
+        padding: 0.50rem .85rem;
+        font-weight: $font-regular;
+        @include border-radius (6px);
+        background-color: $white-color;
+        border: 1px solid $grey-color-300;
+        @include transition-mixin (all, .5s, ease-in-out);
+        &:focus {
+            box-shadow: $none;
+            color: $base-color;
+            background-color: $white-color;
+            border-color: $green-light-color-400;
+        }
+        // &[readonly] {
+        //     background-color: $white-color;
+        // }
+        &.disabled,
+        &:disabled {
+            @include opacity (.5);
+        }
+    }
+    &-dark {
+        color: $white-color !important;
+    }
+}
+$downArrow : url("./assets/icons/downArrow.svg");
+
+select {
+    // background-image: $downArrow;
+    background-repeat: $no-repeat;
+    background-size: 24px;
+    background-position: $center $right 15px;
+    padding: 10px 40px 10px 16px;
+    -moz-appearance: $none;
+    -webkit-appearance: $none;
+    appearance: $none;
+}
+
+/* Placeholder */
+::-webkit-input-placeholder {
+    color: rgba($base-color, .7)!important;
+}
+:-ms-input-placeholder {
+    color: rgba($base-color, .5)!important;
+}
+::placeholder {
+    color: rgba($base-color, .5)!important;
+}
+.error {
+    display: $block;
+    margin: 5px 0 0;
+    line-height: 1.1;
+    color: $error-color;
+    text-align: $left;
+    @include font-size (.85);
+    font-weight: $font-regular;
+    &-txt {
+        @extend .error;
+    }
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: $none;
+}
+
+.text {
+    &-small {
+        @include font-size (.75);
+        display: $inline-block;
+        color: $grey-color-800;
+        line-height: 1.3;
+    }
+    &-mute {
+        color: rgba($text-color, .7);
+    }
+    &-orange {
+        color: $dark-orange-color-900 !important;
+    }
+    &-yellow {
+        color: $dark-yellow-color-700 !important;
+    }
+    &-green {
+        color: #278C74 !important;
+    }
+}
+
+.text{
+    &-success {
+        color: $green-tin-color-600 !important;
+    }
+    &-warning {
+        color: $yellow-color-900 !important;
+    }
+    &-danger {
+        color: $error-color !important;
+    }
+
+}
+
+// Avtar
+.avtar {
+    background: $white-color;
+    display: $inline-block;
+    position: $relative;
+    img {
+        width: 100%;
+        min-height: 100%;
+        max-height: 100%;
+        @include position($absolute, $top: 0, $left: 0);
+        object-fit: $cover;
+        object-position: $center;
+        z-index: 1;
+    }
+}
+
+.btn_icon {
+    padding: 1px;
+    @include border-radius (10px);
+    background: radial-gradient(#fff 9.07%,#054625 90.05%,);
+    span {
+        background:$dark-green-color-500;
+        height: 100%;
+        width: 100%;
+        @include flexCenter;
+        @include border-radius (9px);
+    }
+}
+
+.gap {
+    &-12 {
+        gap:0.75rem;
+    }
+}
+
+.py-72 {
+    padding: 36px 0;
+    @media (min-width:1400px) {
+        padding: 72px 0;
+    }
+}

@@ -1,0 +1,193 @@
+@import '../../../assets/scss/base';
+
+.calender_field {
+  text-align: $left;
+  max-width: 262px;
+  margin-bottom: 5px;
+  margin-left: $auto;
+  position: $relative;
+  min-width: 210px;
+  // background-color: $body-color;
+  @media (max-width:575px) {
+    max-width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+  .form-control {
+    background-color: $white-color;
+    border: 1px solid $text-color;
+    @include border-radius (7px);
+    padding: 8px 24px 8px 12px;
+    @include font-size (1);
+    color: $white-color;
+    height: 42px;
+    @include transition-mixin (all, 0.5s, ease-in-out);
+    span {
+      line-height: 1
+    }
+    em {
+      img {
+        width: 14px;
+      }
+    }
+  }
+  span {
+    @include font-size (0.9375);
+  }
+
+  // Calender
+  .calendar-wrapper {
+    box-shadow: 0 0 10px rgba($black-color, .1);
+    position: $absolute;
+    z-index: 999;
+    right: 0;
+    @media (min-width:768px) and (max-width:991px) {
+      left: 0;
+      right: auto;
+    }
+    .rdrDays {
+      .rdrSelected,
+      .rdrInRange,
+      .rdrStartEdge,
+      .rdrEndEdge {
+        background: rgb(17, 97, 74);
+      }
+    }
+    .rdrCalendarWrapper {
+      border-radius: (5px);
+      .rdrDateDisplayWrapper {
+        border-radius: (5px);
+        background-color: $white-color;
+        .rdrDateDisplay {
+          &Item {
+            @include transition-mixin(all, 0.3s, ease-in-out);
+            &Active {
+              border-color: rgb(17, 97, 74)5;
+              background-color: rgb(17, 97, 74);
+              input {
+                color: $white-color;
+                &::placeholder {
+                  color: $white-color;
+                }
+                &:-ms-input-placeholder {
+                  color: $white-color;
+                }
+                &::-ms-input-placeholder {
+                  color: $white-color;
+                }
+              }
+            }
+            &:hover {
+              border-color: rgb(17, 97, 74);
+              background: rgb(17, 97, 74);
+              color: $white-color;
+              input {
+                color: $white-color;
+                &::placeholder {
+                  color: $white-color;
+                }
+                &:-ms-input-placeholder {
+                  color: $white-color;
+                }
+                &::-ms-input-placeholder {
+                  color: $white-color;
+                }
+              }
+            }
+          }
+        }
+      }
+      .rdrMonthAndYearWrapper {
+        padding-top: 0;
+        button {
+          &.rdrNextPrevButton {
+            background-color: transparent;
+            border: 1px solid grey-color-700;
+            color: black-color;
+            // &.rdrNextButton {
+            //   i {
+            //     background-image: arrow-right;
+            //     background-repeat: $no-repeat;
+            //     background-position: center;
+            //     background-size: 100%;
+            //     display: $inline-block;
+            //     transform: $none;
+            //     border: 0;
+            //     margin: 0;
+            //     width: 7px;
+            //     height: 10px;
+            //   }
+            // }
+            // &.rdrPprevButton {
+            //   i {
+            //     background-image: arrow-right;
+            //     background-repeat: no-repeat;
+            //     background-position: center;
+            //     background-size: 100%;
+            //     display: inline-block;
+            //     border: 0;
+            //     margin: 0;
+            //     width: 7px;
+            //     height: 10px;
+            //     transform: (scale(-1));
+            //   }
+            // }
+          }
+        }
+      }
+      .rdrMonths {
+        .rdrWeekDays {
+          .rdrWeekDay {
+            font-weight: font-medium;
+            color: green-light-color-900;
+          }
+        }
+        .rdrMonth {
+          .rdrDays {
+            button {
+              &.rdrDay {
+                .rdr {
+                  &Day {
+                    &StartPreview,
+                    &EndPreview,
+                    &InRange {
+                      background: transparent;
+                    }
+                  }
+                  &StartEdge,
+                  &EndEdge,
+                  &InRange {
+                    background-color: dark-green-color-550;
+                    border: 1px solid transparent;
+                    border-radius: (4px);
+                  }
+                }
+                &Hovered {
+                  .rdr {
+                    &Day {
+                      &StartPreview,
+                      &EndPreview {
+                        background: transparent;
+                      }
+                    }
+                  }
+                }
+                &Today {
+                  .rdr {
+                    &DayNumber {
+                      span {
+                        &::after {
+                          background: green-light-color-900;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

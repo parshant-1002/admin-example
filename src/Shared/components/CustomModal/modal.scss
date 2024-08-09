@@ -1,0 +1,60 @@
+@import '../../../assets/scss/base';
+
+.close_btn {
+    z-index: 1;
+    @include position($absolute, $top:10px, $right:10px);
+    background-color: $transparent;
+    padding: 0;
+    width: 34px; height: 34px;
+    border:0;
+    @include opacity (1);
+    @include transition-mixin (all, .5s, ease-in-out);
+    svg  {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+.modal {
+    z-index: 1111;
+    &-backdrop {
+        z-index: 1111;
+        background-color: rgba($black-color, .9)!important;
+    }
+    .modal {
+        &-content {
+            background: $dark-green-color-700;
+            @at-root {
+                .modal-title {
+                    padding-right: 40px;
+                    &.h4 {
+                        @include font-size (1.1);
+                        margin: 0;
+                    }
+                }
+            }
+        }
+        &-header {
+            color: $white-color;
+            border-color: rgba(69, 203, 135, 0.4);
+        }
+        &-footer {
+            margin-top: 10px;
+            border-color: rgba(69, 203, 135, 0.4);
+            .row {
+                margin: 0 -15px;
+            }
+        }
+    }
+}
+
+// Achievement Progress Table
+
+.achievement-progress-table {
+    .modal-title {
+        padding: 20px;
+    }
+    .pagination-group {
+        padding: 0 20px 20px;
+    }
+}

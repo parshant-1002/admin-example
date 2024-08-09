@@ -1,0 +1,43 @@
+
+.react {
+    &-select {
+        min-width: 145px;
+        .react {
+            &-prefix {
+                &__value-container {
+                    padding: 2px 0px 2px 15px;
+                }
+                // &__option {
+                //     @include font-size (1);
+                // }
+                // &__multi-value {
+                //    @include border-radius(5px);
+                // //    &__label {
+                // //     color: var(--white-color);
+                // //    }
+                //    &__remove {
+                //     svg {
+                //         // path {
+                //         //     fill: var(--white-color);
+                //         // }
+                //     }
+                //    }
+                // }
+                &__menu {
+                    &-list {
+                    scrollbar-width: thin;
+                    }
+                }
+            }
+        }
+    }
+    &-multiselect {
+        .react {
+            &-prefix {
+                &__control {
+                   min-height: 48px;
+                }
+            }
+        }
+    }
+}
