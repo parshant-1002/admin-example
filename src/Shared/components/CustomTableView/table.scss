@@ -4,19 +4,22 @@
     width: 100%;
 
     thead {
-        tr{
+        tr {
             position: $relative;
         }
+
         th {
-            background-color:$dark-voilet-color-700;
+            background-color: $white-color;
             text-transform: $capitalize;
             font-weight: $font-medium;
             @include font-size (.875);
-            color: $white-color;
+            color: $black-color;
             padding: 1rem;
-            border-style:solid;
+            border-style: solid;
             white-space: nowrap;
             position: $relative;
+            border-bottom: 1px solid #000;
+
             label {
                 margin-bottom: 0;
                 line-height: 1.2;
@@ -26,58 +29,72 @@
             }
         }
     }
+
     tbody {
         tr {
             position: $relative;
-            td{
+            border-width: 1px;
+                border-style: solid;
+            td {
                 background-color: rgba($white-color, 1);
-                border-color: rgba($white-color,.1);
                 color: $black-color;
                 @include font-size (.875);
-                border-width:0 0 1px;
-                border-style:solid;
-                @media (min-width:991.99px){
+                border-width: 0 0 1px;
+                border-style: solid;
+                margin-top: 10px;
+                margin-bottom: 10px;
+
+                @media (min-width:991.99px) {
                     padding: 12px 1rem;
                     min-height: 80px;
                 }
-                @media (max-width:991px){
+
+                @media (max-width:991px) {
                     padding: 7px .875rem;
                 }
+
                 @at-root {
                     .accordin-btn {
-                        @include position($absolute, $top: 10px, $right:10px);
-                        padding: 4px!important;
+                        @include position($absolute, $top: 10px, $right: 10px);
+                        padding: 4px !important;
                         z-index: 1;
-                        @media (min-width:992px){
-                            display: $none!important;
+
+                        @media (min-width:992px) {
+                            display: $none !important;
                         }
+
                         img {
                             @include transition-mixin (all, .5s, ease-in-out);
-                            @include transform-origin ($center 2px );
+                            @include transform-origin ($center 2px);
                             width: 12px;
                         }
                     }
                 }
             }
-            &:nth-child(odd) {
+
+            // &:nth-child(odd) {
+            //     td {
+            //         background-color: $dark-voilet-color-200;
+            //         color: $white-color;
+            //         border-width: 0 0 1px;
+            //         border-style: solid;
+            //     }
+            // }
+
+            Responsive toggle &.tr-expanded {
                 td {
-                    background-color:$dark-voilet-color-200;
-                    color: $white-color
-                }
-            }
-            // Responsive toggle
-            &.tr-expanded{
-                td {
-                    @media (max-width:991px){
+                    @media (max-width:991px) {
                         display: $block;
                     }
+
                     .accordin-btn {
                         img {
-                            @media (max-width:991px){
+                            @media (max-width:991px) {
                                 @include transform (rotate(180deg));
                             }
                         }
                     }
+
                     // &:nth-child(2)[data-label="Description"]{
                     //     &::before {
                     //         display: $none;
@@ -90,6 +107,7 @@
             }
         }
     }
+
     .post-Txtse {
         ul {
             padding-top: 0;
@@ -101,9 +119,10 @@
     .custom-table {
         tr {
             td {
-                @media (max-width:991px){
-                    &[data-label="Full Name"]{
+                @media (max-width:991px) {
+                    &[data-label="Full Name"] {
                         min-height: 56px;
+
                         &::before {
                             display: $none;
                         }
@@ -119,22 +138,27 @@
     @include transition (all, 400ms, ease-in-out, 0s);
     @include flexbox;
     margin-top: 5px;
-    @media (max-width:991px){
+
+    @media (max-width:991px) {
         @include opacity (1);
     }
-    li  {
-        border-right: 1px solid rgba($white-color,.5);
+
+    li {
+        border-right: 1px solid rgba($white-color, .5);
         margin-right: 7px;
         padding-right: 7px;
+
         &:last-child {
             border-right: 0;
             margin-right: 0;
         }
+
         a {
             line-height: 1;
             color: $white-color;
             display: $inline-block;
             @include transition (all, 400ms, ease-in-out, 0s);
+
             &:hover {
                 color: $green-tin-color-700;
             }
@@ -145,16 +169,20 @@
 .post-Title {
     position: $relative;
     line-height: 1;
-    @media (min-width:991.99px){
+
+    @media (min-width:991.99px) {
         min-width: 200px;
     }
+
     a {
         color: $dark-yellow-color-700;
+
         &:hover {
             text-decoration: $underline;
         }
     }
 }
+
 .post_date {
     color: $white-color;
 }
@@ -162,9 +190,11 @@
 .pic_box {
     @include flexbox;
     gap: 5px;
-    @media (max-width:991px){
+
+    @media (max-width:991px) {
         @include justify-content (end);
     }
+
     figure {
         margin: 0;
         width: 60px;
@@ -173,10 +203,12 @@
         overflow: $hidden;
         @include border-radius (7px);
         border: 1px solid rgba($white-color, .5);
-        @media (max-width:991px){
+
+        @media (max-width:991px) {
             width: 40px;
             height: 40px;
         }
+
         img {
             width: 100%;
             height: 100%;
@@ -185,21 +217,24 @@
     }
 }
 
-th[scope="Action"]{
+th[scope="Action"] {
     text-align: $center;
+
     .post-Datese {
         text-align: $center;
     }
 }
 
-.action_btns{
+.action_btns {
     @include transition (all, 400ms, ease-in-out, 0s);
     @include flexCenter;
     gap: 7px;
-    @media (max-width:991px){
+
+    @media (max-width:991px) {
         @include justify-content (end);
     }
-    li  {
+
+    li {
         a {
             color: $white-color;
             @include transition (all, 400ms, ease-in-out, 0s);
@@ -208,7 +243,7 @@ th[scope="Action"]{
 }
 
 .toggle-row {
-    @media (min-width:1200px){
+    @media (min-width:1200px) {
         display: $none;
     }
 }
@@ -219,6 +254,7 @@ th[scope="Action"]{
     padding: 8px;
     @include flexCenter;
     @include border-radius (5px);
+
     img {
         height: 30px;
         object-fit: $contain;
@@ -227,29 +263,34 @@ th[scope="Action"]{
 
 .casino_tag {
     width: 100%;
+
     span {
         line-height: 1.1;
-        @media (min-width:991.99px){
+
+        @media (min-width:991.99px) {
             margin-top: 7px;
         }
-        @media (max-width:991px){
+
+        @media (max-width:991px) {
             margin-left: 7px;
         }
     }
 }
 
 .sort-arrow {
-    @include position ($absolute, $top:0, $right:0);
+    @include position ($absolute, $top: 0, $right: 0);
     width: 100%;
     height: 100%;
     @include opacity (0);
+
     button {
         border: 0;
         padding: 0;
         width: 16px;
         height: 16px;
-        box-shadow: $none!important;
-        img{
+        box-shadow: $none !important;
+
+        img {
             display: $block;
             width: 16px;
             height: 16px;
@@ -267,19 +308,26 @@ th[scope="Action"]{
 
 // Pagination
 $arrow-left: url(../../../../assets/icons/arrow-left.svg);
+
 .pagination-group {
     margin-top: 10px;
-    .pagination, ul {
+
+    .pagination,
+    ul {
         margin: 5px 0 0;
         @include flexbox;
         @include flex-wrap (wrap);
         @include justify-content (end);
-        @media (max-width:767px){
+
+        @media (max-width:767px) {
             @include justify-content (center);
         }
+
         list-style: none;
-        li  {
+
+        li {
             color: $white-color;
+
             a {
                 color: $inherit;
                 line-height: 16px;
@@ -295,24 +343,32 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
                 @include border-radius (4px);
                 border: 1px solid $green-light-color-780;
                 @include transition (all, 400ms, ease-in-out, 0s);
+
                 @media (max-width: 420px) {
                     @include font-size (.725);
                 }
             }
-            &.active, &:hover {
+
+            &.active,
+            &:hover {
                 a {
                     background-color: $dark-green-color-850;
-                    border-color:$green-light-color-700;
+                    border-color: $green-light-color-700;
                     color: $white-color !important;
                 }
             }
+
             &.disabled {
-                a, a[aria-disabled="true"] {
+
+                a,
+                a[aria-disabled="true"] {
                     @include opacity (0.7);
                     pointer-events: $none;
                 }
             }
-            &.pre-btn, &.next-btn {
+
+            &.pre-btn,
+            &.next-btn {
                 a {
                     background-image: $arrow-left;
                     background-repeat: $no-repeat;
@@ -320,9 +376,10 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
                     background-size: 8px;
                     @include font-size (0);
                     background-color: $dark-green-color-850;
-                    border-color:$dark-yellow-color-700;
+                    border-color: $dark-yellow-color-700;
                 }
             }
+
             &.next-btn {
                 a {
                     @include transform (rotate(-180deg));
@@ -330,17 +387,21 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
             }
         }
     }
+
     // Select Dropdown
     .select-outline {
         margin-top: 7px;
-        .react-select-prefix{
+
+        .react-select-prefix {
             &__indicator {
                 padding: 1px;
             }
+
             &__control {
                 height: 34px;
                 padding: 2px 10px;
             }
+
             &__value-container {
                 height: $auto;
             }
@@ -348,32 +409,35 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
     }
 }
 
-.show-count, .total-count  {
+.show-count,
+.total-count {
     @include font-size (.875);
     color: $white-color;
 }
 
 .table_col-1 {
     .table-responsive {
-        @media (max-width:991px){
+        @media (max-width:991px) {
             overflow: $hidden;
         }
     }
+
     thead {
         tr {
             th {
-                @media (max-width:991px){
+                @media (max-width:991px) {
                     &:first-child {
-                        display: $block!important;
+                        display: $block !important;
                     }
                 }
             }
         }
     }
+
     tbody {
         tr {
             td {
-                @media (max-width:991px){
+                @media (max-width:991px) {
                     .post-Datese {
                         padding-top: 10px;
                     }
@@ -387,27 +451,31 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
     thead {
         tr {
             th {
-                @media (max-width:991px){
+                @media (max-width:991px) {
                     &:nth-child(2) {
-                        display: $block!important;
+                        display: $block !important;
                     }
                 }
             }
         }
     }
+
     tbody {
         tr {
             td {
                 min-height: 44px;
-                @media (max-width:991px){
+
+                @media (max-width:991px) {
                     &:nth-child(2) {
                         display: $block;
                         text-align: $left;
+
                         &::before {
                             display: $none;
                         }
                     }
                 }
+
                 .accordin-btn {
                     top: 4px;
                 }

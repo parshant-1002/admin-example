@@ -145,18 +145,11 @@ export const productsColumns = (renderActions: RenderActions): ColumnData[] => [
         title: string;
       }[];
       return (
-        <div>
+        <div className="d-flex">
           {imgData?.map((img, index) =>
             index < 2 ? (
-              <div
-                key={img.url}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '10px',
-                }}
-              >
-                <span className="uploaded_file" style={{ marginRight: '10px' }}>
+              <div key={img.url} className="m-2 d-flex flex-column text-center">
+                <span className="uploaded_file">
                   <FileRenderer fileURL={img.url} />
                 </span>
                 <div>{img.title}</div>
