@@ -37,6 +37,7 @@ import {
 
 // Utilities
 import { removeEmptyValues } from '../../Shared/utils/functions';
+import ERROR_MESSAGES from '../../Shared/constants/messages';
 
 // Interfaces
 interface EditData {
@@ -45,7 +46,7 @@ interface EditData {
 }
 
 interface DeleteData {
-  data: { id: string } | null;
+  data: { id?: string; ids?: string[] } | null;
   show: boolean;
 }
 
@@ -64,9 +65,10 @@ export default function TopInvestorList() {
   // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
-    data: { id: '' },
+    data: { id: '', ids: [''] },
   });
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedIds, setSelectedIds] = useState<string[]>();
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -146,19 +148,39 @@ export default function TopInvestorList() {
   };
 
   // Function to handle delete confirmation
+  // eslint-disable-next-line consistent-return
   const handleDeleteClick = async () => {
-    const deletePayload = { productIds: [deleteModal?.data?.id] };
-    await deleteProduct({
-      payload: deletePayload,
-      onSuccess: (data: { message: string }) => {
-        toast.success(data?.message);
-        handleCloseDelete();
-        refetch();
-      },
-      onFailure: (error: ErrorResponse) => {
-        toast.error(error?.data?.message);
-      },
-    });
+    try {
+      let deletePayload;
+      if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return null;
+      if (deleteModal?.data?.id) {
+        deletePayload = {
+          productIds: [deleteModal?.data?.id],
+        };
+      }
+      if (deleteModal?.data?.ids) {
+        deletePayload = {
+          productIds: deleteModal?.data?.ids,
+        };
+      }
+      await deleteProduct({
+        payload: deletePayload,
+        onSuccess: (data: { message: string }) => {
+          toast.success(data?.message);
+          handleCloseDelete();
+          refetch();
+        },
+        onFailure: (error: ErrorResponse) => {
+          toast.error(error?.data?.message);
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+      }
+    }
   };
 
   // Render actions column
@@ -184,16 +206,35 @@ export default function TopInvestorList() {
     setSortDirection(selectedOrder);
   };
 
+  const handleDeleteAll = () => {
+    setDeleteModal({ show: true, data: { ids: selectedIds } });
+  };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(0);
     setSearch(e.target.value);
   }, 1000);
 
+  const handleChangeCheckBox = (id: string) => {
+    setSelectedIds((prevSelectedIds) => {
+      const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
+      if (foundIndex !== undefined && foundIndex > -1) {
+        return prevSelectedIds?.filter((f) => f !== id);
+      }
+      return [...(prevSelectedIds || []), id];
+    });
+  };
+
   // Memoized columns for table
   const columns = useMemo(
-    () => productsColumns(renderActions, setShowMultiItemView),
-    [renderActions]
+    () =>
+      productsColumns(
+        renderActions,
+        setShowMultiItemView,
+        handleChangeCheckBox,
+        selectedIds
+      ),
+    [renderActions, selectedIds]
   );
 
   // Effect to refetch data on dependencies change
@@ -260,6 +301,8 @@ export default function TopInvestorList() {
         search={search}
         handleSearch={debounceSearch}
         setAddData={setAddData}
+        selectedIds={selectedIds}
+        handleDeleteAll={handleDeleteAll}
       />
 
       <CustomTableView

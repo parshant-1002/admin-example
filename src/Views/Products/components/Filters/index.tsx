@@ -20,6 +20,8 @@ interface StatsFiltersProps {
   search?: string;
   handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClearSearch: () => void;
+  selectedIds?: string[];
+  handleDeleteAll: () => void;
   // heading?: string;
 }
 
@@ -28,6 +30,8 @@ function StatsFilters({
   search = '',
   handleSearch,
   handleClearSearch, // heading = 'Transactions',
+  selectedIds,
+  handleDeleteAll,
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
 
@@ -54,6 +58,15 @@ function StatsFilters({
               className="form-control"
             />
           </div> */}
+          {selectedIds?.length ? (
+            <Button
+              className="btn btn-sm btn-danger"
+              btnType="primary"
+              onClick={handleDeleteAll}
+            >
+              {BUTTON_LABELS.DELETE}
+            </Button>
+          ) : null}
           <FiltersDropDown />
           <div className="dark-form-control">
             <TextField

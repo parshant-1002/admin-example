@@ -93,25 +93,33 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       [accept, maxSize]
     );
 
-    const handleFileUpload = () => {
-      if (fileValue?.length === 0)
-        return toast.error('Please select a file to upload');
-      const fileList = fileValue as unknown as FileData[];
-      const files = convertFilesToFormData(fileList, 'image');
-      // eslint-disable-next-line no-restricted-syntax
-      files?.forEach((file) => {
-        fileUpload({
-          payload: file,
-          onSuccess: () => {
-            setFileValue([]);
-            refetch();
-            setActiveTab(TABS.LIST_FILES);
-          },
-          onFailure: (error: ErrorResponse) => {
-            toast.error(error?.data?.message);
-          },
+    const handleFileUpload = async () => {
+      try {
+        if (fileValue?.length === 0)
+          return toast.error('Please select a file to upload');
+        const fileList = fileValue as unknown as FileData[];
+        const files = convertFilesToFormData(fileList, 'image');
+        // eslint-disable-next-line no-restricted-syntax
+        files?.forEach((file) => {
+          fileUpload({
+            payload: file,
+            onSuccess: () => {
+              setFileValue([]);
+              refetch();
+              setActiveTab(TABS.LIST_FILES);
+            },
+            onFailure: (error: ErrorResponse) => {
+              toast.error(error?.data?.message);
+            },
+          });
         });
-      });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+        }
+      }
     };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -126,26 +134,26 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       );
     };
 
-    const handleDeleteFile = (fileId: (string | undefined)[]) => {
-      fileDelete({
-        payload: { fileId },
+    const handleDeleteFile = async (fileId: (string | undefined)[]) => {
+      try {
+        await fileDelete({
+          payload: { fileId },
 
-        onSuccess: (res: { message: string }) => {
-          toast.success(res?.message);
-          refetch();
-        },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
-        },
-      });
-      // dispatch(
-      //   deleteFiles([fileId], (res, status) => {
-      //     if (status === STATUS.SUCCESS) {
-      //       toast.success('File deleted successfully');
-      //       listAllFiles();
-      //     }
-      //   })
-      // );
+          onSuccess: (res: { message: string }) => {
+            toast.success(res?.message);
+            refetch();
+          },
+          onFailure: (error: ErrorResponse) => {
+            toast.error(error?.data?.message);
+          },
+        });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+        }
+      }
     };
 
     const renderSelectedFile = useMemo(() => {

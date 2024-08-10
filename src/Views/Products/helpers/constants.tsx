@@ -108,8 +108,29 @@ type RenderActions = (val: unknown, row: ProductResponsePayload) => JSX.Element;
 // Define the shape of the columns
 export const productsColumns = (
   renderActions: RenderActions,
-  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
+  handleChangeCheckBox: (id: string) => void,
+  selectedIds: string[] | undefined
 ): ColumnData[] => [
+  {
+    title: '#',
+    render: (row) => {
+      return (
+        <div
+          className="checkbox-wrapper"
+          onClick={() => handleChangeCheckBox(row._id)}
+        >
+          <input
+            type="checkbox"
+            className="checkbox-input"
+            checked={selectedIds?.includes(row._id)}
+            // onChange={() => handleChangeCheckBox(row._id)}
+          />
+          <div className="checkbox-custom" />
+        </div>
+      );
+    },
+  },
   {
     title: 'Name',
     fieldName: 'title',
