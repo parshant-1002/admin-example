@@ -10,6 +10,7 @@ export const API_END_POINTS = {
   VERIFY_OTP: '/admin/verifyOTP',
   FILE_UPLOAD: '/file/upload',
   GET_FILES: '/file/getFiles',
+  FILE_DELETE: '/file/deleteFiles',
 };
 
 export const HTTPS_METHODS = {

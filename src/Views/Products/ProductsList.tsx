@@ -1,10 +1,10 @@
-// libs
+// Libraries
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-
-// components
 import { toast } from 'react-toastify';
+
+// Components
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
@@ -16,7 +16,7 @@ import ViewMultiTableItem from './components/ViewMultiTableItem';
 import ProductAdd from './ProductsForm';
 import ActionsDropDown from './components/ActionsDropDown';
 
-// consts
+// Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
 import { RED_WARNING } from '../../assets';
 import {
@@ -25,19 +25,20 @@ import {
   productsColumns,
 } from './helpers/constants';
 
-// models
+// Models
 import { ProductResponsePayload, ViewMultiData } from './helpers/model';
 
-// api
+// API
 import { ErrorResponse } from '../../Models/Apis/Error';
 import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from '../../Services/Api/module/products';
 
-// utils
+// Utilities
 import { removeEmptyValues } from '../../Shared/utils/functions';
 
+// Interfaces
 interface EditData {
   data: object | null;
   show: boolean;
@@ -47,18 +48,20 @@ interface DeleteData {
   data: { id: string } | null;
   show: boolean;
 }
+
 interface QueryParams {
   skip: number;
   limit: number;
-  searchString?: string; // Optional property
+  searchString?: string;
   sortKey: string;
   sortDirection: FilterOrder;
 }
 
+// Constants
 const ADD_ONS_PAGE_LIMIT = 5;
 
-export default function TopInvesterList() {
-  // state
+export default function TopInvestorList() {
+  // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '' },
@@ -76,8 +79,10 @@ export default function TopInvesterList() {
     show: false,
   });
 
-  // other hooks
+  // Refs
   const onComponentMountRef = useRef(false);
+
+  // Query Parameters
   const queryParams: QueryParams = {
     skip: currentPage * ADD_ONS_PAGE_LIMIT,
     limit: ADD_ONS_PAGE_LIMIT,
@@ -85,7 +90,8 @@ export default function TopInvesterList() {
     sortKey,
     sortDirection,
   };
-  // api
+
+  // API Queries
   const { data: productListing, refetch } = useGetProductsQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
@@ -93,23 +99,20 @@ export default function TopInvesterList() {
   });
   const [deleteProduct] = useDeleteProductMutation();
 
-  // functions
-
+  // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
-    const selectedPageNumber = selectedItem.selected as unknown as number;
-    setCurrentPage(selectedPageNumber);
+    setCurrentPage(selectedItem.selected);
   };
 
+  // Function to handle edit action
   const handleEdit = (row: ProductResponsePayload) => {
     setEditData({
       data: {
         ...row,
         status: {
           value: row?.status,
-          label:
-            PRODUCT_STATUS &&
-            PRODUCT_STATUS?.find((status) => status.value === row?.status)
-              ?.label,
+          label: PRODUCT_STATUS?.find((status) => status.value === row?.status)
+            ?.label,
         },
         category: row?.categories?.map((category) => ({
           value: category._id,
@@ -120,32 +123,36 @@ export default function TopInvesterList() {
     });
   };
 
+  // Function to handle delete action
   const handleDelete = (row: ProductResponsePayload) => {
-    const payload = {
-      id: row?._id,
-    };
-    setDeleteModal({ show: true, data: payload });
+    setDeleteModal({ show: true, data: { id: row?._id } });
   };
 
+  // Function to handle successful edit
   const handleEditSuccess = () => {
     setEditData({ data: null, show: false });
     refetch();
   };
+
+  // Function to handle successful addition
   const handleAddSuccess = () => {
     setAddData(false);
     refetch();
   };
 
+  // Function to close delete modal
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, show: false });
   };
+
+  // Function to handle delete confirmation
   const handleDeleteClick = async () => {
-    const deletePaylaod = { productIds: [deleteModal?.data?.id] };
+    const deletePayload = { productIds: [deleteModal?.data?.id] };
     await deleteProduct({
-      payload: deletePaylaod,
+      payload: deletePayload,
       onSuccess: (data: { message: string }) => {
         toast.success(data?.message);
-        setDeleteModal({ data: null, show: false });
+        handleCloseDelete();
         refetch();
       },
       onFailure: (error: ErrorResponse) => {
@@ -153,23 +160,22 @@ export default function TopInvesterList() {
       },
     });
   };
+
+  // Render actions column
   const renderActions = useCallback(
-    (_: unknown, row: ProductResponsePayload) => {
-      return (
-        <div className="d-flex">
-          <ActionsDropDown
-            row={row}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
-        </div>
-      );
-    },
+    (_: unknown, row: ProductResponsePayload) => (
+      <div className="d-flex">
+        <ActionsDropDown
+          row={row}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      </div>
+    ),
     []
   );
 
-  // sorting
-
+  // Function to handle sorting click
   const handleSortingClick = (
     selectedOrder: number = FilterOrder.DESCENDING,
     selectedSortKey: string = ''
@@ -177,17 +183,20 @@ export default function TopInvesterList() {
     setSortKey(selectedSortKey);
     setSortDirection(selectedOrder);
   };
-  // search
+
+  // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(0);
     setSearch(e.target.value);
   }, 1000);
 
+  // Memoized columns for table
   const columns = useMemo(
     () => productsColumns(renderActions, setShowMultiItemView),
     [renderActions]
   );
 
+  // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
       refetch();
@@ -201,6 +210,7 @@ export default function TopInvesterList() {
         show={showMultiItemView}
         setShow={setShowMultiItemView}
       />
+
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION.DELETE}
         open={deleteModal?.show}
@@ -212,6 +222,7 @@ export default function TopInvesterList() {
         handleSubmit={handleDeleteClick}
         showClose={false}
       />
+
       {editData?.show && (
         <CustomModal
           title="Edit"
@@ -227,6 +238,7 @@ export default function TopInvesterList() {
           </div>
         </CustomModal>
       )}
+
       {addData && (
         <CustomModal
           title="Add"
@@ -242,18 +254,19 @@ export default function TopInvesterList() {
           </div>
         </CustomModal>
       )}
+
       <StatsFilters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
         setAddData={setAddData}
       />
+
       <CustomTableView
         rows={(productListing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
-        // toggleRowData={[]}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         renderTableFooter={() => (

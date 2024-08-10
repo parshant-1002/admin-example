@@ -19,7 +19,11 @@ import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
 import { FileData, Files } from './helpers/modal';
-import { useFileUploadMutation } from '../../../../Services/Api/module/file';
+import {
+  useFileDeleteMutation,
+  useFileUploadMutation,
+  useGetFilesQuery,
+} from '../../../../Services/Api/module/file';
 import { ErrorResponse } from '../../../../Models/Apis/Error';
 
 const TABS = {
@@ -52,10 +56,14 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState(TABS.LIST_FILES);
     const [fileUpload] = useFileUploadMutation();
+    const [fileDelete] = useFileDeleteMutation();
+    const { data, refetch } = useGetFilesQuery({ startDate: '', endDate: '' });
+
     // const dispatch = useDispatch();
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
+
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
         setFileValue([]);
@@ -96,6 +104,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           payload: file,
           onSuccess: () => {
             setFileValue([]);
+            refetch();
             setActiveTab(TABS.LIST_FILES);
           },
           onFailure: (error: ErrorResponse) => {
@@ -115,6 +124,28 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         (prevState: FileData[] | undefined) =>
           prevState?.filter((_, i) => i !== index)
       );
+    };
+
+    const handleDeleteFile = (fileId: (string | undefined)[]) => {
+      fileDelete({
+        payload: { fileId },
+
+        onSuccess: (res: { message: string }) => {
+          toast.success(res?.message);
+          refetch();
+        },
+        onFailure: (error: ErrorResponse) => {
+          toast.error(error?.data?.message);
+        },
+      });
+      // dispatch(
+      //   deleteFiles([fileId], (res, status) => {
+      //     if (status === STATUS.SUCCESS) {
+      //       toast.success('File deleted successfully');
+      //       listAllFiles();
+      //     }
+      //   })
+      // );
     };
 
     const renderSelectedFile = useMemo(() => {
@@ -158,19 +189,24 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             case 'image/svg':
             case 'image/jpeg':
             case 'image/jpg':
+            case 'image/svg+xml':
               return (
-                <div className="uploaded_pic">
+                <div className="uploaded-pic-grid__item">
                   <img
                     id="blah"
-                    className="uploaded_pic"
+                    className="uploaded-pic-grid__image"
                     width={200}
-                    src={fileData?.src as unknown as string | undefined}
+                    src={fileData?.src as string | undefined}
                     alt="..."
                   />
-                  <span>{fileData?.file?.name || ''}</span>
+                  <div className="uploaded-pic-grid__details">
+                    <span className="uploaded-pic-grid__filename">
+                      {fileData?.file?.name || ''}
+                    </span>
+                  </div>
                   <button
                     type="button"
-                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-dange-outline ms-2"
+                    className="uploaded-pic-grid__delete-button"
                     title="Delete"
                     onClick={() => handleRemoveFile(index)}
                   >
@@ -186,7 +222,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                           id="Path_14400"
                           data-name="Path 14400"
                           d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
-                          fill="#000"
+                          fill="#fff"
                         />
                       </g>
                     </svg>
@@ -286,7 +322,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   eventKey={TABS.LIST_FILES}
                   title="Select file"
                 >
-                  <ListFiles handleChooseFile={handleChooseFile} />
+                  <ListFiles
+                    handleChooseFile={handleChooseFile}
+                    data={data}
+                    handleDeleteFile={handleDeleteFile}
+                  />
                 </Tab>
                 <Tab
                   className="tab-body"
@@ -301,9 +341,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                         ?.replace('image/', ' .')
                         .replace('video/', '.')}.`}</label>
                     )}
-                    <div className="text-center upload-file">
+                    <div className="text-center upload-file ">
                       {fileValue?.length ? (
-                        renderSelectedFile
+                        <div className="uploaded-pic-grid">
+                          {renderSelectedFile}
+                        </div>
                       ) : (
                         <div {...getRootProps()}>
                           <input

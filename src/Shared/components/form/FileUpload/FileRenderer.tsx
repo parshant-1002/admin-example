@@ -11,7 +11,8 @@ function FileRenderer({ fileURL, alt = '' }: FileRendererProps) {
   if (
     fileURL?.endsWith('.png') ||
     fileURL?.endsWith('.jpg') ||
-    fileURL?.endsWith('.svg')
+    fileURL?.endsWith('.svg') ||
+    fileURL?.endsWith('.jpeg')
   ) {
     return <img height={100} src={addBaseUrl(fileURL)} alt={alt} />;
   }

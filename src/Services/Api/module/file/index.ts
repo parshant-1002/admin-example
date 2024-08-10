@@ -18,6 +18,19 @@ export const loginApi = api.injectEndpoints({
       },
       // Optionally add some hooks or custom logic here
     }),
+    fileDelete: builder.mutation({
+      query: ({ payload }) => {
+        return {
+          url: API_END_POINTS.FILE_DELETE,
+          method: HTTPS_METHODS.DELETE,
+          body: payload,
+        };
+      },
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+      // Optionally add some hooks or custom logic here
+    }),
     getFiles: builder.query({
       query: ({ params }) => ({
         url: API_END_POINTS.GET_FILES,
@@ -30,4 +43,8 @@ export const loginApi = api.injectEndpoints({
   }),
 });
 
-export const { useFileUploadMutation, useGetFilesQuery } = loginApi;
+export const {
+  useFileUploadMutation,
+  useGetFilesQuery,
+  useFileDeleteMutation,
+} = loginApi;
