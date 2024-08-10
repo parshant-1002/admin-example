@@ -95,6 +95,8 @@ interface ColumnData {
   title?: string;
   fieldName?: string;
   isTruncated?: boolean;
+  sortable?: boolean;
+  sortType?: string;
   render?: (
     row: ProductResponsePayload,
     val: string | number
@@ -112,6 +114,8 @@ export const productsColumns = (
     title: 'Name',
     fieldName: 'title',
     isTruncated: true,
+    sortable: true,
+    sortType: 'title',
   },
   {
     title: 'Categories',
@@ -124,7 +128,7 @@ export const productsColumns = (
           {categories?.map((category: { name: string }, index) => {
             if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
               return `${category.name}${
-                index < categories.length - 1 ? ',' : ''
+                index < categories.length - 1 ? ', ' : ' '
               }`;
             }
             return null;
@@ -153,10 +157,14 @@ export const productsColumns = (
     title: 'Description',
     fieldName: 'description',
     isTruncated: true,
+    sortable: true,
+    sortType: 'description',
   },
   {
     title: 'Item Count',
     fieldName: 'stock',
+    sortable: true,
+    sortType: 'stock',
   },
   {
     title: 'Images',

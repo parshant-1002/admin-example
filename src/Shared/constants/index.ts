@@ -47,10 +47,11 @@ export const STATUS = {
   ERROR: 'error',
 };
 
-export const FILTER_ORDER = {
-  ASCENDING: -1,
-  DESCENDING: 1,
-};
+export enum FilterOrder {
+  ASCENDING = -1,
+  DESCENDING = 1,
+}
+
 export const INPUT_TYPES = {
   TEXT: 'text',
   TEXT_AREA: 'textarea',

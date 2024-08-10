@@ -13,9 +13,11 @@ import CustomTableView, {
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from './components/Filters';
 import ViewMultiTableItem from './components/ViewMultiTableItem';
+import ProductAdd from './ProductsForm';
+import ActionsDropDown from './components/ActionsDropDown';
 
 // consts
-import { BUTTON_LABELS, STRINGS } from '../../Shared/constants';
+import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
 import { RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
@@ -32,8 +34,9 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from '../../Services/Api/module/products';
-import ProductAdd from './ProductsForm';
-import ActionsDropDown from './components/ActionsDropDown';
+
+// utils
+import { removeEmptyValues } from '../../Shared/utils/functions';
 
 interface EditData {
   data: object | null;
@@ -48,6 +51,8 @@ interface QueryParams {
   skip: number;
   limit: number;
   searchString?: string; // Optional property
+  sortKey: string;
+  sortDirection: FilterOrder;
 }
 
 const ADD_ONS_PAGE_LIMIT = 5;
@@ -60,6 +65,10 @@ export default function TopInvesterList() {
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState<string>('');
+  const [sortKey, setSortKey] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<FilterOrder>(
+    FilterOrder.ASCENDING
+  );
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
   const [addData, setAddData] = useState<boolean>(false);
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
@@ -72,15 +81,15 @@ export default function TopInvesterList() {
   const queryParams: QueryParams = {
     skip: currentPage * ADD_ONS_PAGE_LIMIT,
     limit: ADD_ONS_PAGE_LIMIT,
+    searchString: search,
+    sortKey,
+    sortDirection,
   };
-
-  // Conditionally add searchString if search has a value
-  if (search) {
-    queryParams.searchString = search;
-  }
   // api
   const { data: productListing, refetch } = useGetProductsQuery({
-    params: queryParams,
+    params: removeEmptyValues(
+      queryParams as unknown as Record<string, unknown>
+    ),
   });
   const [deleteProduct] = useDeleteProductMutation();
 
@@ -161,7 +170,13 @@ export default function TopInvesterList() {
 
   // sorting
 
-  const handleSortingClick = () => {};
+  const handleSortingClick = (
+    selectedOrder: number = FilterOrder.DESCENDING,
+    selectedSortKey: string = ''
+  ) => {
+    setSortKey(selectedSortKey);
+    setSortDirection(selectedOrder);
+  };
   // search
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(0);
@@ -178,7 +193,7 @@ export default function TopInvesterList() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search]);
+  }, [refetch, currentPage, search, sortKey, sortDirection]);
 
   return (
     <div>

@@ -47,7 +47,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     },
     ref
   ) => {
-    console.log('🚀 ~ value:', value);
     const [chooseFile, setChooseFile] = useState(value);
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);

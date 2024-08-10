@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 // libs
 import { useState, Fragment, useCallback } from 'react';
-import { FILTER_ORDER } from '../../constants';
 import './table.scss';
 import TruncatedText from '../TruncateText/TruncateText';
+import { FilterOrder } from '../../constants';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -42,8 +42,8 @@ function CustomTableView({
   handleSortingClick = () => {},
   isLoading = false,
 }: CustomTableViewProps) {
-  const [selectedSortType, setSelectedSortType] = useState<number>(
-    FILTER_ORDER.ASCENDING
+  const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
+    FilterOrder.ASCENDING
   );
 
   const rowsToBeRendered = isServerPagination
@@ -83,9 +83,9 @@ function CustomTableView({
                     if (!column?.sortable) return;
                     const sortKey = column.sortType;
                     const sortOrder =
-                      selectedSortType === FILTER_ORDER.ASCENDING
-                        ? FILTER_ORDER.DESCENDING
-                        : FILTER_ORDER.ASCENDING;
+                      selectedSortType === FilterOrder.ASCENDING
+                        ? FilterOrder.DESCENDING
+                        : FilterOrder.ASCENDING;
 
                     handleSortingClick(sortOrder, sortKey);
                     setSelectedSortType(sortOrder);
