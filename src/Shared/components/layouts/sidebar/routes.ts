@@ -15,18 +15,13 @@ const SIDEBAR_NAV = [
   // },
   {
     iconClass: 'bi bi-person-lines-fill',
+    label: 'Categories',
+    route: ROUTES.CATEGORIES,
+  },
+  {
+    iconClass: 'bi bi-person-lines-fill',
     label: 'Products',
     route: ROUTES.PRODUCTS,
-    // children: [
-    //   {
-    //     label: 'Add',
-    //     route: ROUTES.PRODUCTS_ADD,
-    //   },
-    //   {
-    //     label: 'List',
-    //     route: ROUTES.PRODUCTS_LIST,
-    //   },
-    // ],
   },
   // {
   //   // icon: AirDropIcon,

@@ -256,5 +256,5 @@ export const productsColumns = (
 
 // Define the shape of CONFIRMATION_DESCRIPTION
 export const CONFIRMATION_DESCRIPTION: Record<string, string> = {
-  DELETE: 'Are you sure to delete this product',
+  DELETE: 'Are you sure you want to delete',
 };

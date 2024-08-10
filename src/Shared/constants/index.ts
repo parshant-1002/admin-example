@@ -55,6 +55,7 @@ export enum FilterOrder {
 export const INPUT_TYPES = {
   TEXT: 'text',
   TEXT_AREA: 'textarea',
+  DATE: 'date',
   NUMBER: 'number',
   EMAIL: 'email',
   PASSWORD: 'password',
@@ -217,6 +218,7 @@ const ROUTES = {
   ABOUT: '/about-us',
   USERS: '/users',
   PRODUCTS: '/products',
+  CATEGORIES: '/categories',
   PRODUCTS_ADD: '/products/add',
   PRODUCTS_LIST: '/products/list',
   VERIFY_EMAIL: '/verify-email',
@@ -273,6 +275,10 @@ const ROUTES_CONFIG = {
   PRODUCTS: {
     path: ROUTES.PRODUCTS,
     title: 'Product',
+  },
+  CATEGORIES: {
+    path: ROUTES.CATEGORIES,
+    title: 'Categories',
   },
   PRODUCTS_ADD: {
     path: ROUTES.PRODUCTS_ADD,

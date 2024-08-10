@@ -11,33 +11,31 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
-import StatsFilters from './components/Filters';
-import ViewMultiTableItem from './components/ViewMultiTableItem';
-import ProductAdd from './ProductsForm';
 import ActionsDropDown from './components/ActionsDropDown';
+import StatsFilters from './components/Filters';
 
 // Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
 import { RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
-  PRODUCT_STATUS,
-  productsColumns,
+  categoriesColumns,
 } from './helpers/constants';
 
 // Models
-import { ProductResponsePayload, ViewMultiData } from './helpers/model';
+import { CategoryResponsePayload } from './helpers/model';
 
 // API
 import { ErrorResponse } from '../../Models/Apis/Error';
-import {
-  useDeleteProductMutation,
-  useGetProductsQuery,
-} from '../../Services/Api/module/products';
 
 // Utilities
-import { removeEmptyValues } from '../../Shared/utils/functions';
+import {
+  useDeleteCategoriesMutation,
+  useGetCategoriesQuery,
+} from '../../Services/Api/module/catgories';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
+import { removeEmptyValues } from '../../Shared/utils/functions';
+import CategoryForm from './CategoriesForm';
 
 // Interfaces
 interface EditData {
@@ -76,10 +74,6 @@ export default function TopInvestorList() {
   );
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
   const [addData, setAddData] = useState<boolean>(false);
-  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
-    data: { title: '' },
-    show: false,
-  });
 
   // Refs
   const onComponentMountRef = useRef(false);
@@ -94,12 +88,12 @@ export default function TopInvestorList() {
   };
 
   // API Queries
-  const { data: productListing, refetch } = useGetProductsQuery({
+  const { data: categoriesListing, refetch } = useGetCategoriesQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
   });
-  const [deleteProduct] = useDeleteProductMutation();
+  const [deleteCategories] = useDeleteCategoriesMutation();
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -107,26 +101,17 @@ export default function TopInvestorList() {
   };
 
   // Function to handle edit action
-  const handleEdit = (row: ProductResponsePayload) => {
+  const handleEdit = (row: CategoryResponsePayload) => {
     setEditData({
       data: {
         ...row,
-        status: {
-          value: row?.status,
-          label: PRODUCT_STATUS?.find((status) => status.value === row?.status)
-            ?.label,
-        },
-        category: row?.categories?.map((category) => ({
-          value: category._id,
-          label: category?.name,
-        })),
       },
       show: true,
     });
   };
 
   // Function to handle delete action
-  const handleDelete = (row: ProductResponsePayload) => {
+  const handleDelete = (row: CategoryResponsePayload) => {
     setDeleteModal({ show: true, data: { id: row?._id } });
   };
 
@@ -155,15 +140,15 @@ export default function TopInvestorList() {
       if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return null;
       if (deleteModal?.data?.id) {
         deletePayload = {
-          productIds: [deleteModal?.data?.id],
+          categoryIds: [deleteModal?.data?.id],
         };
       }
       if (deleteModal?.data?.ids) {
         deletePayload = {
-          productIds: deleteModal?.data?.ids,
+          categoryIds: deleteModal?.data?.ids,
         };
       }
-      await deleteProduct({
+      await deleteCategories({
         payload: deletePayload,
         onSuccess: (data: { message: string }) => {
           toast.success(data?.message);
@@ -186,7 +171,7 @@ export default function TopInvestorList() {
 
   // Render actions column
   const renderActions = useCallback(
-    (_: unknown, row: ProductResponsePayload) => (
+    (_: unknown, row: CategoryResponsePayload) => (
       <div className="d-flex">
         <ActionsDropDown
           row={row}
@@ -228,13 +213,7 @@ export default function TopInvestorList() {
 
   // Memoized columns for table
   const columns = useMemo(
-    () =>
-      productsColumns(
-        renderActions,
-        setShowMultiItemView,
-        handleChangeCheckBox,
-        selectedIds
-      ),
+    () => categoriesColumns(renderActions, handleChangeCheckBox, selectedIds),
     [renderActions, selectedIds]
   );
 
@@ -248,11 +227,6 @@ export default function TopInvestorList() {
 
   return (
     <div>
-      <ViewMultiTableItem
-        show={showMultiItemView}
-        setShow={setShowMultiItemView}
-      />
-
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION.DELETE}
         open={deleteModal?.show}
@@ -272,7 +246,7 @@ export default function TopInvestorList() {
           onClose={() => setEditData({ data: null, show: false })}
         >
           <div className="p-4">
-            <ProductAdd
+            <CategoryForm
               isEdit
               initialData={editData?.data}
               onEdit={handleEditSuccess}
@@ -288,7 +262,7 @@ export default function TopInvestorList() {
           onClose={() => setAddData(false)}
         >
           <div className="p-4">
-            <ProductAdd
+            <CategoryForm
               isEdit={false}
               initialData={{}}
               onAdd={handleAddSuccess}
@@ -307,7 +281,7 @@ export default function TopInvestorList() {
       />
 
       <CustomTableView
-        rows={(productListing?.data as unknown as Row[]) || []}
+        rows={(categoriesListing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
@@ -315,11 +289,13 @@ export default function TopInvestorList() {
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(productListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(categoriesListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((productListing?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
+              Math.ceil(
+                (categoriesListing?.count || 1) / ADD_ONS_PAGE_LIMIT
+              ) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED
