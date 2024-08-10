@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 
 // Components
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
-import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
   Column,
   Row,
@@ -17,37 +16,31 @@ import StatsFilters from './components/Filters';
 // Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
 import { RED_WARNING } from '../../assets';
-import {
-  CONFIRMATION_DESCRIPTION,
-  categoriesColumns,
-} from './helpers/constants';
+import { CONFIRMATION_DESCRIPTION, usersColumns } from './helpers/constants';
 
 // Models
-import { CategoryResponsePayload } from './helpers/model';
+import { UsersResponsePayload } from './helpers/model';
 
 // API
 import { ErrorResponse } from '../../Models/Apis/Error';
 
 // Utilities
 import {
-  useDeleteCategoriesMutation,
-  useGetCategoriesQuery,
-} from '../../Services/Api/module/catgories';
+  useDeleteUsersMutation,
+  useEditUsersMutation,
+  useGetUsersQuery,
+} from '../../Services/Api/module/users';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
-import CategoryForm from './CategoriesForm';
-
-// Interfaces
-interface EditData {
-  data: object | null;
-  show: boolean;
-}
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
   show: boolean;
 }
-
+interface BlockData {
+  data: { id?: string; isBlocked?: boolean } | null;
+  show: boolean;
+}
 interface QueryParams {
   skip: number;
   limit: number;
@@ -59,11 +52,15 @@ interface QueryParams {
 // Constants
 const ADD_ONS_PAGE_LIMIT = 5;
 
-export default function CategoriesList() {
+export default function UsersList() {
   // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '', ids: [''] },
+  });
+  const [blockModal, setBlockModal] = useState<BlockData>({
+    show: false,
+    data: { id: '' },
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedIds, setSelectedIds] = useState<string[]>();
@@ -72,8 +69,6 @@ export default function CategoriesList() {
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
-  const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
-  const [addData, setAddData] = useState<boolean>(false);
 
   // Refs
   const onComponentMountRef = useRef(false);
@@ -88,48 +83,35 @@ export default function CategoriesList() {
   };
 
   // API Queries
-  const { data: categoriesListing, refetch } = useGetCategoriesQuery({
+  const { data: usersListing, refetch } = useGetUsersQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
   });
-  const [deleteCategories] = useDeleteCategoriesMutation();
+  const [deleteUser] = useDeleteUsersMutation();
+  const [editUser] = useEditUsersMutation();
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
   };
 
-  // Function to handle edit action
-  const handleEdit = (row: CategoryResponsePayload) => {
-    setEditData({
-      data: {
-        ...row,
-      },
-      show: true,
-    });
-  };
-
   // Function to handle delete action
-  const handleDelete = (row: CategoryResponsePayload) => {
+  const handleDelete = (row: UsersResponsePayload) => {
     setDeleteModal({ show: true, data: { id: row?._id } });
   };
-
-  // Function to handle successful edit
-  const handleEditSuccess = () => {
-    setEditData({ data: null, show: false });
-    refetch();
+  const handleBlock = (row: UsersResponsePayload) => {
+    setBlockModal({
+      show: true,
+      data: { id: row?._id, isBlocked: row?.isBlocked },
+    });
   };
-
-  // Function to handle successful addition
-  const handleAddSuccess = () => {
-    setAddData(false);
-    refetch();
-  };
-
   // Function to close delete modal
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, show: false });
+  };
+  const handleCloseBlock = () => {
+    setBlockModal({ data: null, show: false });
   };
 
   // Function to handle delete confirmation
@@ -140,15 +122,15 @@ export default function CategoriesList() {
       if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return null;
       if (deleteModal?.data?.id) {
         deletePayload = {
-          categoryIds: [deleteModal?.data?.id],
+          userIds: [deleteModal?.data?.id],
         };
       }
       if (deleteModal?.data?.ids) {
         deletePayload = {
-          categoryIds: deleteModal?.data?.ids,
+          userIds: deleteModal?.data?.ids,
         };
       }
-      await deleteCategories({
+      await deleteUser({
         payload: deletePayload,
         onSuccess: (data: { message: string }) => {
           toast.success(data?.message);
@@ -168,15 +150,50 @@ export default function CategoriesList() {
       }
     }
   };
+  const handleBlockClick = async () => {
+    try {
+      let blockPayload;
+      // if (!blockModal?.data?.id && !blockModal?.data?.ids) return null;
+      if (blockModal?.data?.id) {
+        blockPayload = {
+          userId: blockModal?.data?.id,
+          isBlocked: !blockModal?.data?.isBlocked,
+        };
+      }
+      // if (blockModal?.data?.ids) {
+      //   blockPayload = {
+      //     userIds: blockModal?.data?.ids,
+      //   };
+      // }
+      await editUser({
+        payload: blockPayload,
+        onSuccess: (data: { message: string }) => {
+          toast.success(data?.message);
+          handleCloseBlock();
+          setSelectedIds([]);
+          refetch();
+        },
+        onFailure: (error: ErrorResponse) => {
+          toast.error(error?.data?.message);
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+      }
+    }
+  };
 
   // Render actions column
   const renderActions = useCallback(
-    (_: unknown, row: CategoryResponsePayload) => (
+    (_: unknown, row: UsersResponsePayload) => (
       <div className="d-flex">
         <ActionsDropDown
           row={row}
-          handleEdit={handleEdit}
           handleDelete={handleDelete}
+          handleBlock={handleBlock}
         />
       </div>
     ),
@@ -213,7 +230,7 @@ export default function CategoriesList() {
 
   // Memoized columns for table
   const columns = useMemo(
-    () => categoriesColumns(renderActions, handleChangeCheckBox, selectedIds),
+    () => usersColumns(renderActions, handleChangeCheckBox, selectedIds),
     [renderActions, selectedIds]
   );
 
@@ -238,50 +255,27 @@ export default function CategoriesList() {
         handleSubmit={handleDeleteClick}
         showClose={false}
       />
-
-      {editData?.show && (
-        <CustomModal
-          title="Edit"
-          show={editData?.show}
-          onClose={() => setEditData({ data: null, show: false })}
-        >
-          <div className="p-4">
-            <CategoryForm
-              isEdit
-              initialData={editData?.data}
-              onEdit={handleEditSuccess}
-            />
-          </div>
-        </CustomModal>
-      )}
-
-      {addData && (
-        <CustomModal
-          title="Add"
-          show={addData}
-          onClose={() => setAddData(false)}
-        >
-          <div className="p-4">
-            <CategoryForm
-              isEdit={false}
-              initialData={{}}
-              onAdd={handleAddSuccess}
-            />
-          </div>
-        </CustomModal>
-      )}
-
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION.BLOCK}
+        open={blockModal?.show}
+        handleClose={handleCloseBlock}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleBlockClick}
+        showClose={false}
+      />
       <StatsFilters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        setAddData={setAddData}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
       />
 
       <CustomTableView
-        rows={(categoriesListing?.data as unknown as Row[]) || []}
+        rows={(usersListing?.data?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
@@ -289,12 +283,12 @@ export default function CategoriesList() {
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(categoriesListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(usersListing?.data?.count || 1) / ADD_ONS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
               Math.ceil(
-                (categoriesListing?.count || 1) / ADD_ONS_PAGE_LIMIT
+                (usersListing?.data?.count || 1) / ADD_ONS_PAGE_LIMIT
               ) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING

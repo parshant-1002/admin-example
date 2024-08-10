@@ -8,11 +8,11 @@ const SIDEBAR_NAV = [
     label: 'Dashboard',
     route: ROUTES.HOMEPAGE,
   },
-  // {
-  //   iconClass: 'bi bi-person-lines-fill',
-  //   label: 'Users',
-  //   route: ROUTES.USERS,
-  // },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Users',
+    route: ROUTES.USERS,
+  },
   {
     iconClass: 'bi bi-person-lines-fill',
     label: 'Categories',

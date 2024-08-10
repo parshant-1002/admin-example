@@ -61,7 +61,7 @@ interface QueryParams {
 // Constants
 const ADD_ONS_PAGE_LIMIT = 5;
 
-export default function TopInvestorList() {
+export default function ProductsList() {
   // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,

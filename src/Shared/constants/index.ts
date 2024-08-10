@@ -280,6 +280,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.CATEGORIES,
     title: 'Categories',
   },
+  USERS: {
+    path: ROUTES.USERS,
+    title: 'Users',
+  },
   PRODUCTS_ADD: {
     path: ROUTES.PRODUCTS_ADD,
     title: 'Add Product',

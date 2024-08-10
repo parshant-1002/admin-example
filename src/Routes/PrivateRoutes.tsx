@@ -4,6 +4,7 @@ import Dashboard from '../Views/Dashboard';
 import { ProductsList } from '../Views/Products';
 import { CustomRouter } from './RootRoutes';
 import { CategoriesList } from '../Views/Categories';
+import Users from '../Views/Users';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -21,6 +22,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.CATEGORIES.path,
     element: <CategoriesList />,
     title: ROUTES_CONFIG.CATEGORIES.title,
+  },
+  {
+    path: ROUTES_CONFIG.USERS.path,
+    element: <Users />,
+    title: ROUTES_CONFIG.USERS.title,
   },
   {
     path: '/wishlist',

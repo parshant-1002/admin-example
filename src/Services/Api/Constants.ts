@@ -5,6 +5,8 @@ export const { VITE_API_VERSION } = import.meta.env;
 export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
+  USER: '/user',
+  UPDATE_USER: '/user/admin',
   CATEGORY: '/category',
   LOGOUT: '/admin/logout',
   VERIFY_OTP: '/admin/verifyOTP',
