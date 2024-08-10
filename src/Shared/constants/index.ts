@@ -217,6 +217,7 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
+  USERS_DETAILS: '/users-details/:id',
   PRODUCTS: '/products',
   CATEGORIES: '/categories',
   PRODUCTS_ADD: '/products/add',
@@ -283,6 +284,10 @@ const ROUTES_CONFIG = {
   USERS: {
     path: ROUTES.USERS,
     title: 'Users',
+  },
+  USERS_DETAILS: {
+    path: ROUTES.USERS_DETAILS,
+    title: 'Users Details',
   },
   PRODUCTS_ADD: {
     path: ROUTES.PRODUCTS_ADD,

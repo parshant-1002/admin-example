@@ -15,6 +15,7 @@ interface CustomTableViewProps {
   quickEditRowId?: string | null;
   isServerPagination?: boolean;
   handleSortingClick?: (order?: number, sortKey?: string) => void;
+  handleRowClick?: (row: Row) => void;
   isLoading?: boolean;
 }
 export interface Column {
@@ -40,6 +41,7 @@ function CustomTableView({
   quickEditRowId = '',
   isServerPagination = false,
   handleSortingClick = () => {},
+  handleRowClick = () => {},
   isLoading = false,
 }: CustomTableViewProps) {
   const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
@@ -122,7 +124,11 @@ function CustomTableView({
                       </td>
                     </tr>
                   ) : (
-                    <tr key={row._id} className="tr-item">
+                    <tr
+                      key={row._id}
+                      className="tr-item"
+                      onClick={() => handleRowClick(row)}
+                    >
                       {columns.map((column) => (
                         <Fragment key={`${row._id}-columns`}>
                           <td data-label={column.title}>

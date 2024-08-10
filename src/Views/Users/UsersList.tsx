@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
 // Components
+import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
 import CustomTableView, {
   Column,
@@ -72,6 +73,9 @@ export default function UsersList() {
 
   // Refs
   const onComponentMountRef = useRef(false);
+
+  // navigate
+  const navigate = useNavigate();
 
   // Query Parameters
   const queryParams: QueryParams = {
@@ -212,6 +216,10 @@ export default function UsersList() {
   const handleDeleteAll = () => {
     setDeleteModal({ show: true, data: { ids: selectedIds } });
   };
+
+  const handleRowClick = (row: Row) => {
+    navigate(`/users-details/${row?._id}`);
+  };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(0);
@@ -280,6 +288,7 @@ export default function UsersList() {
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
+        handleRowClick={handleRowClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
