@@ -23,6 +23,20 @@ const SIDEBAR_NAV = [
     label: 'Products',
     route: ROUTES.PRODUCTS,
   },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Invoices',
+    children: [
+      {
+        label: 'Auction',
+        route: ROUTES.INVOICES_AUCTION,
+      },
+      {
+        label: 'Purchase',
+        route: ROUTES.INVOICES_PURCHASE,
+      },
+    ],
+  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',

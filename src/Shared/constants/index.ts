@@ -90,7 +90,7 @@ export const STRINGS = {
   ACTIVE: 'active',
   DISABLED: 'disabled',
   EMPTY_STRING: '',
-  NO_RESULT: 'No Search result found!',
+  NO_RESULT: 'No Result found!',
   WINNER_LIST: 'Winner List',
   NEXT_WINNER_DRAWN_AT: 'Next winner will be drawn at',
   LAST_WINNER_DRAWN_AT: 'Last winner drawn at',
@@ -261,6 +261,8 @@ const ROUTES = {
   CHANGE_PASSWORD: '/change-password',
   MANUAL_TRANSFER: '/manual-transfer',
   MANUAL_TRANSFER_LIST: '/manual-transfer/manual-transfer-list',
+  INVOICES_AUCTION: '/invoices/auction',
+  INVOICES_PURCHASE: '/invoices/purchase',
 };
 
 const WILDCARD_ROUTES = {
@@ -276,6 +278,14 @@ const ROUTES_CONFIG = {
   PRODUCTS: {
     path: ROUTES.PRODUCTS,
     title: 'Product',
+  },
+  INVOICES_AUCTION: {
+    path: ROUTES.INVOICES_AUCTION,
+    title: 'Auction Invoices',
+  },
+  INVOICES_PURCHASE: {
+    path: ROUTES.INVOICES_PURCHASE,
+    title: 'Purchase Invoices',
   },
   CATEGORIES: {
     path: ROUTES.CATEGORIES,
