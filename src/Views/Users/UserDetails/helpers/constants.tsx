@@ -397,7 +397,12 @@ const BID_CREDIT_TYPES = {
 };
 
 export {
-  BID_CREDIT_TYPES, CONFIRMATION_DESCRIPTION, USER_DETAILS_SCHEMA, UserDetailsTabs, biddingHistoryColumn,
-  bidsPurchaseHistoryColumn, productHistoryColumn, referralHistoryColumn
+  BID_CREDIT_TYPES,
+  CONFIRMATION_DESCRIPTION,
+  USER_DETAILS_SCHEMA,
+  UserDetailsTabs,
+  biddingHistoryColumn,
+  bidsPurchaseHistoryColumn,
+  productHistoryColumn,
+  referralHistoryColumn,
 };
-
