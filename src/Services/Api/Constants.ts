@@ -4,6 +4,8 @@ export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
 export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
+  AUCTION: '/auction',
+  AUCTION_DETAILS: '/auction/details',
   LOGOUT: '/admin/logout',
   VERIFY_OTP: '/admin/verifyOTP',
   FILE_UPLOAD: '/file/upload',

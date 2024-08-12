@@ -30,7 +30,6 @@ export default function ProductAdd({
   onEdit = () => {},
 }: ProductAddTypes) {
   // hooks
-  console.log('🚀 ~ initialData:', initialData);
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
   //   const dispatch = useDispatch();

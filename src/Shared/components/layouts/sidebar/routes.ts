@@ -28,6 +28,12 @@ const SIDEBAR_NAV = [
       },
     ],
   },
+  {
+    iconClass: 'bi bi-grid',
+    label: 'Auction Management',
+    route: ROUTES.AUCTION_MANAGEMENT,
+    // children: [],
+  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',

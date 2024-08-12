@@ -3,9 +3,21 @@ import { CustomRouter } from './RootRoutes';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
 import { ProductsAdd, ProductsList } from '../Views/Products';
+import AuctionManagementList from '../Views/Auction/AuctionManagementList';
+import AuctionDetails from '../Views/Auction/AuctionDetails';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
+  {
+    path: ROUTES_CONFIG.AUCTION_MANAGEMENT.path,
+    element: <AuctionManagementList />,
+    title: ROUTES_CONFIG.AUCTION_MANAGEMENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_DETAILS.path,
+    element: <AuctionDetails />,
+    title: ROUTES_CONFIG.AUCTION_DETAILS.title,
+  },
   {
     path: ROUTES_CONFIG.HOMEPAGE.path,
     element: <Dashboard />,

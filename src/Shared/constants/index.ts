@@ -235,6 +235,9 @@ const ROUTES = {
   CHANGE_PASSWORD: '/change-password',
   MANUAL_TRANSFER: '/manual-transfer',
   MANUAL_TRANSFER_LIST: '/manual-transfer/manual-transfer-list',
+
+  AUCTION_MANAGEMENT: '/auction-management',
+  AUCTION_DETAILS: '/auction-management/auction-details',
 };
 
 const WILDCARD_ROUTES = {
@@ -243,6 +246,14 @@ const WILDCARD_ROUTES = {
 };
 
 const ROUTES_CONFIG = {
+  AUCTION_DETAILS: {
+    path: `${ROUTES.AUCTION_DETAILS}/:id`,
+    title: 'Auction Details',
+  },
+  AUCTION_MANAGEMENT: {
+    path: ROUTES.AUCTION_MANAGEMENT,
+    title: 'Products for Auction',
+  },
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Welcome To Dashboard',

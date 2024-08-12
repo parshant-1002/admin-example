@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+// eslint-disable no-underscore-dangle
 // libs
 import { useState, Fragment, useCallback } from 'react';
 import { FILTER_ORDER } from '../../constants';
@@ -16,7 +16,10 @@ interface CustomTableViewProps {
   isServerPagination?: boolean;
   handleSortingClick?: (order?: number, sortKey?: string) => void;
   isLoading?: boolean;
+  onRowHover?: (row: Row) => void;
+  onRowClick?: (row: Row) => void;
 }
+
 export interface Column {
   title?: string;
   fieldName?: string;
@@ -30,6 +33,7 @@ export interface Column {
 export interface Row {
   [key: string]: string | number;
 }
+
 function CustomTableView({
   columns = [],
   rows = [],
@@ -41,6 +45,8 @@ function CustomTableView({
   isServerPagination = false,
   handleSortingClick = () => {},
   isLoading = false,
+  onRowHover = () => {},
+  onRowClick = () => {},
 }: CustomTableViewProps) {
   const [selectedSortType, setSelectedSortType] = useState<number>(
     FILTER_ORDER.ASCENDING
@@ -51,7 +57,6 @@ function CustomTableView({
     : rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
-    // if (!column?.fieldName) return null;
     if (column.isTruncated) {
       return row[column?.fieldName || ''] ? (
         <TruncatedText text={row[column?.fieldName || '']} />
@@ -67,6 +72,7 @@ function CustomTableView({
     }
     return row[column?.fieldName || ''] || '-';
   }, []);
+
   return (
     <>
       <div className="table-responsive">
@@ -122,7 +128,12 @@ function CustomTableView({
                       </td>
                     </tr>
                   ) : (
-                    <tr key={row._id} className="tr-item">
+                    <tr
+                      key={row._id}
+                      className="tr-item"
+                      onMouseEnter={() => onRowHover(row)}
+                      onClick={() => onRowClick(row)}
+                    >
                       {columns.map((column) => (
                         <Fragment key={`${row._id}-columns`}>
                           <td data-label={column.title}>
