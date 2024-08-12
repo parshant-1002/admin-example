@@ -2,6 +2,7 @@
 // libs
 import { useState, Fragment, useCallback } from 'react';
 import './table.scss';
+import ReactPaginate from 'react-paginate';
 import TruncatedText from '../TruncateText/TruncateText';
 import { FilterOrder } from '../../constants';
 
@@ -17,6 +18,9 @@ interface CustomTableViewProps {
   handleSortingClick?: (order?: number, sortKey?: string) => void;
   handleRowClick?: (row: Row) => void;
   isLoading?: boolean;
+  pagination?: boolean;
+  pageCount?: number;
+  onPageChange?: (selectedItem: { selected: number }) => void;
 }
 export interface Column {
   title?: string;
@@ -43,6 +47,9 @@ function CustomTableView({
   handleSortingClick = () => {},
   handleRowClick = () => {},
   isLoading = false,
+  pagination = false,
+  pageCount = 0,
+  onPageChange = () => {},
 }: CustomTableViewProps) {
   const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
     FilterOrder.ASCENDING
@@ -142,6 +149,21 @@ function CustomTableView({
           </tbody>
         </table>
       </div>
+      {pagination && rows?.length ? (
+        <div className="pagination-group d-flex justify-content-end align-items-center">
+          <ReactPaginate
+            pageCount={pageCount}
+            onPageChange={onPageChange}
+            activeClassName="active"
+            nextClassName={`next-btn ${
+              Math.ceil(pageCount) !== currentPage + 1 ? '' : 'disabled'
+            }`}
+            previousClassName="prev-btn"
+            disabledClassName="disabled"
+            forcePage={currentPage}
+          />
+        </div>
+      ) : null}
       {rows.length ? (
         <div className="pagination-group d-flex justify-content-end align-items-center">
           {renderTableFooter()}

@@ -7,6 +7,7 @@ import { CategoriesList } from '../Views/Categories';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import Invoices from '../Views/Invoices';
+import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -45,11 +46,18 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     element: <UserDetails />,
     title: ROUTES_CONFIG.USERS_DETAILS.title,
   },
+  // Referral
   {
-    path: '/wishlist',
-    element: 'Your wishlist here',
-    title: 'Dashboard',
+    path: ROUTES_CONFIG.CREATE_REFERRAL.path,
+    element: <CreateReferral />,
+    title: ROUTES_CONFIG.CREATE_REFERRAL.title,
   },
+  {
+    path: ROUTES_CONFIG.REFERRAL_LISTING.path,
+    element: <ReferralListing />,
+    title: ROUTES_CONFIG.REFERRAL_LISTING.title,
+  },
+  // Wildcard
   {
     path: '*',
     element: <Navigate to={WILDCARD_ROUTES.PRIVATE} />,

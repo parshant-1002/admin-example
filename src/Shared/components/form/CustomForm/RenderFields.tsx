@@ -55,6 +55,7 @@ function RenderField({
       case INPUT_TYPES.PASSWORD:
       case INPUT_TYPES.NUMBER:
       case INPUT_TYPES.PHONE:
+      case INPUT_TYPES.DATE:
         return (
           <TextField
             id={id}

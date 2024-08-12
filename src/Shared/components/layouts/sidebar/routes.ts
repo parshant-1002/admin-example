@@ -37,6 +37,20 @@ const SIDEBAR_NAV = [
       },
     ],
   },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Referral',
+    children: [
+      {
+        label: 'Create Referral',
+        route: ROUTES.CREATE_REFERRAL,
+      },
+      {
+        label: 'Referral Listing',
+        route: ROUTES.REFERRAL_LISTING,
+      },
+    ],
+  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',

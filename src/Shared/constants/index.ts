@@ -99,6 +99,13 @@ export const STRINGS = {
   DRAWN: 'Status',
   DRAW: 'Draw',
   DRAWN_TYPE: 'Drawn Type',
+  ARE_YOU_SURE_YOU_WANT_TO_DELETE: 'Are you sure you want to delete this?',
+  EDIT_REFERRAL_PACK: 'Edit Referral Pack',
+  ADD_REFERRAL_PACK: 'Add Referral Pack',
+  UPDATE: 'Update',
+  DELETE: 'Delete',
+  ADD: 'Add',
+  VIEW: 'View',
 };
 
 export const CONTENT_ENUMS = {
@@ -263,6 +270,8 @@ const ROUTES = {
   MANUAL_TRANSFER_LIST: '/manual-transfer/manual-transfer-list',
   INVOICES_AUCTION: '/invoices/auction',
   INVOICES_PURCHASE: '/invoices/purchase',
+  CREATE_REFERRAL: '/create-referral',
+  REFERRAL_LISTING: '/referral-listing',
 };
 
 const WILDCARD_ROUTES = {
@@ -335,6 +344,22 @@ const ROUTES_CONFIG = {
     path: ROUTES.ABOUT,
     title: 'About us',
   },
+  // Referral
+  CREATE_REFERRAL: {
+    path: ROUTES.CREATE_REFERRAL,
+    title: 'Create Referral',
+  },
+  REFERRAL_LISTING: {
+    path: ROUTES.REFERRAL_LISTING,
+    title: 'Referral Listing',
+  },
 };
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };
+enum POPUPTYPES {
+  NONE = 'NONE',
+  EDIT = 'EDIT',
+  ADD = 'ADD',
+  DELETE = 'DELETE',
+}
+
+export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, POPUPTYPES };
