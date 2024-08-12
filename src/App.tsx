@@ -19,7 +19,7 @@ function App() {
       <PersistGate persistor={persistor}>
         <HelmetProvider>
           <Loader />
-          <ToastContainer autoClose={3000} limit={1} />
+          <ToastContainer autoClose={3000} limit={3} />
           <BrowserRouter basename={baseName}>
             <RootRouter />
           </BrowserRouter>
