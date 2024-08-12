@@ -7,6 +7,7 @@ import { store } from '../../Store';
 import { setLoading } from '../../Store/Loader';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
 import { API } from '../constants';
+import { CustomRouter } from '../../Routes/RootRoutes';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -116,14 +117,14 @@ const checkValidFileExtension = (
   return validExtensions.includes(fileExtension);
 };
 
-const convertToLocale = (number: number | string): string => {
+const convertToLocale = (number: number | string): string | 0 => {
   if (Number.isNaN(Number(number))) {
-    return String(number);
+    return String(number || 0);
   }
   const num = Number(number);
   const formattedNumber = Number.isInteger(num) ? num : num.toFixed(2);
   const localeCode = 'en-US';
-  return formattedNumber.toLocaleString(localeCode);
+  return formattedNumber.toLocaleString(localeCode) || 0;
 };
 
 const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
@@ -175,6 +176,16 @@ function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function matchRoute(pathname: string, routes: Array<CustomRouter>) {
+  for (const route of routes) {
+    const regex = new RegExp(`^${route?.path?.replace(/:\w+/g, '[^/]+')}$`);
+    if (regex.test(pathname)) {
+      return route?.title;
+    }
+  }
+  return null;
+}
+
 export {
   capitalizeFirstLetter,
   checkOffline,
@@ -189,4 +200,5 @@ export {
   removeEmptyValues,
   validateField,
   addBaseUrl,
+  matchRoute,
 };

@@ -218,7 +218,7 @@ export default function UsersList() {
   };
 
   const handleRowClick = (row: Row) => {
-    navigate(`/users-details/${row?._id}`);
+    navigate(`/users-details/${row?.name}`, { state: row?._id });
   };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {

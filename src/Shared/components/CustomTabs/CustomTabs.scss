@@ -1,0 +1,12 @@
+// CustomTabs.scss
+
+.nav-tabs .nav-item {
+    margin-right: 20px;
+    margin: 10px;
+    border: none;
+}
+
+.nav-tabs .nav-link {
+    transition: background-color 0.3s ease;
+    text-transform: capitalize;
+}

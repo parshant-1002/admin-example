@@ -18,6 +18,7 @@ interface ColumnData {
   isTruncated?: boolean;
   sortable?: boolean;
   sortType?: string;
+  noClickEvent?: boolean;
   render?: (
     row: UsersResponsePayload,
     val: string | number
@@ -34,11 +35,15 @@ export const usersColumns = (
 ): ColumnData[] => [
   {
     title: '#',
+    noClickEvent: true,
     render: (row) => {
       return (
         <div
           className="checkbox-wrapper"
-          onClick={() => handleChangeCheckBox(row._id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleChangeCheckBox(row._id);
+          }}
         >
           <input
             type="checkbox"
@@ -116,6 +121,7 @@ export const usersColumns = (
   },
   {
     title: 'Actions',
+    noClickEvent: true,
     render: (row, val) => renderActions(val, row),
   },
 ];
