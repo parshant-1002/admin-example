@@ -7,21 +7,18 @@ import ReactPaginate from 'react-paginate';
 import CustomTableView, {
   Column,
   Row,
-} from '../../Shared/components/CustomTableView';
-import StatsFilters from './components/Filters';
+} from '../../../Shared/components/CustomTableView';
+import Filters from '../components/Filters';
 
 // Constants
-import { FilterOrder, STRINGS } from '../../Shared/constants';
-import { InvoiceColumns } from './helpers/constants';
+import { FilterOrder, STRINGS } from '../../../Shared/constants';
+import { PurchaseInvoiceColumns } from '../helpers/constants';
 
 // API
-import { useGetProductsQuery } from '../../Services/Api/module/products';
+import { useGetProductsQuery } from '../../../Services/Api/module/products';
 
 // Utilities
-import { removeEmptyValues } from '../../Shared/utils/functions';
-
-// Styles
-import './Invoices.scss';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
 
 // Interfaces
 interface QueryParams {
@@ -35,7 +32,7 @@ interface QueryParams {
 // Constants
 const ADD_ONS_PAGE_LIMIT = 5;
 
-function Invoices() {
+function PurchaseInvoices() {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState<string>('');
@@ -84,7 +81,7 @@ function Invoices() {
   }, 1000);
 
   // Memoized columns for table
-  const columns = useMemo(() => InvoiceColumns, []);
+  const columns = useMemo(() => PurchaseInvoiceColumns, []);
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -96,7 +93,7 @@ function Invoices() {
 
   return (
     <div>
-      <StatsFilters
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
@@ -130,4 +127,4 @@ function Invoices() {
   );
 }
 
-export default Invoices;
+export default PurchaseInvoices;

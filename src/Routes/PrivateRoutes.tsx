@@ -6,8 +6,8 @@ import { CustomRouter } from './RootRoutes';
 import { CategoriesList } from '../Views/Categories';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
-import Invoices from '../Views/Invoices';
 import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
+import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -18,12 +18,12 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
   },
   {
     path: ROUTES_CONFIG.INVOICES_AUCTION.path,
-    element: <Invoices />,
+    element: <AuctionInvoices />,
     title: ROUTES_CONFIG.INVOICES_AUCTION.title,
   },
   {
     path: ROUTES_CONFIG.INVOICES_PURCHASE.path,
-    element: <Invoices />,
+    element: <PurchaseInvoices />,
     title: ROUTES_CONFIG.INVOICES_PURCHASE.title,
   },
   {

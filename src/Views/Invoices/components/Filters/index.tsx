@@ -13,18 +13,18 @@ import TextField from '../../../../Shared/components/form/TextInput/TextInput';
 import './style.scss';
 
 // types
-interface StatsFiltersProps {
+interface FiltersProps {
   search?: string;
   handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClearSearch: () => void;
   // heading?: string;
 }
 
-function StatsFilters({
+function Filters({
   search = '',
   handleSearch,
   handleClearSearch, // heading = 'Transactions',
-}: StatsFiltersProps) {
+}: FiltersProps) {
   return (
     <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
       <div className="col-md-4 col-xl-6 mb-2">
@@ -71,4 +71,4 @@ function StatsFilters({
   );
 }
 
-export default StatsFilters;
+export default Filters;
