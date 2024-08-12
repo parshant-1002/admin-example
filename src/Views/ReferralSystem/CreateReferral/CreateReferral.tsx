@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
 import { toast } from 'react-toastify';
-import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import Filters from '../components/Filters';
 import CustomTableView, {
@@ -33,7 +32,7 @@ import {
 } from '../../../Services/Api/module/referral';
 
 // Utilities
-import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
 import { RED_WARNING } from '../../../assets';
 
@@ -124,7 +123,8 @@ function CreateReferral() {
 
   const handleAddEditPopupSubmit = (data: Record<string, unknown>) => {
     const payload = { ...data };
-    payload.startDate = moment(payload.startDate as string).format(
+    payload.startDate = formatDate(
+      payload.startDate as string,
       'YYYY-MM-DD HH:mm:ss'
     );
 
@@ -252,7 +252,8 @@ function CreateReferral() {
                 name: popup.data?.name,
                 rewardBids: popup.data?.rewardBids,
                 refereeBidRequirement: popup.data?.refereeBidRequirement,
-                startDate: moment(popup.data?.startDate as string).format(
+                startDate: formatDate(
+                  popup.data?.startDate as string,
                   'YYYY-MM-DD'
                 ),
                 isEnabled: popup.data?.isEnabled,

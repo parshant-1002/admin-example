@@ -1,5 +1,5 @@
 // Libraries
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Components
@@ -13,10 +13,13 @@ import { FilterOrder, STRINGS } from '../../../Shared/constants';
 import { ReferralListColumns } from '../helpers/constants';
 
 // API
-import { useGetReferralPackHistoryQuery } from '../../../Services/Api/module/referral';
+import {
+  useGetReferralPackHistoryQuery,
+  useGetReferralPacksQuery,
+} from '../../../Services/Api/module/referral';
 
 // Utilities
-import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 
 // Interfaces
 interface QueryParams {
@@ -63,6 +66,18 @@ function Invoices() {
     }
   );
 
+  const { data: referralPackDetails, refetch: refetchReferralPack } =
+    useGetReferralPacksQuery(
+      {
+        params: removeEmptyValues(
+          queryParams as unknown as Record<string, unknown>
+        ),
+      },
+      {
+        skip: !id,
+      }
+    );
+
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -82,48 +97,63 @@ function Invoices() {
     if (id) {
       if (onComponentMountRef.current) {
         refetch();
+        refetchReferralPack();
       }
       onComponentMountRef.current = true;
     }
-  }, [refetch, currentPage, sortKey, sortDirection, id]);
+  }, [refetch, currentPage, sortKey, sortDirection, id, refetchReferralPack]);
+
+  const renderPackDetails = useMemo(() => {
+    if (referralPackDetails?.data?.[0]) {
+      return (
+        <div className="card mb-3">
+          <div className="card-body row">
+            {[
+              {
+                label: 'Plan Id',
+                value: referralPackDetails?.data?.[0]?._id,
+              },
+              {
+                label: 'Name',
+                value: referralPackDetails?.data?.[0]?.name,
+              },
+              {
+                label: 'Created At',
+                value: referralPackDetails?.data?.[0]?.startDate
+                  ? formatDate(referralPackDetails?.data?.[0]?.startDate)
+                  : '',
+              },
+              {
+                label: 'Closed At',
+                value: referralPackDetails?.data?.[0]?.endDate
+                  ? formatDate(referralPackDetails?.data?.[0]?.endDate)
+                  : '',
+              },
+              {
+                label: 'Reward',
+                value: referralPackDetails?.data?.[0]?.rewardBids,
+              },
+              {
+                label: 'Reward At',
+                value: referralPackDetails?.data?.[0]?.refereeBidRequirement,
+              },
+            ].map(({ label, value }) => (
+              <div className="col-lg-2 col-md-3 col-sm-4" key={label}>
+                <h6>{label}</h6>
+                <p>{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  }, [referralPackDetails]);
 
   return (
     <div>
-      <div className="card mb-3">
-        <div className="card-body row">
-          {[
-            {
-              label: 'Plan Id',
-              value: id,
-            },
-            {
-              label: 'Name',
-              value: 'Audi',
-            },
-            {
-              label: 'Created At',
-              value: '26-07-2024',
-            },
-            {
-              label: 'Closed At',
-              value: '26-07-2024',
-            },
-            {
-              label: 'Reward',
-              value: '50 Bids',
-            },
-            {
-              label: 'Reward At',
-              value: '500 SEK Spent',
-            },
-          ].map(({ label, value }) => (
-            <div className="col-lg-2 col-md-3 col-sm-4" key={label}>
-              <h6>{label}</h6>
-              <p>{value}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      {renderPackDetails}
 
       {/* Table */}
       <h5>Referrals ({listing?.count || 0})</h5>

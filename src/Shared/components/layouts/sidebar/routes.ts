@@ -45,10 +45,10 @@ const SIDEBAR_NAV = [
         label: 'Create Referral',
         route: ROUTES.CREATE_REFERRAL,
       },
-      {
-        label: 'Referral Listing',
-        route: ROUTES.REFERRAL_LISTING,
-      },
+      // {
+      //   label: 'Referral Listing',
+      //   route: ROUTES.REFERRAL_LISTING,
+      // },
     ],
   },
   // {

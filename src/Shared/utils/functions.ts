@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 import { toast } from 'react-toastify';
+import moment from 'moment';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { store } from '../../Store';
 import { setLoading } from '../../Store/Loader';
@@ -175,6 +176,11 @@ function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
+  if (!date) return '';
+  return moment(date).format(format);
+}
+
 export {
   capitalizeFirstLetter,
   checkOffline,
@@ -189,4 +195,5 @@ export {
   removeEmptyValues,
   validateField,
   addBaseUrl,
+  formatDate,
 };
