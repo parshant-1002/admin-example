@@ -57,6 +57,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     element: <ReferralListing />,
     title: ROUTES_CONFIG.REFERRAL_LISTING.title,
   },
+  {
+    path: `${ROUTES_CONFIG.REFERRAL_LISTING.path}/:id`,
+    element: <ReferralListing />,
+    title: ROUTES_CONFIG.REFERRAL_LISTING.title,
+  },
   // Wildcard
   {
     path: '*',

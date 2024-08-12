@@ -1,7 +1,11 @@
 import { actions } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
-import { INPUT_TYPES, STRINGS } from '../../../Shared/constants';
+import {
+  INPUT_TYPES,
+  REFERRAL_STATUS,
+  STRINGS,
+} from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 
 export const REFERRAL_PACK_SCHEMA = {
@@ -135,5 +139,70 @@ export const CreateReferralColumns = ({
         />
       </div>
     ),
+  },
+];
+
+export const ReferralListColumns: ColumnData[] = [
+  {
+    title: 'Referral Id',
+    fieldName: '_id',
+  },
+  {
+    title: 'Referrer Name',
+    fieldName: 'name',
+    sortable: true,
+    sortType: 'name',
+    render: (row) => row?.refererUser?.name,
+  },
+  {
+    title: 'Referrer Email',
+    fieldName: 'email',
+    sortable: true,
+    sortType: 'rewardBids',
+    render: (row) => row?.refererUser?.email,
+  },
+  {
+    title: 'Rewards',
+    fieldName: 'rewardBids',
+    sortable: true,
+    sortType: 'refereeBidRequirement',
+  },
+  {
+    title: 'Referee Email',
+    fieldName: 'refereeEmail',
+    sortable: true,
+    sortType: 'refereeBidRequirement',
+    render: (row) => row?.refereeUser?.email,
+  },
+  {
+    title: 'Reward At',
+    fieldName: 'rewardAt',
+    sortable: true,
+    sortType: 'refereePurchasedBids',
+  },
+  {
+    title: 'Referral Date',
+    fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
+    render: (_, startDate) =>
+      startDate ? new Date(startDate).toDateString() : '',
+  },
+  {
+    title: 'Status',
+    fieldName: 'status',
+    render: (row) =>
+      (() => {
+        switch (row?.status as number) {
+          case REFERRAL_STATUS.COMPLETED:
+            return <span className="text-success">Completed</span>;
+          case REFERRAL_STATUS.PENDING:
+            return <span className="text-warning">Pending</span>;
+          case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
+            return <span className="text-danger">User Deleted</span>;
+          default:
+            return '';
+        }
+      })(),
   },
 ];

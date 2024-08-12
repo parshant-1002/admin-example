@@ -137,7 +137,7 @@ function CustomTableView({
                       onClick={() => handleRowClick(row)}
                     >
                       {columns.map((column) => (
-                        <Fragment key={`${row._id}-columns`}>
+                        <Fragment key={`${row._id}-columns-${column.title}`}>
                           <td data-label={column.title}>
                             {getColumnValue(row, column)}
                           </td>

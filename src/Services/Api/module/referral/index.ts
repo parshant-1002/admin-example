@@ -44,6 +44,24 @@ export const loginApi = api.injectEndpoints({
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
+    getReferralPackHistory: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.REFERRAL_PACK_HISTORY,
+        params,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+    }),
+    getReferredUsers: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.REFERRED_USERS,
+        params,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+    }),
   }),
 });
 
@@ -52,4 +70,6 @@ export const {
   useDeleteReferralPackMutation,
   useEditReferralPackMutation,
   useGetReferralPacksQuery,
+  useGetReferralPackHistoryQuery,
+  useGetReferredUsersQuery,
 } = loginApi;
