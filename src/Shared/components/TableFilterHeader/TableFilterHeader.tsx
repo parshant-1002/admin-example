@@ -4,32 +4,38 @@
 import React from 'react';
 
 // consts
-import { BUTTON_LABELS } from '../../../../Shared/constants';
+import { BUTTON_LABELS } from '../../constants';
 
 // components
-import Button from '../../../../Shared/components/form/Button';
-import TextField from '../../../../Shared/components/form/TextInput/TextInput';
-import CustomDropDown from '../../../../Shared/components/CustomDropDown';
-import { Filter } from '../../../../assets';
+import CustomDropDown from '../CustomDropDown';
+import TextField from '../form/TextInput/TextInput';
+import Button from '../form/Button';
+import { Filter } from '../../../assets';
 
-// styles
-import './style.scss';
+// // styles
+// import './style.scss';
 
 // types
-interface FiltersProps {
+interface TableFilterHeaderProps {
   handleAddNew?: () => void;
   search?: string;
   handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClearSearch: () => void;
+  selectedIds?: string[];
+  handleDeleteAll?: () => void;
+  handleClearAll?: () => void;
   // heading?: string;
 }
 
-function Filters({
+function TableFilterHeader({
   handleAddNew,
   search = '',
   handleSearch,
-  handleClearSearch, // heading = 'Transactions',
-}: FiltersProps) {
+  handleClearSearch,
+  selectedIds = [],
+  handleDeleteAll = () => {},
+  handleClearAll = () => {},
+}: TableFilterHeaderProps) {
   return (
     <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
       <div className="col-md-4 col-xl-6 mb-2">
@@ -38,6 +44,24 @@ function Filters({
 
       <div className="col-md-8 col-xl-6 my-2">
         <div className="d-flex justify-content-end align-items-start stats_filter">
+          {selectedIds?.length ? (
+            <Button
+              className="btn btn-sm btn-danger"
+              btnType="primary"
+              onClick={handleDeleteAll}
+            >
+              {BUTTON_LABELS.DELETE_ALL}
+            </Button>
+          ) : null}
+          {selectedIds?.length ? (
+            <Button
+              className="btn btn-sm btn-secondary"
+              btnType="primary"
+              onClick={handleClearAll}
+            >
+              {BUTTON_LABELS.CLEAR_ALL}
+            </Button>
+          ) : null}
           <CustomDropDown
             toggleImage={Filter}
             submenu={[
@@ -78,4 +102,4 @@ function Filters({
   );
 }
 
-export default Filters;
+export default TableFilterHeader;

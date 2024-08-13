@@ -74,7 +74,7 @@ function CustomTableView({
     if (typeof row[column?.fieldName || ''] === 'number') {
       return row[column?.fieldName || ''];
     }
-    return row[column?.fieldName || ''] || '-';
+    return row[column?.fieldName || ''] || '-.-';
   }, []);
   return (
     <>
