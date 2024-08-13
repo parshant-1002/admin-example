@@ -6,15 +6,14 @@ import { toast } from 'react-toastify';
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
-import { ErrorResponse } from '../../Models/Apis/Error';
-import { BUTTON_LABELS } from '../../Shared/constants';
-import ERROR_MESSAGES from '../../Shared/constants/messages';
-import { CATEGORIES_FORM_SCHEMA } from './helpers/constants';
-import { CategoryPayload } from './helpers/model';
 import {
   useAddCategoriesMutation,
   useEditCategoriesMutation,
 } from '../../Services/Api/module/catgories';
+import { BUTTON_LABELS } from '../../Shared/constants';
+import ERROR_MESSAGES from '../../Shared/constants/messages';
+import { CATEGORIES_FORM_SCHEMA } from './helpers/constants';
+import { CategoryPayload } from './helpers/model';
 
 interface CategoryFormTypes {
   initialData: object | null;
@@ -38,9 +37,6 @@ export default function CategoryForm({
     toast.success(res?.message);
     onAdd();
   };
-  const onFailure = (error: ErrorResponse) => {
-    toast.success(error?.data?.message);
-  };
   const onSubmit = async (
     data: Record<string, unknown>,
     event: SyntheticEvent,
@@ -62,14 +58,12 @@ export default function CategoryForm({
             onEdit();
             reset();
           },
-          onFailure,
         });
         return;
       }
       await addCategories({
         payload,
         onSuccess,
-        onFailure,
       });
     } catch (error: unknown) {
       if (error instanceof Error) {

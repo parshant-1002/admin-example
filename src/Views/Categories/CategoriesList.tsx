@@ -26,7 +26,6 @@ import {
 import { CategoryResponsePayload } from './helpers/model';
 
 // API
-import { ErrorResponse } from '../../Models/Apis/Error';
 
 // Utilities
 import {
@@ -57,7 +56,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const CATEGORY_PAGE_LIMIT = 5;
 
 export default function CategoriesList() {
   // State Management
@@ -80,8 +79,8 @@ export default function CategoriesList() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * CATEGORY_PAGE_LIMIT,
+    limit: CATEGORY_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -155,9 +154,6 @@ export default function CategoriesList() {
           handleCloseDelete();
           setSelectedIds([]);
           refetch();
-        },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
         },
       });
     } catch (error: unknown) {
@@ -283,18 +279,18 @@ export default function CategoriesList() {
       <CustomTableView
         rows={(categoriesListing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={CATEGORY_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(categoriesListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(categoriesListing?.count || 1) / CATEGORY_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
               Math.ceil(
-                (categoriesListing?.count || 1) / ADD_ONS_PAGE_LIMIT
+                (categoriesListing?.count || 1) / CATEGORY_PAGE_LIMIT
               ) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING

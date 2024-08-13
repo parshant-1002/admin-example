@@ -5,11 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 // import { logoutRequest } from '../../../../../store/actions/auth';
 // import { ROUTES } from '../../../../constants/routes';
 import { toast } from 'react-toastify';
+import { useLogoutMutation } from '../../../../Services/Api/module/auth';
 import { updateAuthTokenRedux } from '../../../../Store/Common';
 import ProfileDropdown from './ProfileDropdown';
 import './navbar.scss';
-import { useLogoutMutation } from '../../../../Services/Api/module/auth';
-import { ErrorResponse } from '../../../../Models/Apis/Error';
 
 // Define the state type for useSelector
 interface RootState {
@@ -28,12 +27,10 @@ function Navbar() {
     dispatch(updateAuthTokenRedux({ token: null }));
     navigate('/');
   };
-  const onFailure = (error: ErrorResponse) => {
-    toast.error(error.data.message);
-  };
+
   const handleLogout = async () => {
     try {
-      await logout({ onSuccess, onFailure });
+      await logout({ onSuccess });
     } catch {
       toast.error('Error in Logout');
     }

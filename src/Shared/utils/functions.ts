@@ -1,14 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
-import { toast } from 'react-toastify';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
-import { store } from '../../Store';
-import { setLoading } from '../../Store/Loader';
+import { CustomRouter } from '../../Routes/RootRoutes';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
 import { API } from '../constants';
-import { CustomRouter } from '../../Routes/RootRoutes';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -151,7 +149,7 @@ const onQueryStarted = async (
   const { onSuccess, onFailure } = arg;
   try {
     // Await the result of the query
-    store.dispatch(setLoading(true));
+    // store.dispatch(setLoading(true));
     const { data } = await queryFulfilled;
     // Call onSuccess callback if provided
     if (onSuccess) {
@@ -166,8 +164,6 @@ const onQueryStarted = async (
         onFailure(apiError?.error);
       }
     }
-  } finally {
-    store.dispatch(setLoading(false));
   }
 };
 
@@ -246,21 +242,21 @@ function getValueFromPath(
 }
 
 export {
+  addBaseUrl,
   capitalizeFirstLetter,
   checkOffline,
   checkValidFileExtension,
   convertFilesToFormData,
   convertToLocale,
   copyToClipboard,
+  daysBetweenDates,
+  formatDate,
   getPaginationLimits,
   getStringValue,
+  getValueFromPath,
   isErrors,
+  matchRoute,
   onQueryStarted,
   removeEmptyValues,
   validateField,
-  addBaseUrl,
-  matchRoute,
-  daysBetweenDates,
-  formatDate,
-  getValueFromPath,
 };

@@ -1,16 +1,20 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
-import { DATE_FORMATS, INPUT_TYPES } from '../../../../Shared/constants';
+import {
+  DATE_FORMATS,
+  INPUT_TYPES,
+  STRINGS,
+} from '../../../../Shared/constants';
 
 // libs
 
 // consts
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
-import { convertToLocale } from '../../../../Shared/utils/functions';
-import { ProductResponsePayload } from '../../helpers/model';
-import { ViewMultiData } from './model';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
+import { convertToLocale } from '../../../../Shared/utils/functions';
+import { InvoiceIcon } from '../../../../assets';
+import { UserBid, ViewMultiData } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 
@@ -49,7 +53,7 @@ interface ColumnData {
   sortable?: boolean;
   sortType?: string;
   render?: (
-    row: ProductResponsePayload,
+    row: UserBid,
     val: string | number
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
@@ -103,8 +107,22 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
     fieldName: 'status',
   },
   {
-    title: 'Invoice',
-    fieldName: 'invoice',
+    title: STRINGS.INVOICE,
+    render: (row) => (
+      <div className="text-center">
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn-transparent"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
+        ) : (
+          '-.-'
+        )}
+      </div>
+    ),
   },
 ];
 
@@ -243,8 +261,22 @@ const productHistoryColumn = (
     },
   },
   {
-    title: 'Invoice',
-    fieldName: 'invoice',
+    title: STRINGS.INVOICE,
+    render: (row) => (
+      <div className="text-center">
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn-transparent"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
+        ) : (
+          '-.-'
+        )}
+      </div>
+    ),
   },
 ];
 
@@ -398,16 +430,22 @@ const CONFIRMATION_DESCRIPTION: Record<string, string> = {
 
 const BID_CREDIT_TYPES = {
   PURCHASE: 1,
-  ADMIN_GIFT: 2,
+  GIFT: 2,
   REFERRAL: 3,
-  SIGNUP_BONUS: 4,
+  BONUS: 4,
   REFUND: 5,
+};
+
+const BID_STATUS = {
+  CONFIRMED: 1,
+  REFUNDED: 2,
 };
 
 const AUCTION_STATUS = {
   PENDING: 1, // awaiting bidding
   ACTIVE: 2, // bidding active
   ENDED: 3, // bidding ended
+  REFUNDED: 4,
 };
 
 const ADD_BIDS_FORM_SCHEMA = {
@@ -422,15 +460,16 @@ const ADD_BIDS_FORM_SCHEMA = {
   },
 };
 export {
+  ADD_BIDS_FORM_SCHEMA,
+  AUCTION_STATUS,
   BID_CREDIT_TYPES,
+  BID_STATUS,
   CONFIRMATION_DESCRIPTION,
   USER_DETAILS_SCHEMA,
   UserDetailsTabs,
+  auctionBiddingHistoryColumn,
   biddingHistoryColumn,
   bidsPurchaseHistoryColumn,
   productHistoryColumn,
   referralHistoryColumn,
-  AUCTION_STATUS,
-  ADD_BIDS_FORM_SCHEMA,
-  auctionBiddingHistoryColumn,
 };

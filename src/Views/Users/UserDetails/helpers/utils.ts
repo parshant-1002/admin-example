@@ -1,5 +1,5 @@
 import { daysBetweenDates } from '../../../../Shared/utils/functions';
-import { AUCTION_STATUS, BID_CREDIT_TYPES } from './constants';
+import { AUCTION_STATUS, BID_CREDIT_TYPES, BID_STATUS } from './constants';
 import {
   UserReferralHistoryResponse,
   UserBiddingHistoryResponse,
@@ -8,11 +8,32 @@ import {
   UserAuctionHistoryResponse,
 } from './model';
 
-function getKeyByValue<T extends Record<string, number>>(
+export function getKeyByValue<T extends Record<string, number>>(
   obj: T,
   value: T[keyof T]
 ): keyof T | undefined {
   return (Object.keys(obj) as Array<keyof T>).find((key) => obj[key] === value);
+}
+
+function getAuctionStatusText(auctionHistory: {
+  auctionDetails: { status: number };
+}) {
+  // Check if auctionHistory and auctionDetails are defined
+  if (auctionHistory && auctionHistory.auctionDetails) {
+    const { status } = auctionHistory.auctionDetails;
+
+    // Determine status text based on status value
+    if (status === AUCTION_STATUS.PENDING) {
+      return 'PENDING';
+    }
+    if (status === AUCTION_STATUS.ACTIVE || status === AUCTION_STATUS.ENDED) {
+      return 'CONFIRMED';
+    }
+    return 'REFUNDED';
+  }
+
+  // Default return value if auctionHistory or auctionDetails is undefined
+  return 'REFUNDED';
 }
 
 const transformBidderPurchaseResponse = (
@@ -38,7 +59,7 @@ const transformBiddingHistoryResponse = (data: UserBiddingHistoryResponse) => {
       itemPrice: biddingHistory?.productDetails?.price,
       bidsSpent: biddingHistory?.bids,
       date: biddingHistory?.createdAt,
-      status: getKeyByValue(BID_CREDIT_TYPES, biddingHistory?.bidType),
+      status: getKeyByValue(BID_STATUS, biddingHistory?.status),
     })),
     count: data?.count,
   };
@@ -81,10 +102,7 @@ const transformAuctionHistoryResponse = (data: UserAuctionHistoryResponse) => {
       reservePrice: auctionHistory?.auctionDetails?.reservePrice,
       startDate: auctionHistory?.auctionDetails?.bidStartDate,
       endDate: auctionHistory?.auctionDetails?.reserveWaitingEndDate,
-      status: getKeyByValue(
-        AUCTION_STATUS,
-        auctionHistory?.auctionDetails?.status
-      ),
+      status: getAuctionStatusText(auctionHistory),
       price: auctionHistory?.itemPrice,
       winner: auctionHistory?.winnerName,
       days: daysBetweenDates(

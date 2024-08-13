@@ -9,6 +9,11 @@ import { toast } from 'react-toastify';
 //     getAllFiles,
 //     uploadFiles,
 // } from '../../../../store/actions/mediaActions';
+import {
+  useFileDeleteMutation,
+  useFileUploadMutation,
+  useGetFilesQuery,
+} from '../../../../Services/Api/module/file';
 import ERROR_MESSAGES from '../../../constants/messages';
 import {
   checkValidFileExtension,
@@ -19,12 +24,6 @@ import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
 import { FileData, Files } from './helpers/modal';
-import {
-  useFileDeleteMutation,
-  useFileUploadMutation,
-  useGetFilesQuery,
-} from '../../../../Services/Api/module/file';
-import { ErrorResponse } from '../../../../Models/Apis/Error';
 
 const TABS = {
   FILE_UPLOAD: 'fileUpload',
@@ -108,9 +107,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               refetch();
               setActiveTab(TABS.LIST_FILES);
             },
-            onFailure: (error: ErrorResponse) => {
-              toast.error(error?.data?.message);
-            },
           });
         });
       } catch (error: unknown) {
@@ -142,9 +138,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           onSuccess: (res: { message: string }) => {
             toast.success(res?.message);
             refetch();
-          },
-          onFailure: (error: ErrorResponse) => {
-            toast.error(error?.data?.message);
           },
         });
       } catch (error: unknown) {

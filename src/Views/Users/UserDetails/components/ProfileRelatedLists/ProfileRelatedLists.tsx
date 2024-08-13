@@ -70,7 +70,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const PROFILE_RELATED_LIST_PAGE_LIMIT = 5;
 
 export default function ProfileRelatedLists({
   userId,
@@ -107,8 +107,8 @@ export default function ProfileRelatedLists({
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * PROFILE_RELATED_LIST_PAGE_LIMIT,
+    limit: PROFILE_RELATED_LIST_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -337,7 +337,7 @@ export default function ProfileRelatedLists({
       <CustomTableView
         rows={(tableData?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={PROFILE_RELATED_LIST_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleRowClick={handleRowClick}
         handleSortingClick={handleSortingClick}
@@ -346,11 +346,15 @@ export default function ProfileRelatedLists({
         SecondaryRowComponent={() => auctionBidDetails(selectedAuctionId)}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(tableData?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={
+              (tableData?.count || 1) / PROFILE_RELATED_LIST_PAGE_LIMIT
+            }
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((tableData?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
+              Math.ceil(
+                (tableData?.count || 1) / PROFILE_RELATED_LIST_PAGE_LIMIT
+              ) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

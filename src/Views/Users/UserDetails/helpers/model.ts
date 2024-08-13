@@ -51,11 +51,12 @@ interface BidPlan {
 }
 
 // Define the type for each item in the data array
-interface UserBid {
+export interface UserBid {
   _id?: string;
   name?: string;
   bids?: number;
   bidType: number;
+  status: number;
   type: number;
   email?: string;
   referralAmount?: number;
@@ -77,6 +78,7 @@ interface UserBid {
   totalBids?: number;
   itemPrice?: number;
   winnerName?: string;
+  invoiceURL?: string;
 }
 
 // Define the type for the response data
