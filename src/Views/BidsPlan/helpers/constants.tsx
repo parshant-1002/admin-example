@@ -1,4 +1,4 @@
-import { actions } from '../../../assets';
+import { actions, InvoiceIcon } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
 import {
@@ -7,40 +7,69 @@ import {
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
+import { formatDate } from '../../../Shared/utils/functions';
 
-export const REFERRAL_PACK_SCHEMA = {
-  name: {
+export const PLAN_SCHEMA = {
+  title: {
     type: INPUT_TYPES.TEXT,
-    label: 'Referral Pack Name',
+    label: 'Plan Name',
     className: 'col-md-12',
-    placeholder: 'Referral Pack Name',
+    placeholder: 'Plan Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  rewardBids: {
+  price: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Bids Given',
+    label: 'Deal Price',
     className: 'col-md-12',
-    placeholder: 'Bids Given',
+    placeholder: 'Deal Price',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  refereeBidRequirement: {
+  bids: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Referee Bids Purchased',
+    label: 'Bids Credited',
     className: 'col-md-12',
-    placeholder: 'Referee Bids Purchased',
+    placeholder: 'Bids Credited',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
+  },
+  hotDeal: {
+    type: INPUT_TYPES.SELECT,
+    label: 'Hot Deal',
+    className: 'col-md-12',
+    placeholder: 'Hot Deal',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+    options: [
+      {
+        label: 'Yes',
+        value: 'Yes',
+      },
+      {
+        label: 'No',
+        value: 'No',
+      },
+    ],
   },
   startDate: {
     type: INPUT_TYPES.DATE,
     label: 'Start Date',
     className: 'col-md-12',
     placeholder: 'Start Date',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+  endDate: {
+    type: INPUT_TYPES.DATE,
+    label: 'End Date',
+    className: 'col-md-12',
+    placeholder: 'End Date',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -66,7 +95,7 @@ interface CreateReferralProps {
 }
 
 // Define the shape of the columns
-export const CreateReferralColumns = ({
+export const PlansColumns = ({
   handleView,
   handleDelete,
   handleEdit,
@@ -86,6 +115,7 @@ export const CreateReferralColumns = ({
             type="checkbox"
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
+            // onChange={() => handleChangeCheckBox(row._id)}
           />
           <div className="checkbox-custom" />
         </div>
@@ -93,36 +123,50 @@ export const CreateReferralColumns = ({
     },
   },
   {
-    title: 'Referral Id',
+    title: 'ID',
     fieldName: '_id',
   },
   {
     title: 'Name',
-    fieldName: 'name',
+    fieldName: 'title',
     isTruncated: true,
     sortable: true,
-    sortType: 'name',
+    sortType: 'title',
   },
   {
     title: 'Bids Given',
-    fieldName: 'rewardBids',
+    fieldName: 'bids',
     isTruncated: true,
     sortable: true,
-    sortType: 'rewardBids',
+    sortType: 'bids',
   },
   {
-    title: 'Referee Bids Purchased',
-    fieldName: 'refereeBidRequirement',
+    title: 'Deal Price',
+    fieldName: 'price',
     sortable: true,
-    sortType: 'refereeBidRequirement',
+    sortType: 'price',
   },
   {
-    title: 'Start Date',
-    fieldName: 'startDate',
+    title: 'Created At',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'startDate',
-    render: (_, startDate) =>
-      startDate ? new Date(startDate).toDateString() : '',
+    sortType: 'createdAt',
+    render: (_, createdAt) =>
+      createdAt ? new Date(createdAt).toDateString() : '',
+  },
+  {
+    title: 'End At',
+    fieldName: 'endAt',
+    sortable: true,
+    sortType: 'endAt',
+    render: (_, endAt) => (endAt ? new Date(endAt).toDateString() : ''),
+  },
+  {
+    title: 'Hot Deal',
+    fieldName: 'hotDeal',
+    sortable: true,
+    sortType: 'hotDeal',
+    render: (_, hotDeal) => (hotDeal ? new Date(hotDeal).toDateString() : ''),
   },
   {
     title: 'Status',
@@ -164,27 +208,42 @@ export const CreateReferralColumns = ({
   },
 ];
 
-export const ReferralListColumns: ColumnData[] = [
+export const PlanDetailedViewColumns: ColumnData[] = [
   {
-    title: 'Referral Id',
+    title: 'T Id',
     fieldName: '_id',
   },
   {
-    title: 'Referrer Name',
+    title: 'Username',
+    fieldName: 'name',
+    sortable: true,
+    sortType: 'name',
     render: (row) => row?.refererUser?.name,
   },
   {
-    title: 'Referrer Email',
+    title: 'Email',
+    fieldName: 'email',
+    sortable: true,
+    sortType: 'email',
     render: (row) => row?.refererUser?.email,
   },
   {
-    title: 'Rewards',
-    fieldName: 'rewardBids',
+    title: 'Deal Offer',
+    fieldName: 'dealOffer',
     sortable: true,
-    sortType: 'refereeBidRequirement',
+    sortType: 'dealOffer',
+  },
+  {
+    title: 'Deal Price',
+    fieldName: 'dealPrice',
+    sortable: true,
+    sortType: 'dealPrice',
   },
   {
     title: 'Referee Email',
+    fieldName: 'refereeEmail',
+    sortable: true,
+    sortType: 'refereeBidRequirement',
     render: (row) => row?.refereeUser?.email,
   },
   {
@@ -194,12 +253,10 @@ export const ReferralListColumns: ColumnData[] = [
     sortType: 'refereePurchasedBids',
   },
   {
-    title: 'Referral Date',
-    fieldName: 'createdAt',
+    title: 'Bids Received',
+    fieldName: 'purchasedBids',
     sortable: true,
-    sortType: 'createdAt',
-    render: (_, startDate) =>
-      startDate ? new Date(startDate).toDateString() : '',
+    sortType: 'purchasedBids',
   },
   {
     title: 'Status',
@@ -212,10 +269,27 @@ export const ReferralListColumns: ColumnData[] = [
           case REFERRAL_STATUS.PENDING:
             return <span className="text-warning">Pending</span>;
           case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
-            return <span className="text-danger">User Deleted</span>;
+            return <span className="text-danger">Failed</span>;
           default:
             return '';
         }
       })(),
+  },
+  {
+    title: 'Date',
+    fieldName: 'createdAt',
+    render: (row) => formatDate(row?.createdAt),
+  },
+  {
+    title: 'Invoice',
+    render: (row) =>
+      row?.url ? (
+        <div className="text-center">
+          {' '}
+          <img src={InvoiceIcon} alt="invoice" />{' '}
+        </div>
+      ) : (
+        ''
+      ),
   },
 ];

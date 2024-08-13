@@ -67,7 +67,7 @@ function CustomTableView({
       ? getValueFromPath(row, column?.path)
       : row[column?.fieldName || ''];
     if (column.isTruncated) {
-      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-';
+      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
     }
     if (column.render) {
       return column.render(row, fieldValue);
@@ -75,7 +75,7 @@ function CustomTableView({
     if (typeof fieldValue === 'number') {
       return fieldValue;
     }
-    return fieldValue || '-';
+    return fieldValue || '-.-';
   }, []);
 
   return (
