@@ -1,7 +1,13 @@
 import { Navigate } from 'react-router-dom';
-import { CustomRouter } from './RootRoutes';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
+import { ProductsList } from '../Views/Products';
+import { CustomRouter } from './RootRoutes';
+import { CategoriesList } from '../Views/Categories';
+import Users from '../Views/Users';
+import UserDetails from '../Views/Users/UserDetails';
+import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
+import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -11,10 +17,52 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.HOMEPAGE.title,
   },
   {
-    path: '/wishlist',
-    element: 'Your wishlist here',
-    title: 'Dashboard',
+    path: ROUTES_CONFIG.INVOICES_AUCTION.path,
+    element: <AuctionInvoices />,
+    title: ROUTES_CONFIG.INVOICES_AUCTION.title,
   },
+  {
+    path: ROUTES_CONFIG.INVOICES_PURCHASE.path,
+    element: <PurchaseInvoices />,
+    title: ROUTES_CONFIG.INVOICES_PURCHASE.title,
+  },
+  {
+    path: ROUTES_CONFIG.PRODUCTS.path,
+    element: <ProductsList />,
+    title: ROUTES_CONFIG.PRODUCTS.title,
+  },
+  {
+    path: ROUTES_CONFIG.CATEGORIES.path,
+    element: <CategoriesList />,
+    title: ROUTES_CONFIG.CATEGORIES.title,
+  },
+  {
+    path: ROUTES_CONFIG.USERS.path,
+    element: <Users />,
+    title: ROUTES_CONFIG.USERS.title,
+  },
+  {
+    path: ROUTES_CONFIG.USERS_DETAILS.path,
+    element: <UserDetails />,
+    title: ROUTES_CONFIG.USERS_DETAILS.title,
+  },
+  // Referral
+  {
+    path: ROUTES_CONFIG.CREATE_REFERRAL.path,
+    element: <CreateReferral />,
+    title: ROUTES_CONFIG.CREATE_REFERRAL.title,
+  },
+  {
+    path: ROUTES_CONFIG.REFERRAL_LISTING.path,
+    element: <ReferralListing />,
+    title: ROUTES_CONFIG.REFERRAL_LISTING.title,
+  },
+  {
+    path: `${ROUTES_CONFIG.REFERRAL_LISTING.path}/:id`,
+    element: <ReferralListing />,
+    title: ROUTES_CONFIG.REFERRAL_LISTING.title,
+  },
+  // Wildcard
   {
     path: '*',
     element: <Navigate to={WILDCARD_ROUTES.PRIVATE} />,

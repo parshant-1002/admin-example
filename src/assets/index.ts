@@ -5,6 +5,11 @@ import CalenderIcon from './icons/calender_icon.svg';
 import LeftSideBarBg from './images/left-bg.png';
 import RED_WARNING from './icons/red-warning.svg';
 import AirDropIcon from './icons/airdrop.svg';
+import DEFAULT_PROFILE from './images/default-profile.png';
+import Copy from './icons/copy-link-icon.svg';
+import Delete from './icons/delete.svg';
+import actions from './icons/dots 8.svg';
+import Filter from './icons/filter.svg';
 
 export {
   Logo,
@@ -14,4 +19,9 @@ export {
   LeftSideBarBg,
   RED_WARNING,
   AirDropIcon,
+  DEFAULT_PROFILE,
+  Copy,
+  Delete,
+  actions,
+  Filter,
 };

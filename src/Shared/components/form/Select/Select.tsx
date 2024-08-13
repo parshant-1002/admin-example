@@ -15,6 +15,7 @@ const CustomSelect = React.forwardRef(
     { isMulti = false, onChange, ...otherProps }: CustomSelectProps,
     ref: Ref<SelectInstance<unknown>>
   ) => {
+    console.log('🚀 ~ otherProps:', otherProps);
     return (
       <Select
         ref={ref}

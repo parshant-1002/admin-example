@@ -13,13 +13,13 @@ import CONSTS from './helpers/Constants';
 
 // Define types for dateRange and props
 interface DateRangeType {
-  startDate: string;
-  endDate: string;
+  startDate: string | Date;
+  endDate: string | Date;
 }
 
 interface DateRangeSelectorProps {
   dateRange?: DateRangeType;
-  setDateRange?: (range: DateRangeType) => void;
+  setDateRange?: (range: DateRangeType, isOpen?: boolean) => void;
   daysError?: string;
   titleText?: string;
   icon?: string;

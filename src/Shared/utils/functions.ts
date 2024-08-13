@@ -2,14 +2,25 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 import { toast } from 'react-toastify';
+import moment from 'moment';
+import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
+import { store } from '../../Store';
+import { setLoading } from '../../Store/Loader';
+import { FileData } from '../components/form/FileUpload/helpers/modal';
+import { API } from '../constants';
+
+interface OnQueryStartedArgs {
+  onSuccess?: (data: unknown) => void;
+  onFailure?: (error: ErrorResponse) => void;
+}
 
 // Function to check if the browser is offline
-export const checkOffline = (): boolean => {
+const checkOffline = (): boolean => {
   return !window.navigator.onLine;
 };
 
 // Function to remove empty values from an object
-export function removeEmptyValues<T extends Record<string, unknown>>(
+function removeEmptyValues<T extends Record<string, unknown>>(
   obj: T = {} as T
 ): T {
   try {
@@ -25,13 +36,13 @@ export function removeEmptyValues<T extends Record<string, unknown>>(
 }
 
 // Function to get pagination limits based on window width
-export const getPaginationLimits = (): number => {
+const getPaginationLimits = (): number => {
   const width = window.innerWidth;
   return width > 600 ? 1 : 0;
 };
 
 // Function to get a string value or return an empty string
-export const getStringValue = (value: unknown): string => {
+const getStringValue = (value: unknown): string => {
   if (typeof value === 'string' && value.length) {
     return value;
   }
@@ -39,7 +50,7 @@ export const getStringValue = (value: unknown): string => {
 };
 
 // Function to validate fields and return errors
-export const validateField = (
+const validateField = (
   fields: Record<string, unknown>
 ): Record<string, string> => {
   const errorsObject: Record<string, string> = {};
@@ -52,7 +63,7 @@ export const validateField = (
 };
 
 // Function to check for errors in a roadmap and update the roadmap with errors
-export const isErrors = (
+const isErrors = (
   roadMap: Record<string, unknown>[],
   setRoadMap: React.Dispatch<React.SetStateAction<Record<string, unknown>[]>>
 ): boolean => {
@@ -77,32 +88,36 @@ export const isErrors = (
 };
 
 // Function to copy text to clipboard and show a success toast
-export const copyToClipboard = async (
+const copyToClipboard = async (
   value?: string | number | undefined
 ): Promise<void> => {
   try {
     if (!value) return;
     await navigator.clipboard.writeText(`${value}`);
     toast.success('Copied to clipboard');
-  } catch (error) {
-    console.error('Failed to copy text to clipboard:', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast.error(`Failed to copy text to clipboard: ${error.message}`);
+    } else {
+      toast.error('An unknown error occurred');
+    }
   }
 };
 
-export const checkValidFileExtension = (
+const checkValidFileExtension = (
   fileUrl: string | undefined,
   accept: string
 ): boolean => {
   const validExtensions = accept
-    .replace('image/', '.')
-    .replace('video/', '.')
+    .replace(/image\//g, '.')
+    .replace(/video\//g, '.')
     .split(',')
     .map((type: string) => type.trim());
   const fileExtension = `.${fileUrl?.split('.').pop()?.toLowerCase() || ''}`;
   return validExtensions.includes(fileExtension);
 };
 
-export const convertToLocale = (number: number | string): string => {
+const convertToLocale = (number: number | string): string => {
   if (Number.isNaN(Number(number))) {
     return String(number);
   }
@@ -112,15 +127,73 @@ export const convertToLocale = (number: number | string): string => {
   return formattedNumber.toLocaleString(localeCode);
 };
 
-interface FileWithSrc {
-  file: File;
-  src?: string;
-}
-
-export const convertFilesToFormData = (files: FileWithSrc[]): FormData[] => {
-  return files.map((fileObj) => {
+const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
+  return (files || [])?.map((fileObj) => {
     const formData = new FormData();
-    formData.append('image', fileObj.file);
+    formData.append(key, fileObj.file);
     return formData;
   });
+};
+
+const addBaseUrl = (url: string) => {
+  if (!url) return;
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url; // Return unchanged if URL is already complete
+  }
+  return API.BASE_URL + url; // Add base URL if URL is not complete
+};
+
+const onQueryStarted = async (
+  arg: OnQueryStartedArgs,
+  { queryFulfilled }: { queryFulfilled: Promise<{ data: unknown }> }
+) => {
+  const { onSuccess, onFailure } = arg;
+  try {
+    // Await the result of the query
+    store.dispatch(setLoading(true));
+    const { data } = await queryFulfilled;
+    // Call onSuccess callback if provided
+    if (onSuccess) {
+      onSuccess(data);
+    }
+  } catch (error) {
+    // Check if the error is an instance of ApiError
+    if (error && (error as ApiError)) {
+      const apiError = error as ApiError;
+      // Call onFailure callback if provided
+      if (onFailure) {
+        onFailure(apiError?.error);
+      }
+    }
+  } finally {
+    store.dispatch(setLoading(false));
+  }
+};
+
+function capitalizeFirstLetter(str: string): string {
+  if (!str) return str; // Return the original string if it is empty
+
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
+  if (!date) return '';
+  return moment(date).format(format);
+}
+
+export {
+  capitalizeFirstLetter,
+  checkOffline,
+  checkValidFileExtension,
+  convertFilesToFormData,
+  convertToLocale,
+  copyToClipboard,
+  getPaginationLimits,
+  getStringValue,
+  isErrors,
+  onQueryStarted,
+  removeEmptyValues,
+  validateField,
+  addBaseUrl,
+  formatDate,
 };

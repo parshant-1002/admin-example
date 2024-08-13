@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 // libs
 import { useState, Fragment, useCallback } from 'react';
-import { FILTER_ORDER } from '../../constants';
 import './table.scss';
+import ReactPaginate from 'react-paginate';
 import TruncatedText from '../TruncateText/TruncateText';
+import { FilterOrder } from '../../constants';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -12,14 +13,18 @@ interface CustomTableViewProps {
   renderTableFooter?: () => React.ReactNode;
   pageSize?: number;
   noDataFound?: string;
-  quickEditRowId?: string;
+  quickEditRowId?: string | null;
   isServerPagination?: boolean;
   handleSortingClick?: (order?: number, sortKey?: string) => void;
+  handleRowClick?: (row: Row) => void;
   isLoading?: boolean;
+  pagination?: boolean;
+  pageCount?: number;
+  onPageChange?: (selectedItem: { selected: number }) => void;
 }
-interface Column {
-  title: string;
-  fieldName: string;
+export interface Column {
+  title?: string;
+  fieldName?: string;
   sortable?: boolean;
   sortType?: string;
   width?: string;
@@ -27,7 +32,7 @@ interface Column {
   render?: (row: unknown, value: unknown) => React.ReactNode;
 }
 
-interface Row {
+export interface Row {
   [key: string]: string | number;
 }
 function CustomTableView({
@@ -40,10 +45,14 @@ function CustomTableView({
   quickEditRowId = '',
   isServerPagination = false,
   handleSortingClick = () => {},
+  handleRowClick = () => {},
   isLoading = false,
+  pagination = false,
+  pageCount = 0,
+  onPageChange = () => {},
 }: CustomTableViewProps) {
-  const [selectedSortType, setSelectedSortType] = useState<number>(
-    FILTER_ORDER.ASCENDING
+  const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
+    FilterOrder.ASCENDING
   );
 
   const rowsToBeRendered = isServerPagination
@@ -51,20 +60,21 @@ function CustomTableView({
     : rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
+    // if (!column?.fieldName) return null;
     if (column.isTruncated) {
-      return row[column.fieldName] ? (
-        <TruncatedText text={row[column.fieldName]} />
+      return row[column?.fieldName || ''] ? (
+        <TruncatedText text={row[column?.fieldName || '']} />
       ) : (
         '-'
       );
     }
     if (column.render) {
-      return column.render(row, row[column.fieldName]);
+      return column.render(row, row[column?.fieldName || '']);
     }
-    if (typeof row[column.fieldName] === 'number') {
-      return row[column.fieldName];
+    if (typeof row[column?.fieldName || ''] === 'number') {
+      return row[column?.fieldName || ''];
     }
-    return row[column.fieldName] || '-';
+    return row[column?.fieldName || ''] || '-';
   }, []);
   return (
     <>
@@ -82,9 +92,9 @@ function CustomTableView({
                     if (!column?.sortable) return;
                     const sortKey = column.sortType;
                     const sortOrder =
-                      selectedSortType === FILTER_ORDER.ASCENDING
-                        ? FILTER_ORDER.DESCENDING
-                        : FILTER_ORDER.ASCENDING;
+                      selectedSortType === FilterOrder.ASCENDING
+                        ? FilterOrder.DESCENDING
+                        : FilterOrder.ASCENDING;
 
                     handleSortingClick(sortOrder, sortKey);
                     setSelectedSortType(sortOrder);
@@ -121,9 +131,13 @@ function CustomTableView({
                       </td>
                     </tr>
                   ) : (
-                    <tr key={row._id} className="tr-item">
+                    <tr
+                      key={row._id}
+                      className="tr-item"
+                      onClick={() => handleRowClick(row)}
+                    >
                       {columns.map((column) => (
-                        <Fragment key={`${row._id}-columns`}>
+                        <Fragment key={`${row._id}-columns-${column.title}`}>
                           <td data-label={column.title}>
                             {getColumnValue(row, column)}
                           </td>
@@ -135,6 +149,21 @@ function CustomTableView({
           </tbody>
         </table>
       </div>
+      {pagination && rows?.length ? (
+        <div className="pagination-group d-flex justify-content-end align-items-center">
+          <ReactPaginate
+            pageCount={pageCount}
+            onPageChange={onPageChange}
+            activeClassName="active"
+            nextClassName={`next-btn ${
+              Math.ceil(pageCount) !== currentPage + 1 ? '' : 'disabled'
+            }`}
+            previousClassName="prev-btn"
+            disabledClassName="disabled"
+            forcePage={currentPage}
+          />
+        </div>
+      ) : null}
       {rows.length ? (
         <div className="pagination-group d-flex justify-content-end align-items-center">
           {renderTableFooter()}

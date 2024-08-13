@@ -23,7 +23,7 @@
     }
     .modal {
         &-content {
-            background: $dark-green-color-700;
+            background: $white-color;
             @at-root {
                 .modal-title {
                     padding-right: 40px;
@@ -36,11 +36,11 @@
         }
         &-header {
             color: $white-color;
-            border-color: rgba(69, 203, 135, 0.4);
+            border-color: $white-color;
         }
         &-footer {
             margin-top: 10px;
-            border-color: rgba(69, 203, 135, 0.4);
+            border-color: $white-color;
             .row {
                 margin: 0 -15px;
             }

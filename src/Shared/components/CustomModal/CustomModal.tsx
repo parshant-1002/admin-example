@@ -31,7 +31,7 @@ function CustomModal({
     >
       <div className="modal-body p-0">
         {title && (
-          <div className="modal-header">
+          <div className="modal-header border-bottom">
             <h4 className="modal-title h4">{title}</h4>
           </div>
         )}
@@ -49,7 +49,7 @@ function CustomModal({
                   id="Path_14400"
                   data-name="Path 14400"
                   d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
-                  fill="#fff"
+                  fill="#000"
                 />
               </g>
             </svg>

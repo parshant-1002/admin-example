@@ -1,6 +1,7 @@
 import React, { Ref } from 'react';
-import { Control, FieldErrorsImpl } from 'react-hook-form';
+import { Control, Controller, FieldErrorsImpl } from 'react-hook-form';
 import { INPUT_TYPES } from '../../../constants';
+import FileInput from '../FileUpload/FileUpload';
 
 export function ErrorComponent({
   error,
@@ -13,7 +14,7 @@ export function ErrorComponent({
     return render(error);
   }
   return (
-    <span className="block text-red text-md mt-1">
+    <span className="block error text-md mt-1">
       {(error as { message: string })?.message}
     </span>
   );
@@ -60,29 +61,29 @@ const TextField = React.forwardRef(function TextField(
           {...otherProps}
         />
       );
-    // case INPUT_TYPES.FILE:
-    //   return (
-    //     <Controller
-    //       name="file"
-    //       control={control}
-    //       defaultValue={[]}
-    //       {...otherProps}
-    //       render={({ field: { onChange, onBlur, name, ref: fileRef } }) => {
-    //         return (
-    //           <CustomFileUpload
-    //             className={className}
-    //             name={name}
-    //             accept={accept}
-    //             ref={fileRef}
-    //             onChange={onChange}
-    //             onBlur={onBlur}
-    //             value={value}
-    //             {...otherProps}
-    //           />
-    //         );
-    //       }}
-    //     />
-    //   );
+    case INPUT_TYPES.FILE:
+      return (
+        <Controller
+          name="file"
+          control={control}
+          defaultValue={[]}
+          {...otherProps}
+          render={({ field: { onChange, onBlur, name, ref: fileRef } }) => {
+            return (
+              <FileInput
+                className={className}
+                name={name}
+                accept={accept}
+                ref={fileRef}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                {...otherProps}
+              />
+            );
+          }}
+        />
+      );
     default:
       return (
         <input

@@ -1,0 +1,136 @@
+/* src/components/Dashboard.module.scss */
+
+.dashboard {
+    padding: 32px;
+    font-family: Arial, sans-serif;
+
+    h4 {
+        margin-bottom: 20px;
+    }
+}
+
+.card {
+    margin-bottom: 32px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.userGreeting {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 32px;
+
+    .avatar {
+        margin-right: 16px;
+        background-color: #ff6347;
+        color: #fff;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 24px;
+    }
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .card {
+        flex: 1;
+        min-width: 300px;
+
+        h6 {
+            color: black;
+        }
+    }
+}
+
+.transactions {
+    margin-top: 32px;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.transactionItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .avatar {
+        margin-right: 16px;
+        background-color: #ff6347;
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 20px;
+    }
+
+    .info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        .name {
+            font-weight: bold;
+        }
+
+        .description {
+            color: #666;
+        }
+    }
+
+    .amount {
+        display: flex;
+        align-items: center;
+
+        .change {
+            margin-left: 8px;
+            font-size: 18px;
+        }
+
+        .date {
+            margin-left: 16px;
+            color: #666;
+        }
+    }
+}
+
+.projectLaunch {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    .days {
+        font-size: 48px;
+        font-weight: bold;
+    }
+
+    .date {
+        color: #666;
+    }
+}

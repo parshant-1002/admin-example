@@ -1,6 +1,6 @@
 const VERSION = import.meta.env.VITE_API_VERSION || 'v1';
 export const API = {
-  BASE_URL: import.meta.env.VITE_API_BASE_URL,
+  BASE_URL: import.meta.env.VITE_BASE_URL,
   GET_CONTENT_DATA: `/${VERSION}/getContentForAdminPanel`,
   UPDATE_CONTENT_DATA: `/${VERSION}/content`,
   LOGIN: `${VERSION}/admin/login`,
@@ -47,13 +47,15 @@ export const STATUS = {
   ERROR: 'error',
 };
 
-export const FILTER_ORDER = {
-  ASCENDING: -1,
-  DESCENDING: 1,
-};
+export enum FilterOrder {
+  ASCENDING = -1,
+  DESCENDING = 1,
+}
+
 export const INPUT_TYPES = {
   TEXT: 'text',
   TEXT_AREA: 'textarea',
+  DATE: 'date',
   NUMBER: 'number',
   EMAIL: 'email',
   PASSWORD: 'password',
@@ -67,6 +69,7 @@ export const INPUT_TYPES = {
 };
 
 export const VALIDATION_REGEX = {
+  OTP: /^\d{6}$/,
   EMAIL: /^\S+@\S+\.\S+$/,
   PASSWORD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/i,
   NUMBER: /\d+/g,
@@ -77,7 +80,7 @@ export const VALIDATION_REGEX = {
   USERNAME: /^[a-z0-9]+$/,
 };
 
-export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg';
+export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
@@ -87,7 +90,7 @@ export const STRINGS = {
   ACTIVE: 'active',
   DISABLED: 'disabled',
   EMPTY_STRING: '',
-  NO_RESULT: 'No Search result found!',
+  NO_RESULT: 'No Result found!',
   WINNER_LIST: 'Winner List',
   NEXT_WINNER_DRAWN_AT: 'Next winner will be drawn at',
   LAST_WINNER_DRAWN_AT: 'Last winner drawn at',
@@ -96,6 +99,13 @@ export const STRINGS = {
   DRAWN: 'Status',
   DRAW: 'Draw',
   DRAWN_TYPE: 'Drawn Type',
+  ARE_YOU_SURE_YOU_WANT_TO_DELETE: 'Are you sure you want to delete this?',
+  EDIT_REFERRAL_PACK: 'Edit Referral Pack',
+  ADD_REFERRAL_PACK: 'Add Referral Pack',
+  UPDATE: 'Update',
+  DELETE: 'Delete',
+  ADD: 'Add',
+  VIEW: 'View',
 };
 
 export const CONTENT_ENUMS = {
@@ -133,6 +143,8 @@ export const BUTTON_LABELS = {
   SAVE: 'Save',
   CLEAR: 'Clear',
   DOWNLOAD_CSV: 'Download csv ',
+  EDIT: 'Edit',
+  ADD: 'Add',
 };
 export const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',
@@ -166,6 +178,28 @@ export const TEXT_TYPES = {
 export const SHORT_CODE_NOTE =
   'Note: Ensure there is a space before and after the shortcode.';
 
+export const FILTER_CONSTS = {
+  day: 'day',
+  days: 'days',
+  year: 'year',
+  month: 'month',
+  months: 'months',
+  dateFormat: 'YYYY-MM-DD',
+  six: 6,
+  one: 1,
+  Statistics: 'Statistics',
+  adminStatistics: 'Admin Stats',
+  Asc: '1',
+  Desc: '-1',
+  noDataFound: 'No Data Found',
+  selectCasinoLimit: 'Select Casino Limit',
+  totalRequests: 'Total Requests',
+  averageHourlyHandling: 'Average Hourly Handling',
+  addedCustomerIds: 'Customer ID added',
+  adminName: 'Name',
+  defaultSortKey: 'approvedRequestCount',
+};
+
 /* Constants for RPC Connection the Solana Blockchain */
 // const COMMITMENT_LEVEL = 'processed';
 // export const ENDPOINT =
@@ -185,9 +219,16 @@ export { STRING };
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
+  OTP_FORM: '/otp-form',
+  QR_CODE: '/qr-code',
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
+  USERS_DETAILS: '/users-details/:id',
+  PRODUCTS: '/products',
+  CATEGORIES: '/categories',
+  PRODUCTS_ADD: '/products/add',
+  PRODUCTS_LIST: '/products/list',
   VERIFY_EMAIL: '/verify-email',
   FORGOT_PASSWORD: '/forgot/password',
   RESET_PASSWORD: '/auth/reset-password/:token',
@@ -227,21 +268,73 @@ const ROUTES = {
   CHANGE_PASSWORD: '/change-password',
   MANUAL_TRANSFER: '/manual-transfer',
   MANUAL_TRANSFER_LIST: '/manual-transfer/manual-transfer-list',
+  INVOICES_AUCTION: '/invoices/auction',
+  INVOICES_PURCHASE: '/invoices/purchase',
+  CREATE_REFERRAL: '/create-referral',
+  REFERRAL_LISTING: '/referral-listing',
 };
 
 const WILDCARD_ROUTES = {
-  PUBLIC: ROUTES.HOMEPAGE,
-  PRIVATE: ROUTES.LOGIN,
+  PUBLIC: ROUTES.LOGIN,
+  PRIVATE: ROUTES.HOMEPAGE,
 };
 
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'Master Plan',
+    title: 'Welcome To Dashboard',
+  },
+  PRODUCTS: {
+    path: ROUTES.PRODUCTS,
+    title: 'Product',
+  },
+  INVOICES_AUCTION: {
+    path: ROUTES.INVOICES_AUCTION,
+    title: 'Auction Invoices',
+  },
+  INVOICES_PURCHASE: {
+    path: ROUTES.INVOICES_PURCHASE,
+    title: 'Purchase Invoices',
+  },
+  CATEGORIES: {
+    path: ROUTES.CATEGORIES,
+    title: 'Categories',
+  },
+  USERS: {
+    path: ROUTES.USERS,
+    title: 'Users',
+  },
+  USERS_DETAILS: {
+    path: ROUTES.USERS_DETAILS,
+    title: 'Users Details',
+  },
+  PRODUCTS_ADD: {
+    path: ROUTES.PRODUCTS_ADD,
+    title: 'Add Product',
+  },
+  PRODUCTS_LIST: {
+    path: ROUTES.PRODUCTS_LIST,
+    title: 'Products',
+  },
+  VERIFY_EMAIL: {
+    path: ROUTES.VERIFY_EMAIL,
+    title: 'Verify Email',
+  },
+  RESET_PASSWORD: {
+    path: ROUTES.RESET_PASSWORD,
+    title: 'Reset Password',
   },
   LOGIN: {
     path: ROUTES.LOGIN,
     title: 'Login',
+  },
+  OTP_FORM: {
+    path: ROUTES.OTP_FORM,
+    title: 'Otp',
+  },
+  QR_CODE: {
+    path: ROUTES.QR_CODE,
+    title: 'Qr Code',
   },
   REGISTER: {
     path: ROUTES.REGISTER,
@@ -251,6 +344,28 @@ const ROUTES_CONFIG = {
     path: ROUTES.ABOUT,
     title: 'About us',
   },
+  // Referral
+  CREATE_REFERRAL: {
+    path: ROUTES.CREATE_REFERRAL,
+    title: 'Create Referral',
+  },
+  REFERRAL_LISTING: {
+    path: ROUTES.REFERRAL_LISTING,
+    title: 'Referral Listing',
+  },
 };
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };
+enum POPUPTYPES {
+  NONE = 'NONE',
+  EDIT = 'EDIT',
+  ADD = 'ADD',
+  DELETE = 'DELETE',
+}
+
+const REFERRAL_STATUS = {
+  PENDING: 1,
+  COMPLETED: 2,
+  USER_DELETED_BEFORE_COMPLETION: 3,
+};
+
+export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, POPUPTYPES, REFERRAL_STATUS };

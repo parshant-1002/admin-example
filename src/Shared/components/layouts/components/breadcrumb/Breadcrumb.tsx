@@ -1,5 +1,7 @@
 import { Breadcrumb } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { PRIVATE_ROUTES } from '../../../../../Routes/PrivateRoutes';
+import { capitalizeFirstLetter } from '../../../../utils/functions';
 import './style.scss';
 
 function Breadcrumbs() {
@@ -8,6 +10,13 @@ function Breadcrumbs() {
 
   return (
     <div className="page-title w-100 mb-3">
+      <h4>
+        {
+          (PRIVATE_ROUTES || [])?.find(
+            (routeConfig) => routeConfig.path === location.pathname
+          )?.title
+        }
+      </h4>
       <Breadcrumb>
         <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
         {pathnames.map((value, index) => {
@@ -15,10 +24,12 @@ function Breadcrumbs() {
           const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 
           return isLast ? (
-            <Breadcrumb.Item key={to}>{value}</Breadcrumb.Item>
+            <Breadcrumb.Item key={to}>
+              {capitalizeFirstLetter(value)}
+            </Breadcrumb.Item>
           ) : (
             <Breadcrumb.Item key={to}>
-              <Link to={to}>{value}</Link>
+              {capitalizeFirstLetter(value)}
             </Breadcrumb.Item>
           );
         })}

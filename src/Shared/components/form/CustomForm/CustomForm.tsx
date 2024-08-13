@@ -122,11 +122,11 @@ function CustomForm({
   const getAlignmentForFormActionBtn = () => {
     switch (alignFormActionBtns) {
       case 'left':
-        return 'flex btn_groups gap-2 mt-4 mb-3 justify-start items-center';
+        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-start items-center';
       case 'right':
-        return 'flex btn_groups gap-2 mt-4 mb-3 justify-end items-center';
+        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-end items-center';
       default:
-        return 'flex btn_groups gap-2 mt-4 mb-3 justify-center items-center';
+        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-center items-center';
     }
   };
 
@@ -135,6 +135,7 @@ function CustomForm({
     event: SyntheticEvent,
     resetFn: () => void
   ) => {
+    event.preventDefault();
     onSubmit(data, event, resetFn);
     setIsResetForm(false);
   };
