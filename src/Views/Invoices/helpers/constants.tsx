@@ -1,8 +1,10 @@
-// libs
+// utils
+import { convertToLocale, formatDate } from '../../../Shared/utils/functions';
+import Button from '../../../Shared/components/form/Button';
 
 // consts
-import { convertToLocale } from '../../../Shared/utils/functions';
-import { ProductResponsePayload } from './model';
+import { Invoice } from './model';
+import { InvoiceIcon } from '../../../assets';
 
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
@@ -18,40 +20,41 @@ interface ColumnData {
   sortable?: boolean;
   sortType?: string;
   render?: (
-    row: ProductResponsePayload,
+    row: Invoice,
     val: string | number
   ) => JSX.Element[] | string | JSX.Element | string[];
+  path?: string[];
 }
 
 // Define the shape of the columns
 export const AuctionInvoiceColumns: ColumnData[] = [
   {
     title: 'Auction Id',
-    fieldName: 'auctionId',
+    fieldName: '_id',
+    render: (_, val) => (val ? `#${val}` : ''),
   },
   {
     title: 'Auction Name',
-    fieldName: 'name',
+    path: ['auction', 'title'],
     sortable: true,
-    sortType: 'name',
+    sortType: 'auctionName',
   },
   {
     title: 'P. ID',
-    fieldName: 'productId',
-    sortable: true,
-    sortType: 'productId',
+    render: (row) => (row?.product?._id ? `#${row?.product?._id}` : ''),
   },
   {
     title: 'P. Name',
-    fieldName: 'productName',
+    path: ['product', 'title'],
     sortable: true,
     sortType: 'productName',
   },
   {
     title: 'Purchased Date',
-    fieldName: 'purchasedDate',
+    fieldName: 'purchaseDate',
     sortable: true,
-    sortType: 'purchasedDate',
+    sortType: 'purchaseDate',
+    render: (_, val) => (val ? formatDate(val as string) : ''),
   },
   {
     title: 'Invoice Date',
@@ -61,34 +64,36 @@ export const AuctionInvoiceColumns: ColumnData[] = [
   },
   {
     title: 'Bid Price',
-    fieldName: 'bidPrice',
+    fieldName: 'purchasedPrice',
     render: (_, val) => `$${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'bidPrice',
+    sortType: 'purchasedPrice',
   },
   {
     title: 'Username',
-    fieldName: 'username',
-    sortable: true,
-    sortType: 'username',
+    path: ['user', 'name'],
   },
   {
     title: 'Email',
-    fieldName: 'email',
-    sortable: true,
-    sortType: 'email',
+    path: ['user', 'email'],
   },
   {
     title: 'Invoice',
-    fieldName: 'stock',
-    render: (_, val) =>
-      `${
-        val === 0 ? (
-          <span className="badge bg-danger">View</span>
+    render: (row) => (
+      <div className="text-center">
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn-transparent"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
         ) : (
-          <span className="badge bg-info">Generate</span>
-        )
-      }`,
+          <Button>Generate</Button>
+        )}
+      </div>
+    ),
   },
 ];
 
@@ -96,56 +101,56 @@ export const AuctionInvoiceColumns: ColumnData[] = [
 export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: 'Pack Id',
-    fieldName: 'packId',
+    fieldName: '_id',
+    render: (_, val) => (val ? `#${val}` : ''),
   },
   {
     title: 'Pack Name',
     fieldName: 'name',
-    sortable: true,
-    sortType: 'name',
   },
   {
     title: 'Deal Price',
-    fieldName: 'dealPrice',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    fieldName: 'purchasedPrice',
+    render: (_, val) => `$${convertToLocale(val || 0)}`,
     sortable: true,
-    sortType: 'dealPrice',
+    sortType: 'purchasedPrice',
   },
   {
     title: 'Bids Received',
     fieldName: 'bidsReceived',
-    sortable: true,
-    sortType: 'bidsReceived',
   },
   {
     title: 'Purchased Date',
-    fieldName: 'purchasedDate',
+    fieldName: 'purchaseDate',
     sortable: true,
-    sortType: 'purchasedDate',
+    sortType: 'purchaseDate',
+    render: (_, val) => (val ? formatDate(val as string) : ''),
   },
   {
     title: 'Username',
-    fieldName: 'username',
-    sortable: true,
-    sortType: 'username',
+    path: ['user', 'name'],
   },
   {
     title: 'Email',
-    fieldName: 'email',
-    sortable: true,
-    sortType: 'email',
+    path: ['user', 'email'],
   },
   {
     title: 'Invoice',
-    fieldName: 'stock',
-    render: (_, val) =>
-      `${
-        val === 0 ? (
-          <span className="badge bg-danger">View</span>
+    render: (row) => (
+      <div className="text-center">
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn-transparent"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
         ) : (
-          <span className="badge bg-info">Generate</span>
-        )
-      }`,
+          <Button>Generate</Button>
+        )}
+      </div>
+    ),
   },
 ];
 

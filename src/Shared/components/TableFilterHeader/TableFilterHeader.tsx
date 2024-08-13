@@ -24,6 +24,7 @@ interface TableFilterHeaderProps {
   selectedIds?: string[];
   handleDeleteAll?: () => void;
   handleClearAll?: () => void;
+  addButton?: boolean;
   // heading?: string;
 }
 
@@ -35,6 +36,7 @@ function TableFilterHeader({
   selectedIds = [],
   handleDeleteAll = () => {},
   handleClearAll = () => {},
+  addButton = false,
 }: TableFilterHeaderProps) {
   return (
     <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
@@ -89,13 +91,15 @@ function TableFilterHeader({
               </em>
             ) : null}
           </div>
-          <Button
-            className="btn btn-sm"
-            btnType="primary"
-            onClick={handleAddNew}
-          >
-            {BUTTON_LABELS.ADD}
-          </Button>
+          {addButton ? (
+            <Button
+              className="btn btn-sm"
+              btnType="primary"
+              onClick={handleAddNew}
+            >
+              {BUTTON_LABELS.ADD}
+            </Button>
+          ) : null}
         </div>
       </div>
     </div>

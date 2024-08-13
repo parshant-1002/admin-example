@@ -8,14 +8,18 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import Filters from '../components/Filters';
+import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
-import { FilterOrder, STRINGS } from '../../../Shared/constants';
+import {
+  FilterOrder,
+  PRODUCT_PURCHASE_STATUS,
+  STRINGS,
+} from '../../../Shared/constants';
 import { PurchaseInvoiceColumns } from '../helpers/constants';
 
 // API
-import { useGetProductsQuery } from '../../../Services/Api/module/products';
+import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
@@ -27,6 +31,7 @@ interface QueryParams {
   searchString?: string;
   sortKey: string;
   sortDirection: FilterOrder;
+  status: number;
 }
 
 // Constants
@@ -51,10 +56,11 @@ function PurchaseInvoices() {
     searchString: search,
     sortKey,
     sortDirection,
+    status: PRODUCT_PURCHASE_STATUS.PURCHASED,
   };
 
   // API Queries
-  const { data: productListing, refetch } = useGetProductsQuery({
+  const { data: listing, refetch } = useGetInvoicesQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
@@ -93,14 +99,14 @@ function PurchaseInvoices() {
 
   return (
     <div>
-      <Filters
+      <TableFilterHeader
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
       />
 
       <CustomTableView
-        rows={(productListing?.data as unknown as Row[]) || []}
+        rows={(listing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
@@ -108,11 +114,11 @@ function PurchaseInvoices() {
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(productListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((productListing?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
+              Math.ceil((listing?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

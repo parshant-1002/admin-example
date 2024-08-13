@@ -243,6 +243,7 @@ function CreateReferral() {
         }
         handleClearAll={() => setSelectedIds([])}
         selectedIds={selectedIds}
+        addButton
       />
 
       {/* Table */}
