@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { DATE_FORMATS, INPUT_TYPES } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { AuctionResponsePayload } from './model';
+import { AuctionResponsePayload, ProductDetailResponsePayload } from './model';
 
 export const AUCTION_STATUS = [
   { value: 1, label: 'Pending' },
@@ -27,6 +27,17 @@ interface ColumnData {
   isTruncated?: boolean;
   render?: (
     row: AuctionResponsePayload,
+    val: string | number
+  ) => JSX.Element[] | string | JSX.Element | string[];
+}
+
+export interface AuctionDetailsColumnData {
+  title?: string;
+  fieldName?: string;
+  isTurncated?: boolean;
+  isEditable?: boolean;
+  render?: (
+    row: ProductDetailResponsePayload,
     val: string | number
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
@@ -171,5 +182,108 @@ export const AuctionColumns = (renderActions: RenderActions): ColumnData[] => [
     // fieldName: '',
     title: 'Actions',
     render: (row, val) => renderActions(val, row),
+  },
+];
+
+// type AuctionDetailsRenderActions = (
+//   val: unknown,
+//   row: ProductDetailResponsePayload
+// ) => JSX.Element;
+
+export const AuctionColumn = (): AuctionDetailsColumnData[] => [
+  {
+    title: 'ID',
+    isEditable: false,
+    fieldName: '_id',
+    render: (_, val) => {
+      return `#${val}`;
+    },
+  },
+  {
+    title: 'Auction Name',
+    isEditable: true,
+    fieldName: 'title',
+  },
+  {
+    title: 'Auction Date',
+    isEditable: true,
+    fieldName: 'Date Range',
+  },
+  {
+    title: 'Reserve Price',
+    isEditable: true,
+    fieldName: 'reservePrice',
+  },
+  {
+    title: 'Auction Time',
+    isEditable: false,
+    render: (row, _val) => {
+      const start = new Date(row.bidStartDate);
+      const end = new Date(row.reserveWaitingEndDate);
+      // Subtracting dates to get the difference in time (milliseconds)
+      const differenceInTime = end.getTime() - start.getTime();
+
+      // Converting time difference from milliseconds to days
+      const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+      return `${differenceInDays.toFixed(0)} days`;
+    },
+  },
+  {
+    title: 'Bid Timer',
+    isEditable: true,
+    fieldName: 'turnTimer',
+  },
+  {
+    title: 'PreAuction Users',
+    isEditable: true,
+    fieldName: 'preAuctionUsers',
+  },
+  {
+    title: 'Product Name',
+    isEditable: true,
+    fieldName: 'productName',
+  },
+  {
+    title: 'Category',
+    isEditable: true,
+    fieldName: 'productCategory',
+  },
+
+  {
+    title: 'Current Item Price',
+    isEditable: true,
+    fieldName: 'currentItemPrice',
+  },
+  {
+    title: 'Attachements',
+    isEditable: false,
+    fieldName: '',
+  },
+  {
+    title: 'Total Bids Placed ',
+    isEditable: false,
+    fieldName: 'bidPlaced',
+  },
+  {
+    title: 'Status',
+    isEditable: false,
+    fieldName: 'status',
+  },
+  {
+    title: 'Winner',
+    isEditable: false,
+    fieldName: 'winner',
+  },
+  { title: 'No of Users', isEditable: false, fieldName: 'totalUsers' },
+  {
+    title: 'Product Purchase Status',
+    isEditable: false,
+    fieldName: 'uniqueUserCount',
+  },
+  {
+    title: 'Product Purchase Duration',
+    isEditable: true,
+    fieldName: 'prizeClaimDays',
   },
 ];

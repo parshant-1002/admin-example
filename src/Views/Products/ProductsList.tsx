@@ -113,34 +113,7 @@ export default function TopInvesterList() {
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, open: false });
   };
-  const handleDeleteClick = () => {
-    // dispatch(
-    //   deleteAddOns(
-    //     deleteModal?.data,
-    //     (
-    //       data: {
-    //         message:
-    //           | string
-    //           | number
-    //           | boolean
-    //           | ReactElement<any, string | JSXElementConstructor<any>>
-    //           | Iterable<ReactNode>
-    //           | ReactPortal
-    //           | ((props: ToastContentProps<unknown>) => ReactNode)
-    //           | null
-    //           | undefined;
-    //       },
-    //       status: string
-    //     ) => {
-    //       if (status === STATUS.SUCCESS) {
-    //         toast.success(data?.message);
-    //         getTokenPriceList();
-    //         setDeleteModal(null);
-    //       }
-    //     }
-    //   )
-    // );
-  };
+  const handleDeleteClick = () => {};
 
   useEffect(() => {
     refetch();
