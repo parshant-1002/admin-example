@@ -35,6 +35,8 @@ function Sidebar() {
           <Accordion defaultActiveKey={findIndex > -1 ? '0' : ''}>
             <Accordion.Item eventKey="0">
               <Accordion.Header>
+                <span className="curve-top" />
+                <span className="curve-bottom" />
                 {sidebar.iconClass && <i className={sidebar.iconClass} />}
                 {sidebar.icon && (
                   <img width={18} className="me-2" src={sidebar.icon} />
@@ -80,6 +82,8 @@ function Sidebar() {
             {sidebar.route ? (
               <li className="nav-item">
                 <NavLink className="nav-link" to={sidebar.route}>
+                  <span className="curve-top" />
+                  <span className="curve-bottom" />
                   {sidebar.iconClass && <i className={sidebar.iconClass} />}
                   {sidebar.icon && (
                     <img width={18} className="me-2" src={sidebar.icon} />
@@ -121,7 +125,7 @@ function Sidebar() {
       >
         {/* <img src={Logo} alt="Logo" width={180} /> */}
       </Link>
-      <ul className="sidebar-nav mt-4" id="sidebar-nav">
+      <ul className="sidebar-nav mt-5" id="sidebar-nav">
         {sidebar}
       </ul>
     </aside>

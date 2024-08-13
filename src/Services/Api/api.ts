@@ -11,6 +11,8 @@ import { ResponseOptions } from './api.d';
 import { setLoading } from '../../Store/Loader';
 import { updateAuthTokenRedux } from '../../Store/Common';
 
+console.log('API_BASE_URL', API_BASE_URL);
+
 const baseQuery: BaseQueryFn = fetchBaseQuery({
   baseUrl: API_BASE_URL + VITE_API_VERSION,
   prepareHeaders: async (headers: Headers, { getState }) => {
