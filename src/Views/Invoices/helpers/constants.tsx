@@ -55,7 +55,7 @@ export const AuctionInvoiceColumns: ColumnData[] = [
     fieldName: 'purchaseDate',
     sortable: true,
     sortType: 'purchaseDate',
-    render: (_, val) => (val ? formatDate(val as string) : ''),
+    render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
     title: STRINGS.INVOICE_DATE,
@@ -125,7 +125,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
     fieldName: 'purchaseDate',
     sortable: true,
     sortType: 'purchaseDate',
-    render: (_, val) => (val ? formatDate(val as string) : ''),
+    render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
     title: STRINGS.USERNAME,
