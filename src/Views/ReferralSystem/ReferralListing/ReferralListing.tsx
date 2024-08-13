@@ -110,31 +110,31 @@ function Invoices() {
           <div className="card-body row">
             {[
               {
-                label: 'Plan Id',
+                label: STRINGS.PLAN_ID,
                 value: referralPackDetails?.data?.[0]?._id,
               },
               {
-                label: 'Name',
+                label: STRINGS.NAME,
                 value: referralPackDetails?.data?.[0]?.name,
               },
               {
-                label: 'Created At',
+                label: STRINGS.CREATED_AT,
                 value: referralPackDetails?.data?.[0]?.startDate
                   ? formatDate(referralPackDetails?.data?.[0]?.startDate)
                   : '',
               },
               {
-                label: 'Closed At',
+                label: STRINGS.CLOSED_AT,
                 value: referralPackDetails?.data?.[0]?.endDate
                   ? formatDate(referralPackDetails?.data?.[0]?.endDate)
                   : '',
               },
               {
-                label: 'Reward',
+                label: STRINGS.REWARDS,
                 value: referralPackDetails?.data?.[0]?.rewardBids,
               },
               {
-                label: 'Reward At',
+                label: STRINGS.REWARD_AT,
                 value: referralPackDetails?.data?.[0]?.refereeBidRequirement,
               },
             ].map(({ label, value }) => (
@@ -156,7 +156,9 @@ function Invoices() {
       {renderPackDetails}
 
       {/* Table */}
-      <h5>Referrals ({listing?.count || 0})</h5>
+      <h5>
+        {STRINGS.REFERRALS} ({listing?.count || 0})
+      </h5>
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={ReferralListColumns as unknown as Column[]}

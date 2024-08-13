@@ -93,31 +93,31 @@ export const CreateReferralColumns = ({
     },
   },
   {
-    title: 'Referral Id',
+    title: STRINGS.REFERRAL_ID,
     fieldName: '_id',
   },
   {
-    title: 'Name',
+    title: STRINGS.NAME,
     fieldName: 'name',
     isTruncated: true,
     sortable: true,
     sortType: 'name',
   },
   {
-    title: 'Bids Given',
+    title: STRINGS.BIDS_GIVEN,
     fieldName: 'rewardBids',
     isTruncated: true,
     sortable: true,
     sortType: 'rewardBids',
   },
   {
-    title: 'Referee Bids Purchased',
+    title: STRINGS.REFEREE_BIDS_PURCHASED,
     fieldName: 'refereeBidRequirement',
     sortable: true,
     sortType: 'refereeBidRequirement',
   },
   {
-    title: 'Start Date',
+    title: STRINGS.START_DATE,
     fieldName: 'startDate',
     sortable: true,
     sortType: 'startDate',
@@ -125,7 +125,7 @@ export const CreateReferralColumns = ({
       startDate ? new Date(startDate).toDateString() : '',
   },
   {
-    title: 'Status',
+    title: STRINGS.STATUS,
     fieldName: 'isEnabled',
     render: (row, isEnabled) => (
       <div className="form-check form-switch">
@@ -141,7 +141,7 @@ export const CreateReferralColumns = ({
     ),
   },
   {
-    title: 'Actions',
+    title: STRINGS.ACTIONS,
     render: (row) => (
       <div className="d-flex">
         <CustomDropDown
@@ -166,35 +166,35 @@ export const CreateReferralColumns = ({
 
 export const ReferralListColumns: ColumnData[] = [
   {
-    title: 'Referral Id',
+    title: STRINGS.REFERRAL_ID,
     fieldName: '_id',
   },
   {
-    title: 'Referrer Name',
+    title: STRINGS.REFERRER_NAME,
     render: (row) => row?.refererUser?.name,
   },
   {
-    title: 'Referrer Email',
+    title: STRINGS.REFERRER_EMAIL,
     render: (row) => row?.refererUser?.email,
   },
   {
-    title: 'Rewards',
+    title: STRINGS.REWARDS,
     fieldName: 'rewardBids',
     sortable: true,
-    sortType: 'refereeBidRequirement',
+    sortType: 'rewardBids',
   },
   {
-    title: 'Referee Email',
+    title: STRINGS.REFEREE_EMAIL,
     render: (row) => row?.refereeUser?.email,
   },
   {
-    title: 'Reward At',
+    title: STRINGS.REWARD_AT,
     fieldName: 'rewardAt',
     sortable: true,
-    sortType: 'refereePurchasedBids',
+    sortType: 'rewardAt',
   },
   {
-    title: 'Referral Date',
+    title: STRINGS.REFERRAL_DATE,
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
@@ -202,17 +202,17 @@ export const ReferralListColumns: ColumnData[] = [
       startDate ? new Date(startDate).toDateString() : '',
   },
   {
-    title: 'Status',
+    title: STRINGS.STATUS,
     fieldName: 'status',
     render: (row) =>
       (() => {
         switch (row?.status as number) {
           case REFERRAL_STATUS.COMPLETED:
-            return <span className="text-success">Completed</span>;
+            return <span className="text-success">{STRINGS.COMPLETED}</span>;
           case REFERRAL_STATUS.PENDING:
-            return <span className="text-warning">Pending</span>;
+            return <span className="text-warning">{STRINGS.PENDING}</span>;
           case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
-            return <span className="text-danger">User Deleted</span>;
+            return <span className="text-danger">{STRINGS.USER_DELETED}</span>;
           default:
             return '';
         }
