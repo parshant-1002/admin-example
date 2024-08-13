@@ -17,6 +17,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         height: 15px;
         background-size: 18px;
         @include position($absolute, $left: 90px, $top: 23px);
+        @media (max-width:1199.98px){
+          left:20px;
+        }
       }
     }
   }
@@ -27,7 +30,6 @@ $bgLeft: url(./assets/images/left-bg.png);
   @include position($fixed, $top:0, $left:0, $bottom:0);
   width: 300px;
   z-index: 111;
-  transition: all 0.3s;
   padding: 10px 0;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -48,25 +50,22 @@ $bgLeft: url(./assets/images/left-bg.png);
         border-top-left-radius:20px;
         border-bottom-left-radius:20px;
         position: relative;
+        @media (max-width:1199.98px){
+          padding-left: 15px;
+          font-size: 0;
+          margin-left: 5px;
+        }
         &::before{
-          @include top-curve;
+          @include top-curve-before;
         }
         &::after{
-          @include bottom-curve;
+          @include bottom-curve-after;
         }
         .curve-top{
-          @include position($absolute, $top:-30px);
-          width: 20px;
-          height: 60px;
-          inset-inline-end: 0px;
-          background: transparent;
+          @include curve-top;
         }
         .curve-bottom{
-          @include position($absolute, $top:14px,);
-          width: 20px;
-          height: 70px;
-          inset-inline-end: 0px;
-          background: transparent;
+          @include curve-bottom;
         }
 
         &.active{
@@ -98,6 +97,9 @@ $bgLeft: url(./assets/images/left-bg.png);
         -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;
         background-color: $white-color;
+        @media(max-width: 1199px){
+          left:14px;
+        }
       }
       .bi-grid {
         mask-image: url(/src/assets/icons/dash.svg);
@@ -130,16 +132,44 @@ $bgLeft: url(./assets/images/left-bg.png);
     .accordion-item{
       padding-left: 19.1px;
       background-color: unset;
-      &:has(.active){
-        .accordion-button{
-          background-color: $white-color;
-          color: $primary-color;
-          @include font(18px, 21.78px, 400);
-          &::before{
-            @include top-curve;
+      @media (max-width: 1199.98px){
+        padding-left: 0;
+      }
+      .accordion-header{
+        position: relative;
+        &::before{
+          @include top-curve-before;
+        }
+        &::after{
+          @include bottom-curve-after;
+        }
+        .curve-top{
+          @include curve-top;          
+          @media (max-width:1199.98px){
           }
+        }
+        .curve-bottom{
+          @include curve-bottom;
+          @media (max-width:1199.98px){
+          }
+        }
+      }      
+      &:has(.active){
+        .accordion-header{
+          .accordion-button{
+            background-color: $white-color;
+            color: $primary-color;
+            &::after{
+              background-color: $black-dark-color;
+            }
+          }
+          &::before,
           &::after{
-            @include bottom-curve;
+            border-color: $black-dark-color;
+          }
+          .curve-top,
+          .curve-bottom{
+            background: $white-color;
           }
         }
         .bi{
@@ -154,11 +184,9 @@ $bgLeft: url(./assets/images/left-bg.png);
         @include font(18px, 21.27px, 400);
         background-color: unset;
         color: $white-color;
-        &:not(.collapsed),
-        &.collapsed{
-          &::after{
-            background-image: unset;
-          }
+        @media (max-width:1199.98px){
+          padding-left: 15px;
+          font-size: 0;
         }
       }
       .dropdown-item{
@@ -179,11 +207,20 @@ $bgLeft: url(./assets/images/left-bg.png);
       i {
         margin-right: 10px;
       }
-    }
-    &::after {
-      background-image: $downArrow;
-      background-size: 14px;
-      background-position: $center;
+      &::after {
+        mask-image: $downArrow;
+        -webkit-mask-image: $downArrow;
+        background-size: 14px;
+        background-position: $center;
+        position: relative;
+        z-index: 15;
+        margin-right: 15px;
+        background-color: $white-color;
+        @media (max-width:1199px){
+          transform: scale(0.5) rotate(-90deg);
+          margin-right: -3px;
+        }
+      }
     }
   }
 
@@ -193,14 +230,21 @@ $bgLeft: url(./assets/images/left-bg.png);
       background-color: $light-voilet-color-100;
     }
 
-    &.show {
+    &.show, &.collapsing {
       background-color: rgba($white-color, 1) !important;
+      @media (max-width: 1199.98px){
+        @include position ($absolute, $left:82px);
+        margin-top: -45px;
+      }
 
       .accordion-body {
         background-color: $light-voilet-color-100;
 
         a {
           color: $white-color !important;
+          @media (max-width: 1199.98px){
+            padding-left: 50px;
+          }
         }
       }
     }
@@ -227,6 +271,7 @@ $bgLeft: url(./assets/images/left-bg.png);
             }
           }
         }
+        list-style: unset;
       }
     }
   }
@@ -243,7 +288,12 @@ $bgLeft: url(./assets/images/left-bg.png);
 
 @media (max-width: 1199px) {
   .sidebar {
-    left: -300px;
+    left: 0;
+    max-width: 70px;
+    overflow: unset;
+  }
+  #main{
+    margin-left: 70px;
   }
 }
 
@@ -297,7 +347,6 @@ $bgLeft: url(./assets/images/left-bg.png);
       .nav-link {
         @include font(18px, 27px, 400);
         font-weight: $font-regular;
-        @include transition-mixin (all, .5s, ease-in-out);
         &.active{
           color: $primary-color !important;
         }
@@ -320,4 +369,14 @@ $bgLeft: url(./assets/images/left-bg.png);
 
 .sidebar-nav .nav-content .nav-link.active i {
   background-color: #4154f1;
+}
+
+.admin-brand-logo{
+  color: $white-color;
+  @media (max-width:1199.98px){
+    @include inline-pad-20;
+    color: $text-title-color;
+    margin-bottom: 0;
+    margin-left: 70px;
+  }
 }
