@@ -71,6 +71,8 @@ function RenderField({
             control={control}
             className={className}
             {...handleRegister(id)}
+            {...(field.min ? { min: field.min } : {})}
+            {...(field.max ? { max: field.max } : {})}
           />
         );
       case INPUT_TYPES.FILE:

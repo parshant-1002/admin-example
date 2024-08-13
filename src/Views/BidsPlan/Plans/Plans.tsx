@@ -15,13 +15,18 @@ import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
+  BID_PLAN_TYPES,
   BUTTON_LABELS,
   FilterOrder,
   POPUPTYPES,
   ROUTES,
   STRINGS,
 } from '../../../Shared/constants';
-import { PlansColumns } from '../helpers/constants';
+import {
+  PLAN_FORM_FIELDS,
+  PLAN_SCHEMA,
+  PlansColumns,
+} from '../helpers/constants';
 
 // API
 import {
@@ -35,6 +40,7 @@ import {
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
 import { RED_WARNING } from '../../../assets';
+import { calculateDiscountedPrice } from '../helpers/utils';
 
 // Interfaces
 interface QueryParams {
@@ -124,14 +130,13 @@ function Plans() {
 
   const handleAddEditPopupSubmit = (data: Record<string, unknown>) => {
     const payload = { ...data };
-    payload.startDate = formatDate(
-      payload.startDate as string,
-      'YYYY-MM-DD HH:mm:ss'
-    );
+    payload[PLAN_FORM_FIELDS.HOT_DEAL] =
+      (payload[PLAN_FORM_FIELDS.HOT_DEAL] as { value: unknown })?.value || '';
     payload.endDate = formatDate(
       payload.endDate as string,
       'YYYY-MM-DD HH:mm:ss'
     );
+    delete payload?.[PLAN_FORM_FIELDS.DISCOUNT_PRICE];
 
     if (popup.type === POPUPTYPES.EDIT) {
       payload.bidPlanId = popup.data?._id;
@@ -183,7 +188,7 @@ function Plans() {
   const handleStatusChange = useCallback(
     (data: Record<string, unknown>) => {
       const payload = {
-        referralPackId: data?._id,
+        bidPlanId: data?._id,
         isEnabled: !data?.isEnabled,
       };
       editBidPlan({
@@ -231,6 +236,36 @@ function Plans() {
     [handleStatusChange, handleView, selectedIds]
   );
 
+  const formInitialValues = useMemo(
+    () =>
+      popup?.type === POPUPTYPES.EDIT && popup?.data
+        ? {
+            [PLAN_FORM_FIELDS.NAME]: popup.data?.[PLAN_FORM_FIELDS.NAME],
+            [PLAN_FORM_FIELDS.PRICE]: popup.data?.[PLAN_FORM_FIELDS.PRICE],
+            [PLAN_FORM_FIELDS.BIDS]: popup.data?.[PLAN_FORM_FIELDS.BIDS],
+            [PLAN_FORM_FIELDS.HOT_DEAL]:
+              PLAN_SCHEMA(true)?.[PLAN_FORM_FIELDS.HOT_DEAL]?.options?.find(
+                (f) => f.value === popup.data?.[PLAN_FORM_FIELDS.HOT_DEAL]
+              ) || '',
+            [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]:
+              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE],
+            [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: calculateDiscountedPrice(
+              popup.data?.[PLAN_FORM_FIELDS.PRICE] as number,
+              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] as number
+            ),
+            ...(popup?.data?.[PLAN_FORM_FIELDS.HOT_DEAL] ===
+            BID_PLAN_TYPES.HOT_DEAL
+              ? {
+                  [PLAN_FORM_FIELDS.END_DATE]:
+                    popup.data?.[PLAN_FORM_FIELDS.END_DATE],
+                }
+              : {}),
+            [PLAN_FORM_FIELDS.STATUS]: popup.data?.[PLAN_FORM_FIELDS.STATUS],
+          }
+        : {},
+    [popup?.data, popup?.type]
+  );
+
   return (
     <div>
       {/* Filters */}
@@ -274,20 +309,7 @@ function Plans() {
         }
         type={popup.type}
         handleSubmit={handleAddEditPopupSubmit}
-        initialValues={
-          popup.data
-            ? {
-                title: popup.data?.title,
-                bids: popup.data?.bids,
-                price: popup.data?.price,
-                // startDate: formatDate(
-                //   popup.data?.startDate as string,
-                //   'YYYY-MM-DD'
-                // ),
-                // isEnabled: popup.data?.isEnabled,
-              }
-            : {}
-        }
+        initialValues={formInitialValues}
       />
 
       {/* Delete Popup */}
