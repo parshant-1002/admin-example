@@ -4,6 +4,7 @@ import Button from '../../../Shared/components/form/Button';
 
 // consts
 import { Invoice } from './model';
+import { InvoiceIcon } from '../../../assets';
 
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
@@ -80,7 +81,17 @@ export const AuctionInvoiceColumns: ColumnData[] = [
     title: 'Invoice',
     render: (row) => (
       <div className="text-center">
-        {row?.invoiceURL ? <img src="" alt="" /> : <Button>Generate</Button>}
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn-transparent"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
+        ) : (
+          <Button>Generate</Button>
+        )}
       </div>
     ),
   },
@@ -127,7 +138,17 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
     title: 'Invoice',
     render: (row) => (
       <div className="text-center">
-        {row?.invoiceURL ? <img src="" alt="" /> : <Button>Generate</Button>}
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn-transparent"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
+        ) : (
+          <Button>Generate</Button>
+        )}
       </div>
     ),
   },

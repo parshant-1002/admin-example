@@ -246,6 +246,7 @@ function Plans() {
           setPopup({ show: true, data: null, type: POPUPTYPES.DELETE })
         }
         handleClearAll={() => setSelectedIds([])}
+        addButton
       />
 
       {/* Table */}

@@ -8,7 +8,7 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import Filters from '../components/Filters';
+import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -99,7 +99,7 @@ function PurchaseInvoices() {
 
   return (
     <div>
-      <Filters
+      <TableFilterHeader
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
