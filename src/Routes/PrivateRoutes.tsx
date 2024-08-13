@@ -1,10 +1,14 @@
 import { Navigate } from 'react-router-dom';
-import { CustomRouter } from './RootRoutes';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
-import { ProductsAdd, ProductsList } from '../Views/Products';
+// import { ProductsAdd, ProductsList } from '../Views/Products';
 import AuctionManagementList from '../Views/Auction/AuctionManagementList';
 import AuctionDetails from '../Views/Auction/AuctionDetails';
+import { ProductsList } from '../Views/Products';
+import { CustomRouter } from './RootRoutes';
+import { CategoriesList } from '../Views/Categories';
+import Users from '../Views/Users';
+import UserDetails from '../Views/Users/UserDetails';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -24,14 +28,24 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.HOMEPAGE.title,
   },
   {
-    path: ROUTES_CONFIG.PRODUCTS_ADD.path,
-    element: <ProductsAdd initialData={{}} isEdit={false} />,
-    title: ROUTES_CONFIG.PRODUCTS_ADD.title,
+    path: ROUTES_CONFIG.PRODUCTS.path,
+    element: <ProductsList />,
+    title: ROUTES_CONFIG.PRODUCTS.title,
   },
   {
-    path: ROUTES_CONFIG.PRODUCTS_LIST.path,
-    element: <ProductsList />,
-    title: ROUTES_CONFIG.PRODUCTS_LIST.title,
+    path: ROUTES_CONFIG.CATEGORIES.path,
+    element: <CategoriesList />,
+    title: ROUTES_CONFIG.CATEGORIES.title,
+  },
+  {
+    path: ROUTES_CONFIG.USERS.path,
+    element: <Users />,
+    title: ROUTES_CONFIG.USERS.title,
+  },
+  {
+    path: ROUTES_CONFIG.USERS_DETAILS.path,
+    element: <UserDetails />,
+    title: ROUTES_CONFIG.USERS_DETAILS.title,
   },
   {
     path: '/wishlist',

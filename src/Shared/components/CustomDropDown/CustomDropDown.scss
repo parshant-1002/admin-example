@@ -1,0 +1,8 @@
+.dropdown-toggle:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

@@ -1,6 +1,6 @@
 const VERSION = import.meta.env.VITE_API_VERSION || 'v1';
 export const API = {
-  BASE_URL: import.meta.env.VITE_API_BASE_URL,
+  BASE_URL: import.meta.env.VITE_BASE_URL,
   GET_CONTENT_DATA: `/${VERSION}/getContentForAdminPanel`,
   UPDATE_CONTENT_DATA: `/${VERSION}/content`,
   LOGIN: `${VERSION}/admin/login`,
@@ -47,13 +47,15 @@ export const STATUS = {
   ERROR: 'error',
 };
 
-export const FILTER_ORDER = {
-  ASCENDING: -1,
-  DESCENDING: 1,
-};
+export enum FilterOrder {
+  ASCENDING = -1,
+  DESCENDING = 1,
+}
+
 export const INPUT_TYPES = {
   TEXT: 'text',
   TEXT_AREA: 'textarea',
+  DATE: 'date',
   NUMBER: 'number',
   EMAIL: 'email',
   PASSWORD: 'password',
@@ -78,7 +80,7 @@ export const VALIDATION_REGEX = {
   USERNAME: /^[a-z0-9]+$/,
 };
 
-export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg';
+export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
@@ -169,6 +171,28 @@ export const TEXT_TYPES = {
 export const SHORT_CODE_NOTE =
   'Note: Ensure there is a space before and after the shortcode.';
 
+export const FILTER_CONSTS = {
+  day: 'day',
+  days: 'days',
+  year: 'year',
+  month: 'month',
+  months: 'months',
+  dateFormat: 'YYYY-MM-DD',
+  six: 6,
+  one: 1,
+  Statistics: 'Statistics',
+  adminStatistics: 'Admin Stats',
+  Asc: '1',
+  Desc: '-1',
+  noDataFound: 'No Data Found',
+  selectCasinoLimit: 'Select Casino Limit',
+  totalRequests: 'Total Requests',
+  averageHourlyHandling: 'Average Hourly Handling',
+  addedCustomerIds: 'Customer ID added',
+  adminName: 'Name',
+  defaultSortKey: 'approvedRequestCount',
+};
+
 /* Constants for RPC Connection the Solana Blockchain */
 // const COMMITMENT_LEVEL = 'processed';
 // export const ENDPOINT =
@@ -193,7 +217,9 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
+  USERS_DETAILS: '/users-details/:id',
   PRODUCTS: '/products',
+  CATEGORIES: '/categories',
   PRODUCTS_ADD: '/products/add',
   PRODUCTS_LIST: '/products/list',
   VERIFY_EMAIL: '/verify-email',
@@ -257,6 +283,22 @@ const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Welcome To Dashboard',
+  },
+  PRODUCTS: {
+    path: ROUTES.PRODUCTS,
+    title: 'Product',
+  },
+  CATEGORIES: {
+    path: ROUTES.CATEGORIES,
+    title: 'Categories',
+  },
+  USERS: {
+    path: ROUTES.USERS,
+    title: 'Users',
+  },
+  USERS_DETAILS: {
+    path: ROUTES.USERS_DETAILS,
+    title: 'Users Details',
   },
   PRODUCTS_ADD: {
     path: ROUTES.PRODUCTS_ADD,

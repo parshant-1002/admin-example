@@ -6,11 +6,11 @@ import {
   BaseQueryApi,
 } from '@reduxjs/toolkit/query/react';
 import type { RootState } from '../../Store';
-import { API_BASE_URL } from './Constants';
+import { API_BASE_URL, VITE_API_VERSION } from './Constants';
 import { ResponseOptions } from './api.d';
 
 const baseQuery: BaseQueryFn = fetchBaseQuery({
-  baseUrl: API_BASE_URL,
+  baseUrl: API_BASE_URL + VITE_API_VERSION,
   prepareHeaders: async (headers: Headers, { getState }) => {
     const { token } = (getState() as RootState).common;
     if (token) {

@@ -1,35 +1,29 @@
 // libs
 
 // consts
+import { Dispatch, SetStateAction } from 'react';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
-import { ProductResponsePayload } from './model';
+import {
+  Category,
+  ProductResponsePayload,
+  SelectOption,
+  ViewMultiData,
+} from './model';
 
-// Define types for schema
-interface FormSchema {
-  type: string;
-  label: string;
-  accept?: string;
-  options?: { value: number | string; label: string }[];
-  className: string;
-  placeholder: string;
-  schema?: {
-    required: string;
-  };
-}
-
+const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
 ];
 // Define the shape of the ADD_ON_FORM_SCHEMA
-export const ADD_ON_FORM_SCHEMA: Record<string, FormSchema> = {
+export const ADD_ON_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
   title: {
     type: INPUT_TYPES.TEXT,
-    label: 'Title',
+    label: 'Name',
     className: 'col-md-12',
     placeholder: 'Title',
     schema: {
@@ -56,19 +50,20 @@ export const ADD_ON_FORM_SCHEMA: Record<string, FormSchema> = {
   },
   category: {
     type: INPUT_TYPES.SELECT,
-    label: 'Category',
+    label: 'Categories',
     className: 'col-md-12',
-    placeholder: 'Category',
-    options: [{ value: '66b1e81c6d811e95bfb534fd', label: 'Car' }],
+    placeholder: 'Categories',
+    isMulti: true,
+    options: cateroryOptions,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
   stock: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Product Count',
+    label: 'Item Count',
     className: 'col-md-12',
-    placeholder: 'Product Count',
+    placeholder: 'Item Count',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -78,28 +73,30 @@ export const ADD_ON_FORM_SCHEMA: Record<string, FormSchema> = {
     label: 'Images',
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
-    placeholder: 'Price',
-    // schema: {
-    //   required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    // },
-  },
-  status: {
-    type: INPUT_TYPES.SELECT,
-    label: 'Status',
-    className: 'col-md-12',
-    placeholder: 'Price',
-    options: PRODUCT_STATUS,
+    placeholder: 'Images',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-};
+  // status: {
+  //   type: INPUT_TYPES.SELECT,
+  //   label: 'Status',
+  //   className: 'col-md-12',
+  //   placeholder: 'Price',
+  //   options: PRODUCT_STATUS,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES().REQUIRED,
+  //   },
+  // },
+});
 
 // Define types for renderActions and column data
 interface ColumnData {
   title?: string;
   fieldName?: string;
   isTruncated?: boolean;
+  sortable?: boolean;
+  sortType?: string;
   render?: (
     row: ProductResponsePayload,
     val: string | number
@@ -109,34 +106,89 @@ interface ColumnData {
 type RenderActions = (val: unknown, row: ProductResponsePayload) => JSX.Element;
 
 // Define the shape of the columns
-export const productsColumns = (renderActions: RenderActions): ColumnData[] => [
+export const productsColumns = (
+  renderActions: RenderActions,
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
+  handleChangeCheckBox: (id: string) => void,
+  selectedIds: string[] | undefined
+): ColumnData[] => [
   {
-    title: 'Product Title',
+    title: '#',
+    render: (row) => {
+      return (
+        <div
+          className="checkbox-wrapper"
+          onClick={() => handleChangeCheckBox(row._id)}
+        >
+          <input
+            type="checkbox"
+            className="checkbox-input"
+            checked={selectedIds?.includes(row._id)}
+            // onChange={() => handleChangeCheckBox(row._id)}
+          />
+          <div className="checkbox-custom" />
+        </div>
+      );
+    },
+  },
+  {
+    title: 'Name',
     fieldName: 'title',
     isTruncated: true,
+    sortable: true,
+    sortType: 'title',
+  },
+  {
+    title: 'Categories',
+    fieldName: 'categories',
+    render: (_, val) => {
+      const categories = (val || []) as unknown as Category[];
+      if (!categories?.length) return '- - -';
+      return (
+        <>
+          {categories?.map((category: { name: string }, index) => {
+            if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
+              return `${category.name}${
+                index < categories.length - 1 ? ', ' : ' '
+              }`;
+            }
+            return null;
+          })}
+          {categories?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+            <button
+              type="button"
+              className="btn border py-0 px-1"
+              onClick={() =>
+                setShowMultiItemView({
+                  show: true,
+                  data: { title: 'Categories', size: 'sm', categories },
+                })
+              }
+            >
+              {`. . .+${
+                categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
+              }`}
+            </button>
+          ) : null}
+        </>
+      );
+    },
   },
   {
     title: 'Description',
     fieldName: 'description',
     isTruncated: true,
+    sortable: true,
+    sortType: 'description',
   },
   {
-    title: 'Price',
-    fieldName: 'price',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    title: 'Item Count',
+    fieldName: 'stock',
+    sortable: true,
+    sortType: 'stock',
   },
   {
-    title: 'Category',
-    fieldName: 'categories',
-    render: (_, val) => {
-      const categories = val as unknown as { name: string }[];
-      return categories?.length
-        ? categories?.map((category: { name: string }) => category.name)
-        : '- - -';
-    },
-  },
-  {
-    title: 'Product Images',
+    title: 'Images',
     fieldName: 'images',
     render: (_, val) => {
       const imgData = val as unknown as {
@@ -145,24 +197,49 @@ export const productsColumns = (renderActions: RenderActions): ColumnData[] => [
         title: string;
       }[];
       return (
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           {imgData?.map((img, index) =>
-            index < 2 ? (
-              <div key={img.url} className="m-2 d-flex flex-column text-center">
+            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+              <div
+                key={img.url}
+                className="m-2 d-flex flex-column text-center justify-content-center align-items-center"
+              >
                 <span className="uploaded_file">
                   <FileRenderer fileURL={img.url} />
                 </span>
                 <div>{img.title}</div>
               </div>
-            ) : (
-              <span key={img.url} style={{ marginLeft: '10px' }}>
-                +{imgData?.length}
-              </span>
-            )
+            ) : null
           )}
+          {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+            <button
+              type="button"
+              className="btn border py-0 px-1"
+              onClick={() =>
+                setShowMultiItemView({
+                  show: true,
+                  data: { title: 'Product Images', size: 'lg', imgData },
+                })
+              }
+            >
+              {`. . .+${
+                imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
+              }`}
+            </button>
+          ) : null}
         </div>
       );
     },
+  },
+  {
+    title: 'Status',
+    fieldName: 'stock',
+    render: (_, val) => `${val === 0 ? 'SOLD OUT' : 'Available'}`,
+  },
+  {
+    title: 'Price',
+    fieldName: 'price',
+    render: (_, val) => `$${convertToLocale(val)}`,
   },
   //   {
   //     title: 'Bid Start Date',
@@ -179,5 +256,5 @@ export const productsColumns = (renderActions: RenderActions): ColumnData[] => [
 
 // Define the shape of CONFIRMATION_DESCRIPTION
 export const CONFIRMATION_DESCRIPTION: Record<string, string> = {
-  DELETE: 'Are you sure to delete this item',
+  DELETE: 'Are you sure you want to delete',
 };

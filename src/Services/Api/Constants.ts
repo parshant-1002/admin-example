@@ -1,14 +1,25 @@
 // eslint-disable-next-line import/prefer-default-export
 export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
+export const { VITE_API_VERSION } = import.meta.env;
 
 export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
+  USER: '/user',
+  USER_PRODUCTS: '/userProducts',
+  BIDS_SPENT_HISTORY: '/bidSpent/history',
+  AUCTION_HISTORY: '/auction/history',
+  REFERRAL_HISTORY: 'referral/referredUsers',
+  USER_BID_CREDIT_HISTORY: '/user/bidCreditHistory',
+  UPDATE_USER: '/user/admin',
+  CATEGORY: '/category',
   AUCTION: '/auction',
   AUCTION_DETAILS: '/auction/details',
   LOGOUT: '/admin/logout',
   VERIFY_OTP: '/admin/verifyOTP',
   FILE_UPLOAD: '/file/upload',
+  GET_FILES: '/file/getFiles',
+  FILE_DELETE: '/file/deleteFiles',
 };
 
 export const HTTPS_METHODS = {

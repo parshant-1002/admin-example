@@ -8,25 +8,20 @@ const SIDEBAR_NAV = [
     label: 'Dashboard',
     route: ROUTES.HOMEPAGE,
   },
-  // {
-  //   iconClass: 'bi bi-person-lines-fill',
-  //   label: 'Users',
-  //   route: ROUTES.USERS,
-  // },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Users',
+    route: ROUTES.USERS,
+  },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Categories',
+    route: ROUTES.CATEGORIES,
+  },
   {
     iconClass: 'bi bi-person-lines-fill',
     label: 'Products',
     route: ROUTES.PRODUCTS,
-    children: [
-      {
-        label: 'Add',
-        route: ROUTES.PRODUCTS_ADD,
-      },
-      {
-        label: 'List',
-        route: ROUTES.PRODUCTS_LIST,
-      },
-    ],
   },
   {
     iconClass: 'bi bi-grid',

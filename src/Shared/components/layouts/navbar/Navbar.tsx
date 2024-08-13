@@ -35,7 +35,7 @@ function Navbar() {
     try {
       await logout({ onSuccess, onFailure });
     } catch {
-      toast.error('Error in login');
+      toast.error('Error in Logout');
     }
   };
 
@@ -48,7 +48,7 @@ function Navbar() {
       <div className="d-flex align-items-center justify-content-between">
         <Link to="" className="logo d-flex align-items-center">
           {/* <img src="assets/img/logo.png" alt="Logo" /> */}
-          <h4 className="d-none d-lg-block">Penny Auction Admin</h4>
+          <h4 className="d-none d-lg-block text-white">Penny Auction Admin</h4>
         </Link>
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>

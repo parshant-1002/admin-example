@@ -272,16 +272,19 @@ a.btn {
     }
     &-outline {
         &-primary {
-            @include buttonOutline($transparent, $green-light-color-800, $dark-green-color-700);
-            box-shadow: 0px 4px 16px 0px rgba(69, 203, 135, 0.25);
+            @include buttonOutline($transparent, $dark-voilet-color-900, $dark-voilet-color-700);
+            box-shadow: 0px 4px 16px 0px $dark-voilet-color-700;
             &:focus {
                 @extend .btn-outline-primary;
             }
             &[disabled] {
-                color: $green-color-400;
+                color: $grey-color-300;
             }
             &.text-white {
                 color: $white-color!important;
+            }
+            &.text-btn-primary {
+                color: $dark-voilet-color-700!important;
             }
         }
     }

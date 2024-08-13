@@ -1,6 +1,5 @@
 // libs
-import { SyntheticEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { SyntheticEvent, useMemo } from 'react';
 
 // components
 import { toast } from 'react-toastify';
@@ -8,35 +7,46 @@ import {
   useAddProductMutation,
   useEditProductMutation,
 } from '../../Services/Api/module/products';
-import CustomCardWrapper from '../../Shared/components/CustomCardWrapper';
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
 import { ErrorResponse } from '../../Models/Apis/Error';
-import { BUTTON_LABELS, ROUTES } from '../../Shared/constants';
+import { useGetCategorysQuery } from '../../Services/Api/module/category';
+import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
+import { addBaseUrl } from '../../Shared/utils/functions';
 import { ADD_ON_FORM_SCHEMA } from './helpers/constants';
-import { ProductPayload } from './helpers/model';
+import { Category, ProductPayload } from './helpers/model';
 
-interface ProductAddTypes {
+interface ProductFormTypes {
   initialData: object | null;
   isEdit: boolean;
+  onAdd?: () => void;
   onEdit?: () => void;
 }
 // component
-export default function ProductAdd({
+export default function ProductForm({
   isEdit = false,
   initialData = {},
   onEdit = () => {},
-}: ProductAddTypes) {
+  onAdd = () => {},
+}: ProductFormTypes) {
   // hooks
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
+  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
+  const cateroryOptions = useMemo(
+    () =>
+      categoryList?.data?.map((category: Category) => ({
+        value: category?._id,
+        label: category?.name,
+      })),
+    [categoryList?.data]
+  );
   //   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
-    navigate(ROUTES.PRODUCTS_LIST);
+    onAdd();
   };
   const onFailure = (error: ErrorResponse) => {
     toast.success(error?.data?.message);
@@ -54,31 +64,18 @@ export default function ProductAdd({
         description: productData?.description,
         price: productData?.price,
         stock: productData?.stock,
-        images: [
-          {
-            url: 'https://m.media-amazon.com/images/I/71XsNC0QW+L._AC_SY550_.jpg',
-            title: 'pant',
-          },
-          {
-            url: 'https://m.media-amazon.com/images/I/71XsNC0QW+L._AC_SY550_.jpg',
-            title: 'pant',
-          },
-          {
-            url: 'https://m.media-amazon.com/images/I/71XsNC0QW+L._AC_SY550_.jpg',
-            title: 'pant',
-          },
-          {
-            url: 'https://m.media-amazon.com/images/I/71XsNC0QW+L._AC_SY550_.jpg',
-            title: 'pant',
-          },
-        ],
+        images: productData?.images?.map((image) => ({
+          url: addBaseUrl(image?.fileURL || image?.url),
+          title: image?.fileName || image?.title,
+        })),
         // status: productData?.status?.value,
-        categoryIds: [productData?.category?.value],
+        categoryIds: productData?.category?.map((category) => category?.value),
       };
       if (isEdit) {
         // payload.id = initialData?._id;
+        const editPayload = { ...payload, productId: data?._id };
         await editProduct({
-          payload,
+          payload: editPayload,
           onSuccess: (res: { message: string }) => {
             onSuccess(res);
             onEdit();
@@ -101,24 +98,11 @@ export default function ProductAdd({
       }
     }
   };
-  return !isEdit ? (
-    <CustomCardWrapper>
-      <CustomForm
-        id="products"
-        className="row"
-        formData={ADD_ON_FORM_SCHEMA}
-        onSubmit={onSubmit}
-        defaultValues={
-          initialData as unknown as Record<string, unknown> | undefined
-        }
-        submitText={isEdit ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
-      />
-    </CustomCardWrapper>
-  ) : (
+  return (
     <CustomForm
       id="products"
       className="row"
-      formData={ADD_ON_FORM_SCHEMA}
+      formData={ADD_ON_FORM_SCHEMA(cateroryOptions)}
       onSubmit={onSubmit}
       defaultValues={
         initialData as unknown as Record<string, unknown> | undefined

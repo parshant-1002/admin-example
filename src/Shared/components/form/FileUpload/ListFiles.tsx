@@ -1,59 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { Delete } from '../../../../assets';
 import FileRenderer from './FileRenderer';
 import { Files } from './helpers/modal';
 
 interface ListFilesProps {
   handleChooseFile: (selectedFiles: Files[]) => void;
+  data: { files: Files[] };
+  handleDeleteFile: (fileId: (string | undefined)[]) => void;
 }
-function ListFiles({ handleChooseFile }: ListFilesProps) {
-  const dispatch = useDispatch();
-  const [files] = useState<Files[]>();
+function ListFiles({
+  handleChooseFile,
+  data,
+  handleDeleteFile,
+}: ListFilesProps) {
   const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
-  const listAllFiles = () => {
-    // dispatch(
-    //   getAllFiles('', (res, statusCode) => {
-    //     if (statusCode === STATUS_CODES.SUCCESS && res.files) {
-    //       setFiles(res.files);
-    //     } else {
-    //       toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-    //     }
-    //   })
-    // );
-  };
-  useEffect(() => {
-    listAllFiles();
-  }, [dispatch]);
-
-  const handleDeleteFile = (fileId: string | undefined) => {
-    fileId?.includes('0');
-    // dispatch(
-    //   deleteFiles([fileId], (res, status) => {
-    //     if (status === STATUS.SUCCESS) {
-    //       toast.success('File deleted successfully');
-    //       listAllFiles();
-    //     }
-    //   })
-    // );
-  };
+  const files = data?.files;
 
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
-    setSelectedFiles([file]);
-    // setSelectedFiles((prevSelectedFiles) => {
-    //     const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
-    //     if (foundIndex > -1) {
-    //         return prevSelectedFiles.filter((f) => f._id !== file._id);
-    //     } else {
-    //         if (selectedFiles.length >= 1) {
-    //             toast.error('Only one file can be selected');
-    //             return prevSelectedFiles;
-    //         } else {
-    //             return [...prevSelectedFiles, file];
-    //         }
-    //     }
-    // });
+    setSelectedFiles((prevSelectedFiles) => {
+      const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
+      if (foundIndex > -1) {
+        return prevSelectedFiles.filter((f) => f._id !== file._id);
+      }
+      // if (selectedFiles?.length >= 1) {
+      //   toast.error('Only one file can be selected');
+      //   return prevSelectedFiles;
+      // }
+      return [...prevSelectedFiles, file];
+    });
   };
 
   return (
@@ -77,13 +53,17 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
                   className={`card-file d-flex align-items-center justify-content-between ${
                     isSelected ? 'selected' : ''
                   }`}
+                  onClick={() => toggleFileSelection(file)}
                 >
                   <div className="d-flex align-items-center img_card">
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => toggleFileSelection(file)}
-                    />
+                    <div className="checkbox-wrapper">
+                      <input
+                        type="checkbox"
+                        className="checkbox-input"
+                        checked={isSelected}
+                      />
+                      <div className="checkbox-custom" />
+                    </div>
                     <figure>
                       <FileRenderer
                         fileURL={file?.fileURL}
@@ -96,10 +76,13 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
                   </div>
                   <button
                     type="button"
-                    className="btn btn44 btn-danger"
-                    onClick={() => handleDeleteFile(file._id)}
+                    className="btn  btn-danger"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteFile([file._id || '']);
+                    }}
                   >
-                    <i className="bi bi-trash" />
+                    <img src={Delete} alt="delete" />
                   </button>
                 </div>
               );
@@ -112,7 +95,18 @@ function ListFiles({ handleChooseFile }: ListFilesProps) {
           </div>
         )}
       </div>
-      <div className="choose-file-button-container d-flex justify-content-center">
+      <div className="choose-file-button-container d-flex  gap-5 justify-content-center">
+        {selectedFiles?.length ? (
+          <Button
+            className="mt-2  button_danger"
+            onClick={() => {
+              handleDeleteFile(selectedFiles.map((file) => file._id));
+              setSelectedFiles([]);
+            }}
+          >
+            Delete
+          </Button>
+        ) : null}
         <Button
           className="mt-2"
           onClick={() => handleChooseFile(selectedFiles)}

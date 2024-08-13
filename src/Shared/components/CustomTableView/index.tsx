@@ -1,13 +1,15 @@
-// eslint-disable no-underscore-dangle
+/* eslint-disable consistent-return */
+/* eslint-disable no-underscore-dangle */
 // libs
-import { useState, Fragment, useCallback } from 'react';
-import { FILTER_ORDER } from '../../constants';
-import './table.scss';
+import { Fragment, useCallback, useState } from 'react';
+import { FilterOrder } from '../../constants';
 import TruncatedText from '../TruncateText/TruncateText';
+import './table.scss';
 
 interface CustomTableViewProps {
   columns?: Column[];
   rows?: Row[];
+  selectedRow?: string | number | null;
   currentPage?: number;
   renderTableFooter?: () => React.ReactNode;
   pageSize?: number;
@@ -15,9 +17,9 @@ interface CustomTableViewProps {
   quickEditRowId?: string | null;
   isServerPagination?: boolean;
   handleSortingClick?: (order?: number, sortKey?: string) => void;
+  handleRowClick?: (row: Row, index: number | null) => void;
   isLoading?: boolean;
-  onRowHover?: (row: Row) => void;
-  onRowClick?: (row: Row) => void;
+  SecondaryRowComponent?: () => JSX.Element;
 }
 
 export interface Column {
@@ -27,6 +29,7 @@ export interface Column {
   sortType?: string;
   width?: string;
   isTruncated?: boolean;
+  noClickEvent?: boolean;
   render?: (row: unknown, value: unknown) => React.ReactNode;
 }
 
@@ -42,14 +45,17 @@ function CustomTableView({
   pageSize = 10,
   noDataFound = '',
   quickEditRowId = '',
+  selectedRow = null,
   isServerPagination = false,
   handleSortingClick = () => {},
+  handleRowClick = () => {},
+  SecondaryRowComponent = () => <> </>,
   isLoading = false,
   onRowHover = () => {},
   onRowClick = () => {},
 }: CustomTableViewProps) {
-  const [selectedSortType, setSelectedSortType] = useState<number>(
-    FILTER_ORDER.ASCENDING
+  const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
+    FilterOrder.ASCENDING
   );
 
   const rowsToBeRendered = isServerPagination
@@ -73,6 +79,14 @@ function CustomTableView({
     return row[column?.fieldName || ''] || '-';
   }, []);
 
+  const handleRowClickInternal = (
+    row: Row,
+    column: Column,
+    index: number | null
+  ) => {
+    if (column.noClickEvent) return null;
+    handleRowClick(row, index);
+  };
   return (
     <>
       <div className="table-responsive">
@@ -89,9 +103,9 @@ function CustomTableView({
                     if (!column?.sortable) return;
                     const sortKey = column.sortType;
                     const sortOrder =
-                      selectedSortType === FILTER_ORDER.ASCENDING
-                        ? FILTER_ORDER.DESCENDING
-                        : FILTER_ORDER.ASCENDING;
+                      selectedSortType === FilterOrder.ASCENDING
+                        ? FilterOrder.DESCENDING
+                        : FilterOrder.ASCENDING;
 
                     handleSortingClick(sortOrder, sortKey);
                     setSelectedSortType(sortOrder);
@@ -120,7 +134,7 @@ function CustomTableView({
                     </td>
                   </tr>
                 )
-              : rowsToBeRendered.map((row) =>
+              : rowsToBeRendered.map((row, index) =>
                   quickEditRowId === row._id ? (
                     <tr key={row._id}>
                       <td colSpan={10}>
@@ -128,20 +142,32 @@ function CustomTableView({
                       </td>
                     </tr>
                   ) : (
-                    <tr
-                      key={row._id}
-                      className="tr-item"
-                      onMouseEnter={() => onRowHover(row)}
-                      onClick={() => onRowClick(row)}
-                    >
-                      {columns.map((column) => (
-                        <Fragment key={`${row._id}-columns`}>
-                          <td data-label={column.title}>
-                            {getColumnValue(row, column)}
+                    <>
+                      <tr key={row._id} className="tr-item">
+                        {columns.map((column) => (
+                          <Fragment key={`${row._id}-columns`}>
+                            <td
+                              data-label={column.title}
+                              onClick={() => {
+                                handleRowClickInternal(row, column, index);
+                              }}
+                            >
+                              {getColumnValue(row, column)}
+                            </td>
+                          </Fragment>
+                        ))}
+                      </tr>
+                      {`${index}-${row?._id}` === selectedRow && (
+                        <tr>
+                          <td
+                            colSpan={columns.length}
+                            className="bg-white text-primary"
+                          >
+                            {SecondaryRowComponent()}
                           </td>
-                        </Fragment>
-                      ))}
-                    </tr>
+                        </tr>
+                      )}
+                    </>
                   )
                 )}
           </tbody>

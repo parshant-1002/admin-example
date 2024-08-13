@@ -6,6 +6,8 @@ import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { store } from '../../Store';
 import { setLoading } from '../../Store/Loader';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
+import { API } from '../constants';
+import { CustomRouter } from '../../Routes/RootRoutes';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -107,22 +109,22 @@ const checkValidFileExtension = (
   accept: string
 ): boolean => {
   const validExtensions = accept
-    .replace('image/', '.')
-    .replace('video/', '.')
+    .replace(/image\//g, '.')
+    .replace(/video\//g, '.')
     .split(',')
     .map((type: string) => type.trim());
   const fileExtension = `.${fileUrl?.split('.').pop()?.toLowerCase() || ''}`;
   return validExtensions.includes(fileExtension);
 };
 
-const convertToLocale = (number: number | string): string => {
+const convertToLocale = (number: number | string): string | 0 => {
   if (Number.isNaN(Number(number))) {
-    return String(number);
+    return String(number || 0);
   }
   const num = Number(number);
   const formattedNumber = Number.isInteger(num) ? num : num.toFixed(2);
   const localeCode = 'en-US';
-  return formattedNumber.toLocaleString(localeCode);
+  return formattedNumber.toLocaleString(localeCode) || 0;
 };
 
 const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
@@ -131,6 +133,14 @@ const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
     formData.append(key, fileObj.file);
     return formData;
   });
+};
+
+const addBaseUrl = (url: string) => {
+  if (!url) return;
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url; // Return unchanged if URL is already complete
+  }
+  return API.BASE_URL + url; // Add base URL if URL is not complete
 };
 
 const onQueryStarted = async (
@@ -166,6 +176,16 @@ function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function matchRoute(pathname: string, routes: Array<CustomRouter>) {
+  for (const route of routes) {
+    const regex = new RegExp(`^${route?.path?.replace(/:\w+/g, '[^/]+')}$`);
+    if (regex.test(pathname)) {
+      return route?.title;
+    }
+  }
+  return null;
+}
+
 export {
   capitalizeFirstLetter,
   checkOffline,
@@ -179,4 +199,6 @@ export {
   onQueryStarted,
   removeEmptyValues,
   validateField,
+  addBaseUrl,
+  matchRoute,
 };
