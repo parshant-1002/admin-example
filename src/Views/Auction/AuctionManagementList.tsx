@@ -40,7 +40,6 @@ export default function AuctionManagementList() {
     data: {},
   });
 
-
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
     show: false,
@@ -91,7 +90,7 @@ export default function AuctionManagementList() {
     setDeleteModal({ open: true, data: payload });
   };
 
-   // Render actions column
+  // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: AuctionResponsePayload) => (
       <div className="d-flex">
@@ -117,7 +116,6 @@ export default function AuctionManagementList() {
   useEffect(() => {
     refetch();
   }, [refetch, currentPage]);
-
 
   return (
     <div>

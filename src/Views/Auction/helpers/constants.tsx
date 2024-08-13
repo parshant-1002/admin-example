@@ -136,8 +136,7 @@ export const AuctionColumns = (
   {
     title: 'Category',
     fieldName: 'product',
-    render: (data, val) => {
-      console.log('Val', val);
+    render: (data) => {
       // if (typeof val === 'object' && val !== null && 'categories' in val) {
       const categories = (data.product.categories ||
         []) as unknown as Category[];
@@ -299,8 +298,6 @@ export const AuctionColumn = (
     isEditable: false,
     fieldName: 'productCategories',
     render: (_, val) => {
-      console.log('Val', val);
-      // if (typeof val === 'object' && val !== null && 'categories' in val) {
       const categories = (val || []) as unknown as Category[];
       if (!categories?.length) return '- - -';
       return (
@@ -331,8 +328,6 @@ export const AuctionColumn = (
           ) : null}
         </>
       );
-      // }
-      // return '---';
     },
   },
 

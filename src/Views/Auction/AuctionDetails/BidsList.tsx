@@ -148,7 +148,6 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
     setSearch(e.target.value);
   }, 1000);
 
-
   const columns = useMemo(() => AuctionBidColumn(), []);
 
   return (

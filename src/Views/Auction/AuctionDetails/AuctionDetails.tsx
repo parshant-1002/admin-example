@@ -1,7 +1,7 @@
 // components/AuctionDetails.tsx
 import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { DateRange } from 'react-date-range';
+// import { DateRange } from 'react-date-range';
 import { useState } from 'react';
 import DetailsWrapperCard from '../../../Shared/components/DetailsCard';
 import { useAuctionData } from '../helpers/useAuctionData';
@@ -41,11 +41,10 @@ export default function AuctionDetails() {
         {BUTTON_LABELS.CANCEL}
       </Button>
 
-      <div className="calendar-container">
+      {/* <div className="calendar-container">
         <DateRange
           editableDateInputs
           onChange={(change) => {
-            console.log('Dates changed', change);
           }}
           ranges={[
             {
@@ -55,7 +54,7 @@ export default function AuctionDetails() {
             },
           ]}
         />
-      </div>
+      </div> */}
       {/* <button type="button" onClick={saveChanges}>
         Save Changes
       </button>
