@@ -47,6 +47,12 @@ export const auctionApi = api.injectEndpoints({
         params,
       }),
     }),
+    getAuctionBidHistory: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.BIDS_SPENT_HISTORY,
+        params,
+      }),
+    }),
   }),
 });
 export const {
@@ -55,4 +61,5 @@ export const {
   useEditAuctionMutation,
   useGetAuctionsQuery,
   useGetAuctionDetailsQuery,
+  useGetAuctionBidHistoryQuery,
 } = auctionApi;

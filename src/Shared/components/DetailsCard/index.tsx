@@ -40,12 +40,6 @@ type DetailsWrapperCardProps = {
 };
 
 // Helper function to format keys (convert camelCase or underscores to readable text)
-const formatKey = (key: string): string => {
-  return key
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/_/g, ' ')
-    .replace(/^\w/, (c) => c.toUpperCase());
-};
 
 // Helper function to render values, handling different types of content
 const renderValue = (
@@ -110,29 +104,50 @@ function DetailsWrapperCard({ details, dataScema }: DetailsWrapperCardProps) {
   );
 
   return (
-    <div style={styles.container}>
-      <h3>Auction Details</h3>
-      <div style={styles.table}>
-        {dataScema.map((item) => (
-          <div style={styles.row} key={`id_${item.title}`}>
-            <div style={styles.cell}>
-              <strong>{formatKey(item.title || '')}</strong>
-            </div>
-            <div style={styles.cell}>
+    <div className="p-4 bg-white rounded shadow">
+      <div className="row border p-3">
+        {dataScema.map((field) => (
+          <div key={field.title} className="col-md-3 mb-3">
+            <h5 className="font-weight-bold">{field.title}</h5>
+            <p>
+              {' '}
               {renderValue(
-                getColumnValue(data, item),
-                item.isEditable,
+                getColumnValue(data, field),
+                field.isEditable,
                 (newValue) =>
                   handleValueChange(
                     newValue,
-                    item.fieldName as keyof ProductDetailResponsePayload
+                    field.fieldName as keyof ProductDetailResponsePayload
                   )
               )}
-            </div>
+            </p>
           </div>
         ))}
       </div>
     </div>
+    // <div style={styles.container}>
+    //   <h3>Auction Details</h3>
+    //   <div style={styles.table}>
+    //     {dataScema.map((item) => (
+    //       <div style={styles.row} key={`id_${item.title}`}>
+    //         <div style={styles.cell}>
+    //           <strong>{formatKey(item.title || '')}</strong>
+    //         </div>
+    //         <div style={styles.cell}>
+    //           {renderValue(
+    //             getColumnValue(data, item),
+    //             item.isEditable,
+    //             (newValue) =>
+    //               handleValueChange(
+    //                 newValue,
+    //                 item.fieldName as keyof ProductDetailResponsePayload
+    //               )
+    //           )}
+    //         </div>
+    //       </div>
+    //     ))}
+    //   </div>
+    // </div>
   );
 }
 

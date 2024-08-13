@@ -3,12 +3,12 @@ import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
 // import { ProductsAdd, ProductsList } from '../Views/Products';
 import AuctionManagementList from '../Views/Auction/AuctionManagementList';
-import AuctionDetails from '../Views/Auction/AuctionDetails';
 import { ProductsList } from '../Views/Products';
 import { CustomRouter } from './RootRoutes';
 import { CategoriesList } from '../Views/Categories';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
+import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [

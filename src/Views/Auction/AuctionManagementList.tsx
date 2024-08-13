@@ -1,6 +1,5 @@
 // libs
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +19,9 @@ import { AuctionResponsePayload } from './helpers/model';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { AUCTION_STATUS, AuctionColumns } from './helpers/constants';
 import { useGetAuctionsQuery } from '../../Services/Api/module/auction';
+import ViewMultiTableItem from '../Products/components/ViewMultiTableItem';
+import { ViewMultiData } from '../Products/helpers/model';
+import ActionsDropDown from '../../Shared/components/ActionsDropDown';
 
 interface EditData {
   data: object | null;
@@ -37,6 +39,13 @@ export default function AuctionManagementList() {
     open: false,
     data: {},
   });
+
+
+  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
+    data: { title: '' },
+    show: false,
+  });
+
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
@@ -82,60 +91,40 @@ export default function AuctionManagementList() {
     setDeleteModal({ open: true, data: payload });
   };
 
+   // Render actions column
   const renderActions = useCallback(
-    (_: unknown, row: AuctionResponsePayload) => {
-      return (
-        <div className="d-flex">
-          <Button variant="primary mx-2" onClick={() => handleEdit(row)}>
-            {BUTTON_LABELS.EDIT}
-          </Button>
-          <Button variant="danger mx-2" onClick={() => handleDelete(row)}>
-            {BUTTON_LABELS.DELETE}
-          </Button>
-        </div>
-      );
-    },
+    (_: unknown, row: AuctionResponsePayload) => (
+      <div className="d-flex">
+        <ActionsDropDown<AuctionResponsePayload>
+          row={row}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      </div>
+    ),
     []
   );
 
-  const columns = useMemo(() => AuctionColumns(renderActions), [renderActions]);
+  const columns = useMemo(
+    () => AuctionColumns(renderActions, setShowMultiItemView),
+    [renderActions]
+  );
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, open: false });
   };
-  const handleDeleteClick = () => {
-    // dispatch(
-    //   deleteAddOns(
-    //     deleteModal?.data,
-    //     (
-    //       data: {
-    //         message:
-    //           | string
-    //           | number
-    //           | boolean
-    //           | ReactElement<any, string | JSXElementConstructor<any>>
-    //           | Iterable<ReactNode>
-    //           | ReactPortal
-    //           | ((props: ToastContentProps<unknown>) => ReactNode)
-    //           | null
-    //           | undefined;
-    //       },
-    //       status: string
-    //     ) => {
-    //       if (status === STATUS.SUCCESS) {
-    //         toast.success(data?.message);
-    //         getTokenPriceList();
-    //         setDeleteModal(null);
-    //       }
-    //     }
-    //   )
-    // );
-  };
+  const handleDeleteClick = () => {};
 
   useEffect(() => {
     refetch();
   }, [refetch, currentPage]);
+
+
   return (
     <div>
+      <ViewMultiTableItem
+        show={showMultiItemView}
+        setShow={setShowMultiItemView}
+      />
       <ConfirmationModal
         title={ERROR_MESSAGES().DELETE_ITEM}
         open={deleteModal?.open}

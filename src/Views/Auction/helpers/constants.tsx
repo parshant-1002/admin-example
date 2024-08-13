@@ -1,14 +1,23 @@
 import moment from 'moment';
+import { Dispatch, SetStateAction } from 'react';
 import { DATE_FORMATS, INPUT_TYPES } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { AuctionResponsePayload, ProductDetailResponsePayload } from './model';
+import { Category, ViewMultiData } from '../../Products/helpers/model';
 
+const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 export const AUCTION_STATUS = [
   { value: 1, label: 'Pending' },
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
 ];
-
+enum DetailType {
+  String,
+  Number,
+  Dropdown,
+  Date,
+  DateRange,
+}
 interface FormSchema {
   type: string;
   label: string;
@@ -36,9 +45,10 @@ export interface AuctionDetailsColumnData {
   fieldName?: string;
   isTurncated?: boolean;
   isEditable?: boolean;
+  type?: DetailType;
   render?: (
     row: ProductDetailResponsePayload,
-    val: string | number
+    val: string | number | { categories: []; images: [] }
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
 
@@ -103,7 +113,10 @@ export const AUCTION_ADD_FORM_SCHEMA: Record<string, FormSchema> = {
 
 type RenderActions = (val: unknown, row: AuctionResponsePayload) => JSX.Element;
 
-export const AuctionColumns = (renderActions: RenderActions): ColumnData[] => [
+export const AuctionColumns = (
+  renderActions: RenderActions,
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+): ColumnData[] => [
   {
     title: 'Id',
     fieldName: '_id',
@@ -122,12 +135,41 @@ export const AuctionColumns = (renderActions: RenderActions): ColumnData[] => [
   },
   {
     title: 'Category',
-    fieldName: 'categories',
-    render: (_, val) => {
-      const categories = val as unknown as { name: string }[];
-      return categories?.length
-        ? categories?.map((category: { name: string }) => category.name)
-        : '- - -';
+    fieldName: 'product',
+    render: (data, val) => {
+      console.log('Val', val);
+      // if (typeof val === 'object' && val !== null && 'categories' in val) {
+      const categories = (data.product.categories ||
+        []) as unknown as Category[];
+      if (!categories?.length) return '- - -';
+      return (
+        <>
+          {categories?.map((category: { name: string }, index) => {
+            if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
+              return `${category.name}${
+                index < categories.length - 1 ? ', ' : ' '
+              }`;
+            }
+            return null;
+          })}
+          {categories?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+            <button
+              type="button"
+              className="btn border py-0 px-1"
+              onClick={() =>
+                setShowMultiItemView({
+                  show: true,
+                  data: { title: 'Categories', size: 'sm', categories },
+                })
+              }
+            >
+              {`. . .+${
+                categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
+              }`}
+            </button>
+          ) : null}
+        </>
+      );
     },
   },
   {
@@ -190,7 +232,9 @@ export const AuctionColumns = (renderActions: RenderActions): ColumnData[] => [
 //   row: ProductDetailResponsePayload
 // ) => JSX.Element;
 
-export const AuctionColumn = (): AuctionDetailsColumnData[] => [
+export const AuctionColumn = (
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+): AuctionDetailsColumnData[] => [
   {
     title: 'ID',
     isEditable: false,
@@ -202,16 +246,19 @@ export const AuctionColumn = (): AuctionDetailsColumnData[] => [
   {
     title: 'Auction Name',
     isEditable: true,
+    type: DetailType.String,
     fieldName: 'title',
   },
   {
     title: 'Auction Date',
     isEditable: true,
+    type: DetailType.Date,
     fieldName: 'Date Range',
   },
   {
     title: 'Reserve Price',
     isEditable: true,
+    type: DetailType.Number,
     fieldName: 'reservePrice',
   },
   {
@@ -232,27 +279,67 @@ export const AuctionColumn = (): AuctionDetailsColumnData[] => [
   {
     title: 'Bid Timer',
     isEditable: true,
+    type: DetailType.Number,
     fieldName: 'turnTimer',
   },
   {
     title: 'PreAuction Users',
     isEditable: true,
+    type: DetailType.Number,
     fieldName: 'preAuctionUsers',
   },
   {
     title: 'Product Name',
     isEditable: true,
+    type: DetailType.String,
     fieldName: 'productName',
   },
   {
     title: 'Category',
-    isEditable: true,
-    fieldName: 'productCategory',
+    isEditable: false,
+    fieldName: 'productCategories',
+    render: (_, val) => {
+      console.log('Val', val);
+      // if (typeof val === 'object' && val !== null && 'categories' in val) {
+      const categories = (val || []) as unknown as Category[];
+      if (!categories?.length) return '- - -';
+      return (
+        <>
+          {categories?.map((category: { name: string }, index) => {
+            if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
+              return `${category.name}${
+                index < categories.length - 1 ? ', ' : ' '
+              }`;
+            }
+            return null;
+          })}
+          {categories?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+            <button
+              type="button"
+              className="btn border py-0 px-1"
+              onClick={() =>
+                setShowMultiItemView({
+                  show: true,
+                  data: { title: 'Categories', size: 'sm', categories },
+                })
+              }
+            >
+              {`. . .+${
+                categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
+              }`}
+            </button>
+          ) : null}
+        </>
+      );
+      // }
+      // return '---';
+    },
   },
 
   {
     title: 'Current Item Price',
     isEditable: true,
+    type: DetailType.Number,
     fieldName: 'currentItemPrice',
   },
   {
@@ -285,5 +372,38 @@ export const AuctionColumn = (): AuctionDetailsColumnData[] => [
     title: 'Product Purchase Duration',
     isEditable: true,
     fieldName: 'prizeClaimDays',
+  },
+];
+
+export const AuctionBidColumn = (): ColumnData[] => [
+  {
+    title: 'Id',
+    fieldName: '_id',
+    isTruncated: true,
+  },
+  {
+    title: 'Username',
+    fieldName: 'userName',
+    isTruncated: true,
+  },
+  {
+    title: 'Email',
+    fieldName: 'email',
+    isTruncated: true,
+  },
+  {
+    title: 'Phone No',
+    fieldName: 'phoneNo',
+    isTruncated: true,
+  },
+  {
+    title: 'Date',
+    fieldName: 'bidDate',
+    isTruncated: true,
+  },
+  {
+    title: 'Item Price',
+    fieldName: 'bidCount',
+    isTruncated: true,
   },
 ];

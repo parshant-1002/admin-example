@@ -7,6 +7,7 @@ export interface AuctionResponsePayload {
   category: Category;
   totalBids: number;
   title: string;
+  product: { categories: []; images: []; price: number };
   auctionDate: string;
   reservePrice: number;
   winner: string;
