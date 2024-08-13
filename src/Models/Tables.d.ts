@@ -11,6 +11,18 @@ export interface IColumnType<T> {
     colSpan?: number;
     secondaryTitle?: string;
 }
+
+export interface ColumnData {
+    title?: string;
+    fieldName?: string;
+    isTruncated?: boolean;
+    sortable?: boolean;
+    sortType?: string;
+    render?: (
+      row: ProductResponsePayload,
+      val: string | number
+    ) => JSX.Element[] | string | JSX.Element | string[];
+  }
   
 export interface IData {
     fullName: string;

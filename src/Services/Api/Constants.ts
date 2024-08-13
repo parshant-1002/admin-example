@@ -19,6 +19,11 @@ export const API_END_POINTS = {
   FILE_UPLOAD: '/file/upload',
   GET_FILES: '/file/getFiles',
   FILE_DELETE: '/file/deleteFiles',
+  REFERRAL_PACK: '/referralPack',
+  REFERRAL_PACK_HISTORY: '/referralPack/history',
+  REFERRED_USERS: '/referral/referredUsers',
+  BID_PLAN: '/bidPlan',
+  USER_PRODUCTS: '/userProducts',
 };
 
 export const HTTPS_METHODS = {

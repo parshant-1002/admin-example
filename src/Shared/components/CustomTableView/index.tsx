@@ -1,10 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 // libs
-import { Fragment, useCallback, useState } from 'react';
-import { FilterOrder } from '../../constants';
-import TruncatedText from '../TruncateText/TruncateText';
+import { useState, Fragment, useCallback } from 'react';
 import './table.scss';
+import ReactPaginate from 'react-paginate';
+import TruncatedText from '../TruncateText/TruncateText';
+import { FilterOrder } from '../../constants';
+import { getValueFromPath } from '../../utils/functions';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -20,6 +22,9 @@ interface CustomTableViewProps {
   handleRowClick?: (row: Row, index: number | null) => void;
   isLoading?: boolean;
   SecondaryRowComponent?: () => JSX.Element;
+  pagination?: boolean;
+  pageCount?: number;
+  onPageChange?: (selectedItem: { selected: number }) => void;
 }
 export interface Column {
   title?: string;
@@ -30,6 +35,7 @@ export interface Column {
   isTruncated?: boolean;
   noClickEvent?: boolean;
   render?: (row: unknown, value: unknown) => React.ReactNode;
+  path?: string[];
 }
 
 export interface Row {
@@ -49,6 +55,9 @@ function CustomTableView({
   handleRowClick = () => {},
   SecondaryRowComponent = () => <> </>,
   isLoading = false,
+  pagination = false,
+  pageCount = 0,
+  onPageChange = () => {},
 }: CustomTableViewProps) {
   const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
     FilterOrder.ASCENDING
@@ -60,20 +69,19 @@ function CustomTableView({
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
     // if (!column?.fieldName) return null;
+    const fieldValue = column?.path?.length
+      ? getValueFromPath(row, column?.path)
+      : row[column?.fieldName || ''];
     if (column.isTruncated) {
-      return row[column?.fieldName || ''] ? (
-        <TruncatedText text={row[column?.fieldName || '']} />
-      ) : (
-        '-'
-      );
+      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
     }
     if (column.render) {
-      return column.render(row, row[column?.fieldName || '']);
+      return column.render(row, fieldValue);
     }
-    if (typeof row[column?.fieldName || ''] === 'number') {
-      return row[column?.fieldName || ''];
+    if (typeof fieldValue === 'number') {
+      return fieldValue;
     }
-    return row[column?.fieldName || ''] || '-';
+    return fieldValue || '-.-';
   }, []);
 
   const handleRowClickInternal = (
@@ -170,6 +178,21 @@ function CustomTableView({
           </tbody>
         </table>
       </div>
+      {pagination && rows?.length ? (
+        <div className="pagination-group d-flex justify-content-end align-items-center">
+          <ReactPaginate
+            pageCount={pageCount}
+            onPageChange={onPageChange}
+            activeClassName="active"
+            nextClassName={`next-btn ${
+              Math.ceil(pageCount) !== currentPage + 1 ? '' : 'disabled'
+            }`}
+            previousClassName="pre-btn"
+            disabledClassName="disabled"
+            forcePage={currentPage}
+          />
+        </div>
+      ) : null}
       {rows.length ? (
         <div className="pagination-group d-flex justify-content-end align-items-center">
           {renderTableFooter()}

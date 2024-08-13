@@ -135,6 +135,7 @@ function CustomForm({
     event: SyntheticEvent,
     resetFn: () => void
   ) => {
+    event.preventDefault();
     onSubmit(data, event, resetFn);
     setIsResetForm(false);
   };
