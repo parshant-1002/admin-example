@@ -5,13 +5,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 // Components
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Filters from '../components/Filters';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
 import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import AddEditReferralPack from '../components/AddEditReferralPack';
+import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -63,6 +63,7 @@ function CreateReferral() {
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
+  const [selectedIds, setSelectedIds] = useState<string[]>();
 
   const [popup, setPopup] = useState<Popup>({
     show: false,
@@ -150,7 +151,7 @@ function CreateReferral() {
 
   const handleDeleteConfirm = () => {
     deleteReferralPack({
-      payload: { referralPackIds: [popup.data?.id] },
+      payload: { referralPackIds: selectedIds },
       onSuccess: (response: { message: string }) => {
         toast.success(response.message);
         refetch();
@@ -164,6 +165,12 @@ function CreateReferral() {
 
   const handleDeleteClick = (data: Record<string, unknown>) => {
     setPopup({ show: true, data, type: POPUPTYPES.DELETE });
+    setSelectedIds([data?._id as string]);
+  };
+
+  const handleDeleteCancel = () => {
+    setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
+    setSelectedIds([]);
   };
 
   const handleEdit = (data: Record<string, unknown>) => {
@@ -197,6 +204,16 @@ function CreateReferral() {
     [navigate]
   );
 
+  const handleSelectMultiple = (id: string) => {
+    setSelectedIds((prevSelectedIds) => {
+      const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
+      if (foundIndex !== undefined && foundIndex > -1) {
+        return prevSelectedIds?.filter((f) => f !== id);
+      }
+      return [...(prevSelectedIds || []), id];
+    });
+  };
+
   // Memoized columns for table
   const columns = useMemo(
     () =>
@@ -205,20 +222,28 @@ function CreateReferral() {
         handleEdit,
         handleDelete: handleDeleteClick,
         handleStatusChange,
+        handleSelectMultiple,
+        selectedIds,
       }),
-    [handleStatusChange, handleView]
+    [handleStatusChange, handleView, selectedIds]
   );
 
   return (
     <div>
       {/* Filters */}
-      <Filters
+      <TableFilterHeader
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
         handleAddNew={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.ADD })
         }
+        handleDeleteAll={() =>
+          setPopup({ show: true, data: null, type: POPUPTYPES.DELETE })
+        }
+        handleClearAll={() => setSelectedIds([])}
+        selectedIds={selectedIds}
+        addButton
       />
 
       {/* Table */}
@@ -267,9 +292,7 @@ function CreateReferral() {
         title={BUTTON_LABELS.DELETE}
         subTitle={STRINGS.ARE_YOU_SURE_YOU_WANT_TO_DELETE}
         open={popup.type === POPUPTYPES.DELETE && popup.show}
-        handleClose={() =>
-          setPopup({ show: false, data: null, type: POPUPTYPES.NONE })
-        }
+        handleClose={handleDeleteCancel}
         showCancelButton
         submitButtonText={BUTTON_LABELS.YES}
         cancelButtonText={BUTTON_LABELS.NO}

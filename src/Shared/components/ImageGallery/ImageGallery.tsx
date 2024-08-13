@@ -78,7 +78,7 @@ function ImageGallery({ data }: ViewMultiData) {
         >
           ❮
         </button>
-        <div className="thumbnails-container grid-container">
+        <div className="thumbnails-container">
           {thumbnailsToShow?.map((img, index) => (
             <div
               key={img.url}
@@ -88,9 +88,6 @@ function ImageGallery({ data }: ViewMultiData) {
               onClick={() => setSelectedIndex(thumbnailStartIndex + index)}
             >
               <FileRenderer fileURL={img.url} />
-              {/* <div className="text-primary">
-                {thumbnailStartIndex + index + 1}. {img.title}
-              </div> */}
             </div>
           ))}
         </div>

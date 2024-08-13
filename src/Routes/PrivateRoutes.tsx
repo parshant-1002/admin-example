@@ -8,6 +8,7 @@ import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
 import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
+import { PlanDetailedView, Plans } from '../Views/BidsPlan';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -61,6 +62,17 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: `${ROUTES_CONFIG.REFERRAL_LISTING.path}/:id`,
     element: <ReferralListing />,
     title: ROUTES_CONFIG.REFERRAL_LISTING.title,
+  },
+  // Bids Plans
+  {
+    path: ROUTES_CONFIG.BIDS_PLANS.path,
+    element: <Plans />,
+    title: ROUTES_CONFIG.BIDS_PLANS.title,
+  },
+  {
+    path: `${ROUTES_CONFIG.BIDS_PLANS.path}/:id`,
+    element: <PlanDetailedView />,
+    title: ROUTES_CONFIG.BIDS_PLANS.title,
   },
   // Wildcard
   {

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 // libs
 import { useState, Fragment, useCallback } from 'react';
@@ -5,10 +6,12 @@ import './table.scss';
 import ReactPaginate from 'react-paginate';
 import TruncatedText from '../TruncateText/TruncateText';
 import { FilterOrder } from '../../constants';
+import { getValueFromPath } from '../../utils/functions';
 
 interface CustomTableViewProps {
   columns?: Column[];
   rows?: Row[];
+  selectedRow?: string | number | null;
   currentPage?: number;
   renderTableFooter?: () => React.ReactNode;
   pageSize?: number;
@@ -16,8 +19,9 @@ interface CustomTableViewProps {
   quickEditRowId?: string | null;
   isServerPagination?: boolean;
   handleSortingClick?: (order?: number, sortKey?: string) => void;
-  handleRowClick?: (row: Row) => void;
+  handleRowClick?: (row: Row, index: number | null) => void;
   isLoading?: boolean;
+  SecondaryRowComponent?: () => JSX.Element;
   pagination?: boolean;
   pageCount?: number;
   onPageChange?: (selectedItem: { selected: number }) => void;
@@ -29,7 +33,9 @@ export interface Column {
   sortType?: string;
   width?: string;
   isTruncated?: boolean;
+  noClickEvent?: boolean;
   render?: (row: unknown, value: unknown) => React.ReactNode;
+  path?: string[];
 }
 
 export interface Row {
@@ -43,9 +49,11 @@ function CustomTableView({
   pageSize = 10,
   noDataFound = '',
   quickEditRowId = '',
+  selectedRow = null,
   isServerPagination = false,
   handleSortingClick = () => {},
   handleRowClick = () => {},
+  SecondaryRowComponent = () => <> </>,
   isLoading = false,
   pagination = false,
   pageCount = 0,
@@ -61,21 +69,29 @@ function CustomTableView({
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
     // if (!column?.fieldName) return null;
+    const fieldValue = column?.path?.length
+      ? getValueFromPath(row, column?.path)
+      : row[column?.fieldName || ''];
     if (column.isTruncated) {
-      return row[column?.fieldName || ''] ? (
-        <TruncatedText text={row[column?.fieldName || '']} />
-      ) : (
-        '-'
-      );
+      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
     }
     if (column.render) {
-      return column.render(row, row[column?.fieldName || '']);
+      return column.render(row, fieldValue);
     }
-    if (typeof row[column?.fieldName || ''] === 'number') {
-      return row[column?.fieldName || ''];
+    if (typeof fieldValue === 'number') {
+      return fieldValue;
     }
-    return row[column?.fieldName || ''] || '-';
+    return fieldValue || '-.-';
   }, []);
+
+  const handleRowClickInternal = (
+    row: Row,
+    column: Column,
+    index: number | null
+  ) => {
+    if (column.noClickEvent) return null;
+    handleRowClick(row, index);
+  };
   return (
     <>
       <div className="table-responsive">
@@ -123,7 +139,7 @@ function CustomTableView({
                     </td>
                   </tr>
                 )
-              : rowsToBeRendered.map((row) =>
+              : rowsToBeRendered.map((row, index) =>
                   quickEditRowId === row._id ? (
                     <tr key={row._id}>
                       <td colSpan={10}>
@@ -131,19 +147,32 @@ function CustomTableView({
                       </td>
                     </tr>
                   ) : (
-                    <tr
-                      key={row._id}
-                      className="tr-item"
-                      onClick={() => handleRowClick(row)}
-                    >
-                      {columns.map((column) => (
-                        <Fragment key={`${row._id}-columns-${column.title}`}>
-                          <td data-label={column.title}>
-                            {getColumnValue(row, column)}
+                    <>
+                      <tr key={row._id} className="tr-item">
+                        {columns.map((column) => (
+                          <Fragment key={`${row._id}-columns`}>
+                            <td
+                              data-label={column.title}
+                              onClick={() => {
+                                handleRowClickInternal(row, column, index);
+                              }}
+                            >
+                              {getColumnValue(row, column)}
+                            </td>
+                          </Fragment>
+                        ))}
+                      </tr>
+                      {`${index}-${row?._id}` === selectedRow && (
+                        <tr>
+                          <td
+                            colSpan={columns.length}
+                            className="text-primary secondary_component"
+                          >
+                            {SecondaryRowComponent()}
                           </td>
-                        </Fragment>
-                      ))}
-                    </tr>
+                        </tr>
+                      )}
+                    </>
                   )
                 )}
           </tbody>
@@ -158,7 +187,7 @@ function CustomTableView({
             nextClassName={`next-btn ${
               Math.ceil(pageCount) !== currentPage + 1 ? '' : 'disabled'
             }`}
-            previousClassName="prev-btn"
+            previousClassName="pre-btn"
             disabledClassName="disabled"
             forcePage={currentPage}
           />

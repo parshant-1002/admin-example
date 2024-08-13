@@ -48,14 +48,6 @@ function StatsFilters({
 
       <div className="col-md-8 col-xl-6 my-2">
         <div className="d-flex justify-content-end align-items-start stats_filter">
-          {/* <div className="dark-form-control">
-            <Select
-              options={TRANSACTION_STATUS}
-              value={status}
-              onChange={setStatus}
-              className="form-control"
-            />
-          </div> */}
           {selectedIds?.length ? (
             <Button
               className="btn btn-sm btn-danger"

@@ -51,6 +51,20 @@ const SIDEBAR_NAV = [
       // },
     ],
   },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Bids Plans',
+    children: [
+      {
+        label: 'Plans',
+        route: ROUTES.BIDS_PLANS,
+      },
+      // {
+      //   label: 'Referral Listing',
+      //   route: ROUTES.REFERRAL_LISTING,
+      // },
+    ],
+  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',

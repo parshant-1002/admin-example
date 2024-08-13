@@ -1,21 +1,24 @@
 // Libraries
 import { debounce } from 'lodash';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import ReactPaginate from 'react-paginate';
+import { useEffect, useRef, useState } from 'react';
 
 // Components
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import Filters from '../components/Filters';
+import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
-import { FilterOrder, STRINGS } from '../../../Shared/constants';
+import {
+  FilterOrder,
+  PRODUCT_PURCHASE_STATUS,
+  STRINGS,
+} from '../../../Shared/constants';
 import { AuctionInvoiceColumns } from '../helpers/constants';
 
 // API
-import { useGetProductsQuery } from '../../../Services/Api/module/products';
+import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
@@ -27,6 +30,7 @@ interface QueryParams {
   searchString?: string;
   sortKey: string;
   sortDirection: FilterOrder;
+  status: number;
 }
 
 // Constants
@@ -51,10 +55,11 @@ function AuctionInvoices() {
     searchString: search,
     sortKey,
     sortDirection,
+    status: PRODUCT_PURCHASE_STATUS.PENDING,
   };
 
   // API Queries
-  const { data: productListing, refetch } = useGetProductsQuery({
+  const { data: listing, refetch } = useGetInvoicesQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
@@ -80,9 +85,6 @@ function AuctionInvoices() {
     setSearch(e.target.value);
   }, 1000);
 
-  // Memoized columns for table
-  const columns = useMemo(() => AuctionInvoiceColumns, []);
-
   // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
@@ -93,35 +95,23 @@ function AuctionInvoices() {
 
   return (
     <div>
-      <Filters
+      <TableFilterHeader
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
       />
 
       <CustomTableView
-        rows={(productListing?.data as unknown as Row[]) || []}
-        columns={columns as unknown as Column[]}
+        rows={(listing?.data as unknown as Row[]) || []}
+        columns={AuctionInvoiceColumns as unknown as Column[]}
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
-        renderTableFooter={() => (
-          <ReactPaginate
-            pageCount={(productListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
-            onPageChange={handlePageClick}
-            activeClassName={STRINGS.ACTIVE}
-            nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((productListing?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
-              currentPage + 1
-                ? STRINGS.EMPTY_STRING
-                : STRINGS.DISABLED
-            }`}
-            previousClassName={STRINGS.PREV_BTN}
-            disabledClassName={STRINGS.DISABLED}
-            forcePage={currentPage}
-          />
-        )}
+        pagination
+        pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+        onPageChange={handlePageClick}
+        currentPage={currentPage}
       />
     </div>
   );
