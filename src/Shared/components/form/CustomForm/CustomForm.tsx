@@ -41,7 +41,13 @@ interface CustomFormProps {
   id: string;
   defaultValues?: Record<string, unknown>;
   formData: Record<string, FormDataProps>;
-  handleStateDataChange?: (name: string, value: unknown, type: string) => void;
+  handleStateDataChange?: (prop: {
+    name: string;
+    value: unknown;
+    type: string;
+    setValue: (name: string, value: unknown) => void;
+    values?: Record<string, unknown>;
+  }) => void;
   secondaryBtnText?: string;
   handleSecondaryButtonClick?: () => void;
   secondaryButtonType?: 'submit' | 'button';
@@ -101,11 +107,17 @@ function CustomForm({
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
       if (name && type) {
-        handleStateDataChange(name, value[name], type);
+        handleStateDataChange({
+          name,
+          value: value[name],
+          type,
+          setValue,
+          values: value,
+        });
       }
     });
     return () => subscription.unsubscribe();
-  }, [handleStateDataChange, watch]);
+  }, [handleStateDataChange, setValue, watch]);
 
   const handleRegister = (key: string) => {
     if (typeof formData[key].schema === 'function') {
