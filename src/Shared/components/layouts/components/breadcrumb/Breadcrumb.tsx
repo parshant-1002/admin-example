@@ -1,8 +1,9 @@
 import { Breadcrumb } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PRIVATE_ROUTES } from '../../../../../Routes/PrivateRoutes';
 import { capitalizeFirstLetter, matchRoute } from '../../../../utils/functions';
 import './style.scss';
+import { ROUTES } from '../../../../constants';
 
 function Breadcrumbs() {
   const location = useLocation();
@@ -17,7 +18,13 @@ function Breadcrumbs() {
 
     return (
       <Breadcrumb.Item key={to} active={isLast}>
-        {capitalizeFirstLetter(decodeURIComponent(value))}
+        {!isLast ? (
+          <Link to={to}>
+            {capitalizeFirstLetter(decodeURIComponent(value))}
+          </Link>
+        ) : (
+          capitalizeFirstLetter(decodeURIComponent(value))
+        )}
       </Breadcrumb.Item>
     );
   });
@@ -26,7 +33,9 @@ function Breadcrumbs() {
     <div className="page-title w-100 mb-3">
       {pageTitle && <h4>{pageTitle}</h4>}
       <Breadcrumb>
-        <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+        <Breadcrumb.Item href="#">
+          <Link to={ROUTES.HOMEPAGE}>Home</Link>
+        </Breadcrumb.Item>
         {breadcrumbItems}
       </Breadcrumb>
     </div>

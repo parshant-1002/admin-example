@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // libs
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 // consts
 
@@ -34,12 +34,21 @@ function StatsFilters({
   handleDeleteAll,
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
-
-  const handleClickAllData = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const handleClear = () => {
+    setSearchValue('');
     handleClearSearch();
+  };
+  const handleClickAllData = () => {
+    handleClear();
     if (clearDateRangeFilterRef.current) {
       clearDateRangeFilterRef.current.click();
     }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    handleSearch(e);
   };
 
   return (
@@ -64,11 +73,11 @@ function StatsFilters({
             <TextField
               type="text"
               placeholder="Search..."
-              value={search}
-              onChange={handleSearch}
+              value={searchValue}
+              onChange={handleSearchChange}
             />
             {search ? (
-              <em className="cross-icon" onClick={handleClearSearch}>
+              <em className="cross-icon" onClick={handleClear}>
                 <img
                   src="" // Replace with an actual path or URL
                   alt=""

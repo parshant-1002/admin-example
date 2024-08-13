@@ -13,15 +13,15 @@ export interface FieldSchema {
 export interface DataKeys {
   name?: string;
   email?: string;
-  phone?: string;
+  phoneNumber?: string;
   address?: string;
   createdAt?: string;
   auctionsWon?: number;
   referralBidsEarned?: number;
-  totalBids?: number;
+  bidBalance?: number;
   ongoingAuctions?: number;
   totalSpent?: number;
-  usersReferred?: number;
+  referredFriendsCount?: number;
 }
 
 interface CustomProfileProps {

@@ -21,9 +21,9 @@ const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 const USER_DETAILS_SCHEMA: FieldSchema[] = [
   { label: 'Name', key: 'name' },
   { label: 'Email', key: 'email', truncate: true },
-  { label: 'Phone No.', key: 'phone' },
+  { label: 'Phone No.', key: 'phoneNumber' },
   { label: 'Address', key: 'address', truncate: true },
-  { label: 'Total Bids', key: 'totalBids' },
+  { label: 'Total Bids', key: 'bidBalance' },
   { label: 'Ongoing Auction', key: 'ongoingAuctions' },
   { label: 'Auction Won', key: 'auctionsWon' },
   { label: 'Referral Bids Earned', key: 'referralBidsEarned' },
@@ -33,7 +33,7 @@ const USER_DETAILS_SCHEMA: FieldSchema[] = [
     render: (value: string | number | undefined) =>
       moment(value).format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
-  { label: 'No. Of Users Referred', key: 'usersReferred' },
+  { label: 'No. Of Users Referred', key: 'referredFriendsCount' },
   { label: 'Total Spent', key: 'totalSpent' },
 ];
 
@@ -79,14 +79,14 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
     fieldName: 'dealOffer',
     render: (_, val) => `$${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'dealOffer',
+    sortType: 'dealOfferPercentage',
   },
   {
     title: 'Deal Price',
     fieldName: 'dealPrice',
     render: (_, val) => `$${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'dealPrice',
+    sortType: 'price',
   },
   {
     title: 'Bids Received',
@@ -98,13 +98,15 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
     title: 'Date',
     fieldName: 'date',
     sortable: true,
-    sortType: 'date',
+    sortType: 'createdAt',
     render: (_, val) =>
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
   {
     title: 'Status',
     fieldName: 'status',
+    sortable: true,
+    sortType: 'status',
   },
   {
     title: STRINGS.INVOICE,
@@ -145,13 +147,13 @@ const biddingHistoryColumn // renderActions: RenderActions
     fieldName: 'bidsSpent',
     render: (_, val) => `${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'bidsSpent',
+    sortType: 'totalBids',
   },
   {
     title: 'Date',
     fieldName: 'date',
     sortable: true,
-    sortType: 'date',
+    sortType: 'createdAt',
     render: (_, val) =>
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
@@ -206,13 +208,13 @@ const productHistoryColumn = (
     fieldName: 'productPrice',
     render: (_, val) => `$${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'productPrice',
+    sortType: 'purchasedPrice',
   },
   {
     title: 'Date',
     fieldName: 'date',
     sortable: true,
-    sortType: 'date',
+    sortType: 'createdAt',
     render: (_, val) =>
       val ? moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME) : '_',
   },
@@ -262,6 +264,8 @@ const productHistoryColumn = (
   },
   {
     title: STRINGS.INVOICE,
+    sortable: true,
+    sortType: 'invoiceDate',
     render: (row) => (
       <div className="text-center">
         {row?.invoiceURL ? (
@@ -301,7 +305,7 @@ export const auctionHistoryColumn // renderActions: RenderActions
     fieldName: 'bidSpent',
     render: (_, val) => `${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'bidSpent',
+    sortType: 'totalBids',
   },
   {
     title: 'Reserve Price',
@@ -319,14 +323,14 @@ export const auctionHistoryColumn // renderActions: RenderActions
     title: 'Item Price',
     fieldName: 'price',
     sortable: true,
-    sortType: 'price',
+    sortType: 'itemPrice',
     render: (_, val) => `$${convertToLocale(val)}`,
   },
   {
     title: 'Start Date',
     fieldName: 'startDate',
     sortable: true,
-    sortType: 'startDate',
+    sortType: 'bidStartDate',
     render: (_, val) =>
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
@@ -334,15 +338,15 @@ export const auctionHistoryColumn // renderActions: RenderActions
     title: 'End Date',
     fieldName: 'endDate',
     sortable: true,
-    sortType: 'endDate',
+    sortType: 'reserveWaitingEndDate',
     render: (_, val) =>
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
   {
     title: 'Winner',
-    fieldName: 'Winner',
+    fieldName: 'winner',
     sortable: true,
-    sortType: 'Winner',
+    sortType: 'winnerName',
   },
   {
     title: 'Status',
@@ -389,7 +393,7 @@ const referralHistoryColumn: ColumnData[] = [
     title: 'Joining Date',
     fieldName: 'joiningDate',
     sortable: true,
-    sortType: 'joiningDate',
+    sortType: 'createdAt',
     render: (_, val) =>
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },

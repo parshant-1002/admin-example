@@ -6,14 +6,21 @@ interface ActionsDropdownProps {
   row: UsersResponsePayload; // Replace `any` with the appropriate type for `row`
   handleDelete: (row: UsersResponsePayload) => void; // Replace `any` with the appropriate type for `row`
   handleBlock: (row: UsersResponsePayload) => void; // Replace `any` with the appropriate type for `row`
+  handleView: (row: UsersResponsePayload) => void;
 }
 
 function ActionsDropdown({
   row,
   handleDelete,
   handleBlock,
+  handleView,
 }: ActionsDropdownProps) {
   const submenu = [
+    {
+      buttonLabel: 'View',
+      buttonAction: () => handleView(row),
+      className: 'text-green',
+    },
     {
       buttonLabel: row?.isBlocked ? 'UnBlock' : 'Block',
       buttonAction: () => handleBlock(row),
