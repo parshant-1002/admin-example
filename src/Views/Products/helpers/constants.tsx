@@ -20,9 +20,6 @@ interface FormSchema {
   };
 }
 
-
-
-
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
   { value: 2, label: 'Active' },

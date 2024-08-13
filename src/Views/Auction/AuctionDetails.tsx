@@ -14,8 +14,10 @@ export default function AuctionDetails() {
 
   return (
     <div>
-      <DetailsWrapperCard details={data} columns={AuctionColumn()} />
-      <button onClick={saveChanges}>Save Changes</button>
+      <DetailsWrapperCard details={data} dataScema={AuctionColumn()} />
+      <button type="button" onClick={saveChanges}>
+        Save Changes
+      </button>
     </div>
   );
 }

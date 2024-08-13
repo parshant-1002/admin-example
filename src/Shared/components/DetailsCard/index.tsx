@@ -1,12 +1,6 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AuctionDetailsColumnData } from '../../../Views/Auction/helpers/constants';
-
-export type Item = {
-  title: string;
-  value: string | number | boolean | any;
-  editable?: boolean; // Added editable flag
-  type: string;
-};
+import { ProductDetailResponsePayload } from '../../../Views/Auction/helpers/model';
 
 const styles = {
   container: {
@@ -41,8 +35,8 @@ const styles = {
 };
 
 type DetailsWrapperCardProps = {
-  details: Item[];
-  columns: AuctionDetailsColumnData[];
+  details: ProductDetailResponsePayload;
+  dataScema: AuctionDetailsColumnData[];
 };
 
 // Helper function to format keys (convert camelCase or underscores to readable text)
@@ -55,11 +49,11 @@ const formatKey = (key: string): string => {
 
 // Helper function to render values, handling different types of content
 const renderValue = (
-  value: string | number | boolean,
+  value: React.ReactNode,
   editable: boolean | undefined,
   onChange: (newValue: string | number) => void
-): JSX.Element | string | number => {
-  if (editable) {
+): JSX.Element | React.ReactNode => {
+  if (editable && (typeof value === 'string' || typeof value === 'number')) {
     return (
       <input
         type={typeof value === 'number' ? 'number' : 'text'}
@@ -83,24 +77,34 @@ const renderValue = (
   return value;
 };
 
-function DetailsWrapperCard({ details, columns }: DetailsWrapperCardProps) {
+function DetailsWrapperCard({ details, dataScema }: DetailsWrapperCardProps) {
   const [data, setData] = useState(details);
 
-  const handleValueChange = (index: number, newValue: string | number) => {
-    const updatedData = [...data];
-    updatedData[index].value = newValue;
+  const handleValueChange = (
+    newValue: string | number,
+    key: keyof ProductDetailResponsePayload
+  ) => {
+    const updatedData = { ...data, [key]: newValue };
     setData(updatedData);
   };
 
   const getColumnValue = useCallback(
-    (data: any, column: AuctionDetailsColumnData) => {
-      if (column.render) {
-        return column.render(data, data[column?.fieldName || '']);
+    (rows: ProductDetailResponsePayload, column: AuctionDetailsColumnData) => {
+      if (column.render && column.fieldName) {
+        return column.render(
+          rows,
+          rows[column.fieldName as keyof ProductDetailResponsePayload]
+        );
       }
-      if (typeof data[column?.fieldName || ''] === 'number') {
-        return data[column?.fieldName || ''];
+      if (
+        typeof rows[column.fieldName as keyof ProductDetailResponsePayload] ===
+        'number'
+      ) {
+        return rows[column.fieldName as keyof ProductDetailResponsePayload];
       }
-      return data[column?.fieldName || ''] || '-';
+      return (
+        rows[column.fieldName as keyof ProductDetailResponsePayload] || '-'
+      );
     },
     []
   );
@@ -109,8 +113,8 @@ function DetailsWrapperCard({ details, columns }: DetailsWrapperCardProps) {
     <div style={styles.container}>
       <h3>Auction Details</h3>
       <div style={styles.table}>
-        {columns.map((item, index) => (
-          <div style={styles.row} key={`id_${index}`}>
+        {dataScema.map((item) => (
+          <div style={styles.row} key={`id_${item.title}`}>
             <div style={styles.cell}>
               <strong>{formatKey(item.title || '')}</strong>
             </div>
@@ -118,7 +122,11 @@ function DetailsWrapperCard({ details, columns }: DetailsWrapperCardProps) {
               {renderValue(
                 getColumnValue(data, item),
                 item.isEditable,
-                (newValue) => handleValueChange(index, newValue)
+                (newValue) =>
+                  handleValueChange(
+                    newValue,
+                    item.fieldName as keyof ProductDetailResponsePayload
+                  )
               )}
             </div>
           </div>

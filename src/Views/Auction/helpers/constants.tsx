@@ -217,7 +217,7 @@ export const AuctionColumn = (): AuctionDetailsColumnData[] => [
   {
     title: 'Auction Time',
     isEditable: false,
-    render: (row, _val) => {
+    render: (row) => {
       const start = new Date(row.bidStartDate);
       const end = new Date(row.reserveWaitingEndDate);
       // Subtracting dates to get the difference in time (milliseconds)

@@ -8,7 +8,7 @@ import { useGetAuctionDetailsQuery } from '../../../Services/Api/module/auction'
 
 export type Item = {
   title: string;
-  value: string | number | boolean | Date | any;
+  value: string | number | boolean | Date;
   editable?: boolean;
   type: 'string' | 'number' | 'boolean' | 'date' | 'range' | 'dropdown';
   options?: string[]; // For dropdown type
@@ -23,12 +23,11 @@ export const useAuctionData = (id: string) => {
     params: { auctionId: id },
   });
 
-//   const [updateAuction] = useUpdateAuctionMutation(); // Hook to handle updating auction data
+  //   const [updateAuction] = useUpdateAuctionMutation(); // Hook to handle updating auction data
   const [data, setData] = useState<Item[]>([]);
 
   // Transform data into Item[] format
   const processData = useCallback(() => {
-
     if (!auctionDetail || !auctionDetail.data) return [];
     return auctionDetail.data;
     return Object.entries(auctionDetail.data).map(([key, value]) => {
@@ -82,7 +81,6 @@ export const useAuctionData = (id: string) => {
     //   },
     //   {} as Record<string, any>
     // );
-
     // try {
     // //   await updateAuction({ auctionId: id, data: updatedData });
     //   // Optionally handle success state
