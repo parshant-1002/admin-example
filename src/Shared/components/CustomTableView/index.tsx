@@ -5,6 +5,7 @@ import './table.scss';
 import ReactPaginate from 'react-paginate';
 import TruncatedText from '../TruncateText/TruncateText';
 import { FilterOrder } from '../../constants';
+import { getValueFromPath } from '../../utils/functions';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -30,6 +31,7 @@ export interface Column {
   width?: string;
   isTruncated?: boolean;
   render?: (row: unknown, value: unknown) => React.ReactNode;
+  path?: string[];
 }
 
 export interface Row {
@@ -61,21 +63,21 @@ function CustomTableView({
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
     // if (!column?.fieldName) return null;
+    const fieldValue = column?.path?.length
+      ? getValueFromPath(row, column?.path)
+      : row[column?.fieldName || ''];
     if (column.isTruncated) {
-      return row[column?.fieldName || ''] ? (
-        <TruncatedText text={row[column?.fieldName || '']} />
-      ) : (
-        '-'
-      );
+      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-';
     }
     if (column.render) {
-      return column.render(row, row[column?.fieldName || '']);
+      return column.render(row, fieldValue);
     }
-    if (typeof row[column?.fieldName || ''] === 'number') {
-      return row[column?.fieldName || ''];
+    if (typeof fieldValue === 'number') {
+      return fieldValue;
     }
-    return row[column?.fieldName || ''] || '-';
+    return fieldValue || '-';
   }, []);
+
   return (
     <>
       <div className="table-responsive">

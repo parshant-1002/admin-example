@@ -181,6 +181,46 @@ function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
   return moment(date).format(format);
 }
 
+type NestedObject = { [key: string]: unknown };
+
+function getValueFromPath(
+  obj: NestedObject,
+  path: string[]
+): string | number | boolean | undefined {
+  // Ensure the path is an array of strings
+  if (
+    !Array.isArray(path) ||
+    path.some((segment) => typeof segment !== 'string')
+  ) {
+    return undefined;
+  }
+
+  // Start with the root object
+  let current: unknown = obj;
+
+  // Traverse the object based on the path array
+  for (const segment of path) {
+    if (current && typeof current === 'object' && segment in current) {
+      current = (current as { [key: string]: unknown })[segment];
+    } else {
+      // Return undefined if the path is invalid
+      return undefined;
+    }
+  }
+
+  // Check if the final value is a primitive type
+  if (
+    typeof current === 'string' ||
+    typeof current === 'number' ||
+    typeof current === 'boolean'
+  ) {
+    return current;
+  }
+
+  // Return undefined if the final value is not a primitive type
+  return undefined;
+}
+
 export {
   capitalizeFirstLetter,
   checkOffline,
@@ -196,4 +236,5 @@ export {
   validateField,
   addBaseUrl,
   formatDate,
+  getValueFromPath,
 };

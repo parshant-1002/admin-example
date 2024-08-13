@@ -16,6 +16,7 @@ export const API_END_POINTS = {
   REFERRAL_PACK: '/referralPack',
   REFERRAL_PACK_HISTORY: '/referralPack/history',
   REFERRED_USERS: '/referral/referredUsers',
+  USER_PRODUCTS: '/userProducts',
 };
 
 export const HTTPS_METHODS = {
