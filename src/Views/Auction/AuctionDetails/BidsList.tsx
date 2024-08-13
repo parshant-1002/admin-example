@@ -12,6 +12,7 @@ import CustomTableView, {
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../../Shared/constants';
 
 import { CONFIRMATION_DESCRIPTION } from '../../Products/helpers/constants';
+
 // Models
 import { ViewMultiData } from '../../Users/helpers/model';
 
@@ -24,7 +25,7 @@ import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import { RED_WARNING } from '../../../assets';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
 import StatsFilters from '../../Users/UserDetails/components/UserDetailsFilters';
-import { AuctionBidColumn } from '../helpers/constants';
+import { AuctionBidColumn } from './Helpers/constants';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;

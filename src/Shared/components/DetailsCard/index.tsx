@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { AuctionDetailsColumnData } from '../../../Views/Auction/helpers/constants';
-import { ProductDetailResponsePayload } from '../../../Views/Auction/helpers/model';
+import { ProductDetailResponsePayload } from '../../../Views/Auction/AuctionDetails/Helpers/Model';
+import { AuctionDetailsColumnData } from '../../../Views/Auction/AuctionDetails/Helpers/constants';
 
 const styles = {
   container: {
@@ -125,29 +125,6 @@ function DetailsWrapperCard({ details, dataScema }: DetailsWrapperCardProps) {
         ))}
       </div>
     </div>
-    // <div style={styles.container}>
-    //   <h3>Auction Details</h3>
-    //   <div style={styles.table}>
-    //     {dataScema.map((item) => (
-    //       <div style={styles.row} key={`id_${item.title}`}>
-    //         <div style={styles.cell}>
-    //           <strong>{formatKey(item.title || '')}</strong>
-    //         </div>
-    //         <div style={styles.cell}>
-    //           {renderValue(
-    //             getColumnValue(data, item),
-    //             item.isEditable,
-    //             (newValue) =>
-    //               handleValueChange(
-    //                 newValue,
-    //                 item.fieldName as keyof ProductDetailResponsePayload
-    //               )
-    //           )}
-    //         </div>
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
   );
 }
 

@@ -5,11 +5,12 @@ import { Button } from 'react-bootstrap';
 import { useState } from 'react';
 import DetailsWrapperCard from '../../../Shared/components/DetailsCard';
 import { useAuctionData } from '../helpers/useAuctionData';
-import { AuctionColumn } from '../helpers/constants';
+
 import BidsList from './BidsList';
 import { BUTTON_LABELS } from '../../../Shared/constants';
 import { ViewMultiData } from '../../Products/helpers/model';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
+import { AuctionColumn } from './Helpers/constants';
 // import { useAuctionData } from '../../hooks/useAuctionData';
 
 export default function AuctionDetails() {
