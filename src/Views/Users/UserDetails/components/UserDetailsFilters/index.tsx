@@ -4,32 +4,28 @@
 import React, { useRef } from 'react';
 
 // consts
+import { BUTTON_LABELS } from '../../../../../Shared/constants';
 
 // components
+import Button from '../../../../../Shared/components/form/Button';
+import TextField from '../../../../../Shared/components/form/TextInput';
+import FiltersDropDown from '../FiltersDropDown';
 
 // styles
-import Button from '../../../../Shared/components/form/Button';
-import TextField from '../../../../Shared/components/form/TextInput/TextInput';
 import './style.scss';
-import { BUTTON_LABELS } from '../../../../Shared/constants';
-import FiltersDropDown from '../FiltersDropDown';
 
 // types
 interface StatsFiltersProps {
   search?: string;
   handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleClearSearch: () => void;
-  selectedIds?: string[];
-  handleDeleteAll: () => void;
   // heading?: string;
 }
 
 function StatsFilters({
   search = '',
   handleSearch,
-  handleClearSearch, // heading = 'Transactions',
-  selectedIds,
-  handleDeleteAll,
+  handleClearSearch,
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
 
@@ -48,15 +44,6 @@ function StatsFilters({
 
       <div className="col-md-8 col-xl-6 my-2">
         <div className="d-flex justify-content-end align-items-start stats_filter">
-          {selectedIds?.length ? (
-            <Button
-              className="btn btn-sm btn-danger"
-              btnType="primary"
-              onClick={handleDeleteAll}
-            >
-              {BUTTON_LABELS.DELETE}
-            </Button>
-          ) : null}
           <FiltersDropDown />
           <div className="dark-form-control">
             <TextField
@@ -82,7 +69,6 @@ function StatsFilters({
           >
             {BUTTON_LABELS.CLEAR}
           </Button>
-
           {/* You may need to add the ref to the button or element you want to clear */}
           <button
             type="button"

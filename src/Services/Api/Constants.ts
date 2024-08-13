@@ -6,6 +6,12 @@ export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
   USER: '/user',
+  USER_BIDS: '/user/addBids',
+  USER_PRODUCTS: '/userProducts',
+  BIDS_SPENT_HISTORY: '/bidSpent/history',
+  AUCTION_HISTORY: '/auction/history',
+  REFERRAL_HISTORY: 'referral/referredUsers',
+  USER_BID_CREDIT_HISTORY: '/user/bidCreditHistory',
   UPDATE_USER: '/user/admin',
   CATEGORY: '/category',
   LOGOUT: '/admin/logout',
@@ -17,7 +23,6 @@ export const API_END_POINTS = {
   REFERRAL_PACK_HISTORY: '/referralPack/history',
   REFERRED_USERS: '/referral/referredUsers',
   BID_PLAN: '/bidPlan',
-  USER_PRODUCTS: '/userProducts',
 };
 
 export const HTTPS_METHODS = {

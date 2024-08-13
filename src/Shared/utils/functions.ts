@@ -8,6 +8,7 @@ import { store } from '../../Store';
 import { setLoading } from '../../Store/Loader';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
 import { API } from '../constants';
+import { CustomRouter } from '../../Routes/RootRoutes';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -117,14 +118,14 @@ const checkValidFileExtension = (
   return validExtensions.includes(fileExtension);
 };
 
-const convertToLocale = (number: number | string): string => {
+const convertToLocale = (number: number | string): string | 0 => {
   if (Number.isNaN(Number(number))) {
-    return String(number);
+    return String(number || 0);
   }
   const num = Number(number);
   const formattedNumber = Number.isInteger(num) ? num : num.toFixed(2);
   const localeCode = 'en-US';
-  return formattedNumber.toLocaleString(localeCode);
+  return formattedNumber.toLocaleString(localeCode) || 0;
 };
 
 const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
@@ -176,6 +177,29 @@ function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function matchRoute(pathname: string, routes: Array<CustomRouter>) {
+  for (const route of routes) {
+    const regex = new RegExp(`^${route?.path?.replace(/:\w+/g, '[^/]+')}$`);
+    if (regex.test(pathname)) {
+      return route?.title;
+    }
+  }
+  return null;
+}
+
+function daysBetweenDates(date1: Date, date2: Date): number {
+  // Convert both dates to milliseconds
+  const dateOneMs: number = date1.getTime();
+  const dateTwoMs: number = date2.getTime();
+
+  // Calculate the difference in milliseconds
+  const diffMs: number = Math.abs(dateTwoMs - dateOneMs);
+
+  // Convert milliseconds to days
+  const daysDifference: number = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+}
 function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
   if (!date) return '';
   return moment(date).format(format);
@@ -235,6 +259,8 @@ export {
   removeEmptyValues,
   validateField,
   addBaseUrl,
+  matchRoute,
+  daysBetweenDates,
   formatDate,
   getValueFromPath,
 };
