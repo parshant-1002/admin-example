@@ -17,14 +17,14 @@ function CustomTabs({
       {tabs?.map((tab: string) => (
         <li
           key={tab}
-          className={`nav-item bg-white col-${Math.floor(12 / tabs.length)} ${
-            activeTab === tab ? 'active' : ''
+          className={` col-${Math.floor(12 / tabs.length)} ${
+            activeTab === tab ? 'nav-item-active' : 'nav-item'
           }`}
           onClick={() => setActiveTab(tab)}
         >
           <a
             className={`nav-link ${
-              activeTab === tab ? 'text-primary font-weight-bold' : 'text-dark'
+              activeTab === tab ? 'text-white font-weight-bold' : 'text-dark'
             }`}
           >
             {tab}

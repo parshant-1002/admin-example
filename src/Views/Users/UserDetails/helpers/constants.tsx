@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
-import { DATE_FORMATS } from '../../../../Shared/constants';
+import { DATE_FORMATS, INPUT_TYPES } from '../../../../Shared/constants';
 
 // libs
 
@@ -10,6 +10,7 @@ import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRend
 import { convertToLocale } from '../../../../Shared/utils/functions';
 import { ProductResponsePayload } from '../../helpers/model';
 import { ViewMultiData } from './model';
+import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 
@@ -90,12 +91,6 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
     sortType: 'bids',
   },
   {
-    title: 'Status',
-    fieldName: 'status',
-    sortable: true,
-    sortType: 'status',
-  },
-  {
     title: 'Date',
     fieldName: 'date',
     sortable: true,
@@ -104,11 +99,12 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
   {
+    title: 'Status',
+    fieldName: 'status',
+  },
+  {
     title: 'Invoice',
     fieldName: 'invoice',
-    isTruncated: true,
-    sortable: true,
-    sortType: 'invoice',
   },
 ];
 
@@ -150,10 +146,7 @@ const biddingHistoryColumn // renderActions: RenderActions
   },
   {
     title: 'Status',
-    fieldName: 'title',
-    isTruncated: true,
-    sortable: true,
-    sortType: 'title',
+    fieldName: 'status',
   },
 ];
 
@@ -192,20 +185,18 @@ const productHistoryColumn = (
   },
   {
     title: 'Product Price',
-    fieldName: 'price',
-    isTruncated: true,
-    render: (_, val) => `${convertToLocale(val)}`,
+    fieldName: 'productPrice',
+    render: (_, val) => `$${convertToLocale(val)}`,
     sortable: true,
-    sortType: 'price',
+    sortType: 'productPrice',
   },
   {
     title: 'Date',
-    fieldName: 'price',
-    isTruncated: true,
+    fieldName: 'date',
     sortable: true,
-    sortType: 'price',
+    sortType: 'date',
     render: (_, val) =>
-      moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
+      val ? moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME) : '_',
   },
   {
     title: 'Images',
@@ -254,9 +245,6 @@ const productHistoryColumn = (
   {
     title: 'Invoice',
     fieldName: 'invoice',
-    isTruncated: true,
-    sortable: true,
-    sortType: 'invoice',
   },
 ];
 
@@ -294,8 +282,6 @@ export const auctionHistoryColumn // renderActions: RenderActions
     title: 'No. Of Days',
     fieldName: 'days',
     render: (_, val) => `${convertToLocale(val)}`,
-    sortable: true,
-    sortType: 'days',
   },
   {
     title: 'Item Price',
@@ -307,7 +293,6 @@ export const auctionHistoryColumn // renderActions: RenderActions
   {
     title: 'Start Date',
     fieldName: 'startDate',
-    isTruncated: true,
     sortable: true,
     sortType: 'startDate',
     render: (_, val) =>
@@ -316,7 +301,6 @@ export const auctionHistoryColumn // renderActions: RenderActions
   {
     title: 'End Date',
     fieldName: 'endDate',
-    isTruncated: true,
     sortable: true,
     sortType: 'endDate',
     render: (_, val) =>
@@ -325,16 +309,12 @@ export const auctionHistoryColumn // renderActions: RenderActions
   {
     title: 'Winner',
     fieldName: 'Winner',
-    isTruncated: true,
     sortable: true,
     sortType: 'Winner',
   },
   {
     title: 'Status',
-    fieldName: 'title',
-    isTruncated: true,
-    sortable: true,
-    sortType: 'title',
+    fieldName: 'status',
   },
 ];
 
@@ -383,6 +363,34 @@ const referralHistoryColumn: ColumnData[] = [
   },
 ];
 
+const auctionBiddingHistoryColumn // renderActions: RenderActions
+: ColumnData[] = [
+  {
+    title: 'Bid Id',
+    fieldName: 'bidId',
+    sortable: true,
+    sortType: 'bidId',
+  },
+  {
+    title: 'Purchase History',
+    fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
+    render: (_, val) =>
+      moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
+  },
+  {
+    title: 'Item Price',
+    fieldName: 'bids',
+    sortable: true,
+    sortType: 'bids',
+    render: (_, val) => `$${convertToLocale(val)}`,
+  },
+  {
+    title: 'Status',
+    fieldName: 'status',
+  },
+];
 // Define the shape of CONFIRMATION_DESCRIPTION
 const CONFIRMATION_DESCRIPTION: Record<string, string> = {
   DELETE: 'Are you sure you want to delete',
@@ -396,6 +404,23 @@ const BID_CREDIT_TYPES = {
   REFUND: 5,
 };
 
+const AUCTION_STATUS = {
+  PENDING: 1, // awaiting bidding
+  ACTIVE: 2, // bidding active
+  ENDED: 3, // bidding ended
+};
+
+const ADD_BIDS_FORM_SCHEMA = {
+  bids: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Add Bids',
+    className: 'col-md-12',
+    placeholder: 'Add Bids',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+};
 export {
   BID_CREDIT_TYPES,
   CONFIRMATION_DESCRIPTION,
@@ -405,4 +430,7 @@ export {
   bidsPurchaseHistoryColumn,
   productHistoryColumn,
   referralHistoryColumn,
+  AUCTION_STATUS,
+  ADD_BIDS_FORM_SCHEMA,
+  auctionBiddingHistoryColumn,
 };

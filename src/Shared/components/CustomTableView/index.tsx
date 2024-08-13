@@ -158,7 +158,7 @@ function CustomTableView({
                         <tr>
                           <td
                             colSpan={columns.length}
-                            className="bg-white text-primary"
+                            className="text-primary secondary_component"
                           >
                             {SecondaryRowComponent()}
                           </td>

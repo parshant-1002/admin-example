@@ -186,6 +186,20 @@ function matchRoute(pathname: string, routes: Array<CustomRouter>) {
   return null;
 }
 
+function daysBetweenDates(date1: Date, date2: Date): number {
+  // Convert both dates to milliseconds
+  const dateOneMs: number = date1.getTime();
+  const dateTwoMs: number = date2.getTime();
+
+  // Calculate the difference in milliseconds
+  const diffMs: number = Math.abs(dateTwoMs - dateOneMs);
+
+  // Convert milliseconds to days
+  const daysDifference: number = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+}
+
 export {
   capitalizeFirstLetter,
   checkOffline,
@@ -201,4 +215,5 @@ export {
   validateField,
   addBaseUrl,
   matchRoute,
+  daysBetweenDates,
 };

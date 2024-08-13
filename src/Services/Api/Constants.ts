@@ -6,6 +6,7 @@ export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
   USER: '/user',
+  USER_BIDS: '/user/addBids',
   USER_PRODUCTS: '/userProducts',
   BIDS_SPENT_HISTORY: '/bidSpent/history',
   AUCTION_HISTORY: '/auction/history',

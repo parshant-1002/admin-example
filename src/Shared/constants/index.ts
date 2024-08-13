@@ -127,6 +127,7 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
+  ADD_BIDS: 'Add Bids',
   REVOKE: 'Revoke',
   YES: 'yes',
   NO: 'No',

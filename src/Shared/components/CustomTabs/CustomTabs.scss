@@ -1,9 +1,18 @@
 // CustomTabs.scss
-
+@import '../../../assets/scss/base';
 .nav-tabs .nav-item {
     margin-right: 20px;
     margin: 10px;
     border: none;
+    background-color: $white-color;
+}
+
+.nav-item-active {
+    margin-right: 20px;
+    margin: 10px;
+    border: none;
+    background-color: $dark-voilet-color-700;
+    color: $white-color;
 }
 
 .nav-tabs .nav-link {

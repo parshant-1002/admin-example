@@ -75,9 +75,11 @@ const ADD_ONS_PAGE_LIMIT = 5;
 export default function ProfileRelatedLists({
   userId,
   currentTab,
+  callBidsCreditApi,
 }: {
   userId?: string;
   currentTab: string;
+  callBidsCreditApi?: boolean;
 }) {
   // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
@@ -90,8 +92,8 @@ export default function ProfileRelatedLists({
     ''
   );
   const [search, setSearch] = useState<string>('');
-  const [sortKey, setSortKey] = useState<string>('');
   const [tableData, setTableData] = useState({ data: [], count: 0 });
+  const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
@@ -260,13 +262,23 @@ export default function ProfileRelatedLists({
   );
   useEffect(() => {
     if (onComponentMountRef.current) {
+      if (callBidsCreditApi) {
+        refetchUserBidsCreditHistory();
+        return;
+      }
       const refetchFunction = refetchMap[currentTab];
       if (refetchFunction) {
         refetchFunction();
       }
     }
     onComponentMountRef.current = true;
-  }, [currentTab, refetchBidsSpentHistory, refetchMap]);
+  }, [
+    currentTab,
+    refetchBidsSpentHistory,
+    refetchMap,
+    callBidsCreditApi,
+    refetchUserBidsCreditHistory,
+  ]);
 
   // Define the useEffect hook
   useEffect(() => {
