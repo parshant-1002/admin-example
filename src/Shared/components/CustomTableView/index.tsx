@@ -51,8 +51,6 @@ function CustomTableView({
   handleRowClick = () => {},
   SecondaryRowComponent = () => <> </>,
   isLoading = false,
-  onRowHover = () => {},
-  onRowClick = () => {},
 }: CustomTableViewProps) {
   const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
     FilterOrder.ASCENDING

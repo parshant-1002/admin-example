@@ -160,7 +160,7 @@ export default function AuctionManagementList() {
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         quickEditRowId={null}
-        onRowClick={(row) => {
+        handleRowClick={(row) => {
           navigate(`${ROUTES.AUCTION_DETAILS}/${row._id}`);
         }}
         renderTableFooter={() => (
