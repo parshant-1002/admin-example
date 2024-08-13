@@ -1,14 +1,15 @@
 // _mixin.scss
 
-@each $aSize, $fSize in (24), (30),(60),(80) {
+@each $aSize, $fSize in (24 50), (30),(60),(80) {
   .avtar#{$aSize} {
     max-height: #{$aSize}px;
     max-width: #{$aSize}px;
     min-height: #{$aSize}px;
     min-width: #{$aSize}px;
-    border-radius: #{$aSize}px;
+    border-radius: #{$fSize}px;
   }
-}
+} 
+
 @each $aSize in (38), (44), (64){
   .btn#{$aSize} {
     height: #{$aSize}px;
@@ -22,6 +23,7 @@
   height: $size;
   border-radius: 100%;
 }
+
 
 // Link Color
 @mixin linkColor($color) {
@@ -45,6 +47,7 @@
     color: $textcolor;
   }
 }
+
 // Outline Button
 @mixin buttonOutline($bgcolor, $bordercolor, $textcolor) {
   background-color: $bgcolor;
@@ -269,5 +272,57 @@
 @mixin para{
   font-size: $font-15;
   color: $text-color;
-  line-height: 24px;
+  line-height: 1.1;
+}
+
+@mixin font($size, $lheight, $fweight){
+  font-size: $size;
+  line-height: $lheight;
+  font-weight: $fweight;
+}
+@mixin border-left($radius){
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin curve-top{
+  @include position($absolute, $top:-30px);
+  width: 20px;
+  height: 60px;
+  inset-inline-end: 0px;
+  background: transparent;
+}
+@mixin curve-bottom{
+  @include position($absolute, $top:14px,);
+  width: 20px;
+  height: 70px;
+  inset-inline-end: 0px;
+  background: transparent;
+}
+@mixin top-curve-before{
+  @include position($absolute, $top:-30px, $bottom:0);
+  content: "";
+  width: 20px;
+  z-index: 9;
+  inset-inline-end: 0px;
+  height: 30px;
+  border-color: transparent;
+  border-radius: 0;
+  border-end-end-radius: 48px;
+  border-inline-end: 20px solid transparent;
+}
+@mixin bottom-curve-after{
+  @include position($absolute, $bottom:-30px);
+  content: "";
+  z-index: 9;
+  inset-inline-end: 0px;
+  height: 30px;
+  border-color: transparent;
+  border-radius: 0;
+  border-start-end-radius: 48px;
+  border-inline-end: 20px solid transparent;
+  background-image: unset;
+}
+@mixin inline-pad-20{
+  padding-inline: 20px;;
 }

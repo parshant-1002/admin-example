@@ -9,22 +9,22 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-user',
     label: 'Users',
     route: ROUTES.USERS,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-category',
     label: 'Categories',
     route: ROUTES.CATEGORIES,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-product',
     label: 'Products',
     route: ROUTES.PRODUCTS,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-invoice',
     label: 'Invoices',
     children: [
       {
@@ -38,7 +38,7 @@ const SIDEBAR_NAV = [
     ],
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-referral',
     label: 'Referral',
     children: [
       {

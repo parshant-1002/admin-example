@@ -13,6 +13,8 @@ import { setLoading } from '../../Store/Loader';
 import { API_BASE_URL, VITE_API_VERSION } from './Constants';
 import { ResponseOptions } from './api.d';
 
+console.log('API_BASE_URL', API_BASE_URL);
+
 const baseQuery: BaseQueryFn = fetchBaseQuery({
   baseUrl: API_BASE_URL + VITE_API_VERSION,
   prepareHeaders: async (headers: Headers, { getState }) => {
