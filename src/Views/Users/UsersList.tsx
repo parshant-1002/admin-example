@@ -289,9 +289,7 @@ export default function UsersList() {
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil(
-                (usersListing?.data?.count || 1) / USERS_PAGE_LIMIT
-              ) !==
+              Math.ceil((usersListing?.data?.count || 1) / USERS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED
