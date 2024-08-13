@@ -145,6 +145,8 @@ export const BUTTON_LABELS = {
   DOWNLOAD_CSV: 'Download csv ',
   EDIT: 'Edit',
   ADD: 'Add',
+  DELETE_ALL: 'Delete all',
+  CLEAR_ALL: 'Clear all',
 };
 export const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',
@@ -272,6 +274,7 @@ const ROUTES = {
   INVOICES_PURCHASE: '/invoices/purchase',
   CREATE_REFERRAL: '/create-referral',
   REFERRAL_LISTING: '/referral-listing',
+  BIDS_PLANS: '/bids-plans',
 };
 
 const WILDCARD_ROUTES = {
@@ -352,6 +355,10 @@ const ROUTES_CONFIG = {
   REFERRAL_LISTING: {
     path: ROUTES.REFERRAL_LISTING,
     title: 'Referral Listing',
+  },
+  BIDS_PLANS: {
+    path: ROUTES.BIDS_PLANS,
+    title: 'Bids Plans',
   },
 };
 

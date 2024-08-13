@@ -10,7 +10,7 @@ import CustomTableView, {
   Row,
 } from '../../../Shared/components/CustomTableView';
 import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
-import AddEditReferralPack from '../components/AddEditReferralPack';
+import AddEditPlan from '../components/AddEditPlan';
 import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
@@ -21,15 +21,15 @@ import {
   ROUTES,
   STRINGS,
 } from '../../../Shared/constants';
-import { CreateReferralColumns } from '../helpers/constants';
+import { PlansColumns } from '../helpers/constants';
 
 // API
 import {
-  useAddReferralPackMutation,
-  useDeleteReferralPackMutation,
-  useEditReferralPackMutation,
-  useGetReferralPacksQuery,
-} from '../../../Services/Api/module/referral';
+  useAddBidPlanMutation,
+  useDeleteBidPlanMutation,
+  useEditBidPlanMutation,
+  useGetBidPlansQuery,
+} from '../../../Services/Api/module/plans';
 
 // Utilities
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
@@ -54,7 +54,7 @@ interface Popup {
 // Constants
 const PAGE_LIMIT = 5;
 
-function CreateReferral() {
+function Plans() {
   const navigate = useNavigate();
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
@@ -84,15 +84,15 @@ function CreateReferral() {
   };
 
   // API Queries
-  const { data: listing, refetch } = useGetReferralPacksQuery({
+  const { data: listing, refetch } = useGetBidPlansQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
   });
 
-  const [editReferralPack] = useEditReferralPackMutation();
-  const [addReferralPack] = useAddReferralPackMutation();
-  const [deleteReferralPack] = useDeleteReferralPackMutation();
+  const [editBidPlan] = useEditBidPlanMutation();
+  const [addBidPlan] = useAddBidPlanMutation();
+  const [deleteBidPlan] = useDeleteBidPlanMutation();
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -128,13 +128,16 @@ function CreateReferral() {
       payload.startDate as string,
       'YYYY-MM-DD HH:mm:ss'
     );
+    payload.endDate = formatDate(
+      payload.endDate as string,
+      'YYYY-MM-DD HH:mm:ss'
+    );
 
     if (popup.type === POPUPTYPES.EDIT) {
-      payload.referralPackId = popup.data?._id;
+      payload.bidPlanId = popup.data?._id;
     }
 
-    const action =
-      popup.type === POPUPTYPES.EDIT ? editReferralPack : addReferralPack;
+    const action = popup.type === POPUPTYPES.EDIT ? editBidPlan : addBidPlan;
 
     action({
       payload,
@@ -150,8 +153,8 @@ function CreateReferral() {
   };
 
   const handleDeleteConfirm = () => {
-    deleteReferralPack({
-      payload: { referralPackIds: selectedIds },
+    deleteBidPlan({
+      payload: { bidPlanIds: selectedIds },
       onSuccess: (response: { message: string }) => {
         toast.success(response.message);
         refetch();
@@ -183,7 +186,7 @@ function CreateReferral() {
         referralPackId: data?._id,
         isEnabled: !data?.isEnabled,
       };
-      editReferralPack({
+      editBidPlan({
         payload,
         onSuccess: (response: { message: string }) => {
           toast.success(response.message);
@@ -194,12 +197,12 @@ function CreateReferral() {
         },
       });
     },
-    [editReferralPack, refetch]
+    [editBidPlan, refetch]
   );
 
   const handleView = useCallback(
     (data: Record<string, unknown>) => {
-      navigate(`${ROUTES.REFERRAL_LISTING}/${data?._id}`);
+      navigate(`${ROUTES.BIDS_PLANS}/${data?._id}`);
     },
     [navigate]
   );
@@ -217,7 +220,7 @@ function CreateReferral() {
   // Memoized columns for table
   const columns = useMemo(
     () =>
-      CreateReferralColumns({
+      PlansColumns({
         handleView,
         handleEdit,
         handleDelete: handleDeleteClick,
@@ -238,11 +241,11 @@ function CreateReferral() {
         handleAddNew={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.ADD })
         }
+        selectedIds={selectedIds}
         handleDeleteAll={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.DELETE })
         }
         handleClearAll={() => setSelectedIds([])}
-        selectedIds={selectedIds}
       />
 
       {/* Table */}
@@ -260,7 +263,7 @@ function CreateReferral() {
       />
 
       {/* Add Popup */}
-      <AddEditReferralPack
+      <AddEditPlan
         open={
           (popup.type === POPUPTYPES.ADD || popup.type === POPUPTYPES.EDIT) &&
           popup.show
@@ -273,14 +276,14 @@ function CreateReferral() {
         initialValues={
           popup.data
             ? {
-                name: popup.data?.name,
-                rewardBids: popup.data?.rewardBids,
-                refereeBidRequirement: popup.data?.refereeBidRequirement,
-                startDate: formatDate(
-                  popup.data?.startDate as string,
-                  'YYYY-MM-DD'
-                ),
-                isEnabled: popup.data?.isEnabled,
+                title: popup.data?.title,
+                bids: popup.data?.bids,
+                price: popup.data?.price,
+                // startDate: formatDate(
+                //   popup.data?.startDate as string,
+                //   'YYYY-MM-DD'
+                // ),
+                // isEnabled: popup.data?.isEnabled,
               }
             : {}
         }
@@ -303,4 +306,4 @@ function CreateReferral() {
   );
 }
 
-export default CreateReferral;
+export default Plans;

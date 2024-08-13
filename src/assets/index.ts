@@ -10,6 +10,7 @@ import Copy from './icons/copy-link-icon.svg';
 import Delete from './icons/delete.svg';
 import actions from './icons/dots 8.svg';
 import Filter from './icons/filter.svg';
+import InvoiceIcon from './icons/invoice.svg';
 
 export {
   Logo,
@@ -24,4 +25,5 @@ export {
   Delete,
   actions,
   Filter,
+  InvoiceIcon,
 };
