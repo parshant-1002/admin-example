@@ -160,7 +160,7 @@ function CustomTableView({
             nextClassName={`next-btn ${
               Math.ceil(pageCount) !== currentPage + 1 ? '' : 'disabled'
             }`}
-            previousClassName="prev-btn"
+            previousClassName="pre-btn"
             disabledClassName="disabled"
             forcePage={currentPage}
           />

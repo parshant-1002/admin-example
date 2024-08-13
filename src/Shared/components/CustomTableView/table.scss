@@ -340,10 +340,10 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
                 margin: 2px 3px;
                 text-align: $center;
                 @include font-size (1);
-                background: $body-color;
+                background: $dark-voilet-color-200;
                 font-weight: $font-regular;
                 @include border-radius (4px);
-                border: 1px solid $green-light-color-780;
+                border: 1px solid $dark-voilet-color-500;
                 @include transition (all, 400ms, ease-in-out, 0s);
 
                 @media (max-width: 420px) {
@@ -354,8 +354,8 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
             &.active,
             &:hover {
                 a {
-                    background-color: $dark-green-color-850;
-                    border-color: $green-light-color-700;
+                    background-color: $dark-voilet-color-700;
+                    border-color: $dark-voilet-color-500;
                     color: $white-color !important;
                 }
             }
@@ -377,8 +377,8 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
                     background-position: $center;
                     background-size: 8px;
                     @include font-size (0);
-                    background-color: $dark-green-color-850;
-                    border-color: $dark-yellow-color-700;
+                    background-color: $dark-voilet-color-700;
+                    border-color: $dark-voilet-color-500;
                 }
             }
 

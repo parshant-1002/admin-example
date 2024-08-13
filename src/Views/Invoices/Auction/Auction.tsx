@@ -1,7 +1,6 @@
 // Libraries
 import { debounce } from 'lodash';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import ReactPaginate from 'react-paginate';
+import { useEffect, useRef, useState } from 'react';
 
 // Components
 import CustomTableView, {
@@ -86,9 +85,6 @@ function AuctionInvoices() {
     setSearch(e.target.value);
   }, 1000);
 
-  // Memoized columns for table
-  const columns = useMemo(() => AuctionInvoiceColumns, []);
-
   // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
@@ -107,27 +103,15 @@ function AuctionInvoices() {
 
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
-        columns={columns as unknown as Column[]}
+        columns={AuctionInvoiceColumns as unknown as Column[]}
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
-        renderTableFooter={() => (
-          <ReactPaginate
-            pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
-            onPageChange={handlePageClick}
-            activeClassName={STRINGS.ACTIVE}
-            nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((listing?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
-              currentPage + 1
-                ? STRINGS.EMPTY_STRING
-                : STRINGS.DISABLED
-            }`}
-            previousClassName={STRINGS.PREV_BTN}
-            disabledClassName={STRINGS.DISABLED}
-            forcePage={currentPage}
-          />
-        )}
+        pagination
+        pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+        onPageChange={handlePageClick}
+        currentPage={currentPage}
       />
     </div>
   );
