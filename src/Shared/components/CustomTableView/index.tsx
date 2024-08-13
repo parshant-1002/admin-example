@@ -26,7 +26,6 @@ interface CustomTableViewProps {
   pageCount?: number;
   onPageChange?: (selectedItem: { selected: number }) => void;
 }
-
 export interface Column {
   title?: string;
   fieldName?: string;
@@ -42,7 +41,6 @@ export interface Column {
 export interface Row {
   [key: string]: string | number;
 }
-
 function CustomTableView({
   columns = [],
   rows = [],
@@ -71,6 +69,9 @@ function CustomTableView({
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
     // if (!column?.fieldName) return null;
+    const fieldValue = column?.path?.length
+      ? getValueFromPath(row, column?.path)
+      : row[column?.fieldName || ''];
     if (column.isTruncated) {
       return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
     }

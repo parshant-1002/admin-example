@@ -23,6 +23,54 @@ const SIDEBAR_NAV = [
     label: 'Products',
     route: ROUTES.PRODUCTS,
   },
+  {
+    iconClass: 'bi bi-grid',
+    label: 'Auction Management',
+    route: ROUTES.AUCTION_MANAGEMENT,
+  },
+  {
+    // children: [],
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Invoices',
+    children: [
+      {
+        label: 'Auction',
+        route: ROUTES.INVOICES_AUCTION,
+      },
+      {
+        label: 'Purchase',
+        route: ROUTES.INVOICES_PURCHASE,
+      },
+    ],
+  },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Referral',
+    children: [
+      {
+        label: 'Create Referral',
+        route: ROUTES.CREATE_REFERRAL,
+      },
+      // {
+      //   label: 'Referral Listing',
+      //   route: ROUTES.REFERRAL_LISTING,
+      // },
+    ],
+  },
+  {
+    iconClass: 'bi bi-person-lines-fill',
+    label: 'Bids Plans',
+    children: [
+      {
+        label: 'Plans',
+        route: ROUTES.BIDS_PLANS,
+      },
+      // {
+      //   label: 'Referral Listing',
+      //   route: ROUTES.REFERRAL_LISTING,
+      // },
+    ],
+  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',
