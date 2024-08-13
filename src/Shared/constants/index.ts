@@ -416,6 +416,11 @@ const PRODUCT_PURCHASE_STATUS = {
   EXPIRED: 3, // bidding ended
 };
 
+const BID_PLAN_TYPES = {
+  REGULAR: 1,
+  HOT_DEAL: 2,
+};
+
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -423,4 +428,5 @@ export {
   POPUPTYPES,
   REFERRAL_STATUS,
   PRODUCT_PURCHASE_STATUS,
+  BID_PLAN_TYPES,
 };

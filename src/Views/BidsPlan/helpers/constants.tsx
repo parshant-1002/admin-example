@@ -2,6 +2,7 @@ import { actions, InvoiceIcon } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
 import {
+  BID_PLAN_TYPES,
   INPUT_TYPES,
   REFERRAL_STATUS,
   STRINGS,
@@ -9,8 +10,19 @@ import {
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { formatDate } from '../../../Shared/utils/functions';
 
-export const PLAN_SCHEMA = {
-  title: {
+export const PLAN_FORM_FIELDS = {
+  NAME: 'title',
+  PRICE: 'price',
+  BIDS: 'bids',
+  HOT_DEAL: 'type',
+  DISCOUNT_PERCENTAGE: 'dealOfferPercentage',
+  DISCOUNT_PRICE: 'dealPrice',
+  END_DATE: 'endDate',
+  STATUS: 'isEnabled',
+};
+
+export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
+  [PLAN_FORM_FIELDS.NAME]: {
     type: INPUT_TYPES.TEXT,
     label: 'Plan Name',
     className: 'col-md-12',
@@ -19,7 +31,7 @@ export const PLAN_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  price: {
+  [PLAN_FORM_FIELDS.PRICE]: {
     type: INPUT_TYPES.NUMBER,
     label: 'Deal Price',
     className: 'col-md-12',
@@ -28,7 +40,7 @@ export const PLAN_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  bids: {
+  [PLAN_FORM_FIELDS.BIDS]: {
     type: INPUT_TYPES.NUMBER,
     label: 'Bids Credited',
     className: 'col-md-12',
@@ -37,7 +49,7 @@ export const PLAN_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  hotDeal: {
+  [PLAN_FORM_FIELDS.HOT_DEAL]: {
     type: INPUT_TYPES.SELECT,
     label: 'Hot Deal',
     className: 'col-md-12',
@@ -48,33 +60,57 @@ export const PLAN_SCHEMA = {
     options: [
       {
         label: 'Yes',
-        value: 'Yes',
+        value: BID_PLAN_TYPES.HOT_DEAL,
       },
       {
         label: 'No',
-        value: 'No',
+        value: BID_PLAN_TYPES.REGULAR,
       },
     ],
   },
-  startDate: {
-    type: INPUT_TYPES.DATE,
-    label: 'Start Date',
+  [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Discount Percentage (upto 100)',
     className: 'col-md-12',
-    placeholder: 'Start Date',
+    placeholder: 'Discount Percentage (upto 100)',
+    min: 0,
+    max: 100,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min: {
+        value: 0,
+        message: 'Values can not be less than 0',
+      },
+      max: {
+        value: 100,
+        message: 'Value can not be great than 100',
+      },
+    },
+  },
+  [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Discounted Deal Price',
+    className: 'col-md-12',
+    placeholder: 'Discounted Deal Price',
+    readOnly: true,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  endDate: {
-    type: INPUT_TYPES.DATE,
-    label: 'End Date',
-    className: 'col-md-12',
-    placeholder: 'End Date',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
-  isEnabled: {
+  ...(showHotDealSpecificFields
+    ? {
+        [PLAN_FORM_FIELDS.END_DATE]: {
+          type: INPUT_TYPES.DATE,
+          label: 'End Date',
+          className: 'col-md-12',
+          placeholder: 'End Date',
+          schema: {
+            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+          },
+        },
+      }
+    : {}),
+  [PLAN_FORM_FIELDS.STATUS]: {
     type: INPUT_TYPES.SWITCH,
     label: 'Status',
     className: 'col-md-12',
@@ -83,7 +119,7 @@ export const PLAN_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-};
+});
 
 interface CreateReferralProps {
   handleView: (row: Record<string, unknown>) => void;
@@ -115,7 +151,6 @@ export const PlansColumns = ({
             type="checkbox"
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
-            // onChange={() => handleChangeCheckBox(row._id)}
           />
           <div className="checkbox-custom" />
         </div>
@@ -128,23 +163,23 @@ export const PlansColumns = ({
   },
   {
     title: 'Name',
-    fieldName: 'title',
+    fieldName: PLAN_FORM_FIELDS.NAME,
     isTruncated: true,
     sortable: true,
-    sortType: 'title',
+    sortType: PLAN_FORM_FIELDS.NAME,
   },
   {
     title: 'Bids Given',
-    fieldName: 'bids',
+    fieldName: PLAN_FORM_FIELDS.BIDS,
     isTruncated: true,
     sortable: true,
-    sortType: 'bids',
+    sortType: PLAN_FORM_FIELDS.BIDS,
   },
   {
     title: 'Deal Price',
-    fieldName: 'price',
+    fieldName: PLAN_FORM_FIELDS.PRICE,
     sortable: true,
-    sortType: 'price',
+    sortType: PLAN_FORM_FIELDS.PRICE,
   },
   {
     title: 'Created At',
@@ -152,25 +187,35 @@ export const PlansColumns = ({
     sortable: true,
     sortType: 'createdAt',
     render: (_, createdAt) =>
-      createdAt ? new Date(createdAt).toDateString() : '',
+      createdAt ? formatDate(createdAt as string) : '-.-',
   },
   {
     title: 'End At',
-    fieldName: 'endAt',
+    fieldName: PLAN_FORM_FIELDS.END_DATE,
     sortable: true,
-    sortType: 'endAt',
-    render: (_, endAt) => (endAt ? new Date(endAt).toDateString() : ''),
+    sortType: PLAN_FORM_FIELDS.END_DATE,
+    render: (_, endDate) => (endDate ? formatDate(endDate as string) : '-.-'),
   },
   {
     title: 'Hot Deal',
-    fieldName: 'hotDeal',
+    fieldName: PLAN_FORM_FIELDS.HOT_DEAL,
     sortable: true,
-    sortType: 'hotDeal',
-    render: (_, hotDeal) => (hotDeal ? new Date(hotDeal).toDateString() : ''),
+    sortType: PLAN_FORM_FIELDS.HOT_DEAL,
+    render: (_, value) =>
+      (() => {
+        switch (value) {
+          case BID_PLAN_TYPES.HOT_DEAL:
+            return 'Yes';
+          case BID_PLAN_TYPES.REGULAR:
+            return 'No';
+          default:
+            return '';
+        }
+      })(),
   },
   {
     title: 'Status',
-    fieldName: 'isEnabled',
+    fieldName: PLAN_FORM_FIELDS.STATUS,
     render: (row, isEnabled) => (
       <div className="form-check form-switch">
         <input
