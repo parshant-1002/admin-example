@@ -55,6 +55,7 @@ interface UserBid {
   _id?: string;
   name?: string;
   bids?: number;
+  bidType: number;
   type: number;
   email?: string;
   referralAmount?: number;
@@ -62,12 +63,20 @@ interface UserBid {
   bidPlan?: BidPlan;
   phoneNumber?: string;
   address?: string;
-  auctionDetails?: { title: string; reservePrice: number };
+  auctionDetails: {
+    title: string;
+    reservePrice: number;
+    bidStartDate: string;
+    reserveWaitingEndDate: string;
+    status: number;
+  };
   productDetails?: { price: string };
   auction?: { title: string };
   product?: { title: string; images: string[] };
   purchasedPrice?: string;
   totalBids?: number;
+  itemPrice?: number;
+  winnerName?: string;
 }
 
 // Define the type for the response data

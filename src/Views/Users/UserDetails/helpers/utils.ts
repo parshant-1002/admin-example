@@ -1,4 +1,5 @@
-import { BID_CREDIT_TYPES } from './constants';
+import { daysBetweenDates } from '../../../../Shared/utils/functions';
+import { AUCTION_STATUS, BID_CREDIT_TYPES } from './constants';
 import {
   UserReferralHistoryResponse,
   UserBiddingHistoryResponse,
@@ -37,7 +38,7 @@ const transformBiddingHistoryResponse = (data: UserBiddingHistoryResponse) => {
       itemPrice: biddingHistory?.productDetails?.price,
       bidsSpent: biddingHistory?.bids,
       date: biddingHistory?.createdAt,
-      status: getKeyByValue(BID_CREDIT_TYPES, biddingHistory?.type),
+      status: getKeyByValue(BID_CREDIT_TYPES, biddingHistory?.bidType),
     })),
     count: data?.count,
   };
@@ -78,9 +79,18 @@ const transformAuctionHistoryResponse = (data: UserAuctionHistoryResponse) => {
       productName: auctionHistory?.product?.title,
       bidSpent: auctionHistory?.totalBids,
       reservePrice: auctionHistory?.auctionDetails?.reservePrice,
-      productPrice: auctionHistory?.purchasedPrice,
-      date: auctionHistory?.createdAt,
-      images: auctionHistory?.product?.images,
+      startDate: auctionHistory?.auctionDetails?.bidStartDate,
+      endDate: auctionHistory?.auctionDetails?.reserveWaitingEndDate,
+      status: getKeyByValue(
+        AUCTION_STATUS,
+        auctionHistory?.auctionDetails?.status
+      ),
+      price: auctionHistory?.itemPrice,
+      winner: auctionHistory?.winnerName,
+      days: daysBetweenDates(
+        new Date(auctionHistory?.auctionDetails?.bidStartDate),
+        new Date(auctionHistory?.auctionDetails?.reserveWaitingEndDate)
+      ),
     })),
     count: data?.count,
   };

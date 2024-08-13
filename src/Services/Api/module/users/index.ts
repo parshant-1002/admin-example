@@ -44,6 +44,16 @@ export const loginApi = api.injectEndpoints({
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
+    addUserBids: builder.mutation({
+      query: ({ payload }) => ({
+        url: API_END_POINTS.USER_BIDS,
+        method: HTTPS_METHODS.POST,
+        body: payload,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+    }),
     getUserBidsCreditHistory: builder.query({
       query: ({ params }) => ({
         url: API_END_POINTS.USER_BID_CREDIT_HISTORY,
@@ -70,6 +80,7 @@ export const {
   useDeleteUsersMutation,
   useEditUsersMutation,
   useGetUsersQuery,
+  useAddUserBidsMutation,
   useGetUserProductHistoryQuery,
   useGetUserBidsCreditHistoryQuery,
 } = loginApi;

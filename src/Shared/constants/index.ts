@@ -90,7 +90,7 @@ export const STRINGS = {
   ACTIVE: 'active',
   DISABLED: 'disabled',
   EMPTY_STRING: '',
-  NO_RESULT: 'No Search result found!',
+  NO_RESULT: 'No Result found!',
   WINNER_LIST: 'Winner List',
   NEXT_WINNER_DRAWN_AT: 'Next winner will be drawn at',
   LAST_WINNER_DRAWN_AT: 'Last winner drawn at',
@@ -99,6 +99,48 @@ export const STRINGS = {
   DRAWN: 'Status',
   DRAW: 'Draw',
   DRAWN_TYPE: 'Drawn Type',
+  ARE_YOU_SURE_YOU_WANT_TO_DELETE: 'Are you sure you want to delete this?',
+  EDIT_REFERRAL_PACK: 'Edit Referral Pack',
+  ADD_REFERRAL_PACK: 'Add Referral Pack',
+  UPDATE: 'Update',
+  DELETE: 'Delete',
+  ADD: 'Add',
+  VIEW: 'View',
+  AUCTION_ID: 'Auction Id',
+  AUCTION_NAME: 'Auction Name',
+  P_ID: 'P.ID',
+  P_NAME: 'P.Name',
+  PURCHASED_DATE: 'Purchased Date',
+  INVOICE_DATE: 'Invoice Date',
+  BID_PRICE: 'Bid Price',
+  USERNAME: 'Username',
+  EMAIL: 'Email',
+  INVOICE: 'Invoice',
+  GENERATE: 'Generate',
+  PACK_ID: 'Pack Id',
+  PACK_NAME: 'Pack Name',
+  DEAL_PRICE: 'Deal Price',
+  BIDS_RECEIVED: 'Bids Received',
+  REFERRAL_ID: 'Referral Id',
+  NAME: 'Name',
+  BIDS_GIVEN: 'Bids Given',
+  REFEREE_BIDS_PURCHASED: 'Referee Bids Purchased',
+  START_DATE: 'Start Date',
+  STATUS: 'Status',
+  ACTIONS: 'Actions',
+  REFERRER_NAME: 'Referrer Name',
+  REFERRER_EMAIL: 'Referrer Email',
+  REWARDS: 'Rewards',
+  REFEREE_EMAIL: 'Referee Email',
+  REWARD_AT: 'Reward At',
+  REFERRAL_DATE: 'Referral Date',
+  COMPLETED: 'Completed',
+  PENDING: 'Pending',
+  USER_DELETED: 'User Deleted',
+  PLAN_ID: 'Plan Id',
+  CREATED_AT: 'Created At',
+  CLOSED_AT: 'Closed At',
+  REFERRALS: 'Referrals',
 };
 
 export const CONTENT_ENUMS = {
@@ -127,6 +169,7 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
+  ADD_BIDS: 'Add Bids',
   REVOKE: 'Revoke',
   YES: 'yes',
   NO: 'No',
@@ -138,6 +181,8 @@ export const BUTTON_LABELS = {
   DOWNLOAD_CSV: 'Download csv ',
   EDIT: 'Edit',
   ADD: 'Add',
+  DELETE_ALL: 'Delete all',
+  CLEAR_ALL: 'Clear all',
 };
 export const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',
@@ -261,6 +306,11 @@ const ROUTES = {
   CHANGE_PASSWORD: '/change-password',
   MANUAL_TRANSFER: '/manual-transfer',
   MANUAL_TRANSFER_LIST: '/manual-transfer/manual-transfer-list',
+  INVOICES_AUCTION: '/invoices/auction',
+  INVOICES_PURCHASE: '/invoices/purchase',
+  CREATE_REFERRAL: '/create-referral',
+  REFERRAL_LISTING: '/referral-listing',
+  BIDS_PLANS: '/bids-plans',
 
   AUCTION_MANAGEMENT: '/auction-management',
   AUCTION_DETAILS: '/auction-management/auction-details',
@@ -287,6 +337,14 @@ const ROUTES_CONFIG = {
   PRODUCTS: {
     path: ROUTES.PRODUCTS,
     title: 'Product',
+  },
+  INVOICES_AUCTION: {
+    path: ROUTES.INVOICES_AUCTION,
+    title: 'Auction Invoices',
+  },
+  INVOICES_PURCHASE: {
+    path: ROUTES.INVOICES_PURCHASE,
+    title: 'Purchase Invoices',
   },
   CATEGORIES: {
     path: ROUTES.CATEGORIES,
@@ -336,6 +394,45 @@ const ROUTES_CONFIG = {
     path: ROUTES.ABOUT,
     title: 'About us',
   },
+  // Referral
+  CREATE_REFERRAL: {
+    path: ROUTES.CREATE_REFERRAL,
+    title: 'Create Referral',
+  },
+  REFERRAL_LISTING: {
+    path: ROUTES.REFERRAL_LISTING,
+    title: 'Referral Listing',
+  },
+  BIDS_PLANS: {
+    path: ROUTES.BIDS_PLANS,
+    title: 'Bids Plans',
+  },
 };
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };
+enum POPUPTYPES {
+  NONE = 'NONE',
+  EDIT = 'EDIT',
+  ADD = 'ADD',
+  DELETE = 'DELETE',
+}
+
+const REFERRAL_STATUS = {
+  PENDING: 1,
+  COMPLETED: 2,
+  USER_DELETED_BEFORE_COMPLETION: 3,
+};
+
+const PRODUCT_PURCHASE_STATUS = {
+  PENDING: 1, // awaiting bidding
+  PURCHASED: 2, // bidding active
+  EXPIRED: 3, // bidding ended
+};
+
+export {
+  ROUTES,
+  WILDCARD_ROUTES,
+  ROUTES_CONFIG,
+  POPUPTYPES,
+  REFERRAL_STATUS,
+  PRODUCT_PURCHASE_STATUS,
+};

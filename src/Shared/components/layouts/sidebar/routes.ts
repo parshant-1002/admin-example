@@ -23,12 +23,6 @@ const SIDEBAR_NAV = [
     label: 'Products',
     route: ROUTES.PRODUCTS,
   },
-  {
-    iconClass: 'bi bi-grid',
-    label: 'Auction Management',
-    route: ROUTES.AUCTION_MANAGEMENT,
-    // children: [],
-  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',

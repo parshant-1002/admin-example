@@ -6,6 +6,7 @@ export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
   USER: '/user',
+  USER_BIDS: '/user/addBids',
   USER_PRODUCTS: '/userProducts',
   BIDS_SPENT_HISTORY: '/bidSpent/history',
   AUCTION_HISTORY: '/auction/history',
@@ -20,6 +21,10 @@ export const API_END_POINTS = {
   FILE_UPLOAD: '/file/upload',
   GET_FILES: '/file/getFiles',
   FILE_DELETE: '/file/deleteFiles',
+  REFERRAL_PACK: '/referralPack',
+  REFERRAL_PACK_HISTORY: '/referralPack/history',
+  REFERRED_USERS: '/referral/referredUsers',
+  BID_PLAN: '/bidPlan',
 };
 
 export const HTTPS_METHODS = {

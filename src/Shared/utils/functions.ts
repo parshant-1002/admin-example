@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 import { toast } from 'react-toastify';
+import moment from 'moment';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { store } from '../../Store';
 import { setLoading } from '../../Store/Loader';
@@ -186,6 +187,64 @@ function matchRoute(pathname: string, routes: Array<CustomRouter>) {
   return null;
 }
 
+function daysBetweenDates(date1: Date, date2: Date): number {
+  // Convert both dates to milliseconds
+  const dateOneMs: number = date1.getTime();
+  const dateTwoMs: number = date2.getTime();
+
+  // Calculate the difference in milliseconds
+  const diffMs: number = Math.abs(dateTwoMs - dateOneMs);
+
+  // Convert milliseconds to days
+  const daysDifference: number = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+}
+function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
+  if (!date) return '';
+  return moment(date).format(format);
+}
+
+type NestedObject = { [key: string]: unknown };
+
+function getValueFromPath(
+  obj: NestedObject,
+  path: string[]
+): string | number | boolean | undefined {
+  // Ensure the path is an array of strings
+  if (
+    !Array.isArray(path) ||
+    path.some((segment) => typeof segment !== 'string')
+  ) {
+    return undefined;
+  }
+
+  // Start with the root object
+  let current: unknown = obj;
+
+  // Traverse the object based on the path array
+  for (const segment of path) {
+    if (current && typeof current === 'object' && segment in current) {
+      current = (current as { [key: string]: unknown })[segment];
+    } else {
+      // Return undefined if the path is invalid
+      return undefined;
+    }
+  }
+
+  // Check if the final value is a primitive type
+  if (
+    typeof current === 'string' ||
+    typeof current === 'number' ||
+    typeof current === 'boolean'
+  ) {
+    return current;
+  }
+
+  // Return undefined if the final value is not a primitive type
+  return undefined;
+}
+
 export {
   capitalizeFirstLetter,
   checkOffline,
@@ -201,4 +260,7 @@ export {
   validateField,
   addBaseUrl,
   matchRoute,
+  daysBetweenDates,
+  formatDate,
+  getValueFromPath,
 };
