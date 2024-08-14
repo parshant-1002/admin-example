@@ -8,7 +8,7 @@
 //     scrollbar-color: $green-light-color-800 $dark-green-color-1000;
 // }
 #root {
-    overflow-x: $hidden !important;
+    // overflow-x: $hidden !important;
 }
 body {
     margin: 0;
@@ -33,7 +33,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     @include border-radius (10px);
-    background-color: $dark-green-color-450;
+    background-color: $black-dark-color-800;
 }
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -301,6 +301,10 @@ a.btn {
     }
 }
 
+.search-primary{
+    @include main-search(13.3px);
+}
+
 // Input Controls
 label {
     line-height: 1.1;
@@ -457,4 +461,44 @@ input[type="search"]::-webkit-search-results-decoration {
     @media (min-width:1400px) {
         padding: 72px 0;
     }
+}
+
+// button
+.btn-pad-one{
+    @include main-btn(23.98px);
+}
+.btn-primary{    
+  background-color: $primary-color;
+  color: $white-color;
+  border: 1px solid $primary-color;
+  box-shadow: none;
+  &:hover{
+    background-color: transparent;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+  }
+}
+.btn-outline{    
+    background-color: transparent;
+    color: $grey-dark;
+    border: 1px solid $primary-color;
+    &:hover{
+        background-color: $primary-color;
+        color: $white-color;
+    }
+  }
+.btn-pad-two{
+    @include main-btn(12.92px);
+}
+.btn-pad-three{
+    @include main-btn(35px);
+}
+.dropdown{
+    .btn-primary{
+        &:hover, &.show{
+          background-color: $primary-color;
+          color: $white-color;
+          border: 1px solid $primary-color;
+        }
+      }
 }

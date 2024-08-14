@@ -37,13 +37,13 @@
 @mixin button($bgcolor, $bordercolor, $textcolor) {
   background-color: $bgcolor;
   border-color: $bordercolor;
-  color: $textcolor!important;
+  color: $textcolor;
   box-shadow: 0px 4px 16px 0px rgba($green-light-color-700, .05);
   @include transition (all, 0.5s, ease-in-out);
   &:hover, &:focus, &:active{
-    box-shadow: 0px 4px 16px 0px rgba($bgcolor, .15)!important;
-    background-color: ($bgcolor)!important;
-    border-color: ($bordercolor)!important;
+    box-shadow: 0px 4px 16px 0px rgba($bgcolor, .15);
+    background-color: ($bgcolor);
+    border-color: ($bordercolor);
     color: $textcolor;
   }
 }
@@ -286,37 +286,40 @@
 }
 
 @mixin curve-top{
-  @include position($absolute, $top:-30px);
+  @include position($absolute, $top:-22px);
   width: 20px;
-  height: 60px;
+  height: 23px;
   inset-inline-end: 0px;
   background: transparent;
 }
 @mixin curve-bottom{
-  @include position($absolute, $top:14px,);
+  @include position($absolute, $bottom:-23px,);
   width: 20px;
-  height: 70px;
+  height: 23px;
   inset-inline-end: 0px;
   background: transparent;
+  @media (max-width:1199.98px){
+    height: 66px;
+  }
 }
 @mixin top-curve-before{
-  @include position($absolute, $top:-30px, $bottom:0);
+  @include position($absolute, $top:-23px, $bottom:0);
   content: "";
   width: 20px;
   z-index: 9;
   inset-inline-end: 0px;
-  height: 30px;
+  height: 23px;
   border-color: transparent;
   border-radius: 0;
   border-end-end-radius: 48px;
   border-inline-end: 20px solid transparent;
 }
 @mixin bottom-curve-after{
-  @include position($absolute, $bottom:-30px);
+  @include position($absolute, $bottom:-23px);
   content: "";
   z-index: 9;
   inset-inline-end: 0px;
-  height: 30px;
+  height: 23px;
   border-color: transparent;
   border-radius: 0;
   border-start-end-radius: 48px;
@@ -324,5 +327,31 @@
   background-image: unset;
 }
 @mixin inline-pad-20{
-  padding-inline: 20px;;
+  padding-inline: 20px;
+}
+
+// main-btn
+@mixin main-btn ($pad){
+  @include font(20px, 24.2px, 600);
+  @include border-radius(8px);
+  padding-inline: $pad;
+  font-size: 20px;
+  line-height: 24.2px;
+  height: 55px;
+  font-weight: 600;
+}
+
+// main-search
+@mixin main-search ($pad){
+  @include font(20px, 24.2px, 400);
+  @include border-radius(8px);
+  padding-inline: $pad;
+  background-color: transparent;
+  font-size: 22.82px;
+  line-height: 29.67px;
+  height: 55px;
+  border: 1px solid $grey-light;
+  &::placeholder{    
+  color: $grey-light;
+  }
 }

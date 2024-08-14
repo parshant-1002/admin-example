@@ -43,7 +43,7 @@ const SIDEBAR_NAV = [
     route: ROUTES.CREATE_REFERRAL,
   },
   {
-    iconClass: 'bi bi-bids-plans',
+    iconClass: 'bi bi-bids',
     label: 'Bids Plans',
     route: ROUTES.BIDS_PLANS,
   },

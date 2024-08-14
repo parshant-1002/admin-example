@@ -94,7 +94,7 @@ function CustomTableView({
   };
   return (
     <>
-      <div className="table-responsive">
+      <div className="table-responsive mt-5 pt-3">
         <table className="text-white custom-table">
           <thead>
             <tr>
