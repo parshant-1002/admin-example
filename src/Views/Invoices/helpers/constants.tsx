@@ -35,7 +35,7 @@ interface ColumnData {
 export const AuctionInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.AUCTION_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
@@ -46,7 +46,8 @@ export const AuctionInvoiceColumns: ColumnData[] = [
   },
   {
     title: STRINGS.P_ID,
-    render: (row) => renderIdWithHash(row, row?.product?._id),
+    path: ['product', 'id'],
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.P_NAME,

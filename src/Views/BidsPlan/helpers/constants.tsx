@@ -168,7 +168,7 @@ export const PlansColumns = ({
   },
   {
     title: STRINGS.ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
