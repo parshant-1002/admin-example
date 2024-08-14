@@ -82,7 +82,7 @@ export default function AuctionManagementList() {
             AUCTION_STATUS?.find((status) => status.value === row?.status)
               ?.label,
         },
-        categoryIds: row?.product.categories?.map((category) => ({
+        categoryIds: row?.categories?.map((category) => ({
           value: category._id,
           label: category?.name,
         })),

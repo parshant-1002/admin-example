@@ -11,17 +11,33 @@ export enum DetailType {
   Date,
   DateRange,
 }
+type OptionType = { value: number; label: string };
 export interface AuctionDetailsColumnData {
   title?: string;
   fieldName?: string;
   isTurncated?: boolean;
   isEditable?: boolean;
   type?: DetailType;
+  options?: OptionType[];
   render?: (
     row: ProductDetailResponsePayload,
     val: string | number | { categories: []; images: [] }
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
+
+const AuctionStatus: OptionType[] = [
+  { value: 1, label: 'Pending' },
+  { value: 2, label: 'Active' },
+  { value: 3, label: 'Ended' },
+  { value: 4, label: 'Cancel' },
+];
+
+const PurchaseStatus: OptionType[] = [
+  { value: 1, label: 'Pending' },
+  { value: 2, label: 'Purchased' },
+  { value: 3, label: 'Expired' },
+  { value: 4, label: 'Cancel' },
+];
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 export const AuctionColumn = (
@@ -79,7 +95,7 @@ export const AuctionColumn = (
     title: 'PreAuction Users',
     isEditable: true,
     type: DetailType.Number,
-    fieldName: 'preAuctionUsers',
+    fieldName: 'preAuctionUsersCount',
   },
   {
     title: 'Product Name',
@@ -90,7 +106,7 @@ export const AuctionColumn = (
   {
     title: 'Category',
     isEditable: false,
-    fieldName: 'productCategories',
+    fieldName: 'categories',
     render: (_, val) => {
       const categories = (val || []) as unknown as Category[];
       if (!categories?.length) return '- - -';
@@ -129,7 +145,7 @@ export const AuctionColumn = (
     title: 'Current Item Price',
     isEditable: true,
     type: DetailType.Number,
-    fieldName: 'currentItemPrice',
+    fieldName: 'currentBidPrice',
   },
   {
     title: 'Attachements',
@@ -179,30 +195,33 @@ export const AuctionColumn = (
   {
     title: 'Total Bids Placed ',
     isEditable: false,
-    fieldName: 'bidPlaced',
+    fieldName: 'totalBids',
   },
   {
     title: 'Status',
-    isEditable: false,
+    isEditable: true,
     fieldName: 'status',
     type: DetailType.Dropdown,
+    options: AuctionStatus,
   },
   {
     title: 'Winner',
     isEditable: false,
     fieldName: 'winner',
   },
-  { title: 'No of Users', isEditable: false, fieldName: 'totalUsers' },
+  { title: 'No of Users', isEditable: false, fieldName: 'uniqueUserCount' },
   {
     title: 'Product Purchase Status',
     isEditable: false,
-    fieldName: 'uniqueUserCount',
+    fieldName: 'purchaseStatus',
     type: DetailType.Dropdown,
+    options: PurchaseStatus,
   },
   {
     title: 'Product Purchase Duration',
     isEditable: true,
     fieldName: 'prizeClaimDays',
+    type: DetailType.String,
   },
 ];
 

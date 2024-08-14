@@ -39,27 +39,6 @@ export default function AuctionDetails() {
       <Button className="btn btn-sm" onClick={saveChanges}>
         {BUTTON_LABELS.CANCEL}
       </Button>
-
-      {/* <div className="calendar-container">
-        <DateRange
-          editableDateInputs
-          onChange={(change) => {
-          }}
-          ranges={[
-            {
-              startDate: new Date(),
-              endDate: new Date(),
-              key: 'selection',
-            },
-          ]}
-        />
-      </div> */}
-      {/* <button type="button" onClick={saveChanges}>
-        Save Changes
-      </button>
-      <button type="button" onClick={saveChanges}>
-        Cancel Changes
-      </button> */}
       <BidsList auctionId={id} />
     </div>
   );

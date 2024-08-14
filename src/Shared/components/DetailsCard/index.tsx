@@ -5,7 +5,7 @@ import {
   AuctionDetailsColumnData,
   DetailType,
 } from '../../../Views/Auction/AuctionDetails/Helpers/constants';
-import { actions } from '../../../assets';
+// import { actions } from '../../../assets';
 
 const styles = {
   container: {
@@ -52,14 +52,13 @@ const renderValue = (
   columnSchema: AuctionDetailsColumnData,
   onChange: (newValue: string | number) => void
 ): JSX.Element | React.ReactNode => {
-  const submenu = [
-    { buttonLabel: 'Edit', buttonAction: () => console.log('Selected') },
-    {
-      buttonLabel: 'Delete',
-      buttonAction: () => console.log('selected'),
-      className: 'text-danger',
-    },
-  ];
+  // const submenu = [
+  //   { buttonLabel: 'Edit', buttonAction: () => console.log('Selected') },
+  //   {
+  //     buttonLabel: 'Delete',
+  //     buttonAction: () => console.log('selected'),
+  //   },
+  // ];
   if (columnSchema.isEditable)
     switch (columnSchema.type) {
       case DetailType.String:
@@ -88,24 +87,31 @@ const renderValue = (
         );
       }
       case DetailType.Dropdown: {
+        const submenu = columnSchema.options?.map((item) => ({
+          buttonLabel: item.label,
+          id: item.value,
+          buttonAction: () => console.log('selected'),
+        }));
         return (
           <Dropdown>
-            <Dropdown.Toggle variant="transparent" id="dropdown-basic">
+            <Dropdown.Toggle variant="outline-info" id="dropdown-basic">
               <span className="text-primary">
-                <img src={actions} alt="Actions" width={30} />
+                {columnSchema.options?.find((ele) => ele.value === value)
+                  ?.label || ''}
               </span>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {submenu.map((item) => (
-                <Dropdown.Item
-                  key={item.buttonLabel}
-                  onClick={item.buttonAction}
-                  className={item.className}
-                >
-                  {item.buttonLabel}
-                </Dropdown.Item>
-              ))}
+              {submenu?.length &&
+                submenu.map((item) => (
+                  <Dropdown.Item
+                    key={item.buttonLabel}
+                    onClick={item.buttonAction}
+                    className="primary"
+                  >
+                    {item.buttonLabel}
+                  </Dropdown.Item>
+                ))}
             </Dropdown.Menu>
           </Dropdown>
         );

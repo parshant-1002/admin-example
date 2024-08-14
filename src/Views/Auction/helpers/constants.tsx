@@ -210,8 +210,7 @@ export const AuctionColumns = (
     noClickEvent: true,
     render: (data) => {
       // if (typeof val === 'object' && val !== null && 'categories' in val) {
-      const categories = (data.product.categories ||
-        []) as unknown as Category[];
+      const categories = (data.categories || []) as unknown as Category[];
       if (!categories?.length) return '- - -';
       return (
         <>
