@@ -40,30 +40,12 @@ const SIDEBAR_NAV = [
   {
     iconClass: 'bi bi-referral',
     label: 'Referral',
-    children: [
-      {
-        label: 'Create Referral',
-        route: ROUTES.CREATE_REFERRAL,
-      },
-      // {
-      //   label: 'Referral Listing',
-      //   route: ROUTES.REFERRAL_LISTING,
-      // },
-    ],
+    route: ROUTES.CREATE_REFERRAL,
   },
   {
     iconClass: 'bi bi-bids',
     label: 'Bids Plans',
-    children: [
-      {
-        label: 'Plans',
-        route: ROUTES.BIDS_PLANS,
-      },
-      // {
-      //   label: 'Referral Listing',
-      //   route: ROUTES.REFERRAL_LISTING,
-      // },
-    ],
+    route: ROUTES.BIDS_PLANS,
   },
   // {
   //   // icon: AirDropIcon,

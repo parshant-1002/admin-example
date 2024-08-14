@@ -58,7 +58,7 @@ interface Popup {
 }
 
 // Constants
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 7;
 
 function Plans() {
   const navigate = useNavigate();
@@ -137,6 +137,11 @@ function Plans() {
       'YYYY-MM-DD HH:mm:ss'
     );
     delete payload?.[PLAN_FORM_FIELDS.DISCOUNT_PRICE];
+
+    if (payload[PLAN_FORM_FIELDS.HOT_DEAL] === BID_PLAN_TYPES.REGULAR) {
+      delete payload[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE];
+      delete payload[PLAN_FORM_FIELDS.END_DATE];
+    }
 
     if (popup.type === POPUPTYPES.EDIT) {
       payload.bidPlanId = popup.data?._id;
@@ -240,15 +245,15 @@ function Plans() {
     () =>
       popup?.type === POPUPTYPES.EDIT && popup?.data
         ? {
-            [PLAN_FORM_FIELDS.NAME]: popup.data?.[PLAN_FORM_FIELDS.NAME],
-            [PLAN_FORM_FIELDS.PRICE]: popup.data?.[PLAN_FORM_FIELDS.PRICE],
-            [PLAN_FORM_FIELDS.BIDS]: popup.data?.[PLAN_FORM_FIELDS.BIDS],
+            [PLAN_FORM_FIELDS.NAME]: popup.data?.[PLAN_FORM_FIELDS.NAME] || '',
+            [PLAN_FORM_FIELDS.PRICE]: popup.data?.[PLAN_FORM_FIELDS.PRICE] || 0,
+            [PLAN_FORM_FIELDS.BIDS]: popup.data?.[PLAN_FORM_FIELDS.BIDS] || 0,
             [PLAN_FORM_FIELDS.HOT_DEAL]:
               PLAN_SCHEMA(true)?.[PLAN_FORM_FIELDS.HOT_DEAL]?.options?.find(
                 (f) => f.value === popup.data?.[PLAN_FORM_FIELDS.HOT_DEAL]
               ) || '',
             [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]:
-              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE],
+              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] || 0,
             [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: calculateDiscountedPrice(
               popup.data?.[PLAN_FORM_FIELDS.PRICE] as number,
               popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] as number
@@ -256,13 +261,25 @@ function Plans() {
             ...(popup?.data?.[PLAN_FORM_FIELDS.HOT_DEAL] ===
             BID_PLAN_TYPES.HOT_DEAL
               ? {
-                  [PLAN_FORM_FIELDS.END_DATE]:
-                    popup.data?.[PLAN_FORM_FIELDS.END_DATE],
+                  [PLAN_FORM_FIELDS.END_DATE]: formatDate(
+                    popup.data?.[PLAN_FORM_FIELDS.END_DATE] as string,
+                    'YYYY-MM-DD'
+                  ),
                 }
-              : {}),
-            [PLAN_FORM_FIELDS.STATUS]: popup.data?.[PLAN_FORM_FIELDS.STATUS],
+              : ''),
+            [PLAN_FORM_FIELDS.STATUS]:
+              popup.data?.[PLAN_FORM_FIELDS.STATUS] || false,
           }
-        : {},
+        : {
+            [PLAN_FORM_FIELDS.NAME]: '',
+            [PLAN_FORM_FIELDS.PRICE]: '',
+            [PLAN_FORM_FIELDS.BIDS]: '',
+            [PLAN_FORM_FIELDS.HOT_DEAL]: '',
+            [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: '',
+            [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: '',
+            [PLAN_FORM_FIELDS.END_DATE]: '',
+            [PLAN_FORM_FIELDS.STATUS]: false,
+          },
     [popup?.data, popup?.type]
   );
 
@@ -298,7 +315,7 @@ function Plans() {
         onPageChange={handlePageClick}
       />
 
-      {/* Add Popup */}
+      {/* Add Edit Popup */}
       <AddEditPlan
         open={
           (popup.type === POPUPTYPES.ADD || popup.type === POPUPTYPES.EDIT) &&

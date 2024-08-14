@@ -35,7 +35,7 @@ $bgLeft: url(./assets/images/left-bg.png);
   padding: 10px 0;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: $dark-green-color-450 $transparent; 
+  scrollbar-color: $dark-green-color-450 $transparent;
   background: $dark-voilet-color-900 $bgLeft $no-repeat $right $center;
   .sidebar-nav {
     padding: 0;
@@ -73,7 +73,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         &.active{
           background-color: $white-color;
           color: $primary-color;
-          font-weight: 600;          
+          font-weight: 600;
           &::before,
           &::after{
             border-color: $black-dark-color;
@@ -107,17 +107,17 @@ $bgLeft: url(./assets/images/left-bg.png);
         mask-image: url(/src/assets/icons/dash.svg);
         -webkit-mask-image: url(/src/assets/icons/dash.svg);
       }
-      
+
       .bi-user {
         mask-image: url(/src/assets/icons/user.svg);
         -webkit-mask-image: url(/src/assets/icons/user.svg);
       }
-      
+
       .bi-category {
         mask-image: url(/src/assets/icons/category.svg);
         -webkit-mask-image: url(/src/assets/icons/category.svg);
       }
-      
+
       .bi-product {
         mask-image: url(/src/assets/icons/product.svg);
         -webkit-mask-image: url(/src/assets/icons/product.svg);
@@ -150,7 +150,7 @@ $bgLeft: url(./assets/images/left-bg.png);
           @include bottom-curve-after;
         }
         .curve-top{
-          @include curve-top;          
+          @include curve-top;
           @media (max-width:1199.98px){
           }
         }
@@ -159,7 +159,7 @@ $bgLeft: url(./assets/images/left-bg.png);
           @media (max-width:1199.98px){
           }
         }
-      }      
+      }
       &:has(.active){
         .accordion-header{
           .accordion-button{
