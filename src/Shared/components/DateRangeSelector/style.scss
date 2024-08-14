@@ -14,7 +14,7 @@
   }
   .form-control {
     background-color: $white-color;
-    border: 1px solid $grey-color-800;
+    border: 1px solid $grey-color-300;
     @include border-radius (7px);
     @include font-size (1);
     color: $black-color;

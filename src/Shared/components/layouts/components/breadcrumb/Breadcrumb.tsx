@@ -19,10 +19,10 @@ function Breadcrumbs() {
       <Breadcrumb.Item key={to} active={isLast}>
         {!isLast ? (
           <Link to={to}>
-            {capitalizeFirstLetter(decodeURIComponent(value))}
+            {capitalizeFirstLetter(decodeURIComponent(value.replace('-', ' ')))}
           </Link>
         ) : (
-          capitalizeFirstLetter(decodeURIComponent(value))
+          capitalizeFirstLetter(decodeURIComponent(value.replace('-', ' ')))
         )}
       </Breadcrumb.Item>
     );

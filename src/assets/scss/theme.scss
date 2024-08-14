@@ -3,13 +3,6 @@
 * {
     box-sizing: border-box;
 }
-// html {
-//     scrollbar-width: thin;
-//     scrollbar-color: $green-light-color-800 $dark-green-color-1000;
-// }
-#root {
-    // overflow-x: $hidden !important;
-}
 body {
     margin: 0;
     font-family: $Inter-font;
@@ -120,11 +113,11 @@ a {
     cursor: $pointer;
     text-decoration: $none;
     font-weight: $font-regular;
-    color: $dark-green-color-500;
+    color: $black-color;
     @include transition-mixin (all, .5s, ease-in-out);
     &:hover,
     &:focus {
-        color: $dark-green-color-450;
+        color: $primary-color;
     }
 }
 p {
@@ -168,7 +161,7 @@ input {
         width: 100%;
         background-image: $search_icon;
         background-repeat: $no-repeat;
-        background-color: $dark-green-color-700;
+        background-color: $white-color;
         background-position: $center $right 10px;
         background-size: 16px;
         padding: 10px 35px 10px 10px;
@@ -200,8 +193,12 @@ a.btn {
 }
 .btn {
     border-width: 1px;
+    padding-inline: 7px;
     white-space: nowrap;
     font-weight: $font-regular;
+    img {
+        width: 16px;
+    }
     &[disabled],
     &.disabled {
         pointer-events: $none;
@@ -250,13 +247,13 @@ a.btn {
             color: $white-color;
         }
         &[disabled] {
-            background-color: $grey-color-800;
-            border-color: $grey-color-800;
+            background-color: $grey-light-color-300;
+            border-color: $grey-light-color-300
         }
     }
     &-secondary {
-        @include button($white-color, $transparent, $grey-color-900);
-        border: 2px solid $grey-color-900;
+        @include button($white-color, $transparent, rgba($black-color, .5));
+        border: 1px solid rgba($black-color, .5);
         overflow: $hidden;
         position: $relative;
         z-index: 1;
@@ -387,40 +384,6 @@ input[type="search"]::-webkit-search-results-decoration {
     display: $none;
 }
 
-.text {
-    &-small {
-        @include font-size (.75);
-        display: $inline-block;
-        color: $grey-color-800;
-        line-height: 1.3;
-    }
-    &-mute {
-        color: rgba($text-color, .7);
-    }
-    &-orange {
-        color: $dark-orange-color-900 !important;
-    }
-    &-yellow {
-        color: $dark-yellow-color-700 !important;
-    }
-    &-green {
-        color: #278C74 !important;
-    }
-}
-
-.text{
-    &-success {
-        color: $green-tin-color-600 !important;
-    }
-    &-warning {
-        color: $yellow-color-900 !important;
-    }
-    &-danger {
-        color: $error-color !important;
-    }
-
-}
-
 // Avtar
 .avtar {
     background: $white-color;
@@ -435,70 +398,4 @@ input[type="search"]::-webkit-search-results-decoration {
         object-position: $center;
         z-index: 1;
     }
-}
-
-.btn_icon {
-    padding: 1px;
-    @include border-radius (10px);
-    background: radial-gradient(#fff 9.07%,#054625 90.05%,);
-    span {
-        background:$dark-green-color-500;
-        height: 100%;
-        width: 100%;
-        @include flexCenter;
-        @include border-radius (9px);
-    }
-}
-
-.gap {
-    &-12 {
-        gap:0.75rem;
-    }
-}
-
-.py-72 {
-    padding: 36px 0;
-    @media (min-width:1400px) {
-        padding: 72px 0;
-    }
-}
-
-// button
-.btn-pad-one{
-    @include main-btn(23.98px);
-}
-.btn-primary{    
-  background-color: $primary-color;
-  color: $white-color;
-  border: 1px solid $primary-color;
-  box-shadow: none;
-  &:hover{
-    background-color: transparent;
-    color: $primary-color;
-    border: 1px solid $primary-color;
-  }
-}
-.btn-outline{    
-    background-color: transparent;
-    color: $grey-dark;
-    border: 1px solid $primary-color;
-    &:hover{
-        background-color: $primary-color;
-        color: $white-color;
-    }
-  }
-.btn-pad-two{
-    @include main-btn(12.92px);
-}
-.btn-pad-three{
-    @include main-btn(35px);
-}
-.dropdown{
-    .btn-primary{
-        &:hover, &.show{
-          background-color: $primary-color;
-          color: $white-color;
-          border: 1px solid $primary-color;
-        }
-      }
 }

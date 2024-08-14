@@ -12,7 +12,7 @@ export interface Invoice {
   purchasedPrice: number;
   createdAt: Date;
   product: {
-    _id: string;
+    id: string;
     title: string;
     images: Image[];
   };

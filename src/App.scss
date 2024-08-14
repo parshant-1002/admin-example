@@ -13,14 +13,13 @@ $downArrow : url("./assets/icons/downArrow.svg");
 
 #root {
   width: 100%;
-  // overflow-x: $hidden !important;
 }
 .bg-img {
   @include position($absolute, $top:0, $left:0, $right:0);
   background: url(assets/images/header_bg.jpg) $no-repeat;
   background-position: $top $center;
   width: 100%;
-  height: 100%; 
+  height: 100%;
 }
 
 /*--------------------------------------------------------------

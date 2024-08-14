@@ -1,14 +1,8 @@
+import { Image } from '../../../Models/common';
+
 export interface SelectOption {
   value: number;
   label: string;
-}
-
-// Define the type for the image field
-interface Image {
-  url: string;
-  title: string;
-  fileURL?: string;
-  fileName?: string;
 }
 
 // Define the main type
@@ -20,11 +14,6 @@ export interface ProductPayload {
   images: Image[];
   category: SelectOption[];
   stock: number;
-}
-interface Image {
-  _id: string;
-  url: string;
-  title: string;
 }
 
 // Define the type for the category field

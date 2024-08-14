@@ -189,7 +189,6 @@ function matchRoute(pathname: string, routes: Array<CustomRouter>) {
         return route.title;
       }
     } catch (error) {
-      console.error('Error creating regex for route:', route, error);
       continue; // Skip to the next route if there is an error with regex creation
     }
   }
