@@ -1,5 +1,9 @@
 // utils
-import { convertToLocale, formatDate } from '../../../Shared/utils/functions';
+import {
+  convertToLocale,
+  formatDate,
+  renderIdWithHash,
+} from '../../../Shared/utils/functions';
 import Button from '../../../Shared/components/form/Button';
 
 // consts
@@ -32,7 +36,7 @@ export const AuctionInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.AUCTION_ID,
     fieldName: '_id',
-    render: (_, val) => (val ? `#${val}` : ''),
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.AUCTION_NAME,
@@ -42,7 +46,7 @@ export const AuctionInvoiceColumns: ColumnData[] = [
   },
   {
     title: STRINGS.P_ID,
-    render: (row) => (row?.product?._id ? `#${row?.product?._id}` : ''),
+    render: (row) => renderIdWithHash(row, row?.product?._id),
   },
   {
     title: STRINGS.P_NAME,
@@ -103,7 +107,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.PACK_ID,
     fieldName: '_id',
-    render: (_, val) => (val ? `#${val}` : ''),
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.PACK_NAME,

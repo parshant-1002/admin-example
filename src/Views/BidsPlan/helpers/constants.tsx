@@ -8,7 +8,7 @@ import {
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { formatDate } from '../../../Shared/utils/functions';
+import { formatDate, renderIdWithHash } from '../../../Shared/utils/functions';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -168,6 +168,7 @@ export const PlansColumns = ({
   {
     title: STRINGS.ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.NAME,
@@ -255,6 +256,7 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.USERNAME,
