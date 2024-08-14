@@ -32,8 +32,8 @@ export const returnButtonClass = (
       return `${classname} btn-primary`;
     case 'secondary':
       return `${classname} btn-secondary`;
-      case 'outline':
-        return `${classname} btn-outline`;
+    case 'outline':
+      return `${classname} btn-outline`;
     default:
       return `${classname} btn-primary`;
   }

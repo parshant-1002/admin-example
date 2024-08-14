@@ -95,7 +95,6 @@ function CustomTableView({
   };
   return (
     <>
-
       <table className="custom-table">
         <thead>
           <tr>
@@ -145,11 +144,9 @@ function CustomTableView({
               )
             : rowsToBeRendered.map((row, index) =>
                 quickEditRowId === row._id ? (
-                  <>
-                    <td colSpan={10}>
-                      <h1>Edit</h1>
-                    </td>
-                  </>
+                  <td colSpan={10}>
+                    <h1>Edit</h1>
+                  </td>
                 ) : (
                   <>
                     <tr key={row._id} className="tr-item">
