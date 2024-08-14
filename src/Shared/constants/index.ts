@@ -158,6 +158,12 @@ export const STRINGS = {
   TRANSACTIONS: 'Transactions',
   ADD_BID_PLAN: 'Add Bid Plan',
   EDIT_BID_PLAN: 'Edit Bid Plan',
+  BID_SPENT: 'Bid Spent',
+  ITEM_PRICE: 'Item Price',
+  PRODUCT_ID: 'Product Id',
+  PRODUCT_NAME: 'Product Name',
+  PRODUCT_PRICE: 'Product Price',
+  REFERRER_ID: 'Referrer Id',
 };
 
 export const CONTENT_ENUMS = {
@@ -328,6 +334,10 @@ const ROUTES = {
   CREATE_REFERRAL: '/create-referral',
   REFERRAL_LISTING: '/referral-listing',
   BIDS_PLANS: '/bids-plans',
+  TRANSACTIONS_PLANS_HISTORY: '/transactions/plans-history',
+  TRANSACTIONS_BIDS_HISTORY: '/transactions/bids-history',
+  TRANSACTIONS_PRODUCTS_HISTORY: '/transactions/products-history',
+  TRANSACTIONS_REFERRAL_HISTORY: '/transactions/referral-history',
 };
 
 const WILDCARD_ROUTES = {
@@ -412,6 +422,23 @@ const ROUTES_CONFIG = {
   BIDS_PLANS: {
     path: ROUTES.BIDS_PLANS,
     title: 'Bids Plans',
+  },
+  // Transactions
+  TRANSACTIONS_PLANS_HISTORY: {
+    path: ROUTES.TRANSACTIONS_PLANS_HISTORY,
+    title: 'Plans History',
+  },
+  TRANSACTIONS_BIDS_HISTORY: {
+    path: ROUTES.TRANSACTIONS_BIDS_HISTORY,
+    title: 'Bids History',
+  },
+  TRANSACTIONS_PRODUCTS_HISTORY: {
+    path: ROUTES.TRANSACTIONS_PRODUCTS_HISTORY,
+    title: 'Products History',
+  },
+  TRANSACTIONS_REFERRAL_HISTORY: {
+    path: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
+    title: 'Referral History',
   },
 };
 

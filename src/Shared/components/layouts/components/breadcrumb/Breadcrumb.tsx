@@ -17,7 +17,7 @@ function Breadcrumbs() {
 
     return (
       <Breadcrumb.Item key={to} active={isLast}>
-        {capitalizeFirstLetter(decodeURIComponent(value))}
+        {capitalizeFirstLetter(decodeURIComponent(value.replace('-', ' ')))}
       </Breadcrumb.Item>
     );
   });

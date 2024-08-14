@@ -65,7 +65,7 @@ export default function ProductForm({
         price: productData?.price,
         stock: productData?.stock,
         images: productData?.images?.map((image) => ({
-          url: addBaseUrl(image?.fileURL || image?.url),
+          url: addBaseUrl(image?.fileURL || image?.url || ''),
           title: image?.fileName || image?.title,
         })),
         // status: productData?.status?.value,

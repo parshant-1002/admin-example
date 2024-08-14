@@ -47,6 +47,28 @@ const SIDEBAR_NAV = [
     label: 'Bids Plans',
     route: ROUTES.BIDS_PLANS,
   },
+  {
+    iconClass: 'bi bi-transactions',
+    label: 'Transactions',
+    children: [
+      {
+        label: 'Plans History',
+        route: ROUTES.TRANSACTIONS_PLANS_HISTORY,
+      },
+      {
+        label: 'Bids History',
+        route: ROUTES.TRANSACTIONS_BIDS_HISTORY,
+      },
+      {
+        label: 'Products History',
+        route: ROUTES.TRANSACTIONS_PRODUCTS_HISTORY,
+      },
+      {
+        label: 'Referral History',
+        route: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
+      },
+    ],
+  },
   // {
   //   // icon: AirDropIcon,
   //   label: 'AirDrop',
