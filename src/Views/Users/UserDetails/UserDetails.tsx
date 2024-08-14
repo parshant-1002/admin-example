@@ -48,7 +48,9 @@ export default function UserDetails() {
         className="w-100 d-flex m-2 justify-content-end"
         onClick={handleAddBids}
       >
-        <Button>{BUTTON_LABELS.ADD_BIDS}</Button>
+        <Button className="btn-pad-three mb-4" btnType="primary">
+          {BUTTON_LABELS.ADD_BIDS}
+        </Button>
       </div>
       <UserProfile userId={state} />
       <CustomTabs

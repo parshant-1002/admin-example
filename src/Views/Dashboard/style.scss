@@ -1,4 +1,4 @@
-/* src/components/Dashboard.module.scss */
+@import "../../assets/scss/base";
 
 .dashboard {
     padding: 32px;
@@ -134,3 +134,20 @@
         color: #666;
     }
 }
+/* Card */
+.card {
+    border: $none;
+    margin-bottom: 20px;
+    @include border-radius (5px);
+    box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
+    @include border-radius (10px);
+    &-body {
+      background-color: rgba($white-color, 1);
+      @include border-radius (5px);
+      padding: 20px;
+    }
+  }
+  
+  .card-img-overlay {
+    background-color: rgba(255, 255, 255, 0.6);
+  }

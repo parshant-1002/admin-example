@@ -184,6 +184,7 @@ $bgLeft: url(./assets/images/left-bg.png);
       }
       .accordion-button{
         border-radius: 0;
+        border-bottom-right-radius: 0 !important;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
         padding: 21px 15px 19px 90px;
@@ -312,7 +313,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         @include font(18px, 27px, 400);
         font-weight: $font-regular;
         &.active{
-          color: $primary-color !important;
+          color: $primary-color;
         }
       }
     }
@@ -327,4 +328,37 @@ $bgLeft: url(./assets/images/left-bg.png);
     color: $text-title-color;
     margin-bottom: 0;
   }
+}
+/* Alerts */
+.alert-heading {
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+}
+
+/* Close Button */
+.btn-close {
+  background-size: 25%;
+}
+
+.btn-close:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+/* Accordion */
+.accordion-item {
+
+  border: 1px solid #ebeef4;
+}
+
+.accordion-button {
+  outline: 0;
+  box-shadow: none!important;
+}
+
+.accordion-flush .accordion-button {
+  padding: 15px 0;
+  background: none;
+  border: 0;
 }

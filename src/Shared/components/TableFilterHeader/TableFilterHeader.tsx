@@ -78,6 +78,7 @@ function TableFilterHeader({
             <TextField
               type="text"
               placeholder="Search..."
+              className="search-primary"
               value={search}
               onChange={handleSearch}
             />

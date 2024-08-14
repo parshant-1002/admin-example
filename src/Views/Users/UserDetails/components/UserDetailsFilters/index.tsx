@@ -44,11 +44,11 @@ function UserDetailsFilters({
 
       <div className="col-md-8 col-xl-6 my-2">
         <div className="d-flex justify-content-end align-items-start stats_filter">
-          <FiltersDropDown />
           <div className="dark-form-control">
             <TextField
               type="text"
               placeholder="Search..."
+              className="search-primary"
               value={search}
               onChange={handleSearch}
             />
@@ -62,9 +62,10 @@ function UserDetailsFilters({
               </em>
             ) : null}
           </div>
+          <FiltersDropDown />
           <Button
-            className="btn btn-sm"
-            btnType="primary"
+            className="btn-pad-two"
+            btnType="outline"
             onClick={handleClickAllData}
           >
             {BUTTON_LABELS.CLEAR}

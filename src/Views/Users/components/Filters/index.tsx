@@ -76,7 +76,11 @@ function StatsFilters({
             ) : null}
           </div>
           <FiltersDropDown />
-          <Button className="btn-pad-two btn-outline" btnType="primary" onClick={handleClickAllData}>
+          <Button
+            className="btn-pad-two"
+            btnType="outline"
+            onClick={handleClickAllData}
+          >
             {BUTTON_LABELS.CLEAR}
           </Button>
 
