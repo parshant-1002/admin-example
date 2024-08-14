@@ -110,6 +110,8 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
   },
   {
     title: STRINGS.INVOICE,
+    sortable: true,
+    sortType: 'invoiceDate',
     render: (row) => (
       <div className="text-center">
         {row?.invoiceURL ? (
@@ -146,8 +148,6 @@ const biddingHistoryColumn // renderActions: RenderActions
     title: 'Bid Spent',
     fieldName: 'bidsSpent',
     render: (_, val) => `${convertToLocale(val)}`,
-    sortable: true,
-    sortType: 'totalBids',
   },
   {
     title: 'Date',
@@ -161,7 +161,7 @@ const biddingHistoryColumn // renderActions: RenderActions
     title: 'Item Price',
     fieldName: 'itemPrice',
     sortable: true,
-    sortType: 'itemPrice',
+    sortType: 'currentBidPrice',
     render: (_, val) => `$${convertToLocale(val)}`,
   },
   {
@@ -405,7 +405,7 @@ const auctionBiddingHistoryColumn // renderActions: RenderActions
     title: 'Bid Id',
     fieldName: 'bidId',
     sortable: true,
-    sortType: 'bidId',
+    sortType: 'id',
   },
   {
     title: 'Purchase History',
@@ -419,7 +419,7 @@ const auctionBiddingHistoryColumn // renderActions: RenderActions
     title: 'Item Price',
     fieldName: 'bids',
     sortable: true,
-    sortType: 'bids',
+    sortType: 'currentBidPrice',
     render: (_, val) => `$${convertToLocale(val)}`,
   },
   {

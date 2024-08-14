@@ -9,7 +9,7 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../../../Shared/components/CustomTableView';
-import StatsFilters from '../UserDetailsFilters';
+import StatsFilters from '../../../../../Shared/components/Filters';
 import ViewMultiTableItem from '../ViewMultiTableItem';
 
 // Constants
@@ -18,7 +18,7 @@ import {
   FilterOrder,
   STRINGS,
 } from '../../../../../Shared/constants';
-import { RED_WARNING } from '../../../../../assets';
+import { Filter, RED_WARNING } from '../../../../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
@@ -323,6 +323,12 @@ export default function ProfileRelatedLists({
     userAuctionHistory,
     transformMap,
   ]);
+  const submenuForFilters = [
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
 
   return (
     <div>
@@ -347,6 +353,8 @@ export default function ProfileRelatedLists({
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
+        filterToggleImage={Filter}
+        submenu={submenuForFilters}
       />
 
       <CustomTableView

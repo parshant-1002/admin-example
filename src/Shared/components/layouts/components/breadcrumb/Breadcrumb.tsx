@@ -1,16 +1,15 @@
 import { Breadcrumb } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { PRIVATE_ROUTES } from '../../../../../Routes/PrivateRoutes';
+import { ROUTES, ROUTES_CONFIG } from '../../../../constants';
 import { capitalizeFirstLetter, matchRoute } from '../../../../utils/functions';
 import './style.scss';
-import { ROUTES } from '../../../../constants';
 
 function Breadcrumbs() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter(Boolean);
 
   // Use the matchRoute utility to find the page title
-  const pageTitle = matchRoute(location.pathname, PRIVATE_ROUTES);
+  const pageTitle = matchRoute(location.pathname, Object.values(ROUTES_CONFIG));
 
   const breadcrumbItems = pathnames.map((value, index) => {
     const to = `/${pathnames.slice(0, index + 1).join('/')}`;

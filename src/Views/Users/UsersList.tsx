@@ -11,8 +11,8 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
+import StatsFilters from '../../Shared/components/Filters';
 import ActionsDropDown from './components/ActionsDropDown';
-import StatsFilters from './components/Filters';
 
 // Constants
 import {
@@ -21,7 +21,7 @@ import {
   ROUTES,
   STRINGS,
 } from '../../Shared/constants';
-import { RED_WARNING } from '../../assets';
+import { Filter, RED_WARNING } from '../../assets';
 import { CONFIRMATION_DESCRIPTION, usersColumns } from './helpers/constants';
 
 // Models
@@ -247,6 +247,14 @@ export default function UsersList() {
     [renderActions, selectedIds]
   );
 
+  const submenuForFilters = [
+    { buttonLabel: 'Address', buttonAction: () => {} },
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
+
   // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
@@ -281,10 +289,12 @@ export default function UsersList() {
       />
       <StatsFilters
         handleClearSearch={() => setSearch('')}
+        submenu={submenuForFilters}
         search={search}
         handleSearch={debounceSearch}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView
