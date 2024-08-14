@@ -11,7 +11,6 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 
-
 // consts
 import { BUTTON_LABELS, ROUTES, STRINGS } from '../../Shared/constants';
 
