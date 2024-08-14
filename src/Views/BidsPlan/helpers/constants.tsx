@@ -38,6 +38,10 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     placeholder: 'Deal Price',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min: {
+        value: 0,
+        message: 'Values can not be less than 0',
+      },
     },
   },
   [PLAN_FORM_FIELDS.BIDS]: {
@@ -47,6 +51,10 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     placeholder: 'Bids Credited',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min: {
+        value: 0,
+        message: 'Values can not be less than 0',
+      },
     },
   },
   [PLAN_FORM_FIELDS.HOT_DEAL]: {
@@ -68,37 +76,37 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
       },
     ],
   },
-  [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
-    type: INPUT_TYPES.NUMBER,
-    label: 'Discount Percentage (upto 100)',
-    className: 'col-md-12',
-    placeholder: 'Discount Percentage (upto 100)',
-    min: 0,
-    max: 100,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-      min: {
-        value: 0,
-        message: 'Values can not be less than 0',
-      },
-      max: {
-        value: 100,
-        message: 'Value can not be great than 100',
-      },
-    },
-  },
-  [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
-    type: INPUT_TYPES.NUMBER,
-    label: 'Discounted Deal Price',
-    className: 'col-md-12',
-    placeholder: 'Discounted Deal Price',
-    readOnly: true,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
   ...(showHotDealSpecificFields
     ? {
+        [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
+          type: INPUT_TYPES.NUMBER,
+          label: 'Discount Percentage (upto 100)',
+          className: 'col-md-12',
+          placeholder: 'Discount Percentage (upto 100)',
+          min: 0,
+          max: 100,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            min: {
+              value: 0,
+              message: 'Values can not be less than 0',
+            },
+            max: {
+              value: 100,
+              message: 'Value can not be great than 100',
+            },
+          },
+        },
+        [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
+          type: INPUT_TYPES.NUMBER,
+          label: 'Discounted Deal Price',
+          className: 'col-md-12',
+          placeholder: 'Discounted Deal Price',
+          readOnly: true,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+          },
+        },
         [PLAN_FORM_FIELDS.END_DATE]: {
           type: INPUT_TYPES.DATE,
           label: 'End Date',

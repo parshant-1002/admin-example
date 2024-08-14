@@ -11,5 +11,5 @@ export const calculateDiscountedPrice = (
     discountPercentage
   );
 
-  return Number(totalPrice) - discountPriceValue;
+  return discountPriceValue ? Number(totalPrice) - discountPriceValue : 0;
 };
