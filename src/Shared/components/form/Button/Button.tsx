@@ -27,9 +27,15 @@ export const returnButtonClass = (
     default:
       classname = '';
   }
-  return btnType === 'primary'
-    ? `${classname} btn-primary`
-    : `${classname} btn-secondary`;
+
+  switch (btnType) {
+    case 'primary':
+      return `${classname} btn-primary`;
+    case 'secondary':
+      return `${classname} btn-secondary`;
+    default:
+      return `${classname} btn-primary`;
+  }
 };
 
 // Define types for the Button component props

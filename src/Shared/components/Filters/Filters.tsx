@@ -8,40 +8,46 @@ import React, { useRef, useState } from 'react';
 import { BUTTON_LABELS } from '../../constants';
 
 // components
-import CustomDropDown from '../CustomDropDown';
-import { SubmenuItem } from '../CustomDropDown/CustomDropDown';
 import Button from '../form/Button';
 import TextField from '../form/TextInput/TextInput';
 import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
+import CustomSelect from '../form/Select/Select';
+import DateRange from './components/DateRange';
 import './style.scss';
+import { cross } from '../../../assets';
+import PriceRangeSlider from './components/PriceRange';
 
 // types
 interface StatsFiltersProps {
   setAddData?: () => void;
   handleClearAll?: () => void;
-  search?: string;
-  handleSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClearSearch: () => void;
+  addButtonLabel?: string;
+  handleSearch?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleClearSearch?: () => void;
   selectedIds?: string[];
   handleDeleteAll?: () => void;
-  submenu?: SubmenuItem[];
-  filterToggleImage: string;
+  filterToggleImage?: string;
+  showHeading?: boolean;
+  showSearch?: boolean;
 }
 
 function StatsFilters({
   setAddData,
-  search = '',
-  handleSearch,
-  handleClearSearch, // heading = 'Transactions',
+  addButtonLabel = BUTTON_LABELS.ADD,
+  handleSearch = () => {},
+  handleClearSearch = () => {}, // heading = 'Transactions',
   selectedIds,
   handleDeleteAll,
-  submenu,
-  filterToggleImage,
+  filterToggleImage = '',
+  showHeading = true,
+  showSearch = true,
   handleClearAll = () => {},
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
+
+  const [showFilters, setShowFilters] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const handleClear = () => {
     setSearchValue('');
@@ -59,42 +65,102 @@ function StatsFilters({
     setSearchValue(e.target.value);
     handleSearch(e);
   };
-
+  const handleShowFilter = () => {
+    setShowFilters((prev) => !prev);
+  };
   return (
-    <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
-      <div className="col-md-4 col-xl-6">
-        <Breadcrumbs />
-      </div>
-
-      <div className="col-md-8 col-xl-6 my-2">
-        <div className="d-flex justify-content-end align-items-start stats_filter">
-          {selectedIds?.length ? (
-            <Button
-              className="btn btn-sm btn-danger"
-              btnType="primary"
-              onClick={handleDeleteAll}
-            >
-              {BUTTON_LABELS.DELETE_ALL}
-            </Button>
-          ) : null}
-          <CustomDropDown toggleImage={filterToggleImage} submenu={submenu} />
-          <div className="dark-form-control">
-            <TextField
-              type="text"
-              placeholder="Search..."
-              value={searchValue}
-              onChange={handleSearchChange}
-            />
-            {search ? (
-              <em className="cross-icon" onClick={handleClear}>
-                <img
-                  src="" // Replace with an actual path or URL
-                  alt=""
-                  width={12}
-                />
-              </em>
+    <>
+      <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
+        <div className="col-md-4 col-xl-6">
+          {showHeading ? <Breadcrumbs /> : null}
+        </div>
+        <div className="col-md-8 col-xl-6 my-2">
+          <div className="d-flex justify-content-end align-items-start stats_filter">
+            {selectedIds?.length ? (
+              <Button
+                className="btn btn-sm btn-danger"
+                btnType="primary"
+                onClick={handleDeleteAll}
+              >
+                {BUTTON_LABELS.DELETE_ALL}
+              </Button>
             ) : null}
+            {showSearch ? (
+              <div className="dark-form-control position-relative">
+                <TextField
+                  type="text"
+                  placeholder="Search..."
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                />
+                {searchValue ? (
+                  <em className="cross-icon" onClick={handleClear}>
+                    <img
+                      src={cross} // Replace with an actual path or URL
+                      alt=""
+                    />
+                  </em>
+                ) : null}
+              </div>
+            ) : null}
+            {filterToggleImage ? (
+              <Button
+                className="bg-white"
+                btnType="primary"
+                onClick={handleShowFilter}
+              >
+                <img src={filterToggleImage} alt="filters" width={30} />
+              </Button>
+            ) : null}
+            {setAddData ? (
+              <Button
+                className="btn btn-sm"
+                btnType="primary"
+                onClick={() => setAddData()}
+              >
+                {addButtonLabel}
+              </Button>
+            ) : null}
+            {/* You may need to add the ref to the button or element you want to clear */}
+            <button
+              type="button"
+              ref={clearDateRangeFilterRef}
+              style={{ display: 'none' }}
+            />
           </div>
+        </div>
+      </div>
+      {showFilters ? (
+        <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column gap-3">
+          <div className="col-md-2 col-xl-2 ">
+            <CustomSelect />
+          </div>
+          <div className="col-md-2 col-xl-2">
+            <DateRange
+              startDate=""
+              endDate=""
+              setStartDate={() => {}}
+              setEndDate={() => {}}
+              isInitialEmpty
+              clearFilterRef={clearDateRangeFilterRef}
+              setIsInitialEmpty={() => {}}
+            />
+          </div>
+          <div className="col-md-2 col-xl-2">
+            <PriceRangeSlider min={10} max={100} onChange={() => {}} />
+          </div>
+          <div className="col-md-2 col-xl-2 ">
+            <CustomSelect />
+          </div>
+
+          <Button
+            className="btn btn-sm"
+            btnType="primary"
+            onClick={handleClickAllData}
+          >
+            {BUTTON_LABELS.APPLY}
+          </Button>
+
           {selectedIds?.length || searchValue ? (
             <Button
               className="btn btn-sm"
@@ -104,24 +170,9 @@ function StatsFilters({
               {BUTTON_LABELS.CLEAR_ALL}
             </Button>
           ) : null}
-          {setAddData ? (
-            <Button
-              className="btn btn-sm"
-              btnType="primary"
-              onClick={() => setAddData()}
-            >
-              {BUTTON_LABELS.ADD}
-            </Button>
-          ) : null}
-          {/* You may need to add the ref to the button or element you want to clear */}
-          <button
-            type="button"
-            ref={clearDateRangeFilterRef}
-            style={{ display: 'none' }}
-          />
         </div>
-      </div>
-    </div>
+      ) : null}
+    </>
   );
 }
 

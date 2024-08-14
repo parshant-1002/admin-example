@@ -11,6 +11,8 @@ import Delete from './icons/delete.svg';
 import actions from './icons/dots 8.svg';
 import Filter from './icons/filter.svg';
 import InvoiceIcon from './icons/invoice.svg';
+import cross from './icons/cross.svg';
+import downArrow from './icons/downArrow.svg';
 
 export {
   Logo,
@@ -26,4 +28,6 @@ export {
   actions,
   Filter,
   InvoiceIcon,
+  cross,
+  downArrow,
 };

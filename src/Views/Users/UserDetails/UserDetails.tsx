@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import CustomModal from '../../../Shared/components/CustomModal';
 import CustomTabs from '../../../Shared/components/CustomTabs';
+import Filters from '../../../Shared/components/Filters';
+import { BUTTON_LABELS, FilterOrder } from '../../../Shared/constants';
+import AddBidForm from './components/AddBidForm';
 import ProfileRelatedLists from './components/ProfileRelatedLists';
 import UserProfile from './components/UserProfile';
 import { UserDetailsTabs } from './helpers/constants';
-import CustomModal from '../../../Shared/components/CustomModal';
-import AddBidForm from './components/AddBidForm';
-import Button from '../../../Shared/components/form/Button';
-import { BUTTON_LABELS, FilterOrder } from '../../../Shared/constants';
 
 export default function UserDetails() {
   const { state } = useLocation();
@@ -57,12 +57,11 @@ export default function UserDetails() {
           </div>
         </CustomModal>
       )}
-      <div
-        className="w-100 d-flex m-2 justify-content-end"
-        onClick={handleAddBids}
-      >
-        <Button>{BUTTON_LABELS.ADD_BIDS}</Button>
-      </div>
+      <Filters
+        showSearch={false}
+        addButtonLabel={BUTTON_LABELS.ADD_BIDS}
+        setAddData={handleAddBids}
+      />
       <UserProfile userId={state} />
       <CustomTabs
         tabs={userTabs}

@@ -247,14 +247,6 @@ export default function UsersList() {
     [renderActions, selectedIds]
   );
 
-  const submenuForFilters = [
-    { buttonLabel: 'Address', buttonAction: () => {} },
-    {
-      buttonLabel: 'Date Range',
-      buttonAction: () => {},
-    },
-  ];
-
   // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
@@ -289,8 +281,6 @@ export default function UsersList() {
       />
       <StatsFilters
         handleClearSearch={() => setSearch('')}
-        submenu={submenuForFilters}
-        search={search}
         handleSearch={debounceSearch}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}

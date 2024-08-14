@@ -220,12 +220,7 @@ export default function CategoriesList() {
     }
     onComponentMountRef.current = true;
   }, [refetch, currentPage, search, sortKey, sortDirection]);
-  const submenuForFilter = [
-    {
-      buttonLabel: 'Date Range',
-      buttonAction: () => {},
-    },
-  ];
+
   return (
     <div>
       <ConfirmationModal
@@ -273,9 +268,7 @@ export default function CategoriesList() {
       )}
 
       <StatsFilters
-        submenu={submenuForFilter}
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
         selectedIds={selectedIds}
