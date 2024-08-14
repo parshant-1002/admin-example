@@ -50,7 +50,7 @@ function CustomTableView({
   noDataFound = '',
   quickEditRowId = '',
   selectedRow = null,
-  isServerPagination = false,
+  isServerPagination = true,
   handleSortingClick = () => {},
   handleRowClick = () => {},
   SecondaryRowComponent = () => <> </>,

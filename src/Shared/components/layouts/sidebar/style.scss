@@ -132,6 +132,10 @@ $bgLeft: url(./assets/images/left-bg.png);
         mask-image: url(/src/assets/icons/bids-plans.svg);
         -webkit-mask-image: url(/src/assets/icons/bids-plans.svg);
       }
+      .bi-transactions {
+        mask-image: url(/src/assets/icons/transactions.svg);
+        -webkit-mask-image: url(/src/assets/icons/transactions.svg);
+      }
     }
     .accordion-item{
       padding-left: 19.1px;
