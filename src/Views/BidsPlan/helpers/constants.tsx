@@ -24,54 +24,54 @@ export const PLAN_FORM_FIELDS = {
 export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
   [PLAN_FORM_FIELDS.NAME]: {
     type: INPUT_TYPES.TEXT,
-    label: 'Plan Name',
+    label: STRINGS.PLAN_NAME,
     className: 'col-md-12',
-    placeholder: 'Plan Name',
+    placeholder: STRINGS.PLAN_NAME,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
   [PLAN_FORM_FIELDS.PRICE]: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Deal Price',
+    label: STRINGS.DEAL_PRICE,
     className: 'col-md-12',
-    placeholder: 'Deal Price',
+    placeholder: STRINGS.DEAL_PRICE,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
       min: {
         value: 0,
-        message: 'Values can not be less than 0',
+        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
       },
     },
   },
   [PLAN_FORM_FIELDS.BIDS]: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Bids Credited',
+    label: STRINGS.BIDS_CREDITED,
     className: 'col-md-12',
-    placeholder: 'Bids Credited',
+    placeholder: STRINGS.BIDS_CREDITED,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
       min: {
         value: 0,
-        message: 'Values can not be less than 0',
+        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
       },
     },
   },
   [PLAN_FORM_FIELDS.HOT_DEAL]: {
     type: INPUT_TYPES.SELECT,
-    label: 'Hot Deal',
+    label: STRINGS.HOT_DEAL,
     className: 'col-md-12',
-    placeholder: 'Hot Deal',
+    placeholder: STRINGS.HOT_DEAL,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
     options: [
       {
-        label: 'Yes',
+        label: STRINGS.YES,
         value: BID_PLAN_TYPES.HOT_DEAL,
       },
       {
-        label: 'No',
+        label: STRINGS.NO,
         value: BID_PLAN_TYPES.REGULAR,
       },
     ],
@@ -80,28 +80,28 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     ? {
         [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
           type: INPUT_TYPES.NUMBER,
-          label: 'Discount Percentage (upto 100)',
+          label: STRINGS.DISCOUNT_PERCENTAGE,
           className: 'col-md-12',
-          placeholder: 'Discount Percentage (upto 100)',
+          placeholder: STRINGS.DISCOUNT_PERCENTAGE,
           min: 0,
           max: 100,
           schema: {
             required: FORM_VALIDATION_MESSAGES().REQUIRED,
             min: {
               value: 0,
-              message: 'Values can not be less than 0',
+              message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
             },
             max: {
               value: 100,
-              message: 'Value can not be great than 100',
+              message: FORM_VALIDATION_MESSAGES().MAXIMUM_100_PERCENT_ALLOWED,
             },
           },
         },
         [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
           type: INPUT_TYPES.NUMBER,
-          label: 'Discounted Deal Price',
+          label: STRINGS.DISCOUNT_OFFER_PRICE,
           className: 'col-md-12',
-          placeholder: 'Discounted Deal Price',
+          placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
           readOnly: true,
           schema: {
             required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -109,9 +109,9 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
         },
         [PLAN_FORM_FIELDS.END_DATE]: {
           type: INPUT_TYPES.DATE,
-          label: 'End Date',
+          label: STRINGS.END_DATE,
           className: 'col-md-12',
-          placeholder: 'End Date',
+          placeholder: STRINGS.END_DATE,
           schema: {
             required: FORM_VALIDATION_MESSAGES().REQUIRED,
           },
@@ -120,9 +120,9 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     : {}),
   [PLAN_FORM_FIELDS.STATUS]: {
     type: INPUT_TYPES.SWITCH,
-    label: 'Status',
+    label: STRINGS.STATUS,
     className: 'col-md-12',
-    placeholder: 'Status',
+    placeholder: STRINGS.STATUS,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -166,31 +166,25 @@ export const PlansColumns = ({
     },
   },
   {
-    title: 'ID',
+    title: STRINGS.ID,
     fieldName: '_id',
   },
   {
-    title: 'Name',
+    title: STRINGS.NAME,
     fieldName: PLAN_FORM_FIELDS.NAME,
     isTruncated: true,
-    sortable: true,
-    sortType: PLAN_FORM_FIELDS.NAME,
   },
   {
-    title: 'Bids Given',
+    title: STRINGS.BIDS_GIVEN,
     fieldName: PLAN_FORM_FIELDS.BIDS,
     isTruncated: true,
-    sortable: true,
-    sortType: PLAN_FORM_FIELDS.BIDS,
   },
   {
-    title: 'Deal Price',
+    title: STRINGS.DEAL_PRICE,
     fieldName: PLAN_FORM_FIELDS.PRICE,
-    sortable: true,
-    sortType: PLAN_FORM_FIELDS.PRICE,
   },
   {
-    title: 'Created At',
+    title: STRINGS.CREATED_AT,
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
@@ -198,31 +192,27 @@ export const PlansColumns = ({
       createdAt ? formatDate(createdAt as string) : '-.-',
   },
   {
-    title: 'End At',
+    title: STRINGS.END_AT,
     fieldName: PLAN_FORM_FIELDS.END_DATE,
-    sortable: true,
-    sortType: PLAN_FORM_FIELDS.END_DATE,
     render: (_, endDate) => (endDate ? formatDate(endDate as string) : '-.-'),
   },
   {
-    title: 'Hot Deal',
+    title: STRINGS.HOT_DEAL,
     fieldName: PLAN_FORM_FIELDS.HOT_DEAL,
-    sortable: true,
-    sortType: PLAN_FORM_FIELDS.HOT_DEAL,
     render: (_, value) =>
       (() => {
         switch (value) {
           case BID_PLAN_TYPES.HOT_DEAL:
-            return 'Yes';
+            return STRINGS.YES;
           case BID_PLAN_TYPES.REGULAR:
-            return 'No';
+            return STRINGS.NO;
           default:
             return '';
         }
       })(),
   },
   {
-    title: 'Status',
+    title: STRINGS.STATUS,
     fieldName: PLAN_FORM_FIELDS.STATUS,
     render: (row, isEnabled) => (
       <div className="form-check form-switch">
@@ -238,7 +228,7 @@ export const PlansColumns = ({
     ),
   },
   {
-    title: 'Actions',
+    title: STRINGS.ACTIONS,
     render: (row) => (
       <div className="d-flex">
         <CustomDropDown
@@ -263,78 +253,78 @@ export const PlansColumns = ({
 
 export const PlanDetailedViewColumns: ColumnData[] = [
   {
-    title: 'T Id',
+    title: STRINGS.T_ID,
     fieldName: '_id',
   },
   {
-    title: 'Username',
+    title: STRINGS.USERNAME,
     fieldName: 'name',
     sortable: true,
     sortType: 'name',
     render: (row) => row?.refererUser?.name,
   },
   {
-    title: 'Email',
+    title: STRINGS.EMAIL,
     fieldName: 'email',
     sortable: true,
     sortType: 'email',
     render: (row) => row?.refererUser?.email,
   },
   {
-    title: 'Deal Offer',
+    title: STRINGS.DEAL_OFFER,
     fieldName: 'dealOffer',
     sortable: true,
     sortType: 'dealOffer',
   },
   {
-    title: 'Deal Price',
+    title: STRINGS.DEAL_PRICE,
     fieldName: 'dealPrice',
     sortable: true,
     sortType: 'dealPrice',
   },
   {
-    title: 'Referee Email',
+    title: STRINGS.REFEREE_EMAIL,
     fieldName: 'refereeEmail',
     sortable: true,
     sortType: 'refereeBidRequirement',
     render: (row) => row?.refereeUser?.email,
   },
   {
-    title: 'Reward At',
+    title: STRINGS.REWARD_AT,
     fieldName: 'rewardAt',
     sortable: true,
     sortType: 'refereePurchasedBids',
   },
   {
-    title: 'Bids Received',
+    title: STRINGS.BIDS_RECEIVED,
     fieldName: 'purchasedBids',
     sortable: true,
     sortType: 'purchasedBids',
   },
   {
-    title: 'Status',
+    title: STRINGS.STATUS,
     fieldName: 'status',
     render: (row) =>
       (() => {
         switch (row?.status as number) {
           case REFERRAL_STATUS.COMPLETED:
-            return <span className="text-success">Completed</span>;
+            return <span className="text-success">{STRINGS.COMPLETED}</span>;
           case REFERRAL_STATUS.PENDING:
-            return <span className="text-warning">Pending</span>;
+            return <span className="text-warning">{STRINGS.PENDING}</span>;
           case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
-            return <span className="text-danger">Failed</span>;
+            return <span className="text-danger">{STRINGS.FAILED}</span>;
           default:
             return '';
         }
       })(),
   },
   {
-    title: 'Date',
+    title: STRINGS.DATE,
     fieldName: 'createdAt',
     render: (row) => formatDate(row?.createdAt),
   },
   {
-    title: 'Invoice',
+    title: STRINGS.INVOICE,
     render: (row) =>
       row?.url ? (
         <div className="text-center">

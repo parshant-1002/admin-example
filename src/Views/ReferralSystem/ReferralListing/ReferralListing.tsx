@@ -20,6 +20,7 @@ import {
 
 // Utilities
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
+import { DetailsCard } from '../../../Shared/components';
 
 // Interfaces
 interface QueryParams {
@@ -106,45 +107,38 @@ function Invoices() {
   const renderPackDetails = useMemo(() => {
     if (referralPackDetails?.data?.[0]) {
       return (
-        <div className="card mb-3">
-          <div className="card-body row">
-            {[
-              {
-                label: STRINGS.PLAN_ID,
-                value: referralPackDetails?.data?.[0]?._id,
-              },
-              {
-                label: STRINGS.NAME,
-                value: referralPackDetails?.data?.[0]?.name,
-              },
-              {
-                label: STRINGS.CREATED_AT,
-                value: referralPackDetails?.data?.[0]?.startDate
-                  ? formatDate(referralPackDetails?.data?.[0]?.startDate)
-                  : '',
-              },
-              {
-                label: STRINGS.CLOSED_AT,
-                value: referralPackDetails?.data?.[0]?.endDate
-                  ? formatDate(referralPackDetails?.data?.[0]?.endDate)
-                  : '',
-              },
-              {
-                label: STRINGS.REWARDS,
-                value: referralPackDetails?.data?.[0]?.rewardBids,
-              },
-              {
-                label: STRINGS.REWARD_AT,
-                value: referralPackDetails?.data?.[0]?.refereeBidRequirement,
-              },
-            ].map(({ label, value }) => (
-              <div className="col-lg-2 col-md-3 col-sm-4" key={label}>
-                <h6>{label}</h6>
-                <p>{value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <DetailsCard
+          details={[
+            {
+              label: STRINGS.PLAN_ID,
+              value: referralPackDetails?.data?.[0]?._id,
+            },
+            {
+              label: STRINGS.NAME,
+              value: referralPackDetails?.data?.[0]?.name,
+            },
+            {
+              label: STRINGS.CREATED_AT,
+              value: referralPackDetails?.data?.[0]?.startDate
+                ? formatDate(referralPackDetails?.data?.[0]?.startDate)
+                : '',
+            },
+            {
+              label: STRINGS.CLOSED_AT,
+              value: referralPackDetails?.data?.[0]?.endDate
+                ? formatDate(referralPackDetails?.data?.[0]?.endDate)
+                : '',
+            },
+            {
+              label: STRINGS.REWARDS,
+              value: referralPackDetails?.data?.[0]?.rewardBids,
+            },
+            {
+              label: STRINGS.REWARD_AT,
+              value: referralPackDetails?.data?.[0]?.refereeBidRequirement,
+            },
+          ]}
+        />
       );
     }
 

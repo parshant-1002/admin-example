@@ -12,6 +12,8 @@ type ValidationMessages = {
   ANSWER_REQUIRED: string;
   LONGER_ANSWER_REQUIRED: string;
   MAX_NUMBER: string;
+  NEGATIVE_VALUES_NOT_ALLOWED: string;
+  MAXIMUM_100_PERCENT_ALLOWED: string;
 };
 
 const FORM_VALIDATION_MESSAGES = (...args: number[]): ValidationMessages => ({
@@ -31,6 +33,9 @@ const FORM_VALIDATION_MESSAGES = (...args: number[]): ValidationMessages => ({
   ANSWER_REQUIRED: 'Please add your answer to join this squad.',
   LONGER_ANSWER_REQUIRED: 'Please provide a longer answer.',
   MAX_NUMBER: `Maximum value should be less than ${args[0]}.`,
+  NEGATIVE_VALUES_NOT_ALLOWED:
+    'Value should be greater than 0 and cannot be negative.',
+  MAXIMUM_100_PERCENT_ALLOWED: 'Maximum 100% is allowed.',
 });
 
 export default FORM_VALIDATION_MESSAGES;
