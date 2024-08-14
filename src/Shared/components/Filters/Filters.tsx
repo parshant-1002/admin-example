@@ -18,6 +18,7 @@ import DateRange from './components/DateRange';
 import './style.scss';
 import { cross } from '../../../assets';
 import PriceRangeSlider from './components/PriceRange';
+import { FiltersState } from './helpers/models';
 
 // types
 interface StatsFiltersProps {
@@ -49,6 +50,10 @@ function StatsFilters({
 
   const [showFilters, setShowFilters] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [filtersState, setFilterState] = useState<FiltersState>({
+    startDate: '',
+    endDate: '',
+  });
   const handleClear = () => {
     setSearchValue('');
     handleClearSearch();
@@ -137,10 +142,9 @@ function StatsFilters({
           </div>
           <div className="col-md-2 col-xl-2">
             <DateRange
-              startDate=""
-              endDate=""
-              setStartDate={() => {}}
-              setEndDate={() => {}}
+              startDate={filtersState?.startDate}
+              endDate={filtersState?.endDate}
+              setFilterState={setFilterState}
               isInitialEmpty
               clearFilterRef={clearDateRangeFilterRef}
               setIsInitialEmpty={() => {}}

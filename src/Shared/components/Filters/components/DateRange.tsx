@@ -1,18 +1,18 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 // libs
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 // components
-import DateRangeSelector from '../../DateRangeSelector';
 import { FILTER_CONSTS } from '../../../constants';
+import DateRangeSelector from '../../DateRangeSelector';
+import { FiltersState } from '../helpers/models';
 
 // types
 interface DateRangeProps {
-  startDate?: string;
-  endDate?: string;
-  setStartDate: (date: string) => void;
-  setEndDate: (date: string) => void;
+  startDate?: string | Date;
+  endDate?: string | Date;
+  setFilterState: Dispatch<SetStateAction<FiltersState>>;
   isInitialEmpty?: boolean;
   clearFilterRef?: React.RefObject<HTMLButtonElement>;
   setIsInitialEmpty: (value: boolean) => void;
@@ -23,9 +23,8 @@ const KEY_FOR_DATE_RANGE = 'selection';
 function DateRange({
   startDate = '',
   endDate = '',
-  setStartDate,
-  setEndDate,
-  isInitialEmpty = false,
+  setFilterState,
+  isInitialEmpty = true,
   clearFilterRef,
   setIsInitialEmpty,
 }: DateRangeProps) {
@@ -48,11 +47,14 @@ function DateRange({
       (!dateRange.to && clickCount <= 2)
     )
       return; // if both dates are not selected return the function
-    setStartDate(moment(dateRange.from).format(FILTER_CONSTS.dateFormat));
-    setEndDate(moment(dateRange.to).format(FILTER_CONSTS.dateFormat));
+    setFilterState((prev: FiltersState) => ({
+      ...(prev || {}),
+      startDate: moment(dateRange.from).format(FILTER_CONSTS.dateFormat),
+      endDate: moment(dateRange.to).format(FILTER_CONSTS.dateFormat),
+    }));
     setIsInitialEmpty(false);
     setClickCount(0);
-  }, [clickCount, dateRange, setEndDate, setIsInitialEmpty, setStartDate]);
+  }, [clickCount, dateRange, setFilterState, setIsInitialEmpty]);
 
   useEffect(() => {
     if (isInitialEmpty) setDateRange('');
@@ -95,9 +97,6 @@ function DateRange({
       <DateRangeSelector
         dateRange={initialDateRange}
         setDateRange={settingDateRange}
-        // icon={CalenderIcon}
-        // isInitialEmpty
-        // clickCount={clickCount}
       />
     </>
   );

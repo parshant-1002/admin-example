@@ -40,10 +40,13 @@ function DateRangeSelector({
   const toggleCalendar = () => {
     setIsOpen(!isOpen);
     if (!isOpen && !dateRange?.startDate) {
-      setDateRange({
-        startDate: moment().format(CONSTS.dateFormat),
-        endDate: moment().format(CONSTS.dateFormat),
-      });
+      setDateRange(
+        {
+          startDate: moment().format(CONSTS.dateFormat),
+          endDate: moment().format(CONSTS.dateFormat),
+        },
+        isOpen
+      );
     }
   };
 
