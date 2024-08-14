@@ -2,8 +2,9 @@ import { Dispatch, SetStateAction } from 'react';
 import { ProductDetailResponsePayload } from './Model';
 import { ColumnData } from '../../../../Models/Tables';
 import { ViewMultiData, Category } from '../../../Products/helpers/model';
+import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 
-enum DetailType {
+export enum DetailType {
   String,
   Number,
   Dropdown,
@@ -55,6 +56,7 @@ export const AuctionColumn = (
   {
     title: 'Auction Time',
     isEditable: false,
+    fieldName: 'bidStartDate',
     render: (row) => {
       const start = new Date(row.bidStartDate);
       const end = new Date(row.reserveWaitingEndDate);
@@ -132,7 +134,47 @@ export const AuctionColumn = (
   {
     title: 'Attachements',
     isEditable: false,
-    fieldName: '',
+    fieldName: 'productImage',
+    render: (_, val) => {
+      const imgData = val as unknown as {
+        _id: string;
+        url: string;
+        title: string;
+      }[];
+      return (
+        <div className="d-flex align-items-center">
+          {imgData?.map((img, index) =>
+            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+              <div
+                key={img.url}
+                className="m-2 d-flex flex-column text-center justify-content-center align-items-center"
+              >
+                <span className="uploaded_file">
+                  <FileRenderer fileURL={img.url} />
+                </span>
+                <div>{img.title}</div>
+              </div>
+            ) : null
+          )}
+          {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+            <button
+              type="button"
+              className="btn border py-0 px-1"
+              onClick={() =>
+                setShowMultiItemView({
+                  show: true,
+                  data: { title: 'Product Images', size: 'lg', imgData },
+                })
+              }
+            >
+              {`. . .+${
+                imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
+              }`}
+            </button>
+          ) : null}
+        </div>
+      );
+    },
   },
   {
     title: 'Total Bids Placed ',
@@ -143,6 +185,7 @@ export const AuctionColumn = (
     title: 'Status',
     isEditable: false,
     fieldName: 'status',
+    type: DetailType.Dropdown,
   },
   {
     title: 'Winner',
@@ -154,6 +197,7 @@ export const AuctionColumn = (
     title: 'Product Purchase Status',
     isEditable: false,
     fieldName: 'uniqueUserCount',
+    type: DetailType.Dropdown,
   },
   {
     title: 'Product Purchase Duration',

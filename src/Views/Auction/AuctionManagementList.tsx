@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 
 // components
+import { debounce } from 'lodash';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
   Column,
@@ -22,6 +23,9 @@ import { useGetAuctionsQuery } from '../../Services/Api/module/auction';
 import ViewMultiTableItem from '../Products/components/ViewMultiTableItem';
 import { ViewMultiData } from '../Products/helpers/model';
 import ActionsDropDown from '../../Shared/components/ActionsDropDown';
+import AuctionForm from './AuctionForm';
+import StatsFilters from '../Products/components/Filters';
+// import StatsFilters from '../Users/components/Filters';
 
 interface EditData {
   data: object | null;
@@ -39,6 +43,7 @@ export default function AuctionManagementList() {
     open: false,
     data: {},
   });
+  const [addData, setAddData] = useState<boolean>(false);
 
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
@@ -48,6 +53,7 @@ export default function AuctionManagementList() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
+  const [search, setSearch] = useState<string>('');
 
   // query
   const { data: AuctionListing, refetch } = useGetAuctionsQuery({
@@ -62,7 +68,10 @@ export default function AuctionManagementList() {
     setCurrentPage(selectedPageNumber);
   };
 
+  const handleDeleteAll = () => {};
+
   const handleEdit = (row: AuctionResponsePayload) => {
+    // console.log('row data', row);
     setEditData({
       data: {
         ...row,
@@ -73,7 +82,10 @@ export default function AuctionManagementList() {
             AUCTION_STATUS?.find((status) => status.value === row?.status)
               ?.label,
         },
-        category: { value: row?.category._id, label: row?.category?.name },
+        categoryIds: row?.product.categories?.map((category) => ({
+          value: category._id,
+          label: category?.name,
+        })),
       },
       show: true,
     });
@@ -90,6 +102,12 @@ export default function AuctionManagementList() {
     setDeleteModal({ open: true, data: payload });
   };
 
+  // Function to handle search with debounce
+  const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentPage(0);
+    setSearch(e.target.value);
+  }, 1000);
+
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: AuctionResponsePayload) => (
@@ -103,6 +121,14 @@ export default function AuctionManagementList() {
     ),
     []
   );
+  const handleAddSuccess = () => {
+    setAddData(false);
+    refetch();
+  };
+  const handleEditSuccess = () => {
+    setEditData({ data: null, show: false });
+    refetch();
+  };
 
   const columns = useMemo(
     () => AuctionColumns(renderActions, setShowMultiItemView),
@@ -136,11 +162,44 @@ export default function AuctionManagementList() {
       />
       {editData?.show && (
         <CustomModal
-          title="Edit Add on"
+          title="Edit"
           show={editData?.show}
           onClose={() => setEditData({ data: null, show: false })}
-        />
+        >
+          <div className="p-4">
+            <AuctionForm
+              isEdit
+              initialData={editData?.data}
+              onEdit={handleEditSuccess}
+            />
+          </div>
+        </CustomModal>
       )}
+
+      {addData && (
+        <CustomModal
+          title="Add"
+          show={addData}
+          onClose={() => setAddData(false)}
+        >
+          <div className="p-4">
+            <AuctionForm
+              isEdit={false}
+              initialData={{}}
+              onAdd={handleAddSuccess}
+            />
+          </div>
+        </CustomModal>
+      )}
+
+      <StatsFilters
+        handleClearSearch={() => setSearch('')}
+        search={search}
+        handleSearch={debounceSearch}
+        setAddData={setAddData}
+        handleDeleteAll={handleDeleteAll}
+      />
+
       <CustomTableView
         rows={(AuctionListing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}

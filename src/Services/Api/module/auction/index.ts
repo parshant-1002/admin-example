@@ -6,7 +6,7 @@ export const auctionApi = api.injectEndpoints({
   endpoints: (builder) => ({
     addAuction: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PRODUCT,
+        url: API_END_POINTS.AUCTION,
         method: HTTPS_METHODS.POST,
         body: payload,
       }),
@@ -16,7 +16,7 @@ export const auctionApi = api.injectEndpoints({
     }),
     editAuction: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PRODUCT,
+        url: API_END_POINTS.AUCTION,
         method: HTTPS_METHODS.PUT,
         body: payload,
       }),

@@ -1,6 +1,11 @@
 import React, { useCallback, useState } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import { ProductDetailResponsePayload } from '../../../Views/Auction/AuctionDetails/Helpers/Model';
-import { AuctionDetailsColumnData } from '../../../Views/Auction/AuctionDetails/Helpers/constants';
+import {
+  AuctionDetailsColumnData,
+  DetailType,
+} from '../../../Views/Auction/AuctionDetails/Helpers/constants';
+import { actions } from '../../../assets';
 
 const styles = {
   container: {
@@ -44,21 +49,73 @@ type DetailsWrapperCardProps = {
 // Helper function to render values, handling different types of content
 const renderValue = (
   value: React.ReactNode,
-  editable: boolean | undefined,
+  columnSchema: AuctionDetailsColumnData,
   onChange: (newValue: string | number) => void
 ): JSX.Element | React.ReactNode => {
-  if (editable && (typeof value === 'string' || typeof value === 'number')) {
-    return (
-      <input
-        type={typeof value === 'number' ? 'number' : 'text'}
-        value={value as string | number}
-        onChange={(e) =>
-          onChange(typeof value === 'number' ? +e.target.value : e.target.value)
-        }
-        style={styles.input}
-      />
-    );
-  }
+  const submenu = [
+    { buttonLabel: 'Edit', buttonAction: () => console.log('Selected') },
+    {
+      buttonLabel: 'Delete',
+      buttonAction: () => console.log('selected'),
+      className: 'text-danger',
+    },
+  ];
+  if (columnSchema.isEditable)
+    switch (columnSchema.type) {
+      case DetailType.String:
+      case DetailType.Number: {
+        return (
+          <input
+            type={typeof value === 'number' ? 'number' : 'text'}
+            value={value as string | number}
+            onChange={(e) =>
+              onChange(
+                typeof value === 'number' ? +e.target.value : e.target.value
+              )
+            }
+            style={styles.input}
+          />
+        );
+      }
+      case DetailType.Date: {
+        return (
+          <input
+            type="date"
+            data-date=""
+            data-date-format="DD MMMM YYYY"
+            value="2015-08-09"
+          />
+        );
+      }
+      case DetailType.Dropdown: {
+        return (
+          <Dropdown>
+            <Dropdown.Toggle variant="transparent" id="dropdown-basic">
+              <span className="text-primary">
+                <img src={actions} alt="Actions" width={30} />
+              </span>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {submenu.map((item) => (
+                <Dropdown.Item
+                  key={item.buttonLabel}
+                  onClick={item.buttonAction}
+                  className={item.className}
+                >
+                  {item.buttonLabel}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        );
+      }
+      default:
+        return '--';
+    }
+
+  // if (editable && (typeof value === 'string' || typeof value === 'number')) {
+  // }
 
   if (typeof value === 'boolean') {
     return <input type="checkbox" checked={value} readOnly />;
@@ -111,14 +168,11 @@ function DetailsWrapperCard({ details, dataScema }: DetailsWrapperCardProps) {
             <h5 className="font-weight-bold">{field.title}</h5>
             <p>
               {' '}
-              {renderValue(
-                getColumnValue(data, field),
-                field.isEditable,
-                (newValue) =>
-                  handleValueChange(
-                    newValue,
-                    field.fieldName as keyof ProductDetailResponsePayload
-                  )
+              {renderValue(getColumnValue(data, field), field, (newValue) =>
+                handleValueChange(
+                  newValue,
+                  field.fieldName as keyof ProductDetailResponsePayload
+                )
               )}
             </p>
           </div>
