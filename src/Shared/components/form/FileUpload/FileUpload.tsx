@@ -124,9 +124,8 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     });
 
     const handleRemoveFile = (index: number) => {
-      setFileValue(
-        (prevState: FileData[] | undefined) =>
-          prevState?.filter((_, i) => i !== index)
+      setFileValue((prevState: FileData[] | undefined) =>
+        prevState?.filter((_, i) => i !== index)
       );
     };
 
