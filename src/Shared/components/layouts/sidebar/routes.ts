@@ -52,7 +52,7 @@ const SIDEBAR_NAV = [
     ],
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-bids',
     label: 'Bids Plans',
     children: [
       {

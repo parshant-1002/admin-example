@@ -13,7 +13,7 @@ $downArrow : url("./assets/icons/downArrow.svg");
 
 #root {
   width: 100%;
-  overflow-x: $hidden !important;
+  // overflow-x: $hidden !important;
 }
 .bg-img {
   @include position($absolute, $top:0, $left:0, $right:0);
@@ -353,10 +353,8 @@ $downArrow : url("./assets/icons/downArrow.svg");
   z-index: 997;
   height: 60px;
   border-bottom: 1px solid rgba($white-color, .2);
-  position: absolute;
-  @media (min-width:1199px) {
-    padding-left:35px;
-  }
+  position: sticky;
+  top: 0;
 }
 
 .header .toggle-sidebar-btn {
@@ -429,6 +427,27 @@ $downArrow : url("./assets/icons/downArrow.svg");
 /*--------------------------------------------------------------
 # Header Nav
 --------------------------------------------------------------*/
+.header{
+  @media(max-width:1199.98px){
+    width: calc(100% - 70px);
+    margin-left: auto;
+    background: $white-color;
+    border-bottom: 1px solid #0000000a;
+  }
+}
+.header-nav{
+  background: $white-color;
+    width: calc(100% - 300px);
+    display: flex;
+    justify-content: flex-end;
+    padding-block: 4px;
+    border-bottom: 1px solid #0000000a;
+    @media(max-width:1199.98px){
+      width: auto;
+      background-color: unset;
+      border: unset;
+    }
+}
 .header-nav ul {
   list-style: none;
 }

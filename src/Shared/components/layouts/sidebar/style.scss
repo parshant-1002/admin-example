@@ -24,7 +24,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     }
   }
 }
-
+.nav-item{
+  padding-block: 10px;
+}
 $bgLeft: url(./assets/images/left-bg.png);
 .sidebar {
   @include position($fixed, $top:0, $left:0, $bottom:0);
@@ -128,6 +130,10 @@ $bgLeft: url(./assets/images/left-bg.png);
         mask-image: url(/src/assets/icons/referral.svg);
         -webkit-mask-image: url(/src/assets/icons/referral.svg);
       }
+      .bi-bids {
+        mask-image: url(/src/assets/icons/bids.svg);
+        -webkit-mask-image: url(/src/assets/icons/bids.svg);
+      }
     }
     .accordion-item{
       padding-left: 19.1px;
@@ -187,6 +193,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         @media (max-width:1199.98px){
           padding-left: 15px;
           font-size: 0;
+          margin-left: 5px;
         }
       }
       .dropdown-item{
@@ -210,14 +217,17 @@ $bgLeft: url(./assets/images/left-bg.png);
       &::after {
         mask-image: $downArrow;
         -webkit-mask-image: $downArrow;
-        background-size: 14px;
+        background-size: 5px;
         background-position: $center;
         position: relative;
         z-index: 15;
         margin-right: 15px;
         background-color: $white-color;
+        width: 9px;
+        mask-repeat: no-repeat;
+        mask-position: center;
         @media (max-width:1199px){
-          transform: scale(0.5) rotate(-90deg);
+          transform: scale(1) rotate(-90deg);
           margin-right: -3px;
         }
       }
@@ -377,6 +387,5 @@ $bgLeft: url(./assets/images/left-bg.png);
     @include inline-pad-20;
     color: $text-title-color;
     margin-bottom: 0;
-    margin-left: 70px;
   }
 }
