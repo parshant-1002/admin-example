@@ -156,6 +156,8 @@ export const STRINGS = {
   DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
   END_DATE: 'End Date',
   TRANSACTIONS: 'Transactions',
+  ADD_BID_PLAN: 'Add Bid Plan',
+  EDIT_BID_PLAN: 'Edit Bid Plan',
 };
 
 export const CONTENT_ENUMS = {

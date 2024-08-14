@@ -241,6 +241,11 @@ function getValueFromPath(
   return undefined;
 }
 
+const renderIdWithHash = (
+  _: Record<string, unknown> | unknown,
+  val: string | number
+) => (val ? `#${val}` : '-.-');
+
 export {
   addBaseUrl,
   capitalizeFirstLetter,
@@ -259,4 +264,5 @@ export {
   onQueryStarted,
   removeEmptyValues,
   validateField,
+  renderIdWithHash,
 };

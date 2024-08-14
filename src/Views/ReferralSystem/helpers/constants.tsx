@@ -7,6 +7,7 @@ import {
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
+import { formatDate, renderIdWithHash } from '../../../Shared/utils/functions';
 
 export const REFERRAL_PACK_SCHEMA = {
   name: {
@@ -41,6 +42,7 @@ export const REFERRAL_PACK_SCHEMA = {
     label: 'Start Date',
     className: 'col-md-12',
     placeholder: 'Start Date',
+    min: formatDate(new Date(), 'YYYY-MM-DD'),
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -95,6 +97,7 @@ export const CreateReferralColumns = ({
   {
     title: STRINGS.REFERRAL_ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.NAME,
@@ -168,6 +171,7 @@ export const ReferralListColumns: ColumnData[] = [
   {
     title: STRINGS.REFERRAL_ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.REFERRER_NAME,

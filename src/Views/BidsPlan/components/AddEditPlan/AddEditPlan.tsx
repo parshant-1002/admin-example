@@ -88,9 +88,7 @@ function AddEditPlan({
   return (
     <CustomModal
       title={
-        type === POPUPTYPES.EDIT
-          ? STRINGS.EDIT_REFERRAL_PACK
-          : STRINGS.ADD_REFERRAL_PACK
+        type === POPUPTYPES.EDIT ? STRINGS.EDIT_BID_PLAN : STRINGS.ADD_BID_PLAN
       }
       show={open}
       onClose={onClose}

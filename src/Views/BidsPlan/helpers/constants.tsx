@@ -8,7 +8,7 @@ import {
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { formatDate } from '../../../Shared/utils/functions';
+import { formatDate, renderIdWithHash } from '../../../Shared/utils/functions';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -112,6 +112,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           label: STRINGS.END_DATE,
           className: 'col-md-12',
           placeholder: STRINGS.END_DATE,
+          min: formatDate(new Date(), 'YYYY-MM-DD'),
           schema: {
             required: FORM_VALIDATION_MESSAGES().REQUIRED,
           },
@@ -168,6 +169,7 @@ export const PlansColumns = ({
   {
     title: STRINGS.ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.NAME,
@@ -255,6 +257,7 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
     title: STRINGS.USERNAME,
