@@ -380,12 +380,3 @@ $bgLeft: url(./assets/images/left-bg.png);
 .sidebar-nav .nav-content .nav-link.active i {
   background-color: #4154f1;
 }
-
-.admin-brand-logo{
-  color: $white-color;
-  @media (max-width:1199.98px){
-    @include inline-pad-20;
-    color: $text-title-color;
-    margin-bottom: 0;
-  }
-}

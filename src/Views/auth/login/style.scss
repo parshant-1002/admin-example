@@ -5,8 +5,6 @@
 }
 
 .login-header {
-    border-bottom: 1px solid $dark-green-color-1000;
-    background-color: $dark-green-color-900;
     padding: 20px 15px;
 }
 
@@ -57,7 +55,6 @@
         }
         .forgot_txt {
             @include font-size (.875);
-            color: $green-light-color-750;
             @include transition-mixin (all, .5s, ease-in-out);
             &:hover {
                 color: $base-color;
