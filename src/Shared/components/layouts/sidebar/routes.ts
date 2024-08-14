@@ -24,6 +24,12 @@ const SIDEBAR_NAV = [
     route: ROUTES.PRODUCTS,
   },
   {
+    iconClass: 'bi bi-grid',
+    label: 'Auction Management',
+    route: ROUTES.AUCTION_MANAGEMENT,
+  },
+  {
+    // children: [],
     iconClass: 'bi bi-invoice',
     label: 'Invoices',
     children: [

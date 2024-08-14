@@ -116,7 +116,13 @@
         }
     }
 }
-
+.tr-item {
+    transition: outline 0.3s ease;
+    }
+    
+    .tr-item:hover {
+    outline: 2px solid #ffcc00; /* Change this color to your preferred outline color */
+    }
 .newsletter_table {
     .custom-table {
         tr {

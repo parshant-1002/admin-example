@@ -341,6 +341,8 @@ const ROUTES = {
   CREATE_REFERRAL: '/create-referral',
   REFERRAL_LISTING: '/referral-listing',
   BIDS_PLANS: '/bids-plans',
+  AUCTION_MANAGEMENT: '/auction-management',
+  AUCTION_DETAILS: '/auction-management/auction-details',
   TRANSACTIONS_PLANS_HISTORY: '/transactions/plans-history',
   TRANSACTIONS_BIDS_HISTORY: '/transactions/bids-history',
   TRANSACTIONS_PRODUCTS_HISTORY: '/transactions/products-history',
@@ -353,6 +355,14 @@ const WILDCARD_ROUTES = {
 };
 
 const ROUTES_CONFIG = {
+  AUCTION_DETAILS: {
+    path: `${ROUTES.AUCTION_DETAILS}/:id`,
+    title: 'Auction Details',
+  },
+  AUCTION_MANAGEMENT: {
+    path: ROUTES.AUCTION_MANAGEMENT,
+    title: 'Products for Auction',
+  },
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Welcome To Dashboard',

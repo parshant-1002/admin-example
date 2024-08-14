@@ -92,7 +92,6 @@ function CustomForm({
     formState: { errors },
     setValue,
   } = useForm({ defaultValues: { ...defaultValues } });
-
   const handleInputChange = (name: string, value: unknown) => {
     setValue(name, value);
     // onChangeValues(name, value);
