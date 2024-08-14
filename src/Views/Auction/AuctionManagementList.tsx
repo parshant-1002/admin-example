@@ -81,6 +81,7 @@ export default function AuctionManagementList() {
             AUCTION_STATUS?.find((status) => status.value === row?.status)
               ?.label,
         },
+        productId: { value: row.product._id, label: row.product.title },
         categoryIds: row?.categories?.map((category) => ({
           value: category._id,
           label: category?.name,
