@@ -12,11 +12,11 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 import ActionsDropDown from './components/ActionsDropDown';
-import StatsFilters from './components/Filters';
+import StatsFilters from '../../Shared/components/Filters';
 
 // Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
-import { RED_WARNING } from '../../assets';
+import { Filter, RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   categoriesColumns,
@@ -220,7 +220,12 @@ export default function CategoriesList() {
     }
     onComponentMountRef.current = true;
   }, [refetch, currentPage, search, sortKey, sortDirection]);
-
+  const submenuForFilter = [
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
   return (
     <div>
       <ConfirmationModal
@@ -268,12 +273,14 @@ export default function CategoriesList() {
       )}
 
       <StatsFilters
+        submenu={submenuForFilter}
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        setAddData={setAddData}
+        setAddData={() => setAddData(true)}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView

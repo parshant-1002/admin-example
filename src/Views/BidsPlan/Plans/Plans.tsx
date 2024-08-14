@@ -11,7 +11,6 @@ import CustomTableView, {
 } from '../../../Shared/components/CustomTableView';
 import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import AddEditPlan from '../components/AddEditPlan';
-import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -39,8 +38,9 @@ import {
 // Utilities
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
-import { RED_WARNING } from '../../../assets';
+import { Filter, RED_WARNING } from '../../../assets';
 import { calculateDiscountedPrice } from '../helpers/utils';
+import Filters from '../../../Shared/components/Filters';
 
 // Interfaces
 interface QueryParams {
@@ -286,11 +286,11 @@ function Plans() {
   return (
     <div>
       {/* Filters */}
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        handleAddNew={() =>
+        setAddData={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.ADD })
         }
         selectedIds={selectedIds}
@@ -298,7 +298,7 @@ function Plans() {
           setPopup({ show: true, data: null, type: POPUPTYPES.DELETE })
         }
         handleClearAll={() => setSelectedIds([])}
-        addButton
+        filterToggleImage={Filter}
       />
 
       {/* Table */}

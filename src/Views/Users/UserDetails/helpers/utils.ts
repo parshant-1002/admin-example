@@ -41,6 +41,7 @@ const transformBidderPurchaseResponse = (
 ) => {
   return {
     data: data?.data?.map((bidsPurchaseHistory) => ({
+      id: bidsPurchaseHistory?.id,
       packName: bidsPurchaseHistory?.bidPlan?.title,
       dealOffer: bidsPurchaseHistory?.bidPlan?.dealOffer,
       dealPrice: bidsPurchaseHistory?.bidPlan?.dealPrice,
@@ -55,6 +56,7 @@ const transformBidderPurchaseResponse = (
 const transformBiddingHistoryResponse = (data: UserBiddingHistoryResponse) => {
   return {
     data: data?.data?.map((biddingHistory) => ({
+      id: biddingHistory?.id,
       auctionName: biddingHistory?.auctionDetails?.title,
       itemPrice: biddingHistory?.productDetails?.price,
       bidsSpent: biddingHistory?.bids,
@@ -67,6 +69,8 @@ const transformBiddingHistoryResponse = (data: UserBiddingHistoryResponse) => {
 const transformProductHistoryResponse = (data: UserProductHistoryResponse) => {
   return {
     data: data?.data?.map((productHistory) => ({
+      auctionId: productHistory?.auction?.id,
+      productId: productHistory?.product?.id,
       auctionName: productHistory?.auction?.title,
       productName: productHistory?.product?.title,
       productPrice: productHistory?.purchasedPrice,
@@ -81,6 +85,7 @@ const transformReferralHistoryResponse = (
 ) => {
   return {
     data: data?.data?.map((referralHistory) => ({
+      id: referralHistory?.id,
       name: referralHistory?.name,
       email: referralHistory?.email,
       referralAmount: referralHistory?.referralAmount,
@@ -96,6 +101,7 @@ const transformAuctionHistoryResponse = (data: UserAuctionHistoryResponse) => {
   return {
     data: data?.data?.map((auctionHistory) => ({
       _id: auctionHistory?._id,
+      id: auctionHistory?.auctionDetails?.id,
       auctionName: auctionHistory?.auctionDetails?.title,
       productName: auctionHistory?.product?.title,
       bidSpent: auctionHistory?.totalBids,

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { Dispatch, SetStateAction } from 'react';
 import './CustomTabs.scss'; // Import your custom SCSS if needed
 
 function CustomTabs({
@@ -9,7 +8,7 @@ function CustomTabs({
   activeTab,
 }: {
   tabs: string[];
-  setActiveTab: Dispatch<SetStateAction<string>>;
+  setActiveTab: (tab: string) => void;
   activeTab: string;
 }) {
   return (
