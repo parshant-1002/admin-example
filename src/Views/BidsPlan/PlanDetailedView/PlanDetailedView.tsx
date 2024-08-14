@@ -109,7 +109,7 @@ function PlanDetailedView() {
           details={[
             {
               label: STRINGS.PLAN_ID,
-              value: referralPackDetails?.data?.[0]?._id,
+              value: referralPackDetails?.data?.[0]?.id,
             },
             {
               label: STRINGS.NAME,
@@ -123,8 +123,8 @@ function PlanDetailedView() {
             },
             {
               label: STRINGS.CLOSED_AT,
-              value: referralPackDetails?.data?.[0]?.endDate
-                ? formatDate(referralPackDetails?.data?.[0]?.endDate)
+              value: referralPackDetails?.data?.[0]?.lastDisabledAt
+                ? formatDate(referralPackDetails?.data?.[0]?.lastDisabledAt)
                 : '',
             },
             {

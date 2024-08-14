@@ -1,22 +1,23 @@
 import { SyntheticEvent, useState } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { useVerifyOtpMutation } from '../../../Services/Api/module/auth';
+import Button from '../../../Shared/components/form/Button';
 import CustomForm from '../../../Shared/components/form/CustomForm';
+import { ROUTES } from '../../../Shared/constants';
+import ERROR_MESSAGES from '../../../Shared/constants/messages';
 import {
   updateAuthTokenRedux,
   updateUserDataRedux,
 } from '../../../Store/Common';
-import QrCode from '../qrCode';
-import OTP_FORM_SCHEMA from './helpers/OtpSchema';
-import OTP_CODE_TYPE from './helpers/constants';
-import { ErrorResponse } from '../../../Models/Apis/Error';
-import './OtpForm.scss';
-import Button from '../../../Shared/components/form/Button';
 import { Copy } from '../../../assets';
-import ERROR_MESSAGES from '../../../Shared/constants/messages';
+import QrCode from '../qrCode';
+import './OtpForm.scss';
+import OTP_CODE_TYPE from './helpers/constants';
+import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 
 interface LoginResponse {
   token: string;
@@ -37,6 +38,7 @@ interface LoginResponseData {
 }
 function OtpForm() {
   const [verifyOtp] = useVerifyOtpMutation();
+  const navigate = useNavigate();
   const [recoveryCopied, setRecoveryCopied] = useState(false);
 
   const [authenticationType, setAuthenticationType] = useState(
@@ -50,6 +52,13 @@ function OtpForm() {
   const dispatch = useDispatch();
   const location = useLocation();
   const { state } = location || {};
+
+  const handleClickSubmitCopiedCode = (data: LoginResponse | null) => {
+    dispatch(updateAuthTokenRedux({ token: data?.token }));
+    dispatch(updateUserDataRedux({ userData: data?.account }));
+    navigate(ROUTES.HOMEPAGE);
+  };
+
   const onSuccess = (res: LoginResponse) => {
     toast.success(res.message);
     if (res?.account?.recoveryCodes) {
@@ -59,13 +68,10 @@ function OtpForm() {
         data: res,
       });
     } else {
-      dispatch(updateAuthTokenRedux({ token: res?.token }));
-      dispatch(updateUserDataRedux({ userData: res?.account }));
+      handleClickSubmitCopiedCode(res);
     }
   };
-  const onFailure = (error: ErrorResponse) => {
-    toast.error(error.data.message);
-  };
+
   const handleCopy = () => {
     const button = document.getElementById('recovery_code_copy');
     if (button) {
@@ -89,7 +95,7 @@ function OtpForm() {
         email: state?.email,
         otpType: authenticationType,
       };
-      await verifyOtp({ payload, onSuccess, onFailure });
+      await verifyOtp({ payload, onSuccess });
       reset();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -106,10 +112,7 @@ function OtpForm() {
       setAuthenticationType(OTP_CODE_TYPE.OTP);
     }
   };
-  const handleClickSubmitCopiedCode = () => {
-    dispatch(updateAuthTokenRedux({ token: responseData?.data?.token }));
-    dispatch(updateUserDataRedux({ userData: responseData?.data?.account }));
-  };
+
   return (
     <div className="front-screen">
       <div className="front-form m-auto d-flex align-items-center justify-content-center">
@@ -170,7 +173,9 @@ function OtpForm() {
               <div className="d-flex w-100 justify-content-center">
                 <Button
                   disabled={!recoveryCopied}
-                  onClick={handleClickSubmitCopiedCode}
+                  onClick={() =>
+                    handleClickSubmitCopiedCode(responseData?.data)
+                  }
                 >
                   I have Saved The Code
                 </Button>

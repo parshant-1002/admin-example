@@ -9,7 +9,7 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../../../Shared/components/CustomTableView';
-import StatsFilters from '../UserDetailsFilters';
+import StatsFilters from '../../../../../Shared/components/Filters';
 import ViewMultiTableItem from '../ViewMultiTableItem';
 
 // Constants
@@ -18,7 +18,7 @@ import {
   FilterOrder,
   STRINGS,
 } from '../../../../../Shared/constants';
-import { RED_WARNING } from '../../../../../assets';
+import { Filter, RED_WARNING } from '../../../../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
@@ -73,10 +73,26 @@ interface QueryParams {
 const PROFILE_RELATED_LIST_PAGE_LIMIT = 5;
 
 export default function ProfileRelatedLists({
+  search = '',
+  setSearch = () => {},
+  currentPage = 0,
+  setCurrentPage = () => {},
+  sortKey = '',
+  sortDirection = FilterOrder.ASCENDING,
+  setSortKey = () => {},
+  setSortDirection = () => {},
   userId,
   currentTab,
   callBidsCreditApi,
 }: {
+  search: string;
+  setSearch: (search: string) => void;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  sortKey: string;
+  sortDirection: FilterOrder;
+  setSortKey: (search: string) => void;
+  setSortDirection: (order: FilterOrder) => void;
   userId?: string;
   currentTab: string;
   callBidsCreditApi?: boolean;
@@ -86,17 +102,12 @@ export default function ProfileRelatedLists({
     show: false,
     data: { id: '', ids: [''] },
   });
-  const [currentPage, setCurrentPage] = useState(0);
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const [selectedAuctionId, setSelectedAuctionId] = useState<string | number>(
     ''
   );
-  const [search, setSearch] = useState<string>('');
+
   const [tableData, setTableData] = useState({ data: [], count: 0 });
-  const [sortKey, setSortKey] = useState<string>('');
-  const [sortDirection, setSortDirection] = useState<FilterOrder>(
-    FilterOrder.ASCENDING
-  );
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
     show: false,
@@ -269,12 +280,16 @@ export default function ProfileRelatedLists({
       const refetchFunction = refetchMap[currentTab];
       if (refetchFunction) {
         refetchFunction();
+        setSelectedRow('');
       }
     }
     onComponentMountRef.current = true;
   }, [
     currentTab,
     refetchBidsSpentHistory,
+    search,
+    sortDirection,
+    sortKey,
     refetchMap,
     callBidsCreditApi,
     refetchUserBidsCreditHistory,
@@ -308,6 +323,12 @@ export default function ProfileRelatedLists({
     userAuctionHistory,
     transformMap,
   ]);
+  const submenuForFilters = [
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
 
   return (
     <div>
@@ -332,6 +353,8 @@ export default function ProfileRelatedLists({
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
+        filterToggleImage={Filter}
+        submenu={submenuForFilters}
       />
 
       <CustomTableView

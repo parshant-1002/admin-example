@@ -1,6 +1,8 @@
 import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
+// import { ProductsAdd, ProductsList } from '../Views/Products';
+import AuctionManagementList from '../Views/Auction/AuctionManagementList';
 import { ProductsList } from '../Views/Products';
 import { CustomRouter } from './RootRoutes';
 import { CategoriesList } from '../Views/Categories';
@@ -9,9 +11,23 @@ import UserDetails from '../Views/Users/UserDetails';
 import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
 import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
 import { PlanDetailedView, Plans } from '../Views/BidsPlan';
+import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
+import { BidsHistory, PlansHistory } from '../Views/Transactions';
+import ProductsHistory from '../Views/Transactions/ProductsHistory';
+import ReferralHistory from '../Views/Transactions/ReferralHistory';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
+  {
+    path: ROUTES_CONFIG.AUCTION_MANAGEMENT.path,
+    element: <AuctionManagementList />,
+    title: ROUTES_CONFIG.AUCTION_MANAGEMENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_DETAILS.path,
+    element: <AuctionDetails />,
+    title: ROUTES_CONFIG.AUCTION_DETAILS.title,
+  },
   {
     path: ROUTES_CONFIG.HOMEPAGE.path,
     element: <Dashboard />,
@@ -73,6 +89,27 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: `${ROUTES_CONFIG.BIDS_PLANS.path}/:id`,
     element: <PlanDetailedView />,
     title: ROUTES_CONFIG.BIDS_PLANS.title,
+  },
+  // Transactions
+  {
+    path: ROUTES_CONFIG.TRANSACTIONS_PLANS_HISTORY.path,
+    element: <PlansHistory />,
+    title: ROUTES_CONFIG.TRANSACTIONS_PLANS_HISTORY.title,
+  },
+  {
+    path: ROUTES_CONFIG.TRANSACTIONS_BIDS_HISTORY.path,
+    element: <BidsHistory />,
+    title: ROUTES_CONFIG.TRANSACTIONS_BIDS_HISTORY.title,
+  },
+  {
+    path: ROUTES_CONFIG.TRANSACTIONS_PRODUCTS_HISTORY.path,
+    element: <ProductsHistory />,
+    title: ROUTES_CONFIG.TRANSACTIONS_PRODUCTS_HISTORY.title,
+  },
+  {
+    path: ROUTES_CONFIG.TRANSACTIONS_REFERRAL_HISTORY.path,
+    element: <ReferralHistory />,
+    title: ROUTES_CONFIG.TRANSACTIONS_REFERRAL_HISTORY.title,
   },
   // Wildcard
   {

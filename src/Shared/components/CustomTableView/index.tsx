@@ -51,7 +51,7 @@ function CustomTableView({
   noDataFound = '',
   quickEditRowId = '',
   selectedRow = null,
-  isServerPagination = false,
+  isServerPagination = true,
   handleSortingClick = () => {},
   handleRowClick = () => {},
   SecondaryRowComponent = () => <> </>,
@@ -136,7 +136,7 @@ function CustomTableView({
             ? !isLoading && (
                 <tr>
                   <td colSpan={12} className="no-data">
-                    <p className="no-media d-flex justify-content-center align-items-center text-white">
+                    <p className="no-media d-flex justify-content-center align-items-center py-5">
                       {noDataFound}
                     </p>
                   </td>

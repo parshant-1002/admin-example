@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
@@ -175,9 +176,21 @@ function capitalizeFirstLetter(str: string): string {
 
 function matchRoute(pathname: string, routes: Array<CustomRouter>) {
   for (const route of routes) {
-    const regex = new RegExp(`^${route?.path?.replace(/:\w+/g, '[^/]+')}$`);
-    if (regex.test(pathname)) {
-      return route?.title;
+    if (!route?.path) continue; // Skip if route or route.path is undefined
+
+    try {
+      // Escape only necessary special characters in route.path
+      const safePath = route.path.replace(/[-^$*+?.()|[\]{}]/g, '\\$&');
+
+      // Replace route parameters with a regex pattern that matches any non-slash characters
+      const regex = new RegExp(`^${safePath.replace(/:\w+/g, '[^/]+')}$`);
+
+      if (regex.test(pathname)) {
+        return route.title;
+      }
+    } catch (error) {
+      console.error('Error creating regex for route:', route, error);
+      continue; // Skip to the next route if there is an error with regex creation
     }
   }
   return null;
@@ -241,6 +254,11 @@ function getValueFromPath(
   return undefined;
 }
 
+const renderIdWithHash = (
+  _: Record<string, unknown> | unknown,
+  val: string | number
+) => (val ? `#${val}` : '-.-');
+
 export {
   addBaseUrl,
   capitalizeFirstLetter,
@@ -259,4 +277,5 @@ export {
   onQueryStarted,
   removeEmptyValues,
   validateField,
+  renderIdWithHash,
 };

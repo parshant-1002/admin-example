@@ -247,8 +247,8 @@ a.btn {
             color: $white-color;
         }
         &[disabled] {
-            background-color: $light-voilet-color-20;
-            border-color: $light-voilet-color-20;
+            background-color: $grey-light-color-300;
+            border-color: $grey-light-color-300
         }
     }
     &-secondary {

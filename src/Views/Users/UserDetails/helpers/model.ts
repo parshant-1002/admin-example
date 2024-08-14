@@ -52,6 +52,7 @@ interface BidPlan {
 
 // Define the type for each item in the data array
 export interface UserBid {
+  id: string;
   _id?: string;
   name?: string;
   bids?: number;
@@ -65,15 +66,16 @@ export interface UserBid {
   phoneNumber?: string;
   address?: string;
   auctionDetails: {
+    id: string;
     title: string;
     reservePrice: number;
     bidStartDate: string;
     reserveWaitingEndDate: string;
     status: number;
   };
-  productDetails?: { price: string };
-  auction?: { title: string };
-  product?: { title: string; images: string[] };
+  productDetails?: { id: string; price: string };
+  auction?: { id: string; title: string };
+  product?: { title: string; images: string[]; id: string };
   purchasedPrice?: string;
   totalBids?: number;
   itemPrice?: number;

@@ -156,6 +156,21 @@ export const STRINGS = {
   DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
   END_DATE: 'End Date',
   TRANSACTIONS: 'Transactions',
+  ADD_BID_PLAN: 'Add Bid Plan',
+  EDIT_BID_PLAN: 'Edit Bid Plan',
+  BID_SPENT: 'Bid Spent',
+  ITEM_PRICE: 'Item Price',
+  PRODUCT_ID: 'Product Id',
+  PRODUCT_NAME: 'Product Name',
+  PRODUCT_PRICE: 'Product Price',
+  REFERRER_ID: 'Referrer Id',
+  CONFIRMED: 'Confirmed',
+  REFUNDED: 'Refunded',
+  PURCHASE: 'Purchase',
+  GIFT: 'Gift',
+  REFERRAL: 'Referral',
+  SIGNUP_BONUS: 'Signup Bonus',
+  REFUND: 'Refund',
 };
 
 export const CONTENT_ENUMS = {
@@ -277,7 +292,7 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
-  USERS_DETAILS: '/users-details/:id',
+  USERS_DETAILS: '/users/:id',
   PRODUCTS: '/products',
   CATEGORIES: '/categories',
   PRODUCTS_ADD: '/products/add',
@@ -326,6 +341,12 @@ const ROUTES = {
   CREATE_REFERRAL: '/create-referral',
   REFERRAL_LISTING: '/referral-listing',
   BIDS_PLANS: '/bids-plans',
+  AUCTION_MANAGEMENT: '/auction-management',
+  AUCTION_DETAILS: '/auction-management/auction-details',
+  TRANSACTIONS_PLANS_HISTORY: '/transactions/plans-history',
+  TRANSACTIONS_BIDS_HISTORY: '/transactions/bids-history',
+  TRANSACTIONS_PRODUCTS_HISTORY: '/transactions/products-history',
+  TRANSACTIONS_REFERRAL_HISTORY: '/transactions/referral-history',
 };
 
 const WILDCARD_ROUTES = {
@@ -334,6 +355,14 @@ const WILDCARD_ROUTES = {
 };
 
 const ROUTES_CONFIG = {
+  AUCTION_DETAILS: {
+    path: `${ROUTES.AUCTION_DETAILS}/:id`,
+    title: 'Auction Details',
+  },
+  AUCTION_MANAGEMENT: {
+    path: ROUTES.AUCTION_MANAGEMENT,
+    title: 'Products for Auction',
+  },
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Welcome To Dashboard',
@@ -411,6 +440,23 @@ const ROUTES_CONFIG = {
     path: ROUTES.BIDS_PLANS,
     title: 'Bids Plans',
   },
+  // Transactions
+  TRANSACTIONS_PLANS_HISTORY: {
+    path: ROUTES.TRANSACTIONS_PLANS_HISTORY,
+    title: 'Plans History',
+  },
+  TRANSACTIONS_BIDS_HISTORY: {
+    path: ROUTES.TRANSACTIONS_BIDS_HISTORY,
+    title: 'Bids History',
+  },
+  TRANSACTIONS_PRODUCTS_HISTORY: {
+    path: ROUTES.TRANSACTIONS_PRODUCTS_HISTORY,
+    title: 'Products History',
+  },
+  TRANSACTIONS_REFERRAL_HISTORY: {
+    path: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
+    title: 'Referral History',
+  },
 };
 
 enum POPUPTYPES {
@@ -437,6 +483,21 @@ const BID_PLAN_TYPES = {
   HOT_DEAL: 2,
 };
 
+const BID_STATUS = {
+  CONFIRMED: 1,
+  REFUNDED: 2,
+};
+
+const BID_CREDIT_TYPES = {
+  PURCHASE: 1,
+  ADMIN_GIFT: 2,
+  REFERRAL: 3,
+  SIGNUP_BONUS: 4,
+  REFUND: 5,
+};
+
+const TABLE_PAGE_LIMIT = 10;
+
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -445,4 +506,7 @@ export {
   REFERRAL_STATUS,
   PRODUCT_PURCHASE_STATUS,
   BID_PLAN_TYPES,
+  BID_STATUS,
+  TABLE_PAGE_LIMIT,
+  BID_CREDIT_TYPES,
 };

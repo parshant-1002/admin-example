@@ -11,18 +11,21 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
+import StatsFilters from '../../Shared/components/Filters';
 import ActionsDropDown from './components/ActionsDropDown';
-import StatsFilters from './components/Filters';
 
 // Constants
-import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
-import { RED_WARNING } from '../../assets';
+import {
+  BUTTON_LABELS,
+  FilterOrder,
+  ROUTES,
+  STRINGS,
+} from '../../Shared/constants';
+import { Filter, RED_WARNING } from '../../assets';
 import { CONFIRMATION_DESCRIPTION, usersColumns } from './helpers/constants';
 
 // Models
 import { UsersResponsePayload } from './helpers/model';
-
-// API
 
 // Utilities
 import {
@@ -103,6 +106,14 @@ export default function UsersList() {
   const handleDelete = (row: UsersResponsePayload) => {
     setDeleteModal({ show: true, data: { id: row?._id } });
   };
+
+  const handleView = useCallback(
+    (row: UsersResponsePayload) => {
+      navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
+    },
+    [navigate]
+  );
+
   const handleBlock = (row: UsersResponsePayload) => {
     setBlockModal({
       show: true,
@@ -189,12 +200,13 @@ export default function UsersList() {
       <div className="d-flex">
         <ActionsDropDown
           row={row}
+          handleView={handleView}
           handleDelete={handleDelete}
           handleBlock={handleBlock}
         />
       </div>
     ),
-    []
+    [handleView]
   );
 
   // Function to handle sorting click
@@ -211,7 +223,7 @@ export default function UsersList() {
   };
 
   const handleRowClick = (row: Row) => {
-    navigate(`/users-details/${row?.name}`, { state: row?._id });
+    navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
   };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,6 +246,14 @@ export default function UsersList() {
     () => usersColumns(renderActions, handleChangeCheckBox, selectedIds),
     [renderActions, selectedIds]
   );
+
+  const submenuForFilters = [
+    { buttonLabel: 'Address', buttonAction: () => {} },
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -269,10 +289,12 @@ export default function UsersList() {
       />
       <StatsFilters
         handleClearSearch={() => setSearch('')}
+        submenu={submenuForFilters}
         search={search}
         handleSearch={debounceSearch}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView
