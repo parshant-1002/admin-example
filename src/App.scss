@@ -27,7 +27,7 @@ $downArrow : url("./assets/icons/downArrow.svg");
 # Main
 --------------------------------------------------------------*/
 #main {
-  padding: 80px 30px 20px;
+  padding: 30px 30px 20px;
   transition: all 0.3s;
   min-height: 100vh;
   position: relative;
@@ -352,7 +352,6 @@ $downArrow : url("./assets/icons/downArrow.svg");
 .header {
   z-index: 997;
   height: 60px;
-  border-bottom: 1px solid rgba($white-color, .2);
   position: sticky;
   top: 0;
 }

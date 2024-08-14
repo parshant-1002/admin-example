@@ -57,29 +57,26 @@ function StatsFilters({
               {BUTTON_LABELS.DELETE}
             </Button>
           ) : null}
-          <FiltersDropDown />
           <div className="dark-form-control">
             <TextField
               type="text"
               placeholder="Search..."
+              className="search-primary"
               value={search}
               onChange={handleSearch}
             />
             {search ? (
               <em className="cross-icon" onClick={handleClearSearch}>
                 <img
-                  src="" // Replace with an actual path or URL
-                  alt=""
+                  src="/src/assets/icons/filter.svg" // Replace with an actual path or URL
+                  alt="icon"
                   width={12}
                 />
               </em>
             ) : null}
           </div>
-          <Button
-            className="btn btn-sm"
-            btnType="primary"
-            onClick={handleClickAllData}
-          >
+          <FiltersDropDown />
+          <Button className="btn-pad-two btn-outline" btnType="primary" onClick={handleClickAllData}>
             {BUTTON_LABELS.CLEAR}
           </Button>
 

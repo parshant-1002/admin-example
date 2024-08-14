@@ -17,6 +17,30 @@
   }
 }
 
+// main-btn
+@mixin main-btn ($pad){
+  @include font(20px, 24.2px, 600);
+  @include border-radius(8px);
+  padding-inline: $pad;
+  font-size: 20px;
+  line-height: 24.2px;
+  height: 55px;
+  font-weight: 600;
+}
+
+// main-search
+@mixin main-search ($pad){
+  @include font(20px, 24.2px, 400);
+  @include border-radius(8px);
+  padding-inline: $pad;
+  background-color: transparent;
+  color: $gray-light;
+  font-size: 22.82px;
+  line-height: 29.67px;
+  height: 55px;
+  border: 1px solid $gray-light;
+}
+
 // Circle
 @mixin circle($size) {
   width: $size;

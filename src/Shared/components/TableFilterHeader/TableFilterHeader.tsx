@@ -93,7 +93,7 @@ function TableFilterHeader({
           </div>
           {addButton ? (
             <Button
-              className="btn btn-sm"
+              className="btn btn-pad-one"
               btnType="primary"
               onClick={handleAddNew}
             >
