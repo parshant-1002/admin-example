@@ -198,8 +198,12 @@ a.btn {
 }
 .btn {
     border-width: 1px;
+    padding-inline: 7px;
     white-space: nowrap;
     font-weight: $font-regular;
+    img {
+        width: 16px;
+    }
     &[disabled],
     &.disabled {
         pointer-events: $none;

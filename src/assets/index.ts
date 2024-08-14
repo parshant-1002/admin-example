@@ -1,4 +1,5 @@
 import Logo from './images/logo.svg';
+import DownArrow from './icons/downArrow.svg';
 import ProfileIcon from './icons/profile-icon.svg';
 import CheckIcon from './icons/check_icon.svg';
 import CalenderIcon from './icons/calender_icon.svg';
@@ -14,6 +15,7 @@ import InvoiceIcon from './icons/invoice.svg';
 
 export {
   Logo,
+  DownArrow,
   ProfileIcon,
   CheckIcon,
   CalenderIcon,

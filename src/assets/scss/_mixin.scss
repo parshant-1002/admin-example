@@ -8,7 +8,7 @@
     min-width: #{$aSize}px;
     border-radius: #{$fSize}px;
   }
-} 
+}
 
 @each $aSize in (38), (44), (64){
   .btn#{$aSize} {
@@ -309,18 +309,18 @@
   z-index: 9;
   inset-inline-end: 0px;
   height: 23px;
-  border-color: transparent;
+  border-color: $transparent;
   border-radius: 0;
   border-end-end-radius: 48px;
-  border-inline-end: 20px solid transparent;
+  border-inline-end: 20px solid $transparent;
 }
 @mixin bottom-curve-after{
-  @include position($absolute, $bottom:-23px);
   content: "";
+  @include position($absolute, $bottom:-23px);
   z-index: 9;
   inset-inline-end: 0px;
   height: 23px;
-  border-color: transparent;
+  border-color: $transparent;
   border-radius: 0;
   border-start-end-radius: 48px;
   border-inline-end: 20px solid transparent;
