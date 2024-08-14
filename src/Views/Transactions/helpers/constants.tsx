@@ -9,7 +9,12 @@ import Button from '../../../Shared/components/form/Button';
 // consts
 import { Invoice } from './model';
 import { InvoiceIcon } from '../../../assets';
-import { REFERRAL_STATUS, STRINGS } from '../../../Shared/constants';
+import {
+  BID_CREDIT_TYPES,
+  BID_STATUS,
+  REFERRAL_STATUS,
+  STRINGS,
+} from '../../../Shared/constants';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import { Image } from '../../../Models/common';
 
@@ -39,59 +44,51 @@ export const PRODUCT_STATUS = [
 export const PlansHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.PACK_NAME,
-    fieldName: 'name',
-    sortable: true,
-    sortType: 'packName',
+    path: ['bidPlan', 'title'],
   },
   {
     title: STRINGS.USERNAME,
     path: ['user', 'name'],
-    sortable: true,
-    sortType: 'userName',
   },
   {
     title: STRINGS.EMAIL,
     path: ['user', 'email'],
-    sortable: true,
-    sortType: 'email',
   },
   {
     title: STRINGS.DEAL_PRICE,
-    fieldName: 'purchasedPrice',
+    fieldName: 'price',
     render: (_, val) => `$${convertToLocale(val || 0)}`,
-    sortable: true,
-    sortType: 'purchasedPrice',
   },
   {
     title: STRINGS.DEAL_OFFER,
-    fieldName: 'purchasedPrice',
+    fieldName: 'dealOfferPercentage',
     render: (_, val) => (val ? `${val}% Off` : '-.-'),
-    sortable: true,
-    sortType: 'dealOffer',
   },
   {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'bidsReceived',
-    sortable: true,
-    sortType: 'bidsReceived',
+    fieldName: 'bids',
   },
   {
     title: STRINGS.STATUS,
-    fieldName: 'status',
-    render: (row) =>
+    fieldName: 'type',
+    render: (_, val) =>
       (() => {
-        switch (row?.status as number) {
-          case REFERRAL_STATUS.COMPLETED:
-            return <span className="text-success">{STRINGS.COMPLETED}</span>;
-          case REFERRAL_STATUS.PENDING:
-            return <span className="text-warning">{STRINGS.PENDING}</span>;
-          case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
-            return <span className="text-danger">{STRINGS.USER_DELETED}</span>;
+        switch (val) {
+          case BID_CREDIT_TYPES.ADMIN_GIFT:
+            return STRINGS.GIFT;
+          case BID_CREDIT_TYPES.PURCHASE:
+            return STRINGS.PURCHASE;
+          case BID_CREDIT_TYPES.REFERRAL:
+            return STRINGS.REFERRAL;
+          case BID_CREDIT_TYPES.REFUND:
+            return STRINGS.REFUND;
+          case BID_CREDIT_TYPES.SIGNUP_BONUS:
+            return STRINGS.SIGNUP_BONUS;
           default:
             return '';
         }
@@ -99,9 +96,9 @@ export const PlansHistoryColumns: ColumnData[] = [
   },
   {
     title: STRINGS.PURCHASED_DATE,
-    fieldName: 'purchaseDate',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'purchaseDate',
+    sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
@@ -128,51 +125,49 @@ export const PlansHistoryColumns: ColumnData[] = [
 export const BidsHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'id',
   },
   {
     title: STRINGS.USERNAME,
-    path: ['user', 'name'],
-    sortable: true,
-    sortType: 'userName',
+    fieldName: 'userName',
   },
   {
     title: STRINGS.EMAIL,
-    path: ['user', 'email'],
-    sortable: true,
-    sortType: 'email',
+    fieldName: 'userEmail',
   },
   {
     title: STRINGS.AUCTION_ID,
-    fieldName: '_id',
+    fieldName: 'auctionId',
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'auctionId',
   },
   {
     title: STRINGS.AUCTION_NAME,
-    path: ['auction', 'title'],
+    path: ['auctionDetails', 'title'],
     sortable: true,
     sortType: 'auctionName',
   },
   {
     title: STRINGS.BID_SPENT,
-    fieldName: 'purchasedPrice',
+    fieldName: 'bids',
     render: (_, val) => `$${convertToLocale(val)}`,
-    sortable: true,
-    sortType: 'purchasedPrice',
   },
   {
     title: STRINGS.DATE,
-    fieldName: 'purchaseDate',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'purchaseDate',
+    sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
     title: STRINGS.ITEM_PRICE,
-    fieldName: 'purchasedPrice',
+    fieldName: 'currentBidPrice',
     sortable: true,
-    sortType: 'purchasedPrice',
+    sortType: 'currentBidPrice',
   },
   {
     title: STRINGS.STATUS,
@@ -180,12 +175,10 @@ export const BidsHistoryColumns: ColumnData[] = [
     render: (row) =>
       (() => {
         switch (row?.status as number) {
-          case REFERRAL_STATUS.COMPLETED:
-            return <span className="text-success">{STRINGS.COMPLETED}</span>;
-          case REFERRAL_STATUS.PENDING:
-            return <span className="text-warning">{STRINGS.PENDING}</span>;
-          case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
-            return <span className="text-danger">{STRINGS.USER_DELETED}</span>;
+          case BID_STATUS.CONFIRMED:
+            return <span className="text-success">{STRINGS.CONFIRMED}</span>;
+          case BID_STATUS.REFUNDED:
+            return <span className="text-warning">{STRINGS.REFUNDED}</span>;
           default:
             return '';
         }
@@ -201,13 +194,15 @@ export const ProductsHistoryColumns = ({
 }): ColumnData[] => [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.AUCTION_ID,
-    fieldName: '_id',
+    path: ['auction', 'id'],
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'auctionId',
   },
   {
     title: STRINGS.AUCTION_NAME,
@@ -217,8 +212,10 @@ export const ProductsHistoryColumns = ({
   },
   {
     title: STRINGS.PRODUCT_ID,
-    fieldName: '_id',
+    path: ['product', 'id'],
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'productId',
   },
   {
     title: STRINGS.PRODUCT_NAME,
@@ -229,14 +226,10 @@ export const ProductsHistoryColumns = ({
   {
     title: STRINGS.USERNAME,
     path: ['user', 'name'],
-    sortable: true,
-    sortType: 'userName',
   },
   {
     title: STRINGS.EMAIL,
     path: ['user', 'email'],
-    sortable: true,
-    sortType: 'email',
   },
   {
     title: STRINGS.PRODUCT_PRICE,
@@ -247,9 +240,9 @@ export const ProductsHistoryColumns = ({
   },
   {
     title: STRINGS.DATE,
-    fieldName: 'purchaseDate',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'purchaseDate',
+    sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
@@ -309,48 +302,54 @@ export const ProductsHistoryColumns = ({
 export const ReferralHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'id',
   },
   {
     title: STRINGS.PLAN_ID,
-    path: ['auction', '_id'],
+    fieldName: 'referralPackId',
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'referralPlanId',
   },
   {
     title: STRINGS.REFERRER_ID,
-    path: ['product', '_id'],
+    path: ['refererUser', 'id'],
     render: renderIdWithHash,
+    sortable: true,
+    sortType: 'referrerId',
   },
   {
     title: STRINGS.REFERRER_NAME,
-    path: ['user', 'name'],
+    path: ['refererUser', 'name'],
     sortable: true,
-    sortType: 'referrerName',
+    sortType: 'refererName',
   },
   {
     title: STRINGS.REFERRER_EMAIL,
-    path: ['user', 'email'],
+    path: ['refererUser', 'email'],
     sortable: true,
-    sortType: 'referrerEmail',
+    sortType: 'refererEmail',
   },
   {
     title: STRINGS.BIDS_GIVEN,
-    path: ['product', 'title'],
+    fieldName: 'rewardBids',
     sortable: true,
-    sortType: 'productName',
+    sortType: 'rewardBids',
   },
   {
     title: STRINGS.REFEREE_EMAIL,
-    path: ['user', 'email'],
+    path: ['refereeUser', 'email'],
     sortable: true,
     sortType: 'refereeEmail',
   },
   {
     title: STRINGS.DATE,
-    fieldName: 'purchaseDate',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'purchaseDate',
+    sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {

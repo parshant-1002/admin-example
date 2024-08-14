@@ -7,18 +7,18 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import { TableFilterHeader } from '../../../Shared/components';
+import { Filters } from '../../../Shared/components';
 
 // Constants
 import {
   FilterOrder,
-  PRODUCT_PURCHASE_STATUS,
   STRINGS,
+  TABLE_PAGE_LIMIT,
 } from '../../../Shared/constants';
 import { BidsHistoryColumns } from '../helpers/constants';
 
 // API
-import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
+import { useGetBidsSpentHistoryQuery } from '../../../Services/Api/module/auctions';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
@@ -30,11 +30,7 @@ interface QueryParams {
   searchString?: string;
   sortKey: string;
   sortDirection: FilterOrder;
-  status: number;
 }
-
-// Constants
-const PURCHASE_PAGE_LIMIT = 5;
 
 function BidsHistory() {
   // State Management
@@ -50,16 +46,15 @@ function BidsHistory() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * PURCHASE_PAGE_LIMIT,
-    limit: PURCHASE_PAGE_LIMIT,
+    skip: currentPage * TABLE_PAGE_LIMIT,
+    limit: TABLE_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
-    status: PRODUCT_PURCHASE_STATUS.PURCHASED,
   };
 
   // API Queries
-  const { data: listing, refetch } = useGetInvoicesQuery({
+  const { data: listing, refetch } = useGetBidsSpentHistoryQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
@@ -98,7 +93,7 @@ function BidsHistory() {
 
   return (
     <div>
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
@@ -107,11 +102,11 @@ function BidsHistory() {
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={PURCHASE_PAGE_LIMIT}
+        pageSize={TABLE_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         pagination
-        pageCount={(listing?.count || 1) / PURCHASE_PAGE_LIMIT}
+        pageCount={(listing?.count || 1) / TABLE_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}
       />

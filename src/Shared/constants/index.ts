@@ -164,6 +164,13 @@ export const STRINGS = {
   PRODUCT_NAME: 'Product Name',
   PRODUCT_PRICE: 'Product Price',
   REFERRER_ID: 'Referrer Id',
+  CONFIRMED: 'Confirmed',
+  REFUNDED: 'Refunded',
+  PURCHASE: 'Purchase',
+  GIFT: 'Gift',
+  REFERRAL: 'Referral',
+  SIGNUP_BONUS: 'Signup Bonus',
+  REFUND: 'Refund',
 };
 
 export const CONTENT_ENUMS = {
@@ -466,6 +473,21 @@ const BID_PLAN_TYPES = {
   HOT_DEAL: 2,
 };
 
+const BID_STATUS = {
+  CONFIRMED: 1,
+  REFUNDED: 2,
+};
+
+const BID_CREDIT_TYPES = {
+  PURCHASE: 1,
+  ADMIN_GIFT: 2,
+  REFERRAL: 3,
+  SIGNUP_BONUS: 4,
+  REFUND: 5,
+};
+
+const TABLE_PAGE_LIMIT = 10;
+
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -474,4 +496,7 @@ export {
   REFERRAL_STATUS,
   PRODUCT_PURCHASE_STATUS,
   BID_PLAN_TYPES,
+  BID_STATUS,
+  TABLE_PAGE_LIMIT,
+  BID_CREDIT_TYPES,
 };
