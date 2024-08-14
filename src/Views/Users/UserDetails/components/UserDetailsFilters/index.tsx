@@ -22,7 +22,7 @@ interface StatsFiltersProps {
   // heading?: string;
 }
 
-function StatsFilters({
+function UserDetailsFilters({
   search = '',
   handleSearch,
   handleClearSearch,
@@ -81,4 +81,4 @@ function StatsFilters({
   );
 }
 
-export default StatsFilters;
+export default UserDetailsFilters;

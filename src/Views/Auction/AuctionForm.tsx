@@ -125,21 +125,27 @@ export default function AuctionForm({
     }
   };
 
-  const handleStateChange = (
-    change: string,
-    updatedData: AuctionFormFieldType,
-    _type: string,
-    _getState: () => unknown,
-    setState: (key: string, value: unknown) => unknown
-  ) => {
-    if (change === 'productId') {
-      const data = updatedData as OptionType; // Type assertion
+  const handleStateChange = ({
+    name,
+    value,
+    setValue,
+  }: {
+    name: string;
+    value: AuctionFormFieldType;
+    type: string;
+    setValue: (name: string, value: unknown) => void;
+    values?: Record<string, unknown>;
+  }) => {
+    if (name === 'productId') {
+      const data = value as OptionType; // Type assertion
       const productDetails = productList.data.find(
         (element: Category) => element._id === data.value
       );
-      setState('categoryIds', helperCatergoryMap(productDetails.categories));
-      setState('description', productDetails.description);
-      setState('productPrice', productDetails.price);
+      if (productDetails) {
+        setValue('categoryIds', helperCatergoryMap(productDetails.categories));
+        setValue('description', productDetails.description);
+        setValue('productPrice', productDetails.price);
+      }
     }
   };
 

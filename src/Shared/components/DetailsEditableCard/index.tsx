@@ -52,13 +52,6 @@ const renderValue = (
   columnSchema: AuctionDetailsColumnData,
   onChange: (newValue: string | number) => void
 ): JSX.Element | React.ReactNode => {
-  // const submenu = [
-  //   { buttonLabel: 'Edit', buttonAction: () => console.log('Selected') },
-  //   {
-  //     buttonLabel: 'Delete',
-  //     buttonAction: () => console.log('selected'),
-  //   },
-  // ];
   if (columnSchema.isEditable)
     switch (columnSchema.type) {
       case DetailType.String:
@@ -120,9 +113,6 @@ const renderValue = (
         return '--';
     }
 
-  // if (editable && (typeof value === 'string' || typeof value === 'number')) {
-  // }
-
   if (typeof value === 'boolean') {
     return <input type="checkbox" checked={value} readOnly />;
   }
@@ -134,7 +124,10 @@ const renderValue = (
   return value;
 };
 
-function DetailsWrapperCard({ details, dataScema }: DetailsWrapperCardProps) {
+function DetailsWrapperEditableCard({
+  details,
+  dataScema,
+}: DetailsWrapperCardProps) {
   const [data, setData] = useState(details);
 
   const handleValueChange = (
@@ -188,4 +181,4 @@ function DetailsWrapperCard({ details, dataScema }: DetailsWrapperCardProps) {
   );
 }
 
-export default DetailsWrapperCard;
+export default DetailsWrapperEditableCard;

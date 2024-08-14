@@ -33,8 +33,6 @@ export interface Category {
   name: string;
 }
 
-
-
 // Define the main type
 export interface ProductResponsePayload {
   _id: string;

@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import CustomForm from '../../../../../Shared/components/form/CustomForm';
 
 // consts
-import { ErrorResponse } from '../../../../../Models/Apis/Error';
 import { useAddUserBidsMutation } from '../../../../../Services/Api/module/users';
 import { BUTTON_LABELS } from '../../../../../Shared/constants';
 import ERROR_MESSAGES from '../../../../../Shared/constants/messages';
@@ -28,10 +27,6 @@ export default function AddBidForm({
     onAdd();
   };
 
-  const onFailure = (error: ErrorResponse) => {
-    toast.error(error?.data?.message);
-  };
-
   const onSubmit = async (
     data: Record<string, unknown>,
     event: SyntheticEvent
@@ -46,7 +41,6 @@ export default function AddBidForm({
       await addBidForUser({
         payload,
         onSuccess,
-        onFailure,
       });
     } catch (error: unknown) {
       if (error instanceof Error) {

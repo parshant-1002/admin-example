@@ -11,11 +11,12 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 
+
 // consts
 import { BUTTON_LABELS, ROUTES, STRINGS } from '../../Shared/constants';
 
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
-import { RED_WARNING } from '../../assets';
+import { Filter, RED_WARNING } from '../../assets';
 import { AuctionResponsePayload } from './helpers/model';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { AUCTION_STATUS, AuctionColumns } from './helpers/constants';
@@ -24,8 +25,7 @@ import ViewMultiTableItem from '../Products/components/ViewMultiTableItem';
 import { ViewMultiData } from '../Products/helpers/model';
 import ActionsDropDown from '../../Shared/components/ActionsDropDown';
 import AuctionForm from './AuctionForm';
-import StatsFilters from '../Products/components/Filters';
-// import StatsFilters from '../Users/components/Filters';
+import StatsFilters from '../../Shared/components/Filters/Filters';
 
 interface EditData {
   data: object | null;
@@ -196,8 +196,9 @@ export default function AuctionManagementList() {
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        setAddData={setAddData}
+        setAddData={() => setAddData(true)}
         handleDeleteAll={handleDeleteAll}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView

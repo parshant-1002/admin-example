@@ -7,7 +7,6 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -21,7 +20,9 @@ import { AuctionInvoiceColumns } from '../helpers/constants';
 import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
+import Filters from '../../../Shared/components/Filters';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { Filter } from '../../../assets';
 
 // Interfaces
 interface QueryParams {
@@ -92,13 +93,13 @@ function AuctionInvoices() {
     }
     onComponentMountRef.current = true;
   }, [refetch, currentPage, search, sortKey, sortDirection]);
-
   return (
     <div>
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView

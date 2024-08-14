@@ -1,7 +1,7 @@
 import { Dropdown } from 'react-bootstrap';
 import './CustomDropDown.scss';
 
-interface SubmenuItem {
+export interface SubmenuItem {
   buttonLabel: string;
   buttonAction: (row: unknown) => void;
   className?: string;
@@ -9,7 +9,7 @@ interface SubmenuItem {
 
 interface ActionsDropdownProps {
   toggleImage: string; // URL or path to the toggle image
-  submenu: SubmenuItem[]; // Array of submenu items
+  submenu?: SubmenuItem[]; // Array of submenu items
 }
 
 function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
@@ -22,7 +22,7 @@ function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {submenu.map((item) => (
+        {submenu?.map((item) => (
           <Dropdown.Item
             key={item.buttonLabel}
             onClick={item.buttonAction}

@@ -138,9 +138,26 @@ export const STRINGS = {
   PENDING: 'Pending',
   USER_DELETED: 'User Deleted',
   PLAN_ID: 'Plan Id',
+  PLAN_NAME: 'Plan Name',
   CREATED_AT: 'Created At',
   CLOSED_AT: 'Closed At',
   REFERRALS: 'Referrals',
+  ID: 'ID',
+  END_AT: 'End At',
+  HOT_DEAL: 'Hot Deal',
+  YES: 'Yes',
+  NO: 'No',
+  T_ID: 'T Id',
+  DEAL_OFFER: 'Deal Offer',
+  FAILED: 'Failed',
+  DATE: 'Date',
+  BIDS_CREDITED: 'Bids Credited',
+  DISCOUNT_PERCENTAGE: 'Discount Percentage (upto 100)',
+  DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
+  END_DATE: 'End Date',
+  TRANSACTIONS: 'Transactions',
+  ADD_BID_PLAN: 'Add Bid Plan',
+  EDIT_BID_PLAN: 'Edit Bid Plan',
 };
 
 export const CONTENT_ENUMS = {
@@ -262,7 +279,7 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
-  USERS_DETAILS: '/users-details/:id',
+  USERS_DETAILS: '/users/:id',
   PRODUCTS: '/products',
   CATEGORIES: '/categories',
   PRODUCTS_ADD: '/products/add',
@@ -428,6 +445,11 @@ const PRODUCT_PURCHASE_STATUS = {
   EXPIRED: 3, // bidding ended
 };
 
+const BID_PLAN_TYPES = {
+  REGULAR: 1,
+  HOT_DEAL: 2,
+};
+
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -435,4 +457,5 @@ export {
   POPUPTYPES,
   REFERRAL_STATUS,
   PRODUCT_PURCHASE_STATUS,
+  BID_PLAN_TYPES,
 };

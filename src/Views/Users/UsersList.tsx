@@ -11,19 +11,21 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
+import StatsFilters from '../../Shared/components/Filters';
 import ActionsDropDown from './components/ActionsDropDown';
-import StatsFilters from './components/Filters';
 
 // Constants
-import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
-import { RED_WARNING } from '../../assets';
+import {
+  BUTTON_LABELS,
+  FilterOrder,
+  ROUTES,
+  STRINGS,
+} from '../../Shared/constants';
+import { Filter, RED_WARNING } from '../../assets';
 import { CONFIRMATION_DESCRIPTION, usersColumns } from './helpers/constants';
 
 // Models
 import { UsersResponsePayload } from './helpers/model';
-
-// API
-import { ErrorResponse } from '../../Models/Apis/Error';
 
 // Utilities
 import {
@@ -51,7 +53,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const USERS_PAGE_LIMIT = 5;
 
 export default function UsersList() {
   // State Management
@@ -79,8 +81,8 @@ export default function UsersList() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * USERS_PAGE_LIMIT,
+    limit: USERS_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -104,6 +106,14 @@ export default function UsersList() {
   const handleDelete = (row: UsersResponsePayload) => {
     setDeleteModal({ show: true, data: { id: row?._id } });
   };
+
+  const handleView = useCallback(
+    (row: UsersResponsePayload) => {
+      navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
+    },
+    [navigate]
+  );
+
   const handleBlock = (row: UsersResponsePayload) => {
     setBlockModal({
       show: true,
@@ -142,9 +152,6 @@ export default function UsersList() {
           setSelectedIds([]);
           refetch();
         },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
-        },
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -177,9 +184,6 @@ export default function UsersList() {
           setSelectedIds([]);
           refetch();
         },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
-        },
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -196,12 +200,13 @@ export default function UsersList() {
       <div className="d-flex">
         <ActionsDropDown
           row={row}
+          handleView={handleView}
           handleDelete={handleDelete}
           handleBlock={handleBlock}
         />
       </div>
     ),
-    []
+    [handleView]
   );
 
   // Function to handle sorting click
@@ -218,7 +223,7 @@ export default function UsersList() {
   };
 
   const handleRowClick = (row: Row) => {
-    navigate(`/users-details/${row?.name}`, { state: row?._id });
+    navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
   };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,6 +246,14 @@ export default function UsersList() {
     () => usersColumns(renderActions, handleChangeCheckBox, selectedIds),
     [renderActions, selectedIds]
   );
+
+  const submenuForFilters = [
+    { buttonLabel: 'Address', buttonAction: () => {} },
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -276,29 +289,29 @@ export default function UsersList() {
       />
       <StatsFilters
         handleClearSearch={() => setSearch('')}
+        submenu={submenuForFilters}
         search={search}
         handleSearch={debounceSearch}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView
         rows={(usersListing?.data?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={USERS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         handleRowClick={handleRowClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(usersListing?.data?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(usersListing?.data?.count || 1) / USERS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil(
-                (usersListing?.data?.count || 1) / ADD_ONS_PAGE_LIMIT
-              ) !==
+              Math.ceil((usersListing?.data?.count || 1) / USERS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

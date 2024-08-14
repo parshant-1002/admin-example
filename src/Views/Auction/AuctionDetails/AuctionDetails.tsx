@@ -2,7 +2,6 @@
 import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
-import DetailsWrapperCard from '../../../Shared/components/DetailsCard';
 import { useAuctionData } from '../helpers/useAuctionData';
 
 import BidsList from './BidsList';
@@ -10,6 +9,7 @@ import { BUTTON_LABELS } from '../../../Shared/constants';
 import { ViewMultiData } from '../../Products/helpers/model';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
 import { AuctionColumn } from './Helpers/constants';
+import DetailsWrapperEditableCard from '../../../Shared/components/DetailsEditableCard';
 
 export default function AuctionDetails() {
   const { id } = useParams();
@@ -28,7 +28,7 @@ export default function AuctionDetails() {
         show={showMultiItemView}
         setShow={setShowMultiItemView}
       />
-      <DetailsWrapperCard
+      <DetailsWrapperEditableCard
         details={data}
         dataScema={AuctionColumn(setShowMultiItemView)}
       />

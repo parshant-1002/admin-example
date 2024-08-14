@@ -9,17 +9,17 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-user',
     label: 'Users',
     route: ROUTES.USERS,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-category',
     label: 'Categories',
     route: ROUTES.CATEGORIES,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-product',
     label: 'Products',
     route: ROUTES.PRODUCTS,
   },
@@ -30,7 +30,7 @@ const SIDEBAR_NAV = [
   },
   {
     // children: [],
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-invoice',
     label: 'Invoices',
     children: [
       {
@@ -44,32 +44,14 @@ const SIDEBAR_NAV = [
     ],
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-referral',
     label: 'Referral',
-    children: [
-      {
-        label: 'Create Referral',
-        route: ROUTES.CREATE_REFERRAL,
-      },
-      // {
-      //   label: 'Referral Listing',
-      //   route: ROUTES.REFERRAL_LISTING,
-      // },
-    ],
+    route: ROUTES.CREATE_REFERRAL,
   },
   {
-    iconClass: 'bi bi-person-lines-fill',
+    iconClass: 'bi bi-bids-plans',
     label: 'Bids Plans',
-    children: [
-      {
-        label: 'Plans',
-        route: ROUTES.BIDS_PLANS,
-      },
-      // {
-      //   label: 'Referral Listing',
-      //   route: ROUTES.REFERRAL_LISTING,
-      // },
-    ],
+    route: ROUTES.BIDS_PLANS,
   },
   // {
   //   // icon: AirDropIcon,

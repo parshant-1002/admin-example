@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useGetBidsSpentHistoryQuery } from '../../../../../Services/Api/module/auctions';
 import CustomTableView, {
@@ -7,10 +7,14 @@ import CustomTableView, {
 } from '../../../../../Shared/components/CustomTableView';
 import { FilterOrder, STRINGS } from '../../../../../Shared/constants';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
-import { auctionBiddingHistoryColumn } from '../../helpers/constants';
+import {
+  BID_STATUS,
+  auctionBiddingHistoryColumn,
+} from '../../helpers/constants';
 import './AuctionBidsDetails.scss';
+import { getKeyByValue } from '../../helpers/utils';
 
-const BIDS_SPENT_HISTORY_PAGE_SIZE = 2;
+const BIDS_SPENT_HISTORY_PAGE_SIZE = 5;
 export default function AuctionBidsDetails({
   selectedAuctionId,
 }: {
@@ -21,6 +25,8 @@ export default function AuctionBidsDetails({
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
+  const queryRef = useRef(false);
+
   const queryParams = {
     skip: currentPage * BIDS_SPENT_HISTORY_PAGE_SIZE,
     limit: BIDS_SPENT_HISTORY_PAGE_SIZE,
@@ -28,16 +34,27 @@ export default function AuctionBidsDetails({
     sortDirection,
     auctionId: selectedAuctionId,
   };
-  const { data: userBidsSpentHistory, refetch } = useGetBidsSpentHistoryQuery({
+  const { data, refetch } = useGetBidsSpentHistoryQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
   });
+
+  const userBidsSpentHistory = {
+    data: data?.data?.map((bidData: { status: number }) => ({
+      ...bidData,
+      status: getKeyByValue(BID_STATUS, bidData?.status),
+    })),
+    count: data?.count,
+  };
+
   useEffect(() => {
-    if (selectedAuctionId) {
+    if (queryRef.current) {
       refetch();
     }
-  }, [refetch, selectedAuctionId]);
+    queryRef.current = true;
+  }, [refetch, currentPage, sortKey, sortDirection]);
+
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
   };

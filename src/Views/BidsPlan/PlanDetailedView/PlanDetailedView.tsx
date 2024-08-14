@@ -13,17 +13,16 @@ import { FilterOrder, STRINGS } from '../../../Shared/constants';
 import { PlanDetailedViewColumns } from '../helpers/constants';
 
 // API
-import {
-  useGetReferralPackHistoryQuery,
-  useGetReferralPacksQuery,
-} from '../../../Services/Api/module/referral';
+import { useGetReferralPackHistoryQuery } from '../../../Services/Api/module/referral';
+import { useGetBidPlansQuery } from '../../../Services/Api/module/plans';
 
 // Utilities
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
+import { DetailsCard } from '../../../Shared/components';
 
 // Interfaces
 interface QueryParams {
-  referralPackId: string;
+  bidPlanId: string;
   skip: number;
   limit: number;
   sortKey: string;
@@ -47,7 +46,7 @@ function PlanDetailedView() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    referralPackId: id || '',
+    bidPlanId: id || '',
     skip: currentPage * ADD_ONS_PAGE_LIMIT,
     limit: ADD_ONS_PAGE_LIMIT,
     sortKey,
@@ -67,7 +66,7 @@ function PlanDetailedView() {
   );
 
   const { data: referralPackDetails, refetch: refetchReferralPack } =
-    useGetReferralPacksQuery(
+    useGetBidPlansQuery(
       {
         params: removeEmptyValues(
           queryParams as unknown as Record<string, unknown>
@@ -106,49 +105,44 @@ function PlanDetailedView() {
   const renderPackDetails = useMemo(() => {
     if (referralPackDetails?.data?.[0]) {
       return (
-        <div className="card mb-3">
-          <div className="card-body row">
-            {[
-              {
-                label: 'Plan ID',
-                value: referralPackDetails?.data?.[0]?._id,
-              },
-              {
-                label: 'Name',
-                value: referralPackDetails?.data?.[0]?.name,
-              },
-              {
-                label: 'Created At',
-                value: referralPackDetails?.data?.[0]?.startDate
-                  ? formatDate(referralPackDetails?.data?.[0]?.startDate)
-                  : '',
-              },
-              {
-                label: 'Closed At',
-                value: referralPackDetails?.data?.[0]?.endDate
-                  ? formatDate(referralPackDetails?.data?.[0]?.endDate)
-                  : '',
-              },
-              {
-                label: 'Deal Price',
-                value: referralPackDetails?.data?.[0]?.dealPrice,
-              },
-              {
-                label: 'Bids Given',
-                value: referralPackDetails?.data?.[0]?.refereeBidRequirement,
-              },
-              {
-                label: 'Hot Deal',
-                value: referralPackDetails?.data?.[0]?.hotDeal ? 'Yes' : 'No',
-              },
-            ].map(({ label, value }) => (
-              <div className="col-lg-2 col-md-3 col-sm-4" key={label}>
-                <h6>{label}</h6>
-                <p>{value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <DetailsCard
+          details={[
+            {
+              label: STRINGS.PLAN_ID,
+              value: referralPackDetails?.data?.[0]?._id,
+            },
+            {
+              label: STRINGS.NAME,
+              value: referralPackDetails?.data?.[0]?.title,
+            },
+            {
+              label: STRINGS.CREATED_AT,
+              value: referralPackDetails?.data?.[0]?.createdAt
+                ? formatDate(referralPackDetails?.data?.[0]?.createdAt)
+                : '',
+            },
+            {
+              label: STRINGS.CLOSED_AT,
+              value: referralPackDetails?.data?.[0]?.endDate
+                ? formatDate(referralPackDetails?.data?.[0]?.endDate)
+                : '',
+            },
+            {
+              label: STRINGS.DEAL_PRICE,
+              value: referralPackDetails?.data?.[0]?.price,
+            },
+            {
+              label: STRINGS.BIDS_GIVEN,
+              value: referralPackDetails?.data?.[0]?.bids,
+            },
+            {
+              label: STRINGS.HOT_DEAL,
+              value: referralPackDetails?.data?.[0]?.hotDeal
+                ? STRINGS.YES
+                : STRINGS.NO,
+            },
+          ]}
+        />
       );
     }
 
@@ -160,7 +154,9 @@ function PlanDetailedView() {
       {renderPackDetails}
 
       {/* Table */}
-      <h5>Transactions ({listing?.count || 0})</h5>
+      <h5>
+        {STRINGS.TRANSACTIONS} ({listing?.count || 0})
+      </h5>
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={PlanDetailedViewColumns as unknown as Column[]}

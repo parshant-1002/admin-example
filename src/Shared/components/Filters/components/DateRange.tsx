@@ -4,9 +4,8 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 
 // components
-import DateRangeSelector from '../../../../../Shared/components/DateRangeSelector';
-// import { CalenderIcon } from '../../../../../assets';
-import { FILTER_CONSTS } from '../../../../../Shared/constants';
+import DateRangeSelector from '../../DateRangeSelector';
+import { FILTER_CONSTS } from '../../../constants';
 
 // types
 interface DateRangeProps {

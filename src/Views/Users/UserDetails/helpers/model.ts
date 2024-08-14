@@ -51,11 +51,13 @@ interface BidPlan {
 }
 
 // Define the type for each item in the data array
-interface UserBid {
+export interface UserBid {
+  id: string;
   _id?: string;
   name?: string;
   bids?: number;
   bidType: number;
+  status: number;
   type: number;
   email?: string;
   referralAmount?: number;
@@ -64,19 +66,21 @@ interface UserBid {
   phoneNumber?: string;
   address?: string;
   auctionDetails: {
+    id: string;
     title: string;
     reservePrice: number;
     bidStartDate: string;
     reserveWaitingEndDate: string;
     status: number;
   };
-  productDetails?: { price: string };
-  auction?: { title: string };
-  product?: { title: string; images: string[] };
+  productDetails?: { id: string; price: string };
+  auction?: { id: string; title: string };
+  product?: { title: string; images: string[]; id: string };
   purchasedPrice?: string;
   totalBids?: number;
   itemPrice?: number;
   winnerName?: string;
+  invoiceURL?: string;
 }
 
 // Define the type for the response data

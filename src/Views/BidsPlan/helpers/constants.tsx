@@ -2,88 +2,133 @@ import { actions, InvoiceIcon } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
 import {
+  BID_PLAN_TYPES,
   INPUT_TYPES,
   REFERRAL_STATUS,
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { formatDate } from '../../../Shared/utils/functions';
+import { formatDate, renderIdWithHash } from '../../../Shared/utils/functions';
 
-export const PLAN_SCHEMA = {
-  title: {
+export const PLAN_FORM_FIELDS = {
+  NAME: 'title',
+  PRICE: 'price',
+  BIDS: 'bids',
+  HOT_DEAL: 'type',
+  DISCOUNT_PERCENTAGE: 'dealOfferPercentage',
+  DISCOUNT_PRICE: 'dealPrice',
+  END_DATE: 'endDate',
+  STATUS: 'isEnabled',
+};
+
+export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
+  [PLAN_FORM_FIELDS.NAME]: {
     type: INPUT_TYPES.TEXT,
-    label: 'Plan Name',
+    label: STRINGS.PLAN_NAME,
     className: 'col-md-12',
-    placeholder: 'Plan Name',
+    placeholder: STRINGS.PLAN_NAME,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  price: {
+  [PLAN_FORM_FIELDS.PRICE]: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Deal Price',
+    label: STRINGS.DEAL_PRICE,
     className: 'col-md-12',
-    placeholder: 'Deal Price',
+    placeholder: STRINGS.DEAL_PRICE,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min: {
+        value: 0,
+        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+      },
     },
   },
-  bids: {
+  [PLAN_FORM_FIELDS.BIDS]: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Bids Credited',
+    label: STRINGS.BIDS_CREDITED,
     className: 'col-md-12',
-    placeholder: 'Bids Credited',
+    placeholder: STRINGS.BIDS_CREDITED,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min: {
+        value: 0,
+        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+      },
     },
   },
-  hotDeal: {
+  [PLAN_FORM_FIELDS.HOT_DEAL]: {
     type: INPUT_TYPES.SELECT,
-    label: 'Hot Deal',
+    label: STRINGS.HOT_DEAL,
     className: 'col-md-12',
-    placeholder: 'Hot Deal',
+    placeholder: STRINGS.HOT_DEAL,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
     options: [
       {
-        label: 'Yes',
-        value: 'Yes',
+        label: STRINGS.YES,
+        value: BID_PLAN_TYPES.HOT_DEAL,
       },
       {
-        label: 'No',
-        value: 'No',
+        label: STRINGS.NO,
+        value: BID_PLAN_TYPES.REGULAR,
       },
     ],
   },
-  startDate: {
-    type: INPUT_TYPES.DATE,
-    label: 'Start Date',
-    className: 'col-md-12',
-    placeholder: 'Start Date',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
-  endDate: {
-    type: INPUT_TYPES.DATE,
-    label: 'End Date',
-    className: 'col-md-12',
-    placeholder: 'End Date',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
-  isEnabled: {
+  ...(showHotDealSpecificFields
+    ? {
+        [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.DISCOUNT_PERCENTAGE,
+          className: 'col-md-12',
+          placeholder: STRINGS.DISCOUNT_PERCENTAGE,
+          min: 0,
+          max: 100,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            min: {
+              value: 0,
+              message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+            },
+            max: {
+              value: 100,
+              message: FORM_VALIDATION_MESSAGES().MAXIMUM_100_PERCENT_ALLOWED,
+            },
+          },
+        },
+        [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.DISCOUNT_OFFER_PRICE,
+          className: 'col-md-12',
+          placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
+          readOnly: true,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+          },
+        },
+        [PLAN_FORM_FIELDS.END_DATE]: {
+          type: INPUT_TYPES.DATE,
+          label: STRINGS.END_DATE,
+          className: 'col-md-12',
+          placeholder: STRINGS.END_DATE,
+          min: formatDate(new Date(), 'YYYY-MM-DD'),
+          schema: {
+            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+          },
+        },
+      }
+    : {}),
+  [PLAN_FORM_FIELDS.STATUS]: {
     type: INPUT_TYPES.SWITCH,
-    label: 'Status',
+    label: STRINGS.STATUS,
     className: 'col-md-12',
-    placeholder: 'Status',
+    placeholder: STRINGS.STATUS,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-};
+});
 
 interface CreateReferralProps {
   handleView: (row: Record<string, unknown>) => void;
@@ -115,7 +160,6 @@ export const PlansColumns = ({
             type="checkbox"
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
-            // onChange={() => handleChangeCheckBox(row._id)}
           />
           <div className="checkbox-custom" />
         </div>
@@ -123,54 +167,55 @@ export const PlansColumns = ({
     },
   },
   {
-    title: 'ID',
+    title: STRINGS.ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
-    title: 'Name',
-    fieldName: 'title',
+    title: STRINGS.NAME,
+    fieldName: PLAN_FORM_FIELDS.NAME,
     isTruncated: true,
-    sortable: true,
-    sortType: 'title',
   },
   {
-    title: 'Bids Given',
-    fieldName: 'bids',
+    title: STRINGS.BIDS_GIVEN,
+    fieldName: PLAN_FORM_FIELDS.BIDS,
     isTruncated: true,
-    sortable: true,
-    sortType: 'bids',
   },
   {
-    title: 'Deal Price',
-    fieldName: 'price',
-    sortable: true,
-    sortType: 'price',
+    title: STRINGS.DEAL_PRICE,
+    fieldName: PLAN_FORM_FIELDS.PRICE,
   },
   {
-    title: 'Created At',
+    title: STRINGS.CREATED_AT,
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
     render: (_, createdAt) =>
-      createdAt ? new Date(createdAt).toDateString() : '',
+      createdAt ? formatDate(createdAt as string) : '-.-',
   },
   {
-    title: 'End At',
-    fieldName: 'endAt',
-    sortable: true,
-    sortType: 'endAt',
-    render: (_, endAt) => (endAt ? new Date(endAt).toDateString() : ''),
+    title: STRINGS.END_AT,
+    fieldName: PLAN_FORM_FIELDS.END_DATE,
+    render: (_, endDate) => (endDate ? formatDate(endDate as string) : '-.-'),
   },
   {
-    title: 'Hot Deal',
-    fieldName: 'hotDeal',
-    sortable: true,
-    sortType: 'hotDeal',
-    render: (_, hotDeal) => (hotDeal ? new Date(hotDeal).toDateString() : ''),
+    title: STRINGS.HOT_DEAL,
+    fieldName: PLAN_FORM_FIELDS.HOT_DEAL,
+    render: (_, value) =>
+      (() => {
+        switch (value) {
+          case BID_PLAN_TYPES.HOT_DEAL:
+            return STRINGS.YES;
+          case BID_PLAN_TYPES.REGULAR:
+            return STRINGS.NO;
+          default:
+            return '';
+        }
+      })(),
   },
   {
-    title: 'Status',
-    fieldName: 'isEnabled',
+    title: STRINGS.STATUS,
+    fieldName: PLAN_FORM_FIELDS.STATUS,
     render: (row, isEnabled) => (
       <div className="form-check form-switch">
         <input
@@ -185,7 +230,7 @@ export const PlansColumns = ({
     ),
   },
   {
-    title: 'Actions',
+    title: STRINGS.ACTIONS,
     render: (row) => (
       <div className="d-flex">
         <CustomDropDown
@@ -210,78 +255,79 @@ export const PlansColumns = ({
 
 export const PlanDetailedViewColumns: ColumnData[] = [
   {
-    title: 'T Id',
+    title: STRINGS.T_ID,
     fieldName: '_id',
+    render: renderIdWithHash,
   },
   {
-    title: 'Username',
+    title: STRINGS.USERNAME,
     fieldName: 'name',
     sortable: true,
     sortType: 'name',
     render: (row) => row?.refererUser?.name,
   },
   {
-    title: 'Email',
+    title: STRINGS.EMAIL,
     fieldName: 'email',
     sortable: true,
     sortType: 'email',
     render: (row) => row?.refererUser?.email,
   },
   {
-    title: 'Deal Offer',
+    title: STRINGS.DEAL_OFFER,
     fieldName: 'dealOffer',
     sortable: true,
     sortType: 'dealOffer',
   },
   {
-    title: 'Deal Price',
+    title: STRINGS.DEAL_PRICE,
     fieldName: 'dealPrice',
     sortable: true,
     sortType: 'dealPrice',
   },
   {
-    title: 'Referee Email',
+    title: STRINGS.REFEREE_EMAIL,
     fieldName: 'refereeEmail',
     sortable: true,
     sortType: 'refereeBidRequirement',
     render: (row) => row?.refereeUser?.email,
   },
   {
-    title: 'Reward At',
+    title: STRINGS.REWARD_AT,
     fieldName: 'rewardAt',
     sortable: true,
     sortType: 'refereePurchasedBids',
   },
   {
-    title: 'Bids Received',
+    title: STRINGS.BIDS_RECEIVED,
     fieldName: 'purchasedBids',
     sortable: true,
     sortType: 'purchasedBids',
   },
   {
-    title: 'Status',
+    title: STRINGS.STATUS,
     fieldName: 'status',
     render: (row) =>
       (() => {
         switch (row?.status as number) {
           case REFERRAL_STATUS.COMPLETED:
-            return <span className="text-success">Completed</span>;
+            return <span className="text-success">{STRINGS.COMPLETED}</span>;
           case REFERRAL_STATUS.PENDING:
-            return <span className="text-warning">Pending</span>;
+            return <span className="text-warning">{STRINGS.PENDING}</span>;
           case REFERRAL_STATUS.USER_DELETED_BEFORE_COMPLETION:
-            return <span className="text-danger">Failed</span>;
+            return <span className="text-danger">{STRINGS.FAILED}</span>;
           default:
             return '';
         }
       })(),
   },
   {
-    title: 'Date',
+    title: STRINGS.DATE,
     fieldName: 'createdAt',
     render: (row) => formatDate(row?.createdAt),
   },
   {
-    title: 'Invoice',
+    title: STRINGS.INVOICE,
     render: (row) =>
       row?.url ? (
         <div className="text-center">

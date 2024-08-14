@@ -11,17 +11,21 @@ import CustomTableView, {
 } from '../../../Shared/components/CustomTableView';
 import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import AddEditPlan from '../components/AddEditPlan';
-import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
+  BID_PLAN_TYPES,
   BUTTON_LABELS,
   FilterOrder,
   POPUPTYPES,
   ROUTES,
   STRINGS,
 } from '../../../Shared/constants';
-import { PlansColumns } from '../helpers/constants';
+import {
+  PLAN_FORM_FIELDS,
+  PLAN_SCHEMA,
+  PlansColumns,
+} from '../helpers/constants';
 
 // API
 import {
@@ -34,7 +38,9 @@ import {
 // Utilities
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
-import { RED_WARNING } from '../../../assets';
+import { Filter, RED_WARNING } from '../../../assets';
+import { calculateDiscountedPrice } from '../helpers/utils';
+import Filters from '../../../Shared/components/Filters';
 
 // Interfaces
 interface QueryParams {
@@ -52,7 +58,7 @@ interface Popup {
 }
 
 // Constants
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 7;
 
 function Plans() {
   const navigate = useNavigate();
@@ -124,14 +130,18 @@ function Plans() {
 
   const handleAddEditPopupSubmit = (data: Record<string, unknown>) => {
     const payload = { ...data };
-    payload.startDate = formatDate(
-      payload.startDate as string,
-      'YYYY-MM-DD HH:mm:ss'
-    );
+    payload[PLAN_FORM_FIELDS.HOT_DEAL] =
+      (payload[PLAN_FORM_FIELDS.HOT_DEAL] as { value: unknown })?.value || '';
     payload.endDate = formatDate(
       payload.endDate as string,
       'YYYY-MM-DD HH:mm:ss'
     );
+    delete payload?.[PLAN_FORM_FIELDS.DISCOUNT_PRICE];
+
+    if (payload[PLAN_FORM_FIELDS.HOT_DEAL] === BID_PLAN_TYPES.REGULAR) {
+      delete payload[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE];
+      delete payload[PLAN_FORM_FIELDS.END_DATE];
+    }
 
     if (popup.type === POPUPTYPES.EDIT) {
       payload.bidPlanId = popup.data?._id;
@@ -183,7 +193,7 @@ function Plans() {
   const handleStatusChange = useCallback(
     (data: Record<string, unknown>) => {
       const payload = {
-        referralPackId: data?._id,
+        bidPlanId: data?._id,
         isEnabled: !data?.isEnabled,
       };
       editBidPlan({
@@ -231,14 +241,56 @@ function Plans() {
     [handleStatusChange, handleView, selectedIds]
   );
 
+  const formInitialValues = useMemo(
+    () =>
+      popup?.type === POPUPTYPES.EDIT && popup?.data
+        ? {
+            [PLAN_FORM_FIELDS.NAME]: popup.data?.[PLAN_FORM_FIELDS.NAME] || '',
+            [PLAN_FORM_FIELDS.PRICE]: popup.data?.[PLAN_FORM_FIELDS.PRICE] || 0,
+            [PLAN_FORM_FIELDS.BIDS]: popup.data?.[PLAN_FORM_FIELDS.BIDS] || 0,
+            [PLAN_FORM_FIELDS.HOT_DEAL]:
+              PLAN_SCHEMA(true)?.[PLAN_FORM_FIELDS.HOT_DEAL]?.options?.find(
+                (f) => f.value === popup.data?.[PLAN_FORM_FIELDS.HOT_DEAL]
+              ) || '',
+            [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]:
+              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] || 0,
+            [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: calculateDiscountedPrice(
+              popup.data?.[PLAN_FORM_FIELDS.PRICE] as number,
+              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] as number
+            ),
+            ...(popup?.data?.[PLAN_FORM_FIELDS.HOT_DEAL] ===
+            BID_PLAN_TYPES.HOT_DEAL
+              ? {
+                  [PLAN_FORM_FIELDS.END_DATE]: formatDate(
+                    popup.data?.[PLAN_FORM_FIELDS.END_DATE] as string,
+                    'YYYY-MM-DD'
+                  ),
+                }
+              : ''),
+            [PLAN_FORM_FIELDS.STATUS]:
+              popup.data?.[PLAN_FORM_FIELDS.STATUS] || false,
+          }
+        : {
+            [PLAN_FORM_FIELDS.NAME]: '',
+            [PLAN_FORM_FIELDS.PRICE]: '',
+            [PLAN_FORM_FIELDS.BIDS]: '',
+            [PLAN_FORM_FIELDS.HOT_DEAL]: '',
+            [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: '',
+            [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: '',
+            [PLAN_FORM_FIELDS.END_DATE]: '',
+            [PLAN_FORM_FIELDS.STATUS]: false,
+          },
+    [popup?.data, popup?.type]
+  );
+
   return (
     <div>
       {/* Filters */}
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        handleAddNew={() =>
+        setAddData={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.ADD })
         }
         selectedIds={selectedIds}
@@ -246,7 +298,7 @@ function Plans() {
           setPopup({ show: true, data: null, type: POPUPTYPES.DELETE })
         }
         handleClearAll={() => setSelectedIds([])}
-        addButton
+        filterToggleImage={Filter}
       />
 
       {/* Table */}
@@ -263,7 +315,7 @@ function Plans() {
         onPageChange={handlePageClick}
       />
 
-      {/* Add Popup */}
+      {/* Add Edit Popup */}
       <AddEditPlan
         open={
           (popup.type === POPUPTYPES.ADD || popup.type === POPUPTYPES.EDIT) &&
@@ -274,20 +326,7 @@ function Plans() {
         }
         type={popup.type}
         handleSubmit={handleAddEditPopupSubmit}
-        initialValues={
-          popup.data
-            ? {
-                title: popup.data?.title,
-                bids: popup.data?.bids,
-                price: popup.data?.price,
-                // startDate: formatDate(
-                //   popup.data?.startDate as string,
-                //   'YYYY-MM-DD'
-                // ),
-                // isEnabled: popup.data?.isEnabled,
-              }
-            : {}
-        }
+        initialValues={formInitialValues}
       />
 
       {/* Delete Popup */}

@@ -19,6 +19,7 @@ export interface FormDataProps {
   readOnly?: boolean;
   placeholder: string;
   accept?: string;
+  min?: string | number;
   max?: string | number;
   groupClassName?: string;
   schema?: FormSchema | ((value: string) => FormSchema);

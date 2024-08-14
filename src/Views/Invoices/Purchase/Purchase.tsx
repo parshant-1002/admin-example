@@ -7,7 +7,6 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -22,6 +21,8 @@ import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
+import Filters from '../../../Shared/components/Filters';
+import { Filter } from '../../../assets';
 
 // Interfaces
 interface QueryParams {
@@ -34,7 +35,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const PURCHASE_PAGE_LIMIT = 5;
 
 function PurchaseInvoices() {
   // State Management
@@ -50,8 +51,8 @@ function PurchaseInvoices() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * PURCHASE_PAGE_LIMIT,
+    limit: PURCHASE_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -98,20 +99,21 @@ function PurchaseInvoices() {
 
   return (
     <div>
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={PURCHASE_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         pagination
-        pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+        pageCount={(listing?.count || 1) / PURCHASE_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}
       />
