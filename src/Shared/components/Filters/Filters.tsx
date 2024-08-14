@@ -16,6 +16,7 @@ import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
 import './style.scss';
+import { Filter } from '../../../assets';
 
 // types
 interface StatsFiltersProps {
@@ -27,7 +28,7 @@ interface StatsFiltersProps {
   selectedIds?: string[];
   handleDeleteAll?: () => void;
   submenu?: SubmenuItem[];
-  filterToggleImage: string;
+  filterToggleImage?: string;
 }
 
 function StatsFilters({
@@ -77,7 +78,10 @@ function StatsFilters({
               {BUTTON_LABELS.DELETE_ALL}
             </Button>
           ) : null}
-          <CustomDropDown toggleImage={filterToggleImage} submenu={submenu} />
+          <CustomDropDown
+            toggleImage={filterToggleImage || Filter}
+            submenu={submenu}
+          />
           <div className="dark-form-control">
             <TextField
               type="text"
