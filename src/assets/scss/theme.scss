@@ -3,11 +3,6 @@
 * {
     box-sizing: border-box;
 }
-// html {
-//     scrollbar-width: thin;
-//     scrollbar-color: $green-light-color-800 $dark-green-color-1000;
-// }
-
 body {
     margin: 0;
     font-family: $Inter-font;
@@ -31,7 +26,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
     @include border-radius (10px);
-    background-color: $dark-green-color-450;
+    background-color: $black-dark-color-800;
 }
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -252,13 +247,13 @@ a.btn {
             color: $white-color;
         }
         &[disabled] {
-            background-color: $grey-color-800;
-            border-color: $grey-color-800;
+            background-color: $light-voilet-color-20;
+            border-color: $light-voilet-color-20;
         }
     }
     &-secondary {
-        @include button($white-color, $transparent, $grey-color-900);
-        border: 2px solid $grey-color-900;
+        @include button($white-color, $transparent, rgba($black-color, .5));
+        border: 1px solid rgba($black-color, .5);
         overflow: $hidden;
         position: $relative;
         z-index: 1;
@@ -301,6 +296,10 @@ a.btn {
         background-color: $transparent;
         border: 0;
     }
+}
+
+.search-primary{
+    @include main-search(13.3px);
 }
 
 // Input Controls

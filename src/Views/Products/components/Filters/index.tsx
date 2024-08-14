@@ -67,11 +67,11 @@ function StatsFilters({
               {BUTTON_LABELS.DELETE}
             </Button>
           ) : null}
-          <FiltersDropDown />
           <div className="dark-form-control">
             <TextField
               type="text"
               placeholder="Search..."
+              className="search-primary"
               value={search}
               onChange={handleSearch}
             />
@@ -85,15 +85,16 @@ function StatsFilters({
               </em>
             ) : null}
           </div>
+          <FiltersDropDown />
           <Button
-            className="btn btn-sm"
-            btnType="primary"
+            className="btn-pad-two"
+            btnType="outline"
             onClick={handleClickAllData}
           >
             {BUTTON_LABELS.CLEAR}
           </Button>
           <Button
-            className="btn btn-sm"
+            className="btn-pad-one"
             btnType="primary"
             onClick={() => setAddData(true)}
           >

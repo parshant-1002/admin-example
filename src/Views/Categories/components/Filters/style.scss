@@ -43,7 +43,7 @@
 }
 
 .stats_filter {
-  gap: 10px;
+  gap: 15px;
   @media (max-width:575px){
     @include flex-wrap (wrap);
     margin-bottom: 15px;

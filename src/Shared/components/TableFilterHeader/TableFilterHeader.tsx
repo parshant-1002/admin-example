@@ -78,6 +78,7 @@ function TableFilterHeader({
             <TextField
               type="text"
               placeholder="Search..."
+              className="search-primary"
               value={search}
               onChange={handleSearch}
             />
@@ -93,7 +94,7 @@ function TableFilterHeader({
           </div>
           {addButton ? (
             <Button
-              className="btn btn-sm"
+              className="btn btn-pad-one"
               btnType="primary"
               onClick={handleAddNew}
             >

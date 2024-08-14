@@ -1,0 +1,36 @@
+@import "../../../../assets/scss/base";
+
+.header {
+    z-index: 997;
+    height: 60px;
+    position: sticky;
+    top: 0;
+  }
+  .header{
+    @media(max-width:1199.98px){
+      width: calc(100% - 70px);
+      margin-left: auto;
+      background: $white-color;
+      border-bottom: 1px solid $black-color;
+    }
+  }
+  .header-nav{
+    background: $white-color;
+      width: calc(100% - 300px);
+      display: flex;
+      justify-content: flex-end;
+      padding-block: 4px;
+      border-bottom: 1px solid $black-color;
+      @media(max-width:1199.98px){
+        width: auto;
+        background-color: unset;
+        border: unset;
+      }
+  }
+
+  .header-nav .nav-icon {
+    font-size: 22px;
+    color: #012970;
+    margin-right: 25px;
+    position: relative;
+  }

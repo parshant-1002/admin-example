@@ -25,7 +25,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   }
 }
 .nav-item{
-  padding-block: 10px;
+  padding-top: 10px;
 }
 $bgLeft: url(./assets/images/left-bg.png);
 .sidebar {
@@ -35,7 +35,7 @@ $bgLeft: url(./assets/images/left-bg.png);
   padding: 10px 0;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: $dark-green-color-450 $transparent;
+  scrollbar-color: $black-dark-color-800 $transparent;
   background: $dark-voilet-color-900 $bgLeft $no-repeat $right $center;
   .sidebar-nav {
     padding: 0;
@@ -184,6 +184,7 @@ $bgLeft: url(./assets/images/left-bg.png);
       }
       .accordion-button{
         border-radius: 0;
+        border-bottom-right-radius: 0 !important;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
         padding: 21px 15px 19px 90px;
@@ -235,11 +236,6 @@ $bgLeft: url(./assets/images/left-bg.png);
   }
 
   .accordion-collapse {
-    .accordion-body {
-      // background-color: $dark-green-color-900;
-      background-color: $light-voilet-color-100;
-    }
-
     &.show, &.collapsing {
       background-color: rgba($white-color, 1) !important;
       @media (max-width: 1199.98px){
@@ -248,40 +244,12 @@ $bgLeft: url(./assets/images/left-bg.png);
       }
 
       .accordion-body {
-        background-color: $light-voilet-color-100;
-
         a {
           color: $white-color !important;
           @media (max-width: 1199.98px){
             padding-left: 50px;
           }
         }
-      }
-    }
-
-    @at-root {
-      .sub-menu {
-        li {
-          .nav-link {
-            position: $relative;
-            color: rgba($white-color, 1);
-
-            &::before {
-              content: '';
-              background-image: $submenuArrow;
-              background-repeat: $no-repeat;
-              width: 18px;
-              height: 15px;
-              background-size: 18px;
-              @include position($absolute, $left: 16px, $top: 15px);
-            }
-
-            &.active {
-              background-color: $light-voilet-color-100;
-            }
-          }
-        }
-        list-style: unset;
       }
     }
   }
@@ -325,19 +293,6 @@ $bgLeft: url(./assets/images/left-bg.png);
   }
 }
 
-.sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
-}
-
-.sidebar-nav .nav-link.collapsed i {
-  color: #899bbd;
-}
-
-.sidebar-nav .nav-link:hover i {
-  color: $dark-voilet-color-900;
-}
-
 .sidebar-nav .nav-link .bi-chevron-down {
   margin-right: 0;
   transition: transform 0.2s ease-in-out;
@@ -352,31 +307,58 @@ $bgLeft: url(./assets/images/left-bg.png);
   margin: 0;
 
   .sub-menu {
-    background-color: $dark-voilet-color-900;
+    background-color: $black-dark-color;
     li {
       .nav-link {
         @include font(18px, 27px, 400);
         font-weight: $font-regular;
         &.active{
-          color: $primary-color !important;
+          color: $primary-color;
         }
       }
     }
   }
 }
 
-.sidebar-nav .nav-content .nav-link i {
-  font-size: 6px;
-  margin-right: 8px;
-  line-height: 0;
-  border-radius: 50%;
+
+.admin-brand-logo{
+  color: $white-color;
+  @media (max-width:1199.98px){
+    @include inline-pad-20;
+    color: $text-title-color;
+    margin-bottom: 0;
+  }
+}
+/* Alerts */
+.alert-heading {
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
 }
 
-.sidebar-nav .nav-content .nav-link:hover,
-.sidebar-nav .nav-content .nav-link.active {
-  color: #4154f1;
+/* Close Button */
+.btn-close {
+  background-size: 25%;
 }
 
-.sidebar-nav .nav-content .nav-link.active i {
-  background-color: #4154f1;
+.btn-close:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+/* Accordion */
+.accordion-item {
+
+  border: 1px solid #ebeef4;
+}
+
+.accordion-button {
+  outline: 0;
+  box-shadow: none!important;
+}
+
+.accordion-flush .accordion-button {
+  padding: 15px 0;
+  background: none;
+  border: 0;
 }
