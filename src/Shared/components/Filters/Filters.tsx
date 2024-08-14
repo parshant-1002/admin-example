@@ -109,11 +109,7 @@ function StatsFilters({
               </div>
             ) : null}
             {filterToggleImage ? (
-              <Button
-                className="bg-white"
-                btnType="primary"
-                onClick={handleShowFilter}
-              >
+              <Button btnType="primary" onClick={handleShowFilter}>
                 <img src={filterToggleImage} alt="filters" width={30} />
               </Button>
             ) : null}
