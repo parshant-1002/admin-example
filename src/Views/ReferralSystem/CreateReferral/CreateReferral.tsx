@@ -3,15 +3,14 @@ import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import AddEditReferralPack from '../components/AddEditReferralPack';
-import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -32,9 +31,10 @@ import {
 } from '../../../Services/Api/module/referral';
 
 // Utilities
-import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
-import { RED_WARNING } from '../../../assets';
+import Filters from '../../../Shared/components/Filters';
+import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
+import { Filter, RED_WARNING } from '../../../assets';
 
 // Interfaces
 interface QueryParams {
@@ -231,11 +231,11 @@ function CreateReferral() {
   return (
     <div>
       {/* Filters */}
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        handleAddNew={() =>
+        setAddData={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.ADD })
         }
         handleDeleteAll={() =>
@@ -243,7 +243,7 @@ function CreateReferral() {
         }
         handleClearAll={() => setSelectedIds([])}
         selectedIds={selectedIds}
-        addButton
+        filterToggleImage={Filter}
       />
 
       {/* Table */}

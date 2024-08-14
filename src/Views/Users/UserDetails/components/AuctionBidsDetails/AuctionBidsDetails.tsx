@@ -29,7 +29,7 @@ export default function AuctionBidsDetails({
 
   const queryParams = {
     skip: currentPage * BIDS_SPENT_HISTORY_PAGE_SIZE,
-    liit: BIDS_SPENT_HISTORY_PAGE_SIZE,
+    limit: BIDS_SPENT_HISTORY_PAGE_SIZE,
     sortKey,
     sortDirection,
     auctionId: selectedAuctionId,

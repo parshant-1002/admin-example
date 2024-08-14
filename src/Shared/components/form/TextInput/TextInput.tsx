@@ -26,6 +26,7 @@ interface TextFieldProps {
   className?: string;
   control?: Control;
   accept?: string;
+  value?: number | string | undefined;
   [key: string]: unknown;
 }
 
@@ -58,6 +59,7 @@ const TextField = React.forwardRef(function TextField(
           ref={ref}
           placeholder={placeholder}
           className={className}
+          value={value}
           {...otherProps}
         />
       );

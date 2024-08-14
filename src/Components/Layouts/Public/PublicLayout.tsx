@@ -7,11 +7,8 @@ interface PublicLayoutProps {
 export function PublicLayout({ children }: PublicLayoutProps) {
   return (
     <>
-      {/* <Navbar />
-            <Sidebar /> */}
       <main>{children}</main>
       <Outlet />
-      {/* <Footer /> */}
     </>
   );
 }

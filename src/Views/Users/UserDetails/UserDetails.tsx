@@ -7,12 +7,18 @@ import { UserDetailsTabs } from './helpers/constants';
 import CustomModal from '../../../Shared/components/CustomModal';
 import AddBidForm from './components/AddBidForm';
 import Button from '../../../Shared/components/form/Button';
-import { BUTTON_LABELS } from '../../../Shared/constants';
+import { BUTTON_LABELS, FilterOrder } from '../../../Shared/constants';
 
 export default function UserDetails() {
   const { state } = useLocation();
   const [activeTab, setActiveTab] = useState(
     UserDetailsTabs.BIDS_PURCHASE_HISTORY
+  );
+  const [search, setSearch] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(0);
+  const [sortKey, setSortKey] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<FilterOrder>(
+    FilterOrder.ASCENDING
   );
   const [addData, setAddData] = useState<boolean>(false);
   const [callBidsCreditApi, setCallBidsCreditApi] = useState<boolean>(false);
@@ -28,6 +34,13 @@ export default function UserDetails() {
 
   const userTabs = useMemo(() => Object.values(UserDetailsTabs), []);
 
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    setSearch('');
+    setCurrentPage(0);
+    setSortKey('');
+    setSortDirection(FilterOrder.ASCENDING);
+  };
   return (
     <div>
       {addData && (
@@ -53,10 +66,18 @@ export default function UserDetails() {
       <UserProfile userId={state} />
       <CustomTabs
         tabs={userTabs}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
         activeTab={activeTab}
       />
       <ProfileRelatedLists
+        search={search}
+        setSearch={setSearch}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        sortKey={sortKey}
+        sortDirection={sortDirection}
+        setSortKey={setSortKey}
+        setSortDirection={setSortDirection}
         userId={state}
         currentTab={activeTab}
         callBidsCreditApi={callBidsCreditApi}

@@ -7,7 +7,6 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import { TableFilterHeader } from '../../../Shared/components';
 
 // Constants
 import {
@@ -22,6 +21,8 @@ import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
+import Filters from '../../../Shared/components/Filters';
+import { Filter } from '../../../assets';
 
 // Interfaces
 interface QueryParams {
@@ -98,10 +99,11 @@ function PurchaseInvoices() {
 
   return (
     <div>
-      <TableFilterHeader
+      <Filters
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView

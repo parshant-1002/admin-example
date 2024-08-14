@@ -11,14 +11,14 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
+import StatsFilters from '../../Shared/components/Filters';
 import ProductAdd from './ProductsForm';
 import ActionsDropDown from './components/ActionsDropDown';
-import StatsFilters from './components/Filters';
 import ViewMultiTableItem from './components/ViewMultiTableItem';
 
 // Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
-import { RED_WARNING } from '../../assets';
+import { Filter, RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   PRODUCT_STATUS,
@@ -222,6 +222,14 @@ export default function ProductsList() {
     });
   };
 
+  const submenuForFilters = [
+    { buttonLabel: 'Category', buttonAction: () => {} },
+    {
+      buttonLabel: 'Date Range',
+      buttonAction: () => {},
+    },
+  ];
+
   // Memoized columns for table
   const columns = useMemo(
     () =>
@@ -297,9 +305,11 @@ export default function ProductsList() {
         handleClearSearch={() => setSearch('')}
         search={search}
         handleSearch={debounceSearch}
-        setAddData={setAddData}
+        setAddData={() => setAddData(true)}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
+        submenu={submenuForFilters}
+        filterToggleImage={Filter}
       />
 
       <CustomTableView

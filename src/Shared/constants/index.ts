@@ -279,7 +279,7 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   USERS: '/users',
-  USERS_DETAILS: '/users-details/:id',
+  USERS_DETAILS: '/users/:id',
   PRODUCTS: '/products',
   CATEGORIES: '/categories',
   PRODUCTS_ADD: '/products/add',
