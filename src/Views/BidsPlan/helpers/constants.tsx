@@ -112,6 +112,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           label: STRINGS.END_DATE,
           className: 'col-md-12',
           placeholder: STRINGS.END_DATE,
+          min: formatDate(new Date(), 'YYYY-MM-DD'),
           schema: {
             required: FORM_VALIDATION_MESSAGES().REQUIRED,
           },
