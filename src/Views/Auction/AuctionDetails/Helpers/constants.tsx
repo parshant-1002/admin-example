@@ -53,19 +53,19 @@ export const AuctionColumn = (
   },
   {
     title: 'Auction Name',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.String,
     fieldName: 'title',
   },
   {
     title: 'Auction Date',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.Date,
     fieldName: 'Date Range',
   },
   {
     title: 'Reserve Price',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.Number,
     fieldName: 'reservePrice',
   },
@@ -87,19 +87,19 @@ export const AuctionColumn = (
   },
   {
     title: 'Bid Timer',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.Number,
     fieldName: 'turnTimer',
   },
   {
     title: 'PreAuction Users',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.Number,
     fieldName: 'preAuctionUsersCount',
   },
   {
     title: 'Product Name',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.String,
     fieldName: 'productName',
   },
@@ -143,7 +143,7 @@ export const AuctionColumn = (
 
   {
     title: 'Current Item Price',
-    isEditable: true,
+    isEditable: false,
     type: DetailType.Number,
     fieldName: 'currentBidPrice',
   },
@@ -199,7 +199,7 @@ export const AuctionColumn = (
   },
   {
     title: 'Status',
-    isEditable: true,
+    isEditable: false,
     fieldName: 'status',
     type: DetailType.Dropdown,
     options: AuctionStatus,
@@ -219,7 +219,7 @@ export const AuctionColumn = (
   },
   {
     title: 'Product Purchase Duration',
-    isEditable: true,
+    isEditable: false,
     fieldName: 'prizeClaimDays',
     type: DetailType.String,
   },
