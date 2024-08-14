@@ -2,7 +2,6 @@
 
 .custom-table {
     width: 100%;
-
     thead {
         tr {
             position: $relative;
@@ -19,7 +18,6 @@
             white-space: nowrap;
             position: $relative;
             border-bottom: 1px solid #000;
-
             label {
                 margin-bottom: 0;
                 line-height: 1.2;
@@ -83,7 +81,7 @@
                 }
             }
 
-            Responsive toggle &.tr-expanded {
+            &.tr-expanded {
                 td {
                     @media (max-width:991px) {
                         display: $block;
@@ -96,15 +94,6 @@
                             }
                         }
                     }
-
-                    // &:nth-child(2)[data-label="Description"]{
-                    //     &::before {
-                    //         display: $none;
-                    //     }
-                    //     .rich-texteditor {
-                    //         display: $block;
-                    //     }
-                    // }
                 }
             }
         }
@@ -135,89 +124,6 @@
     }
 }
 
-.table-action {
-    @include opacity (0);
-    @include transition (all, 400ms, ease-in-out, 0s);
-    @include flexbox;
-    margin-top: 5px;
-
-    @media (max-width:991px) {
-        @include opacity (1);
-    }
-
-    li {
-        border-right: 1px solid rgba($white-color, .5);
-        margin-right: 7px;
-        padding-right: 7px;
-
-        &:last-child {
-            border-right: 0;
-            margin-right: 0;
-        }
-
-        a {
-            line-height: 1;
-            color: $white-color;
-            display: $inline-block;
-            @include transition (all, 400ms, ease-in-out, 0s);
-
-            &:hover {
-                color: $green-tin-color-700;
-            }
-        }
-    }
-}
-
-.post-Title {
-    position: $relative;
-    line-height: 1;
-
-    @media (min-width:991.99px) {
-        min-width: 200px;
-    }
-
-    a {
-        color: $dark-yellow-color-700;
-
-        &:hover {
-            text-decoration: $underline;
-        }
-    }
-}
-
-.post_date {
-    color: $white-color;
-}
-
-.pic_box {
-    @include flexbox;
-    gap: 5px;
-
-    @media (max-width:991px) {
-        @include justify-content (end);
-    }
-
-    figure {
-        margin: 0;
-        width: 60px;
-        height: 60px;
-        cursor: $pointer;
-        overflow: $hidden;
-        @include border-radius (7px);
-        border: 1px solid rgba($white-color, .5);
-
-        @media (max-width:991px) {
-            width: 40px;
-            height: 40px;
-        }
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: $cover;
-        }
-    }
-}
 
 th[scope="Action"] {
     text-align: $center;
@@ -227,28 +133,6 @@ th[scope="Action"] {
     }
 }
 
-.action_btns {
-    @include transition (all, 400ms, ease-in-out, 0s);
-    @include flexCenter;
-    gap: 7px;
-
-    @media (max-width:991px) {
-        @include justify-content (end);
-    }
-
-    li {
-        a {
-            color: $white-color;
-            @include transition (all, 400ms, ease-in-out, 0s);
-        }
-    }
-}
-
-.toggle-row {
-    @media (min-width:1200px) {
-        display: $none;
-    }
-}
 
 .casino_logo {
     width: 70px;
@@ -260,22 +144,6 @@ th[scope="Action"] {
     img {
         height: 30px;
         object-fit: $contain;
-    }
-}
-
-.casino_tag {
-    width: 100%;
-
-    span {
-        line-height: 1.1;
-
-        @media (min-width:991.99px) {
-            margin-top: 7px;
-        }
-
-        @media (max-width:991px) {
-            margin-left: 7px;
-        }
     }
 }
 
@@ -313,7 +181,6 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
 
 .pagination-group {
     margin-top: 10px;
-
     .pagination,
     ul {
         margin: 5px 0 0;
@@ -385,101 +252,6 @@ $arrow-left: url(../../../../assets/icons/arrow-left.svg);
             &.next-btn {
                 a {
                     @include transform (rotate(-180deg));
-                }
-            }
-        }
-    }
-
-    // Select Dropdown
-    .select-outline {
-        margin-top: 7px;
-
-        .react-select-prefix {
-            &__indicator {
-                padding: 1px;
-            }
-
-            &__control {
-                height: 34px;
-                padding: 2px 10px;
-            }
-
-            &__value-container {
-                height: $auto;
-            }
-        }
-    }
-}
-
-.show-count,
-.total-count {
-    @include font-size (.875);
-    color: $white-color;
-}
-
-.table_col-1 {
-    .table-responsive {
-        @media (max-width:991px) {
-            overflow: $hidden;
-        }
-    }
-
-    thead {
-        tr {
-            th {
-                @media (max-width:991px) {
-                    &:first-child {
-                        display: $block !important;
-                    }
-                }
-            }
-        }
-    }
-
-    tbody {
-        tr {
-            td {
-                @media (max-width:991px) {
-                    .post-Datese {
-                        padding-top: 10px;
-                    }
-                }
-            }
-        }
-    }
-}
-
-.table_col-with-checkbox {
-    thead {
-        tr {
-            th {
-                @media (max-width:991px) {
-                    &:nth-child(2) {
-                        display: $block !important;
-                    }
-                }
-            }
-        }
-    }
-
-    tbody {
-        tr {
-            td {
-                min-height: 44px;
-
-                @media (max-width:991px) {
-                    &:nth-child(2) {
-                        display: $block;
-                        text-align: $left;
-
-                        &::before {
-                            display: $none;
-                        }
-                    }
-                }
-
-                .accordin-btn {
-                    top: 4px;
                 }
             }
         }

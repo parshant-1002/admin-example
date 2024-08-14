@@ -10,7 +10,7 @@ import {
   updateUserDataRedux,
 } from '../../../Store/Common';
 import QrCode from '../qrCode';
-import OTP_FORM_SCHEMA from './helpers/otpSchema';
+import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import OTP_CODE_TYPE from './helpers/constants';
 import { ErrorResponse } from '../../../Models/Apis/Error';
 import './OtpForm.scss';

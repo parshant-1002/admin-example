@@ -20,14 +20,14 @@ $downArrow : url("./assets/icons/downArrow.svg");
   background: url(assets/images/header_bg.jpg) $no-repeat;
   background-position: $top $center;
   width: 100%;
-  height: 100%; 
+  height: 100%;
 }
 
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
 #main {
-  padding: 80px 30px 20px;
+  padding: 30px 30px 20px;
   transition: all 0.3s;
   min-height: 100vh;
   position: relative;
