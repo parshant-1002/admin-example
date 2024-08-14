@@ -67,7 +67,7 @@ function AddEditPlan({
         Number((values as Record<string, unknown>)?.price || 0),
         Number(value || 0)
       );
-      setValue(name, calculatedValue);
+      setValue(PLAN_FORM_FIELDS.DISCOUNT_PRICE, calculatedValue);
     }
   };
 
