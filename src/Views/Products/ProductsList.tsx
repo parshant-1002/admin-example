@@ -11,10 +11,10 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
-import StatsFilters from './components/Filters';
-import ViewMultiTableItem from './components/ViewMultiTableItem';
 import ProductAdd from './ProductsForm';
 import ActionsDropDown from './components/ActionsDropDown';
+import StatsFilters from './components/Filters';
+import ViewMultiTableItem from './components/ViewMultiTableItem';
 
 // Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
@@ -29,15 +29,14 @@ import {
 import { ProductResponsePayload, ViewMultiData } from './helpers/model';
 
 // API
-import { ErrorResponse } from '../../Models/Apis/Error';
 import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from '../../Services/Api/module/products';
 
 // Utilities
-import { removeEmptyValues } from '../../Shared/utils/functions';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
+import { removeEmptyValues } from '../../Shared/utils/functions';
 
 // Interfaces
 interface EditData {
@@ -59,7 +58,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const PRODUCTS_PAGE_LIMIT = 5;
 
 export default function ProductsList() {
   // State Management
@@ -86,8 +85,8 @@ export default function ProductsList() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * PRODUCTS_PAGE_LIMIT,
+    limit: PRODUCTS_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -170,9 +169,6 @@ export default function ProductsList() {
           handleCloseDelete();
           setSelectedIds([]);
           refetch();
-        },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
         },
       });
     } catch (error: unknown) {
@@ -309,17 +305,17 @@ export default function ProductsList() {
       <CustomTableView
         rows={(productListing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={PRODUCTS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(productListing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(productListing?.count || 1) / PRODUCTS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((productListing?.count || 1) / ADD_ONS_PAGE_LIMIT) !==
+              Math.ceil((productListing?.count || 1) / PRODUCTS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

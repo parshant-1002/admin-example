@@ -16,56 +16,210 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         width: 18px;
         height: 15px;
         background-size: 18px;
-        @include position($absolute, $left: 16px, $top: 15px);
-      }
-
-      &.active {
-        background-color: $light-voilet-color-100;
+        @include position($absolute, $left: 90px, $top: 23px);
+        @media (max-width:1199.98px){
+          left:20px;
+        }
       }
     }
   }
 }
 
+$bgLeft: url(./assets/images/left-bg.png);
 .sidebar {
-  position: fixed;
-  top: 0px;
-  left: 0;
-  bottom: 0;
+  @include position($fixed, $top:0, $left:0, $bottom:0);
   width: 300px;
   z-index: 111;
-  transition: all 0.3s;
   padding: 10px 0;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: $dark-green-color-450 transparent;
-  box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background: $dark-voilet-color-900 url(./assets/images/left-bg.png) no-repeat right center;
-
+  scrollbar-color: $dark-green-color-450 $transparent; 
+  background: $dark-voilet-color-900 $bgLeft $no-repeat $right $center;
   .sidebar-nav {
     padding: 0;
     margin: 0;
     list-style: $none;
-
     li {
-      border-bottom: 1px solid rgba($white-color, .1);
-
       .nav-link {
-        font-weight: $font-regular;
-        font-size: 15px;
-        transition: 0.3;
-        padding: 14px 15px;
+        @include font(18px, 21.78px, $font-regular);
+        transition: 0s;
+        padding: 21px 15px 19px 90px;
         border-radius: 4px;
+        margin-left: 19.1px;
+        border-radius: 0;
+        border-top-left-radius:20px;
+        border-bottom-left-radius:20px;
+        position: relative;
+        @media (max-width:1199.98px){
+          padding-left: 15px;
+          font-size: 0;
+          margin-left: 5px;
+        }
+        &::before{
+          @include top-curve-before;
+        }
+        &::after{
+          @include bottom-curve-after;
+        }
+        .curve-top{
+          @include curve-top;
+        }
+        .curve-bottom{
+          @include curve-bottom;
+        }
+
+        &.active{
+          background-color: $white-color;
+          color: $primary-color;
+          font-weight: 600;          
+          &::before,
+          &::after{
+            border-color: $black-dark-color;
+          }
+          .curve-top,
+          .curve-bottom{
+            background: $white-color;
+          }
+          .bi{
+            background-color: $primary-color;
+          }
+        }
+      }
+      .bi {
+        content: "";
+        background-repeat: no-repeat;
+        width: 25px;
+        height: 25px;
+        background-size: 25px;
+        position: absolute;
+        top: 19px;
+        left: 40px;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        background-color: $white-color;
+        @media(max-width: 1199px){
+          left:14px;
+        }
+      }
+      .bi-grid {
+        mask-image: url(/src/assets/icons/dash.svg);
+        -webkit-mask-image: url(/src/assets/icons/dash.svg);
+      }
+      
+      .bi-user {
+        mask-image: url(/src/assets/icons/user.svg);
+        -webkit-mask-image: url(/src/assets/icons/user.svg);
+      }
+      
+      .bi-category {
+        mask-image: url(/src/assets/icons/category.svg);
+        -webkit-mask-image: url(/src/assets/icons/category.svg);
+      }
+      
+      .bi-product {
+        mask-image: url(/src/assets/icons/product.svg);
+        -webkit-mask-image: url(/src/assets/icons/product.svg);
+      }
+      .bi-invoice {
+        mask-image: url(/src/assets/icons/invoice.svg);
+        -webkit-mask-image: url(/src/assets/icons/invoice.svg);
+      }
+      .bi-referral {
+        mask-image: url(/src/assets/icons/referral.svg);
+        -webkit-mask-image: url(/src/assets/icons/referral.svg);
+      }
+    }
+    .accordion-item{
+      padding-left: 19.1px;
+      background-color: unset;
+      @media (max-width: 1199.98px){
+        padding-left: 0;
+      }
+      .accordion-header{
+        position: relative;
+        &::before{
+          @include top-curve-before;
+        }
+        &::after{
+          @include bottom-curve-after;
+        }
+        .curve-top{
+          @include curve-top;          
+          @media (max-width:1199.98px){
+          }
+        }
+        .curve-bottom{
+          @include curve-bottom;
+          @media (max-width:1199.98px){
+          }
+        }
+      }      
+      &:has(.active){
+        .accordion-header{
+          .accordion-button{
+            background-color: $white-color;
+            color: $primary-color;
+            &::after{
+              background-color: $black-dark-color;
+            }
+          }
+          &::before,
+          &::after{
+            border-color: $black-dark-color;
+          }
+          .curve-top,
+          .curve-bottom{
+            background: $white-color;
+          }
+        }
+        .bi{
+          background-color: $primary-color;
+        }
+      }
+      .accordion-button{
+        border-radius: 0;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px !important;
+        padding: 21px 15px 19px 90px;
+        @include font(18px, 21.27px, 400);
+        background-color: unset;
+        color: $white-color;
+        @media (max-width:1199.98px){
+          padding-left: 15px;
+          font-size: 0;
+        }
+      }
+      .dropdown-item{
+        border-radius: 0;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px !important;
+        padding: 15px 15px 15px 120px;
       }
     }
   }
 
   .accordion-header {
+    background-color: unset;
     button {
       padding: 14px 15px;
       border: 0 !important;
 
       i {
         margin-right: 10px;
+      }
+      &::after {
+        mask-image: $downArrow;
+        -webkit-mask-image: $downArrow;
+        background-size: 14px;
+        background-position: $center;
+        position: relative;
+        z-index: 15;
+        margin-right: 15px;
+        background-color: $white-color;
+        @media (max-width:1199px){
+          transform: scale(0.5) rotate(-90deg);
+          margin-right: -3px;
+        }
       }
     }
   }
@@ -76,14 +230,21 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
       background-color: $light-voilet-color-100;
     }
 
-    &.show {
+    &.show, &.collapsing {
       background-color: rgba($white-color, 1) !important;
+      @media (max-width: 1199.98px){
+        @include position ($absolute, $left:82px);
+        margin-top: -45px;
+      }
 
       .accordion-body {
         background-color: $light-voilet-color-100;
 
         a {
           color: $white-color !important;
+          @media (max-width: 1199.98px){
+            padding-left: 50px;
+          }
         }
       }
     }
@@ -91,7 +252,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     @at-root {
       .sub-menu {
         li {
-          a {
+          .nav-link {
             position: $relative;
             color: rgba($white-color, 1);
 
@@ -110,6 +271,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
             }
           }
         }
+        list-style: unset;
       }
     }
   }
@@ -118,24 +280,20 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     border: none;
   }
 
-  .accordion-button {
-    background-color: $dark-voilet-color-900;
-    font-weight: $font-regular;
-    font-size: 15px;
+  .accordion-header {
     color: $white-color;
     border: none;
-
-    &::after {
-      background-image: $downArrow;
-      background-size: 14px;
-      background-position: $center;
-    }
   }
 }
 
 @media (max-width: 1199px) {
   .sidebar {
-    left: -300px;
+    left: 0;
+    max-width: 70px;
+    overflow: unset;
+  }
+  #main{
+    margin-left: 70px;
   }
 }
 
@@ -157,11 +315,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   }
 }
 
-.sidebar-nav .nav-link i {
-  font-size: 1rem;
-  margin-right: 10px;
-}
-
 .sidebar-nav .nav-link.collapsed {
   color: #012970;
   background: #fff;
@@ -169,11 +322,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 
 .sidebar-nav .nav-link.collapsed i {
   color: #899bbd;
-}
-
-.sidebar-nav .nav-link:hover {
-  color: $dark-voilet-color-900;
-  background: $light-voilet-color-100;
 }
 
 .sidebar-nav .nav-link:hover i {
@@ -196,28 +344,39 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   .sub-menu {
     background-color: $dark-voilet-color-900;
     li {
-      a {
-        padding: 10px 0 10px 40px;
-        @include font-size (.875);
+      .nav-link {
+        @include font(18px, 27px, 400);
         font-weight: $font-regular;
-        @include transition-mixin (all, .5s, ease-in-out);
+        &.active{
+          color: $primary-color !important;
+        }
       }
     }
   }
 }
 
-.sidebar-nav .nav-content a i {
+.sidebar-nav .nav-content .nav-link i {
   font-size: 6px;
   margin-right: 8px;
   line-height: 0;
   border-radius: 50%;
 }
 
-.sidebar-nav .nav-content a:hover,
-.sidebar-nav .nav-content a.active {
+.sidebar-nav .nav-content .nav-link:hover,
+.sidebar-nav .nav-content .nav-link.active {
   color: #4154f1;
 }
 
-.sidebar-nav .nav-content a.active i {
+.sidebar-nav .nav-content .nav-link.active i {
   background-color: #4154f1;
+}
+
+.admin-brand-logo{
+  color: $white-color;
+  @media (max-width:1199.98px){
+    @include inline-pad-20;
+    color: $text-title-color;
+    margin-bottom: 0;
+    margin-left: 70px;
+  }
 }

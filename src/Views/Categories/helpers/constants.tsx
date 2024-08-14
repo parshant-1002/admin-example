@@ -6,7 +6,6 @@ import { DATE_FORMATS, INPUT_TYPES } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { CategoryResponsePayload } from './model';
 
-// Define the shape of the ADD_ON_FORM_SCHEMA
 export const CATEGORIES_FORM_SCHEMA = {
   name: {
     type: INPUT_TYPES.TEXT,

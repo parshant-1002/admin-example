@@ -19,8 +19,7 @@ export const PRODUCT_STATUS = [
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
 ];
-// Define the shape of the ADD_ON_FORM_SCHEMA
-export const ADD_ON_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
+export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
   title: {
     type: INPUT_TYPES.TEXT,
     label: 'Name',

@@ -15,7 +15,7 @@ import { useGetCategorysQuery } from '../../Services/Api/module/category';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
-import { ADD_ON_FORM_SCHEMA } from './helpers/constants';
+import { PRODUCT_FORM_SCHEMA } from './helpers/constants';
 import { Category, ProductPayload } from './helpers/model';
 
 interface ProductFormTypes {
@@ -102,7 +102,7 @@ export default function ProductForm({
     <CustomForm
       id="products"
       className="row"
-      formData={ADD_ON_FORM_SCHEMA(cateroryOptions)}
+      formData={PRODUCT_FORM_SCHEMA(cateroryOptions)}
       onSubmit={onSubmit}
       defaultValues={
         initialData as unknown as Record<string, unknown> | undefined

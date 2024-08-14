@@ -23,7 +23,6 @@ import { CONFIRMATION_DESCRIPTION, usersColumns } from './helpers/constants';
 import { UsersResponsePayload } from './helpers/model';
 
 // API
-import { ErrorResponse } from '../../Models/Apis/Error';
 
 // Utilities
 import {
@@ -51,7 +50,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const USERS_PAGE_LIMIT = 5;
 
 export default function UsersList() {
   // State Management
@@ -79,8 +78,8 @@ export default function UsersList() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * USERS_PAGE_LIMIT,
+    limit: USERS_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -142,9 +141,6 @@ export default function UsersList() {
           setSelectedIds([]);
           refetch();
         },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
-        },
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -176,9 +172,6 @@ export default function UsersList() {
           handleCloseBlock();
           setSelectedIds([]);
           refetch();
-        },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error?.data?.message);
         },
       });
     } catch (error: unknown) {
@@ -218,7 +211,7 @@ export default function UsersList() {
   };
 
   const handleRowClick = (row: Row) => {
-    navigate(`/users-details/${row?._id}`);
+    navigate(`/users-details/${row?.name}`, { state: row?._id });
   };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -285,20 +278,18 @@ export default function UsersList() {
       <CustomTableView
         rows={(usersListing?.data?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={USERS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         handleRowClick={handleRowClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(usersListing?.data?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={(usersListing?.data?.count || 1) / USERS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil(
-                (usersListing?.data?.count || 1) / ADD_ONS_PAGE_LIMIT
-              ) !==
+              Math.ceil((usersListing?.data?.count || 1) / USERS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED
