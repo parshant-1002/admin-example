@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 // Define types for the button size and type
 type ButtonSize = 'extraSmall' | 'small' | 'medium' | 'large' | undefined;
-type ButtonType = 'primary' | 'secondary';
+type ButtonType = 'primary' | 'secondary' | 'outline';
 
 // Function to return button class based on size and type
 export const returnButtonClass = (
@@ -27,9 +27,17 @@ export const returnButtonClass = (
     default:
       classname = '';
   }
-  return btnType === 'primary'
-    ? `${classname} btn-primary`
-    : `${classname} btn-secondary`;
+
+  switch (btnType) {
+    case 'primary':
+      return `${classname} btn-primary`;
+    case 'secondary':
+      return `${classname} btn-secondary`;
+    case 'outline':
+      return `${classname} btn-outline`;
+    default:
+      return `${classname} btn-primary`;
+  }
 };
 
 // Define types for the Button component props
@@ -57,7 +65,7 @@ function Button({
   const btnClass = returnButtonClass(size, btnType);
   return (
     <button
-      className={`btn ${btnClass} ${className}`}
+      className={`btn${btnClass} ${className}`}
       type={type}
       onClick={onClick}
       {...otherProps}

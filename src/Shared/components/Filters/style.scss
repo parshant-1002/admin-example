@@ -4,15 +4,18 @@
   max-width: 900px;
   overflow-x: $auto;
   white-space: nowrap;
+
   li {
     margin: 0 7px 5px 0;
+
     &:last-child {
       margin-right: 0;
     }
+
     button {
       border: $none;
       background-color: $white-color;
-      color: $dark-green-color-500;
+      color: $primary-color;
       font-weight: $font-medium;
       @include font-size (.875);
       display: $inline-block;
@@ -21,10 +24,11 @@
       min-height: 44px;
       min-width: 140px;
       cursor: $pointer;
+
       &.active,
       &:hover {
-        background-color: $dark-green-color-850;
-        color: $green-light-color-400;
+        background-color: $primary-color;
+        color: $primary-color;
       }
     }
   }
@@ -33,38 +37,46 @@
 .search_field {
   position: $relative;
 }
+
 .cross-icon {
   @include position($absolute, $top: calc(16px/2), $right: 15px);
   z-index: 1;
   cursor: pointer;
+
   img {
-    width: 10px;
+    width: 25px;
   }
 }
 
 .stats_filter {
   gap: 10px;
-  @media (max-width:575px){
+
+  @media (max-width:575px) {
     @include flex-wrap (wrap);
     margin-bottom: 15px;
     width: 100%;
     gap: 5px;
   }
+
   .calender_field {
     min-width: 280px;
   }
+
   .form-control {
     background-color: $black-color;
   }
+
   .calender_field {
     @media (max-width:575px) {
       width: 100%;
     }
   }
+
   .form-group {
     min-width: 250px;
   }
 }
+
 .dark-form-control {
   .form-control {
     border: 1px solid $white-color;
@@ -75,19 +87,109 @@
     padding: 5px 12px;
     color: $white-color;
     position: $relative;
+
     &::placeholder {
-      color: $white-color!important;
+      color: $white-color !important;
     }
+
     &:-ms-input-placeholder {
-      color: $white-color!important;
+      color: $white-color !important;
     }
+
     &::-ms-input-placeholder {
-      color: $white-color!important;
+      color: $white-color !important;
     }
   }
+
   .calender_field {
     .form-control {
       background-color: $black-color;
     }
   }
+}
+
+.tooltip {
+  position: absolute !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e2e2e2 !important;
+  border-radius: 8px !important;
+  padding: 30px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  width: 350px !important;
+
+  &__range {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .clear-button {
+    background: none;
+    border: none;
+    color: #4a90e2;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    text-align: right;
+    margin-bottom: 12px;
+  }
+
+  .slider-container {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #F3F3F3;
+    border-radius: 5px;
+    justify-content: space-between;
+
+    .range-slider {
+      width: 100%;
+      margin: 0 8px;
+
+      &__range {
+        background: $dark-voilet-color-900 !important;
+      }
+
+      &__thumb {
+        background: $dark-voilet-color-900 !important;
+
+      }
+    }
+
+  }
+}
+
+.price-filter {
+  display: inline-block;
+  border: 1px solid #ccc; // Adjust border color to match the image
+  border-radius: 8px; // Rounded corners
+  padding: 8px 12px; // Adjust padding for space around text
+  color: #4a4a4a; // Adjust text color
+  background-color: #fff; // Background color
+  cursor: pointer;
+
+  // Flexbox to align text and arrow
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 160px; // Adjust based on your needs
+
+  .arrow-down {
+    margin-left: 10px; // Space between text and arrow
+    transform: rotate(-90deg); // Adjust for initial arrow direction
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .arrow-right {
+    margin-left: 10px; // Space between text and arrow
+    transition: transform 0.3s ease-in-out;
+  }
+}
+
+// Optional: Styling for when the dropdown is active
+.price-filter.active {
+  border-color: #007bff; // Change border color when active
 }

@@ -111,7 +111,6 @@ function ProductsHistory() {
 
       <Filters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
       />
 

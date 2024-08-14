@@ -97,7 +97,6 @@ function AuctionInvoices() {
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
         filterToggleImage={Filter}
       />

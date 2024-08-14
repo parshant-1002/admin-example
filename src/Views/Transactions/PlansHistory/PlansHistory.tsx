@@ -92,7 +92,6 @@ function PlansHistory() {
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
       />
 

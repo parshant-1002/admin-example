@@ -95,7 +95,6 @@ function ReferralHistory() {
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
       />
 

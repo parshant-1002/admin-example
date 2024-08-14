@@ -213,6 +213,7 @@ export const BUTTON_LABELS = {
   ADD: 'Add',
   DELETE_ALL: 'Delete all',
   CLEAR_ALL: 'Clear all',
+  APPLY: 'Apply',
 };
 export const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',

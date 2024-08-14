@@ -222,14 +222,6 @@ export default function ProductsList() {
     });
   };
 
-  const submenuForFilters = [
-    { buttonLabel: 'Category', buttonAction: () => {} },
-    {
-      buttonLabel: 'Date Range',
-      buttonAction: () => {},
-    },
-  ];
-
   // Memoized columns for table
   const columns = useMemo(
     () =>
@@ -303,12 +295,10 @@ export default function ProductsList() {
 
       <StatsFilters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
-        submenu={submenuForFilters}
         filterToggleImage={Filter}
       />
 

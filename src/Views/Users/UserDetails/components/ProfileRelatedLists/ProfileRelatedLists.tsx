@@ -323,12 +323,6 @@ export default function ProfileRelatedLists({
     userAuctionHistory,
     transformMap,
   ]);
-  const submenuForFilters = [
-    {
-      buttonLabel: 'Date Range',
-      buttonAction: () => {},
-    },
-  ];
 
   return (
     <div>
@@ -351,10 +345,9 @@ export default function ProfileRelatedLists({
 
       <StatsFilters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
         filterToggleImage={Filter}
-        submenu={submenuForFilters}
+        showHeading={false}
       />
 
       <CustomTableView

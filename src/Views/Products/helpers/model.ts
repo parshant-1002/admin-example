@@ -37,7 +37,7 @@ export interface ProductResponsePayload {
 
 export interface ViewMultiData {
   data: {
-    title?: string;
+    title: string;
     categories?: Category[];
     imgData?: Image[];
     size?: 'sm' | 'lg' | 'xl' | undefined;

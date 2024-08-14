@@ -86,11 +86,11 @@ export const AuctionInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.INVOICE,
     render: (row) => (
-      <div className="text-center">
+      <div className="text-start">
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
@@ -143,11 +143,11 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.INVOICE,
     render: (row) => (
-      <div className="text-center">
+      <div className="text-lg-start text-end">
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="btn btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />

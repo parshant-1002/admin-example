@@ -95,7 +95,6 @@ function BidsHistory() {
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
       />
 

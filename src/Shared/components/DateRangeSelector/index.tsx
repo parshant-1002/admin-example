@@ -40,10 +40,13 @@ function DateRangeSelector({
   const toggleCalendar = () => {
     setIsOpen(!isOpen);
     if (!isOpen && !dateRange?.startDate) {
-      setDateRange({
-        startDate: moment().format(CONSTS.dateFormat),
-        endDate: moment().format(CONSTS.dateFormat),
-      });
+      setDateRange(
+        {
+          startDate: moment().format(CONSTS.dateFormat),
+          endDate: moment().format(CONSTS.dateFormat),
+        },
+        isOpen
+      );
     }
   };
 
@@ -84,18 +87,15 @@ function DateRangeSelector({
   };
 
   return (
-    <div ref={datePickerRef} className="date-range-selector">
-      <div className="date-range-header" onClick={toggleCalendar}>
+    <div ref={datePickerRef} className="calender_field">
+      <div className="form-control position-relative" onClick={toggleCalendar}>
         {icon && <img src={icon} alt="Icon" className="icon" />}
         <span>{titleText}</span>
         <span>{renderRange()}</span>
         {daysError && <span className="error">{daysError}</span>}
       </div>
       {isOpen && (
-        <div
-          className="calendar-container"
-          onMouseDown={handleCalendarMouseDown}
-        >
+        <div className="calendar-wrapper" onMouseDown={handleCalendarMouseDown}>
           <DateRange
             editableDateInputs
             onChange={createDateRange}

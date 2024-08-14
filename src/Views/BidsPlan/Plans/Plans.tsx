@@ -288,7 +288,6 @@ function Plans() {
       {/* Filters */}
       <Filters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
         setAddData={() =>
           setPopup({ show: true, data: null, type: POPUPTYPES.ADD })

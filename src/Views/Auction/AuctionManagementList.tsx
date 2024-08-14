@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // libs
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactPaginate from 'react-paginate';
@@ -141,7 +142,7 @@ export default function AuctionManagementList() {
 
   useEffect(() => {
     refetch();
-  }, [refetch, currentPage]);
+  }, [refetch, currentPage, search]);
 
   return (
     <div>
@@ -194,7 +195,6 @@ export default function AuctionManagementList() {
 
       <StatsFilters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
         handleDeleteAll={handleDeleteAll}

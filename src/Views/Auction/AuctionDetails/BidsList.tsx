@@ -14,7 +14,7 @@ import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../../Shared/constants';
 import { CONFIRMATION_DESCRIPTION } from '../../Products/helpers/constants';
 
 // Models
-import { ViewMultiData } from '../../Users/helpers/model';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 // API
 import { useGetAuctionBidHistoryQuery } from '../../../Services/Api/module/auction';
@@ -24,7 +24,7 @@ import { removeEmptyValues } from '../../../Shared/utils/functions';
 import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import { RED_WARNING } from '../../../assets';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
-import StatsFilters from '../../Users/UserDetails/components/UserDetailsFilters';
+import StatsFilters from '../../../Shared/components/Filters';
 import { AuctionBidColumn } from './Helpers/constants';
 
 interface DeleteData {
@@ -172,7 +172,6 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
 
       <StatsFilters
         handleClearSearch={() => setSearch('')}
-        search={search}
         handleSearch={debounceSearch}
       />
 

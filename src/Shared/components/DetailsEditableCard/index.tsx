@@ -83,7 +83,7 @@ const renderValue = (
         const submenu = columnSchema.options?.map((item) => ({
           buttonLabel: item.label,
           id: item.value,
-          buttonAction: () => console.log('selected'),
+          buttonAction: () => {},
         }));
         return (
           <Dropdown>

@@ -47,7 +47,7 @@ $bottom: 0;
         content: '';
         margin: $auto;
         @include position($absolute, $top, $left, $right, $bottom);
-        border: 3px dotted $green-tin-color-600;
+        border: 3px dotted $primary-color;
         border-style: solid solid dotted;
         width: calc($loader-size/2);
         height: calc($loader-size/2); // Replaced $size with $loader-size
