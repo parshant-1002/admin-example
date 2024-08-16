@@ -72,23 +72,7 @@ export const useAuctionData = (id: string) => {
     setData(updatedData);
   };
 
-  const saveChanges = async () => {
-    // Prepare data to be saved
-    // const updatedData = data.reduce(
-    //   (acc, item) => {
-    //     acc[item.title] = item.value;
-    //     return acc;
-    //   },
-    //   {} as Record<string, any>
-    // );
-    // try {
-    // //   await updateAuction({ auctionId: id, data: updatedData });
-    //   // Optionally handle success state
-    // } catch (error) {
-    //   // Optionally handle error state
-    //   console.error('Failed to update auction data', error);
-    // }
-  };
+  const saveChanges = async () => {};
 
   return {
     isLoading,

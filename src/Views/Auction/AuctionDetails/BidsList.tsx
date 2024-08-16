@@ -71,53 +71,6 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
     sortDirection,
     auctionId,
   };
-  // API Queries
-  //   const { data: userBidsCreditHistory, refetch: refetchUserBidsCreditHistory } =
-  //     useGetUserBidsCreditHistoryQuery(
-  //       {
-  //         params: removeEmptyValues(
-  //           queryParams as unknown as Record<string, unknown>
-  //         ),
-  //       },
-  //       {
-  //         skip: currentTab !== UserDetailsTabs.BIDS_PURCHASE_HISTORY,
-  //       }
-  //     );
-
-  //   const { data: userBidsSpentHistory, refetch: refetchBidsSpentHistory } =
-  //     useGetBidsSpentHistoryQuery(
-  //       {
-  //         params: removeEmptyValues(
-  //           queryParams as unknown as Record<string, unknown>
-  //         ),
-  //       },
-  //       {
-  //         skip: currentTab !== UserDetailsTabs.BIDDING_HISTORY,
-  //       }
-  //     );
-  //   const { data: userReferralHistory, refetch: refetchUserReferralHistory } =
-  //     useGetReferralHistoryQuery(
-  //       {
-  //         params: removeEmptyValues(
-  //           queryParams as unknown as Record<string, unknown>
-  //         ),
-  //       },
-  //       {
-  //         skip: currentTab !== UserDetailsTabs.REFERRAL_HISTORY,
-  //       }
-  //     );
-
-  //   const { data: userProductHistory, refetch: refetchUserProductHistory } =
-  //     useGetUserProductHistoryQuery(
-  //       {
-  //         params: removeEmptyValues(
-  //           queryParams as unknown as Record<string, unknown>
-  //         ),
-  //       },
-  //       {
-  //         skip: currentTab !== UserDetailsTabs.PRODUCT_HISTORY,
-  //       }
-  //     );
 
   const { data: userAuctionHistory } = useGetAuctionBidHistoryQuery({
     params: removeEmptyValues(
@@ -155,7 +108,7 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
     <div>
       <ViewMultiTableItem
         show={showMultiItemView}
-        setShow={setShowMultiItemView}
+        setShow={() => setShowMultiItemView}
       />
 
       <ConfirmationModal
