@@ -175,6 +175,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
 
   .arrow-down {
     margin-left: 10px; // Space between text and arrow
@@ -193,16 +195,6 @@
   border-color: #007bff; // Change border color when active
 }
 
-.css-b62m3t-container{
-  .css-13cymwt-control, .css-t3ipsp-control{
-    min-height: 44px;
-    border-radius: 8px;
-    box-shadow: unset;
-    border-color: $grey-color-300 !important;
-    font-size: 14px;
-    &:hover{
-      border-color: $grey-color-300 !important;
-
-    }
-  }
+.filter-item{
+ min-width: 220px;
 }

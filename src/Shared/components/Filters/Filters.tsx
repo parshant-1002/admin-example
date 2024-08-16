@@ -203,6 +203,8 @@ function StatsFilters({
                 options={brandOptions}
                 onChange={handleChangeBrandFilter}
                 value={filtersState.selectedBrand}
+                className='react-select'
+                classNamePrefix='react-select-prefix'
               />
             </div>
           ) : null}

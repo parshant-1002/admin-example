@@ -6,11 +6,11 @@ body {
         &-prefix {
             &__control {
                 padding: 2px 16px;
-                @include border-radius (12px);
-                border: 1px solid $text-color;
+                @include border-radius (8px);
+                border: 1px solid $grey-color-200;
                 // background: $dark-green-color-700;
                 &--is-focused {
-                    @include border-radius (12px);
+                    @include border-radius (8px);
                     // background: $dark-green-color-700;
                     // border: 1px solid $text-color !important;
                 }
@@ -19,7 +19,6 @@ body {
                 padding: 0 10px;
             }
             &__placeholder {
-                padding: 10px 10px 10px;
                 text-align: $left;
             }
             &__single-value {
