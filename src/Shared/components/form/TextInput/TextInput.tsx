@@ -1,4 +1,4 @@
-import React, { Ref } from 'react';
+import React, { Ref, useRef } from 'react';
 import { Control, Controller, FieldErrorsImpl } from 'react-hook-form';
 import { INPUT_TYPES } from '../../../constants';
 import FileInput from '../FileUpload/FileUpload';
@@ -27,6 +27,7 @@ interface TextFieldProps {
   control?: Control;
   accept?: string;
   value?: number | string | undefined;
+  minDate: string;
   [key: string]: unknown;
 }
 
@@ -38,10 +39,18 @@ const TextField = React.forwardRef(function TextField(
     control,
     accept,
     value,
+    minDate,
     ...otherProps
   }: TextFieldProps,
   ref: Ref<HTMLInputElement>
 ) {
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
+  const handleInputClick = () => {
+    if (dateInputRef.current) {
+      dateInputRef.current.showPicker(); // Programmatically open the date picker
+    }
+  };
   switch (type) {
     case INPUT_TYPES.TEXT_AREA:
       return (
@@ -61,6 +70,27 @@ const TextField = React.forwardRef(function TextField(
           className={className}
           value={value}
           {...otherProps}
+        />
+      );
+    case INPUT_TYPES.DATE:
+      return (
+        <Controller
+          name="dob"
+          control={control}
+          defaultValue={[]}
+          {...otherProps}
+          render={({ field: { ref: reff, ...rest } }) => {
+            return (
+              <input
+                type="date"
+                {...rest}
+                min={minDate}
+                className={className}
+                ref={dateInputRef}
+                onClick={handleInputClick}
+              />
+            );
+          }}
         />
       );
     case INPUT_TYPES.FILE:

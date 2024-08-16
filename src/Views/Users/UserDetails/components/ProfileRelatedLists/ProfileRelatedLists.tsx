@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-console */
 // Libraries
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -148,7 +150,7 @@ export default function ProfileRelatedLists({
   const {
     data: userBidsSpentHistory,
     refetch: refetchBidsSpentHistory,
-    error: isfetchBidsSpentHistory,
+    error: isfetchBidsSpentHitstory,
   } = useGetBidsSpentHistoryQuery(
     {
       params: removeEmptyValues(
@@ -159,6 +161,7 @@ export default function ProfileRelatedLists({
       skip: currentTab !== UserDetailsTabs.BIDDING_HISTORY,
     }
   );
+  console.log('🚀 ~ refetchBidsSpentHistory:', refetchBidsSpentHistory);
   const {
     data: userReferralHistory,
     refetch: refetchUserReferralHistory,
@@ -271,7 +274,7 @@ export default function ProfileRelatedLists({
       },
       [UserDetailsTabs.BIDDING_HISTORY]: {
         refetch: refetchBidsSpentHistory,
-        isFetched: isfetchBidsSpentHistory,
+        isFetched: isfetchBidsSpentHitstory,
       },
       [UserDetailsTabs.PRODUCT_HISTORY]: {
         refetch: refetchUserProductHistory,
@@ -287,8 +290,8 @@ export default function ProfileRelatedLists({
       },
     }),
     [
+      isfetchBidsSpentHitstory,
       isfetchUserBidsCreditHistory,
-      isfetchBidsSpentHistory,
       isfetchUserAuctionHistory,
       isfetchUserProductHistory,
       isfetchUserReferralHistory,
@@ -310,8 +313,9 @@ export default function ProfileRelatedLists({
     }),
     []
   );
-  useEffect(() => {
-    if (onComponentMountRef.current) {
+
+  const refetchData = useCallback(() => {
+    try {
       if (callBidsCreditApi) {
         refetchUserBidsCreditHistory();
         return;
@@ -321,6 +325,14 @@ export default function ProfileRelatedLists({
         refetchFunction();
         setSelectedRow('');
       }
+    } catch (err) {
+      console.error('error');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (onComponentMountRef.current) {
+      refetchData();
     }
     onComponentMountRef.current = true;
   }, [
@@ -333,6 +345,7 @@ export default function ProfileRelatedLists({
     callBidsCreditApi,
     refetchUserBidsCreditHistory,
     filters,
+    refetchData,
   ]);
 
   // Define the useEffect hook

@@ -6,18 +6,17 @@ import { toast } from 'react-toastify';
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
-import { ErrorResponse } from '../../Models/Apis/Error';
 import { useGetCategorysQuery } from '../../Services/Api/module/category';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 // import { addBaseUrl } from '../../Shared/utils/functions';
 
+import { Category } from '../Products/helpers/model';
 import {
   AUCTION_ADD_FORM_SCHEMA,
   AuctionPayload,
   Product,
 } from './helpers/constants';
-import { Category } from '../Products/helpers/model';
 
 import {
   useAddAuctionMutation,
@@ -25,9 +24,10 @@ import {
 } from '../../Services/Api/module/auction';
 
 import { useGetProductsQuery } from '../../Services/Api/module/products';
+import { AuctionResponsePayload } from './helpers/model';
 
 interface ProductFormTypes {
-  initialData: object | null;
+  initialData: AuctionResponsePayload | null;
   isEdit: boolean;
   onAdd?: () => void;
   onEdit?: () => void;
@@ -74,9 +74,7 @@ export default function AuctionForm({
     toast.success(res?.message);
     onAdd();
   };
-  const onFailure = (error: ErrorResponse) => {
-    toast.success(error?.data?.message);
-  };
+
   const onSubmit = async (
     data: Record<string, unknown>,
     event: SyntheticEvent,
@@ -102,8 +100,8 @@ export default function AuctionForm({
         categoryIds: auctionData?.categoryIds?.map(
           (category) => category?.value
         ),
-        reserveWaitingEndDate: '2024-08-26T05:59:50.951Z',
-        bidStartDate: new Date().toString(),
+        reserveWaitingEndDate: data.reserveWaitingEndDate,
+        bidStartDate: data?.bidStartDate,
         status: 1,
 
         productId: auctionData?.productId.value,
@@ -117,14 +115,12 @@ export default function AuctionForm({
             onEdit();
             reset();
           },
-          onFailure,
         });
         return;
       }
       await addAuction({
         payload,
         onSuccess,
-        onFailure,
       });
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -163,7 +159,11 @@ export default function AuctionForm({
     <CustomForm
       id="products"
       className="row"
-      formData={AUCTION_ADD_FORM_SCHEMA(cateroryOptions, productOptions)}
+      formData={AUCTION_ADD_FORM_SCHEMA(
+        cateroryOptions,
+        productOptions,
+        initialData
+      )}
       handleStateDataChange={handleStateChange}
       onSubmit={onSubmit}
       defaultValues={

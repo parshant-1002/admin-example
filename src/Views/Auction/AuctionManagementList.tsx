@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // libs
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -5,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 
 // components
+import moment from 'moment';
 import { debounce } from 'lodash';
 import { toast } from 'react-toastify';
 import CustomModal from '../../Shared/components/CustomModal';
@@ -16,35 +18,36 @@ import CustomTableView, {
 // consts
 import {
   BUTTON_LABELS,
+  DATE_FORMATS,
   PRICE_RANGE,
   ROUTES,
   STRINGS,
 } from '../../Shared/constants';
 
-import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
-import { Filter, RED_WARNING } from '../../assets';
-import { AuctionResponsePayload } from './helpers/model';
-import ERROR_MESSAGES from '../../Shared/constants/messages';
-import { AuctionColumns } from './helpers/constants';
 import {
   useDeleteAuctionMutation,
   useGetAuctionsQuery,
 } from '../../Services/Api/module/auction';
+import { useGetCategorysQuery } from '../../Services/Api/module/category';
+import ActionsDropDown from '../../Shared/components/ActionsDropDown';
+import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
+import StatsFilters from '../../Shared/components/Filters/Filters';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import ERROR_MESSAGES from '../../Shared/constants/messages';
+import { removeEmptyValues } from '../../Shared/utils/functions';
+import { Filter, RED_WARNING } from '../../assets';
 import ViewMultiTableItem from '../Products/components/ViewMultiTableItem';
 import { Category, ViewMultiData } from '../Products/helpers/model';
-import ActionsDropDown from '../../Shared/components/ActionsDropDown';
-import AuctionForm from './AuctionForm';
-import StatsFilters from '../../Shared/components/Filters/Filters';
 import {
   AuctionStatus,
   PurchaseStatus,
 } from './AuctionDetails/Helpers/constants';
-import { FiltersState } from '../../Shared/components/Filters/helpers/models';
-import { removeEmptyValues } from '../../Shared/utils/functions';
-import { useGetCategorysQuery } from '../../Services/Api/module/category';
+import AuctionForm from './AuctionForm';
+import { AuctionColumns } from './helpers/constants';
+import { AuctionResponsePayload } from './helpers/model';
 
 interface EditData {
-  data: object | null;
+  data: AuctionResponsePayload | null;
   show: boolean;
 }
 
@@ -87,22 +90,28 @@ export default function AuctionManagementList() {
   };
 
   const handleEdit = (row: AuctionResponsePayload) => {
-    // console.log('row data', row);
     setEditData({
       data: {
         ...row,
-        status: {
+        statusData: {
           value: row?.status,
           label:
-            AuctionStatus &&
-            AuctionStatus?.find((status) => status.value === row?.status)
-              ?.label,
+            (AuctionStatus &&
+              AuctionStatus?.find((status) => status.value === row?.status)
+                ?.label) ||
+            '',
         },
-        productId: { value: row.product._id, label: row.product.title },
+        productId: { value: row?.product?._id, label: row?.product?.title },
         categoryIds: row?.categories?.map((category) => ({
           value: category._id,
           label: category?.name,
         })),
+        bidStartDate: moment(row.bidStartDate).format(
+          DATE_FORMATS.DISPLAY_DATE_REVERSE
+        ),
+        reserveWaitingEndDate: moment(row.reserveWaitingEndDate).format(
+          DATE_FORMATS.DISPLAY_DATE_REVERSE
+        ),
       },
       show: true,
     });

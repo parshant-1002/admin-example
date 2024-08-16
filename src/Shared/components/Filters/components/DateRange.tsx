@@ -14,11 +14,11 @@ import { FiltersState } from '../helpers/models';
 interface DateRangeProps {
   startDate?: string | Date;
   endDate?: string | Date;
-  setFilterState: Dispatch<SetStateAction<FiltersState>>;
+  setFilterState?: Dispatch<SetStateAction<FiltersState>>;
   isInitialEmpty?: boolean;
   clearFilterRef?: React.RefObject<HTMLButtonElement>;
-  setIsInitialEmpty: (value: boolean) => void;
-  setIsFiltersOn: (value: boolean) => void;
+  setIsInitialEmpty?: (value: boolean) => void;
+  setIsFiltersOn?: (value: boolean) => void;
 }
 
 const KEY_FOR_DATE_RANGE = 'selection';
@@ -26,11 +26,11 @@ const KEY_FOR_DATE_RANGE = 'selection';
 function DateRange({
   startDate = '',
   endDate = '',
-  setFilterState,
+  setFilterState = () => {},
   isInitialEmpty = false,
   clearFilterRef,
-  setIsInitialEmpty,
-  setIsFiltersOn,
+  setIsInitialEmpty = () => {},
+  setIsFiltersOn = () => {},
 }: DateRangeProps) {
   const [dateRange, setDateRange] = useState<{
     from?: string | Date;

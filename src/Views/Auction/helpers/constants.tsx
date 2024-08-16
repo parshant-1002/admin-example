@@ -74,7 +74,8 @@ export interface AuctionPayload {
 
 export const AUCTION_ADD_FORM_SCHEMA = (
   categoryOptions: SelectOption[],
-  productOptions: SelectOption[]
+  productOptions: SelectOption[],
+  initialData: { bidStartDate?: string } | null
 ) => ({
   title: {
     type: INPUT_TYPES.TEXT,
@@ -88,9 +89,32 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   bidStartDate: {
     type: INPUT_TYPES.DATE,
     label: 'Date',
-    className: 'col-md-12',
-    placeholder: 'Description',
-    schema: {},
+    className: 'col-md-6 col-xl-6',
+    placeholder: 'Date',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      minDate: {
+        value: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
+        message: `Date cannot be earlier than ${moment().format(
+          DATE_FORMATS.DISPLAY_DATE_REVERSE
+        )}`,
+      },
+    },
+  },
+  reserveWaitingEndDate: {
+    type: INPUT_TYPES.DATE,
+    label: 'Date',
+    className: ' col-xl-6 col-md-6',
+    placeholder: 'Date',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      minDate: {
+        value: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
+        message: `Date cannot be earlier than ${moment(
+          initialData?.bidStartDate
+        ).format(DATE_FORMATS.DISPLAY_DATE_REVERSE)}`,
+      },
+    },
   },
   productId: {
     type: INPUT_TYPES.SELECT,
