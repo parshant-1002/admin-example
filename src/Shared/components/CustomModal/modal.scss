@@ -26,7 +26,8 @@
             background: $white-color;
             @at-root {
                 .modal-title {
-                    padding-right: 40px;
+                    padding-left: 20px;
+                    width: 100%;
                     &.h4 {
                         @include font-size (1.1);
                         margin: 0;

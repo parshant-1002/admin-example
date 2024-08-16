@@ -497,6 +497,11 @@ const BID_CREDIT_TYPES = {
   REFUND: 5,
 };
 
+const PRICE_RANGE = {
+  min: 0,
+  max: 10000,
+};
+
 const TABLE_PAGE_LIMIT = 10;
 
 export {
@@ -510,4 +515,5 @@ export {
   BID_STATUS,
   TABLE_PAGE_LIMIT,
   BID_CREDIT_TYPES,
+  PRICE_RANGE,
 };

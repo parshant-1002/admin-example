@@ -9,14 +9,16 @@ import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessag
 import { AuctionResponsePayload } from './model';
 import { Category, ViewMultiData } from '../../Products/helpers/model';
 import { SelectOption } from '../../Users/helpers/model';
+import { AuctionStatus, PurchaseStatus } from '../AuctionDetails/Helpers/constants';
+// import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 
-export const AUCTION_STATUS = [
-  { value: 1, label: 'Pending' },
-  { value: 2, label: 'Active' },
-  { value: 3, label: 'Ended' },
-];
+// export const AuctionStatus = [
+//   { value: 1, label: 'Pending' },
+//   { value: 2, label: 'Active' },
+//   { value: 3, label: 'Ended' },
+// ];
 
 export interface Product {
   _id: string;
@@ -85,9 +87,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Date',
     className: 'col-md-12',
     placeholder: 'Description',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
+    schema: {},
   },
   productId: {
     type: INPUT_TYPES.SELECT,
@@ -124,7 +124,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Reserve Price',
     className: 'col-md-12',
     placeholder: 'Price',
-    options: AUCTION_STATUS,
+    options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -134,7 +134,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Description',
     className: 'col-md-12',
     placeholder: 'Price',
-    options: AUCTION_STATUS,
+    options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -144,7 +144,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Prize claim Duration',
     className: 'col-md-12',
     placeholder: 'Price',
-    options: AUCTION_STATUS,
+    options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -154,7 +154,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Bids Duration',
     className: 'col-md-12',
     placeholder: 'Price',
-    options: AUCTION_STATUS,
+    options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -165,16 +165,13 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Images',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
   },
   preAuctionUsersCount: {
     type: INPUT_TYPES.NUMBER,
     label: 'Pre Auction Users',
     className: 'col-md-12',
     placeholder: 'Price',
-    options: AUCTION_STATUS,
+    options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -189,7 +186,7 @@ export const AuctionColumns = (
 ): ColumnData[] => [
   {
     title: 'Id',
-    fieldName: '_id',
+    fieldName: 'id',
     noClickEvent: true,
     isTruncated: true,
   },
@@ -259,21 +256,18 @@ export const AuctionColumns = (
   },
   {
     title: 'Winner',
-    fieldName: 'reservePrice',
+    fieldName: 'winnerName',
     isTruncated: true,
   },
   {
     title: 'Prize Status',
-    fieldName: 'prizeStatus',
+    fieldName: 'productPurchaseStatus',
     render: (_, val) => {
-      switch (val) {
-        case 1:
-          return 'Claimed';
-        case 2:
-          return 'Pending';
-        default:
-          return '__';
-      }
+      return (
+        PurchaseStatus.find((item) => {
+          return item.value === val;
+        })?.label.toString() || '-'
+      );
     },
   },
   {
@@ -281,7 +275,7 @@ export const AuctionColumns = (
     fieldName: 'status',
     render: (_, val) => {
       return (
-        AUCTION_STATUS.find((item) => {
+        AuctionStatus.find((item) => {
           return item.value === val;
         })?.label.toString() || '-'
       );

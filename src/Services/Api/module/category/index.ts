@@ -52,4 +52,5 @@ export const {
   useDeleteCategoryMutation,
   useEditCategoryMutation,
   useGetCategorysQuery,
+  useLazyGetCategorysQuery,
 } = loginApi;

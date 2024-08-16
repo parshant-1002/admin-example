@@ -16,7 +16,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         width: 18px;
         height: 15px;
         background-size: 18px;
-        @include position($absolute, $left: 70px, $top: 23px);
+        @include position($absolute, $left: 56px, $top: 23px);
         @media (max-width:1199.98px){
           left:20px;
         }
@@ -201,7 +201,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         border-radius: 0;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
-        padding: 15px 15px 15px 100px;
+        padding: 15px 15px 15px 85px;
       }
     }
   }
@@ -323,8 +323,9 @@ $bgLeft: url(./assets/images/left-bg.png);
 
 .admin-brand-logo{
   color: $white-color;
+  padding-left: 30px;
+  padding-right: 20px;
   @media (max-width:1199.98px){
-    @include inline-pad-20;
     color: $text-title-color;
     margin-bottom: 0;
   }
@@ -361,4 +362,13 @@ $bgLeft: url(./assets/images/left-bg.png);
   padding: 15px 0;
   background: none;
   border: 0;
+}
+
+#products{
+  .modal-form-field{
+    .react-select-prefix__control{
+      padding: 0;
+      border: 0;
+    }
+  }
 }

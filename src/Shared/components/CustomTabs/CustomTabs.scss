@@ -1,21 +1,37 @@
 // CustomTabs.scss
 @import '../../../assets/scss/base';
-.nav-tabs .nav-item {
+
+.nav-tabs {
+    border:$none;
+  .nav-item {
     margin-right: 20px;
     margin: 10px;
     border: none;
-    background-color: $white-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }  
+  .nav-link {
+    transition: background-color 0.3s ease;
+    text-transform: capitalize;
+    &:hover{
+        border: $none;
+    }
+  }
 }
 
 .nav-item-active {
     margin-right: 20px;
     margin: 10px;
     border: none;
-    background-color: $dark-voilet-color-700;
+    padding-block: 8px;
+    background-color: $primary-color;
     color: $white-color;
+    border-radius: 8px;
 }
-
-.nav-tabs .nav-link {
-    transition: background-color 0.3s ease;
-    text-transform: capitalize;
-}
+// .uDetail-tabs{
+//     background-color: $grey-light-color-200;
+//     padding: 10px;
+//     border-bottom-left-radius: 0 !important;
+//     border-bottom-right-radius: 0 !important;
+// }

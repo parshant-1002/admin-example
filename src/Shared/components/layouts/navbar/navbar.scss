@@ -1,35 +1,45 @@
 @import "../../../../assets/scss/base";
 
 .header {
-    z-index: 99;
-    @include position (sticky, $top:0);
+  z-index: 99;
+  @include position (sticky, $top:0);
+  border-bottom: 1px solid $grey-color-200;
+  width: calc(100% - 300px);
+  padding-left: 30px;
+  background-color: $white-color;
+  @media(max-width:1199.98px){
+    width: calc(100% - 70px);
+    margin-left: $auto;
+    background: $white-color;
     border-bottom: 1px solid $grey-color-200;
+    padding-left: 20px;
+  }
+  .header-nav{
+    @include flexbox;
+    @include justify-content (flex-end);
+    padding-block: 10px;
+    background: $white-color;
     width: calc(100% - 300px);
-    padding-left: 15px;
     @media(max-width:1199.98px){
-      width: calc(100% - 70px);
-      margin-left: $auto;
-      background: $white-color;
-      border-bottom: 1px solid $black-color;
+      background-color: $none;
+      border: $none;
+      width: $auto;
     }
-    .header-nav{
-      @include flexbox;
-      @include justify-content (flex-end);
-      padding-block: 10px;
-      background: $white-color;
-      width: calc(100% - 300px);
-      @media(max-width:1199.98px){
-        background-color: $none;
-        border: $none;
-        width: $auto;
-      }
-    }
-    .animated-arrow {
-      display: flex !important;
+  }
+  .animated-arrow {
+    display: flex !important;
     align-items: center;
-    padding: 1rem .3rem;
-          span:before,
-      span:after {
+    span{
+      cursor: pointer;
+      height: .125rem;
+      width: .938rem;
+      background: $base-color;
+      position: absolute;
+      display: block;
+      content: "";
+      @include transition-mixin (all, .5s, ease-in-out);
+      &:after,
+      &:before {
         @include position ($absolute);
         cursor: pointer;
         height: .125rem;
@@ -38,5 +48,12 @@
         display: $block;
         content: "";
       }
+      &::after{
+        bottom: -.375rem;
+      }
+      &:before{
+          inset-block-start: -.375rem;
+      }
     }
   }
+}

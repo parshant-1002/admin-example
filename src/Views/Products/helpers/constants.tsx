@@ -19,6 +19,10 @@ export const PRODUCT_STATUS = [
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
 ];
+export const PRODUCT_AVAILABILITY_STATUS = [
+  { value: 1, label: 'SOLD OUT' },
+  { value: 2, label: 'Available' },
+];
 export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
   title: {
     type: INPUT_TYPES.TEXT,

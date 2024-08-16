@@ -32,7 +32,7 @@ function CustomModal({
       <div className="modal-body p-0">
         {title && (
           <div className="modal-header border-bottom">
-            <h4 className="modal-title h4">{title}</h4>
+            <h4 className="modal-title h4 text-center">{title}</h4>
           </div>
         )}
         {showClose && (
