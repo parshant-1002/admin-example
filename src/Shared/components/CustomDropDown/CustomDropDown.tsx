@@ -15,10 +15,7 @@ interface ActionsDropdownProps {
 function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
   return (
     <Dropdown>
-      <Dropdown.Toggle
-        id="dropdown-basic"
-        className="btn-transparent btn btn-pad-two"
-      >
+      <Dropdown.Toggle id="dropdown-basic" className="btn-transparent btn">
         <span className="text-primary">
           <img src={toggleImage} alt="Actions" width={30} />
         </span>

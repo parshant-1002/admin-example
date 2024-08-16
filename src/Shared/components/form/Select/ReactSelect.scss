@@ -1,41 +1,81 @@
+@import '../../../../assets/scss/base';
 
-.react {
-    &-select {
-        min-width: 145px;
-        .react {
-            &-prefix {
-                &__value-container {
-                    padding: 2px 0px 2px 15px;
-                }
-                // &__option {
-                //     @include font-size (1);
-                // }
-                // &__multi-value {
-                //    @include border-radius(5px);
-                // //    &__label {
-                // //     color: var(--white-color);
-                // //    }
-                //    &__remove {
-                //     svg {
-                //         // path {
-                //         //     fill: var(--white-color);
-                //         // }
-                //     }
-                //    }
-                // }
-                &__menu {
-                    &-list {
-                    scrollbar-width: thin;
-                    }
+body {
+    .react-select {
+        width: 100%;
+        &-prefix {
+            &__control {
+                padding: 2px 16px;
+                @include border-radius (12px);
+                border: 1px solid $text-color;
+                // background: $dark-green-color-700;
+                &--is-focused {
+                    @include border-radius (12px);
+                    // background: $dark-green-color-700;
+                    // border: 1px solid $text-color !important;
                 }
             }
-        }
-    }
-    &-multiselect {
-        .react {
-            &-prefix {
-                &__control {
-                   min-height: 48px;
+            &__input {
+                padding: 0 10px;
+            }
+            &__placeholder {
+                padding: 10px 10px 10px;
+                text-align: $left;
+            }
+            &__single-value {
+                text-transform: $capitalize;
+                font-weight: $font-regular;
+                max-width: 100% !important;
+                @include font-size (.875);
+                margin: 0 !important;
+                padding-right: 10px;
+                color: $white-color;
+                width: 100%;
+            }
+            &__value-container {
+                height: 38px;
+                padding: 0 !important;
+            }
+            &__indicators {
+                svg {
+                    fill: $white-color;
+                    width: 22px;
+                }
+            }
+            &__indicator {
+                @include position($absolute, $top: 0, $right: 0);
+                @include align-items ($center);
+                height: 100%;
+                z-index: 11;
+                &-separator {
+                    display: $none;
+                }
+            }
+            //Drop Menu
+            &__menu {
+                padding: 8px;
+                margin: 5px 0 0;
+                min-width: 260px;
+                @include border-radius (8px);
+                // background-color: $black-color-6;
+                box-shadow: 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+                &-list {
+                    max-height: 100%;
+                }
+            }
+            &__option {
+                margin-top: 1px;
+                line-height: 1.1;
+                padding: 8px 12px;
+                color: $base-color;
+                @include font-size (.875);
+                @include border-radius (4px);
+                &--is-selected,
+                &--is-focused,
+                &:active,
+                &:focus {
+                    background-color: $black-color;
+                    color: $white-color;
                 }
             }
         }

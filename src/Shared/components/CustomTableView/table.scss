@@ -12,23 +12,21 @@
             border-bottom: 1px solid rgba($black-color,.2);
             background-color: $white-color;
             text-transform: $capitalize;
-            color: rgba($black-color,.7);
-            font-weight: $font-medium;
+            color: $black-color;
+            font-weight: $font-semibold;
             @include font-size (.875);
             padding: 14px .875rem;
             white-space: nowrap;
             position: $relative;
-        }
-        @media (max-width:991px){
-            th {
-                &:not(:first-child){
-                    display: $none;
-                }
-                &:first-child {
-                    display: $block;
-                    width: 100%!important;
-                    background-color: rgba($black-color,.1);
-               }
+            @media (max-width:991px){
+                    &:not(:first-child){
+                        display: $none;
+                    }
+                    &:first-child {
+                        display: $block;
+                        width: 100%!important;
+                        background-color: rgba($black-color,.1);
+                   }
             }
         }
     }
@@ -37,15 +35,16 @@
             position: $relative;
             &:nth-child(even){
                 td {
-                    background-color: rgba($primary-color, .1);
+                    background-color: $grey-color-700;
                 }
             }
             td {
                 background-color:$white-color;
                 @include font-size (.875);
                 padding: 10px .875rem;
+                white-space: nowrap;
                 color: $base-color;
-                border:none;
+                border: $none;
                 &[data-label="Date"] {
                     white-space: nowrap;
                 }
@@ -69,10 +68,16 @@
                         float: left;
                     }
                 }
+                &[data-label="Actions"]{
+                    // position: $sticky;
+                    right: 0;
+                    top: 0;
+                    z-index: 1;
+                }
             }
             &:hover {
                 td {
-                    background-color: rgba($primary-color, .1);
+                    background-color:$grey-color-700;
                 }
             }
             @media (max-width:991px){

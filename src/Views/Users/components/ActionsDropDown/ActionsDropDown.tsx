@@ -1,6 +1,7 @@
 import CustomDropDown from '../../../../Shared/components/CustomDropDown';
 import { actions } from '../../../../assets';
 import { UsersResponsePayload } from '../../helpers/model';
+import './style.scss';
 
 interface ActionsDropdownProps {
   row: UsersResponsePayload; // Replace `any` with the appropriate type for `row`

@@ -153,7 +153,7 @@ export const PlansColumns = ({
     render: (row) => {
       return (
         <div
-          className="checkbox-wrapper"
+          className="custom-checkbox"
           onClick={() => handleSelectMultiple(row._id)}
         >
           <input

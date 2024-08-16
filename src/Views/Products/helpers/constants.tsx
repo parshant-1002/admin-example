@@ -116,7 +116,7 @@ export const productsColumns = (
     render: (row) => {
       return (
         <div
-          className="checkbox-wrapper"
+          className="custom-checkbox"
           onClick={() => handleChangeCheckBox(row._id)}
         >
           <input

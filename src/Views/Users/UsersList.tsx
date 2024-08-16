@@ -197,14 +197,12 @@ export default function UsersList() {
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: UsersResponsePayload) => (
-      <div className="d-flex">
-        <ActionsDropDown
-          row={row}
-          handleView={handleView}
-          handleDelete={handleDelete}
-          handleBlock={handleBlock}
-        />
-      </div>
+      <ActionsDropDown
+        row={row}
+        handleView={handleView}
+        handleDelete={handleDelete}
+        handleBlock={handleBlock}
+      />
     ),
     [handleView]
   );

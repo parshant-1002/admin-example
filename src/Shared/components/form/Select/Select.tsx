@@ -21,7 +21,10 @@ const CustomSelect = React.forwardRef(
         isMulti={isMulti}
         onChange={onChange}
         closeMenuOnSelect={!isMulti}
+        className="react-select"
+        classNamePrefix="react-select-prefix"
         {...otherProps}
+        // menuIsOpen={true}
       />
     );
   }

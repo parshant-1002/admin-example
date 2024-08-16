@@ -56,7 +56,7 @@ function ListFiles({
                   onClick={() => toggleFileSelection(file)}
                 >
                   <div className="d-flex align-items-center img_card">
-                    <div className="checkbox-wrapper">
+                    <div className="custom-checkbox 1111">
                       <input
                         type="checkbox"
                         className="checkbox-input"

@@ -6,19 +6,12 @@
   margin-left: $auto;
   position: $relative;
   min-width: 210px;
-  // background-color: $body-color;
   @media (max-width:575px) {
     max-width: 100%;
     margin-left: 0;
     margin-bottom: 0;
   }
   .form-control {
-    background-color: $white-color;
-    border: 1px solid $grey-color-300;
-    @include border-radius (7px);
-    @include font-size (1);
-    color: $black-color;
-    @include transition-mixin (all, 0.5s, ease-in-out);
     span {
       line-height: 1
     }

@@ -39,7 +39,7 @@ export const usersColumns = (
     render: (row) => {
       return (
         <div
-          className="checkbox-wrapper"
+          className="custom-checkbox"
           onClick={(e) => {
             e.stopPropagation();
             handleChangeCheckBox(row._id);
@@ -51,7 +51,7 @@ export const usersColumns = (
             checked={selectedIds?.includes(row._id)}
             // onChange={() => handleChangeCheckBox(row._id)}
           />
-          <div className="checkbox-custom" />
+          <span className="label" />
         </div>
       );
     },
