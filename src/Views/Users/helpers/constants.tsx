@@ -5,10 +5,9 @@ import moment from 'moment';
 import { DATE_FORMATS } from '../../../Shared/constants';
 import { UsersResponsePayload } from './model';
 
-export const PRODUCT_STATUS = [
-  { value: 1, label: 'Pending' },
-  { value: 2, label: 'Active' },
-  { value: 3, label: 'Ended' },
+export const USER_STATUS = [
+  { value: 1, label: 'BLOCKED' },
+  { value: 2, label: 'UNBLOCKED' },
 ];
 
 // Define types for renderActions and column data

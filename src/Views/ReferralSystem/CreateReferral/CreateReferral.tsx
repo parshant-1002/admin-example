@@ -243,6 +243,8 @@ function CreateReferral() {
         handleClearAll={() => setSelectedIds([])}
         selectedIds={selectedIds}
         filterToggleImage={Filter}
+        showDateFilter
+        handleApply={() => {}}
       />
 
       {/* Table */}

@@ -22,7 +22,11 @@ import {
   STRINGS,
 } from '../../Shared/constants';
 import { Filter, RED_WARNING } from '../../assets';
-import { CONFIRMATION_DESCRIPTION, usersColumns } from './helpers/constants';
+import {
+  CONFIRMATION_DESCRIPTION,
+  USER_STATUS,
+  usersColumns,
+} from './helpers/constants';
 
 // Models
 import { UsersResponsePayload } from './helpers/model';
@@ -35,6 +39,7 @@ import {
 } from '../../Services/Api/module/users';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -66,6 +71,7 @@ export default function UsersList() {
     data: { id: '' },
   });
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
@@ -86,6 +92,7 @@ export default function UsersList() {
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
@@ -164,18 +171,12 @@ export default function UsersList() {
   const handleBlockClick = async () => {
     try {
       let blockPayload;
-      // if (!blockModal?.data?.id && !blockModal?.data?.ids) return null;
       if (blockModal?.data?.id) {
         blockPayload = {
           userId: blockModal?.data?.id,
           isBlocked: !blockModal?.data?.isBlocked,
         };
       }
-      // if (blockModal?.data?.ids) {
-      //   blockPayload = {
-      //     userIds: blockModal?.data?.ids,
-      //   };
-      // }
       await editUser({
         payload: blockPayload,
         onSuccess: (data: { message: string }) => {
@@ -253,8 +254,15 @@ export default function UsersList() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      blockedStatus: filterState?.selectedStatus?.value,
+    });
+  };
   return (
     <div>
       <ConfirmationModal
@@ -285,6 +293,9 @@ export default function UsersList() {
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
+        statusOptions={USER_STATUS}
+        showDateFilter
+        handleApply={handleApplyFilters}
       />
 
       <CustomTableView

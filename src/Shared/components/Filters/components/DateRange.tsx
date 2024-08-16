@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 // libs
 import moment from 'moment';
@@ -16,6 +18,7 @@ interface DateRangeProps {
   isInitialEmpty?: boolean;
   clearFilterRef?: React.RefObject<HTMLButtonElement>;
   setIsInitialEmpty: (value: boolean) => void;
+  setIsFiltersOn: (value: boolean) => void;
 }
 
 const KEY_FOR_DATE_RANGE = 'selection';
@@ -24,79 +27,88 @@ function DateRange({
   startDate = '',
   endDate = '',
   setFilterState,
-  isInitialEmpty = true,
+  isInitialEmpty = false,
   clearFilterRef,
   setIsInitialEmpty,
+  setIsFiltersOn,
 }: DateRangeProps) {
-  const [dateRange, setDateRange] = useState<
-    { from?: string | Date; to?: string | Date } | string
-  >(
-    isInitialEmpty
-      ? ''
-      : {
-          to: moment().format(FILTER_CONSTS.dateFormat),
-          from: moment().format(FILTER_CONSTS.dateFormat),
-        }
-  );
+  const [dateRange, setDateRange] = useState<{
+    from?: string | Date;
+    to?: string | Date;
+  }>({});
   const [clickCount, setClickCount] = useState(0);
 
   useEffect(() => {
-    if (
-      !dateRange ||
-      typeof dateRange === 'string' ||
-      (!dateRange.to && clickCount <= 2)
-    )
-      return; // if both dates are not selected return the function
+    if (!dateRange || (!dateRange.to && clickCount <= 2)) return; // if both dates are not selected return the function
     setFilterState((prev: FiltersState) => ({
       ...(prev || {}),
       startDate: moment(dateRange.from).format(FILTER_CONSTS.dateFormat),
       endDate: moment(dateRange.to).format(FILTER_CONSTS.dateFormat),
     }));
-    setIsInitialEmpty(false);
     setClickCount(0);
-  }, [clickCount, dateRange, setFilterState, setIsInitialEmpty]);
+  }, [clickCount, dateRange.to]);
 
   useEffect(() => {
-    if (isInitialEmpty) setDateRange('');
+    if (isInitialEmpty) setDateRange({});
   }, [isInitialEmpty]);
 
   const initialDateRange = {
-    startDate:
-      dateRange && typeof dateRange !== 'string'
-        ? new Date(dateRange.from || startDate)
-        : '',
-    endDate:
-      dateRange && typeof dateRange !== 'string'
-        ? new Date(dateRange.to || endDate)
-        : '',
+    startDate: dateRange.from
+      ? new Date(dateRange.from || startDate)
+      : new Date(),
+    endDate: dateRange.to ? new Date(dateRange.to || endDate) : new Date(),
     key: KEY_FOR_DATE_RANGE,
   };
 
   const settingDateRange = (
-    val: { startDate: Date | string; endDate: Date | string },
+    val: { startDate?: Date | string; endDate?: Date | string },
+    setIsOpen: (bool: boolean) => void,
     isOpen?: boolean
   ) => {
     const { startDate: selectedStartDate, endDate: selectedEndDate } = val;
     const isBothDatesSame = moment(selectedStartDate).isSame(selectedEndDate);
-    setDateRange({ from: selectedStartDate }); // set the startDate so that there is initial date in the range picker
-
+    setDateRange({ from: selectedStartDate, to: selectedEndDate }); // set the startDate so that there is initial date in the range picker
+    setIsInitialEmpty(false);
+    setIsFiltersOn(true);
     if (isBothDatesSame && isOpen) {
       // checking if date range is open and date selected is same.
       setClickCount((prevCount) => prevCount + 1);
+      if (clickCount < 1)
+        return setFilterState((prev: FiltersState) => ({
+          ...(prev || {}),
+          endDate: '',
+        }));
     }
+    setDateRange((prevDates: { from?: string | Date; to?: string | Date }) => ({
+      ...(prevDates || {}),
+      to: selectedEndDate,
+    }));
+    setIsOpen(false);
+    setClickCount(0);
   };
 
+  const handleClickReset = () => {
+    setDateRange({});
+    setFilterState((prev: FiltersState) => ({
+      ...(prev || {}),
+      startDate: undefined,
+      endDate: undefined,
+    }));
+    setIsInitialEmpty(true);
+  };
   return (
     <>
       <button
         type="button"
         ref={clearFilterRef}
         className="d-none"
-        onClick={() => setDateRange('')}
+        onClick={handleClickReset}
       />
       <DateRangeSelector
         dateRange={initialDateRange}
         setDateRange={settingDateRange}
+        setClickCount={setClickCount}
+        isInitialEmpty={isInitialEmpty}
       />
     </>
   );

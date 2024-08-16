@@ -23,6 +23,7 @@ import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 import Filters from '../../../Shared/components/Filters';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
 import { Filter } from '../../../assets';
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 
 // Interfaces
 interface QueryParams {
@@ -40,6 +41,7 @@ const ADD_ONS_PAGE_LIMIT = 5;
 function AuctionInvoices() {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -57,6 +59,7 @@ function AuctionInvoices() {
     sortKey,
     sortDirection,
     status: PRODUCT_PURCHASE_STATUS.PENDING,
+    ...filters,
   };
 
   // API Queries
@@ -92,13 +95,22 @@ function AuctionInvoices() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+
+  const handleApplyFilters = (filter: FiltersState) => {
+    setFilters({
+      fromDate: filter?.startDate,
+      toDate: filter?.endDate,
+    });
+  };
   return (
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
         filterToggleImage={Filter}
+        showDateFilter
+        handleApply={handleApplyFilters}
       />
 
       <CustomTableView
