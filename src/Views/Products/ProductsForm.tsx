@@ -1,5 +1,5 @@
 // libs
-import { SyntheticEvent, useMemo } from 'react';
+import { SyntheticEvent } from 'react';
 
 // components
 import { toast } from 'react-toastify';
@@ -11,18 +11,18 @@ import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
 import { ErrorResponse } from '../../Models/Apis/Error';
-import { useGetCategorysQuery } from '../../Services/Api/module/category';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import { PRODUCT_FORM_SCHEMA } from './helpers/constants';
-import { Category, ProductPayload } from './helpers/model';
+import { ProductPayload, SelectOption } from './helpers/model';
 
 interface ProductFormTypes {
   initialData: object | null;
   isEdit: boolean;
   onAdd?: () => void;
   onEdit?: () => void;
+  categoryOptions: SelectOption[];
 }
 // component
 export default function ProductForm({
@@ -30,19 +30,12 @@ export default function ProductForm({
   initialData = {},
   onEdit = () => {},
   onAdd = () => {},
+  categoryOptions = [],
 }: ProductFormTypes) {
   // hooks
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
-  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
-  const cateroryOptions = useMemo(
-    () =>
-      categoryList?.data?.map((category: Category) => ({
-        value: category?._id,
-        label: category?.name,
-      })),
-    [categoryList?.data]
-  );
+
   //   const dispatch = useDispatch();
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
@@ -102,7 +95,7 @@ export default function ProductForm({
     <CustomForm
       id="products"
       className="row"
-      formData={PRODUCT_FORM_SCHEMA(cateroryOptions)}
+      formData={PRODUCT_FORM_SCHEMA(categoryOptions)}
       onSubmit={onSubmit}
       defaultValues={
         initialData as unknown as Record<string, unknown> | undefined

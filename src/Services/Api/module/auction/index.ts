@@ -26,7 +26,7 @@ export const auctionApi = api.injectEndpoints({
     }),
     deleteAuction: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PRODUCT,
+        url: API_END_POINTS.AUCTION,
         method: HTTPS_METHODS.DELETE,
         body: payload,
       }),

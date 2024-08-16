@@ -10,7 +10,7 @@ import { ErrorResponse } from '../../Models/Apis/Error';
 import { useGetCategorysQuery } from '../../Services/Api/module/category';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
-import { addBaseUrl } from '../../Shared/utils/functions';
+// import { addBaseUrl } from '../../Shared/utils/functions';
 
 import {
   AUCTION_ADD_FORM_SCHEMA,
@@ -86,20 +86,30 @@ export default function AuctionForm({
     try {
       const auctionData = data as unknown as AuctionPayload;
       const payload = {
-        ...data,
-        images: auctionData?.images?.map((image) => ({
-          url: addBaseUrl(image?.fileURL || image?.url),
-          title: image?.fileName || image?.title,
-        })),
+        description: data.description,
+        productPrice: data.productPrice,
+        turnTimer: data.turnTimer,
+        prizeClaimDays: data.prizeClaimDays,
+        reservePrice: data.reservePrice,
+        title: data.title,
+        preAuctionUsersCount: data.preAuctionUsersCount,
+        // currentBidPrice: data.currentBidPrice,
+        // images: auctionData?.images?.map((image) => ({
+        //   url: addBaseUrl(image?.fileURL || image?.url),
+        //   title: image?.fileName || image?.title,
+        // })),
         // status: productData?.status?.value,
         categoryIds: auctionData?.categoryIds?.map(
           (category) => category?.value
         ),
+        reserveWaitingEndDate: '2024-08-26T05:59:50.951Z',
+        bidStartDate: new Date().toString(),
+        status: 1,
+
         productId: auctionData?.productId.value,
       };
       if (isEdit) {
-        // payload.id = initialData?._id;
-        const editPayload = { ...payload, productId: data?._id };
+        const editPayload = { ...payload, auctionId: data?._id };
         await editAuction({
           payload: editPayload,
           onSuccess: (res: { message: string }) => {

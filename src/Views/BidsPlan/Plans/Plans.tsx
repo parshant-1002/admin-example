@@ -298,6 +298,7 @@ function Plans() {
         }
         handleClearAll={() => setSelectedIds([])}
         filterToggleImage={Filter}
+        showDateFilter
       />
 
       {/* Table */}

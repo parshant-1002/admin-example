@@ -10,30 +10,27 @@ import { downArrow } from '../../../../assets';
 interface PriceRangeSliderProps {
   min: number;
   max: number;
-  defaultValue?: [number, number];
-  onChange?: (value: [number, number]) => void;
+  value?: [number, number];
+  onChange: (value: [number, number]) => void;
 }
 
 function PriceRangeSlider({
   min,
   max,
-  defaultValue = [min, max],
+  value,
   onChange,
 }: PriceRangeSliderProps) {
-  const [value, setValue] = useState<[number, number]>(defaultValue);
   const [open, setIsOpen] = useState<boolean>(false);
 
   const handleSliderChange = (newValue: number[]) => {
     const updatedValue: [number, number] = [newValue[0], newValue[1]];
-    setValue(updatedValue);
     if (onChange) {
       onChange(updatedValue);
     }
   };
 
   const handleClear = () => {
-    const resetValue: [number, number] = [0, 0];
-    setValue(resetValue);
+    const resetValue: [number, number] = [min, max];
     if (onChange) {
       onChange(resetValue);
     }
@@ -46,7 +43,7 @@ function PriceRangeSlider({
         onClick={() => setIsOpen((prev) => !prev)}
         data-tooltip-id="my-tooltip"
       >
-        Price (${value[0]} - ${value[1]}){' '}
+        Price (${value?.[0]} - ${value?.[1]}){' '}
         <span className={!open ? 'arrow-down' : 'arrow-right'}>
           <img src={downArrow} alt="" width={15} />
         </span>{' '}
@@ -61,7 +58,7 @@ function PriceRangeSlider({
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">
-            <h6>Price Range Slider</h6>${value[0]} - ${value[1]}
+            <h6>Price Range Slider</h6>${value?.[0]} - ${value?.[1]}
           </div>
           <div>
             <Button

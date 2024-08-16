@@ -11,8 +11,8 @@ import CustomTableView, {
   Column,
   Row,
 } from '../../Shared/components/CustomTableView';
-import ActionsDropDown from './components/ActionsDropDown';
 import StatsFilters from '../../Shared/components/Filters';
+import ActionsDropDown from './components/ActionsDropDown';
 
 // Constants
 import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
@@ -32,6 +32,7 @@ import {
   useDeleteCategoriesMutation,
   useGetCategoriesQuery,
 } from '../../Services/Api/module/catgories';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
 import CategoryForm from './CategoriesForm';
@@ -65,6 +66,7 @@ export default function CategoriesList() {
     data: { id: '', ids: [''] },
   });
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
@@ -84,6 +86,7 @@ export default function CategoriesList() {
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
@@ -219,8 +222,14 @@ export default function CategoriesList() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
-
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      blockedStatus: filterState?.selectedStatus?.value,
+    });
+  };
   return (
     <div>
       <ConfirmationModal
@@ -274,6 +283,8 @@ export default function CategoriesList() {
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
+        showDateFilter
+        handleApply={handleApplyFilters}
       />
 
       <CustomTableView

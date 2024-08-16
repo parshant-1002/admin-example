@@ -2,9 +2,10 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // libs
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // consts
+import ReactSelect, { ActionMeta, SingleValue } from 'react-select';
 import { BUTTON_LABELS } from '../../constants';
 
 // components
@@ -13,12 +14,13 @@ import TextField from '../form/TextInput/TextInput';
 import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
+import { SelectOption } from '../../../Models/common';
+import { Filter, cross } from '../../../assets';
 import CustomSelect from '../form/Select/Select';
 import DateRange from './components/DateRange';
-import './style.scss';
-import { cross } from '../../../assets';
 import PriceRangeSlider from './components/PriceRange';
-import { FiltersState } from './helpers/models';
+import { FiltersState, PriceRange } from './helpers/models';
+import './style.scss';
 
 // types
 interface StatsFiltersProps {
@@ -32,6 +34,12 @@ interface StatsFiltersProps {
   filterToggleImage?: string;
   showHeading?: boolean;
   showSearch?: boolean;
+  brandOptions?: SelectOption[];
+  showDateFilter?: boolean;
+  showFiltersToggle?: boolean;
+  priceRange?: PriceRange;
+  statusOptions?: SelectOption[];
+  handleApply?: (filter: FiltersState) => void;
 }
 
 function StatsFilters({
@@ -41,23 +49,36 @@ function StatsFilters({
   handleClearSearch = () => {}, // heading = 'Transactions',
   selectedIds,
   handleDeleteAll,
-  filterToggleImage = '',
+  filterToggleImage = Filter,
   showHeading = true,
   showSearch = true,
   handleClearAll = () => {},
+  brandOptions,
+  showDateFilter,
+  showFiltersToggle = true,
+  priceRange,
+  statusOptions,
+  handleApply = () => {},
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
-
+  const intitialFilterState: FiltersState = {
+    priceRange: [priceRange?.min || 0, priceRange?.max || 0],
+    selectedBrand: null,
+    selectedStatus: null,
+  };
   const [showFilters, setShowFilters] = useState(false);
+  const [isFiltersOn, setIsFiltersOn] = useState(false);
+  const [isInitialEmptyForDate, setIsInitialEmptyForDate] = useState(true);
   const [searchValue, setSearchValue] = useState('');
-  const [filtersState, setFilterState] = useState<FiltersState>({
-    startDate: '',
-    endDate: '',
-  });
+  const [filtersState, setFilterState] =
+    useState<FiltersState>(intitialFilterState);
   const handleClear = () => {
+    setIsFiltersOn(false);
     setSearchValue('');
     handleClearSearch();
     handleClearAll();
+    setFilterState(intitialFilterState);
+    handleApply(intitialFilterState);
   };
   const handleClickAllData = () => {
     handleClear();
@@ -67,12 +88,51 @@ function StatsFilters({
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsFiltersOn(true);
     setSearchValue(e.target.value);
     handleSearch(e);
   };
   const handleShowFilter = () => {
     setShowFilters((prev) => !prev);
   };
+  const handleChangeStatusOptions = (
+    newValue: SingleValue<SelectOption>,
+    actionMeta: ActionMeta<SelectOption>
+  ) => {
+    console.log(' ~ actionMeta:', actionMeta);
+    setIsFiltersOn(true);
+
+    setFilterState((prev: FiltersState) => ({
+      ...prev,
+      selectedStatus: newValue,
+    }));
+  };
+  const handleChangeBrandFilter = (
+    newValue: SingleValue<SelectOption>,
+    actionMeta: ActionMeta<SelectOption>
+  ) => {
+    console.log(' ~ actionMeta:', actionMeta);
+    setIsFiltersOn(true);
+
+    setFilterState((prev: FiltersState) => ({
+      ...prev,
+      selectedBrand: newValue,
+    }));
+  };
+  const handleChangePriceRange = (selctedPriceRange: [number, number]) => {
+    setIsFiltersOn(true);
+    setFilterState((prev: FiltersState) => ({
+      ...prev,
+      priceRange: [selctedPriceRange[0], selctedPriceRange[1]],
+    }));
+  };
+
+  useEffect(() => {
+    if (selectedIds) {
+      setIsFiltersOn(true);
+    }
+  }, [selectedIds]);
+
   return (
     <>
       <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
@@ -108,7 +168,7 @@ function StatsFilters({
                 ) : null}
               </div>
             ) : null}
-            {filterToggleImage ? (
+            {showFiltersToggle ? (
               <Button
                 btnType="primary"
                 onClick={handleShowFilter}
@@ -137,35 +197,59 @@ function StatsFilters({
       </div>
       {showFilters ? (
         <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-3 mt-4 mb-3">
-          <div className="col-5 col-md-2 col-xxl-2 ">
-            <CustomSelect />
-          </div>
-          <div className="col-5 col-md-2 col-xl-3 col-xxl-2">
-            <DateRange
-              startDate={filtersState?.startDate}
-              endDate={filtersState?.endDate}
-              setFilterState={setFilterState}
-              isInitialEmpty
-              clearFilterRef={clearDateRangeFilterRef}
-              setIsInitialEmpty={() => {}}
-            />
-          </div>
-          <div className="col-5 col-md-2 col-xl-3 col-xxl-2">
-            <PriceRangeSlider min={10} max={100} onChange={() => {}} />
-          </div>
-          <div className="col-5 col-md-2 col-xl-2 ">
-            <CustomSelect />
-          </div>
+          {brandOptions ? (
+            <div className="col-md-2 col-xl-2 ">
+              <ReactSelect
+                options={brandOptions}
+                onChange={handleChangeBrandFilter}
+                value={filtersState.selectedBrand}
+              />
+            </div>
+          ) : null}
+          {showDateFilter ? (
+            <div className="col-md-2 col-xl-2">
+              <DateRange
+                startDate={filtersState?.startDate}
+                endDate={filtersState?.endDate}
+                setFilterState={setFilterState}
+                isInitialEmpty={isInitialEmptyForDate}
+                clearFilterRef={clearDateRangeFilterRef}
+                setIsInitialEmpty={setIsInitialEmptyForDate}
+                setIsFiltersOn={setIsFiltersOn}
+              />
+            </div>
+          ) : null}
+          {priceRange ? (
+            <div className="col-md-2 col-xl-2">
+              <PriceRangeSlider
+                min={priceRange.min}
+                max={priceRange.max}
+                value={filtersState?.priceRange}
+                onChange={handleChangePriceRange}
+              />
+            </div>
+          ) : null}
+          {statusOptions ? (
+            <div className="col-md-2 col-xl-2 ">
+              <CustomSelect
+                options={statusOptions}
+                onChange={handleChangeStatusOptions}
+                value={filtersState?.selectedStatus}
+              />
+            </div>
+          ) : null}
 
           <Button
             className="btn btn-sm"
             btnType="primary"
-            onClick={handleClickAllData}
+            onClick={() => {
+              handleApply(filtersState);
+            }}
           >
             {BUTTON_LABELS.APPLY}
           </Button>
 
-          {selectedIds?.length || searchValue ? (
+          {isFiltersOn ? (
             <Button
               className="btn btn-sm"
               btnType="secondary"

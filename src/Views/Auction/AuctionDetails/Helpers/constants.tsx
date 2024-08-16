@@ -25,14 +25,14 @@ export interface AuctionDetailsColumnData {
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
 
-const AuctionStatus: OptionType[] = [
+export const AuctionStatus: OptionType[] = [
   { value: 1, label: 'Pending' },
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
   { value: 4, label: 'Cancel' },
 ];
 
-const PurchaseStatus: OptionType[] = [
+export const PurchaseStatus: OptionType[] = [
   { value: 1, label: 'Pending' },
   { value: 2, label: 'Purchased' },
   { value: 3, label: 'Expired' },
@@ -46,7 +46,7 @@ export const AuctionColumn = (
   {
     title: 'ID',
     isEditable: false,
-    fieldName: '_id',
+    fieldName: 'id',
     render: (_, val) => {
       return `#${val}`;
     },
@@ -228,7 +228,7 @@ export const AuctionColumn = (
 export const AuctionBidColumn = (): ColumnData[] => [
   {
     title: 'Id',
-    fieldName: '_id',
+    fieldName: 'userId',
     isTruncated: true,
   },
   {
@@ -238,7 +238,7 @@ export const AuctionBidColumn = (): ColumnData[] => [
   },
   {
     title: 'Email',
-    fieldName: 'email',
+    fieldName: 'userEmail',
     isTruncated: true,
   },
   {
@@ -248,12 +248,18 @@ export const AuctionBidColumn = (): ColumnData[] => [
   },
   {
     title: 'Date',
-    fieldName: 'bidDate',
-    isTruncated: true,
+    fieldName: 'createdAt',
+    render: (_, val) => {
+      const date = new Date(val);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${day}-${month}-${year}`;
+    },
   },
   {
     title: 'Item Price',
-    fieldName: 'bidCount',
+    fieldName: 'currentBidPrice',
     isTruncated: true,
   },
 ];

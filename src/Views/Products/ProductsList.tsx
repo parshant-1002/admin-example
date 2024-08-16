@@ -17,16 +17,26 @@ import ActionsDropDown from './components/ActionsDropDown';
 import ViewMultiTableItem from './components/ViewMultiTableItem';
 
 // Constants
-import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../Shared/constants';
+import {
+  BUTTON_LABELS,
+  FilterOrder,
+  PRICE_RANGE,
+  STRINGS,
+} from '../../Shared/constants';
 import { Filter, RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
+  PRODUCT_AVAILABILITY_STATUS,
   PRODUCT_STATUS,
   productsColumns,
 } from './helpers/constants';
 
 // Models
-import { ProductResponsePayload, ViewMultiData } from './helpers/model';
+import {
+  Category,
+  ProductResponsePayload,
+  ViewMultiData,
+} from './helpers/model';
 
 // API
 import {
@@ -37,6 +47,8 @@ import {
 // Utilities
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
+import { useGetCategorysQuery } from '../../Services/Api/module/category';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 
 // Interfaces
 interface EditData {
@@ -67,6 +79,7 @@ export default function ProductsList() {
     data: { id: '', ids: [''] },
   });
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
@@ -90,9 +103,12 @@ export default function ProductsList() {
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
+  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
+
   const { data: productListing, refetch } = useGetProductsQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
@@ -240,8 +256,26 @@ export default function ProductsList() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+  const categoryOptions = useMemo(
+    () =>
+      categoryList?.data?.map((category: Category) => ({
+        value: category?._id,
+        label: category?.name,
+      })),
+    [categoryList?.data]
+  );
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      status: filterState?.selectedStatus?.value,
+      priceRangeMin: filterState?.priceRange?.[0],
+      priceRangeMax: filterState?.priceRange?.[1],
+      categoryId: filterState?.selectedBrand?.value,
+    });
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -272,6 +306,7 @@ export default function ProductsList() {
               isEdit
               initialData={editData?.data}
               onEdit={handleEditSuccess}
+              categoryOptions={categoryOptions}
             />
           </div>
         </CustomModal>
@@ -288,6 +323,7 @@ export default function ProductsList() {
               isEdit={false}
               initialData={{}}
               onAdd={handleAddSuccess}
+              categoryOptions={categoryOptions}
             />
           </div>
         </CustomModal>
@@ -300,6 +336,11 @@ export default function ProductsList() {
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
+        brandOptions={categoryOptions}
+        statusOptions={PRODUCT_AVAILABILITY_STATUS}
+        showDateFilter
+        priceRange={PRICE_RANGE}
+        handleApply={handleApplyFilters}
       />
 
       <CustomTableView
