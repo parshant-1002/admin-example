@@ -35,11 +35,12 @@
 }
 
 .uploaded_file {
-    margin-bottom: 5px;
+    overflow: $hidden;
     gap: 5px;
+    z-index: 1;
     figure {
         width: 80px;
-         margin-bottom: 0;
+        margin-bottom: 0;
         object-fit: $contain;
         @include border-radius(7px);
         img {
@@ -51,12 +52,15 @@
 }
 
 .count_btn {
-    @include border-radius (50%);
+    @include border-radius (5px 0px 0 0);
+    background-color: rgba(0, 0, 0, 0.75);
     border: 1px solid rgba(0, 0, 0, 0.15);
-    @include font-size (.875);
-    color: $black-color;
-    width: 35px;
-    height: 35px;
+    @include font-size (.725);
+    color: $white-color;
+    width: 28px;
+    height: 28px;
+    @include position ($absolute,$right:0, $bottom:0);
+    z-index:1;
 }
 
 .file-group {

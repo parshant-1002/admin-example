@@ -26,7 +26,6 @@
             background: $white-color;
             @at-root {
                 .modal-title {
-                    padding-left: 20px;
                     width: 100%;
                     &.h4 {
                         @include font-size (1.1);
@@ -50,7 +49,6 @@
 }
 
 // Achievement Progress Table
-
 .achievement-progress-table {
     .modal-title {
         padding: 20px;

@@ -200,15 +200,13 @@ export const productsColumns = (
         title: string;
       }[];
       return (
-        <div className="d-flex align-items-center uploaded_file">
+        <div className="d-inline-flex align-items-center position-relative uploaded_file">
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <div key={img.url} className="d-flex flex-column">
-                <figure>
+              <figure key={img.url}>
                   <FileRenderer fileURL={img.url} />
-                </figure>
                 {/* <span>{img.title}</span> */}
-              </div>
+              </figure>
             ) : null
           )}
           {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
