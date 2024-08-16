@@ -62,10 +62,6 @@
     min-width: 280px;
   }
 
-  .form-control {
-    background-color: $black-color;
-  }
-
   .calender_field {
     @media (max-width:575px) {
       width: 100%;
@@ -78,30 +74,7 @@
 }
 
 .dark-form-control {
-  .form-control {
-    border: 1px solid $grey-color-300;
-    background-color: transparent;
-    @include border-radius (7px);
-    width: 100%;
-    height: 44px;
-    padding: 5px 12px;
-    color: $base-color;
-    position: $relative;
-
-    &::placeholder {
-      color: $grey-color-300 !important;
-    }
-
-    &:-ms-input-placeholder {
-      color: $white-color !important;
-    }
-
-    &::-ms-input-placeholder {
-      color: $white-color !important;
-    }
-  }
-
-  .calender_field {
+   .calender_field {
     .form-control {
       background-color: $black-color;
     }

@@ -1,7 +1,7 @@
 import { Breadcrumb } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { ROUTES, ROUTES_CONFIG } from '../../../../constants';
-import { capitalizeFirstLetter, matchRoute } from '../../../../utils/functions';
+import { ROUTES } from '../../../../constants';
+import { capitalizeFirstLetter } from '../../../../utils/functions';
 import './style.scss';
 
 function Breadcrumbs() {
@@ -9,7 +9,7 @@ function Breadcrumbs() {
   const pathnames = location.pathname.split('/').filter(Boolean);
 
   // Use the matchRoute utility to find the page title
-  const pageTitle = matchRoute(location.pathname, Object.values(ROUTES_CONFIG));
+  // const pageTitle = matchRoute(location.pathname, Object.values(ROUTES_CONFIG));
 
   const breadcrumbItems = pathnames.map((value, index) => {
     const to = `/${pathnames.slice(0, index + 1).join('/')}`;
@@ -30,7 +30,7 @@ function Breadcrumbs() {
 
   return (
     <div className="page-title w-100 mb-3">
-      {pageTitle && <h4>{pageTitle}</h4>}
+      {/* {pageTitle && <h4>{pageTitle}</h4>} */}
       <Breadcrumb>
         <Breadcrumb.Item href="#">
           <Link to={ROUTES.HOMEPAGE}>Home</Link>

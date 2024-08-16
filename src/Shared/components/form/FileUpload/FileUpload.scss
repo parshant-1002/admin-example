@@ -35,28 +35,32 @@
 }
 
 .uploaded_file {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-        max-width: 150px;
-        max-height: 150px;
-        min-width: 100px;
-        min-height: 100px;
-        width: 100%;
-        @include border-radius(7px);
-        padding: 10px;
+    margin-bottom: 5px;
+    gap: 5px;
+    figure {
+        width: 80px;
+         margin-bottom: 0;
         object-fit: $contain;
-        background-color: $white-color;
+        @include border-radius(7px);
+        img {
+            width: 100%;
+        }
     }
-
     small {
         min-width: 150px;
         min-height: 150px;
         width: 100%;
         background-color: $white-color;
     }
+}
+
+.count_btn {
+    @include border-radius (50%);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    @include font-size (.875);
+    color: $black-color;
+    width: 35px;
+    height: 35px;
 }
 
 .file-group {

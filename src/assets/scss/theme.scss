@@ -9,16 +9,13 @@ body {
     font-weight: $font-regular;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: $body-color;
     color: $white-color;
     @include font-size(1);
     overflow-x: $hidden;
     min-height: 100vh;
     scrollbar-width: thin;
 }
-// .scroll {
-//     scrollbar-width: thin !important;
-//     scrollbar-color: $green-light-color-800 $dark-green-color-450;
-// }
 /* Scroll */
 ::-webkit-scrollbar {
     width: 6px;
@@ -166,8 +163,8 @@ input {
         background-position: $center $left 10px;
         background-size: 16px;
         padding-left: 30px !important;
-        @include border-radius (12px);
-        @include font-size (14px);
+        @include border-radius (8px);
+        @include font-size (.875);
     }
     [type="date"]{
         -webkit-appearance: none;

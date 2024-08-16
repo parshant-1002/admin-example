@@ -19,10 +19,10 @@
             white-space: nowrap;
             position: $relative;
             @media (max-width:991px) {
-                &:not(:first-child) {
+                &:not(:nth-child(2)) {
                     display: $none;
                 }
-                &:first-child {
+                &:nth-child(2) {
                     display: $block;
                     width: 100% !important;
                     background-color: rgba($black-color, .1);
@@ -33,6 +33,9 @@
     tbody {
         tr {
             position: $relative;
+            @media (max-width:991px){
+                margin-bottom: 3px;
+            }
             &:nth-child(even) {
                 td {
                     background-color: $grey-color-700;
@@ -62,10 +65,21 @@
                     display: $block;
                     text-align: $right;
                     border-bottom: 1px solid rgba($black-color, .1);
+                    &:not(:first-child) {
+                        display: $none;
+                    }
                     &:before {
                         content: attr(data-label);
                         font-weight: $font-regular;
+                        color: $black-color;
                         float: left;
+                    }
+                    &[data-label="#"]{
+                        text-align: $left;
+                    }
+                    .custom-checkbox {
+                        margin-left: 20px;
+                        display: $inline-block;
                     }
                 }
                 &[data-label="Actions"] {
@@ -83,23 +97,36 @@
             @media (max-width:991px) {
                 display: $block;
             }
+            &.tr-active {
+                @media (max-width:991px) {
+                    .btn-collapse {
+                        @include transform (rotate(180deg));
+                    }
+                    td {
+                        display: $block;
+                    }
+                }
+            }
         }
     }
 }
 
 .btn-collapse {
+    @include transition (all, .1s, ease-in-out);
     @media (min-width:991.99px) {
-        display: none;
+        display: $none;
     }
     @media (max-width:991px) {
-        @include position($absolute, $right: 6px, $top: 6px);
-        background-color: $black-color;
+        @include position($absolute, $right: 5px, $top: 2px);
+        background-color: $transparent;
         @include border-radius (50%);
         margin-left: $auto;
-        &:hover {
-            background-color: $black-color;
-        }
+        border: 0;
     }
+}
+
+@media (max-width:991px){
+
 }
 
 .sort-arrow {
@@ -113,7 +140,6 @@
         width: 16px;
         height: 16px;
         box-shadow: $none !important;
-
         img {
             display: $block;
             width: 16px;
@@ -150,7 +176,6 @@ $arrow-left: url(src/assets/icons/arrow-left.svg);
             @include justify-content (center);
         }
         li {
-            color: $white-color;
             a {
                 color: $base-color !important;
                 line-height: 1;
@@ -161,7 +186,7 @@ $arrow-left: url(src/assets/icons/arrow-left.svg);
                 margin: 0px 2px;
                 text-align: $center;
                 @include font-size (1);
-                background: $transparent;
+                background: $white-color;
                 font-weight: $font-regular;
                 @include border-radius (4px);
                 border: 1px solid $grey-color-400;
@@ -174,13 +199,11 @@ $arrow-left: url(src/assets/icons/arrow-left.svg);
             &:hover {
                 a {
                     background-color: $dark-voilet-color-700;
-                    border-color: $dark-voilet-color-500;
+                    border-color: $grey-color-400;
                     color: $white-color !important;
                 }
             }
-
             &.disabled {
-
                 a,
                 a[aria-disabled="true"] {
                     @include opacity (1);
@@ -189,7 +212,6 @@ $arrow-left: url(src/assets/icons/arrow-left.svg);
                     border-color: $grey-light;
                 }
             }
-
             &.pre-btn,
             &.next-btn {
                 a {
