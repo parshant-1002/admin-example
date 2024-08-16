@@ -198,14 +198,12 @@ export default function UsersList() {
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: UsersResponsePayload) => (
-      <div className="d-flex">
-        <ActionsDropDown
-          row={row}
-          handleView={handleView}
-          handleDelete={handleDelete}
-          handleBlock={handleBlock}
-        />
-      </div>
+      <ActionsDropDown
+        row={row}
+        handleView={handleView}
+        handleDelete={handleDelete}
+        handleBlock={handleBlock}
+      />
     ),
     [handleView]
   );
@@ -264,7 +262,7 @@ export default function UsersList() {
     });
   };
   return (
-    <div>
+    <>
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION.DELETE}
         open={deleteModal?.show}
@@ -323,6 +321,6 @@ export default function UsersList() {
           />
         )}
       />
-    </div>
+    </>
   );
 }

@@ -2,10 +2,8 @@
 
 .calender_field {
   text-align: $left;
-  max-width: 262px;
   margin-left: $auto;
   position: $relative;
-  min-width: 210px;
   // background-color: $body-color;
   @media (max-width:575px) {
     max-width: 100%;
@@ -17,7 +15,7 @@
     border: 1px solid $grey-color-300;
     @include border-radius (7px);
     @include font-size (1);
-    color: $black-color;
+    color: $grey-dark;
     @include transition-mixin (all, 0.5s, ease-in-out);
     span {
       line-height: 1
@@ -37,7 +35,10 @@
     box-shadow: 0 0 10px rgba($black-color, .1);
     position: $absolute;
     z-index: 999;
-    right: 0;
+    right: -75px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 8px;
     @media (min-width:768px) and (max-width:991px) {
       left: 0;
       right: auto;
@@ -59,8 +60,8 @@
           &Item {
             @include transition-mixin(all, 0.3s, ease-in-out);
             &Active {
-              border-color: rgb(17, 97, 74)5;
-              background-color: rgb(17, 97, 74);
+              border-color: $primary-color;
+              background-color: $primary-color;
               input {
                 color: $white-color;
                 &::placeholder {
@@ -75,8 +76,8 @@
               }
             }
             &:hover {
-              border-color: rgb(17, 97, 74);
-              background: rgb(17, 97, 74);
+              border-color: $primary-color;
+              background: $primary-color;
               color: $white-color;
               input {
                 color: $white-color;
@@ -154,7 +155,7 @@
                   &StartEdge,
                   &EndEdge,
                   &InRange {
-                    background-color: dark-green-color-550;
+                    background-color: $primary-color;
                     border: 1px solid transparent;
                     border-radius: (4px);
                   }
@@ -174,7 +175,7 @@
                     &DayNumber {
                       span {
                         &::after {
-                          background: green-light-color-900;
+                          background: $primary-color;
                         }
                       }
                     }

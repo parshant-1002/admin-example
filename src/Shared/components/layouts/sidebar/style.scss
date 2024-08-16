@@ -16,7 +16,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         width: 18px;
         height: 15px;
         background-size: 18px;
-        @include position($absolute, $left: 90px, $top: 23px);
+        @include position($absolute, $left: 56px, $top: 23px);
         @media (max-width:1199.98px){
           left:20px;
         }
@@ -24,9 +24,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     }
   }
 }
-.nav-item{
-  padding-top: 10px;
-}
+
 $bgLeft: url(./assets/images/left-bg.png);
 .sidebar {
   @include position($fixed, $top:0, $left:0, $bottom:0);
@@ -43,19 +41,17 @@ $bgLeft: url(./assets/images/left-bg.png);
     list-style: $none;
     li {
       .nav-link {
-        @include font(1rem, 21.78px, $font-regular);
+        @include font(.875rem, 21.78px, $font-regular);
         transition: 0s;
-        padding: 21px 15px 19px 65px;
-        border-radius: 4px;
-        margin-left: 19.1px;
-        border-radius: 0;
-        border-top-left-radius:20px;
-        border-bottom-left-radius:20px;
-        position: relative;
-        @media (max-width:1199.98px){
+        padding: 21px 15px 19px 55px;
+        margin-left: 10px;
+        border-top-left-radius:12px;
+        border-bottom-left-radius:12px;
+        position: $relative;
+        @media (max-width:1199.99px){
           padding-left: 15px;
-          font-size: 0;
           margin-left: 5px;
+          font-size: 0;
         }
         &::before{
           @include top-curve-before;
@@ -71,7 +67,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         }
 
         &.active{
-          background-color: $white-color;
+          background-color: $body-color;
           color: $primary-color;
           font-weight: 600;
           &::before,
@@ -80,7 +76,7 @@ $bgLeft: url(./assets/images/left-bg.png);
           }
           .curve-top,
           .curve-bottom{
-            background: $white-color;
+            background: $body-color;
           }
           .bi{
             background-color: $primary-color;
@@ -89,14 +85,14 @@ $bgLeft: url(./assets/images/left-bg.png);
       }
       .bi {
         content: "";
-        background-repeat: no-repeat;
+        background-repeat: $no-repeat;
         width: 25px;
         height: 25px;
         background-size: 25px;
         position: absolute;
         top: 19px;
-        left: 25px;
-        -webkit-mask-repeat: no-repeat;
+        left: 15px;
+        -webkit-mask-repeat: $no-repeat;
         mask-repeat: no-repeat;
         background-color: $white-color;
         @media(max-width: 1199px){
@@ -140,7 +136,7 @@ $bgLeft: url(./assets/images/left-bg.png);
       }
     }
     .accordion-item{
-      padding-left: 19.1px;
+      padding-left: 10px;
       background-color: unset;
       @media (max-width: 1199.98px){
         padding-left: 0;
@@ -191,8 +187,8 @@ $bgLeft: url(./assets/images/left-bg.png);
         border-bottom-right-radius: 0 !important;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
-        padding: 21px 15px 19px 65px;
-        @include font(18px, 21.27px, 400);
+        padding: 21px 15px 19px 55px;
+        @include font(.875rem, 21.27px, 400);
         background-color: unset;
         color: $white-color;
         @media (max-width:1199.98px){
@@ -205,7 +201,8 @@ $bgLeft: url(./assets/images/left-bg.png);
         border-radius: 0;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
-        padding: 15px 15px 15px 120px;
+        padding: 15px 15px 15px 85px;
+        @include font-size (.875);
       }
     }
   }
@@ -215,7 +212,6 @@ $bgLeft: url(./assets/images/left-bg.png);
     button {
       padding: 14px 15px;
       border: 0 !important;
-
       i {
         margin-right: 10px;
       }
@@ -327,8 +323,9 @@ $bgLeft: url(./assets/images/left-bg.png);
 
 .admin-brand-logo{
   color: $white-color;
+  padding-left: 30px;
+  padding-right: 20px;
   @media (max-width:1199.98px){
-    @include inline-pad-20;
     color: $text-title-color;
     margin-bottom: 0;
   }
@@ -365,4 +362,13 @@ $bgLeft: url(./assets/images/left-bg.png);
   padding: 15px 0;
   background: none;
   border: 0;
+}
+
+#products{
+  .modal-form-field{
+    .react-select-prefix__control{
+      padding: 0;
+      border: 0;
+    }
+  }
 }

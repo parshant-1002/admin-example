@@ -28,8 +28,7 @@ $downArrow : url("./assets/icons/downArrow.svg");
 #main {
   padding: 30px 30px 20px;
   transition: all 0.3s;
-  min-height: 100vh;
-  position: relative;
+  position: $relative;
   z-index: 11;
   @media (min-width: 1200px) {
     margin-left: 300px;
@@ -108,11 +107,9 @@ $downArrow : url("./assets/icons/downArrow.svg");
   0% {
     opacity: 0;
   }
-
   100% {
     opacity: 1;
   }
-
   0% {
     opacity: 0;
   }

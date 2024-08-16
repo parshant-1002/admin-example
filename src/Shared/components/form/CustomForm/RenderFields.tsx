@@ -204,12 +204,15 @@ function RenderField({
   };
 
   return (
-    <div className={`relative ${field?.containerClassName || ''}`} key={id}>
+    <div
+      className={`relative modal-form-field ${field?.containerClassName || ''}`}
+      key={id}
+    >
       {field.label && (
         <label
           className={
             field?.labelClassName ||
-            'relative inline-block min-w-[96px] mq450:text-base'
+            'relative inline-block min-w-[96px] mq450:text-base '
           }
           htmlFor={id}
         >

@@ -120,7 +120,7 @@ export const productsColumns = (
     render: (row) => {
       return (
         <div
-          className="checkbox-wrapper"
+          className="custom-checkbox"
           onClick={() => handleChangeCheckBox(row._id)}
         >
           <input
@@ -200,24 +200,19 @@ export const productsColumns = (
         title: string;
       }[];
       return (
-        <div className="d-flex align-items-center">
+        <div className="d-inline-flex align-items-center position-relative uploaded_file">
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <div
-                key={img.url}
-                className="m-2 d-flex flex-column text-center justify-content-center align-items-center"
-              >
-                <span className="uploaded_file">
+              <figure key={img.url}>
                   <FileRenderer fileURL={img.url} />
-                </span>
-                <div>{img.title}</div>
-              </div>
+                {/* <span>{img.title}</span> */}
+              </figure>
             ) : null
           )}
           {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
             <button
               type="button"
-              className="btn border py-0 px-1"
+              className="count_btn"
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
@@ -225,9 +220,7 @@ export const productsColumns = (
                 })
               }
             >
-              {`. . .+${
-                imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-              }`}
+              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </div>

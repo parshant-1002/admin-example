@@ -1,12 +1,12 @@
 // _mixin.scss
 
-@each $aSize, $fSize in (24 50), (30),(60),(80) {
+@each $aSize, $fSize in (24 50), (44),(60),(80) {
   .avtar#{$aSize} {
     max-height: #{$aSize}px;
     max-width: #{$aSize}px;
     min-height: #{$aSize}px;
     min-width: #{$aSize}px;
-    border-radius: #{$fSize}px;
+    border-radius: #{$aSize}px;
   }
 }
 
@@ -290,14 +290,14 @@
   width: 20px;
   height: 23px;
   inset-inline-end: 0px;
-  background: transparent;
+  background: $transparent;
 }
 @mixin curve-bottom{
   @include position($absolute, $bottom:-23px,);
   width: 20px;
   height: 23px;
   inset-inline-end: 0px;
-  background: transparent;
+  background: $transparent;
   @media (max-width:1199.98px){
     height: 66px;
   }
@@ -351,7 +351,7 @@
   line-height: 29.67px;
   height: 55px;
   border: 1px solid $grey-light;
-  &::placeholder{    
+  &::placeholder{
   color: $grey-light;
   }
 }

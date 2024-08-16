@@ -12,17 +12,15 @@ function CustomTabs({
   activeTab: string;
 }) {
   return (
-    <ul className="nav nav-tabs mt-3 bg-white row mx-1 rounded">
+    <ul className="nav nav-tabs mt-3 mx-0">
       {tabs?.map((tab: string) => (
         <li
           key={tab}
-          className={` col-${Math.floor(12 / tabs.length)} ${
-            activeTab === tab ? 'nav-item-active' : 'nav-item'
-          }`}
+          className={activeTab === tab ? 'nav-item active' : 'nav-item'}
           onClick={() => setActiveTab(tab)}
         >
           <a
-            className={`nav-link ${
+            className={`text-center nav-link ${
               activeTab === tab ? 'text-white font-weight-bold' : 'text-dark'
             }`}
           >

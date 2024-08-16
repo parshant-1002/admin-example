@@ -56,7 +56,7 @@ function ImageGallery({ data }: ViewMultiData) {
         </button>
         <div className="upload-image">
           <FileRenderer fileURL={selectedImage?.url} />
-          <div className="image-title text-primary">{selectedImage?.title}</div>
+          <h6 className="h6">{selectedImage?.title}</h6>
         </div>
         <button
           className="arrow-btn"

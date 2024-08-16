@@ -135,11 +135,11 @@ function StatsFilters({
 
   return (
     <>
-      <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column">
+      <div className="w-100 align-items-center d-flex flex-md-row flex-column filter_main">
         <div className="col-md-4 col-xl-6">
           {showHeading ? <Breadcrumbs /> : null}
         </div>
-        <div className="col-md-8 col-xl-6 my-2">
+        <div className="col-md-8 col-xl-6 mb-3">
           <div className="d-flex justify-content-end align-items-start stats_filter">
             {selectedIds?.length ? (
               <Button
@@ -153,7 +153,7 @@ function StatsFilters({
             {showSearch ? (
               <div className="dark-form-control position-relative">
                 <TextField
-                  type="text"
+                  type="search"
                   placeholder="Search..."
                   value={searchValue}
                   onChange={handleSearchChange}
@@ -196,13 +196,15 @@ function StatsFilters({
         </div>
       </div>
       {showFilters ? (
-        <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column gap-3">
+        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-3 mt-4 mb-3">
           {brandOptions ? (
             <div className="col-md-2 col-xl-2 ">
               <ReactSelect
                 options={brandOptions}
                 onChange={handleChangeBrandFilter}
                 value={filtersState.selectedBrand}
+                className="react-select"
+                classNamePrefix="react-select-prefix"
               />
             </div>
           ) : null}

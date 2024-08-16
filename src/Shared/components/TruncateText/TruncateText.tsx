@@ -15,7 +15,7 @@ function TruncatedText({ text }: TruncatedTextProps) {
       : text;
 
   return (
-    <span className="d-flex">
+    <span className="d-inline-flex">
       <span>{displayText}</span>
       {String(text).length > maxLength ? (
         <button

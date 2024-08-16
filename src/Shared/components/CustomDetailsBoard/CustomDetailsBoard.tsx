@@ -46,14 +46,16 @@ function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
     return value || `---`;
   };
   return (
-    <div className="p-4 bg-white rounded shadow">
-      <div className="row border p-3">
-        {schema.map((field) => (
-          <div key={field.label} className="col-md-3 mb-3">
-            <h5 className="font-weight-bold">{field.label}</h5>
-            <p>{renderFieldValue(field)}</p>
-          </div>
-        ))}
+    <div className="card">
+      <div className="card-body px-4">
+        <div className="row pt-2">
+          {schema.map((field) => (
+            <div key={field.label} className="col-md-3 mb-3">
+              <label className="font-weight-bold">{field.label}</label>
+              <p>{renderFieldValue(field)}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

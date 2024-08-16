@@ -123,9 +123,12 @@ function Sidebar() {
         to={ROUTES.HOMEPAGE}
         className="text-center py-2 w-100 d-block aside_logo"
       >
+        <h4 className="admin-brand-logo text-center d-none d-xl-block">
+          Penny Auction
+        </h4>
         {/* <img src={Logo} alt="Logo" width={180} /> */}
       </Link>
-      <ul className="sidebar-nav mt-5" id="sidebar-nav">
+      <ul className="sidebar-nav mt-3 pt-4 pt-xl-0" id="sidebar-nav">
         {sidebar}
       </ul>
     </aside>

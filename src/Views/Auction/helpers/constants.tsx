@@ -9,7 +9,10 @@ import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessag
 import { AuctionResponsePayload } from './model';
 import { Category, ViewMultiData } from '../../Products/helpers/model';
 import { SelectOption } from '../../Users/helpers/model';
-import { AuctionStatus, PurchaseStatus } from '../AuctionDetails/Helpers/constants';
+import {
+  AuctionStatus,
+  PurchaseStatus,
+} from '../AuctionDetails/Helpers/constants';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;

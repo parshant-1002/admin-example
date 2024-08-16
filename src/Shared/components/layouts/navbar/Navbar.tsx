@@ -41,11 +41,22 @@ function Navbar() {
   };
 
   return (
-    <header id="header" className="header fixed-top d-flex align-items-center">
+    <header
+      id="header"
+      className="header fixed-top d-flex align-items-center ms-auto"
+    >
       <div className="d-flex align-items-center justify-content-between">
+        <a
+          aria-label="Hide Sidebar"
+          className="d-flex text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+          data-bs-toggle="sidebar"
+          href="/spruha-js/preview/apps/tables/tables/"
+        >
+          <span />
+        </a>
         <Link to="" className="logo d-flex align-items-center">
           {/* <img src="assets/img/logo.png" alt="Logo" /> */}
-          <h4 className="admin-brand-logo ms-xl-4">Penny Auction Admin</h4>
+          <h4 className="admin-brand-logo ms-xl-4">Penny Auction</h4>
         </Link>
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>

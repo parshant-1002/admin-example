@@ -93,91 +93,122 @@ function CustomTableView({
     if (column.noClickEvent) return null;
     handleRowClick(row, index);
   };
+
+  const [activeRowId, setActiveRowId] = useState<string | number | null>(null);
+
+  const handleToggleRow = (rowId: string | number) => {
+    setActiveRowId((prevId) => (prevId === rowId ? null : rowId));
+  };
+
   return (
     <>
-      <table className="custom-table">
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th
-                scope="col"
-                key={column.title}
-                style={{ width: column?.width || 0 }}
-                className={column?.sortable ? 'cursor-pointer' : ''}
-                onClick={() => {
-                  if (!column?.sortable) return;
-                  const sortKey = column.sortType;
-                  const sortOrder =
-                    selectedSortType === FilterOrder.ASCENDING
-                      ? FilterOrder.DESCENDING
-                      : FilterOrder.ASCENDING;
-
-                  handleSortingClick(sortOrder, sortKey);
-                  setSelectedSortType(sortOrder);
-                }}
-              >
-                {column.title}
-                <button type="button" className="btn btn38 btn-collapse">
-                  <img src={downArrow} alt="Down Arrow" />
-                </button>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading && (
-            <tr>
-              <td colSpan={columns.length}>
-                <p className="text-center">Loading...</p>
-              </td>
-            </tr>
-          )}
-          {!rows.length
-            ? !isLoading && (
+      <div className="card">
+        <div className="card-body">
+          <div className="table-responsive">
+            <table className="custom-table">
+              <thead>
                 <tr>
-                  <td colSpan={12} className="no-data">
-                    <p className="no-media d-flex justify-content-center align-items-center py-5">
-                      {noDataFound}
-                    </p>
-                  </td>
+                  {columns.map((column) => (
+                    <th
+                      scope="col"
+                      key={column.title}
+                      style={{ width: column?.width || 0 }}
+                      className={column?.sortable ? 'cursor-pointer' : ''}
+                      onClick={() => {
+                        if (!column?.sortable) return;
+                        const sortKey = column.sortType;
+                        const sortOrder =
+                          selectedSortType === FilterOrder.ASCENDING
+                            ? FilterOrder.DESCENDING
+                            : FilterOrder.ASCENDING;
+
+                        handleSortingClick(sortOrder, sortKey);
+                        setSelectedSortType(sortOrder);
+                      }}
+                    >
+                      {column.title}
+                    </th>
+                  ))}
                 </tr>
-              )
-            : rowsToBeRendered.map((row, index) =>
-                quickEditRowId === row._id ? (
-                  <td colSpan={10} key={row._id}>
-                    <h1>Edit</h1>
-                  </td>
-                ) : (
-                  <>
-                    <tr key={row._id} className="tr-item">
-                      {columns.map((column) => (
-                        <Fragment key={`${row._id}-columns`}>
-                          <td
-                            data-label={column.title}
-                            onClick={() => {
-                              handleRowClickInternal(row, column, index);
-                            }}
-                          >
-                            {getColumnValue(row, column)}
-                          </td>
-                        </Fragment>
-                      ))}
-                    </tr>
-                    {`${index}-${row?._id}` === selectedRow && (
+              </thead>
+              <tbody>
+                {isLoading && (
+                  <tr>
+                    <td colSpan={columns.length}>
+                      <p className="text-center">Loading...</p>
+                    </td>
+                  </tr>
+                )}
+                {!rows.length
+                  ? !isLoading && (
                       <tr>
-                        <td
-                          colSpan={columns.length}
-                          className="text-primary secondary_component"
-                        >
-                          {SecondaryRowComponent()}
+                        <td colSpan={12} className="no-data">
+                          <p className="no-media d-flex justify-content-center align-items-center py-5">
+                            {noDataFound}
+                          </p>
                         </td>
                       </tr>
+                    )
+                  : rowsToBeRendered.map((row, index) =>
+                      quickEditRowId === row._id ? (
+                        <td colSpan={10} key={row._id}>
+                          <h1>Edit</h1>
+                        </td>
+                      ) : (
+                        <>
+                          <tr
+                            key={row._id}
+                            className={`tr-item ${
+                              activeRowId === row._id ? 'tr-active' : ''
+                            }`}
+                          >
+                            {columns.map((column, index) => (
+                              <Fragment key={`${row._id}-columns`}>
+                                <td
+                                  data-label={column.title}
+                                  onClick={() => {
+                                    handleRowClickInternal(row, column, index);
+                                  }}
+                                >
+                                  {getColumnValue(row, column)}
+                                  {index == 0 ? (
+                                    <button
+                                      type="button"
+                                      className="btn btn38 btn-collapse"
+                                      onClick={(e) => {
+                                        e.stopPropagation(); // Prevent triggering row click
+                                        handleToggleRow(row._id);
+                                      }}
+                                    >
+                                      <img
+                                        src={downArrow}
+                                        alt="Down Arrow"
+                                        width=""
+                                      />
+                                    </button>
+                                  ) : null}
+                                </td>
+                              </Fragment>
+                            ))}
+                          </tr>
+                          {`${index}-${row?._id}` === selectedRow && (
+                            <tr>
+                              <td
+                                colSpan={columns.length}
+                                className="text-primary secondary_component"
+                              >
+                                {SecondaryRowComponent()}
+                              </td>
+                            </tr>
+                          )}
+                        </>
+                      )
                     )}
-                  </>
-                )
-              )}
-        </tbody>
-      </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       {pagination && rows?.length ? (
         <div className="pagination-group d-flex justify-content-end align-items-center">

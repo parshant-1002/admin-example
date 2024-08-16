@@ -22,7 +22,7 @@
                 color: $white-color;
                 border: 1px solid #2a766a;
                 background: $dark-voilet-color-700;
-                background: linear-gradient(0deg, $dark-voilet-color-500 21%, $dark-voilet-color-700 100%);
+                background: linear-gradient(0deg, $primary-color 21%, $dark-voilet-color-700 100%);
             }
         }
     }
@@ -35,28 +35,32 @@
 }
 
 .uploaded_file {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-        max-width: 150px;
-        max-height: 150px;
-        min-width: 100px;
-        min-height: 100px;
-        width: 100%;
-        @include border-radius(7px);
-        padding: 10px;
+    overflow: $hidden;
+    gap: 5px;
+    z-index: 1;
+    figure {
+        width: 80px;
+        margin-bottom: 0;
         object-fit: $contain;
-        background-color: $white-color;
+        @include border-radius(7px);
+        img {
+            width: 100%;
+            max-height: 50px;
+            object-fit: $contain;
+        }
     }
+}
 
-    small {
-        min-width: 150px;
-        min-height: 150px;
-        width: 100%;
-        background-color: $white-color;
-    }
+.count_btn {
+    @include border-radius (5px 0px 0 0);
+    background-color: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    @include font-size (.725);
+    color: $white-color;
+    width: 28px;
+    height: 28px;
+    @include position ($absolute,$right:0, $bottom:0);
+    z-index:1;
 }
 
 .file-group {
@@ -125,7 +129,7 @@
             }
         }
 
-        .checkbox-wrapper {
+        .custom-checkbox {
             position: absolute;
             left: 10px;
             top: 50%;
@@ -214,7 +218,7 @@
             background-color: #45a049;
         }
     }
-    
+
 }
 
 
