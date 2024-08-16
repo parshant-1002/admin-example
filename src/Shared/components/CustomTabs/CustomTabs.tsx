@@ -16,9 +16,7 @@ function CustomTabs({
       {tabs?.map((tab: string) => (
         <li
           key={tab}
-          className={`${
-            activeTab === tab ? 'nav-item active' : 'nav-item'
-          }`}
+          className={activeTab === tab ? 'nav-item active' : 'nav-item'}
           onClick={() => setActiveTab(tab)}
         >
           <a
