@@ -254,7 +254,7 @@ export default function UsersList() {
   }, [refetch, currentPage, search, sortKey, sortDirection]);
 
   return (
-    <div>
+    <>
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION.DELETE}
         open={deleteModal?.show}
@@ -310,6 +310,6 @@ export default function UsersList() {
           />
         )}
       />
-    </div>
+    </>
   );
 }

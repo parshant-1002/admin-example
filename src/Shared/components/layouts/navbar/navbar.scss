@@ -1,36 +1,42 @@
 @import "../../../../assets/scss/base";
 
 .header {
-    z-index: 997;
-    height: 60px;
-    position: sticky;
-    top: 0;
-  }
-  .header{
+    z-index: 99;
+    @include position (sticky, $top:0);
+    border-bottom: 1px solid $grey-color-200;
+    width: calc(100% - 300px);
+    padding-left: 15px;
     @media(max-width:1199.98px){
       width: calc(100% - 70px);
-      margin-left: auto;
+      margin-left: $auto;
       background: $white-color;
       border-bottom: 1px solid $black-color;
     }
-  }
-  .header-nav{
-    background: $white-color;
+    .header-nav{
+      @include flexbox;
+      @include justify-content (flex-end);
+      padding-block: 10px;
+      background: $white-color;
       width: calc(100% - 300px);
-      display: flex;
-      justify-content: flex-end;
-      padding-block: 4px;
-      border-bottom: 1px solid $grey-color-200;
       @media(max-width:1199.98px){
-        width: auto;
-        background-color: unset;
-        border: unset;
+        background-color: $none;
+        border: $none;
+        width: $auto;
       }
-  }
-
-  .header-nav .nav-icon {
-    font-size: 22px;
-    color: #012970;
-    margin-right: 25px;
-    position: relative;
+    }
+    .animated-arrow {
+      display: flex !important;
+    align-items: center;
+    padding: 1rem .3rem;
+          span:before,
+      span:after {
+        @include position ($absolute);
+        cursor: pointer;
+        height: .125rem;
+        width: 1.25rem;
+        background: $base-color;
+        display: $block;
+        content: "";
+      }
+    }
   }

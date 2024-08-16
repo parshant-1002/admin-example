@@ -16,7 +16,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         width: 18px;
         height: 15px;
         background-size: 18px;
-        @include position($absolute, $left: 90px, $top: 23px);
+        @include position($absolute, $left: 70px, $top: 23px);
         @media (max-width:1199.98px){
           left:20px;
         }
@@ -24,9 +24,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     }
   }
 }
-.nav-item{
-  padding-block: 5px;
-}
+
 $bgLeft: url(./assets/images/left-bg.png);
 .sidebar {
   @include position($fixed, $top:0, $left:0, $bottom:0);
@@ -45,17 +43,15 @@ $bgLeft: url(./assets/images/left-bg.png);
       .nav-link {
         @include font(1rem, 21.78px, $font-regular);
         transition: 0s;
-        padding: 21px 15px 19px 65px;
-        border-radius: 4px;
-        margin-left: 19.1px;
-        border-radius: 0;
-        border-top-left-radius:20px;
-        border-bottom-left-radius:20px;
-        position: relative;
-        @media (max-width:1199.98px){
+        padding: 21px 15px 19px 55px;
+        margin-left: 10px;
+        border-top-left-radius:12px;
+        border-bottom-left-radius:12px;
+        position: $relative;
+        @media (max-width:1199.99px){
           padding-left: 15px;
-          font-size: 0;
           margin-left: 5px;
+          font-size: 0;
         }
         &::before{
           @include top-curve-before;
@@ -95,7 +91,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         background-size: 25px;
         position: absolute;
         top: 19px;
-        left: 25px;
+        left: 15px;
         -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;
         background-color: $white-color;
@@ -140,7 +136,7 @@ $bgLeft: url(./assets/images/left-bg.png);
       }
     }
     .accordion-item{
-      padding-left: 19.1px;
+      padding-left: 10px;
       background-color: unset;
       @media (max-width: 1199.98px){
         padding-left: 0;
@@ -191,7 +187,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         border-bottom-right-radius: 0 !important;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
-        padding: 21px 15px 19px 65px;
+        padding: 21px 15px 19px 55px;
         @include font(18px, 21.27px, 400);
         background-color: unset;
         color: $white-color;
@@ -205,7 +201,7 @@ $bgLeft: url(./assets/images/left-bg.png);
         border-radius: 0;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
-        padding: 15px 15px 15px 120px;
+        padding: 15px 15px 15px 100px;
       }
     }
   }
