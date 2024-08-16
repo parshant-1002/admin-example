@@ -199,10 +199,7 @@ export const productsColumns = (
         <div className="d-flex align-items-center uploaded_file">
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <div
-                key={img.url}
-                className="d-flex flex-column"
-              >
+              <div key={img.url} className="d-flex flex-column">
                 <figure>
                   <FileRenderer fileURL={img.url} />
                 </figure>
@@ -221,9 +218,7 @@ export const productsColumns = (
                 })
               }
             >
-              {`+${
-                imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-              }`}
+              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </div>
