@@ -8,8 +8,10 @@ export interface FiltersState {
   startDate?: string | Date;
   endDate?: string | Date;
   priceRange?: [number, number];
+  secondaryPriceRange?: [number, number];
   brand?: SelectOption[];
   selectedBrand?: SelectOption | null;
   status?: SelectOption[];
   selectedStatus?: SelectOption | null;
+  selectedSecondaryOptions?: SelectOption | null;
 }

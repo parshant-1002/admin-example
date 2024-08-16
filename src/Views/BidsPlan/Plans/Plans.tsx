@@ -41,15 +41,7 @@ import { ErrorResponse } from '../../../Models/Apis/Error';
 import { Filter, RED_WARNING } from '../../../assets';
 import { calculateDiscountedPrice } from '../helpers/utils';
 import Filters from '../../../Shared/components/Filters';
-
-// Interfaces
-interface QueryParams {
-  skip: number;
-  limit: number;
-  searchString?: string;
-  sortKey: string;
-  sortDirection: FilterOrder;
-}
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 
 interface Popup {
   show: boolean;
@@ -64,6 +56,8 @@ function Plans() {
   const navigate = useNavigate();
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
+
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -81,12 +75,13 @@ function Plans() {
   const onComponentMountRef = useRef(false);
 
   // Query Parameters
-  const queryParams: QueryParams = {
+  const queryParams = {
     skip: currentPage * PAGE_LIMIT,
     limit: PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
@@ -106,7 +101,7 @@ function Plans() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -283,6 +278,12 @@ function Plans() {
     [popup?.data, popup?.type]
   );
 
+  const handleApplyFilters = (filter: FiltersState) => {
+    setFilters({
+      fromDate: filter?.startDate,
+      toDate: filter?.endDate,
+    });
+  };
   return (
     <div>
       {/* Filters */}
@@ -299,6 +300,7 @@ function Plans() {
         handleClearAll={() => setSelectedIds([])}
         filterToggleImage={Filter}
         showDateFilter
+        handleApply={handleApplyFilters}
       />
 
       {/* Table */}

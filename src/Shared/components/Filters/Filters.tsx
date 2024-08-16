@@ -5,7 +5,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // consts
-import ReactSelect, { ActionMeta, SingleValue } from 'react-select';
+import { SingleValue } from 'react-select';
 import { BUTTON_LABELS } from '../../constants';
 
 // components
@@ -38,8 +38,13 @@ interface StatsFiltersProps {
   showDateFilter?: boolean;
   showFiltersToggle?: boolean;
   priceRange?: PriceRange;
+  secondaryPriceRange?: PriceRange;
+  secondarySelectPlaceHolder?: string;
   statusOptions?: SelectOption[];
   handleApply?: (filter: FiltersState) => void;
+  secondarySelectOptions?: SelectOption[];
+  rangeSilderTitle?: string;
+  secondaryRangeSilderTitle?: string;
 }
 
 function StatsFilters({
@@ -55,9 +60,14 @@ function StatsFilters({
   handleClearAll = () => {},
   brandOptions,
   showDateFilter,
+  secondaryRangeSilderTitle,
+  secondaryPriceRange,
   showFiltersToggle = true,
   priceRange,
   statusOptions,
+  secondarySelectOptions,
+  secondarySelectPlaceHolder,
+  rangeSilderTitle,
   handleApply = () => {},
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
@@ -65,6 +75,7 @@ function StatsFilters({
     priceRange: [priceRange?.min || 0, priceRange?.max || 0],
     selectedBrand: null,
     selectedStatus: null,
+    selectedSecondaryOptions: null,
   };
   const [showFilters, setShowFilters] = useState(false);
   const [isFiltersOn, setIsFiltersOn] = useState(false);
@@ -96,10 +107,10 @@ function StatsFilters({
     setShowFilters((prev) => !prev);
   };
   const handleChangeStatusOptions = (
-    newValue: SingleValue<SelectOption>,
-    actionMeta: ActionMeta<SelectOption>
+    newValue: SingleValue<SelectOption>
+    // actionMeta: ActionMeta<SelectOption>
   ) => {
-    console.log(' ~ actionMeta:', actionMeta);
+    // console.log(' ~ actionMeta:', actionMeta);
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
@@ -107,11 +118,24 @@ function StatsFilters({
       selectedStatus: newValue,
     }));
   };
-  const handleChangeBrandFilter = (
-    newValue: SingleValue<SelectOption>,
-    actionMeta: ActionMeta<SelectOption>
+
+  const handleChangeSecondarySelectOptions = (
+    newValue: SingleValue<SelectOption>
+    // actionMeta: ActionMeta<SelectOption>
   ) => {
-    console.log(' ~ actionMeta:', actionMeta);
+    // console.log(' ~ actionMeta:', actionMeta);
+    setIsFiltersOn(true);
+
+    setFilterState((prev: FiltersState) => ({
+      ...prev,
+      secondarySelectOptions: newValue,
+    }));
+  };
+  const handleChangeBrandFilter = (
+    newValue: SingleValue<SelectOption>
+    // actionMeta: ActionMeta<SelectOption>
+  ) => {
+    // console.log(' ~ actionMeta:', actionMeta);
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
@@ -124,6 +148,14 @@ function StatsFilters({
     setFilterState((prev: FiltersState) => ({
       ...prev,
       priceRange: [selctedPriceRange[0], selctedPriceRange[1]],
+    }));
+  };
+  const handleChangeSecondaryPriceRange = (
+    selctedPriceRange: [number, number]
+  ) => {
+    setFilterState((prev: FiltersState) => ({
+      ...prev,
+      secondaryPriceRange: [selctedPriceRange[0], selctedPriceRange[1]],
     }));
   };
 
@@ -199,12 +231,13 @@ function StatsFilters({
         <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-3 mt-4 mb-3">
           {brandOptions ? (
             <div className="col-md-2 col-xl-2 ">
-              <ReactSelect
+              <CustomSelect
                 options={brandOptions}
                 onChange={handleChangeBrandFilter}
                 value={filtersState.selectedBrand}
                 className="react-select"
                 classNamePrefix="react-select-prefix"
+                placeholder="Category"
               />
             </div>
           ) : null}
@@ -224,10 +257,24 @@ function StatsFilters({
           {priceRange ? (
             <div className="col-md-2 col-xl-2">
               <PriceRangeSlider
+                isFiltersOn={isFiltersOn}
+                rangeSilderTitle={rangeSilderTitle}
                 min={priceRange.min}
                 max={priceRange.max}
                 value={filtersState?.priceRange}
                 onChange={handleChangePriceRange}
+              />
+            </div>
+          ) : null}
+          {secondaryPriceRange ? (
+            <div className="col-md-2 col-xl-2">
+              <PriceRangeSlider
+                isFiltersOn={isFiltersOn}
+                rangeSilderTitle={secondaryRangeSilderTitle}
+                min={secondaryPriceRange.min}
+                max={secondaryPriceRange.max}
+                value={filtersState?.secondaryPriceRange}
+                onChange={handleChangeSecondaryPriceRange}
               />
             </div>
           ) : null}
@@ -237,6 +284,17 @@ function StatsFilters({
                 options={statusOptions}
                 onChange={handleChangeStatusOptions}
                 value={filtersState?.selectedStatus}
+                placeholder="Status"
+              />
+            </div>
+          ) : null}
+          {secondarySelectOptions ? (
+            <div className="col-md-2 col-xl-2 ">
+              <CustomSelect
+                options={secondarySelectOptions}
+                onChange={handleChangeSecondarySelectOptions}
+                value={filtersState?.selectedSecondaryOptions}
+                placeholder={secondarySelectPlaceHolder}
               />
             </div>
           ) : null}

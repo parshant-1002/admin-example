@@ -440,11 +440,23 @@ const BID_CREDIT_TYPES = {
   REFUND: 5,
 };
 
+const BID_CREDIT_TYPES_OPTIONS = [
+  { label: 'PURCHASE', value: BID_CREDIT_TYPES.PURCHASE },
+  { label: 'GIFT', value: BID_CREDIT_TYPES.GIFT },
+  { label: 'REFERRAL', value: BID_CREDIT_TYPES.REFERRAL },
+  { label: 'BONUS', value: BID_CREDIT_TYPES.BONUS },
+  { label: 'REFUND', value: BID_CREDIT_TYPES.REFUND },
+];
+
 const BID_STATUS = {
   CONFIRMED: 1,
   REFUNDED: 2,
 };
 
+const BID_STATUS_OPTIONS = [
+  { label: 'CONFIRMED', value: BID_STATUS.CONFIRMED },
+  { label: 'REFUNDED', value: BID_STATUS.REFUNDED },
+];
 const AUCTION_STATUS = {
   PENDING: 1, // awaiting bidding
   ACTIVE: 2, // bidding active
@@ -452,6 +464,15 @@ const AUCTION_STATUS = {
   REFUNDED: 4,
 };
 
+const AUCTION_HISTORY_FRONTEND = {
+  COMPLETED: 1, // Active, Ended
+  REFUNDED: 2, // Cancelled
+};
+
+const AUCTION_HISTORY_FRONTEND_OPTIONS = [
+  { label: 'COMPLETED', value: AUCTION_HISTORY_FRONTEND.COMPLETED },
+  { label: 'REFUNDED', value: AUCTION_HISTORY_FRONTEND.REFUNDED },
+];
 const ADD_BIDS_FORM_SCHEMA = {
   bids: {
     type: INPUT_TYPES.NUMBER,
@@ -469,7 +490,10 @@ export {
   BID_CREDIT_TYPES,
   BID_STATUS,
   CONFIRMATION_DESCRIPTION,
+  AUCTION_HISTORY_FRONTEND_OPTIONS,
+  BID_STATUS_OPTIONS,
   USER_DETAILS_SCHEMA,
+  BID_CREDIT_TYPES_OPTIONS,
   UserDetailsTabs,
   auctionBiddingHistoryColumn,
   biddingHistoryColumn,

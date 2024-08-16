@@ -61,6 +61,7 @@ export default function UserDetails() {
         showSearch={false}
         addButtonLabel={BUTTON_LABELS.ADD_BIDS}
         setAddData={handleAddBids}
+        showFiltersToggle={false}
       />
       <UserProfile userId={state} />
       <div className="mt-4 mt-lg-5 tab-with-filter">

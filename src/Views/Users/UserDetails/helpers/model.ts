@@ -65,6 +65,7 @@ export interface UserBid {
   bidPlan?: BidPlan;
   phoneNumber?: string;
   address?: string;
+  auctionId?: string;
   auctionDetails: {
     id: string;
     title: string;

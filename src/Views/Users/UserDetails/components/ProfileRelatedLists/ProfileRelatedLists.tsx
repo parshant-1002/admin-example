@@ -16,10 +16,14 @@ import ViewMultiTableItem from '../ViewMultiTableItem';
 import {
   BUTTON_LABELS,
   FilterOrder,
+  PRICE_RANGE,
   STRINGS,
 } from '../../../../../Shared/constants';
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
+  AUCTION_HISTORY_FRONTEND_OPTIONS,
+  BID_CREDIT_TYPES_OPTIONS,
+  BID_STATUS_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
   auctionHistoryColumn,
@@ -44,8 +48,8 @@ import {
   useGetUserBidsCreditHistoryQuery,
   useGetUserProductHistoryQuery,
 } from '../../../../../Services/Api/module/users';
+import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
-import AuctionBidsDetails from '../AuctionBidsDetails';
 import {
   transformAuctionHistoryResponse,
   transformBidderPurchaseResponse,
@@ -53,20 +57,18 @@ import {
   transformProductHistoryResponse,
   transformReferralHistoryResponse,
 } from '../../helpers/utils';
+import AuctionBidsDetails from '../AuctionBidsDetails';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
   show: boolean;
 }
 
-interface QueryParams {
-  skip: number;
-  limit: number;
-  searchString?: string;
-  sortKey: string;
-  sortDirection: FilterOrder;
-  userId?: string;
-  auctionId?: string | number;
+interface FilterPayload {
+  fromDate?: string | Date;
+  toDate?: string | Date;
+  status?: number;
+  type?: number;
 }
 
 // Constants
@@ -102,6 +104,7 @@ export default function ProfileRelatedLists({
     show: false,
     data: { id: '', ids: [''] },
   });
+  const [filters, setFilters] = useState({});
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const [selectedAuctionId, setSelectedAuctionId] = useState<string | number>(
     ''
@@ -117,73 +120,89 @@ export default function ProfileRelatedLists({
   const onComponentMountRef = useRef(false);
 
   // Query Parameters
-  const queryParams: QueryParams = {
+  const queryParams = {
     skip: currentPage * PROFILE_RELATED_LIST_PAGE_LIMIT,
     limit: PROFILE_RELATED_LIST_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
     userId,
+    ...filters,
   };
   // API Queries
-  const { data: userBidsCreditHistory, refetch: refetchUserBidsCreditHistory } =
-    useGetUserBidsCreditHistoryQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: currentTab !== UserDetailsTabs.BIDS_PURCHASE_HISTORY,
-      }
-    );
+  const {
+    data: userBidsCreditHistory,
+    refetch: refetchUserBidsCreditHistory,
+    error: isfetchUserBidsCreditHistory,
+  } = useGetUserBidsCreditHistoryQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    {
+      skip: currentTab !== UserDetailsTabs.BIDS_PURCHASE_HISTORY,
+    }
+  );
 
-  const { data: userBidsSpentHistory, refetch: refetchBidsSpentHistory } =
-    useGetBidsSpentHistoryQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: currentTab !== UserDetailsTabs.BIDDING_HISTORY,
-      }
-    );
-  const { data: userReferralHistory, refetch: refetchUserReferralHistory } =
-    useGetReferralHistoryQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: currentTab !== UserDetailsTabs.REFERRAL_HISTORY,
-      }
-    );
+  const {
+    data: userBidsSpentHistory,
+    refetch: refetchBidsSpentHistory,
+    error: isfetchBidsSpentHistory,
+  } = useGetBidsSpentHistoryQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    {
+      skip: currentTab !== UserDetailsTabs.BIDDING_HISTORY,
+    }
+  );
+  const {
+    data: userReferralHistory,
+    refetch: refetchUserReferralHistory,
+    error: isfetchUserReferralHistory,
+  } = useGetReferralHistoryQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    {
+      skip: currentTab !== UserDetailsTabs.REFERRAL_HISTORY,
+    }
+  );
 
-  const { data: userProductHistory, refetch: refetchUserProductHistory } =
-    useGetUserProductHistoryQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: currentTab !== UserDetailsTabs.PRODUCT_HISTORY,
-      }
-    );
+  const {
+    data: userProductHistory,
+    refetch: refetchUserProductHistory,
+    error: isfetchUserProductHistory,
+  } = useGetUserProductHistoryQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    {
+      skip: currentTab !== UserDetailsTabs.PRODUCT_HISTORY,
+    }
+  );
 
-  const { data: userAuctionHistory, refetch: refetchUserAuctionHistory } =
-    useGetAuctionHistoryQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: currentTab !== UserDetailsTabs.AUCTION_HISTORY,
-      }
-    );
+  const {
+    data: userAuctionHistory,
+    refetch: refetchUserAuctionHistory,
+    error: isfetchUserAuctionHistory,
+  } = useGetAuctionHistoryQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    {
+      skip: currentTab !== UserDetailsTabs.AUCTION_HISTORY,
+    }
+  );
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -246,13 +265,33 @@ export default function ProfileRelatedLists({
   // Effect to refetch data on dependencies change
   const refetchMap = useMemo(
     () => ({
-      [UserDetailsTabs.BIDS_PURCHASE_HISTORY]: refetchUserBidsCreditHistory,
-      [UserDetailsTabs.BIDDING_HISTORY]: refetchBidsSpentHistory,
-      [UserDetailsTabs.PRODUCT_HISTORY]: refetchUserProductHistory,
-      [UserDetailsTabs.REFERRAL_HISTORY]: refetchUserReferralHistory,
-      [UserDetailsTabs.AUCTION_HISTORY]: refetchUserAuctionHistory,
+      [UserDetailsTabs.BIDS_PURCHASE_HISTORY]: {
+        refetch: refetchUserBidsCreditHistory,
+        isFetched: isfetchUserBidsCreditHistory,
+      },
+      [UserDetailsTabs.BIDDING_HISTORY]: {
+        refetch: refetchBidsSpentHistory,
+        isFetched: isfetchBidsSpentHistory,
+      },
+      [UserDetailsTabs.PRODUCT_HISTORY]: {
+        refetch: refetchUserProductHistory,
+        isFetched: isfetchUserProductHistory,
+      },
+      [UserDetailsTabs.REFERRAL_HISTORY]: {
+        refetch: refetchUserReferralHistory,
+        isFetched: isfetchUserReferralHistory,
+      },
+      [UserDetailsTabs.AUCTION_HISTORY]: {
+        refetch: refetchUserAuctionHistory,
+        isFetched: isfetchUserAuctionHistory,
+      },
     }),
     [
+      isfetchUserBidsCreditHistory,
+      isfetchBidsSpentHistory,
+      isfetchUserAuctionHistory,
+      isfetchUserProductHistory,
+      isfetchUserReferralHistory,
       refetchBidsSpentHistory,
       refetchUserAuctionHistory,
       refetchUserBidsCreditHistory,
@@ -277,7 +316,7 @@ export default function ProfileRelatedLists({
         refetchUserBidsCreditHistory();
         return;
       }
-      const refetchFunction = refetchMap[currentTab];
+      const refetchFunction = refetchMap[currentTab].refetch;
       if (refetchFunction) {
         refetchFunction();
         setSelectedRow('');
@@ -293,6 +332,7 @@ export default function ProfileRelatedLists({
     refetchMap,
     callBidsCreditApi,
     refetchUserBidsCreditHistory,
+    filters,
   ]);
 
   // Define the useEffect hook
@@ -323,7 +363,39 @@ export default function ProfileRelatedLists({
     userAuctionHistory,
     transformMap,
   ]);
+  const handleApplyFilters = (filter: FiltersState) => {
+    const initalFilterPayload: FilterPayload = {
+      fromDate: filter?.startDate,
+      toDate: filter?.endDate,
+    };
+    if (currentTab === UserDetailsTabs.BIDDING_HISTORY) {
+      setFilters({
+        ...initalFilterPayload,
+        type: filter?.selectedStatus?.value,
+      });
+    } else {
+      setFilters({
+        ...initalFilterPayload,
+        status: filter?.selectedStatus?.value,
+      });
+    }
+  };
 
+  const statusOptions = () => {
+    switch (currentTab) {
+      case UserDetailsTabs.BIDS_PURCHASE_HISTORY: {
+        return BID_CREDIT_TYPES_OPTIONS;
+      }
+      case UserDetailsTabs.BIDDING_HISTORY: {
+        return BID_STATUS_OPTIONS;
+      }
+      case UserDetailsTabs.AUCTION_HISTORY: {
+        return AUCTION_HISTORY_FRONTEND_OPTIONS;
+      }
+      default:
+        return undefined;
+    }
+  };
   return (
     <>
       <ViewMultiTableItem
@@ -348,6 +420,14 @@ export default function ProfileRelatedLists({
         handleSearch={debounceSearch}
         filterToggleImage={Filter}
         showHeading={false}
+        showDateFilter
+        statusOptions={statusOptions()}
+        priceRange={
+          currentTab === UserDetailsTabs.PRODUCT_HISTORY
+            ? PRICE_RANGE
+            : undefined
+        }
+        handleApply={handleApplyFilters}
       />
 
       <CustomTableView

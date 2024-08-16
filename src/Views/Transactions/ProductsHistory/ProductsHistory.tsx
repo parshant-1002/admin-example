@@ -12,6 +12,7 @@ import { Filters, SeeAllImagesModal } from '../../../Shared/components';
 // Constants
 import {
   FilterOrder,
+  PRICE_RANGE,
   STRINGS,
   TABLE_PAGE_LIMIT,
 } from '../../../Shared/constants';
@@ -23,6 +24,7 @@ import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
 import { Image } from '../../../Models/common';
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 
 // Interfaces
 interface QueryParams {
@@ -36,6 +38,7 @@ interface QueryParams {
 function ProductsHistory() {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -53,6 +56,7 @@ function ProductsHistory() {
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
@@ -98,8 +102,16 @@ function ProductsHistory() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      purchasedPriceMin: filterState?.priceRange?.[0],
+      purchasedPriceMax: filterState?.priceRange?.[1],
+    });
+  };
   return (
     <div>
       {/* More Images Popup */}
@@ -112,6 +124,9 @@ function ProductsHistory() {
       <Filters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
+        showDateFilter
+        handleApply={handleApplyFilters}
+        priceRange={PRICE_RANGE}
       />
 
       <CustomTableView

@@ -14,7 +14,12 @@ import CustomTableView, {
 } from '../../Shared/components/CustomTableView';
 
 // consts
-import { BUTTON_LABELS, ROUTES, STRINGS } from '../../Shared/constants';
+import {
+  BUTTON_LABELS,
+  PRICE_RANGE,
+  ROUTES,
+  STRINGS,
+} from '../../Shared/constants';
 
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
 import { Filter, RED_WARNING } from '../../assets';
@@ -26,11 +31,17 @@ import {
   useGetAuctionsQuery,
 } from '../../Services/Api/module/auction';
 import ViewMultiTableItem from '../Products/components/ViewMultiTableItem';
-import { ViewMultiData } from '../Products/helpers/model';
+import { Category, ViewMultiData } from '../Products/helpers/model';
 import ActionsDropDown from '../../Shared/components/ActionsDropDown';
 import AuctionForm from './AuctionForm';
 import StatsFilters from '../../Shared/components/Filters/Filters';
-import { AuctionStatus } from './AuctionDetails/Helpers/constants';
+import {
+  AuctionStatus,
+  PurchaseStatus,
+} from './AuctionDetails/Helpers/constants';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import { removeEmptyValues } from '../../Shared/utils/functions';
+import { useGetCategorysQuery } from '../../Services/Api/module/category';
 
 interface EditData {
   data: object | null;
@@ -48,8 +59,9 @@ export default function AuctionManagementList() {
     open: false,
     data: { id: '' },
   });
+  const [filters, setFilters] = useState({});
   const [addData, setAddData] = useState<boolean>(false);
-
+  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
     show: false,
@@ -62,10 +74,11 @@ export default function AuctionManagementList() {
   const [deleteAuction] = useDeleteAuctionMutation();
   // query
   const { data: AuctionListing, refetch } = useGetAuctionsQuery({
-    params: {
+    params: removeEmptyValues({
       skip: currentPage * ADD_ONS_PAGE_LIMIT,
       limit: ADD_ONS_PAGE_LIMIT,
-    },
+      ...filters,
+    }),
   });
 
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -167,8 +180,30 @@ export default function AuctionManagementList() {
 
   useEffect(() => {
     refetch();
-  }, [refetch, currentPage, search]);
+  }, [refetch, currentPage, search, filters]);
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      productPriceMin: filterState?.priceRange?.[0],
+      productPriceMax: filterState?.priceRange?.[1],
+      reservePriceMin: filterState?.secondaryPriceRange?.[0],
+      reservePriceMax: filterState?.secondaryPriceRange?.[1],
+      status: filterState?.selectedStatus?.value,
+      categoryId: filterState?.selectedBrand?.value,
+      productPurchaseStatus: filterState?.selectedSecondaryOptions?.value,
+    });
+  };
+
+  const categoryOptions = useMemo(
+    () =>
+      categoryList?.data?.map((category: Category) => ({
+        value: category?._id,
+        label: category?.name,
+      })),
+    [categoryList?.data]
+  );
   return (
     <div>
       <ViewMultiTableItem
@@ -222,8 +257,17 @@ export default function AuctionManagementList() {
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
-        // handleDeleteAll={handleDeleteAll}
+        statusOptions={AuctionStatus}
+        showDateFilter
+        brandOptions={categoryOptions}
+        rangeSilderTitle="Item Price"
+        secondaryRangeSilderTitle="Reserve Price"
+        secondarySelectPlaceHolder="Prize Status"
+        handleApply={handleApplyFilters}
+        priceRange={PRICE_RANGE}
+        secondaryPriceRange={PRICE_RANGE}
         filterToggleImage={Filter}
+        secondarySelectOptions={PurchaseStatus}
       />
 
       <CustomTableView
