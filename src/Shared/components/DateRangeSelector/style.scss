@@ -2,16 +2,23 @@
 
 .calender_field {
   text-align: $left;
-  max-width: 262px;
   margin-left: $auto;
   position: $relative;
-  min-width: 210px;
+  // background-color: $body-color;
   @media (max-width:575px) {
     max-width: 100%;
     margin-left: 0;
     margin-bottom: 0;
   }
   .form-control {
+    background-color: $white-color;
+    border: 1px solid $grey-color-300;
+    @include border-radius (7px);
+    @include font-size (1);
+    color: $grey-dark;
+    @include transition-mixin (all, 0.5s, ease-in-out);
+    white-space: nowrap;
+    overflow: hidden;
     span {
       line-height: 1
     }
@@ -31,6 +38,9 @@
     position: $absolute;
     z-index: 999;
     right: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 8px;
     @media (min-width:768px) and (max-width:991px) {
       left: 0;
       right: auto;

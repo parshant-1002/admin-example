@@ -93,7 +93,7 @@ function StatsFilters({
             {showSearch ? (
               <div className="dark-form-control position-relative">
                 <TextField
-                  type="text"
+                  type="search"
                   placeholder="Search..."
                   value={searchValue}
                   onChange={handleSearchChange}
@@ -136,11 +136,11 @@ function StatsFilters({
         </div>
       </div>
       {showFilters ? (
-        <div className="w-100 align-items-end align-items-md-end d-flex flex-md-row flex-column gap-3">
-          <div className="col-md-2 col-xl-2 ">
+        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-3 mt-4 mb-3">
+          <div className="col-5 col-md-2 col-xxl-2 ">
             <CustomSelect />
           </div>
-          <div className="col-md-2 col-xl-2">
+          <div className="col-5 col-md-2 col-xl-3 col-xxl-2">
             <DateRange
               startDate={filtersState?.startDate}
               endDate={filtersState?.endDate}
@@ -150,10 +150,10 @@ function StatsFilters({
               setIsInitialEmpty={() => {}}
             />
           </div>
-          <div className="col-md-2 col-xl-2">
+          <div className="col-5 col-md-2 col-xl-3 col-xxl-2">
             <PriceRangeSlider min={10} max={100} onChange={() => {}} />
           </div>
-          <div className="col-md-2 col-xl-2 ">
+          <div className="col-5 col-md-2 col-xl-2 ">
             <CustomSelect />
           </div>
 

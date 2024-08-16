@@ -64,7 +64,10 @@ function PriceRangeSlider({
             <h6>Price Range Slider</h6>${value[0]} - ${value[1]}
           </div>
           <div>
-            <Button className="clear-Button" onClick={handleClear}>
+            <Button
+              className="clear-Button btn-outline-primary"
+              onClick={handleClear}
+            >
               Clear
             </Button>
           </div>
