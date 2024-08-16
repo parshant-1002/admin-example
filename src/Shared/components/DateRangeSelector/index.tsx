@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
-import { DateRange, RangeKeyDict } from 'react-date-range';
+import { DateRange, Range } from 'react-date-range';
 
 // styles
 import 'react-date-range/dist/styles.css';
@@ -13,38 +13,45 @@ import CONSTS from './helpers/Constants';
 
 // Define types for dateRange and props
 interface DateRangeType {
-  startDate: string | Date;
-  endDate: string | Date;
+  startDate?: string | Date;
+  endDate?: string | Date;
 }
 
 interface DateRangeSelectorProps {
   dateRange?: DateRangeType;
-  setDateRange?: (range: DateRangeType, isOpen?: boolean) => void;
+  setDateRange?: (
+    range: DateRangeType,
+    setIsOpen: (bool: boolean) => void,
+    isOpen?: boolean
+  ) => void;
   daysError?: string;
   titleText?: string;
+  isInitialEmpty?: boolean;
   icon?: string;
   maxDate?: Date;
+  setClickCount?: (num: number) => void;
 }
 
 function DateRangeSelector({
   dateRange = { startDate: '', endDate: '' },
   setDateRange = () => {},
   daysError,
-  titleText = '',
+  titleText = 'Select Date Range',
   icon,
   maxDate = new Date(),
+  isInitialEmpty = true,
+  setClickCount = () => {},
 }: DateRangeSelectorProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const datePickerRef = useRef<HTMLDivElement>(null);
 
   const toggleCalendar = () => {
+    // function to toggle opening and closing of calendar
     setIsOpen(!isOpen);
     if (!isOpen && !dateRange?.startDate) {
       setDateRange(
-        {
-          startDate: moment().format(CONSTS.dateFormat),
-          endDate: moment().format(CONSTS.dateFormat),
-        },
+        { startDate: moment().format(CONSTS.dateFormat) },
+        setIsOpen,
         isOpen
       );
     }
@@ -64,6 +71,7 @@ function DateRangeSelector({
         !datePickerRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+        setClickCount(0);
       }
     };
 
@@ -72,40 +80,40 @@ function DateRangeSelector({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [setClickCount]);
 
   const handleCalendarMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };
 
-  const createDateRange = (range: RangeKeyDict) => {
+  const createDateRange = () => {
     // Define the type of range based on your usage
-    setDateRange({
-      startDate: moment(range?.selection?.startDate).format(CONSTS.dateFormat),
-      endDate: moment(range?.selection?.endDate).format(CONSTS.dateFormat),
-    });
+    const temoDateRange = { ...dateRange };
+    if (!dateRange?.endDate) {
+      temoDateRange.endDate = dateRange.startDate;
+    }
+    return temoDateRange;
   };
 
   return (
     <div ref={datePickerRef} className="calender_field">
       <div className="form-control position-relative" onClick={toggleCalendar}>
         {icon && <img src={icon} alt="Icon" className="icon" />}
-        <span>{titleText}</span>
-        <span>{renderRange()}</span>
+        {isInitialEmpty ? (
+          <span>{titleText}</span>
+        ) : (
+          <span>{renderRange()}</span>
+        )}
         {daysError && <span className="error">{daysError}</span>}
       </div>
       {isOpen && (
         <div className="calendar-wrapper" onMouseDown={handleCalendarMouseDown}>
           <DateRange
             editableDateInputs
-            onChange={createDateRange}
-            ranges={[
-              {
-                startDate: new Date(dateRange.startDate),
-                endDate: new Date(dateRange.endDate),
-                key: 'selection',
-              },
-            ]}
+            ranges={[createDateRange()] as unknown as Range[]} // pass in currently selected date range to DateRange component
+            onChange={(item) => {
+              setDateRange(item?.selection, setIsOpen, isOpen); // update 'dateRange' prop with newly selected dates
+            }}
             maxDate={maxDate}
           />
         </div>

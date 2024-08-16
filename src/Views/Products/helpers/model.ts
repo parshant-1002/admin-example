@@ -1,8 +1,8 @@
 import { Image } from '../../../Models/common';
 
 export interface SelectOption {
-  value: number;
-  label: string;
+  value: number | string;
+  label: string | number;
 }
 
 // Define the main type

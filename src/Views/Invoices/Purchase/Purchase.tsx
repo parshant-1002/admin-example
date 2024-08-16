@@ -9,30 +9,17 @@ import CustomTableView, {
 } from '../../../Shared/components/CustomTableView';
 
 // Constants
-import {
-  FilterOrder,
-  PRODUCT_PURCHASE_STATUS,
-  STRINGS,
-} from '../../../Shared/constants';
+import { FilterOrder, STRINGS } from '../../../Shared/constants';
 import { PurchaseInvoiceColumns } from '../helpers/constants';
 
 // API
 import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
-import { removeEmptyValues } from '../../../Shared/utils/functions';
 import Filters from '../../../Shared/components/Filters';
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
 import { Filter } from '../../../assets';
-
-// Interfaces
-interface QueryParams {
-  skip: number;
-  limit: number;
-  searchString?: string;
-  sortKey: string;
-  sortDirection: FilterOrder;
-  status: number;
-}
 
 // Constants
 const PURCHASE_PAGE_LIMIT = 5;
@@ -40,6 +27,7 @@ const PURCHASE_PAGE_LIMIT = 5;
 function PurchaseInvoices() {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -50,13 +38,13 @@ function PurchaseInvoices() {
   const onComponentMountRef = useRef(false);
 
   // Query Parameters
-  const queryParams: QueryParams = {
+  const queryParams = {
     skip: currentPage * PURCHASE_PAGE_LIMIT,
     limit: PURCHASE_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
-    status: PRODUCT_PURCHASE_STATUS.PURCHASED,
+    ...filters,
   };
 
   // API Queries
@@ -95,14 +83,21 @@ function PurchaseInvoices() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
-
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+  const handleApplyFilters = (filter: FiltersState) => {
+    setFilters({
+      fromDate: filter?.startDate,
+      toDate: filter?.endDate,
+    });
+  };
   return (
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
         filterToggleImage={Filter}
+        showDateFilter
+        handleApply={handleApplyFilters}
       />
 
       <CustomTableView
