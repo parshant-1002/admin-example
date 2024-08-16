@@ -108,7 +108,7 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
     <div>
       <ViewMultiTableItem
         show={showMultiItemView}
-        setShow={setShowMultiItemView}
+        setShow={() => setShowMultiItemView}
       />
 
       <ConfirmationModal

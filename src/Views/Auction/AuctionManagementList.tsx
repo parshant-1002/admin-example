@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 // components
 import { debounce } from 'lodash';
+import { toast } from 'react-toastify';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
   Column,
@@ -18,13 +19,17 @@ import ConfirmationModal from '../../Shared/components/ConfirmationModal/Confirm
 import { Filter, RED_WARNING } from '../../assets';
 import { AuctionResponsePayload } from './helpers/model';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
-import { AUCTION_STATUS, AuctionColumns } from './helpers/constants';
-import { useGetAuctionsQuery } from '../../Services/Api/module/auction';
+import { AuctionColumns } from './helpers/constants';
+import {
+  useDeleteAuctionMutation,
+  useGetAuctionsQuery,
+} from '../../Services/Api/module/auction';
 import ViewMultiTableItem from '../Products/components/ViewMultiTableItem';
 import { ViewMultiData } from '../Products/helpers/model';
 import ActionsDropDown from '../../Shared/components/ActionsDropDown';
 import AuctionForm from './AuctionForm';
 import StatsFilters from '../../Shared/components/Filters/Filters';
+import { AuctionStatus } from './AuctionDetails/Helpers/constants';
 
 interface EditData {
   data: object | null;
@@ -32,7 +37,7 @@ interface EditData {
 }
 
 interface DeleteData {
-  data: object | null;
+  data: { id: string | undefined } | null;
   open: boolean;
 }
 const ADD_ONS_PAGE_LIMIT = 10;
@@ -40,7 +45,7 @@ const ADD_ONS_PAGE_LIMIT = 10;
 export default function AuctionManagementList() {
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     open: false,
-    data: {},
+    data: { id: '' },
   });
   const [addData, setAddData] = useState<boolean>(false);
 
@@ -53,7 +58,7 @@ export default function AuctionManagementList() {
   const [currentPage, setCurrentPage] = useState(0);
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
   const [search, setSearch] = useState<string>('');
-
+  const [deleteAuction] = useDeleteAuctionMutation();
   // query
   const { data: AuctionListing, refetch } = useGetAuctionsQuery({
     params: {
@@ -67,8 +72,6 @@ export default function AuctionManagementList() {
     setCurrentPage(selectedPageNumber);
   };
 
-  const handleDeleteAll = () => {};
-
   const handleEdit = (row: AuctionResponsePayload) => {
     // console.log('row data', row);
     setEditData({
@@ -77,8 +80,8 @@ export default function AuctionManagementList() {
         status: {
           value: row?.status,
           label:
-            AUCTION_STATUS &&
-            AUCTION_STATUS?.find((status) => status.value === row?.status)
+            AuctionStatus &&
+            AuctionStatus?.find((status) => status.value === row?.status)
               ?.label,
         },
         productId: { value: row.product._id, label: row.product.title },
@@ -137,7 +140,29 @@ export default function AuctionManagementList() {
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, open: false });
   };
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = async () => {
+    try {
+      if (!deleteModal?.data?.id) return null;
+      const deletePayload = {
+        auctionIds: [deleteModal?.data?.id],
+      };
+      await deleteAuction({
+        payload: deletePayload,
+        onSuccess: (data: { message: string }) => {
+          toast.success(data?.message);
+          handleCloseDelete();
+          refetch();
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+      }
+    }
+    return '';
+  };
 
   useEffect(() => {
     refetch();
@@ -197,7 +222,7 @@ export default function AuctionManagementList() {
         search={search}
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
-        handleDeleteAll={handleDeleteAll}
+        // handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
       />
 
