@@ -135,7 +135,7 @@ function StatsFilters({
 
   return (
     <>
-      <div className="w-100 align-items-center d-flex flex-md-row flex-column">
+      <div className="w-100 align-items-center d-flex flex-md-row flex-column filter_main">
         <div className="col-md-4 col-xl-6">
           {showHeading ? <Breadcrumbs /> : null}
         </div>

@@ -325,7 +325,7 @@ export default function ProfileRelatedLists({
   ]);
 
   return (
-    <div>
+    <>
       <ViewMultiTableItem
         show={showMultiItemView}
         setShow={setShowMultiItemView}
@@ -381,6 +381,6 @@ export default function ProfileRelatedLists({
           />
         )}
       />
-    </div>
+    </>
   );
 }

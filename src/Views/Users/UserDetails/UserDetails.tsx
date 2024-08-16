@@ -42,7 +42,7 @@ export default function UserDetails() {
     setSortDirection(FilterOrder.ASCENDING);
   };
   return (
-    <div>
+    <>
       {addData && (
         <CustomModal
           title="Add Bids"
@@ -63,24 +63,26 @@ export default function UserDetails() {
         setAddData={handleAddBids}
       />
       <UserProfile userId={state} />
-      <CustomTabs
-        tabs={userTabs}
-        setActiveTab={handleTabChange}
-        activeTab={activeTab}
-      />
-      <ProfileRelatedLists
-        search={search}
-        setSearch={setSearch}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        sortKey={sortKey}
-        sortDirection={sortDirection}
-        setSortKey={setSortKey}
-        setSortDirection={setSortDirection}
-        userId={state}
-        currentTab={activeTab}
-        callBidsCreditApi={callBidsCreditApi}
-      />
-    </div>
+      <div className="mt-4 mt-lg-5 tab-with-filter">
+        <CustomTabs
+          tabs={userTabs}
+          setActiveTab={handleTabChange}
+          activeTab={activeTab}
+        />
+        <ProfileRelatedLists
+          search={search}
+          setSearch={setSearch}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          sortKey={sortKey}
+          sortDirection={sortDirection}
+          setSortKey={setSortKey}
+          setSortDirection={setSortDirection}
+          userId={state}
+          currentTab={activeTab}
+          callBidsCreditApi={callBidsCreditApi}
+        />
+      </div>
+    </>
   );
 }

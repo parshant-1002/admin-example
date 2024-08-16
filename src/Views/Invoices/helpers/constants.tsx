@@ -143,7 +143,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.INVOICE,
     render: (row) => (
-      <div className="text-lg-start text-end">
+      <>
         {row?.invoiceURL ? (
           <button
             type="button"
@@ -155,7 +155,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
         ) : (
           <Button>{STRINGS.GENERATE}</Button>
         )}
-      </div>
+      </>
     ),
   },
 ];

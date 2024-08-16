@@ -2,36 +2,28 @@
 @import '../../../assets/scss/base';
 
 .nav-tabs {
-    border:$none;
+  border: $none;
   .nav-item {
-    margin-right: 20px;
-    margin: 10px;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }  
-  .nav-link {
-    transition: background-color 0.3s ease;
-    text-transform: capitalize;
-    &:hover{
-        border: $none;
+    .nav-link {
+      border: $none;
+      padding: .725rem 1.5rem;
+      @include font-size (.925);
+      text-transform: $capitalize;
+      @include border-radius (5px);
+      transition: background-color 0.3s ease;
+    }
+    &.active {
+      .nav-link {
+        background-color: $primary-color;
+        color: $white-color;
+      }
     }
   }
 }
 
-.nav-item-active {
-    margin-right: 20px;
-    margin: 10px;
-    border: none;
-    padding-block: 8px;
-    background-color: $primary-color;
-    color: $white-color;
-    border-radius: 8px;
+
+.tab-with-filter {
+  .filter_main {
+
+  }
 }
-// .uDetail-tabs{
-//     background-color: $grey-light-color-200;
-//     padding: 10px;
-//     border-bottom-left-radius: 0 !important;
-//     border-bottom-right-radius: 0 !important;
-// }
