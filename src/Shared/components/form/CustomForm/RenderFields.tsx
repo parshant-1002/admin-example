@@ -205,7 +205,7 @@ function RenderField({
 
   return (
     <div
-      className={`relative modal-form-field ${field?.containerClassName || ''}`}
+      className={`mb-2 modal-form-field ${field?.containerClassName || ''}`}
       key={id}
     >
       {field.label && (

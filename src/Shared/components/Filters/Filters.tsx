@@ -196,9 +196,9 @@ function StatsFilters({
         </div>
       </div>
       {showFilters ? (
-        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-3 mt-4 mb-3">
+        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-4 mb-3">
           {brandOptions ? (
-            <div className="col-md-2 col-xl-2 ">
+            <div className="col-lg-2 col-xl-2">
               <ReactSelect
                 options={brandOptions}
                 onChange={handleChangeBrandFilter}
@@ -209,7 +209,7 @@ function StatsFilters({
             </div>
           ) : null}
           {showDateFilter ? (
-            <div className="col-md-2 col-xl-2">
+            <div className="col-lg-2 col-xl-2">
               <DateRange
                 startDate={filtersState?.startDate}
                 endDate={filtersState?.endDate}
@@ -222,7 +222,7 @@ function StatsFilters({
             </div>
           ) : null}
           {priceRange ? (
-            <div className="col-md-2 col-xl-2">
+            <div className="col-lg-2 col-xl-2">
               <PriceRangeSlider
                 min={priceRange.min}
                 max={priceRange.max}
@@ -232,7 +232,7 @@ function StatsFilters({
             </div>
           ) : null}
           {statusOptions ? (
-            <div className="col-md-2 col-xl-2 ">
+            <div className="col-lg-2 col-xl-2 ">
               <CustomSelect
                 options={statusOptions}
                 onChange={handleChangeStatusOptions}

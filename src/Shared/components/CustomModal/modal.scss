@@ -5,7 +5,8 @@
     @include position($absolute, $top:10px, $right:10px);
     background-color: $transparent;
     padding: 0;
-    width: 34px; height: 34px;
+    width: 34px;
+    height: 34px;
     border:0;
     @include opacity (1);
     @include transition-mixin (all, .5s, ease-in-out);
@@ -23,7 +24,6 @@
     }
     .modal {
         &-content {
-            background: $white-color;
             @at-root {
                 .modal-title {
                     width: 100%;
@@ -36,7 +36,6 @@
         }
         &-header {
             color: $white-color;
-            border-color: $white-color;
         }
         &-footer {
             margin-top: 10px;

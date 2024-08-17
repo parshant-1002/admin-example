@@ -49,12 +49,10 @@ export default function UserDetails() {
           show={addData}
           onClose={() => setAddData(false)}
         >
-          <div className="p-4">
-            <AddBidForm
-              initialData={{ userId: state }}
-              onAdd={handleAddSuccess}
-            />
-          </div>
+          <AddBidForm
+            initialData={{ userId: state }}
+            onAdd={handleAddSuccess}
+          />
         </CustomModal>
       )}
       <Filters

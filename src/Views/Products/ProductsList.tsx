@@ -301,14 +301,12 @@ export default function ProductsList() {
           show={editData?.show}
           onClose={() => setEditData({ data: null, show: false })}
         >
-          <div className="p-4">
-            <ProductAdd
-              isEdit
-              initialData={editData?.data}
-              onEdit={handleEditSuccess}
-              categoryOptions={categoryOptions}
-            />
-          </div>
+          <ProductAdd
+            isEdit
+            initialData={editData?.data}
+            onEdit={handleEditSuccess}
+            categoryOptions={categoryOptions}
+          />
         </CustomModal>
       )}
 
@@ -318,14 +316,12 @@ export default function ProductsList() {
           show={addData}
           onClose={() => setAddData(false)}
         >
-          <div className="p-4">
-            <ProductAdd
-              isEdit={false}
-              initialData={{}}
-              onAdd={handleAddSuccess}
-              categoryOptions={categoryOptions}
-            />
-          </div>
+          <ProductAdd
+            isEdit={false}
+            initialData={{}}
+            onAdd={handleAddSuccess}
+            categoryOptions={categoryOptions}
+          />
         </CustomModal>
       )}
 

@@ -319,7 +319,7 @@ label {
             box-shadow: $none;
             color: $base-color;
             background-color: $white-color;
-            border-color: $green-light-color-400;
+            border-color: rgba($primary-color, .5);
         }
         // &[readonly] {
         //     background-color: $white-color;
