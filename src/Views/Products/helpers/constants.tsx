@@ -204,7 +204,7 @@ export const productsColumns = (
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
               <figure key={img.url}>
-                  <FileRenderer fileURL={img.url} />
+                <FileRenderer fileURL={img.url} />
                 {/* <span>{img.title}</span> */}
               </figure>
             ) : null

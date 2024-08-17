@@ -14,7 +14,7 @@ interface CustomModalProps extends Omit<ModalProps, 'onHide'> {
 function CustomModal({
   title = '',
   show = false,
-  onClose = () => { },
+  onClose = () => {},
   showClose = true,
   children = null,
   size = 'lg',
