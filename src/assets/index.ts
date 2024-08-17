@@ -12,6 +12,11 @@ import Filter from './icons/filter.svg';
 import InvoiceIcon from './icons/invoice.svg';
 import cross from './icons/cross.svg';
 import downArrow from './icons/downArrow.svg';
+import edit from './icons/edit.svg';
+import arrowRightBorder from './icons/arrow-right-bordered.svg';
+import view from './icons/eye.svg';
+import block from './icons/block.svg';
+import arrowRight from './icons/arrow-right.svg';
 
 export {
   Logo,
@@ -28,4 +33,9 @@ export {
   InvoiceIcon,
   cross,
   downArrow,
+  edit,
+  arrowRightBorder,
+  view,
+  block,
+  arrowRight,
 };

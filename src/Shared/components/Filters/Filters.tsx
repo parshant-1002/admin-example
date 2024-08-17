@@ -10,7 +10,7 @@ import { BUTTON_LABELS } from '../../constants';
 
 // components
 import Button from '../form/Button';
-import TextField from '../form/TextInput/TextInput';
+// import TextField from '../form/TextInput/TextInput';
 import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
@@ -76,6 +76,10 @@ function StatsFilters({
     selectedBrand: null,
     selectedStatus: null,
     selectedSecondaryOptions: null,
+    secondaryPriceRange: [
+      secondaryPriceRange?.min || 0,
+      secondaryPriceRange?.max || 0,
+    ],
   };
   const [showFilters, setShowFilters] = useState(false);
   const [isFiltersOn, setIsFiltersOn] = useState(false);
@@ -106,11 +110,7 @@ function StatsFilters({
   const handleShowFilter = () => {
     setShowFilters((prev) => !prev);
   };
-  const handleChangeStatusOptions = (
-    newValue: SingleValue<SelectOption>
-    // actionMeta: ActionMeta<SelectOption>
-  ) => {
-    // console.log(' ~ actionMeta:', actionMeta);
+  const handleChangeStatusOptions = (newValue: SingleValue<SelectOption>) => {
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
@@ -121,21 +121,15 @@ function StatsFilters({
 
   const handleChangeSecondarySelectOptions = (
     newValue: SingleValue<SelectOption>
-    // actionMeta: ActionMeta<SelectOption>
   ) => {
-    // console.log(' ~ actionMeta:', actionMeta);
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
       ...prev,
-      secondarySelectOptions: newValue,
+      selectedSecondaryOptions: newValue,
     }));
   };
-  const handleChangeBrandFilter = (
-    newValue: SingleValue<SelectOption>
-    // actionMeta: ActionMeta<SelectOption>
-  ) => {
-    // console.log(' ~ actionMeta:', actionMeta);
+  const handleChangeBrandFilter = (newValue: SingleValue<SelectOption>) => {
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
@@ -184,8 +178,9 @@ function StatsFilters({
             ) : null}
             {showSearch ? (
               <div className="dark-form-control position-relative">
-                <TextField
+                <input
                   type="search"
+                  className="form-control"
                   placeholder="Search..."
                   value={searchValue}
                   onChange={handleSearchChange}
@@ -241,19 +236,6 @@ function StatsFilters({
               />
             </div>
           ) : null}
-          {showDateFilter ? (
-            <div className="col-lg-2 col-xl-2">
-              <DateRange
-                startDate={filtersState?.startDate}
-                endDate={filtersState?.endDate}
-                setFilterState={setFilterState}
-                isInitialEmpty={isInitialEmptyForDate}
-                clearFilterRef={clearDateRangeFilterRef}
-                setIsInitialEmpty={setIsInitialEmptyForDate}
-                setIsFiltersOn={setIsFiltersOn}
-              />
-            </div>
-          ) : null}
           {priceRange ? (
             <div className="col-lg-2 col-xl-2">
               <PriceRangeSlider
@@ -278,6 +260,20 @@ function StatsFilters({
               />
             </div>
           ) : null}
+          {showDateFilter ? (
+            <div className="col-lg-2 col-xl-2">
+              <DateRange
+                startDate={filtersState?.startDate}
+                endDate={filtersState?.endDate}
+                setFilterState={setFilterState}
+                isInitialEmpty={isInitialEmptyForDate}
+                clearFilterRef={clearDateRangeFilterRef}
+                setIsInitialEmpty={setIsInitialEmptyForDate}
+                setIsFiltersOn={setIsFiltersOn}
+              />
+            </div>
+          ) : null}
+
           {statusOptions ? (
             <div className="col-lg-2 col-xl-2 ">
               <CustomSelect

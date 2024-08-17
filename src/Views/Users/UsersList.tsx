@@ -58,7 +58,7 @@ interface QueryParams {
 }
 
 // Constants
-const USERS_PAGE_LIMIT = 5;
+const USERS_PAGE_LIMIT = 10;
 
 export default function UsersList() {
   // State Management
@@ -221,9 +221,9 @@ export default function UsersList() {
     setDeleteModal({ show: true, data: { ids: selectedIds } });
   };
 
-  const handleRowClick = (row: Row) => {
-    navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
-  };
+  // const handleRowClick = (row: Row) => {
+  //   navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
+  // };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(0);
@@ -275,7 +275,11 @@ export default function UsersList() {
         showClose={false}
       />
       <ConfirmationModal
-        title={CONFIRMATION_DESCRIPTION.BLOCK}
+        title={
+          blockModal?.data?.isBlocked
+            ? CONFIRMATION_DESCRIPTION.UNBLOCK
+            : CONFIRMATION_DESCRIPTION.BLOCK
+        }
         open={blockModal?.show}
         handleClose={handleCloseBlock}
         showCancelButton
@@ -302,7 +306,7 @@ export default function UsersList() {
         pageSize={USERS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
-        handleRowClick={handleRowClick}
+        // handleRowClick={handleRowClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate

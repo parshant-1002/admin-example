@@ -13,6 +13,7 @@ import {
   AuctionStatus,
   PurchaseStatus,
 } from '../AuctionDetails/Helpers/constants';
+import { convertToLocale } from '../../../Shared/utils/functions';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
@@ -45,6 +46,8 @@ interface ColumnData {
   fieldName?: string;
   isTruncated?: boolean;
   noClickEvent?: boolean;
+  sortable?: boolean;
+  sortType?: string;
   render?: (
     row: AuctionResponsePayload,
     val: string | number
@@ -88,9 +91,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   bidStartDate: {
     type: INPUT_TYPES.DATE,
-    label: 'Date',
+    label: 'Auction Date',
     className: 'col-md-6 col-xl-6',
-    placeholder: 'Date',
+    placeholder: 'Auction Date',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
       minDate: {
@@ -103,9 +106,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   reserveWaitingEndDate: {
     type: INPUT_TYPES.DATE,
-    label: 'Date',
+    label: 'Reserve End Date',
     className: ' col-xl-6 col-md-6',
-    placeholder: 'Date',
+    placeholder: 'Reserve End Date',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
       minDate: {
@@ -215,16 +218,26 @@ export const AuctionColumns = (
     title: 'Id',
     fieldName: 'id',
     noClickEvent: true,
-    isTruncated: true,
+    sortable: true,
+    sortType: 'id',
   },
   {
     title: 'Name',
     fieldName: 'title',
-    isTruncated: true,
+    sortable: true,
+    sortType: 'title',
   },
   {
     title: 'Auction Date',
     fieldName: 'bidStartDate',
+    sortable: true,
+    sortType: 'bidStartDate',
+    render: (_, val) =>
+      moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
+  },
+  {
+    title: 'Reserve End Date',
+    fieldName: 'reserveWaitingEndDate',
     render: (_, val) =>
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
@@ -269,37 +282,49 @@ export const AuctionColumns = (
   {
     title: 'Reserve Price',
     fieldName: 'reservePrice',
-    isTruncated: true,
+    sortable: true,
+    sortType: 'reservePrice',
+    render: (_, val) => `$${convertToLocale(val)}`,
   },
   {
     title: 'Item Price',
     fieldName: 'currentBidPrice',
-    isTruncated: true,
+    sortable: true,
+    sortType: 'currentBidPrice',
+    render: (_, val) => `$${convertToLocale(val)}`,
   },
   {
     title: 'Total Bids',
-    fieldName: 'reservePrice',
-    isTruncated: true,
+    fieldName: '',
+    sortable: true,
+    // sortType: 'reservePrice',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Winner',
     fieldName: 'winnerName',
     isTruncated: true,
+    sortable: true,
+    sortType: 'winnerName',
   },
   {
     title: 'Prize Status',
     fieldName: 'productPurchaseStatus',
+    sortable: true,
+    sortType: 'productPurchaseStatus',
     render: (_, val) => {
       return (
         PurchaseStatus.find((item) => {
           return item.value === val;
-        })?.label.toString() || '-'
+        })?.label.toString() || '-.-'
       );
     },
   },
   {
     title: 'Status',
     fieldName: 'status',
+    sortable: true,
+    sortType: 'status',
     render: (_, val) => {
       return (
         AuctionStatus.find((item) => {

@@ -1,4 +1,4 @@
-import { actions, InvoiceIcon } from '../../../assets';
+import { actions, Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
 import {
@@ -236,15 +236,23 @@ export const PlansColumns = ({
         <CustomDropDown
           toggleImage={actions}
           submenu={[
-            { buttonLabel: STRINGS.VIEW, buttonAction: () => handleView(row) },
+            {
+              buttonLabel: 'View',
+              buttonAction: () => handleView(row),
+              className: 'btn44 btn btn-primary',
+              icon: view,
+            },
             {
               buttonLabel: STRINGS.UPDATE,
               buttonAction: () => handleEdit(row),
+              icon: edit,
+              className: 'btn44 btn btn-primary',
             },
             {
               buttonLabel: STRINGS.DELETE,
               buttonAction: () => handleDelete(row),
-              className: 'text-danger',
+              icon: Delete,
+              className: 'btn44 btn btn-danger',
             },
           ]}
         />

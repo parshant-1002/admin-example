@@ -70,7 +70,7 @@ interface QueryParams {
 }
 
 // Constants
-const PRODUCTS_PAGE_LIMIT = 5;
+const PRODUCTS_PAGE_LIMIT = 10;
 
 export default function ProductsList() {
   // State Management
@@ -257,6 +257,7 @@ export default function ProductsList() {
     }
     onComponentMountRef.current = true;
   }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+
   const categoryOptions = useMemo(
     () =>
       categoryList?.data?.map((category: Category) => ({

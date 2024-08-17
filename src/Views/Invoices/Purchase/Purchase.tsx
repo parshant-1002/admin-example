@@ -22,7 +22,7 @@ import { removeEmptyValues } from '../../../Shared/utils/functions';
 import { Filter } from '../../../assets';
 
 // Constants
-const PURCHASE_PAGE_LIMIT = 5;
+const PURCHASE_PAGE_LIMIT = 10;
 
 function PurchaseInvoices() {
   // State Management

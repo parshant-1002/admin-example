@@ -36,7 +36,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const INVOICE_AUCTIONS_PAGE_LIMIT = 10;
 
 function AuctionInvoices() {
   // State Management
@@ -53,8 +53,8 @@ function AuctionInvoices() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * INVOICE_AUCTIONS_PAGE_LIMIT,
+    limit: INVOICE_AUCTIONS_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -116,12 +116,12 @@ function AuctionInvoices() {
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={AuctionInvoiceColumns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={INVOICE_AUCTIONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         pagination
-        pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+        pageCount={(listing?.count || 1) / INVOICE_AUCTIONS_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}
       />

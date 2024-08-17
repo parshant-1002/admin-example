@@ -120,7 +120,6 @@ const renderValue = (
   if (typeof value === 'string' && value.startsWith('http')) {
     return <img src={value} alt="icon" style={styles.icon} />;
   }
-
   return value;
 };
 

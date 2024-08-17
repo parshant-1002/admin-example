@@ -13,7 +13,7 @@ import {
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../../Shared/utils/functions';
-import { InvoiceIcon } from '../../../../assets';
+import { InvoiceIcon, arrowRight, downArrow } from '../../../../assets';
 import { UserBid, ViewMultiData } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
@@ -93,6 +93,7 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
     fieldName: 'bids',
     sortable: true,
     sortType: 'bids',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Date',
@@ -117,7 +118,7 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="cursor-pointer btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
@@ -228,24 +229,19 @@ const productHistoryColumn = (
         title: string;
       }[];
       return (
-        <div className="d-flex align-items-center">
+        <div className="d-inline-flex align-items-center position-relative uploaded_file">
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <div
-                key={img.url}
-                className="m-2 d-flex flex-column text-center justify-content-center align-items-center"
-              >
-                <span className="uploaded_file">
-                  <FileRenderer fileURL={img.url} />
-                </span>
-                <div>{img.title}</div>
-              </div>
+              <figure key={img.url}>
+                <FileRenderer fileURL={img.url} />
+                {/* <span>{img.title}</span> */}
+              </figure>
             ) : null
           )}
           {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
             <button
               type="button"
-              className="btn border py-0 px-1"
+              className="count_btn"
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
@@ -253,9 +249,7 @@ const productHistoryColumn = (
                 })
               }
             >
-              {`. . .+${
-                imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-              }`}
+              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </div>
@@ -271,7 +265,7 @@ const productHistoryColumn = (
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="cursor-pointer btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
@@ -284,8 +278,9 @@ const productHistoryColumn = (
   },
 ];
 
-export const auctionHistoryColumn // renderActions: RenderActions
-: ColumnData[] = [
+export const auctionHistoryColumn = (
+  selectedRow: string | null
+): ColumnData[] => [
   {
     title: 'Auction Id',
     fieldName: 'auctionId',
@@ -351,6 +346,17 @@ export const auctionHistoryColumn // renderActions: RenderActions
   {
     title: 'Status',
     fieldName: 'status',
+    render: (row, val) => (
+      <div>
+        {val}
+        <img
+          src={selectedRow?.includes(row._id || '') ? downArrow : arrowRight}
+          alt=""
+          className="ps-"
+          width={20}
+        />
+      </div>
+    ),
   },
 ];
 
@@ -403,7 +409,7 @@ const auctionBiddingHistoryColumn // renderActions: RenderActions
 : ColumnData[] = [
   {
     title: 'Bid Id',
-    fieldName: 'bidId',
+    fieldName: 'id',
     sortable: true,
     sortType: 'id',
   },
@@ -486,14 +492,14 @@ const ADD_BIDS_FORM_SCHEMA = {
 };
 export {
   ADD_BIDS_FORM_SCHEMA,
+  AUCTION_HISTORY_FRONTEND_OPTIONS,
   AUCTION_STATUS,
   BID_CREDIT_TYPES,
-  BID_STATUS,
-  CONFIRMATION_DESCRIPTION,
-  AUCTION_HISTORY_FRONTEND_OPTIONS,
-  BID_STATUS_OPTIONS,
-  USER_DETAILS_SCHEMA,
   BID_CREDIT_TYPES_OPTIONS,
+  BID_STATUS,
+  BID_STATUS_OPTIONS,
+  CONFIRMATION_DESCRIPTION,
+  USER_DETAILS_SCHEMA,
   UserDetailsTabs,
   auctionBiddingHistoryColumn,
   biddingHistoryColumn,

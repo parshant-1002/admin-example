@@ -4,6 +4,7 @@
 import moment from 'moment';
 import { DATE_FORMATS } from '../../../Shared/constants';
 import { UsersResponsePayload } from './model';
+import { convertToLocale } from '../../../Shared/utils/functions';
 
 export const USER_STATUS = [
   { value: 1, label: 'BLOCKED' },
@@ -94,18 +95,21 @@ export const usersColumns = (
     fieldName: 'bidBalance',
     sortable: true,
     sortType: 'bidBalance',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Auction Joined',
     fieldName: 'ongoingAuctions',
     sortable: true,
     sortType: 'ongoingAuctions',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Auction Won',
     fieldName: 'auctionsWon',
     sortable: true,
     sortType: 'auctionsWon',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Blocked',
@@ -129,4 +133,5 @@ export const usersColumns = (
 export const CONFIRMATION_DESCRIPTION: Record<string, string> = {
   DELETE: 'Are you sure you want to delete',
   BLOCK: 'Are you sure you want to block',
+  UNBLOCK: 'Are you sure you want to unblock',
 };

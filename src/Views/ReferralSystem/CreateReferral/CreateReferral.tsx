@@ -44,7 +44,7 @@ interface Popup {
 }
 
 // Constants
-const PAGE_LIMIT = 5;
+const PAGE_LIMIT = 10;
 
 function CreateReferral() {
   const navigate = useNavigate();

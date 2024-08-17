@@ -49,7 +49,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const AUCTION_DETAILS_PAGE_LIMIT = 10;
 
 export default function BidsList({ auctionId }: { auctionId?: string }) {
   // State Management
@@ -73,8 +73,8 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * AUCTION_DETAILS_PAGE_LIMIT,
+    limit: AUCTION_DETAILS_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -128,7 +128,7 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
     });
   };
   return (
-    <div>
+    <div className="mt-5">
       <ViewMultiTableItem
         show={showMultiItemView}
         setShow={() => setShowMultiItemView}
@@ -159,7 +159,7 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
       <CustomTableView
         rows={(userAuctionHistory?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={AUCTION_DETAILS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         // handleRowClick={handleRowClick}
         handleSortingClick={handleSortingClick}
@@ -168,12 +168,14 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
         // SecondaryRowComponent={() => auctionBidDetails(selectedAuctionId)}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(userAuctionHistory?.count || 1) / ADD_ONS_PAGE_LIMIT}
+            pageCount={
+              (userAuctionHistory?.count || 1) / AUCTION_DETAILS_PAGE_LIMIT
+            }
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
               Math.ceil(
-                (userAuctionHistory?.count || 1) / ADD_ONS_PAGE_LIMIT
+                (userAuctionHistory?.count || 1) / AUCTION_DETAILS_PAGE_LIMIT
               ) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING

@@ -17,6 +17,9 @@ import { useGetAuctionsQuery } from '../../../Services/Api/module/auction';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
 import Button from '../../../Shared/components/form/Button';
 
+import '../Auction.scss';
+import { edit } from '../../../assets';
+
 interface EditData {
   data: AuctionResponsePayload | null;
   show: boolean;
@@ -77,7 +80,7 @@ export default function AuctionDetails() {
     auctionRefetch();
   };
   return (
-    <div>
+    <div className="position-relative">
       <ViewMultiTableItem
         show={showMultiItemView}
         setShow={setShowMultiItemView}
@@ -101,8 +104,11 @@ export default function AuctionDetails() {
           </div>
         </CustomModal>
       )}
-      <Button className="btn btn-sm" onClick={handleEdit}>
-        {BUTTON_LABELS.EDIT}
+      <Button
+        className="btn btn44 position-absolute auction-details-edit"
+        onClick={handleEdit}
+      >
+        <img src={edit} alt={BUTTON_LABELS.EDIT} />
       </Button>
       {/* <Button className="btn btn-sm" onClick={saveChanges}>
         {BUTTON_LABELS.CANCEL}
