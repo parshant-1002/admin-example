@@ -1,6 +1,6 @@
 // Libraries
 import { debounce } from 'lodash';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
 import CustomTableView, {
@@ -9,7 +9,12 @@ import CustomTableView, {
 } from '../../../Shared/components/CustomTableView';
 
 // Constants
-import { BUTTON_LABELS, FilterOrder, STRINGS } from '../../../Shared/constants';
+import {
+  BUTTON_LABELS,
+  FilterOrder,
+  PRICE_RANGE,
+  STRINGS,
+} from '../../../Shared/constants';
 
 import { CONFIRMATION_DESCRIPTION } from '../../Products/helpers/constants';
 
@@ -26,6 +31,7 @@ import { RED_WARNING } from '../../../assets';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
 import StatsFilters from '../../../Shared/components/Filters';
 import { AuctionBidColumn } from './Helpers/constants';
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -47,11 +53,14 @@ const ADD_ONS_PAGE_LIMIT = 5;
 
 export default function BidsList({ auctionId }: { auctionId?: string }) {
   // State Management
+  // Refs
+  const onComponentMountRef = useRef(false);
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '', ids: [''] },
   });
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -70,14 +79,20 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
     sortKey,
     sortDirection,
     auctionId,
+    ...filters,
   };
 
-  const { data: userAuctionHistory } = useGetAuctionBidHistoryQuery({
+  const { data: userAuctionHistory, refetch } = useGetAuctionBidHistoryQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
   });
-
+  useEffect(() => {
+    if (onComponentMountRef.current) {
+      refetch();
+    }
+    onComponentMountRef.current = true;
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -104,6 +119,14 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
 
   const columns = useMemo(() => AuctionBidColumn(), []);
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      currentBidPriceMin: filterState?.priceRange?.[0],
+      currentBidPriceMax: filterState?.priceRange?.[1],
+    });
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -126,6 +149,11 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
       <StatsFilters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
+        showDateFilter
+        rangeSilderTitle="Item Price"
+        handleApply={handleApplyFilters}
+        priceRange={PRICE_RANGE}
+        showHeading={false}
       />
 
       <CustomTableView

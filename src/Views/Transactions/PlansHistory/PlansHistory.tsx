@@ -22,19 +22,13 @@ import { useGetUserBidsCreditHistoryQuery } from '../../../Services/Api/module/u
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
-
-// Interfaces
-interface QueryParams {
-  skip: number;
-  limit: number;
-  searchString?: string;
-  sortKey: string;
-  sortDirection: FilterOrder;
-}
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { BID_CREDIT_TYPES_OPTIONS } from '../../Users/UserDetails/helpers/constants';
 
 function PlansHistory() {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -45,12 +39,13 @@ function PlansHistory() {
   const onComponentMountRef = useRef(false);
 
   // Query Parameters
-  const queryParams: QueryParams = {
+  const queryParams = {
     skip: currentPage * TABLE_PAGE_LIMIT,
     limit: TABLE_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
@@ -86,13 +81,23 @@ function PlansHistory() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      type: filterState?.selectedStatus?.value,
+    });
+  };
   return (
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
+        showDateFilter
+        handleApply={handleApplyFilters}
+        statusOptions={BID_CREDIT_TYPES_OPTIONS}
       />
 
       <CustomTableView

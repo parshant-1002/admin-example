@@ -56,7 +56,7 @@ const transformBidderPurchaseResponse = (
 const transformBiddingHistoryResponse = (data: UserBiddingHistoryResponse) => {
   return {
     data: data?.data?.map((biddingHistory) => ({
-      id: biddingHistory?.id,
+      auctionId: biddingHistory?.auctionId,
       auctionName: biddingHistory?.auctionDetails?.title,
       itemPrice: biddingHistory?.productDetails?.price,
       bidsSpent: biddingHistory?.bids,
@@ -101,7 +101,7 @@ const transformAuctionHistoryResponse = (data: UserAuctionHistoryResponse) => {
   return {
     data: data?.data?.map((auctionHistory) => ({
       _id: auctionHistory?._id,
-      id: auctionHistory?.auctionDetails?.id,
+      auctionId: auctionHistory?.auctionId,
       auctionName: auctionHistory?.auctionDetails?.title,
       productName: auctionHistory?.product?.title,
       bidSpent: auctionHistory?.totalBids,

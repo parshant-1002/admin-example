@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { ProductDetailResponsePayload } from '../../../Views/Auction/AuctionDetails/Helpers/Model';
 import {
@@ -129,7 +129,9 @@ function DetailsWrapperEditableCard({
   dataScema,
 }: DetailsWrapperCardProps) {
   const [data, setData] = useState(details);
-
+  useEffect(() => {
+    setData(details);
+  }, [details]);
   const handleValueChange = (
     newValue: string | number,
     key: keyof ProductDetailResponsePayload

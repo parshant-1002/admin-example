@@ -142,20 +142,17 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   },
   {
     title: STRINGS.INVOICE,
-    render: (row) => (
-      <>
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="btn btn44 btn-primary"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          <Button>{STRINGS.GENERATE}</Button>
-        )}
-      </>
-    ),
+    render: (row) =>
+      row?.invoiceURL ? (
+        <button
+          type="button"
+          className="btn btn44 btn-primary"
+          onClick={() => window.open(row?.invoiceURL, '_blank')}
+        >
+          <img src={InvoiceIcon} alt="" />
+        </button>
+      ) : (
+        <Button>{STRINGS.GENERATE}</Button>
+      ),
   },
 ];

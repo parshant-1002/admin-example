@@ -1,25 +1,81 @@
 // components/AuctionDetails.tsx
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import moment from 'moment';
 import { useAuctionData } from '../helpers/useAuctionData';
 
 import BidsList from './BidsList';
-import { ViewMultiData } from '../../Products/helpers/model';
+import { Category, ViewMultiData } from '../../Products/helpers/model';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
-import { AuctionColumn } from './Helpers/constants';
+import { AuctionColumn, AuctionStatus } from './Helpers/constants';
 import DetailsWrapperEditableCard from '../../../Shared/components/DetailsEditableCard';
+import { CustomModal } from '../../../Shared/components';
+import AuctionForm from '../AuctionForm';
+import { AuctionResponsePayload } from '../helpers/model';
+import { BUTTON_LABELS, DATE_FORMATS } from '../../../Shared/constants';
+import { useGetAuctionsQuery } from '../../../Services/Api/module/auction';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
+import Button from '../../../Shared/components/form/Button';
 
+interface EditData {
+  data: AuctionResponsePayload | null;
+  show: boolean;
+}
 export default function AuctionDetails() {
   const { id } = useParams();
-  const { isLoading, isError, data } = useAuctionData(id || '');
+  const { isLoading, isError, data, refetch } = useAuctionData(id || '');
+  const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
+  const { data: auctionData, refetch: auctionRefetch } = useGetAuctionsQuery({
+    params: removeEmptyValues({
+      auctionId: id,
+    }),
+  });
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
     show: false,
   });
+  const auctionDataa = auctionData?.data?.[0];
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading data.</div>;
 
+  const handleEdit = () => {
+    setEditData({
+      data: {
+        ...auctionDataa,
+        statusData: {
+          value: auctionDataa?.status,
+          label:
+            (AuctionStatus &&
+              AuctionStatus?.find(
+                (status) => status.value === auctionDataa?.status
+              )?.label) ||
+            '',
+        },
+        productId: {
+          value: auctionDataa?.product?._id,
+          label: auctionDataa?.product?.title,
+        },
+        categoryIds: auctionDataa?.categories?.map((category: Category) => ({
+          value: category._id,
+          label: category?.name,
+        })),
+        bidStartDate: moment(auctionDataa.bidStartDate).format(
+          DATE_FORMATS.DISPLAY_DATE_REVERSE
+        ),
+        reserveWaitingEndDate: moment(
+          auctionDataa.reserveWaitingEndDate
+        ).format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
+        images: auctionDataa?.product?.images,
+      },
+      show: true,
+    });
+  };
+  const handleEditSuccess = () => {
+    setEditData({ data: null, show: false });
+    refetch();
+    auctionRefetch();
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -30,11 +86,25 @@ export default function AuctionDetails() {
         details={data}
         dataScema={AuctionColumn(setShowMultiItemView)}
       />
-
-      {/* <Button className="btn btn-sm" onClick={saveChanges}>
-        {BUTTON_LABELS.SAVE}
+      {editData?.show && (
+        <CustomModal
+          title="Edit"
+          show={editData?.show}
+          onClose={() => setEditData({ data: null, show: false })}
+        >
+          <div className="p-4">
+            <AuctionForm
+              isEdit
+              initialData={editData?.data}
+              onEdit={handleEditSuccess}
+            />
+          </div>
+        </CustomModal>
+      )}
+      <Button className="btn btn-sm" onClick={handleEdit}>
+        {BUTTON_LABELS.EDIT}
       </Button>
-      <Button className="btn btn-sm" onClick={saveChanges}>
+      {/* <Button className="btn btn-sm" onClick={saveChanges}>
         {BUTTON_LABELS.CANCEL}
       </Button> */}
       <BidsList auctionId={id} />

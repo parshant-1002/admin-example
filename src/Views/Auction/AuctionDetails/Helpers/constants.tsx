@@ -228,27 +228,37 @@ export const AuctionColumn = (
 export const AuctionBidColumn = (): ColumnData[] => [
   {
     title: 'Id',
-    fieldName: 'userId',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     isTruncated: true,
   },
   {
     title: 'Username',
     fieldName: 'userName',
+    sortable: true,
+    sortType: 'userName',
     isTruncated: true,
   },
   {
     title: 'Email',
     fieldName: 'userEmail',
+    sortable: true,
+    sortType: 'userEmail',
     isTruncated: true,
   },
   {
     title: 'Phone No',
-    fieldName: 'phoneNo',
+    fieldName: 'userPhoneNumber',
+    sortable: true,
+    sortType: 'userPhoneNumber',
     isTruncated: true,
   },
   {
     title: 'Date',
     fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
     render: (_, val) => {
       const date = new Date(val);
       const year = date.getFullYear();
@@ -259,6 +269,8 @@ export const AuctionBidColumn = (): ColumnData[] => [
   },
   {
     title: 'Item Price',
+    sortable: true,
+    sortType: 'currentBidPrice',
     fieldName: 'currentBidPrice',
     isTruncated: true,
   },

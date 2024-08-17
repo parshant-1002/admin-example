@@ -129,7 +129,7 @@ export const productsColumns = (
             checked={selectedIds?.includes(row._id)}
             // onChange={() => handleChangeCheckBox(row._id)}
           />
-          <div className="checkbox-custom" />
+          <span className="label" />
         </div>
       );
     },

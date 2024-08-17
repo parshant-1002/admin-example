@@ -162,7 +162,7 @@ function CustomTableView({
                               activeRowId === row._id ? 'tr-active' : ''
                             }`}
                           >
-                            {columns.map((column, index) => (
+                            {columns.map((column, columnIndex) => (
                               <Fragment key={`${row._id}-columns`}>
                                 <td
                                   data-label={column.title}
@@ -171,7 +171,7 @@ function CustomTableView({
                                   }}
                                 >
                                   {getColumnValue(row, column)}
-                                  {index == 0 ? (
+                                  {columnIndex === 0 ? (
                                     <button
                                       type="button"
                                       className="btn btn38 btn-collapse"

@@ -8,6 +8,11 @@ export interface FormSchema {
     value: number;
     message: string;
   };
+  minDate?: {
+    value: string;
+    message: string;
+  };
+
   maxLength?: {
     value: number;
     message: string;

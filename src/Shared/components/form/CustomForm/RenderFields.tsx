@@ -39,7 +39,10 @@ function RenderField({
     typeof field.schema === 'object' &&
     'minLength' in field.schema &&
     field.schema.minLength?.value;
-
+  const minDate =
+    typeof field.schema === 'object' &&
+    'minDate' in field.schema &&
+    field.schema.minDate?.value;
   const [inputType, setInputType] = useState(field.type);
   const handleEyeClick = () => {
     setInputType((prev: string) =>
@@ -68,6 +71,7 @@ function RenderField({
             }
             maxLength={maxLength || ''}
             minLength={minLength || ''}
+            minDate={minDate || ''}
             control={control}
             className={className}
             {...handleRegister(id)}

@@ -7,6 +7,6 @@ export interface Image {
 }
 
 export interface SelectOption {
-  value: number;
-  label: string;
+  value?: number | string;
+  label?: string | number;
 }

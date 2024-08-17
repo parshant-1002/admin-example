@@ -22,6 +22,8 @@ import { useGetBidsSpentHistoryQuery } from '../../../Services/Api/module/auctio
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { BID_STATUS_OPTIONS } from '../../Users/UserDetails/helpers/constants';
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 
 // Interfaces
 interface QueryParams {
@@ -35,6 +37,7 @@ interface QueryParams {
 function BidsHistory() {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+  const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
@@ -51,6 +54,7 @@ function BidsHistory() {
     searchString: search,
     sortKey,
     sortDirection,
+    ...filters,
   };
 
   // API Queries
@@ -89,13 +93,23 @@ function BidsHistory() {
       refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection]);
+  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+      status: filterState?.selectedStatus?.value,
+    });
+  };
   return (
     <div>
       <Filters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
+        showDateFilter
+        handleApply={handleApplyFilters}
+        statusOptions={BID_STATUS_OPTIONS}
       />
 
       <CustomTableView

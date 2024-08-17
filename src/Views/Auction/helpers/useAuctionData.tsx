@@ -1,5 +1,5 @@
 // hooks/useAuctionData.ts
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useGetAuctionDetailsQuery } from '../../../Services/Api/module/auction';
 // import {
 //   useGetAuctionDetailsQuery,
@@ -19,6 +19,7 @@ export const useAuctionData = (id: string) => {
     data: auctionDetail,
     isLoading,
     isError,
+    refetch,
   } = useGetAuctionDetailsQuery({
     params: { auctionId: id },
   });
@@ -27,41 +28,41 @@ export const useAuctionData = (id: string) => {
   const [data, setData] = useState<Item[]>([]);
 
   // Transform data into Item[] format
-  const processData = useCallback(() => {
-    if (!auctionDetail || !auctionDetail.data) return [];
-    return auctionDetail.data;
-    return Object.entries(auctionDetail.data).map(([key, value]) => {
-      const type = typeof value;
-      let itemType:
-        | 'string'
-        | 'number'
-        | 'boolean'
-        | 'date'
-        | 'range'
-        | 'dropdown' = 'string';
-      let options: string[] | undefined;
+  // const processData = useCallback(() => {
+  //   if (!auctionDetail || !auctionDetail.data) return [];
+  //   return auctionDetail.data;
+  //   return Object.entries(auctionDetail.data).map(([key, value]) => {
+  //     const type = typeof value;
+  //     let itemType:
+  //       | 'string'
+  //       | 'number'
+  //       | 'boolean'
+  //       | 'date'
+  //       | 'range'
+  //       | 'dropdown' = 'string';
+  //     let options: string[] | undefined;
 
-      // Determine the type of the item
-      if (type === 'object' && value instanceof Date) {
-        itemType = 'date';
-      } else if (type === 'object' && value !== null && !Array.isArray(value)) {
-        itemType = 'dropdown';
-        // options = Object.keys(value); // Assuming the object keys are the options
-      } else if (type === 'object' && Array.isArray(value)) {
-        itemType = 'range'; // Example handling for array data (could be adapted)
-      } else {
-        itemType = type as 'string' | 'number' | 'boolean'; // Default to string, number, or boolean
-      }
+  //     // Determine the type of the item
+  //     if (type === 'object' && value instanceof Date) {
+  //       itemType = 'date';
+  //     } else if (type === 'object' && value !== null && !Array.isArray(value)) {
+  //       itemType = 'dropdown';
+  //       // options = Object.keys(value); // Assuming the object keys are the options
+  //     } else if (type === 'object' && Array.isArray(value)) {
+  //       itemType = 'range'; // Example handling for array data (could be adapted)
+  //     } else {
+  //       itemType = type as 'string' | 'number' | 'boolean'; // Default to string, number, or boolean
+  //     }
 
-      return {
-        title: key,
-        value: value ?? '',
-        editable: true, // Default to editable, adjust based on your needs
-        type: itemType,
-        options, // Add options if applicable
-      };
-    });
-  }, [auctionDetail]);
+  //     return {
+  //       title: key,
+  //       value: value ?? '',
+  //       editable: true, // Default to editable, adjust based on your needs
+  //       type: itemType,
+  //       options, // Add options if applicable
+  //     };
+  //   });
+  // }, [auctionDetail]);
 
   const handleValueChange = (
     index: number,
@@ -77,7 +78,9 @@ export const useAuctionData = (id: string) => {
   return {
     isLoading,
     isError,
-    data: processData(),
+    refetch,
+    auctionDetail,
+    data: auctionDetail?.data,
     handleValueChange,
     saveChanges,
   };
