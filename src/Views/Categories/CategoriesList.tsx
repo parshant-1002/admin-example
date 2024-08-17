@@ -250,13 +250,11 @@ export default function CategoriesList() {
           show={editData?.show}
           onClose={() => setEditData({ data: null, show: false })}
         >
-          <div className="p-4">
-            <CategoryForm
-              isEdit
-              initialData={editData?.data}
-              onEdit={handleEditSuccess}
-            />
-          </div>
+          <CategoryForm
+            isEdit
+            initialData={editData?.data}
+            onEdit={handleEditSuccess}
+          />
         </CustomModal>
       )}
 
@@ -266,13 +264,11 @@ export default function CategoriesList() {
           show={addData}
           onClose={() => setAddData(false)}
         >
-          <div className="p-4">
-            <CategoryForm
-              isEdit={false}
-              initialData={{}}
-              onAdd={handleAddSuccess}
-            />
-          </div>
+          <CategoryForm
+            isEdit={false}
+            initialData={{}}
+            onAdd={handleAddSuccess}
+          />
         </CustomModal>
       )}
 

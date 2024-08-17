@@ -25,16 +25,15 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   }
 }
 
-$bgLeft: url(./assets/images/left-bg.png);
 .sidebar {
   @include position($fixed, $top:0, $left:0, $bottom:0);
   width: 300px;
   z-index: 111;
   padding: 10px 0;
-  overflow-y: auto;
+  overflow-y: $auto;
   scrollbar-width: thin;
   scrollbar-color: $black-dark-color-800 $transparent;
-  background: $dark-voilet-color-900 $bgLeft $no-repeat $right $center;
+  background-color: $dark-voilet-color-900;
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -45,13 +44,13 @@ $bgLeft: url(./assets/images/left-bg.png);
         transition: 0s;
         padding: 21px 15px 19px 55px;
         margin-left: 10px;
-        border-top-left-radius:12px;
-        border-bottom-left-radius:12px;
+        border-top-left-radius:32px;
+        border-bottom-left-radius:32px;
         position: $relative;
         @media (max-width:1199.99px){
           padding-left: 15px;
           margin-left: 5px;
-          font-size: 0;
+          @include font-size (0);
         }
         &::before{
           @include top-curve-before;

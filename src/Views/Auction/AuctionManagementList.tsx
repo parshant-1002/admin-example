@@ -236,13 +236,11 @@ export default function AuctionManagementList() {
           show={editData?.show}
           onClose={() => setEditData({ data: null, show: false })}
         >
-          <div className="p-4">
-            <AuctionForm
-              isEdit
-              initialData={editData?.data}
-              onEdit={handleEditSuccess}
-            />
-          </div>
+          <AuctionForm
+            isEdit
+            initialData={editData?.data}
+            onEdit={handleEditSuccess}
+          />
         </CustomModal>
       )}
 
@@ -252,13 +250,11 @@ export default function AuctionManagementList() {
           show={addData}
           onClose={() => setAddData(false)}
         >
-          <div className="p-4">
-            <AuctionForm
-              isEdit={false}
-              initialData={{}}
-              onAdd={handleAddSuccess}
-            />
-          </div>
+          <AuctionForm
+            isEdit={false}
+            initialData={{}}
+            onAdd={handleAddSuccess}
+          />
         </CustomModal>
       )}
 
