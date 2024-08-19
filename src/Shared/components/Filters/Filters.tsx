@@ -167,12 +167,12 @@ function StatsFilters({
 
   return (
     <>
-      <div className="w-100 align-items-center d-flex flex-md-row flex-column filter_main">
-        <div className="col-md-4 col-xl-6">
+      <div className="w-100 align-items-center d-flex flex-sm-row flex-column justify-content-between filter_main">
+        <div className="col-sm-4 col-md-5 col-xl-6">
           {showHeading ? <Breadcrumbs /> : null}
         </div>
-        <div className="col-md-8 col-xl-6 mb-3">
-          <div className="d-flex justify-content-end align-items-start stats_filter">
+        <div className=" col-12 col-sm-8 col-md-7 col-xl-6 mb-sm-3">
+          <div className="d-flex justify-content-between justify-content-sm-end align-items-start stats_filter">
             {selectedIds?.length ? (
               <Button
                 className="btn btn-sm btn-danger"
@@ -183,7 +183,7 @@ function StatsFilters({
               </Button>
             ) : null}
             {showSearch ? (
-              <div className="dark-form-control position-relative">
+              <div className="dark-form-control position-relative w-100 w-sm-auto">
                 <TextField
                   type="search"
                   placeholder="Search..."
@@ -204,7 +204,7 @@ function StatsFilters({
               <Button
                 btnType="primary"
                 onClick={handleShowFilter}
-                className="btn44"
+                className="btn44 filterbtn"
               >
                 <img src={filterToggleImage} alt="filters" width={30} />
               </Button>
@@ -228,7 +228,7 @@ function StatsFilters({
         </div>
       </div>
       {showFilters ? (
-        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-4 mb-3">
+        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-1 mb-3">
           {brandOptions ? (
             <div className="col-lg-2 col-xl-2">
               <CustomSelect
@@ -242,7 +242,7 @@ function StatsFilters({
             </div>
           ) : null}
           {showDateFilter ? (
-            <div className="col-lg-2 col-xl-2">
+            <div className="col-12 col-sm-5 col-md-3 col-xxl-2">
               <DateRange
                 startDate={filtersState?.startDate}
                 endDate={filtersState?.endDate}
@@ -255,7 +255,7 @@ function StatsFilters({
             </div>
           ) : null}
           {priceRange ? (
-            <div className="col-lg-2 col-xl-2">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
               <PriceRangeSlider
                 isFiltersOn={isFiltersOn}
                 rangeSilderTitle={rangeSilderTitle}
@@ -279,7 +279,7 @@ function StatsFilters({
             </div>
           ) : null}
           {statusOptions ? (
-            <div className="col-lg-2 col-xl-2 ">
+            <div className="col-12 col-sm-5 col-md-3 col-xxl-2 ">
               <CustomSelect
                 options={statusOptions}
                 onChange={handleChangeStatusOptions}
