@@ -211,7 +211,7 @@ function StatsFilters({
                 <img src={filterToggleImage} alt="filters" width={30} />
                 <img
                   src="/src/assets/icons/add-icon.svg"
-                  className='d-none'
+                  className="d-none"
                   alt="w-cross"
                   width={50}
                 />
