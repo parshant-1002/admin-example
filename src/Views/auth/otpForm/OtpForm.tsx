@@ -17,7 +17,7 @@ import { Copy } from '../../../assets';
 import QrCode from '../qrCode';
 import './OtpForm.scss';
 import OTP_CODE_TYPE from './helpers/constants';
-import OTP_FORM_SCHEMA from './helpers/OtpSchema';
+import OTP_FORM_SCHEMA from './helpers/otpSchema';
 
 interface LoginResponse {
   token: string;
