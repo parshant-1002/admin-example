@@ -171,7 +171,7 @@ export default function CategoriesList() {
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: CategoryResponsePayload) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <ActionsDropDown
           row={row}
           handleEdit={handleEdit}

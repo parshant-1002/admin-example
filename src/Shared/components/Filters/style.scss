@@ -190,12 +190,31 @@
     padding:13px;
   }
 }
-.btn44{
-  @media (max-width: 575.99px){
-    width: 31px !important;
-    height:31px !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+[data-label="Actions"]{
+  .btn44{
+    @media (max-width: 575.99px){
+      width: 31px !important;
+      height:31px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+.filter-wrapper:has(.filter-items-box){
+  .stats_filter{
+    .filterbtn{
+      img{
+        &[alt="w-cross"]{
+          display:block !important;
+          transform: rotate(45deg);
+          width: 24px;
+          margin-left: -4.5px;
+        }
+        &[alt="filters"]{
+          display:none !important;
+        }
+      }
+    }
   }
 }

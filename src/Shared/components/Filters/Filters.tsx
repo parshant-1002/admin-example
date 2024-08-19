@@ -161,7 +161,7 @@ function StatsFilters({
   }, [selectedIds]);
 
   return (
-    <>
+    <div className="filter-wrapper">
       <div className="w-100 align-items-center d-flex flex-sm-row flex-column justify-content-between filter_main">
         <div className="col-sm-4 col-md-5 col-xl-6">
           {showHeading ? <Breadcrumbs /> : null}
@@ -209,6 +209,12 @@ function StatsFilters({
                 className="btn44 filterbtn"
               >
                 <img src={filterToggleImage} alt="filters" width={30} />
+                <img
+                  src="/src/assets/icons/add-icon.svg"
+                  className='d-none'
+                  alt="w-cross"
+                  width={50}
+                />
               </Button>
             ) : null}
             {setAddData ? (
@@ -216,7 +222,7 @@ function StatsFilters({
                 className="btn btn-sm onlyIcon"
                 btnType="primary"
                 onClick={() => setAddData()}
-              >                
+              >
                 <img
                   src="/src/assets/icons/add-icon.svg"
                   alt="filters"
@@ -236,9 +242,9 @@ function StatsFilters({
         </div>
       </div>
       {showFilters ? (
-        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-1 mb-3">
+        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-1 mb-3 filter-items-box">
           {brandOptions ? (
-            <div className="col-lg-2 col-xl-2">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
               <CustomSelect
                 options={brandOptions}
                 onChange={handleChangeBrandFilter}
@@ -275,7 +281,7 @@ function StatsFilters({
             </div>
           ) : null}
           {secondaryPriceRange ? (
-            <div className="col-md-2 col-xl-2">
+            <div className="col-12 col-sm-5 col-md-4 col-lg-3 col-xxl-2">
               <PriceRangeSlider
                 isFiltersOn={isFiltersOn}
                 rangeSilderTitle={secondaryRangeSilderTitle}
@@ -288,7 +294,7 @@ function StatsFilters({
           ) : null}
 
           {statusOptions ? (
-            <div className="col-12 col-sm-5 col-md-3 col-xxl-2 ">
+            <div className="col-12 col-sm-6 col-md-3 col-xxl-2">
               <CustomSelect
                 options={statusOptions}
                 onChange={handleChangeStatusOptions}
@@ -298,7 +304,7 @@ function StatsFilters({
             </div>
           ) : null}
           {secondarySelectOptions ? (
-            <div className="col-md-2 col-xl-2 ">
+            <div className="col-12 col-sm-5 col-md-3 col-xxl-2">
               <CustomSelect
                 options={secondarySelectOptions}
                 onChange={handleChangeSecondarySelectOptions}
@@ -329,7 +335,7 @@ function StatsFilters({
           ) : null}
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 

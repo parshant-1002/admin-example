@@ -27,8 +27,8 @@ function ActionsDropdown({
       buttonLabel: row?.isBlocked ? 'UnBlock' : 'Block',
       buttonAction: () => handleBlock(row),
       className: row?.isBlocked
-        ? 'btn44 btn btn-primary'
-        : 'btn44 btn btn-danger',
+        ? 'btn44 btn btn-danger'
+        : 'btn44 btn btn-primary',
       icon: block,
     },
     {

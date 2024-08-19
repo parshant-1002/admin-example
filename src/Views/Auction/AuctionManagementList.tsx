@@ -150,7 +150,7 @@ export default function AuctionManagementList() {
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: AuctionResponsePayload) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <ActionsDropDown<AuctionResponsePayload>
           row={row}
           handleEdit={handleEdit}

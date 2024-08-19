@@ -19,9 +19,7 @@ function DetailsCard({
       <div className="card-body row">
         {details.map(({ label, value }) => (
           <div
-            className={`${
-              itemClassName || 'col-lg-2 col-md-3 col-sm-4'
-            } my-1`}
+            className={`${itemClassName || 'col-lg-2 col-md-3 col-sm-4'} my-1`}
             key={label}
           >
             <label>{label}</label>
