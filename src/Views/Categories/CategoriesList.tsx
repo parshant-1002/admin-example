@@ -57,7 +57,7 @@ interface QueryParams {
 }
 
 // Constants
-const CATEGORY_PAGE_LIMIT = 5;
+const CATEGORY_PAGE_LIMIT = 10;
 
 export default function CategoriesList() {
   // State Management

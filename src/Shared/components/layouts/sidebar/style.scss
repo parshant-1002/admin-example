@@ -1,7 +1,7 @@
 @import '../../../../assets/scss/base';
 
 $downArrow : url("../../../../assets/icons/downArrow.svg");
-$submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
+$submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
 .sub-menu {
   li {
@@ -9,24 +9,25 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
       position: $relative;
       color: rgba($white-color, 1);
 
-      &::before {
-        content: '';
-        background-image: $submenuArrow;
-        background-repeat: $no-repeat;
-        width: 18px;
-        height: 15px;
-        background-size: 18px;
-        @include position($absolute, $left: 56px, $top: 23px);
-        @media (max-width:1199.98px){
-          left:20px;
-        }
-      }
+      // &::before {
+      //   content: '';
+      //   background-image: $submenuArrow;
+      //   background-repeat: $no-repeat;
+      //   width: 10px;
+      //   height: 10px;
+      //   background-size: 18px;
+      //   @include position($absolute, $left: 56px, $top: 23px);
+
+      //   @media (max-width:1199.98px) {
+      //     left: 20px;
+      //   }
+      // }
     }
   }
 }
 
 .sidebar {
-  @include position($fixed, $top:0, $left:0, $bottom:0);
+  @include position($fixed, $top: 0, $left: 0, $bottom: 0);
   width: 300px;
   z-index: 111;
   padding: 10px 0;
@@ -34,54 +35,65 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   scrollbar-width: thin;
   scrollbar-color: $black-dark-color-800 $transparent;
   background-color: $dark-voilet-color-900;
+
   .sidebar-nav {
     padding: 0;
     margin: 0;
     list-style: $none;
+
     li {
       .nav-link {
         @include font(.875rem, 21.78px, $font-regular);
         transition: 0s;
         padding: 21px 15px 19px 55px;
         margin-left: 10px;
-        border-top-left-radius:32px;
-        border-bottom-left-radius:32px;
+        border-top-left-radius: 32px;
+        border-bottom-left-radius: 32px;
         position: $relative;
-        @media (max-width:1199.99px){
+
+        @media (max-width:1199.99px) {
           padding-left: 15px;
           margin-left: 5px;
           @include font-size (0);
         }
-        &::before{
+
+        &::before {
           @include top-curve-before;
         }
-        &::after{
+
+        &::after {
           @include bottom-curve-after;
         }
-        .curve-top{
+
+        .curve-top {
           @include curve-top;
         }
-        .curve-bottom{
+
+        .curve-bottom {
           @include curve-bottom;
         }
 
-        &.active{
+        &.active {
           background-color: $body-color;
           color: $primary-color;
           font-weight: 600;
+
           &::before,
-          &::after{
+          &::after {
             border-color: $black-dark-color;
           }
+
           .curve-top,
-          .curve-bottom{
+          .curve-bottom {
             background: $body-color;
           }
-          .bi{
+
+          .bi {
             background-color: $primary-color;
           }
         }
       }
+
       .bi {
         content: "";
         background-repeat: $no-repeat;
@@ -94,10 +106,12 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         -webkit-mask-repeat: $no-repeat;
         mask-repeat: no-repeat;
         background-color: $white-color;
-        @media(max-width: 1199px){
-          left:14px;
+
+        @media(max-width: 1199px) {
+          left: 14px;
         }
       }
+
       .bi-grid {
         mask-image: url(/src/assets/icons/dash.svg);
         -webkit-mask-image: url(/src/assets/icons/dash.svg);
@@ -117,71 +131,88 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         mask-image: url(/src/assets/icons/product.svg);
         -webkit-mask-image: url(/src/assets/icons/product.svg);
       }
+
       .bi-invoice {
         mask-image: url(/src/assets/icons/invoice.svg);
         -webkit-mask-image: url(/src/assets/icons/invoice.svg);
       }
+
       .bi-referral {
         mask-image: url(/src/assets/icons/referral.svg);
         -webkit-mask-image: url(/src/assets/icons/referral.svg);
       }
+
       .bi-bids {
         mask-image: url(/src/assets/icons/bids.svg);
         -webkit-mask-image: url(/src/assets/icons/bids.svg);
       }
+
       .bi-transactions {
         mask-image: url(/src/assets/icons/transactions.svg);
         -webkit-mask-image: url(/src/assets/icons/transactions.svg);
       }
     }
-    .accordion-item{
+
+    .accordion-item {
       padding-left: 10px;
       background-color: unset;
-      @media (max-width: 1199.98px){
+
+      @media (max-width: 1199.98px) {
         padding-left: 0;
       }
-      .accordion-header{
+
+      .accordion-header {
         position: relative;
-        &::before{
+
+        &::before {
           @include top-curve-before;
         }
-        &::after{
+
+        &::after {
           @include bottom-curve-after;
         }
-        .curve-top{
+
+        .curve-top {
           @include curve-top;
-          @media (max-width:1199.98px){
-          }
+
+          @media (max-width:1199.98px) {}
         }
-        .curve-bottom{
+
+        .curve-bottom {
           @include curve-bottom;
-          @media (max-width:1199.98px){
-          }
+
+          @media (max-width:1199.98px) {}
         }
       }
-      &:has(.active){
-        .accordion-header{
-          .accordion-button{
+
+      &:has(.active) {
+        .accordion-header {
+          .accordion-button {
             background-color: $white-color;
             color: $primary-color;
-            &::after{
+
+            &::after {
               background-color: $black-dark-color;
             }
           }
+
           &::before,
-          &::after{
+          &::after {
             border-color: $black-dark-color;
           }
+
           .curve-top,
-          .curve-bottom{
+          .curve-bottom {
             background: $white-color;
           }
         }
-        .bi{
+
+        .bi {
           background-color: $primary-color;
         }
       }
-      .accordion-button{
+
+      .accordion-button {
         border-radius: 0;
         border-bottom-right-radius: 0 !important;
         border-top-left-radius: 20px;
@@ -190,17 +221,19 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
         @include font(.875rem, 21.27px, 400);
         background-color: unset;
         color: $white-color;
-        @media (max-width:1199.98px){
+
+        @media (max-width:1199.98px) {
           padding-left: 15px;
           font-size: 0;
           margin-left: 5px;
         }
       }
-      .dropdown-item{
+
+      .dropdown-item {
         border-radius: 0;
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px !important;
-        padding: 15px 15px 15px 85px;
+        padding: 15px 10px 0px 55px;
         @include font-size (.875);
       }
     }
@@ -208,25 +241,29 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 
   .accordion-header {
     background-color: unset;
+
     button {
       padding: 14px 15px;
       border: 0 !important;
+
       i {
         margin-right: 10px;
       }
+
       &::after {
         mask-image: $downArrow;
         -webkit-mask-image: $downArrow;
         background-size: 5px;
         background-position: $center;
-        position: relative;
+        position: $relative;
         z-index: 15;
         margin-right: 15px;
-        background-color: $white-color;
+        background-color: $body-color;
         width: 9px;
         mask-repeat: no-repeat;
         mask-position: center;
-        @media (max-width:1199px){
+
+        @media (max-width:1199px) {
           transform: scale(1) rotate(-90deg);
           margin-right: -3px;
         }
@@ -235,20 +272,42 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   }
 
   .accordion-collapse {
-    &.show, &.collapsing {
-      background-color: rgba($white-color, 1) !important;
-      @media (max-width: 1199.98px){
-        @include position ($absolute, $left:82px);
+
+    &.show,
+    &.collapsing {
+      background-color: $body-color !important;
+
+      @media (max-width: 1199.98px) {
+        @include position ($absolute, $left: 82px);
         margin-top: -45px;
       }
 
       .accordion-body {
-        a {
-          color: $white-color !important;
-          @media (max-width: 1199.98px){
+        .dropdown-item {
+          color: rgba($white-color, 0.4) !important;
+
+          &:hover {
+            color: rgba($white-color, 1) !important;
+
+            svg {
+              fill: $white-color; // Change fill color to red
+            }
+          }
+
+          @media (max-width: 1199.98px) {
             padding-left: 50px;
           }
         }
+
+        .active {
+          color: rgba($white-color, 1) !important;
+
+          svg {
+            fill: $white-color; // Change fill color to red
+          }
+        }
+
+
       }
     }
   }
@@ -269,7 +328,8 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
     max-width: 70px;
     overflow: unset;
   }
-  #main{
+
+  #main {
     margin-left: 70px;
   }
 }
@@ -307,11 +367,13 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 
   .sub-menu {
     background-color: $black-dark-color;
+
     li {
       .nav-link {
         @include font(18px, 27px, 400);
         font-weight: $font-regular;
-        &.active{
+
+        &.active {
           color: $primary-color;
         }
       }
@@ -320,15 +382,17 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 }
 
 
-.admin-brand-logo{
+.admin-brand-logo {
   color: $white-color;
   padding-left: 30px;
   padding-right: 20px;
-  @media (max-width:1199.98px){
+
+  @media (max-width:1199.98px) {
     color: $text-title-color;
     margin-bottom: 0;
   }
 }
+
 /* Alerts */
 .alert-heading {
   font-weight: 500;
@@ -354,7 +418,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
 
 .accordion-button {
   outline: 0;
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
 
 .accordion-flush .accordion-button {
@@ -363,9 +427,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-ic.svg");
   border: 0;
 }
 
-#products{
-  .modal-form-field{
-    .react-select-prefix__control{
+#products {
+  .modal-form-field {
+    .react-select-prefix__control {
       padding: 0;
       border: 0;
     }

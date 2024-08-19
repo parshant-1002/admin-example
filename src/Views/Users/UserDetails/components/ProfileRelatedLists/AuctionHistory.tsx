@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 // Libraries
 import { debounce } from 'lodash';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
 // Components
@@ -24,41 +24,22 @@ import {
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
   AUCTION_HISTORY_FRONTEND_OPTIONS,
-  BID_CREDIT_TYPES_OPTIONS,
-  BID_STATUS_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
   auctionHistoryColumn,
-  biddingHistoryColumn,
-  bidsPurchaseHistoryColumn,
-  productHistoryColumn,
-  referralHistoryColumn,
 } from '../../helpers/constants';
 
 // Models
 import { ViewMultiData } from '../../helpers/model';
 
 // API
+import '../../../Users.scss';
 
 // Utilities
-import {
-  useGetAuctionHistoryQuery,
-  useGetBidsSpentHistoryQuery,
-} from '../../../../../Services/Api/module/auctions';
-import { useGetReferralHistoryQuery } from '../../../../../Services/Api/module/referrals';
-import {
-  useGetUserBidsCreditHistoryQuery,
-  useGetUserProductHistoryQuery,
-} from '../../../../../Services/Api/module/users';
+import { useGetAuctionHistoryQuery } from '../../../../../Services/Api/module/auctions';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
-import {
-  transformAuctionHistoryResponse,
-  transformBidderPurchaseResponse,
-  transformBiddingHistoryResponse,
-  transformProductHistoryResponse,
-  transformReferralHistoryResponse,
-} from '../../helpers/utils';
+import { transformAuctionHistoryResponse } from '../../helpers/utils';
 import AuctionBidsDetails from '../AuctionBidsDetails';
 
 interface DeleteData {
@@ -69,14 +50,14 @@ interface DeleteData {
 interface FilterPayload {
   fromDate?: string | Date;
   toDate?: string | Date;
-  status?: number;
-  type?: number;
+  status?: number | string;
+  type?: number | string;
 }
 
 // Constants
-const PROFILE_RELATED_LIST_PAGE_LIMIT = 5;
+const PROFILE_RELATED_LIST_PAGE_LIMIT = 10;
 
-export default function ProfileRelatedLists({
+export default function AuctionHistory({
   search = '',
   setSearch = () => {},
   currentPage = 0,
@@ -132,80 +113,18 @@ export default function ProfileRelatedLists({
     ...filters,
   };
   // API Queries
-  const {
-    data: userBidsCreditHistory,
-    refetch: refetchUserBidsCreditHistory,
-    error: isfetchUserBidsCreditHistory,
-  } = useGetUserBidsCreditHistoryQuery(
-    {
-      params: removeEmptyValues(
-        queryParams as unknown as Record<string, unknown>
-      ),
-    },
-    {
-      skip: currentTab !== UserDetailsTabs.BIDS_PURCHASE_HISTORY,
-    }
-  );
 
-  const {
-    data: userBidsSpentHistory,
-    refetch: refetchBidsSpentHistory,
-    error: isfetchBidsSpentHitstory,
-  } = useGetBidsSpentHistoryQuery(
-    {
-      params: removeEmptyValues(
-        queryParams as unknown as Record<string, unknown>
-      ),
-    },
-    {
-      skip: currentTab !== UserDetailsTabs.BIDDING_HISTORY,
-    }
-  );
-  console.log('🚀 ~ refetchBidsSpentHistory:', refetchBidsSpentHistory);
-  const {
-    data: userReferralHistory,
-    refetch: refetchUserReferralHistory,
-    error: isfetchUserReferralHistory,
-  } = useGetReferralHistoryQuery(
-    {
-      params: removeEmptyValues(
-        queryParams as unknown as Record<string, unknown>
-      ),
-    },
-    {
-      skip: currentTab !== UserDetailsTabs.REFERRAL_HISTORY,
-    }
-  );
-
-  const {
-    data: userProductHistory,
-    refetch: refetchUserProductHistory,
-    error: isfetchUserProductHistory,
-  } = useGetUserProductHistoryQuery(
-    {
-      params: removeEmptyValues(
-        queryParams as unknown as Record<string, unknown>
-      ),
-    },
-    {
-      skip: currentTab !== UserDetailsTabs.PRODUCT_HISTORY,
-    }
-  );
-
-  const {
-    data: userAuctionHistory,
-    refetch: refetchUserAuctionHistory,
-    error: isfetchUserAuctionHistory,
-  } = useGetAuctionHistoryQuery(
-    {
-      params: removeEmptyValues(
-        queryParams as unknown as Record<string, unknown>
-      ),
-    },
-    {
-      skip: currentTab !== UserDetailsTabs.AUCTION_HISTORY,
-    }
-  );
+  const { data: userAuctionHistory, refetch: refetchUserAuctionHistory } =
+    useGetAuctionHistoryQuery(
+      {
+        params: removeEmptyValues(
+          queryParams as unknown as Record<string, unknown>
+        ),
+      }
+      // {
+      //   skip: currentTab !== UserDetailsTabs.AUCTION_HISTORY,
+      // }
+    );
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -241,23 +160,7 @@ export default function ProfileRelatedLists({
     setSearch(e.target.value);
   }, 1000);
 
-  // Memoized columns for table
-  const columnsMap = useMemo(
-    () => ({
-      [UserDetailsTabs.BIDS_PURCHASE_HISTORY]: bidsPurchaseHistoryColumn,
-      [UserDetailsTabs.BIDDING_HISTORY]: biddingHistoryColumn,
-      [UserDetailsTabs.REFERRAL_HISTORY]: referralHistoryColumn,
-      [UserDetailsTabs.PRODUCT_HISTORY]: () =>
-        productHistoryColumn(setShowMultiItemView),
-      [UserDetailsTabs.AUCTION_HISTORY]: auctionHistoryColumn,
-    }),
-    []
-  );
-
-  const columns = useMemo(() => {
-    const columnFn = columnsMap[currentTab];
-    return typeof columnFn === 'function' ? columnFn() : columnFn;
-  }, [columnsMap, currentTab]);
+  const columns = auctionHistoryColumn(selectedRow);
 
   const auctionBidDetails = useCallback(
     (auctionId: string | number) => (
@@ -265,64 +168,11 @@ export default function ProfileRelatedLists({
     ),
     []
   );
-  // Effect to refetch data on dependencies change
-  const refetchMap = useMemo(
-    () => ({
-      [UserDetailsTabs.BIDS_PURCHASE_HISTORY]: {
-        refetch: refetchUserBidsCreditHistory,
-        isFetched: isfetchUserBidsCreditHistory,
-      },
-      [UserDetailsTabs.BIDDING_HISTORY]: {
-        refetch: refetchBidsSpentHistory,
-        isFetched: isfetchBidsSpentHitstory,
-      },
-      [UserDetailsTabs.PRODUCT_HISTORY]: {
-        refetch: refetchUserProductHistory,
-        isFetched: isfetchUserProductHistory,
-      },
-      [UserDetailsTabs.REFERRAL_HISTORY]: {
-        refetch: refetchUserReferralHistory,
-        isFetched: isfetchUserReferralHistory,
-      },
-      [UserDetailsTabs.AUCTION_HISTORY]: {
-        refetch: refetchUserAuctionHistory,
-        isFetched: isfetchUserAuctionHistory,
-      },
-    }),
-    [
-      isfetchBidsSpentHitstory,
-      isfetchUserBidsCreditHistory,
-      isfetchUserAuctionHistory,
-      isfetchUserProductHistory,
-      isfetchUserReferralHistory,
-      refetchBidsSpentHistory,
-      refetchUserAuctionHistory,
-      refetchUserBidsCreditHistory,
-      refetchUserProductHistory,
-      refetchUserReferralHistory,
-    ]
-  );
-
-  const transformMap = useMemo(
-    () => ({
-      [UserDetailsTabs.BIDS_PURCHASE_HISTORY]: transformBidderPurchaseResponse,
-      [UserDetailsTabs.BIDDING_HISTORY]: transformBiddingHistoryResponse,
-      [UserDetailsTabs.REFERRAL_HISTORY]: transformReferralHistoryResponse,
-      [UserDetailsTabs.AUCTION_HISTORY]: transformAuctionHistoryResponse,
-      [UserDetailsTabs.PRODUCT_HISTORY]: transformProductHistoryResponse,
-    }),
-    []
-  );
 
   const refetchData = useCallback(() => {
     try {
-      if (callBidsCreditApi) {
-        refetchUserBidsCreditHistory();
-        return;
-      }
-      const refetchFunction = refetchMap[currentTab].refetch;
-      if (refetchFunction) {
-        refetchFunction();
+      if (refetchUserAuctionHistory) {
+        refetchUserAuctionHistory();
         setSelectedRow('');
       }
     } catch (err) {
@@ -337,78 +187,36 @@ export default function ProfileRelatedLists({
     onComponentMountRef.current = true;
   }, [
     currentTab,
-    refetchBidsSpentHistory,
     search,
     sortDirection,
     sortKey,
-    refetchMap,
     callBidsCreditApi,
-    refetchUserBidsCreditHistory,
     filters,
     refetchData,
   ]);
 
   // Define the useEffect hook
   useEffect(() => {
-    const transformFunction = transformMap[currentTab];
+    const transformFunction = transformAuctionHistoryResponse;
 
     if (transformFunction) {
-      const data = transformFunction(
-        {
-          [UserDetailsTabs.BIDS_PURCHASE_HISTORY]: userBidsCreditHistory,
-          [UserDetailsTabs.BIDDING_HISTORY]: userBidsSpentHistory,
-          [UserDetailsTabs.REFERRAL_HISTORY]: userReferralHistory,
-          [UserDetailsTabs.AUCTION_HISTORY]: userAuctionHistory,
-          [UserDetailsTabs.PRODUCT_HISTORY]: userProductHistory,
-        }[currentTab]
-      );
+      const data = transformFunction(userAuctionHistory);
 
       setTableData(data as unknown as { data: never[]; count: number });
     } else {
       setTableData({ data: [], count: 0 });
     }
-  }, [
-    currentTab,
-    userBidsCreditHistory,
-    userBidsSpentHistory,
-    userReferralHistory,
-    userProductHistory,
-    userAuctionHistory,
-    transformMap,
-  ]);
+  }, [currentTab, userAuctionHistory]);
+
   const handleApplyFilters = (filter: FiltersState) => {
     const initalFilterPayload: FilterPayload = {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
+      status: filter?.selectedStatus?.value,
     };
-    if (currentTab === UserDetailsTabs.BIDDING_HISTORY) {
-      setFilters({
-        ...initalFilterPayload,
-        type: filter?.selectedStatus?.value,
-      });
-    } else {
-      setFilters({
-        ...initalFilterPayload,
-        status: filter?.selectedStatus?.value,
-      });
-    }
+    setFilters(initalFilterPayload);
   };
 
-  const statusOptions = () => {
-    switch (currentTab) {
-      case UserDetailsTabs.BIDS_PURCHASE_HISTORY: {
-        return BID_CREDIT_TYPES_OPTIONS;
-      }
-      case UserDetailsTabs.BIDDING_HISTORY: {
-        return BID_STATUS_OPTIONS;
-      }
-      case UserDetailsTabs.AUCTION_HISTORY: {
-        return AUCTION_HISTORY_FRONTEND_OPTIONS;
-      }
-      default:
-        return undefined;
-    }
-  };
   return (
     <>
       <ViewMultiTableItem
@@ -434,7 +242,7 @@ export default function ProfileRelatedLists({
         filterToggleImage={Filter}
         showHeading={false}
         showDateFilter
-        statusOptions={statusOptions()}
+        statusOptions={AUCTION_HISTORY_FRONTEND_OPTIONS}
         priceRange={
           currentTab === UserDetailsTabs.PRODUCT_HISTORY
             ? PRICE_RANGE

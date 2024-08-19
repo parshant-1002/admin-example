@@ -1,5 +1,5 @@
 import CustomDropDown from '../../../../Shared/components/CustomDropDown';
-import { actions } from '../../../../assets';
+import { Delete, actions, block, view } from '../../../../assets';
 import { UsersResponsePayload } from '../../helpers/model';
 import './style.scss';
 
@@ -20,17 +20,22 @@ function ActionsDropdown({
     {
       buttonLabel: 'View',
       buttonAction: () => handleView(row),
-      className: 'text-green',
+      className: 'btn44 btn btn-primary',
+      icon: view,
     },
     {
       buttonLabel: row?.isBlocked ? 'UnBlock' : 'Block',
       buttonAction: () => handleBlock(row),
-      className: row?.isBlocked ? 'text-green' : 'text-danger',
+      className: row?.isBlocked
+        ? 'btn44 btn btn-primary'
+        : 'btn44 btn btn-danger',
+      icon: block,
     },
     {
       buttonLabel: 'Delete',
       buttonAction: () => handleDelete(row),
-      className: 'text-danger',
+      icon: Delete,
+      className: 'btn44 btn btn-danger',
     },
   ];
 

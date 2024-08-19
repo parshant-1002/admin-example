@@ -50,7 +50,7 @@ interface Popup {
 }
 
 // Constants
-const PAGE_LIMIT = 7;
+const PAGE_LIMIT = 10;
 
 function Plans() {
   const navigate = useNavigate();

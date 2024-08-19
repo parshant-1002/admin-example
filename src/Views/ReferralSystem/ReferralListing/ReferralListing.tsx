@@ -32,7 +32,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const REFERAL_PAGE_LIMIT = 10;
 
 function Invoices() {
   const { id } = useParams();
@@ -49,8 +49,8 @@ function Invoices() {
   // Query Parameters
   const queryParams: QueryParams = {
     referralPackId: id || '',
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * REFERAL_PAGE_LIMIT,
+    limit: REFERAL_PAGE_LIMIT,
     sortKey,
     sortDirection,
   };
@@ -156,12 +156,12 @@ function Invoices() {
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={ReferralListColumns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={REFERAL_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         pagination
-        pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+        pageCount={(listing?.count || 1) / REFERAL_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}
       />

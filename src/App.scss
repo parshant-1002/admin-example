@@ -14,8 +14,9 @@ $downArrow : url("./assets/icons/downArrow.svg");
 #root {
   width: 100%;
 }
+
 .bg-img {
-  @include position($absolute, $top:0, $left:0, $right:0);
+  @include position($absolute, $top: 0, $left: 0, $right: 0);
   background: url(assets/images/header_bg.jpg) $no-repeat;
   background-position: $top $center;
   width: 100%;
@@ -33,13 +34,16 @@ $downArrow : url("./assets/icons/downArrow.svg");
   transition: all 0.3s;
   position: $relative;
   z-index: 11;
+
   @media (min-width: 1200px) {
     margin-left: 300px;
   }
+
   @media (max-width: 1199px) {
     padding-inline: 20px;
   }
 }
+
 /*--------------------------------------------------------------
 # Override some default Bootstrap stylings
 --------------------------------------------------------------*/
@@ -110,10 +114,20 @@ $downArrow : url("./assets/icons/downArrow.svg");
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
+
   0% {
     opacity: 0;
   }
+}
+
+.react-select-prefix__single-value {
+  color: $black-color !important;
+}
+
+.pointer {
+  cursor: pointer;
 }

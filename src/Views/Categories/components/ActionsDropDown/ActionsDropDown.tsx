@@ -1,5 +1,5 @@
 import CustomDropDown from '../../../../Shared/components/CustomDropDown';
-import { actions } from '../../../../assets';
+import { Delete, actions, edit } from '../../../../assets';
 import { CategoryResponsePayload } from '../../helpers/model';
 
 interface ActionsDropdownProps {
@@ -14,11 +14,17 @@ function ActionsDropdown({
   handleDelete,
 }: ActionsDropdownProps) {
   const submenu = [
-    { buttonLabel: 'Edit', buttonAction: () => handleEdit(row) },
+    {
+      buttonLabel: 'Edit',
+      buttonAction: () => handleEdit(row),
+      icon: edit,
+      className: 'btn44 btn btn-primary',
+    },
     {
       buttonLabel: 'Delete',
       buttonAction: () => handleDelete(row),
-      className: 'text-danger',
+      icon: Delete,
+      className: 'btn44 btn btn-danger',
     },
   ];
 
