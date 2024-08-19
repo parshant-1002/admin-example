@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { convertToLocale } from '../../utils/functions';
 import TruncateText from '../TruncateText';
 
 export interface FieldSchema {
   label: string;
   key: keyof DataKeys;
   truncate?: boolean;
+  format?: boolean;
+  currencyFormat?: boolean;
   render?: (
     value: string | number | undefined,
     data: DataKeys
@@ -40,6 +43,12 @@ function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
 
     if (field.truncate && typeof value === 'string') {
       return <TruncateText text={value || `No ${field.label}`} />;
+    }
+    if (field.format && typeof value === 'number') {
+      return convertToLocale(value);
+    }
+    if (field.currencyFormat && typeof value === 'number') {
+      return `${convertToLocale(value, true)}`;
     }
     if (typeof value === 'number') {
       return value;

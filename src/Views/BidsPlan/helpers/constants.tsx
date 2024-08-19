@@ -10,7 +10,11 @@ import {
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { formatDate, renderIdWithHash } from '../../../Shared/utils/functions';
+import {
+  convertToLocale,
+  formatDate,
+  renderIdWithHash,
+} from '../../../Shared/utils/functions';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -171,7 +175,7 @@ export const PlansColumns = ({
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
           />
-          <div className="checkbox-custom" />
+          <span className="label" />
         </div>
       );
     },
@@ -189,11 +193,12 @@ export const PlansColumns = ({
   {
     title: STRINGS.BIDS_GIVEN,
     fieldName: PLAN_FORM_FIELDS.BIDS,
-    isTruncated: true,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.DEAL_PRICE,
     fieldName: PLAN_FORM_FIELDS.PRICE,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.IMAGE,
@@ -308,12 +313,14 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     fieldName: 'dealOffer',
     sortable: true,
     sortType: 'dealOffer',
+    render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
     title: STRINGS.DEAL_PRICE,
     fieldName: 'dealPrice',
     sortable: true,
     sortType: 'dealPrice',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.IMAGE,

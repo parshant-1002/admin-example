@@ -113,7 +113,6 @@ export const CreateReferralColumns = ({
   {
     title: STRINGS.BIDS_GIVEN,
     fieldName: 'rewardBids',
-    isTruncated: true,
     sortable: true,
     sortType: 'rewardBids',
     render: (_, val) => `${convertToLocale(val)}`,
@@ -123,6 +122,7 @@ export const CreateReferralColumns = ({
     fieldName: 'refereeBidRequirement',
     sortable: true,
     sortType: 'refereeBidRequirement',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.START_DATE,
