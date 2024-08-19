@@ -22,7 +22,10 @@ $downArrow : url("./assets/icons/downArrow.svg");
   width: 100%;
   height: 100%;
 }
-
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active{
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
@@ -91,7 +94,6 @@ $downArrow : url("./assets/icons/downArrow.svg");
 .dropdown-menu .dropdown-item:hover {
   background-color: #f6f9ff;
 }
-
 @media (min-width: 768px) {
   .dropdown-menu-arrow::before {
     content: "";

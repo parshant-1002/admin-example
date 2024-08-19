@@ -165,7 +165,7 @@ function DetailsWrapperEditableCard({
       <div className="row border p-3">
         {dataScema.map((field) => (
           <div key={field.title} className="col-md-3 mb-3">
-            <h5 className="font-weight-bold">{field.title}</h5>
+            <label className="font-weight-bold">{field.title}</label>
             <p>
               {' '}
               {renderValue(getColumnValue(data, field), field, (newValue) =>

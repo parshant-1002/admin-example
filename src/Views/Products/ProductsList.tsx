@@ -199,7 +199,7 @@ export default function ProductsList() {
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: ProductResponsePayload) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <ActionsDropDown
           row={row}
           handleEdit={handleEdit}

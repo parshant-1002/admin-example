@@ -4,7 +4,6 @@ import LoginPage from '../Views/auth/login/LoginPage';
 import OtpForm from '../Views/auth/otpForm';
 import { CustomRouter } from './RootRoutes';
 
-
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {

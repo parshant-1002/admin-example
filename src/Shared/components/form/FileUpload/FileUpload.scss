@@ -38,6 +38,9 @@
     overflow: $hidden;
     gap: 5px;
     z-index: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
     figure {
         width: 80px;
         margin-bottom: 0;
@@ -48,6 +51,10 @@
             max-height: 50px;
             object-fit: $contain;
         }
+    }
+    img{
+        max-width: 100%;
+        height: auto
     }
 }
 
@@ -126,6 +133,7 @@
                 font-size: 1rem;
                 font-weight: 600;
                 color: #333;
+                word-break: break-word;
             }
         }
 
