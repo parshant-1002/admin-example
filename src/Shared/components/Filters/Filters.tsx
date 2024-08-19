@@ -21,6 +21,7 @@ import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
 import { FiltersState, PriceRange } from './helpers/models';
 import './style.scss';
+import TextField from '../form/TextInput/TextInput';
 
 // types
 interface StatsFiltersProps {
@@ -169,10 +170,16 @@ function StatsFilters({
           <div className="d-flex justify-content-between justify-content-sm-end align-items-start stats_filter">
             {selectedIds?.length ? (
               <Button
-                className="btn btn-sm btn-danger"
+                className="btn btn-sm btn-danger onlyIcon"
                 btnType="primary"
                 onClick={handleDeleteAll}
               >
+                <img
+                  src="/src/assets/icons/delete.svg"
+                  alt="filters"
+                  className="d-block d-md-none"
+                  width={30}
+                />
                 {BUTTON_LABELS.DELETE_ALL}
               </Button>
             ) : null}
@@ -206,10 +213,16 @@ function StatsFilters({
             ) : null}
             {setAddData ? (
               <Button
-                className="btn btn-sm"
+                className="btn btn-sm onlyIcon"
                 btnType="primary"
                 onClick={() => setAddData()}
-              >
+              >                
+                <img
+                  src="/src/assets/icons/add-icon.svg"
+                  alt="filters"
+                  className="d-block d-md-none"
+                  width={30}
+                />
                 {addButtonLabel}
               </Button>
             ) : null}
@@ -270,19 +283,6 @@ function StatsFilters({
                 max={secondaryPriceRange.max}
                 value={filtersState?.secondaryPriceRange}
                 onChange={handleChangeSecondaryPriceRange}
-              />
-            </div>
-          ) : null}
-          {showDateFilter ? (
-            <div className="col-lg-2 col-xl-2">
-              <DateRange
-                startDate={filtersState?.startDate}
-                endDate={filtersState?.endDate}
-                setFilterState={setFilterState}
-                isInitialEmpty={isInitialEmptyForDate}
-                clearFilterRef={clearDateRangeFilterRef}
-                setIsInitialEmpty={setIsInitialEmptyForDate}
-                setIsFiltersOn={setIsFiltersOn}
               />
             </div>
           ) : null}

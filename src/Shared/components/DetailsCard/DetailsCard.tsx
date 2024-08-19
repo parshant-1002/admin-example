@@ -21,10 +21,10 @@ function DetailsCard({
           <div
             className={`${
               itemClassName || 'col-lg-2 col-md-3 col-sm-4'
-            } text-center  my-1`}
+            } my-1`}
             key={label}
           >
-            <h6>{label}</h6>
+            <label>{label}</label>
             <p>{value || '-.-'}</p>
           </div>
         ))}

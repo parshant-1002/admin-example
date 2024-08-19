@@ -43,7 +43,7 @@ function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
         </span>
       </Dropdown.Toggle> */}
 
-      <div className="d-flex gap-3">
+      <div className="d-flex gap-sm-3 gap-2 justify-content-end">
         {submenu?.map((item) => (
           <button
             key={item.buttonLabel}
