@@ -150,10 +150,16 @@
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
+  position: relative;
 
   .arrow-down {
     margin-left: 10px; // Space between text and arrow
     // transform: rotate(-90deg); // Adjust for initial arrow direction
+    position: absolute;
+    right: 0;
+    padding-left: 4px;
+    padding-right: 10px;
+    background-color: $white-color;
     transition: transform 0.3s ease-in-out;
   }
 
@@ -165,7 +171,7 @@
 
 // Optional: Styling for when the dropdown is active
 .price-filter.active {
-  border-color: #007bff; // Change border color when active
+  border-color: $primary-color; // Change border color when active
 }
 
 .filter-item{

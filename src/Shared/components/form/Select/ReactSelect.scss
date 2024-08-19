@@ -49,6 +49,9 @@ body {
                 &-separator {
                     display: $none;
                 }
+                svg{
+                    fill: $base-color;
+                }
             }
             //Drop Menu
             &__menu {

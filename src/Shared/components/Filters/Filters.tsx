@@ -269,7 +269,7 @@ function StatsFilters({
             </div>
           ) : null}
           {priceRange ? (
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-3">
               <PriceRangeSlider
                 isFiltersOn={isFiltersOn}
                 rangeSilderTitle={rangeSilderTitle}
@@ -281,7 +281,7 @@ function StatsFilters({
             </div>
           ) : null}
           {secondaryPriceRange ? (
-            <div className="col-12 col-sm-5 col-md-4 col-lg-3 col-xxl-2">
+            <div className="col-12 col-sm-5 col-md-4 col-lg-3 col-xxl-3">
               <PriceRangeSlider
                 isFiltersOn={isFiltersOn}
                 rangeSilderTitle={secondaryRangeSilderTitle}

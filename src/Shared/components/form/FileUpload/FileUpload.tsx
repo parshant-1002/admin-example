@@ -315,7 +315,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 id="controlled-tab-example"
                 activeKey={activeTab}
                 onSelect={(k) => setActiveTab(k || '')}
-                className="custom_tabs"
+                className="custom_tabs mb-2"
                 unmountOnExit
               >
                 <Tab
