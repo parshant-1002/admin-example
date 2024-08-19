@@ -52,7 +52,7 @@
   gap: 10px;
 
   @media (max-width:575px) {
-    @include flex-wrap (wrap);
+    // @include flex-wrap (wrap);
     margin-bottom: 15px;
     width: 100%;
     gap: 5px;
@@ -150,10 +150,16 @@
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
+  position: relative;
 
   .arrow-down {
     margin-left: 10px; // Space between text and arrow
     // transform: rotate(-90deg); // Adjust for initial arrow direction
+    position: absolute;
+    right: 0;
+    padding-left: 4px;
+    padding-right: 10px;
+    background-color: $white-color;
     transition: transform 0.3s ease-in-out;
   }
 
@@ -165,9 +171,56 @@
 
 // Optional: Styling for when the dropdown is active
 .price-filter.active {
-  border-color: #007bff; // Change border color when active
+  border-color: $primary-color; // Change border color when active
 }
 
 .filter-item{
  min-width: 220px;
+}
+.w-sm-auto{
+  @media(min-width: 575.99px){
+    width: auto !important;
+  }
+}
+.filterbtn{
+  padding-inline: 13px;
+}
+.onlyIcon{
+  font-size: 0 !important;
+  @media (min-width: 768px){
+    font-size: 16px!important;
+  }
+  @media (max-width: 767.99px){
+    width: 44px;
+    min-width:auto;
+    padding:13px;
+  }
+}
+[data-label="Actions"]{
+  .btn44{
+    @media (max-width: 575.99px){
+      width: 31px !important;
+      height:31px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+.filter-wrapper:has(.filter-items-box){
+  .stats_filter{
+    .filterbtn{
+      img{
+        &[alt="w-cross"]{
+          display:block !important;
+          transform: rotate(45deg);
+          width: 24px;
+          margin-left: -4.5px;
+        }
+        &[alt="filters"]{
+          display:none !important;
+        }
+      }
+    }
+  }
 }

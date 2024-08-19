@@ -120,6 +120,7 @@ export const STRINGS = {
   PACK_ID: 'Pack Id',
   PACK_NAME: 'Pack Name',
   DEAL_PRICE: 'Deal Price',
+  IMAGE: 'Image',
   BIDS_RECEIVED: 'Bids Received',
   REFERRAL_ID: 'Referral Id',
   NAME: 'Name',
@@ -201,7 +202,7 @@ export const CONTENT_ENUMS = {
 export const BUTTON_LABELS = {
   ADD_BIDS: 'Add Bids',
   REVOKE: 'Revoke',
-  YES: 'yes',
+  YES: 'Yes',
   NO: 'No',
   CANCEL: 'Cancel',
   DELETE: 'Delete',

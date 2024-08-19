@@ -30,7 +30,7 @@ interface QueryParams {
 }
 
 // Constants
-const ADD_ONS_PAGE_LIMIT = 5;
+const PLAN_DETAILS_PAGE_LIMIT = 10;
 
 function PlanDetailedView() {
   const { id } = useParams();
@@ -47,8 +47,8 @@ function PlanDetailedView() {
   // Query Parameters
   const queryParams: QueryParams = {
     bidPlanId: id || '',
-    skip: currentPage * ADD_ONS_PAGE_LIMIT,
-    limit: ADD_ONS_PAGE_LIMIT,
+    skip: currentPage * PLAN_DETAILS_PAGE_LIMIT,
+    limit: PLAN_DETAILS_PAGE_LIMIT,
     sortKey,
     sortDirection,
   };
@@ -160,12 +160,12 @@ function PlanDetailedView() {
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={PlanDetailedViewColumns as unknown as Column[]}
-        pageSize={ADD_ONS_PAGE_LIMIT}
+        pageSize={PLAN_DETAILS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         pagination
-        pageCount={(listing?.count || 1) / ADD_ONS_PAGE_LIMIT}
+        pageCount={(listing?.count || 1) / PLAN_DETAILS_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}
       />

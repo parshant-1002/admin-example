@@ -1,8 +1,10 @@
-import { actions, InvoiceIcon } from '../../../assets';
+import { actions, Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
+import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   BID_PLAN_TYPES,
+  IMAGE_FILE_TYPES,
   INPUT_TYPES,
   REFERRAL_STATUS,
   STRINGS,
@@ -19,6 +21,7 @@ export const PLAN_FORM_FIELDS = {
   DISCOUNT_PRICE: 'dealPrice',
   END_DATE: 'endDate',
   STATUS: 'isEnabled',
+  IMAGE_URL: 'imageURL',
 };
 
 export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
@@ -43,6 +46,13 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
         message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
       },
     },
+  },
+  [PLAN_FORM_FIELDS.IMAGE_URL]: {
+    type: INPUT_TYPES.FILE,
+    label: 'Images',
+    accept: IMAGE_FILE_TYPES,
+    className: 'col-md-12',
+    placeholder: 'Images',
   },
   [PLAN_FORM_FIELDS.BIDS]: {
     type: INPUT_TYPES.NUMBER,
@@ -186,6 +196,18 @@ export const PlansColumns = ({
     fieldName: PLAN_FORM_FIELDS.PRICE,
   },
   {
+    title: STRINGS.IMAGE,
+    fieldName: 'imageURL',
+    sortable: false,
+    render: (_, imageURL: string | number) => (
+      <div className="d-inline-flex align-items-center position-relative uploaded_file">
+        <figure key={String(imageURL)}>
+          <FileRenderer fileURL={String(imageURL)} />
+        </figure>
+      </div>
+    ),
+  },
+  {
     title: STRINGS.CREATED_AT,
     fieldName: 'createdAt',
     sortable: true,
@@ -232,19 +254,27 @@ export const PlansColumns = ({
   {
     title: STRINGS.ACTIONS,
     render: (row) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <CustomDropDown
           toggleImage={actions}
           submenu={[
-            { buttonLabel: STRINGS.VIEW, buttonAction: () => handleView(row) },
+            {
+              buttonLabel: 'View',
+              buttonAction: () => handleView(row),
+              className: 'btn44 btn btn-primary',
+              icon: view,
+            },
             {
               buttonLabel: STRINGS.UPDATE,
               buttonAction: () => handleEdit(row),
+              icon: edit,
+              className: 'btn44 btn btn-primary',
             },
             {
               buttonLabel: STRINGS.DELETE,
               buttonAction: () => handleDelete(row),
-              className: 'text-danger',
+              icon: Delete,
+              className: 'btn44 btn btn-danger',
             },
           ]}
         />
@@ -284,6 +314,11 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     fieldName: 'dealPrice',
     sortable: true,
     sortType: 'dealPrice',
+  },
+  {
+    title: STRINGS.IMAGE,
+    fieldName: 'imageURL',
+    sortable: false,
   },
   {
     title: STRINGS.REFEREE_EMAIL,

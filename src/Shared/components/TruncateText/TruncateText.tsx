@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { Tooltip } from 'react-tooltip';
 import { Copy } from '../../../assets';
 import { copyToClipboard } from '../../utils/functions';
 import './style.scss';
@@ -8,6 +10,13 @@ interface TruncatedTextProps {
 }
 
 function TruncatedText({ text }: TruncatedTextProps) {
+  const [tooltipId, setTooltipId] = useState('');
+
+  useEffect(() => {
+    // Generate a unique ID for each tooltip
+    setTooltipId(`tooltip-${Math.random().toString(36).substr(2, 9)}`);
+  }, []);
+
   const maxLength = 20;
   const displayText =
     String(text).length > maxLength
@@ -16,15 +25,25 @@ function TruncatedText({ text }: TruncatedTextProps) {
 
   return (
     <span className="d-inline-flex">
-      <span>{displayText}</span>
+      <span data-tooltip-id={tooltipId}>{displayText}</span>
+
       {String(text).length > maxLength ? (
-        <button
-          type="button"
-          className="copy_icon"
-          onClick={() => copyToClipboard(text)}
-        >
-          <img src={Copy} alt="" width={15} />
-        </button>
+        <>
+          <Tooltip
+            id={tooltipId}
+            opacity={1}
+            className="bg-primary text-white p-3 border border-rounded"
+          >
+            {text}
+          </Tooltip>
+          <button
+            type="button"
+            className="copy_icon"
+            onClick={() => copyToClipboard(text)}
+          >
+            <img src={Copy} alt="" width={15} />
+          </button>
+        </>
       ) : null}
     </span>
   );

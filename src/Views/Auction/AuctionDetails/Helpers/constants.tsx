@@ -1,8 +1,11 @@
+import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
 import { ProductDetailResponsePayload } from './Model';
 import { ColumnData } from '../../../../Models/Tables';
 import { ViewMultiData, Category } from '../../../Products/helpers/model';
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
+import { convertToLocale } from '../../../../Shared/utils/functions';
+import { DATE_FORMATS } from '../../../../Shared/constants';
 
 export enum DetailType {
   String,
@@ -61,13 +64,26 @@ export const AuctionColumn = (
     title: 'Auction Date',
     isEditable: false,
     type: DetailType.Date,
-    fieldName: 'Date Range',
+    fieldName: 'bidStartDate',
+    render: (row) =>
+      moment(row?.bidStartDate).format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
+  },
+  {
+    title: 'Reserve End Date',
+    isEditable: false,
+    type: DetailType.Date,
+    fieldName: 'reserveWaitingEndDate',
+    render: (row) =>
+      moment(row?.reserveWaitingEndDate).format(
+        DATE_FORMATS.DISPLAY_DATE_WITH_TIME
+      ),
   },
   {
     title: 'Reserve Price',
     isEditable: false,
     type: DetailType.Number,
     fieldName: 'reservePrice',
+    render: (row) => `$${convertToLocale(row?.reservePrice)}`,
   },
   {
     title: 'Auction Time',
@@ -158,24 +174,19 @@ export const AuctionColumn = (
         title: string;
       }[];
       return (
-        <div className="d-flex align-items-center">
+        <div className="d-inline-flex align-items-center position-relative uploaded_file">
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <div
-                key={img.url}
-                className="m-2 d-flex flex-column text-center justify-content-center align-items-center"
-              >
-                <span className="uploaded_file">
-                  <FileRenderer fileURL={img.url} />
-                </span>
-                <div>{img.title}</div>
-              </div>
+              <figure key={img.url}>
+                <FileRenderer fileURL={img.url} />
+                {/* <span>{img.title}</span> */}
+              </figure>
             ) : null
           )}
           {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
             <button
               type="button"
-              className="btn border py-0 px-1"
+              className="count_btn"
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
@@ -183,9 +194,7 @@ export const AuctionColumn = (
                 })
               }
             >
-              {`. . .+${
-                imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-              }`}
+              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </div>
@@ -207,15 +216,22 @@ export const AuctionColumn = (
   {
     title: 'Winner',
     isEditable: false,
-    fieldName: 'winner',
+    fieldName: 'winnerName',
   },
   { title: 'No of Users', isEditable: false, fieldName: 'uniqueUserCount' },
   {
     title: 'Product Purchase Status',
     isEditable: false,
-    fieldName: 'purchaseStatus',
+    fieldName: 'productPurchaseStatus',
     type: DetailType.Dropdown,
     options: PurchaseStatus,
+    render: (_, val) => {
+      return (
+        PurchaseStatus.find((item) => {
+          return item.value === val;
+        })?.label.toString() || '-'
+      );
+    },
   },
   {
     title: 'Product Purchase Duration',

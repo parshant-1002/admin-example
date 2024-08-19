@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // libs
 
 // consts
@@ -189,6 +190,7 @@ export const productsColumns = (
     fieldName: 'stock',
     sortable: true,
     sortType: 'stock',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Images',
@@ -200,7 +202,15 @@ export const productsColumns = (
         title: string;
       }[];
       return (
-        <div className="d-inline-flex align-items-center position-relative uploaded_file">
+        <div
+          className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+          onClick={() =>
+            setShowMultiItemView({
+              show: true,
+              data: { title: 'Product Images', size: 'lg', imgData },
+            })
+          }
+        >
           {imgData?.map((img, index) =>
             index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
               <figure key={img.url}>

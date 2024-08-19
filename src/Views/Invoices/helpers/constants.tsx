@@ -124,6 +124,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.BIDS_RECEIVED,
     fieldName: 'bidsReceived',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.PURCHASED_DATE,

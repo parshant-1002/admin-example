@@ -5,9 +5,14 @@ import CustomTabs from '../../../Shared/components/CustomTabs';
 import Filters from '../../../Shared/components/Filters';
 import { BUTTON_LABELS, FilterOrder } from '../../../Shared/constants';
 import AddBidForm from './components/AddBidForm';
-import ProfileRelatedLists from './components/ProfileRelatedLists';
+// import ProfileRelatedLists from './components/ProfileRelatedLists';
 import UserProfile from './components/UserProfile';
 import { UserDetailsTabs } from './helpers/constants';
+import BidPurchaseHistory from './components/ProfileRelatedLists/BidPurchaseHistory';
+import BiddingHistory from './components/ProfileRelatedLists/BiddingHistory';
+import ProductHistoryList from './components/ProfileRelatedLists/ProductHistory';
+import ReferalHistoryList from './components/ProfileRelatedLists/ReferalHistoryList';
+import AuctionHistory from './components/ProfileRelatedLists/AuctionHistory';
 
 export default function UserDetails() {
   const { state } = useLocation();
@@ -41,6 +46,93 @@ export default function UserDetails() {
     setSortKey('');
     setSortDirection(FilterOrder.ASCENDING);
   };
+  const renderProfileRelatedList = () => {
+    switch (activeTab) {
+      case UserDetailsTabs.BIDS_PURCHASE_HISTORY:
+        return (
+          <BidPurchaseHistory
+            search={search}
+            setSearch={setSearch}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            setSortKey={setSortKey}
+            setSortDirection={setSortDirection}
+            userId={state}
+            currentTab={activeTab}
+            callBidsCreditApi={callBidsCreditApi}
+          />
+        );
+      case UserDetailsTabs.BIDDING_HISTORY:
+        return (
+          <BiddingHistory
+            search={search}
+            setSearch={setSearch}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            setSortKey={setSortKey}
+            setSortDirection={setSortDirection}
+            userId={state}
+            currentTab={activeTab}
+            callBidsCreditApi={callBidsCreditApi}
+          />
+        );
+      case UserDetailsTabs.PRODUCT_HISTORY:
+        return (
+          <ProductHistoryList
+            search={search}
+            setSearch={setSearch}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            setSortKey={setSortKey}
+            setSortDirection={setSortDirection}
+            userId={state}
+            currentTab={activeTab}
+            callBidsCreditApi={callBidsCreditApi}
+          />
+        );
+      case UserDetailsTabs.REFERRAL_HISTORY:
+        return (
+          <ReferalHistoryList
+            search={search}
+            setSearch={setSearch}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            setSortKey={setSortKey}
+            setSortDirection={setSortDirection}
+            userId={state}
+            currentTab={activeTab}
+            callBidsCreditApi={callBidsCreditApi}
+          />
+        );
+      case UserDetailsTabs.AUCTION_HISTORY:
+        return (
+          <AuctionHistory
+            search={search}
+            setSearch={setSearch}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            setSortKey={setSortKey}
+            setSortDirection={setSortDirection}
+            userId={state}
+            currentTab={activeTab}
+            callBidsCreditApi={callBidsCreditApi}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       {addData && (
@@ -68,7 +160,8 @@ export default function UserDetails() {
           setActiveTab={handleTabChange}
           activeTab={activeTab}
         />
-        <ProfileRelatedLists
+        {renderProfileRelatedList()}
+        {/* <ProfileRelatedLists
           search={search}
           setSearch={setSearch}
           currentPage={currentPage}
@@ -80,7 +173,7 @@ export default function UserDetails() {
           userId={state}
           currentTab={activeTab}
           callBidsCreditApi={callBidsCreditApi}
-        />
+        /> */}
       </div>
     </>
   );

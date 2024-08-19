@@ -1,11 +1,9 @@
-// PriceRangeSlider.tsx
-
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import { Tooltip } from 'react-tooltip';
-import Button from '../../form/Button';
 import { downArrow } from '../../../../assets';
+import Button from '../../form/Button';
 
 interface PriceRangeSliderProps {
   min: number;
@@ -40,17 +38,48 @@ function PriceRangeSlider({
     }
   };
 
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        open &&
+        event.target instanceof HTMLElement &&
+        !event.target.closest('.tooltip') &&
+        !event.target.closest('.price-filter')
+      ) {
+        setIsOpen(false);
+      }
+    },
+    [open]
+  );
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [handleClickOutside, open]);
+
   useEffect(() => {
     if (!isFiltersOn) {
       setIsOpen(false);
     }
   }, [isFiltersOn]);
+
+  const toggleTooltip = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <div>
       <div
         className="price-filter"
-        onClick={() => setIsOpen((prev) => !prev)}
-        data-tooltip-id="my-tooltip"
+        onClick={toggleTooltip}
+        data-tooltip-id={open ? `my-tooltip-${rangeSilderTitle}` : ''}
       >
         {rangeSilderTitle} (${value?.[0]} - ${value?.[1]}){' '}
         <span className={!open ? 'arrow-down' : 'arrow-right'}>
@@ -58,12 +87,12 @@ function PriceRangeSlider({
         </span>{' '}
       </div>
       <Tooltip
-        id="my-tooltip"
-        isOpen={open}
+        id={`my-tooltip-${rangeSilderTitle}`}
         clickable
         className="tooltip"
         place="bottom-end"
         opacity={1}
+        isOpen={open}
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">

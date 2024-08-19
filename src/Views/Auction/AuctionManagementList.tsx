@@ -6,8 +6,8 @@ import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 
 // components
-import moment from 'moment';
 import { debounce } from 'lodash';
+import moment from 'moment';
 import { toast } from 'react-toastify';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
@@ -19,6 +19,7 @@ import CustomTableView, {
 import {
   BUTTON_LABELS,
   DATE_FORMATS,
+  FilterOrder,
   PRICE_RANGE,
   ROUTES,
   STRINGS,
@@ -65,6 +66,10 @@ export default function AuctionManagementList() {
   const [filters, setFilters] = useState({});
   const [addData, setAddData] = useState<boolean>(false);
   const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
+  const [sortKey, setSortKey] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<FilterOrder>(
+    FilterOrder.ASCENDING
+  );
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
     show: false,
@@ -80,6 +85,8 @@ export default function AuctionManagementList() {
     params: removeEmptyValues({
       skip: currentPage * ADD_ONS_PAGE_LIMIT,
       limit: ADD_ONS_PAGE_LIMIT,
+      sortKey,
+      sortDirection,
       ...filters,
     }),
   });
@@ -134,18 +141,25 @@ export default function AuctionManagementList() {
     setSearch(e.target.value);
   }, 1000);
 
+  const handleView = useCallback(
+    (row: AuctionResponsePayload) => {
+      navigate(`${ROUTES.AUCTION_DETAILS}/${row._id}`);
+    },
+    [navigate]
+  );
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: AuctionResponsePayload) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <ActionsDropDown<AuctionResponsePayload>
           row={row}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
+          handleView={handleView}
         />
       </div>
     ),
-    []
+    [handleView]
   );
   const handleAddSuccess = () => {
     setAddData(false);
@@ -189,7 +203,7 @@ export default function AuctionManagementList() {
 
   useEffect(() => {
     refetch();
-  }, [refetch, currentPage, search, filters]);
+  }, [refetch, currentPage, search, filters, sortDirection, sortKey]);
 
   const handleApplyFilters = (filterState: FiltersState) => {
     setFilters({
@@ -213,6 +227,13 @@ export default function AuctionManagementList() {
       })),
     [categoryList?.data]
   );
+  const handleSortingClick = (
+    selectedOrder: number = FilterOrder.DESCENDING,
+    selectedSortKey: string = ''
+  ) => {
+    setSortKey(selectedSortKey);
+    setSortDirection(selectedOrder);
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -281,9 +302,10 @@ export default function AuctionManagementList() {
         pageSize={ADD_ONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         quickEditRowId={null}
-        handleRowClick={(row) => {
-          navigate(`${ROUTES.AUCTION_DETAILS}/${row._id}`);
-        }}
+        handleSortingClick={handleSortingClick}
+        // handleRowClick={(row) => {
+        //   navigate(`${ROUTES.AUCTION_DETAILS}/${row._id}`);
+        // }}
         renderTableFooter={() => (
           <ReactPaginate
             pageCount={(AuctionListing?.count || 1) / ADD_ONS_PAGE_LIMIT}

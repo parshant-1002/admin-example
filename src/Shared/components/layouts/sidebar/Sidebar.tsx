@@ -2,9 +2,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import './style.scss';
-import SIDEBAR_NAV from './routes';
 import { ROUTES } from '../../../constants';
+import SIDEBAR_NAV from './routes';
+import './style.scss';
 
 // Define types for sidebar items and props
 interface SidebarItem {
@@ -53,10 +53,36 @@ function Sidebar() {
                         </button>
                       ) : (
                         <NavLink
-                          className="dropdown-item"
+                          className="dropdown-item d-flex"
                           to={children.route || ''}
                         >
-                          {children.label}
+                          <>
+                            <figure className="me-3">
+                              <svg
+                                fill="#ffffff66"
+                                height="12px"
+                                width="12px"
+                                version="1.1"
+                                id="Capa_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 49.656 49.656"
+                                xmlSpace="preserve"
+                                stroke="#ffffff66"
+                              >
+                                <g id="SVGRepo_bgCarrier" strokeWidth="0" />
+                                <g
+                                  id="SVGRepo_tracerCarrier"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                                <g id="SVGRepo_iconCarrier">
+                                  {' '}
+                                  <path d="M14.535,0l-4.242,4.242l20.585,20.586L10.293,45.414l4.242,4.242l24.829-24.828L14.535,0z M13.121,45.414l20.585-20.586 L13.121,4.242l1.414-1.414l22,22l-22,22L13.121,45.414z" />{' '}
+                                </g>
+                              </svg>
+                            </figure>
+                            {children.label}
+                          </>
                         </NavLink>
                       )}
                     </li>

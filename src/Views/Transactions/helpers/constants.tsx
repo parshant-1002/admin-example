@@ -86,6 +86,7 @@ export const PlansHistoryColumns: ColumnData[] = [
     fieldName: 'bids',
     sortable: true,
     sortType: 'bids',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.STATUS,
@@ -265,27 +266,25 @@ export const ProductsHistoryColumns = ({
     render: (row) => {
       const images = row?.product?.images;
       return (
-        <div className="d-flex align-items-center">
+        <div
+          className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+          onClick={() => handleMoreImagesClick(images)}
+        >
           {images?.map((img, index) =>
             index < IMAGES_COUNT_IN_TABLE ? (
-              <div
-                key={img.url}
-                className="m-2 d-flex flex-column text-center justify-content-center align-items-center"
-              >
-                <span className="uploaded_file">
-                  <FileRenderer fileURL={img.url} />
-                </span>
-                <div>{img.title}</div>
-              </div>
+              <figure key={img.url}>
+                <FileRenderer fileURL={img.url} />
+                {/* <span>{img.title}</span> */}
+              </figure>
             ) : null
           )}
           {images?.length > IMAGES_COUNT_IN_TABLE ? (
             <button
               type="button"
-              className="btn border py-0 px-1"
+              className="count_btn"
               onClick={() => handleMoreImagesClick(images)}
             >
-              {`. . .+${images.length - IMAGES_COUNT_IN_TABLE}`}
+              {`+${images.length - IMAGES_COUNT_IN_TABLE}`}
             </button>
           ) : null}
         </div>
@@ -352,6 +351,7 @@ export const ReferralHistoryColumns: ColumnData[] = [
     fieldName: 'rewardBids',
     sortable: true,
     sortType: 'rewardBids',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.REFEREE_EMAIL,

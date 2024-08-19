@@ -70,7 +70,7 @@ interface QueryParams {
 }
 
 // Constants
-const PRODUCTS_PAGE_LIMIT = 5;
+const PRODUCTS_PAGE_LIMIT = 10;
 
 export default function ProductsList() {
   // State Management
@@ -199,7 +199,7 @@ export default function ProductsList() {
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: ProductResponsePayload) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <ActionsDropDown
           row={row}
           handleEdit={handleEdit}
@@ -257,6 +257,7 @@ export default function ProductsList() {
     }
     onComponentMountRef.current = true;
   }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+
   const categoryOptions = useMemo(
     () =>
       categoryList?.data?.map((category: Category) => ({

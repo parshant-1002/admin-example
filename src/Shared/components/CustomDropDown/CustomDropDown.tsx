@@ -1,10 +1,12 @@
-import { Dropdown } from 'react-bootstrap';
+/* eslint-disable react/button-has-type */
+// import { Dropdown } from 'react-bootstrap';
 import './CustomDropDown.scss';
 
 export interface SubmenuItem {
   buttonLabel: string;
   buttonAction: (row: unknown) => void;
   className?: string;
+  icon?: string;
 }
 
 interface ActionsDropdownProps {
@@ -13,26 +15,50 @@ interface ActionsDropdownProps {
 }
 
 function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
+  console.log('🚀 ~ CustomDropDown ~ toggleImage:', toggleImage);
   return (
-    <Dropdown>
-      <Dropdown.Toggle id="dropdown-basic" className="btn-transparent btn">
+    // <Dropdown>
+    //   <Dropdown.Toggle id="dropdown-basic" className="btn-transparent btn">
+    //     <span className="text-primary">
+    //       <img src={toggleImage} alt="Actions" width={30} />
+    //     </span>
+    //   </Dropdown.Toggle>
+
+    //   <Dropdown.Menu>
+    //     {submenu?.map((item) => (
+    //       <Dropdown.Item
+    //         key={item.buttonLabel}
+    //         onClick={item.buttonAction}
+    //         className={item.className}
+    //       >
+    //         {item.buttonLabel}
+    //       </Dropdown.Item>
+    //     ))}
+    //   </Dropdown.Menu>
+    // </Dropdown>
+    <div>
+      {/* <Dropdown.Toggle id="dropdown-basic" className="btn-transparent btn">
         <span className="text-primary">
           <img src={toggleImage} alt="Actions" width={30} />
         </span>
-      </Dropdown.Toggle>
+      </Dropdown.Toggle> */}
 
-      <Dropdown.Menu>
+      <div className="d-flex gap-sm-3 gap-2 justify-content-end">
         {submenu?.map((item) => (
-          <Dropdown.Item
+          <button
             key={item.buttonLabel}
             onClick={item.buttonAction}
             className={item.className}
           >
-            {item.buttonLabel}
-          </Dropdown.Item>
+            {item?.icon ? (
+              <img src={item?.icon} alt={item.buttonLabel} width={10} />
+            ) : (
+              item.buttonLabel
+            )}
+          </button>
         ))}
-      </Dropdown.Menu>
-    </Dropdown>
+      </div>
+    </div>
   );
 }
 

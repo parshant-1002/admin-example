@@ -1,4 +1,4 @@
-import { actions } from '../../../assets';
+import { actions, Delete, edit, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomDropDown from '../../../Shared/components/CustomDropDown';
 import {
@@ -7,7 +7,11 @@ import {
   STRINGS,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { formatDate, renderIdWithHash } from '../../../Shared/utils/functions';
+import {
+  convertToLocale,
+  formatDate,
+  renderIdWithHash,
+} from '../../../Shared/utils/functions';
 
 export const REFERRAL_PACK_SCHEMA = {
   name: {
@@ -112,6 +116,7 @@ export const CreateReferralColumns = ({
     isTruncated: true,
     sortable: true,
     sortType: 'rewardBids',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.REFEREE_BIDS_PURCHASED,
@@ -146,19 +151,27 @@ export const CreateReferralColumns = ({
   {
     title: STRINGS.ACTIONS,
     render: (row) => (
-      <div className="d-flex">
+      <div className="d-flex justify-content-end justify-content-lg-start">
         <CustomDropDown
           toggleImage={actions}
           submenu={[
-            { buttonLabel: STRINGS.VIEW, buttonAction: () => handleView(row) },
+            {
+              buttonLabel: 'View',
+              buttonAction: () => handleView(row),
+              className: 'btn44 btn btn-primary',
+              icon: view,
+            },
             {
               buttonLabel: STRINGS.UPDATE,
               buttonAction: () => handleEdit(row),
+              icon: edit,
+              className: 'btn44 btn btn-primary',
             },
             {
               buttonLabel: STRINGS.DELETE,
               buttonAction: () => handleDelete(row),
-              className: 'text-danger',
+              icon: Delete,
+              className: 'btn44 btn btn-danger',
             },
           ]}
         />

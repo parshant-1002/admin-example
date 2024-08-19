@@ -10,7 +10,7 @@ import { BUTTON_LABELS } from '../../constants';
 
 // components
 import Button from '../form/Button';
-import TextField from '../form/TextInput/TextInput';
+// import TextField from '../form/TextInput/TextInput';
 import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
@@ -21,6 +21,7 @@ import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
 import { FiltersState, PriceRange } from './helpers/models';
 import './style.scss';
+import TextField from '../form/TextInput/TextInput';
 
 // types
 interface StatsFiltersProps {
@@ -76,6 +77,10 @@ function StatsFilters({
     selectedBrand: null,
     selectedStatus: null,
     selectedSecondaryOptions: null,
+    secondaryPriceRange: [
+      secondaryPriceRange?.min || 0,
+      secondaryPriceRange?.max || 0,
+    ],
   };
   const [showFilters, setShowFilters] = useState(false);
   const [isFiltersOn, setIsFiltersOn] = useState(false);
@@ -106,11 +111,7 @@ function StatsFilters({
   const handleShowFilter = () => {
     setShowFilters((prev) => !prev);
   };
-  const handleChangeStatusOptions = (
-    newValue: SingleValue<SelectOption>
-    // actionMeta: ActionMeta<SelectOption>
-  ) => {
-    // console.log(' ~ actionMeta:', actionMeta);
+  const handleChangeStatusOptions = (newValue: SingleValue<SelectOption>) => {
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
@@ -121,21 +122,15 @@ function StatsFilters({
 
   const handleChangeSecondarySelectOptions = (
     newValue: SingleValue<SelectOption>
-    // actionMeta: ActionMeta<SelectOption>
   ) => {
-    // console.log(' ~ actionMeta:', actionMeta);
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
       ...prev,
-      secondarySelectOptions: newValue,
+      selectedSecondaryOptions: newValue,
     }));
   };
-  const handleChangeBrandFilter = (
-    newValue: SingleValue<SelectOption>
-    // actionMeta: ActionMeta<SelectOption>
-  ) => {
-    // console.log(' ~ actionMeta:', actionMeta);
+  const handleChangeBrandFilter = (newValue: SingleValue<SelectOption>) => {
     setIsFiltersOn(true);
 
     setFilterState((prev: FiltersState) => ({
@@ -166,26 +161,33 @@ function StatsFilters({
   }, [selectedIds]);
 
   return (
-    <>
-      <div className="w-100 align-items-center d-flex flex-md-row flex-column filter_main">
-        <div className="col-md-4 col-xl-6">
+    <div className="filter-wrapper">
+      <div className="w-100 align-items-center d-flex flex-sm-row flex-column justify-content-between filter_main">
+        <div className="col-sm-4 col-md-5 col-xl-6">
           {showHeading ? <Breadcrumbs /> : null}
         </div>
-        <div className="col-md-8 col-xl-6 mb-3">
-          <div className="d-flex justify-content-end align-items-start stats_filter">
+        <div className=" col-12 col-sm-8 col-md-7 col-xl-6 mb-sm-3">
+          <div className="d-flex justify-content-between justify-content-sm-end align-items-start stats_filter">
             {selectedIds?.length ? (
               <Button
-                className="btn btn-sm btn-danger"
+                className="btn btn-sm btn-danger onlyIcon"
                 btnType="primary"
                 onClick={handleDeleteAll}
               >
+                <img
+                  src="/src/assets/icons/delete.svg"
+                  alt="filters"
+                  className="d-block d-md-none"
+                  width={30}
+                />
                 {BUTTON_LABELS.DELETE_ALL}
               </Button>
             ) : null}
             {showSearch ? (
-              <div className="dark-form-control position-relative">
+              <div className="dark-form-control position-relative w-100 w-sm-auto">
                 <TextField
                   type="search"
+                  className="form-control"
                   placeholder="Search..."
                   value={searchValue}
                   onChange={handleSearchChange}
@@ -204,17 +206,29 @@ function StatsFilters({
               <Button
                 btnType="primary"
                 onClick={handleShowFilter}
-                className="btn44"
+                className="btn44 filterbtn"
               >
                 <img src={filterToggleImage} alt="filters" width={30} />
+                <img
+                  src="/src/assets/icons/add-icon.svg"
+                  className="d-none"
+                  alt="w-cross"
+                  width={50}
+                />
               </Button>
             ) : null}
             {setAddData ? (
               <Button
-                className="btn btn-sm"
+                className="btn btn-sm onlyIcon"
                 btnType="primary"
                 onClick={() => setAddData()}
               >
+                <img
+                  src="/src/assets/icons/add-icon.svg"
+                  alt="filters"
+                  className="d-block d-md-none"
+                  width={30}
+                />
                 {addButtonLabel}
               </Button>
             ) : null}
@@ -228,9 +242,9 @@ function StatsFilters({
         </div>
       </div>
       {showFilters ? (
-        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-4 mb-3">
+        <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-1 mb-3 filter-items-box">
           {brandOptions ? (
-            <div className="col-lg-2 col-xl-2">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
               <CustomSelect
                 options={brandOptions}
                 onChange={handleChangeBrandFilter}
@@ -242,7 +256,7 @@ function StatsFilters({
             </div>
           ) : null}
           {showDateFilter ? (
-            <div className="col-lg-2 col-xl-2">
+            <div className="col-12 col-sm-5 col-md-3 col-xxl-2">
               <DateRange
                 startDate={filtersState?.startDate}
                 endDate={filtersState?.endDate}
@@ -255,7 +269,7 @@ function StatsFilters({
             </div>
           ) : null}
           {priceRange ? (
-            <div className="col-lg-2 col-xl-2">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-3">
               <PriceRangeSlider
                 isFiltersOn={isFiltersOn}
                 rangeSilderTitle={rangeSilderTitle}
@@ -267,7 +281,7 @@ function StatsFilters({
             </div>
           ) : null}
           {secondaryPriceRange ? (
-            <div className="col-md-2 col-xl-2">
+            <div className="col-12 col-sm-5 col-md-4 col-lg-3 col-xxl-3">
               <PriceRangeSlider
                 isFiltersOn={isFiltersOn}
                 rangeSilderTitle={secondaryRangeSilderTitle}
@@ -278,8 +292,9 @@ function StatsFilters({
               />
             </div>
           ) : null}
+
           {statusOptions ? (
-            <div className="col-lg-2 col-xl-2 ">
+            <div className="col-12 col-sm-6 col-md-3 col-xxl-2">
               <CustomSelect
                 options={statusOptions}
                 onChange={handleChangeStatusOptions}
@@ -289,7 +304,7 @@ function StatsFilters({
             </div>
           ) : null}
           {secondarySelectOptions ? (
-            <div className="col-md-2 col-xl-2 ">
+            <div className="col-12 col-sm-5 col-md-3 col-xxl-2">
               <CustomSelect
                 options={secondarySelectOptions}
                 onChange={handleChangeSecondarySelectOptions}
@@ -320,7 +335,7 @@ function StatsFilters({
           ) : null}
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 
