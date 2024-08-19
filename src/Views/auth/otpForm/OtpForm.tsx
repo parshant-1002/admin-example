@@ -18,7 +18,6 @@ import QrCode from '../qrCode';
 import './OtpForm.scss';
 import OTP_CODE_TYPE from './helpers/constants';
 import OTP_FORM_SCHEMA from './helpers/otpSchema';
-// import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 
 interface LoginResponse {
   token: string;
