@@ -13,7 +13,7 @@ import {
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../../Shared/utils/functions';
-import { InvoiceIcon, arrowRight, downArrow } from '../../../../assets';
+import { InvoiceIcon, downArrow } from '../../../../assets';
 import { UserBid, ViewMultiData } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
