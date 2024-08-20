@@ -211,7 +211,7 @@ export const BUTTON_LABELS = {
   SAVE: 'Save',
   CLEAR: 'Clear',
   DOWNLOAD_CSV: 'Download csv ',
-  EDIT: 'Edit',
+  EDIT: 'SAVE',
   ADD: 'Add',
   DELETE_ALL: 'Delete all',
   CLEAR_ALL: 'Clear all',
