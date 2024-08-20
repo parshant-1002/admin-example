@@ -35,12 +35,10 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   scrollbar-width: thin;
   scrollbar-color: $black-dark-color-800 $transparent;
   background-color: $dark-voilet-color-900;
-
   .sidebar-nav {
     padding: 0;
     margin: 0;
     list-style: $none;
-
     li {
       .nav-link {
         @include font(.875rem, 21.78px, $font-regular);
@@ -293,9 +291,8 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
               fill: $white-color; // Change fill color to red
             }
           }
-
           @media (max-width: 1199.98px) {
-            padding-left: 50px;
+            padding-left: 20px;
           }
         }
 
