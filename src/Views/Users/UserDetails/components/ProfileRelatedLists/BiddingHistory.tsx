@@ -23,9 +23,8 @@ import {
 } from '../../../../../Shared/constants';
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
-  BID_CREDIT_TYPES_OPTIONS,
+  BID_STATUS_OPTIONS,
   CONFIRMATION_DESCRIPTION,
-  UserDetailsTabs,
   biddingHistoryColumn,
 } from '../../helpers/constants';
 
@@ -35,7 +34,7 @@ import { ViewMultiData } from '../../helpers/model';
 // API
 
 // Utilities
-import { useGetBidsSpentHistoryQuery } from '../../../../../Services/Api/module/auctions';
+import { useGetBidsSpentHistoryQuery } from '../../../../../Services/Api/module/auctionHistories';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
 import { transformBiddingHistoryResponse } from '../../helpers/utils';
@@ -50,6 +49,8 @@ interface FilterPayload {
   toDate?: string | Date;
   status?: number | string;
   type?: number | string;
+  currentBidPriceMin?: number;
+  currentBidPriceMax?: number;
 }
 
 // Constants
@@ -193,6 +194,8 @@ export default function BiddingHistory({
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
       status: filter?.selectedStatus?.value,
+      currentBidPriceMin: filter?.priceRange?.[0],
+      currentBidPriceMax: filter?.priceRange?.[1],
     };
     setFilters(initalFilterPayload);
   };
@@ -221,12 +224,9 @@ export default function BiddingHistory({
         filterToggleImage={Filter}
         showHeading={false}
         showDateFilter
-        statusOptions={BID_CREDIT_TYPES_OPTIONS}
-        priceRange={
-          currentTab === UserDetailsTabs.PRODUCT_HISTORY
-            ? PRICE_RANGE
-            : undefined
-        }
+        statusOptions={BID_STATUS_OPTIONS}
+        rangeSilderTitle="Item Price"
+        priceRange={PRICE_RANGE}
         handleApply={handleApplyFilters}
       />
 

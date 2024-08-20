@@ -17,7 +17,7 @@ import { convertToLocale } from '../../../Shared/utils/functions';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
-const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
+const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 
 // export const AuctionStatus = [
 //   { value: 1, label: 'Pending' },
@@ -172,9 +172,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   prizeClaimDays: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Prize claim Duration (days)',
+    label: 'Prize Claim Duration (Days)',
     className: 'col-md-12',
-    placeholder: 'Prize claim Duration (days)',
+    placeholder: 'Prize Claim Duration (Days)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -182,9 +182,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   turnTimer: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Bids Duration (sec)',
+    label: 'Bids Duration (Sec)',
     className: 'col-md-12',
-    placeholder: 'Bids Duration (sec)',
+    placeholder: 'Bids Duration (Sec)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -245,9 +245,53 @@ export const AuctionColumns = (
   },
   {
     title: 'Name',
-    fieldName: 'title',
+    fieldName: 'images',
     sortable: true,
     sortType: 'title',
+    render: (row, val) => {
+      const imgData = val as unknown as {
+        _id: string;
+        url: string;
+        title: string;
+      }[];
+      return (
+        <div className="d-flex align-items-center gap-2">
+          <div
+            className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+            onClick={() =>
+              setShowMultiItemView({
+                show: true,
+                data: { title: 'Product Images', size: 'lg', imgData },
+              })
+            }
+          >
+            {imgData?.map((img, index) =>
+              index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+                <figure key={img.url}>
+                  <FileRenderer fileURL={img.url} />
+                  {/* <span>{img.title}</span> */}
+                </figure>
+              ) : null
+            )}
+            {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+              <button
+                type="button"
+                className="count_btn"
+                onClick={() =>
+                  setShowMultiItemView({
+                    show: true,
+                    data: { title: 'Product Images', size: 'lg', imgData },
+                  })
+                }
+              >
+                {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
+              </button>
+            ) : null}
+          </div>
+          <div>{row.title}</div>
+        </div>
+      );
+    },
   },
   {
     title: 'Auction Date',
@@ -339,51 +383,6 @@ export const AuctionColumns = (
         PurchaseStatus.find((item) => {
           return item.value === val;
         })?.label.toString() || '-.-'
-      );
-    },
-  },
-  {
-    title: 'Images',
-    fieldName: 'images',
-    render: (_, val) => {
-      const imgData = val as unknown as {
-        _id: string;
-        url: string;
-        title: string;
-      }[];
-      return (
-        <div
-          className="d-inline-flex align-items-center position-relative uploaded_file pointer"
-          onClick={() =>
-            setShowMultiItemView({
-              show: true,
-              data: { title: 'Product Images', size: 'lg', imgData },
-            })
-          }
-        >
-          {imgData?.map((img, index) =>
-            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <figure key={img.url}>
-                <FileRenderer fileURL={img.url} />
-                {/* <span>{img.title}</span> */}
-              </figure>
-            ) : null
-          )}
-          {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-            <button
-              type="button"
-              className="count_btn"
-              onClick={() =>
-                setShowMultiItemView({
-                  show: true,
-                  data: { title: 'Product Images', size: 'lg', imgData },
-                })
-              }
-            >
-              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
-            </button>
-          ) : null}
-        </div>
       );
     },
   },

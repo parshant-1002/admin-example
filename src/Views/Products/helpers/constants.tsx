@@ -30,7 +30,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     type: INPUT_TYPES.TEXT,
     label: 'Name',
     className: 'col-md-12',
-    placeholder: 'Title',
+    placeholder: 'Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -177,7 +177,7 @@ export const productsColumns = (
           {categories?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
             <button
               type="button"
-              className="btn border py-0 px-1"
+              className="btn border py-0 px-1 cat-count"
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
@@ -185,9 +185,7 @@ export const productsColumns = (
                 })
               }
             >
-              {`. . .+${
-                categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-              }`}
+              {`+${categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </>

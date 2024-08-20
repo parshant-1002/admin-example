@@ -166,7 +166,7 @@ export const AuctionColumn = (
     render: (row) => `${convertToLocale(row?.reservePrice, true)}`,
   },
   {
-    title: 'Attachements',
+    title: 'Attachment',
     isEditable: false,
     fieldName: 'productImage',
     render: (_, val) => {

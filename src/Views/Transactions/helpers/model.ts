@@ -28,3 +28,8 @@ export interface Invoice {
   invoiceURL?: string;
   invoiceDate?: string;
 }
+
+export interface InvoiceData {
+  data: Invoice | null;
+  show: boolean;
+}

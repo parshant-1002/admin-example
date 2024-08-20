@@ -1,6 +1,7 @@
 import { Delete, edit, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
+import TruncatedText from '../../../Shared/components/TruncateText/TruncateText';
 import {
   INPUT_TYPES,
   REFERRAL_STATUS,
@@ -93,14 +94,16 @@ export const CreateReferralColumns = ({
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
           />
-          <div className="checkbox-custom" />
+          <span className="label" />
         </div>
       );
     },
   },
   {
     title: STRINGS.REFERRAL_ID,
-    fieldName: '_id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {
@@ -136,7 +139,7 @@ export const CreateReferralColumns = ({
     title: STRINGS.STATUS,
     fieldName: 'isEnabled',
     render: (row, isEnabled) => (
-      <div className="form-check form-switch">
+      <div className="form-check form-switch d-flex d-lg-block justify-content-end">
         <input
           className="form-check-input"
           type="checkbox"
@@ -182,16 +185,16 @@ export const CreateReferralColumns = ({
 export const ReferralListColumns: ColumnData[] = [
   {
     title: STRINGS.REFERRAL_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.REFERRER_NAME,
-    render: (row) => row?.refererUser?.name,
+    render: (row) => <TruncatedText text={row?.refererUser?.name} />,
   },
   {
     title: STRINGS.REFERRER_EMAIL,
-    render: (row) => row?.refererUser?.email,
+    render: (row) => <TruncatedText text={row?.refererUser?.email} />,
   },
   {
     title: STRINGS.REWARDS,
@@ -201,21 +204,20 @@ export const ReferralListColumns: ColumnData[] = [
   },
   {
     title: STRINGS.REFEREE_EMAIL,
-    render: (row) => row?.refereeUser?.email,
+    render: (row) => <TruncatedText text={row?.refereeUser?.email} />,
   },
   {
     title: STRINGS.REWARD_AT,
-    fieldName: 'rewardAt',
+    fieldName: 'refereePurchasedBids',
     sortable: true,
-    sortType: 'rewardAt',
+    sortType: 'refereePurchasedBids',
   },
   {
     title: STRINGS.REFERRAL_DATE,
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
-    render: (_, startDate) =>
-      startDate ? new Date(startDate).toDateString() : '',
+    render: (_, startDate) => (startDate ? formatDate(String(startDate)) : ''),
   },
   {
     title: STRINGS.STATUS,

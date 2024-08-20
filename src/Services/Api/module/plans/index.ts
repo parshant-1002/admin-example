@@ -44,6 +44,15 @@ export const planApi = api.injectEndpoints({
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
+    getBidsTransactions: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.BID_PLAN_TRANSACTION,
+        params,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+    }),
   }),
 });
 
@@ -52,4 +61,5 @@ export const {
   useEditBidPlanMutation,
   useDeleteBidPlanMutation,
   useGetBidPlansQuery,
+  useGetBidsTransactionsQuery,
 } = planApi;

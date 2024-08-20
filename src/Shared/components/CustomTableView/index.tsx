@@ -6,7 +6,7 @@ import './table.scss';
 import ReactPaginate from 'react-paginate';
 import TruncatedText from '../TruncateText/TruncateText';
 import { FilterOrder } from '../../constants';
-import { getValueFromPath } from '../../utils/functions';
+import { convertToLocale, getValueFromPath } from '../../utils/functions';
 import { downArrow } from '../../../assets';
 
 interface CustomTableViewProps {
@@ -73,14 +73,17 @@ function CustomTableView({
     const fieldValue = column?.path?.length
       ? getValueFromPath(row, column?.path)
       : row[column?.fieldName || ''];
-    if (column.isTruncated) {
-      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
-    }
+    // if (column.isTruncated) {
+    //   return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
+    // }
     if (column.render) {
       return column.render(row, fieldValue);
     }
     if (typeof fieldValue === 'number') {
-      return fieldValue;
+      return convertToLocale(fieldValue);
+    }
+    if (typeof fieldValue === 'string') {
+      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
     }
     return fieldValue || '-.-';
   }, []);
@@ -113,7 +116,7 @@ function CustomTableView({
                       scope="col"
                       key={column.title}
                       style={{ width: column?.width || 0 }}
-                      className={column?.sortable ? 'cursor-pointer' : ''}
+                      className={column?.sortable ? 'pointer' : ''}
                       onClick={() => {
                         if (!column?.sortable) return;
                         const sortKey = column.sortType;
@@ -126,7 +129,14 @@ function CustomTableView({
                         setSelectedSortType(sortOrder);
                       }}
                     >
-                      {column.title}
+                      <div className="d-flex gap-1 align-items-center">
+                        {column.title}
+                        {/* {column?.sortable ? (
+                          <figure>
+                            <img src={sortIcon} alt="" width={15} height={15} />
+                          </figure>
+                        ) : null} */}
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -158,7 +168,7 @@ function CustomTableView({
                         <>
                           <tr
                             key={row._id}
-                            className={`tr-item ${
+                            className={`tr-item afixing ${
                               activeRowId === row._id ? 'tr-active' : ''
                             }`}
                           >
@@ -171,7 +181,7 @@ function CustomTableView({
                                   }}
                                 >
                                   {getColumnValue(row, column)}
-                                  {columnIndex === 0 ? (
+                                  {columnIndex === 1 ? (
                                     <button
                                       type="button"
                                       className="btn btn38 btn-collapse"

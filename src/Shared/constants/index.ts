@@ -97,7 +97,7 @@ export const STRINGS = {
   ACTIVE: 'active',
   DISABLED: 'disabled',
   EMPTY_STRING: '',
-  NO_RESULT: 'No Result found!',
+  NO_RESULT: 'No Result Found!',
   WINNER_LIST: 'Winner List',
   NEXT_WINNER_DRAWN_AT: 'Next winner will be drawn at',
   LAST_WINNER_DRAWN_AT: 'Last winner drawn at',
@@ -130,7 +130,7 @@ export const STRINGS = {
   DEAL_PRICE_LABEL: 'Deal Price',
   IMAGE: 'Image',
   BIDS_RECEIVED: 'Bids Received',
-  REFERRAL_ID: 'Referral Id',
+  REFERRAL_ID: 'Id',
   NAME: 'Name',
   BIDS_GIVEN: 'Bids Given',
   REFEREE_BIDS_PURCHASED: 'Referee Bids Purchased',
@@ -146,7 +146,7 @@ export const STRINGS = {
   COMPLETED: 'Completed',
   PENDING: 'Pending',
   USER_DELETED: 'User Deleted',
-  PLAN_ID: 'Plan Id',
+  PLAN_ID: 'Id',
   PLAN_NAME: 'Plan Name',
   CREATED_AT: 'Created At',
   CLOSED_AT: 'Closed At',
@@ -154,9 +154,9 @@ export const STRINGS = {
   ID: 'ID',
   END_AT: 'End At',
   HOT_DEAL: 'Hot Deal',
-  YES: 'Yes',
-  NO: 'No',
-  T_ID: 'T Id',
+  YES: 'YES',
+  NO: 'NO',
+  T_ID: 'TId',
   DEAL_OFFER: 'Deal Offer',
   FAILED: 'Failed',
   DATE: 'Date',
@@ -208,7 +208,7 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
-  ADD_BIDS: 'Add Bids',
+  ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
   YES: 'Yes',
   NO: 'No',
@@ -218,8 +218,8 @@ export const BUTTON_LABELS = {
   SAVE: 'Save',
   CLEAR: 'Clear',
   DOWNLOAD_CSV: 'Download csv ',
-  EDIT: 'Edit',
-  ADD: 'Add',
+  EDIT: 'SAVE',
+  ADD: 'ADD',
   DELETE_ALL: 'Delete all',
   CLEAR_ALL: 'Clear all',
   APPLY: 'Apply',
@@ -234,7 +234,7 @@ export const DATE_FORMATS = {
   FOR_DATE_RANGE: 'DD MMM  YYYY',
   DISPLAY_DATE: 'DD-MM-YYYY',
   DISPLAY_DATE_REVERSE: 'YYYY-MM-DD',
-  DISPLAY_DATE_WITH_TIME: 'DD-MM-YYYY, HH:mm',
+  DISPLAY_DATE_WITH_TIME: 'DD-MM-YYYY  HH:mm',
 };
 
 export const ALIGNMENT = {
@@ -514,6 +514,8 @@ const PRICE_RANGE = {
 
 const TABLE_PAGE_LIMIT = 10;
 
+const CONFIRMATION_DESCRIPTION_INVOICE =
+  'Are you sure you want to generate invoice';
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -526,4 +528,5 @@ export {
   TABLE_PAGE_LIMIT,
   BID_CREDIT_TYPES,
   PRICE_RANGE,
+  CONFIRMATION_DESCRIPTION_INVOICE,
 };

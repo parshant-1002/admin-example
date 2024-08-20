@@ -1,7 +1,10 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { Dispatch, SetStateAction } from 'react';
 import { Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import TruncateText from '../../../Shared/components/TruncateText';
 import {
   BID_PLAN_TYPES,
   IMAGE_FILE_TYPES,
@@ -15,6 +18,7 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -150,6 +154,7 @@ interface CreateReferralProps {
   handleEdit: (row: Record<string, unknown>) => void;
   handleStatusChange: (row: Record<string, unknown>) => void;
   handleSelectMultiple?: (id: string) => void;
+  setShowMultiItemView?: Dispatch<SetStateAction<ViewMultiData>>;
   selectedIds?: string[];
 }
 
@@ -160,6 +165,7 @@ export const PlansColumns = ({
   handleEdit,
   handleStatusChange,
   handleSelectMultiple = () => {},
+  setShowMultiItemView = () => {},
   selectedIds = [],
 }: CreateReferralProps): ColumnData[] => [
   {
@@ -205,8 +211,20 @@ export const PlansColumns = ({
     fieldName: 'imageURL',
     sortable: false,
     render: (_, imageURL: string | number) => (
-      <div className="d-inline-flex align-items-center position-relative uploaded_file">
-        <figure key={String(imageURL)}>
+      <div className="d-inline-flex align-items-center position-relative uploaded_file pointer">
+        <figure
+          key={String(imageURL)}
+          onClick={() =>
+            setShowMultiItemView({
+              show: true,
+              data: {
+                title: 'Product Images',
+                size: 'lg',
+                imgData: [{ url: String(imageURL) }],
+              },
+            })
+          }
+        >
           <FileRenderer fileURL={String(imageURL)} />
         </figure>
       </div>
@@ -244,7 +262,7 @@ export const PlansColumns = ({
     title: STRINGS.STATUS,
     fieldName: PLAN_FORM_FIELDS.STATUS,
     render: (row, isEnabled) => (
-      <div className="form-check form-switch">
+      <div className="form-check form-switch d-flex d-lg-block justify-content-end">
         <input
           className="form-check-input"
           type="checkbox"
@@ -290,28 +308,30 @@ export const PlansColumns = ({
 export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.USERNAME,
     fieldName: 'name',
     sortable: true,
-    sortType: 'name',
-    render: (row) => row?.refererUser?.name,
+    sortType: 'userName',
+    render: (row) => <TruncateText text={row?.user?.name} />,
   },
   {
     title: STRINGS.EMAIL,
     fieldName: 'email',
     sortable: true,
-    sortType: 'email',
-    render: (row) => row?.refererUser?.email,
+    sortType: 'userEmail',
+    render: (row) => <TruncateText text={row?.user?.email} />,
   },
   {
     title: STRINGS.DEAL_OFFER,
-    fieldName: 'dealOffer',
+    fieldName: 'dealOfferPercentage',
     sortable: true,
-    sortType: 'dealOffer',
+    sortType: 'dealOfferPercentage',
     render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
@@ -322,28 +342,10 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-  },
-  {
-    title: STRINGS.REFEREE_EMAIL,
-    fieldName: 'refereeEmail',
-    sortable: true,
-    sortType: 'refereeBidRequirement',
-    render: (row) => row?.refereeUser?.email,
-  },
-  {
-    title: STRINGS.REWARD_AT,
-    fieldName: 'rewardAt',
-    sortable: true,
-    sortType: 'refereePurchasedBids',
-  },
-  {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'purchasedBids',
+    fieldName: 'bids',
     sortable: true,
-    sortType: 'purchasedBids',
+    sortType: 'bids',
   },
   {
     title: STRINGS.STATUS,
@@ -365,18 +367,20 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.DATE,
     fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
     render: (row) => formatDate(row?.createdAt),
   },
   {
     title: STRINGS.INVOICE,
     render: (row) =>
-      row?.url ? (
+      row?.invoiceURL ? (
         <div className="text-center">
           {' '}
           <img src={InvoiceIcon} alt="invoice" />{' '}
         </div>
       ) : (
-        ''
+        '-.-'
       ),
   },
 ];

@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { CustomRouter } from '../../Routes/RootRoutes';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
-import { API } from '../constants';
+import { API, DATE_FORMATS } from '../constants';
+import TruncateText from '../components/TruncateText';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -217,7 +218,10 @@ function daysBetweenDates(date1: Date, date2: Date): number {
 
   return daysDifference;
 }
-function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
+function formatDate(
+  date: Date | string,
+  format = DATE_FORMATS.DISPLAY_DATE_WITH_TIME
+): string {
   if (!date) return '';
   return moment(date).format(format);
 }
@@ -265,7 +269,7 @@ function getValueFromPath(
 const renderIdWithHash = (
   _: Record<string, unknown> | unknown,
   val: string | number
-) => (val ? `${val}` : '-.-');
+) => (val ? <TruncateText text={val} /> : '-.-');
 
 export {
   addBaseUrl,

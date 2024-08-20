@@ -1,8 +1,9 @@
 // Libraries
 import { debounce } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
+import { toast } from 'react-toastify';
 import CustomTableView, {
   Column,
   Row,
@@ -10,9 +11,11 @@ import CustomTableView, {
 
 // Constants
 import {
+  BUTTON_LABELS,
   FilterOrder,
   PRODUCT_PURCHASE_STATUS,
   STRINGS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
 } from '../../../Shared/constants';
 import { AuctionInvoiceColumns } from '../helpers/constants';
 
@@ -20,10 +23,13 @@ import { AuctionInvoiceColumns } from '../helpers/constants';
 import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
+import { useUserProductsInvoiceGenerationMutation } from '../../../Services/Api/module/invoiceGeneration';
+import { ConfirmationModal } from '../../../Shared/components';
 import Filters from '../../../Shared/components/Filters';
-import { removeEmptyValues } from '../../../Shared/utils/functions';
-import { Filter } from '../../../assets';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { Filter, RED_WARNING } from '../../../assets';
+import { Invoice, InvoiceData } from '../helpers/model';
 
 // Interfaces
 interface QueryParams {
@@ -44,13 +50,16 @@ function AuctionInvoices() {
   const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
   const [sortKey, setSortKey] = useState<string>('');
+  const [invoiceModal, setInvoiceModal] = useState<InvoiceData>({
+    show: false,
+    data: null,
+  });
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
 
   // Refs
   const onComponentMountRef = useRef(false);
-
   // Query Parameters
   const queryParams: QueryParams = {
     skip: currentPage * INVOICE_AUCTIONS_PAGE_LIMIT,
@@ -68,7 +77,26 @@ function AuctionInvoices() {
       queryParams as unknown as Record<string, unknown>
     ),
   });
-
+  const [generateInvoice] = useUserProductsInvoiceGenerationMutation();
+  const handleInvoice = (row: Invoice) => {
+    setInvoiceModal({ show: true, data: row });
+  };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = () => {
+    generateInvoice({
+      payload: {
+        userProductId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetch();
+        handleCloseInvoice();
+      },
+    });
+  };
+  const columns = useMemo(() => AuctionInvoiceColumns(handleInvoice), []);
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -113,9 +141,20 @@ function AuctionInvoices() {
         handleApply={handleApplyFilters}
       />
 
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
+      />
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
-        columns={AuctionInvoiceColumns as unknown as Column[]}
+        columns={columns as unknown as Column[]}
         pageSize={INVOICE_AUCTIONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
