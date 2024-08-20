@@ -120,6 +120,7 @@ export const STRINGS = {
   PACK_ID: 'Pack Id',
   PACK_NAME: 'Pack Name',
   DEAL_PRICE: 'Deal Price',
+  IMAGE: 'Image',
   BIDS_RECEIVED: 'Bids Received',
   REFERRAL_ID: 'Referral Id',
   NAME: 'Name',

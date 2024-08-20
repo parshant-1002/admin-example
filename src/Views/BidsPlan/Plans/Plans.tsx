@@ -138,6 +138,10 @@ function Plans() {
       delete payload[PLAN_FORM_FIELDS.END_DATE];
     }
 
+    payload[PLAN_FORM_FIELDS.IMAGE_URL] =
+      (data[PLAN_FORM_FIELDS.IMAGE_URL] as { fileURL: string }[])[0]?.fileURL ||
+      '';
+
     if (popup.type === POPUPTYPES.EDIT) {
       payload.bidPlanId = popup.data?._id;
     }
