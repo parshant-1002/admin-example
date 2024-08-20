@@ -348,9 +348,11 @@ export const auctionHistoryColumn = (
       <div>
         {val}
         <img
-          src={selectedRow?.includes(row._id || '') ? downArrow : arrowRight}
+          src={downArrow}
           alt=""
-          className="ps-"
+          className={
+            selectedRow?.includes(row._id || '') ? 'arrow up' : 'arrow down'
+          }
           width={20}
         />
       </div>

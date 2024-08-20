@@ -136,7 +136,7 @@ export const CreateReferralColumns = ({
     title: STRINGS.STATUS,
     fieldName: 'isEnabled',
     render: (row, isEnabled) => (
-      <div className="form-check form-switch">
+      <div className="form-check form-switch d-flex d-lg-block justify-content-end">
         <input
           className="form-check-input"
           type="checkbox"

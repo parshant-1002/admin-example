@@ -45,7 +45,7 @@ function ConfirmationModal({
         )}
         <h5 className="h5 pt-3">{title}</h5>
         <p className="text-muted">{subTitle}</p>
-        <div className="d-flex justify-content-center flex-wrap gap-3 pt-3">
+        <div className="d-flex justify-content-center gap-3 pt-3">
           {showCancelButton && (
             <Button
               type="button"
