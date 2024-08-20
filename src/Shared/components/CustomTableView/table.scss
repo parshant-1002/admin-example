@@ -73,6 +73,7 @@
                         font-weight: $font-regular;
                         color: $black-color;
                         float: left;
+                        padding-right: 15px;
                     }
                     &[data-label="#"]{
                         text-align: $left;
@@ -237,4 +238,22 @@ $arrow-left: url(../../../../src/assets/icons/arrow-left.svg);
 .secondary_component {
     background-color: rgba(108, 99, 255, .1) !important;
     padding: 30px !important;
+}
+.afixing{
+    td{
+        button{
+            font-size: 14px !important;
+        }
+        &:first-child{
+            @media(max-width:991.98px){
+                padding-right: 50px !important;
+            }
+        }
+        .count_btn{
+            font-size: 12px !important;
+            padding: 1px;
+            height: 20px !important;
+            width: 20px !important;
+        }
+    }
 }

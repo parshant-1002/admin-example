@@ -42,14 +42,16 @@
     display: flex;
     align-items: center;
     figure {
-        width: 80px;
-        margin-bottom: 0;
-        object-fit: $contain;
         @include border-radius(7px);
+        width: 42px;
+        height: 42px;
+        margin-bottom: 0;
+        border-radius: 8px;
+        overflow: hidden;
         img {
             width: 100%;
-            max-height: 50px;
-            object-fit: $contain;
+            height: 100%;
+            object-fit: $cover;
         }
     }
     img{

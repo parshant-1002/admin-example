@@ -4,6 +4,7 @@ $downArrow : url("../../../../assets/icons/downArrow.svg");
 $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
 .sub-menu {
+  list-style: $none;
   li {
     a {
       position: $relative;
@@ -33,9 +34,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   padding: 10px 0;
   overflow-y: $auto;
   scrollbar-width: thin;
-  scrollbar-color: $black-dark-color-800 $transparent;
+  scrollbar-color: $transparent $body-color;
   background-color: $dark-voilet-color-900;
-
+  scrollbar-width: none;
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -188,7 +189,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
       &:has(.active) {
         .accordion-header {
           .accordion-button {
-            background-color: $white-color;
+            background-color: $body-color;
             color: $primary-color;
 
             &::after {
@@ -203,7 +204,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
           .curve-top,
           .curve-bottom {
-            background: $white-color;
+            background: $body-color;
           }
         }
 
@@ -235,6 +236,14 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         border-bottom-left-radius: 20px !important;
         padding: 15px 10px 0px 55px;
         @include font-size (.875);
+        @media (max-width:1199.98px) {
+          padding-top: 5px !important;
+        }
+        figure{
+          @media (max-width:1199.98px) {
+            margin-bottom: 8px;
+          }
+        }
       }
     }
   }
@@ -278,8 +287,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
       background-color: $body-color !important;
 
       @media (max-width: 1199.98px) {
-        @include position ($absolute, $left: 82px);
+        @include position ($absolute, $left: 71px);
         margin-top: -45px;
+        z-index: 9;
       }
 
       .accordion-body {
@@ -295,7 +305,8 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
           }
 
           @media (max-width: 1199.98px) {
-            padding-left: 50px;
+            padding-left: 20px;
+            padding-right: 40px;
           }
         }
 
@@ -367,6 +378,10 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
   .sub-menu {
     background-color: $black-dark-color;
+    @media (max-width:1199.99px){
+      padding-block: 10px;
+      border-radius: 8px;
+    }
 
     li {
       .nav-link {

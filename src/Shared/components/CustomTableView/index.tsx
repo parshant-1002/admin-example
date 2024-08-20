@@ -158,7 +158,7 @@ function CustomTableView({
                         <>
                           <tr
                             key={row._id}
-                            className={`tr-item ${
+                            className={`tr-item afixing ${
                               activeRowId === row._id ? 'tr-active' : ''
                             }`}
                           >
