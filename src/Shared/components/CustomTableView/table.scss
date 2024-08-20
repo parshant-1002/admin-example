@@ -35,6 +35,8 @@
             position: $relative;
             @media (max-width:991px){
                 margin-bottom: 3px;
+                @include flexbox;
+                @include flex-direction (column);
             }
             &:nth-child(even) {
                 td {
@@ -91,7 +93,7 @@
                         text-align: $left;
                     }
                     .custom-checkbox {
-                        margin-left: 20px;
+                        margin-left: 15px;
                         display: $inline-block;
                     }
                 }
@@ -106,9 +108,6 @@
                 td {
                     background-color: $grey-color-700;
                 }
-            }
-            @media (max-width:991px) {
-                display: $block;
             }
             &.tr-active {
                 @media (max-width:991px) {
