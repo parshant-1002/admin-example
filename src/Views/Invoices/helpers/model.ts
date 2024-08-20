@@ -8,8 +8,9 @@ interface Image {
 // Define the main type
 export interface Invoice {
   _id: string;
+  id: string;
   status: number;
-  bidPlan: { id: string };
+  bidPlan: { id: string; title: string };
   purchasedPrice: number;
   createdAt: Date;
   product: {

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { Dispatch, SetStateAction } from 'react';
 import { Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
@@ -16,6 +18,7 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -151,6 +154,7 @@ interface CreateReferralProps {
   handleEdit: (row: Record<string, unknown>) => void;
   handleStatusChange: (row: Record<string, unknown>) => void;
   handleSelectMultiple?: (id: string) => void;
+  setShowMultiItemView?: Dispatch<SetStateAction<ViewMultiData>>;
   selectedIds?: string[];
 }
 
@@ -161,6 +165,7 @@ export const PlansColumns = ({
   handleEdit,
   handleStatusChange,
   handleSelectMultiple = () => {},
+  setShowMultiItemView = () => {},
   selectedIds = [],
 }: CreateReferralProps): ColumnData[] => [
   {
@@ -206,8 +211,20 @@ export const PlansColumns = ({
     fieldName: 'imageURL',
     sortable: false,
     render: (_, imageURL: string | number) => (
-      <div className="d-inline-flex align-items-center position-relative uploaded_file">
-        <figure key={String(imageURL)}>
+      <div className="d-inline-flex align-items-center position-relative uploaded_file pointer">
+        <figure
+          key={String(imageURL)}
+          onClick={() =>
+            setShowMultiItemView({
+              show: true,
+              data: {
+                title: 'Product Images',
+                size: 'lg',
+                imgData: [{ url: String(imageURL) }],
+              },
+            })
+          }
+        >
           <FileRenderer fileURL={String(imageURL)} />
         </figure>
       </div>
@@ -292,40 +309,42 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
     fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.USERNAME,
     fieldName: 'name',
-    // sortable: true,
-    sortType: 'name',
+    sortable: true,
+    sortType: 'userName',
     render: (row) => <TruncateText text={row?.user?.name} />,
   },
   {
     title: STRINGS.EMAIL,
     fieldName: 'email',
-    // sortable: true,
-    sortType: 'email',
+    sortable: true,
+    sortType: 'userEmail',
     render: (row) => <TruncateText text={row?.user?.email} />,
   },
   {
     title: STRINGS.DEAL_OFFER,
     fieldName: 'dealOfferPercentage',
-    // sortable: true,
+    sortable: true,
     sortType: 'dealOfferPercentage',
     render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
     title: STRINGS.DEAL_PRICE,
     fieldName: 'dealPrice',
-    // sortable: true,
+    sortable: true,
     sortType: 'dealPrice',
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.BIDS_RECEIVED,
     fieldName: 'bids',
-    // sortable: true,
+    sortable: true,
     sortType: 'bids',
   },
   {
@@ -348,6 +367,8 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.DATE,
     fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
     render: (row) => formatDate(row?.createdAt),
   },
   {

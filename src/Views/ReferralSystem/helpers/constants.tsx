@@ -101,7 +101,9 @@ export const CreateReferralColumns = ({
   },
   {
     title: STRINGS.REFERRAL_ID,
-    fieldName: '_id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {

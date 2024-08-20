@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
+
 /* eslint-disable jsx-a11y/label-has-associated-control */
 interface DetailsItem {
   label?: string;
-  value?: string;
+  value?: string | ReactNode;
 }
 
 interface DetailsCardProps {

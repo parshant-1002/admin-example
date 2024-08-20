@@ -149,7 +149,7 @@ export const STRINGS = {
   HOT_DEAL: 'Hot Deal',
   YES: 'Yes',
   NO: 'No',
-  T_ID: 'Id',
+  T_ID: 'T Id',
   DEAL_OFFER: 'Deal Offer',
   FAILED: 'Failed',
   DATE: 'Date',

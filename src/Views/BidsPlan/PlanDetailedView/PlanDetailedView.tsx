@@ -71,17 +71,17 @@ function PlanDetailedView() {
     }
   );
 
-  const { data: referralPackDetails, refetch: refetchReferralPack } =
-    useGetBidPlansQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: !id,
-      }
-    );
+  const { data: referralPackDetails } = useGetBidPlansQuery(
+    {
+      params: removeEmptyValues({ bidPlanId: id || '' } as unknown as Record<
+        string,
+        unknown
+      >),
+    },
+    {
+      skip: !id,
+    }
+  );
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -102,11 +102,10 @@ function PlanDetailedView() {
     if (id) {
       if (onComponentMountRef.current) {
         refetch();
-        refetchReferralPack();
       }
       onComponentMountRef.current = true;
     }
-  }, [refetch, currentPage, sortKey, sortDirection, id, refetchReferralPack]);
+  }, [refetch, currentPage, sortKey, sortDirection, id]);
 
   const renderPackDetails = useMemo(() => {
     if (referralPackDetails?.data?.[0]) {
