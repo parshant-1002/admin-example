@@ -181,7 +181,7 @@ function CustomTableView({
                                   }}
                                 >
                                   {getColumnValue(row, column)}
-                                  {columnIndex === 0 ? (
+                                  {columnIndex === 1 ? (
                                     <button
                                       type="button"
                                       className="btn btn38 btn-collapse"

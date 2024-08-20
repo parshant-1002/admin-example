@@ -1,5 +1,11 @@
 @import '../../../assets/scss/base';
 
+.table-responsive {
+    @media (max-width:991px){
+        overflow: $hidden;
+    }
+}
+
 .custom-table {
     width: 100%;
     border-collapse: separate;
@@ -37,6 +43,7 @@
                 margin-bottom: 3px;
                 @include flexbox;
                 @include flex-direction (column);
+                border: 1px solid rgba($black-color, .2);
             }
             &:nth-child(even) {
                 td {
@@ -58,6 +65,14 @@
                         @include border-radius (10px 0 0 10px);
                     }
                 }
+                &:nth-child(2) {
+                    @media (max-width:991px) {
+                        text-align: $left;
+                        &::before {
+                            display: $none;
+                        }
+                    }
+                }
                 &:last-child {
                     position: $relative;
                     .arrow{
@@ -71,6 +86,9 @@
                     @media (min-width:991.99px) {
                         @include border-radius (0 10px 10px 0);
                     }
+                    @media (max-width:991px) {
+                        border-bottom: 0;
+                    }
                     &:has(.arrow){
                         padding-right: 35px;
                     }
@@ -78,8 +96,7 @@
                 @media (max-width:991px) {
                     display: $block;
                     text-align: $right;
-                    border-bottom: 1px solid rgba($black-color, .1);
-                    &:not(:first-child) {
+                    &:not(:nth-child(2)) {
                         display: $none;
                     }
                     &:before {
@@ -87,13 +104,10 @@
                         font-weight: $font-regular;
                         color: $black-color;
                         float: left;
-                        padding-right: 15px;
-                    }
-                    &[data-label="#"]{
-                        text-align: $left;
+                        padding-right: 10px;
                     }
                     .custom-checkbox {
-                        margin-left: 15px;
+                        margin-left: 5px;
                         display: $inline-block;
                     }
                 }
@@ -104,9 +118,11 @@
                     z-index: 1;
                 }
             }
-            &:hover {
-                td {
-                    background-color: $grey-color-700;
+            @media (min-width:991.99px){
+                &:hover {
+                    td {
+                        background-color: $grey-color-700;
+                    }
                 }
             }
             &.tr-active {
@@ -116,6 +132,15 @@
                     }
                     td {
                         display: $block;
+                        text-align: $right;
+                        &:first-child {
+                            text-align: $left;
+                        }
+                        &:nth-child(2){
+                            &::before {
+                                display: $block;
+                            }
+                        }
                     }
                 }
             }

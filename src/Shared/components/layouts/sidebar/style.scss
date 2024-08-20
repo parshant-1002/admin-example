@@ -50,44 +50,35 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         border-top-left-radius: 32px;
         border-bottom-left-radius: 32px;
         position: $relative;
-
         @media (max-width:1199.99px) {
           padding-left: 15px;
           margin-left: 5px;
           @include font-size (0);
         }
-
         &::before {
           @include top-curve-before;
         }
-
         &::after {
           @include bottom-curve-after;
         }
-
         .curve-top {
           @include curve-top;
         }
-
         .curve-bottom {
           @include curve-bottom;
         }
-
         &.active {
           background-color: $body-color;
           color: $primary-color;
-          font-weight: 600;
-
+          font-weight: $font-semibold;
           &::before,
           &::after {
             border-color: $black-dark-color;
           }
-
           .curve-top,
           .curve-bottom {
             background: $body-color;
           }
-
           .bi {
             background-color: $primary-color;
           }
@@ -100,13 +91,12 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         width: 25px;
         height: 25px;
         background-size: 25px;
-        position: absolute;
+        position: $absolute;
         top: 19px;
         left: 15px;
         -webkit-mask-repeat: $no-repeat;
         mask-repeat: no-repeat;
         background-color: $white-color;
-
         @media(max-width: 1199px) {
           left: 14px;
         }
@@ -155,7 +145,7 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
     .accordion-item {
       padding-left: 10px;
-      background-color: $none;
+      background-color: $transparent;
       @media (max-width: 1199.98px) {
         padding-left: 0;
       }
@@ -205,15 +195,14 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         border-bottom-left-radius: 20px !important;
         padding: 21px 15px 19px 55px;
         @include font(.875rem, 21.27px, 400);
-        background-color: $none;
+        background-color: $transparent;
         color: $white-color;
         @media (max-width:1199.98px) {
           padding-left: 15px;
-          font-size: 0;
           margin-left: 5px;
+          font-size: 0;
         }
       }
-
       .dropdown-item {
         border-radius: 0;
         border-top-left-radius: 20px;
@@ -233,15 +222,12 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   }
 
   .accordion-header {
-    background-color: $none;
     button {
       padding: 14px 15px;
       border: 0 !important;
-
       i {
         margin-right: 10px;
       }
-
       &::after {
         mask-image: $downArrow;
         -webkit-mask-image: $downArrow;
@@ -252,8 +238,8 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         margin-right: 15px;
         background-color: $body-color;
         width: 9px;
-        mask-repeat: no-repeat;
-        mask-position: center;
+        mask-repeat: $no-repeat;
+        mask-position: $center;
         @media (max-width:1199px) {
           transform: scale(1) rotate(-90deg);
           margin-right: -3px;
@@ -354,7 +340,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
       .nav-link {
         @include font(18px, 27px, 400);
         font-weight: $font-regular;
-
         &.active {
           color: $primary-color;
         }
