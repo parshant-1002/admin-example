@@ -25,6 +25,7 @@ export const API_END_POINTS = {
   REFERRAL_PACK_HISTORY: '/referralPack/history',
   REFERRED_USERS: '/referral/referredUsers',
   BID_PLAN: '/bidPlan',
+  BID_PLAN_TRANSACTION: '/bidPlan/transactions',
 };
 
 export const HTTPS_METHODS = {

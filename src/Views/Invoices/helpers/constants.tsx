@@ -1,15 +1,16 @@
 // utils
+import Button from '../../../Shared/components/form/Button';
 import {
   convertToLocale,
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
-import Button from '../../../Shared/components/form/Button';
 
 // consts
-import { Invoice } from './model';
-import { InvoiceIcon } from '../../../assets';
+import TruncatedText from '../../../Shared/components/TruncateText/TruncateText';
 import { STRINGS } from '../../../Shared/constants';
+import { InvoiceIcon } from '../../../assets';
+import { Invoice } from './model';
 
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
@@ -107,8 +108,8 @@ export const AuctionInvoiceColumns: ColumnData[] = [
 export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.PACK_ID,
-    fieldName: '_id',
-    render: renderIdWithHash,
+    fieldName: 'bidPlan',
+    render: (row) => <TruncatedText text={row?.bidPlan?.id} />,
   },
   {
     title: STRINGS.PACK_NAME,
@@ -116,21 +117,23 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   },
   {
     title: STRINGS.DEAL_PRICE,
-    fieldName: 'purchasedPrice',
+    fieldName: 'dealPrice',
     render: (_, val) => `${convertToLocale(val || 0)}`,
     sortable: true,
-    sortType: 'purchasedPrice',
+    sortType: 'dealPrice',
   },
   {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'bidsReceived',
+    fieldName: 'bids',
+    sortable: true,
+    sortType: 'bids',
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.PURCHASED_DATE,
-    fieldName: 'purchaseDate',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'purchaseDate',
+    sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {

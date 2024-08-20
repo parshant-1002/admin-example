@@ -9,6 +9,7 @@ interface Image {
 export interface Invoice {
   _id: string;
   status: number;
+  bidPlan: { id: string };
   purchasedPrice: number;
   createdAt: Date;
   product: {

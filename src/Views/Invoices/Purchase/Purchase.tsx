@@ -13,9 +13,9 @@ import { FilterOrder, STRINGS } from '../../../Shared/constants';
 import { PurchaseInvoiceColumns } from '../helpers/constants';
 
 // API
-import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 
 // Utilities
+import { useGetBidsTransactionsQuery } from '../../../Services/Api/module/plans';
 import Filters from '../../../Shared/components/Filters';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
@@ -48,7 +48,7 @@ function PurchaseInvoices() {
   };
 
   // API Queries
-  const { data: listing, refetch } = useGetInvoicesQuery({
+  const { data: listing, refetch } = useGetBidsTransactionsQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),

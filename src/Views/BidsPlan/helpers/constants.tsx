@@ -2,6 +2,7 @@ import { Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import TruncateText from '../../../Shared/components/TruncateText';
 import {
   BID_PLAN_TYPES,
   IMAGE_FILE_TYPES,
@@ -290,7 +291,7 @@ export const PlansColumns = ({
 export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
@@ -298,20 +299,20 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     fieldName: 'name',
     sortable: true,
     sortType: 'name',
-    render: (row) => row?.refererUser?.name,
+    render: (row) => <TruncateText text={row?.user?.name} />,
   },
   {
     title: STRINGS.EMAIL,
     fieldName: 'email',
     sortable: true,
     sortType: 'email',
-    render: (row) => row?.refererUser?.email,
+    render: (row) => <TruncateText text={row?.user?.email} />,
   },
   {
     title: STRINGS.DEAL_OFFER,
-    fieldName: 'dealOffer',
+    fieldName: 'dealOfferPercentage',
     sortable: true,
-    sortType: 'dealOffer',
+    sortType: 'dealOfferPercentage',
     render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
@@ -322,28 +323,10 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-  },
-  {
-    title: STRINGS.REFEREE_EMAIL,
-    fieldName: 'refereeEmail',
-    sortable: true,
-    sortType: 'refereeBidRequirement',
-    render: (row) => row?.refereeUser?.email,
-  },
-  {
-    title: STRINGS.REWARD_AT,
-    fieldName: 'rewardAt',
-    sortable: true,
-    sortType: 'refereePurchasedBids',
-  },
-  {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'purchasedBids',
+    fieldName: 'bids',
     sortable: true,
-    sortType: 'purchasedBids',
+    sortType: 'bids',
   },
   {
     title: STRINGS.STATUS,
@@ -370,7 +353,7 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.INVOICE,
     render: (row) =>
-      row?.url ? (
+      row?.invoiceURL ? (
         <div className="text-center">
           {' '}
           <img src={InvoiceIcon} alt="invoice" />{' '}

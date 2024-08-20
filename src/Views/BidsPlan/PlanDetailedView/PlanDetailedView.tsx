@@ -13,16 +13,18 @@ import { FilterOrder, STRINGS } from '../../../Shared/constants';
 import { PlanDetailedViewColumns } from '../helpers/constants';
 
 // API
-import { useGetReferralPackHistoryQuery } from '../../../Services/Api/module/referral';
-import { useGetBidPlansQuery } from '../../../Services/Api/module/plans';
+import {
+  useGetBidPlansQuery,
+  useGetBidsTransactionsQuery,
+} from '../../../Services/Api/module/plans';
 
 // Utilities
+import { DetailsCard } from '../../../Shared/components';
 import {
   convertToLocale,
   formatDate,
   removeEmptyValues,
 } from '../../../Shared/utils/functions';
-import { DetailsCard } from '../../../Shared/components';
 
 // Interfaces
 interface QueryParams {
@@ -58,7 +60,7 @@ function PlanDetailedView() {
   };
 
   // API Queries
-  const { data: listing, refetch } = useGetReferralPackHistoryQuery(
+  const { data: listing, refetch } = useGetBidsTransactionsQuery(
     {
       params: removeEmptyValues(
         queryParams as unknown as Record<string, unknown>
