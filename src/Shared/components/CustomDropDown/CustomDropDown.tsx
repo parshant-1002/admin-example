@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/button-has-type */
 // import { Dropdown } from 'react-bootstrap';
 import './CustomDropDown.scss';
@@ -15,7 +16,6 @@ interface ActionsDropdownProps {
 }
 
 function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
-  console.log('🚀 ~ CustomDropDown ~ toggleImage:', toggleImage);
   return (
     // <Dropdown>
     //   <Dropdown.Toggle id="dropdown-basic" className="btn-transparent btn">

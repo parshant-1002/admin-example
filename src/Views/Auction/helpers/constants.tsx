@@ -213,8 +213,29 @@ type RenderActions = (val: unknown, row: AuctionResponsePayload) => JSX.Element;
 
 export const AuctionColumns = (
   renderActions: RenderActions,
-  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
+  handleChangeCheckBox: (id: string) => void,
+  selectedIds: string[] | undefined
 ): ColumnData[] => [
+  {
+    title: '#',
+    render: (row) => {
+      return (
+        <div
+          className="custom-checkbox"
+          onClick={() => handleChangeCheckBox(row?._id || '')}
+        >
+          <input
+            type="checkbox"
+            className="checkbox-input"
+            checked={selectedIds?.includes(row?._id || '')}
+            // onChange={() => handleChangeCheckBox(row._id)}
+          />
+          <span className="label" />
+        </div>
+      );
+    },
+  },
   {
     title: 'Id',
     fieldName: 'id',

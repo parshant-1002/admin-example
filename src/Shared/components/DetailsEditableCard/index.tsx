@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { ProductDetailResponsePayload } from '../../../Views/Auction/AuctionDetails/Helpers/Model';
