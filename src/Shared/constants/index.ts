@@ -147,9 +147,9 @@ export const STRINGS = {
   ID: 'ID',
   END_AT: 'End At',
   HOT_DEAL: 'Hot Deal',
-  YES: 'Yes',
-  NO: 'No',
-  T_ID: 'T Id',
+  YES: 'YES',
+  NO: 'NO',
+  T_ID: 'TId',
   DEAL_OFFER: 'Deal Offer',
   FAILED: 'Failed',
   DATE: 'Date',
@@ -201,7 +201,7 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
-  ADD_BIDS: 'Add Bids',
+  ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
   YES: 'Yes',
   NO: 'No',
