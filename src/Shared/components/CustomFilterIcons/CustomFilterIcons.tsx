@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/button-has-type */
 // import { Dropdown } from 'react-bootstrap';
-import './CustomDropDown.scss';
+import './CustomFilterIcons.scss';
 
 export interface SubmenuItem {
   buttonLabel: string;
@@ -11,11 +11,10 @@ export interface SubmenuItem {
 }
 
 interface ActionsDropdownProps {
-  toggleImage: string; // URL or path to the toggle image
   submenu?: SubmenuItem[]; // Array of submenu items
 }
 
-function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
+function CustomFilterIcons({ submenu }: ActionsDropdownProps) {
   return (
     // <Dropdown>
     //   <Dropdown.Toggle id="dropdown-basic" className="btn-transparent btn">
@@ -62,4 +61,4 @@ function CustomDropDown({ toggleImage, submenu }: ActionsDropdownProps) {
   );
 }
 
-export default CustomDropDown;
+export default CustomFilterIcons;

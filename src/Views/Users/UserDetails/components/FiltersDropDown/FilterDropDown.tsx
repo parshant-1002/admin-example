@@ -1,5 +1,4 @@
-import CustomDropDown from '../../../../../Shared/components/CustomDropDown';
-import { Filter } from '../../../../../assets';
+import CustomFilterIcons from '../../../../../Shared/components/CustomFilterIcons';
 
 // interface FiltersDropDownProps {
 //   handleEdit: (row: ProductResponsePayload) => void; // Replace `ProductResponsePayload` with the appropriate type for `row`
@@ -14,7 +13,7 @@ function FiltersDropDown() {
     },
   ];
 
-  return <CustomDropDown toggleImage={Filter} submenu={submenu} />;
+  return <CustomFilterIcons submenu={submenu} />;
 }
 
 export default FiltersDropDown;

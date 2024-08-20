@@ -1,6 +1,6 @@
-import { actions, Delete, edit, view } from '../../../assets';
+import { Delete, edit, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
-import CustomDropDown from '../../../Shared/components/CustomDropDown';
+import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
 import {
   INPUT_TYPES,
   REFERRAL_STATUS,
@@ -152,8 +152,7 @@ export const CreateReferralColumns = ({
     title: STRINGS.ACTIONS,
     render: (row) => (
       <div className="d-flex justify-content-end justify-content-lg-start">
-        <CustomDropDown
-          toggleImage={actions}
+        <CustomFilterIcons
           submenu={[
             {
               buttonLabel: 'View',

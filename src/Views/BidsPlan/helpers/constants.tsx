@@ -1,6 +1,6 @@
-import { actions, Delete, edit, InvoiceIcon, view } from '../../../assets';
+import { Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
-import CustomDropDown from '../../../Shared/components/CustomDropDown';
+import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   BID_PLAN_TYPES,
@@ -260,8 +260,7 @@ export const PlansColumns = ({
     title: STRINGS.ACTIONS,
     render: (row) => (
       <div className="d-flex justify-content-end justify-content-lg-start">
-        <CustomDropDown
-          toggleImage={actions}
+        <CustomFilterIcons
           submenu={[
             {
               buttonLabel: 'View',

@@ -1,5 +1,5 @@
-import CustomDropDown from '../../../../Shared/components/CustomDropDown';
-import { Delete, actions, edit } from '../../../../assets';
+import CustomFilterIcons from '../../../../Shared/components/CustomFilterIcons';
+import { Delete, edit } from '../../../../assets';
 import { ProductResponsePayload } from '../../helpers/model';
 
 interface ActionsDropdownProps {
@@ -28,7 +28,7 @@ function ActionsDropdown({
     },
   ];
 
-  return <CustomDropDown toggleImage={actions} submenu={submenu} />;
+  return <CustomFilterIcons submenu={submenu} />;
 }
 
 export default ActionsDropdown;
