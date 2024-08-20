@@ -34,11 +34,11 @@ const SIDEBAR_NAV = [
     label: 'Invoices',
     children: [
       {
-        label: 'Auction',
+        label: 'Products',
         route: ROUTES.INVOICES_AUCTION,
       },
       {
-        label: 'Purchase',
+        label: 'Bids',
         route: ROUTES.INVOICES_PURCHASE,
       },
     ],

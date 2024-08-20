@@ -23,7 +23,6 @@ import {
 } from '../../../../../Shared/constants';
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
-  BID_CREDIT_TYPES_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
   referralHistoryColumn,
@@ -192,7 +191,6 @@ export default function ReferalHistoryList({
     const initalFilterPayload: FilterPayload = {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
-      status: filter?.selectedStatus?.value,
     };
     setFilters(initalFilterPayload);
   };
@@ -221,7 +219,6 @@ export default function ReferalHistoryList({
         filterToggleImage={Filter}
         showHeading={false}
         showDateFilter
-        statusOptions={BID_CREDIT_TYPES_OPTIONS}
         priceRange={
           currentTab === UserDetailsTabs.PRODUCT_HISTORY
             ? PRICE_RANGE

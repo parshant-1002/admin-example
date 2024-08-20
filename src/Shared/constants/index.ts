@@ -507,6 +507,8 @@ const PRICE_RANGE = {
 
 const TABLE_PAGE_LIMIT = 10;
 
+const CONFIRMATION_DESCRIPTION_INVOICE =
+  'Are you sure you want to generate invoice';
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -519,4 +521,5 @@ export {
   TABLE_PAGE_LIMIT,
   BID_CREDIT_TYPES,
   PRICE_RANGE,
+  CONFIRMATION_DESCRIPTION_INVOICE,
 };

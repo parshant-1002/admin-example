@@ -297,35 +297,35 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.USERNAME,
     fieldName: 'name',
-    sortable: true,
+    // sortable: true,
     sortType: 'name',
     render: (row) => <TruncateText text={row?.user?.name} />,
   },
   {
     title: STRINGS.EMAIL,
     fieldName: 'email',
-    sortable: true,
+    // sortable: true,
     sortType: 'email',
     render: (row) => <TruncateText text={row?.user?.email} />,
   },
   {
     title: STRINGS.DEAL_OFFER,
     fieldName: 'dealOfferPercentage',
-    sortable: true,
+    // sortable: true,
     sortType: 'dealOfferPercentage',
     render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
     title: STRINGS.DEAL_PRICE,
     fieldName: 'dealPrice',
-    sortable: true,
+    // sortable: true,
     sortType: 'dealPrice',
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.BIDS_RECEIVED,
     fieldName: 'bids',
-    sortable: true,
+    // sortable: true,
     sortType: 'bids',
   },
   {
@@ -359,7 +359,7 @@ export const PlanDetailedViewColumns: ColumnData[] = [
           <img src={InvoiceIcon} alt="invoice" />{' '}
         </div>
       ) : (
-        ''
+        '-.-'
       ),
   },
 ];

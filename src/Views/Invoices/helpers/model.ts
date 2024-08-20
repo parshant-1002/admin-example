@@ -14,6 +14,7 @@ export interface Invoice {
   createdAt: Date;
   product: {
     id: string;
+    _id: string;
     title: string;
     images: Image[];
   };
@@ -28,4 +29,9 @@ export interface Invoice {
   };
   invoiceURL?: string;
   invoiceDate?: string;
+}
+
+export interface InvoiceData {
+  data: Invoice | null;
+  show: boolean;
 }

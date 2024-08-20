@@ -18,7 +18,7 @@ import {
 import { BidsHistoryColumns } from '../helpers/constants';
 
 // API
-import { useGetBidsSpentHistoryQuery } from '../../../Services/Api/module/auctions';
+import { useGetBidsSpentHistoryQuery } from '../../../Services/Api/module/auctionHistories';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';

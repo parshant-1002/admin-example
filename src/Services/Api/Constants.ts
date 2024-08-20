@@ -26,6 +26,9 @@ export const API_END_POINTS = {
   REFERRED_USERS: '/referral/referredUsers',
   BID_PLAN: '/bidPlan',
   BID_PLAN_TRANSACTION: '/bidPlan/transactions',
+  USER_PRODUCTS_INVOICE: '/userProducts/generateInvoice',
+  BIDS_PLAN_INVOICE: '/bidPlan/generateInvoice',
+  BID_CREDIT_INVOICE: '/user/bidCreditHistory/generateInvoice',
 };
 
 export const HTTPS_METHODS = {

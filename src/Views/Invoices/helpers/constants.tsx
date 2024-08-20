@@ -33,7 +33,9 @@ interface ColumnData {
 }
 
 // Define the shape of the columns
-export const AuctionInvoiceColumns: ColumnData[] = [
+export const AuctionInvoiceColumns = (
+  handleGenerateInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
     title: STRINGS.AUCTION_ID,
     fieldName: 'id',
@@ -97,7 +99,9 @@ export const AuctionInvoiceColumns: ColumnData[] = [
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          <Button>{STRINGS.GENERATE}</Button>
+          <Button onClick={() => handleGenerateInvoice(row)}>
+            {STRINGS.GENERATE}
+          </Button>
         )}
       </div>
     ),
@@ -105,7 +109,9 @@ export const AuctionInvoiceColumns: ColumnData[] = [
 ];
 
 // Define the shape of the columns
-export const PurchaseInvoiceColumns: ColumnData[] = [
+export const PurchaseInvoiceColumns = (
+  handleInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
     title: STRINGS.PACK_ID,
     fieldName: 'bidPlan',
@@ -119,13 +125,13 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
     title: STRINGS.DEAL_PRICE,
     fieldName: 'dealPrice',
     render: (_, val) => `${convertToLocale(val || 0)}`,
-    sortable: true,
-    sortType: 'dealPrice',
+    // sortable: true,
+    // sortType: 'dealPrice',
   },
   {
     title: STRINGS.BIDS_RECEIVED,
     fieldName: 'bids',
-    sortable: true,
+    // sortable: true,
     sortType: 'bids',
     render: (_, val) => `${convertToLocale(val)}`,
   },
@@ -156,7 +162,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
           <img src={InvoiceIcon} alt="" />
         </button>
       ) : (
-        <Button>{STRINGS.GENERATE}</Button>
+        <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
       ),
   },
 ];

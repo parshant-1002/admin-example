@@ -3,13 +3,19 @@ import { debounce } from 'lodash';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
+import { toast } from 'react-toastify';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
 
 // Constants
-import { FilterOrder, STRINGS } from '../../../Shared/constants';
+import {
+  BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
+  FilterOrder,
+  STRINGS,
+} from '../../../Shared/constants';
 import { PurchaseInvoiceColumns } from '../helpers/constants';
 
 // API
@@ -19,7 +25,10 @@ import { useGetBidsTransactionsQuery } from '../../../Services/Api/module/plans'
 import Filters from '../../../Shared/components/Filters';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
-import { Filter } from '../../../assets';
+import { Filter, RED_WARNING } from '../../../assets';
+import { ConfirmationModal } from '../../../Shared/components';
+import { useBidsPlanInvoiceGenerationMutation } from '../../../Services/Api/module/invoiceGeneration';
+import { Invoice, InvoiceData } from '../helpers/model';
 
 // Constants
 const PURCHASE_PAGE_LIMIT = 10;
@@ -33,7 +42,10 @@ function PurchaseInvoices() {
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
-
+  const [invoiceModal, setInvoiceModal] = useState<InvoiceData>({
+    show: false,
+    data: null,
+  });
   // Refs
   const onComponentMountRef = useRef(false);
 
@@ -53,7 +65,10 @@ function PurchaseInvoices() {
       queryParams as unknown as Record<string, unknown>
     ),
   });
-
+  const [generateInvoice] = useBidsPlanInvoiceGenerationMutation();
+  const handleInvoice = (row: Invoice) => {
+    setInvoiceModal({ show: true, data: row });
+  };
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -75,7 +90,7 @@ function PurchaseInvoices() {
   }, 1000);
 
   // Memoized columns for table
-  const columns = useMemo(() => PurchaseInvoiceColumns, []);
+  const columns = useMemo(() => PurchaseInvoiceColumns(handleInvoice), []);
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -90,6 +105,21 @@ function PurchaseInvoices() {
       toDate: filter?.endDate,
     });
   };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = () => {
+    generateInvoice({
+      payload: {
+        bidPlanTransactionId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetch();
+        handleCloseInvoice();
+      },
+    });
+  };
   return (
     <div>
       <Filters
@@ -99,7 +129,17 @@ function PurchaseInvoices() {
         showDateFilter
         handleApply={handleApplyFilters}
       />
-
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
+      />
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
