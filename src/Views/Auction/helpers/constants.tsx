@@ -172,9 +172,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   prizeClaimDays: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Prize claim Duration (days)',
+    label: 'Prize Claim Duration (Days)',
     className: 'col-md-12',
-    placeholder: 'Prize claim Duration (days)',
+    placeholder: 'Prize Claim Duration (Days)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -182,9 +182,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   turnTimer: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Bids Duration (sec)',
+    label: 'Bids Duration (Sec)',
     className: 'col-md-12',
-    placeholder: 'Bids Duration (sec)',
+    placeholder: 'Bids Duration (Sec)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,

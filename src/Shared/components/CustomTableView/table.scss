@@ -57,8 +57,20 @@
                     }
                 }
                 &:last-child {
+                    position: $relative;
+                    .arrow{
+                        @include position($absolute, $right:15px, $top:0, $bottom: 0);
+                        width: 14px;
+                        margin: auto;
+                        &.up{
+                            transform: rotateX(180deg);
+                        }
+                    }
                     @media (min-width:991.99px) {
                         @include border-radius (0 10px 10px 0);
+                    }
+                    &:has(.arrow){
+                        padding-right: 35px;
                     }
                 }
                 @media (max-width:991px) {
