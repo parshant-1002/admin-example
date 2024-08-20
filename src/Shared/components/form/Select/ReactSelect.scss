@@ -94,3 +94,9 @@ body {
         }
     }
 }
+.modal-form-field{
+    .react-select-prefix__control{
+        border: 0;
+        padding-inline: 0;
+    }
+}
