@@ -119,6 +119,7 @@ export default function AuctionManagementList() {
         reserveWaitingEndDate: moment(row.reserveWaitingEndDate).format(
           DATE_FORMATS.DISPLAY_DATE_REVERSE
         ),
+        images: row?.images,
       },
       show: true,
     });

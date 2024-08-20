@@ -9,6 +9,7 @@ export interface AuctionResponsePayload {
   category?: Category;
   totalBids?: number;
   title?: string;
+  images?: string[];
   categories?: Category[];
   product?: {
     title?: string;

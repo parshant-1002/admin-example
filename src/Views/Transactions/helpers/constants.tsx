@@ -70,7 +70,7 @@ export const PlansHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.DEAL_PRICE,
     fieldName: 'price',
-    render: (_, val) => `$${convertToLocale(val || 0)}`,
+    render: (_, val) => `${convertToLocale(val || 0)}`,
     sortable: true,
     sortType: 'price',
   },
@@ -169,7 +169,7 @@ export const BidsHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.BID_SPENT,
     fieldName: 'bids',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.DATE,
@@ -183,6 +183,7 @@ export const BidsHistoryColumns: ColumnData[] = [
     fieldName: 'currentBidPrice',
     sortable: true,
     sortType: 'currentBidPrice',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.STATUS,
@@ -249,7 +250,7 @@ export const ProductsHistoryColumns = ({
   {
     title: STRINGS.PRODUCT_PRICE,
     fieldName: 'purchasedPrice',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    render: (_, val) => `${convertToLocale(val)}`,
     sortable: true,
     sortType: 'purchasedPrice',
   },

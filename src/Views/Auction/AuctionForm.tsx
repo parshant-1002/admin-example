@@ -25,6 +25,7 @@ import {
 
 import { useGetProductsQuery } from '../../Services/Api/module/products';
 import { AuctionResponsePayload } from './helpers/model';
+import { addBaseUrl } from '../../Shared/utils/functions';
 
 interface ProductFormTypes {
   initialData: AuctionResponsePayload | null;
@@ -92,10 +93,10 @@ export default function AuctionForm({
         title: data.title,
         preAuctionUsersCount: data.preAuctionUsersCount,
         // currentBidPrice: data.currentBidPrice,
-        // images: auctionData?.images?.map((image) => ({
-        //   url: addBaseUrl(image?.fileURL || image?.url),
-        //   title: image?.fileName || image?.title,
-        // })),
+        images: auctionData?.images?.map((image) => ({
+          url: addBaseUrl(image?.fileURL || image?.url),
+          title: image?.fileName || image?.title,
+        })),
         // status: productData?.status?.value,
         categoryIds: auctionData?.categoryIds?.map(
           (category) => category?.value
@@ -151,6 +152,7 @@ export default function AuctionForm({
         setValue('categoryIds', helperCatergoryMap(productDetails.categories));
         setValue('description', productDetails.description);
         setValue('productPrice', productDetails.price);
+        setValue('images', productDetails?.images);
       }
     }
   };

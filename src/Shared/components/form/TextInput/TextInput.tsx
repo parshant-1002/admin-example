@@ -100,7 +100,9 @@ const TextField = React.forwardRef(function TextField(
           control={control}
           defaultValue={[]}
           {...otherProps}
-          render={({ field: { onChange, onBlur, name, ref: fileRef } }) => {
+          render={({
+            field: { onChange, onBlur, name, ref: fileRef, value: fileValue },
+          }) => {
             return (
               <FileInput
                 className={className}
@@ -109,7 +111,7 @@ const TextField = React.forwardRef(function TextField(
                 ref={fileRef}
                 onChange={onChange}
                 onBlur={onBlur}
-                value={value}
+                value={fileValue}
                 {...otherProps}
               />
             );

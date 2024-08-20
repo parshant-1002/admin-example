@@ -51,7 +51,7 @@ export const AuctionColumn = (
     isEditable: false,
     fieldName: 'id',
     render: (_, val) => {
-      return `#${val}`;
+      return `${val}`;
     },
   },
   {
@@ -83,7 +83,7 @@ export const AuctionColumn = (
     isEditable: false,
     type: DetailType.Number,
     fieldName: 'reservePrice',
-    render: (row) => `$${convertToLocale(row?.reservePrice)}`,
+    render: (row) => `${convertToLocale(row?.reservePrice, true)}`,
   },
   {
     title: 'Auction Time',
@@ -106,9 +106,10 @@ export const AuctionColumn = (
     isEditable: false,
     type: DetailType.Number,
     fieldName: 'turnTimer',
+    render: (row) => `${convertToLocale(row?.reservePrice)} sec`,
   },
   {
-    title: 'PreAuction Users',
+    title: 'Min Auction Users',
     isEditable: false,
     type: DetailType.Number,
     fieldName: 'preAuctionUsersCount',
@@ -162,6 +163,7 @@ export const AuctionColumn = (
     isEditable: false,
     type: DetailType.Number,
     fieldName: 'currentBidPrice',
+    render: (row) => `${convertToLocale(row?.reservePrice, true)}`,
   },
   {
     title: 'Attachements',
@@ -284,10 +286,10 @@ export const AuctionBidColumn = (): ColumnData[] => [
     },
   },
   {
-    title: 'Item Price',
+    title: 'Item Price (SEK)',
     sortable: true,
     sortType: 'currentBidPrice',
     fieldName: 'currentBidPrice',
-    isTruncated: true,
+    render: (row) => `${convertToLocale(row?.reservePrice)}`,
   },
 ];

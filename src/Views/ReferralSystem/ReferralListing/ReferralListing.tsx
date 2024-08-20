@@ -19,7 +19,11 @@ import {
 } from '../../../Services/Api/module/referral';
 
 // Utilities
-import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
+import {
+  convertToLocale,
+  formatDate,
+  removeEmptyValues,
+} from '../../../Shared/utils/functions';
 import { DetailsCard } from '../../../Shared/components';
 
 // Interfaces
@@ -125,17 +129,21 @@ function Invoices() {
             },
             {
               label: STRINGS.CLOSED_AT,
-              value: referralPackDetails?.data?.[0]?.endDate
-                ? formatDate(referralPackDetails?.data?.[0]?.endDate)
+              value: referralPackDetails?.data?.[0]?.lastDisabledAt
+                ? formatDate(referralPackDetails?.data?.[0]?.lastDisabledAt)
                 : '',
             },
             {
               label: STRINGS.REWARDS,
-              value: referralPackDetails?.data?.[0]?.rewardBids,
+              value: convertToLocale(
+                referralPackDetails?.data?.[0]?.rewardBids
+              ),
             },
             {
               label: STRINGS.REWARD_AT,
-              value: referralPackDetails?.data?.[0]?.refereeBidRequirement,
+              value: convertToLocale(
+                referralPackDetails?.data?.[0]?.refereeBidRequirement
+              ),
             },
           ]}
         />

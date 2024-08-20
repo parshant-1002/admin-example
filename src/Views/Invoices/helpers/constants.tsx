@@ -71,7 +71,7 @@ export const AuctionInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.BID_PRICE,
     fieldName: 'purchasedPrice',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    render: (_, val) => `${convertToLocale(val)}`,
     sortable: true,
     sortType: 'purchasedPrice',
   },
@@ -117,7 +117,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
   {
     title: STRINGS.DEAL_PRICE,
     fieldName: 'purchasedPrice',
-    render: (_, val) => `$${convertToLocale(val || 0)}`,
+    render: (_, val) => `${convertToLocale(val || 0)}`,
     sortable: true,
     sortType: 'purchasedPrice',
   },

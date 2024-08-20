@@ -117,14 +117,21 @@ const checkValidFileExtension = (
   return validExtensions.includes(fileExtension);
 };
 
-const convertToLocale = (number: number | string): string | 0 => {
-  if (Number.isNaN(Number(number))) {
-    return String(number || 0);
-  }
+const convertToLocale = (
+  number: number | string,
+  isCurrency?: boolean
+): string => {
   const num = Number(number);
-  const formattedNumber = Number.isInteger(num) ? num : num.toFixed(2);
-  const localeCode = 'en-US';
-  return formattedNumber.toLocaleString(localeCode) || 0;
+  if (Number.isNaN(num)) {
+    return '0';
+  }
+  const formattedNumber = num
+    .toLocaleString('sv-SE', {
+      minimumFractionDigits: isCurrency ? 2 : 0,
+      maximumFractionDigits: 2,
+    })
+    .replace(',', '.');
+  return isCurrency ? `${formattedNumber} SEK` : formattedNumber;
 };
 
 const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
@@ -256,7 +263,7 @@ function getValueFromPath(
 const renderIdWithHash = (
   _: Record<string, unknown> | unknown,
   val: string | number
-) => (val ? `#${val}` : '-.-');
+) => (val ? `${val}` : '-.-');
 
 export {
   addBaseUrl,
