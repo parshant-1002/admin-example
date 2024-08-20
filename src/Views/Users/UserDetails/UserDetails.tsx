@@ -13,6 +13,7 @@ import BiddingHistory from './components/ProfileRelatedLists/BiddingHistory';
 import ProductHistoryList from './components/ProfileRelatedLists/ProductHistory';
 import ReferalHistoryList from './components/ProfileRelatedLists/ReferalHistoryList';
 import AuctionHistory from './components/ProfileRelatedLists/AuctionHistory';
+import { useGetUsersQuery } from '../../../Services/Api/module/users';
 
 export default function UserDetails() {
   const { state } = useLocation();
@@ -25,11 +26,15 @@ export default function UserDetails() {
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
+  const { data: userDetails, refetch: refetchUserDetails } = useGetUsersQuery({
+    params: { userId: state },
+  });
   const [addData, setAddData] = useState<boolean>(false);
   const [callBidsCreditApi, setCallBidsCreditApi] = useState<boolean>(false);
   const handleAddSuccess = () => {
     setAddData(false);
     setCallBidsCreditApi(true);
+    refetchUserDetails();
   };
 
   const handleAddBids = () => {
@@ -153,7 +158,7 @@ export default function UserDetails() {
         setAddData={handleAddBids}
         showFiltersToggle={false}
       />
-      <UserProfile userId={state} />
+      <UserProfile userDetails={userDetails} />
       <div className="mt-4 mt-lg-5 tab-with-filter">
         <CustomTabs
           tabs={userTabs}

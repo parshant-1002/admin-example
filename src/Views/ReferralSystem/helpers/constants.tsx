@@ -1,6 +1,6 @@
-import { actions, Delete, edit, view } from '../../../assets';
+import { Delete, edit, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
-import CustomDropDown from '../../../Shared/components/CustomDropDown';
+import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
 import {
   INPUT_TYPES,
   REFERRAL_STATUS,
@@ -113,7 +113,6 @@ export const CreateReferralColumns = ({
   {
     title: STRINGS.BIDS_GIVEN,
     fieldName: 'rewardBids',
-    isTruncated: true,
     sortable: true,
     sortType: 'rewardBids',
     render: (_, val) => `${convertToLocale(val)}`,
@@ -123,6 +122,7 @@ export const CreateReferralColumns = ({
     fieldName: 'refereeBidRequirement',
     sortable: true,
     sortType: 'refereeBidRequirement',
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.START_DATE,
@@ -152,8 +152,7 @@ export const CreateReferralColumns = ({
     title: STRINGS.ACTIONS,
     render: (row) => (
       <div className="d-flex justify-content-end justify-content-lg-start">
-        <CustomDropDown
-          toggleImage={actions}
+        <CustomFilterIcons
           submenu={[
             {
               buttonLabel: 'View',

@@ -107,7 +107,10 @@ export default function ProductsList() {
   };
 
   // API Queries
-  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
+  const { data: categoryList } = useGetCategorysQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
 
   const { data: productListing, refetch } = useGetProductsQuery({
     params: removeEmptyValues(

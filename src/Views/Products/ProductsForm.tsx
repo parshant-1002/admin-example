@@ -10,7 +10,6 @@ import {
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
-import { ErrorResponse } from '../../Models/Apis/Error';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
@@ -40,9 +39,6 @@ export default function ProductForm({
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
     onAdd();
-  };
-  const onFailure = (error: ErrorResponse) => {
-    toast.success(error?.data?.message);
   };
   const onSubmit = async (
     data: Record<string, unknown>,
@@ -74,14 +70,12 @@ export default function ProductForm({
             onEdit();
             reset();
           },
-          onFailure,
         });
         return;
       }
       await addProduct({
         payload,
         onSuccess,
-        onFailure,
       });
     } catch (error: unknown) {
       if (error instanceof Error) {

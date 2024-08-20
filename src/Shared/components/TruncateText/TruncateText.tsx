@@ -32,9 +32,10 @@ function TruncatedText({ text }: TruncatedTextProps) {
           <Tooltip
             id={tooltipId}
             opacity={1}
-            className="bg-primary text-white p-3 border border-rounded"
+            className="bg-primary text-white p-3 border border-rounded tool-tip"
+            place="top"
           >
-            {text}
+            <div className="tool-tip-content">{text}</div>
           </Tooltip>
           <button
             type="button"

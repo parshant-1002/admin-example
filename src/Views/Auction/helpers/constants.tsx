@@ -14,6 +14,7 @@ import {
   PurchaseStatus,
 } from '../AuctionDetails/Helpers/constants';
 import { convertToLocale } from '../../../Shared/utils/functions';
+import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
@@ -123,7 +124,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     type: INPUT_TYPES.SELECT,
     label: 'Product',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Product',
     options: productOptions,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -142,18 +143,18 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   productPrice: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Product Price',
+    label: 'Product Price (SEK)',
     className: 'col-md-12',
-    placeholder: 'Product Count',
+    placeholder: 'Product Price (SEK)',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
   reservePrice: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Reserve Price',
+    label: 'Reserve Price (SEK)',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Reserve Price (SEK)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -163,7 +164,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     type: INPUT_TYPES.TEXT_AREA,
     label: 'Description',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Description',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -171,9 +172,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   prizeClaimDays: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Prize claim Duration',
+    label: 'Prize claim Duration (days)',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Prize claim Duration (days)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -181,9 +182,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   turnTimer: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Bids Duration',
+    label: 'Bids Duration (sec)',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Bids Duration (sec)',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -198,9 +199,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   preAuctionUsersCount: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Pre Auction Users',
+    label: 'Min Auction Users',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Min Auction Users',
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -212,8 +213,29 @@ type RenderActions = (val: unknown, row: AuctionResponsePayload) => JSX.Element;
 
 export const AuctionColumns = (
   renderActions: RenderActions,
-  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
+  handleChangeCheckBox: (id: string) => void,
+  selectedIds: string[] | undefined
 ): ColumnData[] => [
+  {
+    title: '#',
+    render: (row) => {
+      return (
+        <div
+          className="custom-checkbox"
+          onClick={() => handleChangeCheckBox(row?._id || '')}
+        >
+          <input
+            type="checkbox"
+            className="checkbox-input"
+            checked={selectedIds?.includes(row?._id || '')}
+            // onChange={() => handleChangeCheckBox(row._id)}
+          />
+          <span className="label" />
+        </div>
+      );
+    },
+  },
   {
     title: 'Id',
     fieldName: 'id',
@@ -280,18 +302,18 @@ export const AuctionColumns = (
     },
   },
   {
-    title: 'Reserve Price',
+    title: 'Reserve Price (SEK)',
     fieldName: 'reservePrice',
     sortable: true,
     sortType: 'reservePrice',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: 'Item Price',
+    title: 'Item Price (SEK)',
     fieldName: 'currentBidPrice',
     sortable: true,
     sortType: 'currentBidPrice',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: 'Total Bids',
@@ -317,6 +339,51 @@ export const AuctionColumns = (
         PurchaseStatus.find((item) => {
           return item.value === val;
         })?.label.toString() || '-.-'
+      );
+    },
+  },
+  {
+    title: 'Images',
+    fieldName: 'images',
+    render: (_, val) => {
+      const imgData = val as unknown as {
+        _id: string;
+        url: string;
+        title: string;
+      }[];
+      return (
+        <div
+          className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+          onClick={() =>
+            setShowMultiItemView({
+              show: true,
+              data: { title: 'Product Images', size: 'lg', imgData },
+            })
+          }
+        >
+          {imgData?.map((img, index) =>
+            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+              <figure key={img.url}>
+                <FileRenderer fileURL={img.url} />
+                {/* <span>{img.title}</span> */}
+              </figure>
+            ) : null
+          )}
+          {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+            <button
+              type="button"
+              className="count_btn"
+              onClick={() =>
+                setShowMultiItemView({
+                  show: true,
+                  data: { title: 'Product Images', size: 'lg', imgData },
+                })
+              }
+            >
+              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
+            </button>
+          ) : null}
+        </div>
       );
     },
   },

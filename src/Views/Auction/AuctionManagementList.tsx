@@ -53,7 +53,7 @@ interface EditData {
 }
 
 interface DeleteData {
-  data: { id: string | undefined } | null;
+  data: { id?: string; ids?: string[] } | null;
   open: boolean;
 }
 const ADD_ONS_PAGE_LIMIT = 10;
@@ -61,8 +61,10 @@ const ADD_ONS_PAGE_LIMIT = 10;
 export default function AuctionManagementList() {
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     open: false,
-    data: { id: '' },
+    data: { id: '', ids: [] },
   });
+  const [selectedIds, setSelectedIds] = useState<string[]>();
+
   const [filters, setFilters] = useState({});
   const [addData, setAddData] = useState<boolean>(false);
   const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
@@ -119,6 +121,7 @@ export default function AuctionManagementList() {
         reserveWaitingEndDate: moment(row.reserveWaitingEndDate).format(
           DATE_FORMATS.DISPLAY_DATE_REVERSE
         ),
+        images: row?.images,
       },
       show: true,
     });
@@ -169,20 +172,42 @@ export default function AuctionManagementList() {
     setEditData({ data: null, show: false });
     refetch();
   };
-
+  const handleChangeCheckBox = (id: string) => {
+    setSelectedIds((prevSelectedIds) => {
+      const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
+      if (foundIndex !== undefined && foundIndex > -1) {
+        return prevSelectedIds?.filter((f) => f !== id);
+      }
+      return [...(prevSelectedIds || []), id];
+    });
+  };
   const columns = useMemo(
-    () => AuctionColumns(renderActions, setShowMultiItemView),
-    [renderActions]
+    () =>
+      AuctionColumns(
+        renderActions,
+        setShowMultiItemView,
+        handleChangeCheckBox,
+        selectedIds
+      ),
+    [renderActions, selectedIds]
   );
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, open: false });
   };
   const handleDeleteClick = async () => {
     try {
-      if (!deleteModal?.data?.id) return null;
-      const deletePayload = {
-        auctionIds: [deleteModal?.data?.id],
-      };
+      let deletePayload;
+      if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return null;
+      if (deleteModal?.data?.id) {
+        deletePayload = {
+          auctionIds: [deleteModal?.data?.id],
+        };
+      }
+      if (deleteModal?.data?.ids) {
+        deletePayload = {
+          auctionIds: deleteModal?.data?.ids,
+        };
+      }
       await deleteAuction({
         payload: deletePayload,
         onSuccess: (data: { message: string }) => {
@@ -234,6 +259,10 @@ export default function AuctionManagementList() {
     setSortKey(selectedSortKey);
     setSortDirection(selectedOrder);
   };
+
+  const handleDeleteAll = () => {
+    setDeleteModal({ open: true, data: { ids: selectedIds } });
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -284,7 +313,9 @@ export default function AuctionManagementList() {
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
         statusOptions={AuctionStatus}
+        handleDeleteAll={handleDeleteAll}
         showDateFilter
+        selectedIds={selectedIds}
         brandOptions={categoryOptions}
         rangeSilderTitle="Item Price"
         secondaryRangeSilderTitle="Reserve Price"

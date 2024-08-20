@@ -1,5 +1,5 @@
-import CustomDropDown from '../CustomDropDown';
-import { Delete, actions, edit, view } from '../../../assets';
+import { Delete, edit, view } from '../../../assets';
+import CustomFilterIcons from '../CustomFilterIcons';
 
 interface ActionsDropdownProps<T> {
   row: T;
@@ -35,7 +35,7 @@ function ActionsDropdown<T>({
     },
   ];
 
-  return <CustomDropDown toggleImage={actions} submenu={submenu} />;
+  return <CustomFilterIcons submenu={submenu} />;
 }
 
 export default ActionsDropdown;

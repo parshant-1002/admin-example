@@ -1,11 +1,22 @@
-
-
 .copy_icon {
     border: 0;
     padding: 0;
     margin-left: 5px;
     background-color: transparent;
+
     i {
         color: #fff;
     }
+}
+
+.tool-tip-content {
+    max-width: 500px; // Adjust the width as needed
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    padding: 10px;
+}
+
+.tool-tip {
+    z-index: 1111111111111111111111 !important;
 }

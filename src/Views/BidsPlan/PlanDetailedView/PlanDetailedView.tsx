@@ -17,7 +17,11 @@ import { useGetReferralPackHistoryQuery } from '../../../Services/Api/module/ref
 import { useGetBidPlansQuery } from '../../../Services/Api/module/plans';
 
 // Utilities
-import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
+import {
+  convertToLocale,
+  formatDate,
+  removeEmptyValues,
+} from '../../../Shared/utils/functions';
 import { DetailsCard } from '../../../Shared/components';
 
 // Interfaces
@@ -128,8 +132,11 @@ function PlanDetailedView() {
                 : '',
             },
             {
-              label: STRINGS.DEAL_PRICE,
-              value: referralPackDetails?.data?.[0]?.price,
+              label: STRINGS.DEAL_PRICE_LABEL,
+              value: `${convertToLocale(
+                referralPackDetails?.data?.[0]?.price,
+                true
+              )}`,
             },
             {
               label: STRINGS.BIDS_GIVEN,

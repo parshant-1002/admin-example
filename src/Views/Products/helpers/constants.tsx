@@ -45,9 +45,9 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
   },
   price: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Price',
+    label: 'Price (SEK)',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'Price (SEK)',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -241,9 +241,9 @@ export const productsColumns = (
     render: (_, val) => `${val === 0 ? 'SOLD OUT' : 'Available'}`,
   },
   {
-    title: 'Price',
+    title: 'Price (SEK)',
     fieldName: 'price',
-    render: (_, val) => `$${convertToLocale(val)}`,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   //   {
   //     title: 'Bid Start Date',
