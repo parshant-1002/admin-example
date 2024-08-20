@@ -66,9 +66,15 @@ function RenderField({
             readOnly={field.readOnly || false}
             placeholder={field.placeholder}
             accept={field.accept || ''}
+            config={field.config}
             onChange={(e: SyntheticEvent) =>
               handleInputChange(id, (e.target as HTMLInputElement).value)
             }
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => { 
+              if (field?.blockInvalidChars) {
+                field?.blockInvalidChars(e);
+              }
+            }}
             maxLength={maxLength || ''}
             minLength={minLength || ''}
             minDate={minDate || ''}
@@ -77,6 +83,7 @@ function RenderField({
             {...handleRegister(id)}
             {...(field.min ? { min: field.min } : {})}
             {...(field.max ? { max: field.max } : {})}
+            
           />
         );
       case INPUT_TYPES.FILE:

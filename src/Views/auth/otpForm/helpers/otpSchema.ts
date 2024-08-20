@@ -1,4 +1,5 @@
-import { INPUT_TYPES, VALIDATION_REGEX } from '../../../../Shared/constants';
+
+import { INPUT_TYPES, VALIDATION_REGEX } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 import OTP_CODE_TYPE from './constants';
 

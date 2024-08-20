@@ -6,9 +6,9 @@ import { ErrorResponse } from '../../../Models/Apis/Error';
 import { useLoginMutation } from '../../../Services/Api/module/auth';
 import CustomForm from '../../../Shared/components/form/CustomForm';
 import { ROUTES } from '../../../Shared/constants';
-import LOGIN_FORM_SCHEMA from './helpers/loginSchema';
 import './style.scss';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
+import LOGIN_FORM_SCHEMA from './helpers/loginSchema';
 
 interface LoginResponse {
   message: string;

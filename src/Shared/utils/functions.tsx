@@ -70,6 +70,8 @@ const isErrors = (
 ): boolean => {
   let errors = false;
   roadMap.forEach((item, index) => {
+    console.log("errorserrorserrorserrors", errors);
+    
     const currentErrors = validateField(item);
     if (Object.keys(currentErrors).length) {
       errors = true;

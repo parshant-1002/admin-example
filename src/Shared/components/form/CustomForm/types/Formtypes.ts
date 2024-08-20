@@ -44,4 +44,12 @@ export interface FormDataProps {
     value: string;
   }[];
   isMulti?: boolean;
+  config?: {
+    type: string;
+    min?: number;
+  };
+  blockInvalidChars?: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    chars?: string[]
+  ) => void;
 }
