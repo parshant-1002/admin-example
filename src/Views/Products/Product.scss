@@ -75,5 +75,11 @@
 }
 
 .text-primary {
-    color: #007bff;
+    color: $primary-color;
+}
+.cat-count{
+    background-color: $grey-dark;
+    color: $white-color;
+    font-size: 14px;
+    padding-block: 2px !important;
 }

@@ -161,7 +161,7 @@ export const productsColumns = (
           {categories?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
             <button
               type="button"
-              className="btn border py-0 px-1"
+              className="btn border py-0 px-1 cat-count"
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
@@ -169,9 +169,7 @@ export const productsColumns = (
                 })
               }
             >
-              {`. . .+${
-                categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-              }`}
+              {`+${categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </>
