@@ -123,7 +123,7 @@ export const PlansHistoryColumns: ColumnData[] = [
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="btn btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
@@ -299,7 +299,7 @@ export const ProductsHistoryColumns = ({
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="btn btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />

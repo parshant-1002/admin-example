@@ -244,7 +244,7 @@ export const PlansColumns = ({
     title: STRINGS.STATUS,
     fieldName: PLAN_FORM_FIELDS.STATUS,
     render: (row, isEnabled) => (
-      <div className="form-check form-switch">
+      <div className="form-check form-switch d-flex d-lg-block justify-content-end">
         <input
           className="form-check-input"
           type="checkbox"
