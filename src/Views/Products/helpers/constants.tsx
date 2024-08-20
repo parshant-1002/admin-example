@@ -29,7 +29,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     type: INPUT_TYPES.TEXT,
     label: 'Name',
     className: 'col-md-12',
-    placeholder: 'Title',
+    placeholder: 'Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },

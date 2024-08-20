@@ -25,6 +25,7 @@ import {
   removeEmptyValues,
 } from '../../../Shared/utils/functions';
 import { DetailsCard } from '../../../Shared/components';
+import TruncatedText from '../../../Shared/components/TruncateText/TruncateText';
 
 // Interfaces
 interface QueryParams {
@@ -115,11 +116,15 @@ function Invoices() {
           details={[
             {
               label: STRINGS.PLAN_ID,
-              value: referralPackDetails?.data?.[0]?._id,
+              value: (
+                <TruncatedText text={referralPackDetails?.data?.[0]?.id} />
+              ),
             },
             {
               label: STRINGS.NAME,
-              value: referralPackDetails?.data?.[0]?.name,
+              value: (
+                <TruncatedText text={referralPackDetails?.data?.[0]?.name} />
+              ),
             },
             {
               label: STRINGS.CREATED_AT,
