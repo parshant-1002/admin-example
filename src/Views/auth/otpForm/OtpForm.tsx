@@ -128,7 +128,7 @@ function OtpForm() {
           {!responseData?.showRecoveryCode ? (
             <>
               <div className="text-center title_group row justify-content-center pb-3">
-                <span className="text-white fw-medium pb-2">Confirmation</span>
+                <span className="text-white fw-medium cnfTitle">Confirmation</span>
                 {state?.qrCode ? <QrCode qrCode={state?.qrCode} /> : null}
               </div>
               <div className="form-content">

@@ -72,12 +72,12 @@
   }
 
   .login_secn{
-    &:has(.recoveryCode-content){
-      padding-inline:0 !important;
-    }
     &:has(.qrSec){
       .form-content{
         padding-top: 0;
+      }
+      .cnfTitle{
+        padding-bottom:8px;
       }
     }
   }
