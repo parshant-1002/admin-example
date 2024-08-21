@@ -197,6 +197,7 @@ export default function ProductHistoryList({
       purchasedPriceMax: filter?.priceRange?.[1],
     };
     setFilters(initalFilterPayload);
+    setCurrentPage(0);
   };
   return (
     <>

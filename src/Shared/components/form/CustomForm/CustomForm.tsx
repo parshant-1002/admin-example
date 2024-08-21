@@ -90,17 +90,15 @@ function CustomForm({
     getValues,
     control,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm({ defaultValues: { ...defaultValues } });
-  const handleInputChange = (name: string, value: unknown) => {    
+  const handleInputChange = (name: string, value: unknown) => {
     setValue(name, value);
     // onChangeValues(name, value);
   };
 
   const watchedFields = watch();
-  const isFormValid = Object.keys(formData).some(
-    (key) => !!watchedFields[key]
-  );
+  const isFormValid = Object.keys(formData).some((key) => !!watchedFields[key]);
 
   useEffect(() => {
     if (Object.keys(defaultValues).length && isResetForm) {

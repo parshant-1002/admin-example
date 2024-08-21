@@ -127,6 +127,7 @@ function ProductsHistory() {
       purchasedPriceMin: filterState?.priceRange?.[0],
       purchasedPriceMax: filterState?.priceRange?.[1],
     });
+    setCurrentPage(0);
   };
   const handleCloseInvoice = () => {
     setInvoiceModal({ data: null, show: false });

@@ -260,6 +260,7 @@ export default function UsersList() {
       toDate: filterState?.endDate,
       blockedStatus: filterState?.selectedStatus?.value,
     });
+    setCurrentPage(0);
   };
   return (
     <>

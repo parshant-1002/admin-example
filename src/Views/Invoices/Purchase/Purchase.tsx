@@ -104,6 +104,7 @@ function PurchaseInvoices() {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
     });
+    setCurrentPage(0);
   };
   const handleCloseInvoice = () => {
     setInvoiceModal({ data: null, show: false });

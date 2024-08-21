@@ -229,6 +229,7 @@ export default function CategoriesList() {
       toDate: filterState?.endDate,
       blockedStatus: filterState?.selectedStatus?.value,
     });
+    setCurrentPage(0);
   };
   return (
     <div>
@@ -281,6 +282,7 @@ export default function CategoriesList() {
         filterToggleImage={Filter}
         showDateFilter
         handleApply={handleApplyFilters}
+        handleClearAll={() => setSelectedIds([])}
       />
 
       <CustomTableView

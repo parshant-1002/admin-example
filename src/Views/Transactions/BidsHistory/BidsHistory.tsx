@@ -101,6 +101,7 @@ function BidsHistory() {
       toDate: filterState?.endDate,
       status: filterState?.selectedStatus?.value,
     });
+    setCurrentPage(0);
   };
   return (
     <div>

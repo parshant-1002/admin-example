@@ -51,21 +51,20 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     placeholder: 'Price (SEK)',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
-      min:{
+      min: {
         value: 1,
-        message: "Min value should be 1",
-      }
-
+        message: 'Min value should be 1',
+      },
     },
-    min:1,
-    config:{min: 1, type: "number" },
+    min: 1,
+    config: { min: 1, type: 'number' },
     blockInvalidChars: blockInvalidChar,
   },
   category: {
     type: INPUT_TYPES.SELECT,
     label: 'Categories',
     className: 'col-md-12',
-    placeholder: 'Categories',
+    placeholder: 'Select a category',
     isMulti: true,
     options: cateroryOptions,
     schema: {
@@ -79,14 +78,14 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     placeholder: 'Item Count',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
-      min:{
+      min: {
         value: 1,
-        message: "Min value should be 1",
-      }
+        message: 'Min value should be 1',
+      },
     },
-    min:1,
-    config:{min: 1, type: "number" },
-    blockInvalidChars: blockInvalidChar
+    min: 1,
+    config: { min: 1, type: 'number' },
+    blockInvalidChars: blockInvalidChar,
   },
   images: {
     type: INPUT_TYPES.FILE,

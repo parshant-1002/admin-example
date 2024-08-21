@@ -126,6 +126,7 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
       currentBidPriceMin: filterState?.priceRange?.[0],
       currentBidPriceMax: filterState?.priceRange?.[1],
     });
+    setCurrentPage(0);
   };
   return (
     <div className="mt-5">

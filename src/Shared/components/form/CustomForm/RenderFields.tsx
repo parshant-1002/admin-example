@@ -70,7 +70,7 @@ function RenderField({
             onChange={(e: SyntheticEvent) =>
               handleInputChange(id, (e.target as HTMLInputElement).value)
             }
-            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => { 
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
               if (field?.blockInvalidChars) {
                 field?.blockInvalidChars(e);
               }
@@ -83,7 +83,6 @@ function RenderField({
             {...handleRegister(id)}
             {...(field.min ? { min: field.min } : {})}
             {...(field.max ? { max: field.max } : {})}
-            
           />
         );
       case INPUT_TYPES.FILE:
@@ -117,6 +116,7 @@ function RenderField({
                 ref={ref}
                 name={name}
                 id={id}
+                placeholder={field.placeholder}
                 options={field.options}
                 {...handleRegister(id)}
                 onChange={(selectedValue: unknown) => {

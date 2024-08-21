@@ -294,6 +294,7 @@ function Plans() {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
     });
+    setCurrentPage(0);
   };
   return (
     <div>

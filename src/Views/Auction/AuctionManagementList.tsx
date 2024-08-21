@@ -242,6 +242,7 @@ export default function AuctionManagementList() {
       categoryId: filterState?.selectedBrand?.value,
       productPurchaseStatus: filterState?.selectedSecondaryOptions?.value,
     });
+    setCurrentPage(0);
   };
 
   const categoryOptions = useMemo(
@@ -325,6 +326,7 @@ export default function AuctionManagementList() {
         secondaryPriceRange={PRICE_RANGE}
         filterToggleImage={Filter}
         secondarySelectOptions={PurchaseStatus}
+        handleClearAll={() => setSelectedIds([])}
       />
 
       <CustomTableView

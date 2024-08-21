@@ -99,6 +99,7 @@ function ReferralHistory() {
       fromDate: filterState?.startDate,
       toDate: filterState?.endDate,
     });
+    setCurrentPage(0);
   };
   return (
     <div>
