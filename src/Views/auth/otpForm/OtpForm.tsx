@@ -13,9 +13,9 @@ import {
   updateAuthTokenRedux,
   updateUserDataRedux,
 } from '../../../Store/Common';
-import { Copy } from '../../../assets';
+import { Copy, auction } from '../../../assets';
 import './OtpForm.scss';
-import OTP_FORM_SCHEMA from './helpers/otpSchema';
+import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import OTP_CODE_TYPE from './helpers/constants';
 import QrCode from '../qrCode/QrCode';
 
@@ -114,15 +114,15 @@ function OtpForm() {
   };
 
   return (
-    <div className="front-screen">
-      <div className="front-form m-auto d-flex align-items-center justify-content-center">
-        <div className="w-100 bg-white p-4 rounded border">
+    <div className="d-flex flex-column align-items-center justify-content-center w-100 form_front min-vh-100">
+      <div className="form_card text-start d-flex row ">
+        <div className="col-md-8 login_secn">
           {!responseData?.showRecoveryCode ? (
             <>
               <div className="text-center title_group row justify-content-center pb-3">
-                <h2 className="h3">Confirmation</h2>
+                <h2 className="h3 text-white">Confirmation</h2>
                 {state?.qrCode ? <QrCode qrCode={state?.qrCode} /> : null}
-                <p className="p col-10">
+                <p className="p col-10 text-secondary">
                   Enter Confirmation code sent on your authenticator app.
                 </p>
               </div>
@@ -182,6 +182,14 @@ function OtpForm() {
               </div>
             </>
           )}
+        </div>
+        <div className="logo_login col-md-4 d-flex align-items-center justify-content-center">
+          <img
+            src={auction}
+            alt="Drag Racing"
+            width="150"
+            className="img-fluid"
+          />
         </div>
       </div>
     </div>
