@@ -81,7 +81,7 @@ function PriceRangeSlider({
         onClick={toggleTooltip}
         data-tooltip-id={open ? `my-tooltip-${rangeSilderTitle}` : ''}
       >
-        {rangeSilderTitle} (${value?.[0]} - ${value?.[1]}){' '}
+        {rangeSilderTitle} ({value?.[0]} - {value?.[1]}) SEK{' '}
         <span className={!open ? 'arrow-down' : 'arrow-right'}>
           <img src={downArrow} alt="" width={15} />
         </span>{' '}
@@ -96,8 +96,8 @@ function PriceRangeSlider({
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">
-            <h6>{rangeSilderTitle} Range Slider</h6>${value?.[0]} - $
-            {value?.[1]}
+            <h6>{rangeSilderTitle} Range Selecter</h6>({value?.[0]} - 
+            {value?.[1]}) SEK
           </div>
           {isFiltersOn ? (
             <div>
