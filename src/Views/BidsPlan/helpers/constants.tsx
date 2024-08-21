@@ -1,13 +1,10 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { Dispatch, SetStateAction } from 'react';
-import { Delete, edit, InvoiceIcon, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import TruncateText from '../../../Shared/components/TruncateText';
 import {
   BID_PLAN_TYPES,
-  IMAGE_FILE_TYPES,
   INPUT_TYPES,
   REFERRAL_STATUS,
   STRINGS,
@@ -18,6 +15,7 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
+import { Delete, InvoiceIcon, edit, view } from '../../../assets';
 import { ViewMultiData } from '../../Products/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
@@ -63,13 +61,13 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
       },
     },
   },
-  [PLAN_FORM_FIELDS.IMAGE_URL]: {
-    type: INPUT_TYPES.FILE,
-    label: 'Images',
-    accept: IMAGE_FILE_TYPES,
-    className: 'col-md-12',
-    placeholder: 'Images',
-  },
+  // [PLAN_FORM_FIELDS.IMAGE_URL]: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Images',
+  //   accept: IMAGE_FILE_TYPES,
+  //   className: 'col-md-12',
+  //   placeholder: 'Images',
+  // },
   [PLAN_FORM_FIELDS.BIDS]: {
     type: INPUT_TYPES.NUMBER,
     label: STRINGS.BIDS_CREDITED,
@@ -183,7 +181,7 @@ export const PlansColumns = ({
   handleEdit,
   handleStatusChange,
   handleSelectMultiple = () => {},
-  setShowMultiItemView = () => {},
+  // setShowMultiItemView = () => {},
   selectedIds = [],
 }: CreateReferralProps): ColumnData[] => [
   {
@@ -224,30 +222,30 @@ export const PlansColumns = ({
     fieldName: PLAN_FORM_FIELDS.PRICE,
     render: (_, val) => `${convertToLocale(val)}`,
   },
-  {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-    render: (_, imageURL: string | number) => (
-      <div className="d-inline-flex align-items-center position-relative uploaded_file pointer">
-        <figure
-          key={String(imageURL)}
-          onClick={() =>
-            setShowMultiItemView({
-              show: true,
-              data: {
-                title: 'Product Images',
-                size: 'lg',
-                imgData: [{ url: String(imageURL) }],
-              },
-            })
-          }
-        >
-          <FileRenderer fileURL={String(imageURL)} />
-        </figure>
-      </div>
-    ),
-  },
+  // {
+  //   title: STRINGS.IMAGE,
+  //   fieldName: 'imageURL',
+  //   sortable: false,
+  //   render: (_, imageURL: string | number) => (
+  //     <div className="d-inline-flex align-items-center position-relative uploaded_file pointer">
+  //       <figure
+  //         key={String(imageURL)}
+  //         onClick={() =>
+  //           setShowMultiItemView({
+  //             show: true,
+  //             data: {
+  //               title: 'Product Images',
+  //               size: 'lg',
+  //               imgData: [{ url: String(imageURL) }],
+  //             },
+  //           })
+  //         }
+  //       >
+  //         <FileRenderer fileURL={String(imageURL)} />
+  //       </figure>
+  //     </div>
+  //   ),
+  // },
   {
     title: STRINGS.CREATED_AT,
     fieldName: 'createdAt',
