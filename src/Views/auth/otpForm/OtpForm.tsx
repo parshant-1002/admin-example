@@ -169,18 +169,6 @@ function OtpForm() {
                       className="recoveryCodeItem d-flex justify-content-center align-items-center"
                     >
                       {val}
-                      <CopyToClipboard
-                        text={responseData?.recoveryCodes?.join('\n')}
-                        onCopy={handleCopy}
-                      >
-                        <button
-                          type="button"
-                          id="recovery_code_copy"
-                          className="btn copyButton"
-                        >
-                          <img src={Copy} alt="copy" width={20} />
-                        </button>
-                      </CopyToClipboard>
                     </li>
                   ))}
                 </ul>
@@ -190,6 +178,19 @@ function OtpForm() {
               </div>
               <div className="form-content">
                 <div className="d-flex w-100 justify-content-center btn_groups">
+                  <CopyToClipboard
+                    text={responseData?.recoveryCodes?.join('\n')}
+                    onCopy={handleCopy}
+                  >
+                    <button
+                      type="button"
+                      id="recovery_code_copy"
+                      className="btn copyButton ms-0 mb-2"
+                      >
+                        <span>Copy Recovery Code</span>
+                      <img src={Copy} alt="copy" width={20} />
+                    </button>
+                  </CopyToClipboard>
                   <Button
                     className="w-100"
                     disabled={!recoveryCopied}
