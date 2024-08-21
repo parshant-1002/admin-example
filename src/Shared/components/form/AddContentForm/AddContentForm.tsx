@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { RoadMapItem } from '../../../../Views/ContentManagement/Faqs/helpers/transform';
 import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../constants';
 import { validateField } from '../../../utils/functions';
 import FileInput from '../FileUpload/FileUpload';
@@ -11,11 +12,8 @@ import TextField from '../TextInput/TextInput';
 import './AddContentForm.scss';
 import FieldSetWrapper from './FieldSetWrpper';
 
-interface RoadMapItem {
-  [key: string]: string | { [key: string]: string };
-  errors: { [key: string]: string };
-}
 
+// The props interface is now using FaqMapItem instead of RoadMapItem
 interface AddContentFormProps {
   roadMap: RoadMapItem[];
   setRoadMap: React.Dispatch<React.SetStateAction<RoadMapItem[]>>;
@@ -35,7 +33,7 @@ function AddContentForm({
   initialState,
   title,
 }: AddContentFormProps) {
-  const addLevel = () => {
+  const addLevel = () => {    
     const currentErrors = validateField(roadMap[roadMap.length - 1]);
     if (Object.keys(currentErrors).length === 0) {
       setRoadMap([...roadMap, initialState]);
@@ -53,7 +51,7 @@ function AddContentForm({
   };
 
   const updateField = (index: number, field: string, value: unknown) => {
-    roadMap.map((item, i) => {
+    const updatedRoadMap = roadMap.map((item, i) => {
       if (i === index) {
         const newErrors = { ...item.errors };
         delete newErrors[field];
@@ -66,14 +64,15 @@ function AddContentForm({
       }
       return item;
     });
-    // console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
-    // setRoadMap(updatedRoadMap);
-  };
+
+    console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
+    setRoadMap(updatedRoadMap);
+};
 
   return (
     <FieldSetWrapper title={title}>
       {roadMap.map((item, index) => (
-        <div className="common_title_grp" key={`${item}-`}>
+        <div className="common_title_grp" key={`${item.id}-${index}`}>
           {Object.keys(types).map((typeKey) => {
             const inputType = types[typeKey];
             const label = labels[typeKey];

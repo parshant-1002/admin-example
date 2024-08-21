@@ -198,6 +198,8 @@ export const CONTENT_ENUMS = {
   PRIVACY_POLICY_PAGE: 'privacyPolicy',
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
+  FAQS:"faq",
+  LANDING_PAGE:"landingPage"
 };
 
 export const BUTTON_LABELS = {
@@ -311,6 +313,7 @@ const ROUTES = {
   WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
   HEADERS_CONTENT: '/content-management/headers',
+  FQA_CONTENT: '/content-management/faqs',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -465,6 +468,10 @@ const ROUTES_CONFIG = {
   HEADERS_CONTENT: {
     path: ROUTES.HEADERS_CONTENT,
     title: 'Headers Content',
+  },
+  FAQS_CONTENT: {
+    path: ROUTES.FQA_CONTENT,
+    title: 'Faqs Content',
   },
 };
 

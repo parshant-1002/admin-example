@@ -16,6 +16,10 @@ const SIDEBAR_NAV = [
         label: 'Headers',
         route: ROUTES.HEADERS_CONTENT,
       },
+      {
+        label: 'FAQ',
+        route: ROUTES.FQA_CONTENT,
+      },
     ],
   },
   {
