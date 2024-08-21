@@ -18,7 +18,7 @@ import {
   ViewMultiData,
 } from './model';
 
-const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
+const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
   { value: 2, label: 'Active' },
@@ -36,6 +36,14 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     placeholder: 'Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
   description: {
@@ -45,6 +53,14 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     placeholder: 'Description',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 100,
+        message: FORM_VALIDATION_MESSAGES(100).MAX_LENGTH,
+      },
     },
   },
   price: {
@@ -56,11 +72,9 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
       required: FORM_VALIDATION_MESSAGES('Price').REQUIRED,
       min: {
         value: 1,
-        message: 'Min value should be 1',
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
-    min: 1,
-    config: { min: 1, type: 'number' },
     blockInvalidChars: blockInvalidChar,
   },
   category: {
@@ -83,10 +97,9 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
       required: FORM_VALIDATION_MESSAGES('Item Count').REQUIRED,
       min: {
         value: 1,
-        message: 'Min value should be 1',
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
-    min: 1,
     config: { min: 1, type: 'number' },
     blockInvalidChars: blockInvalidChar,
   },
@@ -155,10 +168,53 @@ export const productsColumns = (
   },
   {
     title: 'Name',
-    fieldName: 'title',
-    isTruncated: true,
+    fieldName: 'images',
     sortable: true,
     sortType: 'title',
+    render: (row, val) => {
+      const imgData = val as unknown as {
+        _id: string;
+        url: string;
+        title: string;
+      }[];
+      return (
+        <div className="d-flex align-items-center gap-2">
+          <div
+            className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+            onClick={() =>
+              setShowMultiItemView({
+                show: true,
+                data: { title: 'Product Images', size: 'lg', imgData },
+              })
+            }
+          >
+            {imgData?.map((img, index) =>
+              index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+                <figure key={img.url}>
+                  <FileRenderer fileURL={img.url} />
+                  {/* <span>{img.title}</span> */}
+                </figure>
+              ) : null
+            )}
+            {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+              <button
+                type="button"
+                className="count_btn"
+                onClick={() =>
+                  setShowMultiItemView({
+                    show: true,
+                    data: { title: 'Product Images', size: 'lg', imgData },
+                  })
+                }
+              >
+                {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
+              </button>
+            ) : null}
+          </div>
+          <div>{row.title}</div>
+        </div>
+      );
+    },
   },
   {
     title: 'Categories',
@@ -208,51 +264,51 @@ export const productsColumns = (
     sortType: 'stock',
     render: (_, val) => `${convertToLocale(val)}`,
   },
-  {
-    title: 'Images',
-    fieldName: 'images',
-    render: (_, val) => {
-      const imgData = val as unknown as {
-        _id: string;
-        url: string;
-        title: string;
-      }[];
-      return (
-        <div
-          className="d-inline-flex align-items-center position-relative uploaded_file pointer"
-          onClick={() =>
-            setShowMultiItemView({
-              show: true,
-              data: { title: 'Product Images', size: 'lg', imgData },
-            })
-          }
-        >
-          {imgData?.map((img, index) =>
-            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <figure key={img.url}>
-                <FileRenderer fileURL={img.url} />
-                {/* <span>{img.title}</span> */}
-              </figure>
-            ) : null
-          )}
-          {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-            <button
-              type="button"
-              className="count_btn"
-              onClick={() =>
-                setShowMultiItemView({
-                  show: true,
-                  data: { title: 'Product Images', size: 'lg', imgData },
-                })
-              }
-            >
-              {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
-            </button>
-          ) : null}
-        </div>
-      );
-    },
-  },
+  // {
+  //   title: 'Images',
+  //   fieldName: 'images',
+  //   render: (_, val) => {
+  //     const imgData = val as unknown as {
+  //       _id: string;
+  //       url: string;
+  //       title: string;
+  //     }[];
+  //     return (
+  //       <div
+  //         className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+  //         onClick={() =>
+  //           setShowMultiItemView({
+  //             show: true,
+  //             data: { title: 'Product Images', size: 'lg', imgData },
+  //           })
+  //         }
+  //       >
+  //         {imgData?.map((img, index) =>
+  //           index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+  //             <figure key={img.url}>
+  //               <FileRenderer fileURL={img.url} />
+  //               {/* <span>{img.title}</span> */}
+  //             </figure>
+  //           ) : null
+  //         )}
+  //         {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+  //           <button
+  //             type="button"
+  //             className="count_btn"
+  //             onClick={() =>
+  //               setShowMultiItemView({
+  //                 show: true,
+  //                 data: { title: 'Product Images', size: 'lg', imgData },
+  //               })
+  //             }
+  //           >
+  //             {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
+  //           </button>
+  //         ) : null}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     title: 'Status',
     fieldName: 'stock',

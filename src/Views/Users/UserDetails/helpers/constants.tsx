@@ -489,6 +489,10 @@ const ADD_BIDS_FORM_SCHEMA = {
     placeholder: 'Add Bids',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Add Bids').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
 };

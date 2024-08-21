@@ -66,7 +66,7 @@ export interface AuctionPayload {
   productId: SelectOption;
   reservePrice: number;
   bidStartDate: string;
-  turnTimer: number;
+  bidDuration: number;
   reserveWaitingEndDate: string;
   prizeClaimDays: number;
   preAuctionUsersCount: number;
@@ -88,6 +88,14 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Auction Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
   bidStartDate: {
@@ -148,6 +156,10 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Product Price (SEK)',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Product Price').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   reservePrice: {
@@ -158,6 +170,10 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Reserve Price').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   description: {
@@ -168,6 +184,14 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 100,
+        message: FORM_VALIDATION_MESSAGES(100).MAX_LENGTH,
+      },
     },
   },
   prizeClaimDays: {
@@ -178,9 +202,13 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Prize Claim Duration').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
-  turnTimer: {
+  bidDuration: {
     type: INPUT_TYPES.NUMBER,
     label: 'Bids Duration (Sec)',
     className: 'col-md-12',
@@ -188,6 +216,10 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Bids Duration').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   images: {
@@ -208,6 +240,10 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Min Auction Users').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
 });

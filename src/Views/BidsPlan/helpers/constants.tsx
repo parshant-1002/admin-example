@@ -40,6 +40,14 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     placeholder: STRINGS.PLAN_NAME,
     schema: {
       required: FORM_VALIDATION_MESSAGES(STRINGS.PLAN_NAME).REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
   [PLAN_FORM_FIELDS.PRICE]: {
@@ -50,8 +58,8 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     schema: {
       required: FORM_VALIDATION_MESSAGES(STRINGS.DEAL_PRICE).REQUIRED,
       min: {
-        value: 0,
-        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
   },
@@ -70,8 +78,8 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     schema: {
       required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CREDITED).REQUIRED,
       min: {
-        value: 0,
-        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
   },
@@ -108,7 +116,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
               .REQUIRED,
             min: {
               value: 0,
-              message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
             },
             max: {
               value: 100,
@@ -125,6 +133,10 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           schema: {
             required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE)
               .REQUIRED,
+            min: {
+              value: 1,
+              message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+            },
           },
         },
         [PLAN_FORM_FIELDS.END_DATE]: {
