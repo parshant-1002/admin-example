@@ -81,6 +81,10 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
     },
   },
   [PLAN_FORM_FIELDS.HOT_DEAL]: {

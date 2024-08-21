@@ -148,6 +148,7 @@ function StatsFilters({
   const handleChangeSecondaryPriceRange = (
     selctedPriceRange: [number, number]
   ) => {
+    setIsFiltersOn(true);
     setFilterState((prev: FiltersState) => ({
       ...prev,
       secondaryPriceRange: [selctedPriceRange[0], selctedPriceRange[1]],

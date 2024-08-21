@@ -1,20 +1,17 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
+import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   DATE_FORMATS,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { AuctionResponsePayload } from './model';
+import { convertToLocale } from '../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../Products/helpers/model';
 import { SelectOption } from '../../Users/helpers/model';
-import {
-  AuctionStatus,
-  PurchaseStatus,
-} from '../AuctionDetails/Helpers/constants';
-import { convertToLocale } from '../../../Shared/utils/functions';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import { AuctionStatus } from '../AuctionDetails/Helpers/constants';
+import { AuctionResponsePayload } from './model';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
@@ -189,8 +186,8 @@ export const AUCTION_ADD_FORM_SCHEMA = (
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
       maxLength: {
-        value: 100,
-        message: FORM_VALIDATION_MESSAGES(100).MAX_LENGTH,
+        value: 500,
+        message: FORM_VALIDATION_MESSAGES(500).MAX_LENGTH,
       },
     },
   },
@@ -243,6 +240,10 @@ export const AUCTION_ADD_FORM_SCHEMA = (
       min: {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
       },
     },
   },
@@ -406,25 +407,31 @@ export const AuctionColumns = (
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: 'Winner',
-    fieldName: 'winnerName',
-    isTruncated: true,
+    title: 'Users Joined',
+    fieldName: 'currentlySubscribedUser',
     sortable: true,
-    sortType: 'winnerName',
+    sortType: 'currentlySubscribedUser',
   },
-  {
-    title: 'Prize Status',
-    fieldName: 'productPurchaseStatus',
-    sortable: true,
-    sortType: 'productPurchaseStatus',
-    render: (_, val) => {
-      return (
-        PurchaseStatus.find((item) => {
-          return item.value === val;
-        })?.label.toString() || '-.-'
-      );
-    },
-  },
+  // {
+  //   title: 'Winner',
+  //   fieldName: 'winnerName',
+  //   isTruncated: true,
+  //   sortable: true,
+  //   sortType: 'winnerName',
+  // },
+  // {
+  //   title: 'Prize Status',
+  //   fieldName: 'productPurchaseStatus',
+  //   sortable: true,
+  //   sortType: 'productPurchaseStatus',
+  //   render: (_, val) => {
+  //     return (
+  //       PurchaseStatus.find((item) => {
+  //         return item.value === val;
+  //       })?.label.toString() || '-.-'
+  //     );
+  //   },
+  // },
   {
     title: 'Status',
     fieldName: 'status',

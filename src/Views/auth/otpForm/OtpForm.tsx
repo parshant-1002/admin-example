@@ -186,9 +186,9 @@ function OtpForm() {
                       type="button"
                       id="recovery_code_copy"
                       className="btn copyButton ms-0 mb-2"
-                      >
-                        <span>Copy Recovery Code</span>
-                      <img src={Copy} alt="copy" width={20} />
+                    >
+                      <span>Copy recovery code</span>
+                      <img src={Copy} alt="copy" width={20} />  
                     </button>
                   </CopyToClipboard>
                   <Button
@@ -198,7 +198,7 @@ function OtpForm() {
                       handleClickSubmitCopiedCode(responseData?.data)
                     }
                   >
-                    I have Saved The Code
+                    I have saved the code
                   </Button>
                 </div>
               </div>

@@ -512,7 +512,7 @@ const BID_CREDIT_TYPES = {
 
 const PRICE_RANGE = {
   min: 0,
-  max: 10000,
+  max: 10000000,
 };
 
 const TABLE_PAGE_LIMIT = 10;

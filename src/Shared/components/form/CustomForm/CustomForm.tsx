@@ -4,7 +4,7 @@ import Button from '../Button';
 import type { FormDataProps, FormSchema } from './types/Formtypes';
 // import { ALIGNMENT } from '../../../../Shared/Constants';
 import RenderField from './RenderFields';
-import { INPUT_TYPES } from '../../../constants';
+import { INPUT_TYPES, blockInvalidChar } from '../../../constants';
 import FORM_VALIDATION_MESSAGES from '../../../constants/validationMessages';
 
 function AddHorizontalTitle({
@@ -143,7 +143,13 @@ function CustomForm({
       };
       return register(key, schema as unknown as FormDataProps);
     }
-
+    if (formData[key]?.type === INPUT_TYPES.NUMBER) {
+      const schema = {
+        ...(formData[key].schema || {}),
+        blockInvalidChars: blockInvalidChar,
+      };
+      return register(key, schema as unknown as FormDataProps);
+    }
     return register(key, formData[key].schema as unknown as FormDataProps);
   };
   const getAlignmentForFormActionBtn = () => {
@@ -173,6 +179,10 @@ function CustomForm({
       // onSubmit={handleSubmit(onSubmit)}
     >
       {Object.keys(formData).map((key) => {
+        let field = { ...formData[key] };
+        if (formData[key].type === INPUT_TYPES.NUMBER) {
+          field = { ...formData[key], blockInvalidChars: blockInvalidChar };
+        }
         return (
           <Fragment key={key}>
             <AddHorizontalTitle
@@ -181,7 +191,7 @@ function CustomForm({
             />
             <RenderField
               id={key}
-              field={formData[key]}
+              field={field}
               handleRegister={
                 handleRegister as unknown as () => Ref<HTMLInputElement>
               }

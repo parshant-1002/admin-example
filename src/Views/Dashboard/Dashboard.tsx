@@ -1,7 +1,17 @@
 // src/components/Dashboard.tsx
 
 import { Link } from 'react-router-dom';
-import { AuctionIcon, Lossicon, NewUserIcon, profitIcon, RedirectionIcon, ReserveIcon, SupportIcon, TotalBidIcon, UserIcon } from '../../assets';
+import {
+  AuctionIcon,
+  Lossicon,
+  NewUserIcon,
+  profitIcon,
+  RedirectionIcon,
+  ReserveIcon,
+  SupportIcon,
+  TotalBidIcon,
+  UserIcon,
+} from '../../assets';
 import Breadcrumbs from '../../Shared/components/layouts/components/breadcrumb/Breadcrumb';
 import { BidsHistory } from '../Transactions';
 import './style.scss';
@@ -25,7 +35,7 @@ function Dashboard() {
                 </em>
                 55%
               </span>
-              <Link className="redirection" to={''}>
+              <Link className="redirection" to="">
                 <img src={RedirectionIcon} alt="" width="40" height={40} />
               </Link>
             </div>
@@ -45,7 +55,7 @@ function Dashboard() {
                 </em>
                 55%
               </span>
-              <Link className="redirection" to={''}>
+              <Link className="redirection" to="">
                 <img src={RedirectionIcon} alt="" width="40" height={40} />
               </Link>
             </div>
@@ -65,7 +75,7 @@ function Dashboard() {
                 </em>
                 55%
               </span>
-              <Link className="redirection" to={''}>
+              <Link className="redirection" to="">
                 <img src={RedirectionIcon} alt="" width="40" height={40} />
               </Link>
             </div>
@@ -85,7 +95,7 @@ function Dashboard() {
                 </em>
                 5%
               </span>
-              <Link className="redirection" to={''}>
+              <Link className="redirection" to="">
                 <img src={RedirectionIcon} alt="" width="40" height={40} />
               </Link>
             </div>
@@ -105,7 +115,7 @@ function Dashboard() {
                 </em>
                 5%
               </span>
-              <Link className="redirection" to={''}>
+              <Link className="redirection" to="">
                 <img src={RedirectionIcon} alt="" width="40" height={40} />
               </Link>
             </div>
@@ -125,7 +135,7 @@ function Dashboard() {
                 </em>
                 12%
               </span>
-              <Link className="redirection" to={''}>
+              <Link className="redirection" to="">
                 <img src={RedirectionIcon} alt="" width="40" height={40} />
               </Link>
             </div>

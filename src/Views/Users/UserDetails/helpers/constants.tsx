@@ -493,6 +493,10 @@ const ADD_BIDS_FORM_SCHEMA = {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
     },
   },
 };

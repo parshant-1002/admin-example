@@ -58,8 +58,8 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
       maxLength: {
-        value: 100,
-        message: FORM_VALIDATION_MESSAGES(100).MAX_LENGTH,
+        value: 500,
+        message: FORM_VALIDATION_MESSAGES(500).MAX_LENGTH,
       },
     },
   },
@@ -98,6 +98,10 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
       min: {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
       },
     },
     config: { min: 1, type: 'number' },
