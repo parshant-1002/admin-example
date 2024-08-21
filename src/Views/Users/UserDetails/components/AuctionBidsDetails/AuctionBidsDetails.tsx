@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { useGetBidsSpentHistoryQuery } from '../../../../../Services/Api/module/auctions';
+import { useGetBidsSpentHistoryQuery } from '../../../../../Services/Api/module/auctionHistories';
 import CustomTableView, {
   Column,
   Row,

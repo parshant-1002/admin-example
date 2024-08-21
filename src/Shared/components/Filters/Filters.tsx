@@ -314,15 +314,17 @@ function StatsFilters({
             </div>
           ) : null}
 
-          <Button
-            className="btn btn-sm"
-            btnType="primary"
-            onClick={() => {
-              handleApply(filtersState);
-            }}
-          >
-            {BUTTON_LABELS.APPLY}
-          </Button>
+          {isFiltersOn ? (
+            <Button
+              className="btn btn-sm"
+              btnType="primary"
+              onClick={() => {
+                handleApply(filtersState);
+              }}
+            >
+              {BUTTON_LABELS.APPLY}
+            </Button>
+          ) : null}
 
           {isFiltersOn ? (
             <Button

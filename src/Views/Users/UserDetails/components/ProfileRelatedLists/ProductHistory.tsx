@@ -23,7 +23,6 @@ import {
 } from '../../../../../Shared/constants';
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
-  BID_CREDIT_TYPES_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
   productHistoryColumn,
@@ -50,6 +49,8 @@ interface FilterPayload {
   toDate?: string | Date;
   status?: number | string;
   type?: number | string;
+  purchasedPriceMin?: number;
+  purchasedPriceMax?: number;
 }
 
 // Constants
@@ -192,7 +193,8 @@ export default function ProductHistoryList({
     const initalFilterPayload: FilterPayload = {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
-      status: filter?.selectedStatus?.value,
+      purchasedPriceMin: filter?.priceRange?.[0],
+      purchasedPriceMax: filter?.priceRange?.[1],
     };
     setFilters(initalFilterPayload);
   };
@@ -221,7 +223,6 @@ export default function ProductHistoryList({
         filterToggleImage={Filter}
         showHeading={false}
         showDateFilter
-        statusOptions={BID_CREDIT_TYPES_OPTIONS}
         priceRange={
           currentTab === UserDetailsTabs.PRODUCT_HISTORY
             ? PRICE_RANGE

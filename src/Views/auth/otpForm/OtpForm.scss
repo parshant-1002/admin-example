@@ -6,7 +6,10 @@
     grid-gap: 10px;
     background-color: $white-color;
     color: $black-color;
-    padding: 20px;
+    padding: 32px 32px 12px;
+    @media(max-width:450px){
+      grid-template-columns: 1fr;
+    }
   }
 
   .recoveryCodesList {
@@ -17,10 +20,11 @@
   }
 
   .recoveryCodeItem {
-    background: $grey-color-700;
-    @include border-radius (5px);
-    @include font-size (1);
-    padding: 12px .875rem;
+    border: 1px solid $grey-color-500;
+    @include border-radius (6px);
+    font-size: 16px;
+    padding: 8px .875rem;
+    font-weight: 600;
   }
 
   .recoveryCodesContainer .SnackbarItem-variantSuccess {
@@ -36,10 +40,18 @@
   .copyButton {
     float: right;
     margin-left: 10px;
-    color: $white-color;
-    // background-color: gray;
-    border: $none;
+    color: $black-color-100;
+    background-color: $transparent !important;
+    border: 1px solid $grey-color-500;
     cursor: $pointer;
+    span{
+      margin-right: 10px;
+      font-weight: 600;
+    }
+    &:hover, &:focus, &:active{
+      border: 1px solid $grey-color-700 !important;
+      color: $black-color-100 !important;
+    }
   }
 
   .copyText {
@@ -52,4 +64,20 @@
   .qr-code-container {
     @include flexCenter;
     text-align: $center;
+  }
+
+  .note{
+    padding-inline: 32px;
+    font-size: 14px;
+  }
+
+  .login_secn{
+    &:has(.recoveryCode-content){
+      padding-inline:0 !important;
+    }
+    &:has(.qrSec){
+      .form-content{
+        padding-top: 0;
+      }
+    }
   }

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
 // Components
+import { toast } from 'react-toastify';
 import ConfirmationModal from '../../../../../Shared/components/ConfirmationModal';
 import CustomTableView, {
   Column,
@@ -17,6 +18,7 @@ import ViewMultiTableItem from '../ViewMultiTableItem';
 // Constants
 import {
   BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
   FilterOrder,
   PRICE_RANGE,
   STRINGS,
@@ -24,26 +26,21 @@ import {
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
   BID_CREDIT_TYPES_OPTIONS,
-  CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
   bidsPurchaseHistoryColumn,
 } from '../../helpers/constants';
 
 // Models
-import { ViewMultiData } from '../../helpers/model';
+import { UserBid, ViewMultiData } from '../../helpers/model';
 
 // API
 
 // Utilities
+import { useBidsCreditInvoiceGenerationMutation } from '../../../../../Services/Api/module/invoiceGeneration';
 import { useGetUserBidsCreditHistoryQuery } from '../../../../../Services/Api/module/users';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
 import { transformBidderPurchaseResponse } from '../../helpers/utils';
-
-interface DeleteData {
-  data: { id?: string; ids?: string[] } | null;
-  show: boolean;
-}
 
 interface FilterPayload {
   fromDate?: string | Date;
@@ -51,7 +48,10 @@ interface FilterPayload {
   status?: number | string;
   type?: number | string;
 }
-
+interface UserInvoice {
+  data: UserBid | null;
+  show: boolean;
+}
 // Constants
 const PROFILE_RELATED_LIST_PAGE_LIMIT = 10;
 
@@ -81,10 +81,7 @@ export default function BidPurchaseHistory({
   callBidsCreditApi?: boolean;
 }) {
   // State Management
-  const [deleteModal, setDeleteModal] = useState<DeleteData>({
-    show: false,
-    data: { id: '', ids: [''] },
-  });
+
   const [filters, setFilters] = useState({});
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
@@ -93,7 +90,10 @@ export default function BidPurchaseHistory({
     data: { title: '' },
     show: false,
   });
-
+  const [invoiceModal, setInvoiceModal] = useState<UserInvoice>({
+    show: false,
+    data: null,
+  });
   // Refs
   const onComponentMountRef = useRef(false);
 
@@ -120,13 +120,12 @@ export default function BidPurchaseHistory({
       // }
     );
   // Function to handle page click
+  const [generateInvoice] = useBidsCreditInvoiceGenerationMutation();
+  const handleInvoice = (row: UserBid) => {
+    setInvoiceModal({ show: true, data: row });
+  };
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
-  };
-
-  // Function to close delete modal
-  const handleCloseDelete = () => {
-    setDeleteModal({ data: null, show: false });
   };
 
   // Function to handle sorting click
@@ -145,8 +144,8 @@ export default function BidPurchaseHistory({
   }, 1000);
 
   const columns = useMemo(() => {
-    return bidsPurchaseHistoryColumn;
-  }, [currentTab]);
+    return bidsPurchaseHistoryColumn(handleInvoice);
+  }, [currentTab, handleInvoice]);
 
   const refetchData = useCallback(() => {
     try {
@@ -196,22 +195,36 @@ export default function BidPurchaseHistory({
     };
     setFilters(initalFilterPayload);
   };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = () => {
+    generateInvoice({
+      payload: {
+        bidCreditHistoryId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetchUserBidsCreditHistory();
+        handleCloseInvoice();
+      },
+    });
+  };
   return (
     <>
       <ViewMultiTableItem
         show={showMultiItemView}
         setShow={setShowMultiItemView}
       />
-
       <ConfirmationModal
-        title={CONFIRMATION_DESCRIPTION.DELETE}
-        open={deleteModal?.show}
-        handleClose={handleCloseDelete}
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
         showCancelButton
         submitButtonText={BUTTON_LABELS.YES}
         cancelButtonText={BUTTON_LABELS.NO}
         icon={RED_WARNING}
-        handleSubmit={() => {}}
+        handleSubmit={handleGenerateInvoice}
         showClose={false}
       />
 

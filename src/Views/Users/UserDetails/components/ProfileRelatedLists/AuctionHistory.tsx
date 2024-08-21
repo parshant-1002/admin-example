@@ -23,7 +23,6 @@ import {
 } from '../../../../../Shared/constants';
 import { Filter, RED_WARNING } from '../../../../../assets';
 import {
-  AUCTION_HISTORY_FRONTEND_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   UserDetailsTabs,
   auctionHistoryColumn,
@@ -36,7 +35,7 @@ import { ViewMultiData } from '../../helpers/model';
 import '../../../Users.scss';
 
 // Utilities
-import { useGetAuctionHistoryQuery } from '../../../../../Services/Api/module/auctions';
+import { useGetAuctionHistoryQuery } from '../../../../../Services/Api/module/auctionHistories';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
 import { transformAuctionHistoryResponse } from '../../helpers/utils';
@@ -52,6 +51,10 @@ interface FilterPayload {
   toDate?: string | Date;
   status?: number | string;
   type?: number | string;
+  reservePriceMin?: number;
+  reservePriceMax?: number;
+  itemPriceMin?: number;
+  itemPriceMax?: number;
 }
 
 // Constants
@@ -212,7 +215,10 @@ export default function AuctionHistory({
     const initalFilterPayload: FilterPayload = {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
-      status: filter?.selectedStatus?.value,
+      reservePriceMin: filter?.priceRange?.[0],
+      reservePriceMax: filter?.priceRange?.[1],
+      itemPriceMin: filter?.secondaryPriceRange?.[0],
+      itemPriceMax: filter?.secondaryPriceRange?.[1],
     };
     setFilters(initalFilterPayload);
   };
@@ -242,12 +248,10 @@ export default function AuctionHistory({
         filterToggleImage={Filter}
         showHeading={false}
         showDateFilter
-        statusOptions={AUCTION_HISTORY_FRONTEND_OPTIONS}
-        priceRange={
-          currentTab === UserDetailsTabs.PRODUCT_HISTORY
-            ? PRICE_RANGE
-            : undefined
-        }
+        rangeSilderTitle="Reserve Price"
+        secondaryRangeSilderTitle="Item Price"
+        priceRange={PRICE_RANGE}
+        secondaryPriceRange={PRICE_RANGE}
         handleApply={handleApplyFilters}
       />
 

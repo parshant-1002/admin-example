@@ -5,6 +5,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../Shared/constants';
+import { blockInvalidChar } from '../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
 import {
@@ -29,7 +30,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     type: INPUT_TYPES.TEXT,
     label: 'Name',
     className: 'col-md-12',
-    placeholder: 'Title',
+    placeholder: 'Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
@@ -50,7 +51,15 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     placeholder: 'Price (SEK)',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min:{
+        value: 1,
+        message: "Min value should be 1",
+      }
+
     },
+    min:1,
+    config:{min: 1, type: "number" },
+    blockInvalidChars: blockInvalidChar,
   },
   category: {
     type: INPUT_TYPES.SELECT,
@@ -70,14 +79,21 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     placeholder: 'Item Count',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      min:{
+        value: 1,
+        message: "Min value should be 1",
+      }
     },
+    min:1,
+    config:{min: 1, type: "number" },
+    blockInvalidChars: blockInvalidChar
   },
   images: {
     type: INPUT_TYPES.FILE,
     label: 'Images',
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
-    placeholder: 'Images',
+    placeholder: 'Add Images',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },

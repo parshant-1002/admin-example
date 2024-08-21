@@ -1,11 +1,13 @@
+import './QrCode.scss';
+
 interface QrCodeProps {
   qrCode: string;
 }
 function QrCode({ qrCode }: QrCodeProps) {
   return (
-    <div className="w-100 bg-white p-4">
-      <div className="text-center title_group  justify-content-center pb-3">
-        <p className="p ">
+    <div className="qrSec w-100 bg-white pt-3">
+      <div className="form-content text-center justify-content-center p-0">
+        <p className="p form-disc">
           Scan the qr code to get the authentication code on your authentication
           app
         </p>

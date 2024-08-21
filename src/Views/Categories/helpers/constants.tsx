@@ -11,7 +11,7 @@ export const CATEGORIES_FORM_SCHEMA = {
     type: INPUT_TYPES.TEXT,
     label: 'Name',
     className: 'col-md-12',
-    placeholder: 'Title',
+    placeholder: 'Name',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },

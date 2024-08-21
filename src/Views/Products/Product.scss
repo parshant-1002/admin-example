@@ -37,7 +37,8 @@
 }
 
 .category-item:nth-child(odd) {
-    background-color: $dark-voilet-color-200;
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
 
     .category-index {
         font-weight: bold;
@@ -56,16 +57,21 @@
 /* Style for even items */
 .category-item:nth-child(even) {
     background-color: $light-voilet-color-200;
+    color: $primary-color;
+    border: 1px solid $light-voilet-color-200;
     /* Lighter background */
 }
 
 .category-item:hover {
     background-color: $white-color;
+    span{
+        color: $primary-color !important;
+    }
 }
 
 .category-index {
     font-weight: bold;
-    color: $dark-voilet-color-700;
+    color: $primary-color;
     margin-right: 0.5rem;
 }
 

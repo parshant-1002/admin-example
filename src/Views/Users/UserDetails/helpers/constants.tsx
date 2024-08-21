@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
+import { Button } from 'react-bootstrap';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
 import {
   DATE_FORMATS,
@@ -59,8 +60,9 @@ interface ColumnData {
 }
 
 // Define the shape of the columns
-const bidsPurchaseHistoryColumn // renderActions: RenderActions
-: ColumnData[] = [
+const bidsPurchaseHistoryColumn = (
+  handleInvoice: (row: UserBid) => void
+): ColumnData[] => [
   {
     title: 'Id',
     fieldName: 'id',
@@ -118,13 +120,13 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn44 btn-primary"
+            className="cursor-pointer btn44 btn-primary btn"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          '-.-'
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),

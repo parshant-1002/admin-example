@@ -1,15 +1,16 @@
 // utils
+import Button from '../../../Shared/components/form/Button';
 import {
   convertToLocale,
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
-import Button from '../../../Shared/components/form/Button';
 
 // consts
-import { Invoice } from './model';
-import { InvoiceIcon } from '../../../assets';
+import TruncatedText from '../../../Shared/components/TruncateText/TruncateText';
 import { STRINGS } from '../../../Shared/constants';
+import { InvoiceIcon } from '../../../assets';
+import { Invoice } from './model';
 
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
@@ -32,7 +33,9 @@ interface ColumnData {
 }
 
 // Define the shape of the columns
-export const AuctionInvoiceColumns: ColumnData[] = [
+export const AuctionInvoiceColumns = (
+  handleGenerateInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
     title: STRINGS.AUCTION_ID,
     fieldName: 'id',
@@ -96,7 +99,9 @@ export const AuctionInvoiceColumns: ColumnData[] = [
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          <Button>{STRINGS.GENERATE}</Button>
+          <Button onClick={() => handleGenerateInvoice(row)}>
+            {STRINGS.GENERATE}
+          </Button>
         )}
       </div>
     ),
@@ -104,42 +109,55 @@ export const AuctionInvoiceColumns: ColumnData[] = [
 ];
 
 // Define the shape of the columns
-export const PurchaseInvoiceColumns: ColumnData[] = [
+export const PurchaseInvoiceColumns = (
+  handleInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
-    title: STRINGS.PACK_ID,
-    fieldName: '_id',
-    render: renderIdWithHash,
+    title: STRINGS.T_ID,
+    fieldName: 'bidPlan',
+    sortable: true,
+    sortType: 'id',
+    render: (row) => <TruncatedText text={row?.id} />,
   },
   {
     title: STRINGS.PACK_NAME,
-    fieldName: 'name',
+    fieldName: 'title',
+    sortable: true,
+    sortType: 'packTitle',
+    render: (row) => <TruncatedText text={row?.bidPlan?.title} />,
   },
   {
     title: STRINGS.DEAL_PRICE,
-    fieldName: 'purchasedPrice',
+    fieldName: 'dealPrice',
     render: (_, val) => `${convertToLocale(val || 0)}`,
     sortable: true,
-    sortType: 'purchasedPrice',
+    sortType: 'dealPrice',
   },
   {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'bidsReceived',
+    fieldName: 'bids',
+    sortable: true,
+    sortType: 'bids',
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.PURCHASED_DATE,
-    fieldName: 'purchaseDate',
+    fieldName: 'createdAt',
     sortable: true,
-    sortType: 'purchaseDate',
+    sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
     title: STRINGS.USERNAME,
     path: ['user', 'name'],
+    sortable: true,
+    sortType: 'userName',
   },
   {
     title: STRINGS.EMAIL,
     path: ['user', 'email'],
+    sortable: true,
+    sortType: 'userEmail',
   },
   {
     title: STRINGS.INVOICE,
@@ -153,7 +171,7 @@ export const PurchaseInvoiceColumns: ColumnData[] = [
           <img src={InvoiceIcon} alt="" />
         </button>
       ) : (
-        <Button>{STRINGS.GENERATE}</Button>
+        <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
       ),
   },
 ];
