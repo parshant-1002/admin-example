@@ -47,7 +47,7 @@ function Dashboard() {
               <em className="d-Icon">
                 <img src={NewUserIcon} alt="Icon" width="70" />
               </em>
-              <span className="text-small">Total Users</span>
+              <span className="text-small">New Users (Month)</span>
               <h2 className="h4">5,900.00</h2>
               <span className="d-inline-flex align-items-center badge bg-success">
                 <em className="me-2">
