@@ -176,7 +176,7 @@ export const STRINGS = {
 };
 
 export const CONTENT_ENUMS = {
-  HEADER: 'headers',
+  HEADER: 'header',
   PRIZE: 'prizeSection',
   ROADMAP: 'roadmapSection',
   PREMIUM_TOKEN_WALLET: 'premiumTokenWallet',
@@ -310,6 +310,7 @@ const ROUTES = {
   LOTTERY_MANAGEMENT: '/contract/lottery-management',
   WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
+  HEADERS_CONTENT: '/content-management/headers',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -460,6 +461,10 @@ const ROUTES_CONFIG = {
   TRANSACTIONS_REFERRAL_HISTORY: {
     path: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
     title: 'Referral History',
+  },
+  HEADERS_CONTENT: {
+    path: ROUTES.HEADERS_CONTENT,
+    title: 'Headers Content',
   },
 };
 

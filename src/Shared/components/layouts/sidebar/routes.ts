@@ -9,6 +9,16 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
+    iconClass: 'bi bi-transactions',
+    label: 'Content Management',
+    children: [
+      {
+        label: 'Headers',
+        route: ROUTES.HEADERS_CONTENT,
+      },
+    ],
+  },
+  {
     iconClass: 'bi bi-user',
     label: 'Users',
     route: ROUTES.USERS,

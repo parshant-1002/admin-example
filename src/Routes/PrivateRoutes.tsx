@@ -15,6 +15,7 @@ import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
 import { BidsHistory, PlansHistory } from '../Views/Transactions';
 import ProductsHistory from '../Views/Transactions/ProductsHistory';
 import ReferralHistory from '../Views/Transactions/ReferralHistory';
+import HeaderContent from '../Views/ContentManagement/header-content/HeaderContent';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -110,6 +111,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.TRANSACTIONS_REFERRAL_HISTORY.path,
     element: <ReferralHistory />,
     title: ROUTES_CONFIG.TRANSACTIONS_REFERRAL_HISTORY.title,
+  },
+  {
+    path: ROUTES_CONFIG.HEADERS_CONTENT.path,
+    element: <HeaderContent />,
+    title: ROUTES_CONFIG.HEADERS_CONTENT.title,
   },
   // Wildcard
   {

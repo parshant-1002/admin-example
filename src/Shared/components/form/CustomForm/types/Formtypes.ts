@@ -22,7 +22,7 @@ export interface FormSchema {
 export interface FormDataProps {
   type: string;
   readOnly?: boolean;
-  placeholder: string;
+  placeholder?: string;
   accept?: string;
   min?: string | number;
   max?: string | number;
