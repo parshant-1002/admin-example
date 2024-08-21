@@ -7,7 +7,7 @@ import ReactPaginate from 'react-paginate';
 import TruncatedText from '../TruncateText/TruncateText';
 import { FilterOrder } from '../../constants';
 import { convertToLocale, getValueFromPath } from '../../utils/functions';
-import { downArrow } from '../../../assets';
+import { downArrow, sortIcon } from '../../../assets';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -129,13 +129,13 @@ function CustomTableView({
                         setSelectedSortType(sortOrder);
                       }}
                     >
-                      <div className="d-flex gap-1 align-items-center">
+                      <div className="d-flex gap-1 align-items-center ">
                         {column.title}
-                        {/* {column?.sortable ? (
-                          <figure>
+                        {column?.sortable ? (
+                          <figure className='mb-0'>
                             <img src={sortIcon} alt="" width={15} height={15} />
                           </figure>
-                        ) : null} */}
+                        ) : null}
                       </div>
                     </th>
                   ))}
