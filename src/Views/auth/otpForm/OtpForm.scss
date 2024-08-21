@@ -40,10 +40,18 @@
   .copyButton {
     float: right;
     margin-left: 10px;
-    color: $white-color;
-    // background-color: gray;
-    border: $none;
+    color: $black-color-100;
+    background-color: $transparent !important;
+    border: 1px solid $grey-color-500;
     cursor: $pointer;
+    span{
+      margin-right: 10px;
+      font-weight: 600;
+    }
+    &:hover, &:focus, &:active{
+      border: 1px solid $grey-color-700 !important;
+      color: $black-color-100 !important;
+    }
   }
 
   .copyText {
