@@ -96,7 +96,7 @@ function PriceRangeSlider({
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">
-            <h6>{rangeSilderTitle} Range Selecter</h6>({value?.[0]} - 
+            <h6>{rangeSilderTitle} Range Selecter</h6>({value?.[0]} -
             {value?.[1]}) SEK
           </div>
           {isFiltersOn ? (

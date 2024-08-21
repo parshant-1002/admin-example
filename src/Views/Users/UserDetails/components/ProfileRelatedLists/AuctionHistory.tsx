@@ -221,6 +221,7 @@ export default function AuctionHistory({
       itemPriceMax: filter?.secondaryPriceRange?.[1],
     };
     setFilters(initalFilterPayload);
+    setCurrentPage(0);
   };
 
   return (

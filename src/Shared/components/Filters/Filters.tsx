@@ -15,7 +15,7 @@ import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
 import { SelectOption } from '../../../Models/common';
-import { Filter, cross } from '../../../assets';
+import { Filter, addIcon, cross } from '../../../assets';
 import CustomSelect from '../form/Select/Select';
 import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
@@ -148,6 +148,7 @@ function StatsFilters({
   const handleChangeSecondaryPriceRange = (
     selctedPriceRange: [number, number]
   ) => {
+    setIsFiltersOn(true);
     setFilterState((prev: FiltersState) => ({
       ...prev,
       secondaryPriceRange: [selctedPriceRange[0], selctedPriceRange[1]],
@@ -210,7 +211,7 @@ function StatsFilters({
               >
                 <img src={filterToggleImage} alt="filters" width={30} />
                 <img
-                  src="/src/assets/icons/add-icon.svg"
+                  src={addIcon}
                   className="d-none"
                   alt="w-cross"
                   width={50}

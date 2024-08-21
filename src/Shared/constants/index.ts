@@ -68,7 +68,10 @@ export const INPUT_TYPES = {
   CHECKBOX: 'checkbox',
 };
 
-export const blockInvalidChar = (e: React.KeyboardEvent<HTMLInputElement>, chars: string[] = []) => {  
+export const blockInvalidChar = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  chars: string[] = []
+) => {
   const invalidChars = ['e', 'E', '+', '-', ...chars];
   if (invalidChars.includes(e.key)) {
     e.preventDefault();
@@ -234,7 +237,7 @@ export const DATE_FORMATS = {
   FOR_DATE_RANGE: 'DD MMM  YYYY',
   DISPLAY_DATE: 'DD-MM-YYYY',
   DISPLAY_DATE_REVERSE: 'YYYY-MM-DD',
-  DISPLAY_DATE_WITH_TIME: 'DD-MM-YYYY  HH:mm',
+  DISPLAY_DATE_WITH_TIME: 'DD MMM YYYY  HH:mm',
 };
 
 export const ALIGNMENT = {
@@ -509,7 +512,7 @@ const BID_CREDIT_TYPES = {
 
 const PRICE_RANGE = {
   min: 0,
-  max: 10000,
+  max: 10000000,
 };
 
 const TABLE_PAGE_LIMIT = 10;

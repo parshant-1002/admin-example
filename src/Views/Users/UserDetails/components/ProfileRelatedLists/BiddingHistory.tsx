@@ -198,6 +198,7 @@ export default function BiddingHistory({
       currentBidPriceMax: filter?.priceRange?.[1],
     };
     setFilters(initalFilterPayload);
+    setCurrentPage(0);
   };
   return (
     <>

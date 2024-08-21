@@ -193,6 +193,7 @@ export default function ReferalHistoryList({
       toDate: filter?.endDate,
     };
     setFilters(initalFilterPayload);
+    setCurrentPage(0);
   };
   return (
     <>

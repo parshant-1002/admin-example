@@ -194,6 +194,7 @@ export default function BidPurchaseHistory({
       type: filter?.selectedStatus?.value,
     };
     setFilters(initalFilterPayload);
+    setCurrentPage(0);
   };
   const handleCloseInvoice = () => {
     setInvoiceModal({ data: null, show: false });

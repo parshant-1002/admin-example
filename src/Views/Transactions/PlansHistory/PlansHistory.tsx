@@ -103,6 +103,7 @@ function PlansHistory() {
       toDate: filterState?.endDate,
       type: filterState?.selectedStatus?.value,
     });
+    setCurrentPage(0);
   };
   const handleCloseInvoice = () => {
     setInvoiceModal({ data: null, show: false });

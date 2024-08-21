@@ -6,6 +6,7 @@ import './ReactSelect.scss';
 type CustomSelectProps = {
   isMulti?: boolean;
   className?: string;
+  placeholder?: string;
   onChange?: (value: unknown, actionMeta: ActionMeta<unknown>) => void;
   [key: string]: unknown;
 };

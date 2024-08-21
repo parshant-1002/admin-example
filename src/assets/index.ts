@@ -27,6 +27,7 @@ import AuctionIcon from './icons/auction_icon.svg';
 import ReserveIcon from './icons/reserve_icon.svg';
 import RedirectionIcon from './icons/arrow-redirection.svg';
 import sortIcon from './icons/sort-icon.svg';
+import addIcon from './icons/add-icon.svg';
 import auction from './images/auction.png';
 
 export {
@@ -59,5 +60,6 @@ export {
   ReserveIcon,
   RedirectionIcon,
   sortIcon,
+  addIcon,
   auction,
 };

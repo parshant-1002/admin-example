@@ -21,7 +21,15 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Referral Pack Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referral Pack Name').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
   rewardBids: {
@@ -30,7 +38,11 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Bids Given',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Bids Given').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   refereeBidRequirement: {
@@ -39,7 +51,11 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Referee Bids Purchased',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referee Bids Purchased').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   startDate: {
@@ -49,7 +65,7 @@ export const REFERRAL_PACK_SCHEMA = {
     placeholder: 'Start Date',
     min: formatDate(new Date(), 'YYYY-MM-DD'),
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Start Date').REQUIRED,
     },
   },
   isEnabled: {
@@ -58,7 +74,7 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Status',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Status').REQUIRED,
     },
   },
 };

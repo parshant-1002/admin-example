@@ -31,28 +31,6 @@ export default function ProductForm({
   onAdd = () => {},
   categoryOptions = [],
 }: ProductFormTypes) {
-
-  const handleStateChange = ({
-    name,
-    value,
-    setValue,
-  }: {
-    name: string;
-    value: unknown;
-    type: string;
-    setValue: (name: string, value: unknown) => void;
-    values?: Record<string, unknown>;
-  }) => {
-    const string = value as unknown as string;
-    const validChars = ['title', 'description'];
-    
-    if ((validChars?.includes(name))) {
-      setValue(name, string?.trimStart());
-    }
-    else {
-      setValue(name, value);
-    }
-  };
   // hooks
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
@@ -113,7 +91,6 @@ export default function ProductForm({
       className="row"
       formData={PRODUCT_FORM_SCHEMA(categoryOptions)}
       onSubmit={onSubmit}
-      handleStateDataChange={handleStateChange}
       defaultValues={
         initialData as unknown as Record<string, unknown> | undefined
       }

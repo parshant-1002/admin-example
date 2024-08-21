@@ -128,7 +128,9 @@ function OtpForm() {
           {!responseData?.showRecoveryCode ? (
             <>
               <div className="text-center title_group row justify-content-center pb-3">
-                <span className="text-white fw-medium cnfTitle">Confirmation</span>
+                <span className="text-white fw-medium cnfTitle">
+                  Confirmation
+                </span>
                 {state?.qrCode ? <QrCode qrCode={state?.qrCode} /> : null}
               </div>
               <div className="form-content">
@@ -186,8 +188,8 @@ function OtpForm() {
                       type="button"
                       id="recovery_code_copy"
                       className="btn copyButton ms-0 mb-2"
-                      >
-                        <span>Copy Recovery Code</span>
+                    >
+                      <span>Copy recovery code</span>
                       <img src={Copy} alt="copy" width={20} />
                     </button>
                   </CopyToClipboard>
@@ -198,7 +200,7 @@ function OtpForm() {
                       handleClickSubmitCopiedCode(responseData?.data)
                     }
                   >
-                    I have Saved The Code
+                    I have saved the code
                   </Button>
                 </div>
               </div>
