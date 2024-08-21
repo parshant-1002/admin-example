@@ -68,7 +68,10 @@ export const INPUT_TYPES = {
   CHECKBOX: 'checkbox',
 };
 
-export const blockInvalidChar = (e: React.KeyboardEvent<HTMLInputElement>, chars: string[] = []) => {  
+export const blockInvalidChar = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  chars: string[] = []
+) => {
   const invalidChars = ['e', 'E', '+', '-', ...chars];
   if (invalidChars.includes(e.key)) {
     e.preventDefault();

@@ -37,7 +37,7 @@ const FORM_VALIDATION_MESSAGES = (...args: number[]): ValidationMessages => ({
   NEGATIVE_VALUES_NOT_ALLOWED:
     'Value should be greater than 0 and cannot be negative.',
   MAXIMUM_100_PERCENT_ALLOWED: 'Maximum 100% is allowed.',
-  MIN_VALUE: `Minimum value should be greater than ${args[0]}.`
+  MIN_VALUE: `Minimum value should be greater than ${args[0]}.`,
 });
 
 export default FORM_VALIDATION_MESSAGES;

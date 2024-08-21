@@ -55,7 +55,7 @@ function AddContentForm({
   const updateField = (index: number, field: string, value: unknown) => {
     roadMap.map((item, i) => {
       if (i === index) {
-        let newErrors = { ...item.errors };
+        const newErrors = { ...item.errors };
         delete newErrors[field];
 
         return {

@@ -31,7 +31,6 @@ export default function ProductForm({
   onAdd = () => {},
   categoryOptions = [],
 }: ProductFormTypes) {
-
   const handleStateChange = ({
     name,
     value,
@@ -45,11 +44,10 @@ export default function ProductForm({
   }) => {
     const string = value as unknown as string;
     const validChars = ['title', 'description'];
-    
-    if ((validChars?.includes(name))) {
+
+    if (validChars?.includes(name)) {
       setValue(name, string?.trimStart());
-    }
-    else {
+    } else {
       setValue(name, value);
     }
   };
