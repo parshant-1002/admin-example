@@ -48,25 +48,31 @@ function LoginPage() {
 
   return (
     <div className="d-flex flex-column align-items-center justify-content-center w-100 form_front min-vh-100">
-      <div className="form_card text-start d-flex row ">
-        <div className="col-md-8 login_secn">
+      <div className="logo_login d-flex align-items-center justify-content-center">
+        <img
+          src={auction}
+          alt="Drag Racing"
+          width="150"
+          className="img-fluid"
+        />
+      </div>
+      <div className="form_card text-start">
+        <div className="col-md-12 login_secn">
           <div className="text-center title_group">
-            <h2 className="h3 text-white">Login</h2>
+            <span className="text-white fw-medium">Login</span>
           </div>
-          <CustomForm
-            id="login"
-            formData={LOGIN_FORM_SCHEMA}
-            onSubmit={onSubmit}
-            submitText="Login"
-          />
-        </div>
-        <div className="logo_login col-md-4 d-flex align-items-center justify-content-center">
-          <img
-            src={auction}
-            alt="Drag Racing"
-            width="150"
-            className="img-fluid"
-          />
+          <div className="form-content">
+            <p className="p text-center w-100 form-disc">
+              Enter email address for log in
+            </p>
+            <CustomForm
+              id="login"
+              formData={LOGIN_FORM_SCHEMA}
+              onSubmit={onSubmit}
+              submitText="Login"
+              className="main-form"
+            />
+          </div>
         </div>
       </div>
     </div>

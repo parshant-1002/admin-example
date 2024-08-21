@@ -115,81 +115,94 @@ function OtpForm() {
 
   return (
     <div className="d-flex flex-column align-items-center justify-content-center w-100 form_front min-vh-100">
+      <div className="logo_login">
+        <img
+          src={auction}
+          alt="Drag Racing"
+          width="150"
+          className="img-fluid"
+        />
+      </div>
       <div className="form_card text-start d-flex row ">
-        <div className="col-md-8 login_secn">
+        <div className="login_secn">
           {!responseData?.showRecoveryCode ? (
             <>
               <div className="text-center title_group row justify-content-center pb-3">
-                <h2 className="h3 text-white">Confirmation</h2>
+                <span className="text-white fw-medium pb-2">Confirmation</span>
                 {state?.qrCode ? <QrCode qrCode={state?.qrCode} /> : null}
-                <p className="p col-10 text-secondary">
+              </div>
+              <div className="form-content">
+                <p className="p text-center w-100 form-disc">
                   Enter Confirmation code sent on your authenticator app.
                 </p>
+                <CustomForm
+                  className="otpSec"
+                  id="otp"
+                  formData={OTP_FORM_SCHEMA(authenticationType)}
+                  onSubmit={onSubmit}
+                  submitText="Submit"
+                  secondaryBtnClassName="btn-md text-captialize w-100 border"
+                  secondaryBtnText={
+                    authenticationType === OTP_CODE_TYPE.OTP
+                      ? 'Use Recovery Code'
+                      : 'Use Authenticator Code'
+                  }
+                  isShowSecondaryBtn
+                  handleSecondaryButtonClick={onSecondaryClick}
+                />{' '}
               </div>
-              <CustomForm
-                id="otp"
-                formData={OTP_FORM_SCHEMA(authenticationType)}
-                onSubmit={onSubmit}
-                submitText="Submit"
-                secondaryBtnClassName="btn-md text-captialize w-100 border"
-                secondaryBtnText={
-                  authenticationType === OTP_CODE_TYPE.OTP
-                    ? 'Use Recovery Code'
-                    : 'Use Authenticator Code'
-                }
-                isShowSecondaryBtn
-                handleSecondaryButtonClick={onSecondaryClick}
-              />{' '}
             </>
           ) : (
-            <>
-              <div style={{ position: 'relative', marginBottom: '10px' }}>
-                <div className="copyText ">Please Copy Recovery Code</div>
-                <CopyToClipboard
-                  text={responseData?.recoveryCodes?.join('\n')}
-                  onCopy={handleCopy}
-                >
-                  <button
-                    type="button"
-                    id="recovery_code_copy"
-                    className="btn copyButton"
-                  >
-                    <img src={Copy} alt="copy" width={20} />
-                  </button>
-                </CopyToClipboard>
-              </div>
-              <div className="text-danger">
-                Please do not Refresh the page before copying this code
+            <div className="recoveryCode-content">
+              <div style={{ position: 'relative' }}>
+                <div className="text-center title_group row justify-content-center pb-3">
+                  <span className="text-white fw-medium">
+                    Please Copy Recovery Code
+                  </span>
+                </div>
               </div>
               <div className="recoveryCodesContainer">
                 <ul className="recoveryCodesList">
                   {(responseData?.recoveryCodes || [])?.map((val: string) => (
-                    <li key={val} className="recoveryCodeItem">
+                    <li
+                      key={val}
+                      className="recoveryCodeItem d-flex justify-content-center align-items-center"
+                    >
                       {val}
+                      <CopyToClipboard
+                        text={responseData?.recoveryCodes?.join('\n')}
+                        onCopy={handleCopy}
+                      >
+                        <button
+                          type="button"
+                          id="recovery_code_copy"
+                          className="btn copyButton"
+                        >
+                          <img src={Copy} alt="copy" width={20} />
+                        </button>
+                      </CopyToClipboard>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="d-flex w-100 justify-content-center">
-                <Button
-                  disabled={!recoveryCopied}
-                  onClick={() =>
-                    handleClickSubmitCopiedCode(responseData?.data)
-                  }
-                >
-                  I have Saved The Code
-                </Button>
+              <div className="text-danger note text-center">
+                Please do not Refresh the page before copying this code
               </div>
-            </>
+              <div className="form-content">
+                <div className="d-flex w-100 justify-content-center btn_groups">
+                  <Button
+                    className="w-100"
+                    disabled={!recoveryCopied}
+                    onClick={() =>
+                      handleClickSubmitCopiedCode(responseData?.data)
+                    }
+                  >
+                    I have Saved The Code
+                  </Button>
+                </div>
+              </div>
+            </div>
           )}
-        </div>
-        <div className="logo_login col-md-4 d-flex align-items-center justify-content-center">
-          <img
-            src={auction}
-            alt="Drag Racing"
-            width="150"
-            className="img-fluid"
-          />
         </div>
       </div>
     </div>

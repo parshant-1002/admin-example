@@ -6,16 +6,16 @@
     padding: 15px;
     @at-root {
         .form_card {
-            max-width: 700px;
+            max-width: 470px;
             overflow: hidden;
             width: 860px;
-            @include border-radius (15px);
+            @include border-radius (30px);
             border: 1px solid $dark-voilet-color-900;
-            background: rgba($dark-voilet-color-900, .8); 
-            box-shadow: 0px 15px 10px rgba($black-color, 0.5); 
+            background-color: $white-color;
+            box-shadow: 0px 15px 10px rgba($black-color, 0.5);
+            font-family: $Popin-font;
             @media (max-width:767px){
                 max-width: 100%;
-                padding:30px;
             }
             .h2 {
                 @include font-size(3);
@@ -26,13 +26,68 @@
         padding:30px 50px;
     }
     @at-root .logo_login {
-        background-color: $secondary-color;
+        max-width: 100px;
         img {
-            width: 185px;
+            width: 70px;
+            margin-bottom: 20px;
         }
     }
 }
-
+.title_group{    
+    background: $blue-color; 
+    padding-block: 10px;
+    font-size: 22px;
+    &:has(.qrSec){
+        padding-bottom: 0 !important;
+    }
+}
+.form-content{
+    padding: 20px 32px 32px;
+    .form-disc{
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        text-transform: $none;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: -0.03em;
+        margin: auto;
+        margin-bottom: 16px;
+        color: $black-color-100;
+        max-width: 360px;
+    }
+    .form-control{
+        padding: 12px 18px;
+    }
+    .btn_groups{
+        margin-bottom: 0 !important;
+        flex-direction: column;
+        button{
+            width: 100%;
+            font-size: 16px;
+            line-height: 1.1;
+            padding-block: 12px;
+            background-color: $blue-color;
+            &[disabled]{
+                opacity: 0.5;
+            }
+        }
+    }
+    .otpSec{
+        .btn_groups{
+            gap:16px !important;
+            margin-top: 0 !important;
+            button{
+                &:first-child{
+                    background-color: transparent;
+                    color: $black-color-100;
+                    font-weight: 600;
+                    letter-spacing: -0.03em;
+                }
+            }
+        }
+    }
+}
 .toggle-space-between{  
     display: flex;
     justify-content: space-between;
