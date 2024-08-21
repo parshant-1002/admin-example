@@ -1,0 +1,76 @@
+@import '../../../assets/scss/base';
+
+.front-screen {
+    height: 100vh;
+}
+
+.login-header {
+    padding: 20px 15px;
+}
+
+.front_logo {
+    text-align: $center;
+    img {
+        max-width: 200px;
+    }
+}
+
+.front-form {
+    padding: 40px;
+    max-width: 540px;
+    min-height: calc(100vh - 66px);
+    @media (max-width:767px){
+        padding: 25px;
+    }
+    label {
+        color: rgba($black-color, .7);
+        font-weight: $font-medium;
+    }
+    .form-control {
+        background-color: $grey-light-color-300;
+        border-color: $grey-color-400;
+    }
+    @at-root {
+        .title_group {
+            margin: 0 0 15px;
+            .h3 {
+                @include font-size (1.5);
+                color: $black-color;
+                text-align: $center;
+            }
+            p {
+                @include font-size (.875);
+                color: rgba($black-color, .7);
+            }
+        }
+        .front_pic {
+            width: 100%;
+            height: 100%;
+            cursor: $pointer;
+            text-align: $center;
+            background: $body-color;
+            img {
+                max-width: 100%;
+            }
+        }
+        .forgot_txt {
+            @include font-size (.875);
+            @include transition-mixin (all, .5s, ease-in-out);
+            &:hover {
+                color: $base-color;
+                text-decoration: $underline;
+            }
+        }
+    }
+}
+
+.show_hide_pwd {
+    @include position($absolute,$right:0, $top:0);
+    background-color: $transparent;
+    @include flexCenter;
+    height: 100%;
+    border: 0;
+    &:hover, &:focus, &:active{
+        border: 0;
+    }
+}

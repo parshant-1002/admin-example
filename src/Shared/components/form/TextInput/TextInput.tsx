@@ -1,6 +1,7 @@
-import React, { Ref } from 'react';
-import { Control, FieldErrorsImpl } from 'react-hook-form';
+import React, { Ref, useRef } from 'react';
+import { Control, Controller, FieldErrorsImpl } from 'react-hook-form';
 import { INPUT_TYPES } from '../../../constants';
+import FileInput from '../FileUpload/FileUpload';
 
 export function ErrorComponent({
   error,
@@ -13,7 +14,7 @@ export function ErrorComponent({
     return render(error);
   }
   return (
-    <span className="block text-red text-md mt-1">
+    <span className="block error text-md mt-1">
       {(error as { message: string })?.message}
     </span>
   );
@@ -25,6 +26,8 @@ interface TextFieldProps {
   className?: string;
   control?: Control;
   accept?: string;
+  value?: number | string | undefined;
+  minDate: string;
   [key: string]: unknown;
 }
 
@@ -36,10 +39,18 @@ const TextField = React.forwardRef(function TextField(
     control,
     accept,
     value,
+    minDate,
     ...otherProps
   }: TextFieldProps,
   ref: Ref<HTMLInputElement>
 ) {
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
+  const handleInputClick = () => {
+    if (dateInputRef.current) {
+      dateInputRef.current.showPicker(); // Programmatically open the date picker
+    }
+  };
   switch (type) {
     case INPUT_TYPES.TEXT_AREA:
       return (
@@ -57,32 +68,56 @@ const TextField = React.forwardRef(function TextField(
           ref={ref}
           placeholder={placeholder}
           className={className}
+          value={value}
           {...otherProps}
         />
       );
-    // case INPUT_TYPES.FILE:
-    //   return (
-    //     <Controller
-    //       name="file"
-    //       control={control}
-    //       defaultValue={[]}
-    //       {...otherProps}
-    //       render={({ field: { onChange, onBlur, name, ref: fileRef } }) => {
-    //         return (
-    //           <CustomFileUpload
-    //             className={className}
-    //             name={name}
-    //             accept={accept}
-    //             ref={fileRef}
-    //             onChange={onChange}
-    //             onBlur={onBlur}
-    //             value={value}
-    //             {...otherProps}
-    //           />
-    //         );
-    //       }}
-    //     />
-    //   );
+    case INPUT_TYPES.DATE:
+      return (
+        <Controller
+          name="dob"
+          control={control}
+          defaultValue={[]}
+          {...otherProps}
+          render={({ field: { ref: reff, ...rest } }) => {
+            return (
+              <input
+                type="date"
+                {...rest}
+                min={minDate}
+                className={className}
+                ref={dateInputRef}
+                onClick={handleInputClick}
+              />
+            );
+          }}
+        />
+      );
+    case INPUT_TYPES.FILE:
+      return (
+        <Controller
+          name="file"
+          control={control}
+          defaultValue={[]}
+          {...otherProps}
+          render={({
+            field: { onChange, onBlur, name, ref: fileRef, value: fileValue },
+          }) => {
+            return (
+              <FileInput
+                className={className}
+                name={name}
+                accept={accept}
+                ref={fileRef}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={fileValue}
+                {...otherProps}
+              />
+            );
+          }}
+        />
+      );
     default:
       return (
         <input

@@ -1,0 +1,55 @@
+@import '../../../assets/scss/base';
+
+.recoveryCodesContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    background-color: $white-color;
+    color: $black-color;
+    padding: 20px;
+  }
+
+  .recoveryCodesList {
+    list-style: $none;
+    padding: 0;
+    margin: 0;
+    display: contents;
+  }
+
+  .recoveryCodeItem {
+    background: $grey-color-700;
+    @include border-radius (5px);
+    @include font-size (1);
+    padding: 12px .875rem;
+  }
+
+  .recoveryCodesContainer .SnackbarItem-variantSuccess {
+    background-color: rgba(27, 31, 35, 0.85);
+    @include font-size (0.875);
+    color: $white-color;
+  }
+  .copyButton .material-icons,
+  .copyButton svg {
+    font-size: 24px;
+  }
+
+  .copyButton {
+    float: right;
+    margin-left: 10px;
+    color: $white-color;
+    // background-color: gray;
+    border: $none;
+    cursor: $pointer;
+  }
+
+  .copyText {
+    color: $black-color;
+    display: inline;
+    font-size: large;
+    line-height: 32px;
+  }
+
+  .qr-code-container {
+    @include flexCenter;
+    text-align: $center;
+  }

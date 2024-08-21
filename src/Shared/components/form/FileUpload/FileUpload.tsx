@@ -9,36 +9,40 @@ import { toast } from 'react-toastify';
 //     getAllFiles,
 //     uploadFiles,
 // } from '../../../../store/actions/mediaActions';
+import {
+  useFileDeleteMutation,
+  useFileUploadMutation,
+  useGetFilesQuery,
+} from '../../../../Services/Api/module/file';
 import ERROR_MESSAGES from '../../../constants/messages';
-import { checkValidFileExtension } from '../../../utils/functions';
+import {
+  checkValidFileExtension,
+  convertFilesToFormData,
+} from '../../../utils/functions';
 import CustomModal from '../../CustomModal';
 import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
-import { Files } from './helpers/modal';
+import { FileData, Files } from './helpers/modal';
 
 const TABS = {
   FILE_UPLOAD: 'fileUpload',
   LIST_FILES: 'listFiles',
 };
 interface FileInputProps {
-  value?: Files[];
-  //   onChange?: (files: { file: File; src?: string }) => void;
+  value: Files[];
+  onChange?: (files: Files[] | undefined) => void;
   label?: string;
   subLabel?: string;
   maxSize?: number;
   accept?: string;
   [key: string]: unknown; // To handle any additional props
 }
-interface FileData {
-  file: File;
-  src: string;
-}
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
     {
       value,
-      //   onChange,
+      onChange = () => {},
       label,
       subLabel,
       maxSize = 50000000, // 6mb
@@ -50,11 +54,15 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState(TABS.LIST_FILES);
+    const [fileUpload] = useFileUploadMutation();
+    const [fileDelete] = useFileDeleteMutation();
+    const { data, refetch } = useGetFilesQuery({ startDate: '', endDate: '' });
+
     // const dispatch = useDispatch();
-    console.log(fileValue);
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
+
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
         setFileValue([]);
@@ -63,14 +71,14 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             if (file.size <= maxSize) {
               // onChange({ file });
               const reader = new FileReader();
-              //   reader.onload = (() => {
-              //     return (e: ProgressEvent<FileReader>) => {
-              //       setFileValue((prevState: FileData[]) => [
-              //         ...prevState,
-              //         { file: theFile, src: e.target.result },
-              //       ]);
-              //     };
-              //   })(file);
+              reader.onload = ((theFile: File) => {
+                return (e: ProgressEvent<FileReader>) => {
+                  setFileValue((prevState: FileData[] | undefined) => [
+                    ...(prevState || []),
+                    { file: theFile, src: e?.target?.result },
+                  ]);
+                };
+              })(file);
               reader.readAsDataURL(file);
             } else {
               toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
@@ -84,21 +92,30 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       [accept, maxSize]
     );
 
-    const handleFileUpload = () => {
-      if (fileValue?.length === 0)
-        return toast.error('Please select a file to upload');
-      //   const files = convertFilesToFormData(fileValue);
-      //   dispatch();
-      // uploadFiles(files, (msg, status, urls) => {
-      //   if (status === STATUS.ERROR) {
-      //     toast.error(msg);
-      //   }
-      //   if (status === STATUS.SUCCESS) {
-      //     toast.success(msg);
-      //     setFileValue([]);
-      //     setActiveTab(TABS.LIST_FILES);
-      //   }
-      // })
+    const handleFileUpload = async () => {
+      try {
+        if (fileValue?.length === 0)
+          return toast.error('Please select a file to upload');
+        const fileList = fileValue as unknown as FileData[];
+        const files = convertFilesToFormData(fileList, 'image');
+        // eslint-disable-next-line no-restricted-syntax
+        files?.forEach((file) => {
+          fileUpload({
+            payload: file,
+            onSuccess: () => {
+              setFileValue([]);
+              refetch();
+              setActiveTab(TABS.LIST_FILES);
+            },
+          });
+        });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+        }
+      }
     };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -113,8 +130,26 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       );
     };
 
+    const handleDeleteFile = async (fileId: (string | undefined)[]) => {
+      try {
+        await fileDelete({
+          payload: { fileId },
+
+          onSuccess: (res: { message: string }) => {
+            toast.success(res?.message);
+            refetch();
+          },
+        });
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+        }
+      }
+    };
+
     const renderSelectedFile = useMemo(() => {
-      console.log(fileValue);
       return (
         fileValue &&
         fileValue?.map((fileData, index) => {
@@ -128,31 +163,70 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   <span>{fileData?.file?.name || ''}</span>
                   <button
                     type="button"
-                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger ms-2"
+                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger-outline ms-2"
                     title="Delete"
                     onClick={() => handleRemoveFile(index)}
                   >
-                    <i className="bi bi-trash" />
+                    <svg
+                      id="close"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10.569"
+                      height="10.569"
+                      viewBox="0 0 10.569 10.569"
+                    >
+                      <g id="Group_8836" data-name="Group 8836">
+                        <path
+                          id="Path_14400"
+                          data-name="Path 14400"
+                          d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
+                          fill="#000"
+                        />
+                      </g>
+                    </svg>
                   </button>
                 </div>
               );
-            case 'image':
+            case 'image/png':
+            case 'image/svg':
+            case 'image/jpeg':
+            case 'image/jpg':
+            case 'image/svg+xml':
               return (
-                <div className="uploaded_pic">
+                <div className="uploaded-pic-grid__item">
                   <img
                     id="blah"
-                    className="uploaded_pic"
-                    src={fileData?.src}
+                    className="uploaded-pic-grid__image"
+                    width={200}
+                    src={fileData?.src as string | undefined}
                     alt="..."
                   />
-                  <span>{fileData?.file?.name || ''}</span>
+                  <div className="uploaded-pic-grid__details">
+                    <span className="uploaded-pic-grid__filename">
+                      {fileData?.file?.name || ''}
+                    </span>
+                  </div>
                   <button
                     type="button"
-                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger ms-2"
+                    className="uploaded-pic-grid__delete-button"
                     title="Delete"
                     onClick={() => handleRemoveFile(index)}
                   >
-                    <i className="bi bi-trash" />
+                    <svg
+                      id="close"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10.569"
+                      height="10.569"
+                      viewBox="0 0 10.569 10.569"
+                    >
+                      <g id="Group_8836" data-name="Group 8836">
+                        <path
+                          id="Path_14400"
+                          data-name="Path 14400"
+                          d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
+                          fill="#fff"
+                        />
+                      </g>
+                    </svg>
                   </button>
                 </div>
               );
@@ -162,11 +236,26 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   <span>{fileData?.file?.name || ''}</span>
                   <button
                     type="button"
-                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger mx-1"
+                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger-outline mx-1"
                     title="Delete"
                     onClick={() => handleRemoveFile(index)}
                   >
-                    <i className="bi bi-trash" />
+                    <svg
+                      id="close"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="10.569"
+                      height="10.569"
+                      viewBox="0 0 10.569 10.569"
+                    >
+                      <g id="Group_8836" data-name="Group 8836">
+                        <path
+                          id="Path_14400"
+                          data-name="Path 14400"
+                          d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
+                          fill="#000"
+                        />
+                      </g>
+                    </svg>
                   </button>
                 </div>
               );
@@ -185,8 +274,8 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         });
       }
       if (file?.length) {
-        // onChange(file?.[0]?.fileURL);
-        // setChooseFile(file?.[0]?.fileURL);
+        onChange(file);
+        setChooseFile(file);
         closeModal();
       }
     };
@@ -201,11 +290,19 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           >
             {chooseFile?.length ? 'Change file' : 'Choose file'}
           </Button>
-          {chooseFile && (
-            <span className="uploaded_file">
-              <FileRenderer fileURL={chooseFile[0].fileURL} />
-            </span>
-          )}
+          {chooseFile?.length ? (
+            <div className="p-3">
+              <div className="grid-container">
+                {chooseFile?.map((img) => (
+                  <div key={img.url} className="grid-item m-2">
+                    <span className="uploaded_file">
+                      <FileRenderer fileURL={img.url || img.fileURL} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
         {showModal && (
           <CustomModal
@@ -218,7 +315,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 id="controlled-tab-example"
                 activeKey={activeTab}
                 onSelect={(k) => setActiveTab(k || '')}
-                className="custom_tabs"
+                className="custom_tabs mb-2"
                 unmountOnExit
               >
                 <Tab
@@ -226,7 +323,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   eventKey={TABS.LIST_FILES}
                   title="Select file"
                 >
-                  <ListFiles handleChooseFile={handleChooseFile} />
+                  <ListFiles
+                    handleChooseFile={handleChooseFile}
+                    data={data}
+                    handleDeleteFile={handleDeleteFile}
+                  />
                 </Tab>
                 <Tab
                   className="tab-body"
@@ -241,9 +342,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                         ?.replace('image/', ' .')
                         .replace('video/', '.')}.`}</label>
                     )}
-                    <div className="text-center upload-file">
+                    <div className="text-center upload-file ">
                       {fileValue?.length ? (
-                        renderSelectedFile
+                        <div className="uploaded-pic-grid">
+                          {renderSelectedFile}
+                        </div>
                       ) : (
                         <div {...getRootProps()}>
                           <input

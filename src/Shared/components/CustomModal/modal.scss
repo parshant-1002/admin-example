@@ -5,7 +5,8 @@
     @include position($absolute, $top:10px, $right:10px);
     background-color: $transparent;
     padding: 0;
-    width: 34px; height: 34px;
+    width: 34px;
+    height: 34px;
     border:0;
     @include opacity (1);
     @include transition-mixin (all, .5s, ease-in-out);
@@ -23,10 +24,9 @@
     }
     .modal {
         &-content {
-            background: $dark-green-color-700;
             @at-root {
                 .modal-title {
-                    padding-right: 40px;
+                    width: 100%;
                     &.h4 {
                         @include font-size (1.1);
                         margin: 0;
@@ -36,11 +36,10 @@
         }
         &-header {
             color: $white-color;
-            border-color: rgba(69, 203, 135, 0.4);
         }
         &-footer {
             margin-top: 10px;
-            border-color: rgba(69, 203, 135, 0.4);
+            border-color: $white-color;
             .row {
                 margin: 0 -15px;
             }
@@ -49,12 +48,8 @@
 }
 
 // Achievement Progress Table
-
 .achievement-progress-table {
     .modal-title {
         padding: 20px;
-    }
-    .pagination-group {
-        padding: 0 20px 20px;
     }
 }

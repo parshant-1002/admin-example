@@ -8,6 +8,11 @@ export interface FormSchema {
     value: number;
     message: string;
   };
+  minDate?: {
+    value: string;
+    message: string;
+  };
+
   maxLength?: {
     value: number;
     message: string;
@@ -19,6 +24,7 @@ export interface FormDataProps {
   readOnly?: boolean;
   placeholder: string;
   accept?: string;
+  min?: string | number;
   max?: string | number;
   groupClassName?: string;
   schema?: FormSchema | ((value: string) => FormSchema);

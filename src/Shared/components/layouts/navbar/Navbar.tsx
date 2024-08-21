@@ -1,25 +1,39 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 // import { logoutRequest } from '../../../../../store/actions/auth';
 // import { ROUTES } from '../../../../constants/routes';
-import './navbar.scss';
+import { toast } from 'react-toastify';
+import { useLogoutMutation } from '../../../../Services/Api/module/auth';
+import { updateAuthTokenRedux } from '../../../../Store/Common';
 import ProfileDropdown from './ProfileDropdown';
+import './navbar.scss';
 
 // Define the state type for useSelector
 interface RootState {
-  auth: {
+  common: {
     userData: { profilePicture: string }; // Adjust the type based on your user data structure
   };
 }
 
 function Navbar() {
-  const userData = useSelector((state: RootState) => state?.auth?.userData);
+  const userData = useSelector((state: RootState) => state?.common?.userData);
   const navigate = useNavigate();
-
-  const handleLogout = () => {
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+  const onSuccess = (data: { message: string }) => {
+    toast.success(data?.message);
+    dispatch(updateAuthTokenRedux({ token: null }));
     navigate('/');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout({ onSuccess });
+    } catch {
+      toast.error('Error in Logout');
+    }
   };
 
   const toggleSidebar = () => {
@@ -27,11 +41,23 @@ function Navbar() {
   };
 
   return (
-    <header id="header" className="header fixed-top d-flex align-items-center">
+    <header
+      id="header"
+      className="header fixed-top d-flex align-items-center ms-auto"
+    >
       <div className="d-flex align-items-center justify-content-between">
-        <Link to="" className="logo d-flex align-items-center">
-          <img src="assets/img/logo.png" alt="Logo" />
-          {/* <span className="d-none d-lg-block">Solana Admin</span> */}
+        <div
+          aria-label="Hide Sidebar"
+          className="d-flex text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+          data-bs-toggle="sidebar"
+          onClick={toggleSidebar}
+          // href="/spruha-js/preview/apps/tables/tables/"
+        >
+          <span />
+        </div>
+        <Link to="/" className="logo d-flex align-items-center">
+          {/* <img src="assets/img/logo.png" alt="Logo" /> */}
+          <h4 className="admin-brand-logo ms-xl-4">Penny Auction</h4>
         </Link>
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>

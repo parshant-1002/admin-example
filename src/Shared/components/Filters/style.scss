@@ -1,0 +1,245 @@
+@import '../../../assets/scss/base';
+
+.stats_tab {
+  max-width: 900px;
+  overflow-x: $auto;
+  white-space: nowrap;
+
+  li {
+    margin: 0 7px 5px 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    button {
+      border: $none;
+      background-color: $white-color;
+      color: $primary-color;
+      font-weight: $font-medium;
+      @include font-size (.875);
+      display: $inline-block;
+      padding: 10px 15px;
+      text-align: $center;
+      min-height: 44px;
+      min-width: 140px;
+      cursor: $pointer;
+
+      &.active,
+      &:hover {
+        background-color: $primary-color;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.search_field {
+  position: $relative;
+}
+
+.cross-icon {
+  @include position($absolute, $top: calc(16px/2), $right: 15px);
+  z-index: 1;
+  cursor: pointer;
+
+  img {
+    width: 25px;
+  }
+}
+
+.stats_filter {
+  gap: 10px;
+
+  @media (max-width:575px) {
+    // @include flex-wrap (wrap);
+    margin-bottom: 15px;
+    width: 100%;
+    gap: 5px;
+  }
+
+  .calender_field {
+    min-width: 280px;
+  }
+
+  .calender_field {
+    @media (max-width:575px) {
+      width: 100%;
+    }
+  }
+
+  .form-group {
+    min-width: 250px;
+  }
+}
+
+.dark-form-control {
+   .calender_field {
+    .form-control {
+      background-color: $black-color;
+    }
+  }
+}
+
+.tooltip {
+  position: absolute !important;
+  background-color: $white-color !important;
+  border-radius: 8px !important;
+  padding: 30px !important;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  width: 350px !important;
+
+  &__range {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: #333 !important;
+    margin-bottom: 8px !important;
+    h6{
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+
+  .clear-Button {
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 20px !important;
+    margin-bottom: 12px;
+  }
+
+  .slider-container {
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #F3F3F3;
+    border-radius: 5px;
+    justify-content: space-between;
+
+    .range-slider {
+      width: 100%;
+      margin: 0 8px;
+
+      &__range {
+        background: $dark-voilet-color-900 !important;
+      }
+
+      &__thumb {
+        background: $dark-voilet-color-900 !important;
+
+      }
+    }
+
+  }
+}
+
+.price-filter {
+  display: inline-block;
+  border: 1px solid #ccc; // Adjust border color to match the image
+  border-radius: 8px; // Rounded corners
+  padding: 8px 12px; // Adjust padding for space around text
+  min-height: 44px;
+  color: #4a4a4a; // Adjust text color
+  background-color: #fff; // Background color
+  cursor: pointer;
+  font-size: 14px;
+  // Flexbox to align text and arrow
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+
+  .arrow-down {
+    margin-left: 10px; // Space between text and arrow
+    // transform: rotate(-90deg); // Adjust for initial arrow direction
+    position: absolute;
+    right: 0;
+    padding-left: 4px;
+    padding-right: 10px;
+    background-color: $white-color;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .arrow-right {
+    margin-left: 10px; // Space between text and arrow
+    transition: transform 0.3s ease-in-out;
+  }
+}
+
+// Optional: Styling for when the dropdown is active
+.price-filter.active {
+  border-color: $primary-color; // Change border color when active
+}
+
+.filter-item{
+ min-width: 220px;
+}
+.w-sm-auto{
+  @media(min-width: 575.99px){
+    width: auto !important;
+  }
+}
+.filterbtn{
+  padding-inline: 13px;
+}
+.onlyIcon{
+  font-size: 0 !important;
+  @media (min-width: 768px){
+    font-size: 16px!important;
+  }
+  @media (max-width: 767.98px){
+    width: 44px;
+    min-width:auto;
+    padding:13px;
+  }
+}
+[data-label="Actions"]{
+  .btn44{
+    @media (max-width: 575.99px){
+      width: 31px !important;
+      height:31px !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+.filter-wrapper:has(.filter-items-box){
+  .stats_filter{
+    .filterbtn{
+      img{
+        &[alt="w-cross"]{
+          display:block !important;
+          transform: rotate(45deg);
+          width: 24px;
+          margin-left: -4.5px;
+        }
+        &[alt="filters"]{
+          display:none !important;
+        }
+      }
+    }
+  }
+}
+.filter-wrapper{
+  .filter-items-box{
+    @media(min-width:575.98px){
+      [class*=col-]{
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 200px;
+        min-width: 180px;
+        max-width: 300px;
+        &:has(.price-filter){
+          min-width: 240px;
+        }
+        &:has(.calender_field){
+          min-width: 250px;
+        }
+      }
+    }
+  }
+}

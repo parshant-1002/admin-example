@@ -41,7 +41,13 @@ interface CustomFormProps {
   id: string;
   defaultValues?: Record<string, unknown>;
   formData: Record<string, FormDataProps>;
-  handleStateDataChange?: (name: string, value: unknown, type: string) => void;
+  handleStateDataChange?: (prop: {
+    name: string;
+    value: unknown;
+    type: string;
+    setValue: (name: string, value: unknown) => void;
+    values?: Record<string, unknown>;
+  }) => void;
   secondaryBtnText?: string;
   handleSecondaryButtonClick?: () => void;
   secondaryButtonType?: 'submit' | 'button';
@@ -86,7 +92,6 @@ function CustomForm({
     formState: { errors },
     setValue,
   } = useForm({ defaultValues: { ...defaultValues } });
-
   const handleInputChange = (name: string, value: unknown) => {
     setValue(name, value);
     // onChangeValues(name, value);
@@ -101,11 +106,17 @@ function CustomForm({
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
       if (name && type) {
-        handleStateDataChange(name, value[name], type);
+        handleStateDataChange({
+          name,
+          value: value[name],
+          type,
+          setValue,
+          values: value,
+        });
       }
     });
     return () => subscription.unsubscribe();
-  }, [handleStateDataChange, watch]);
+  }, [handleStateDataChange, setValue, watch]);
 
   const handleRegister = (key: string) => {
     if (typeof formData[key].schema === 'function') {
@@ -122,11 +133,11 @@ function CustomForm({
   const getAlignmentForFormActionBtn = () => {
     switch (alignFormActionBtns) {
       case 'left':
-        return 'flex btn_groups gap-2 mt-4 mb-3 justify-start items-center';
+        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-start items-center';
       case 'right':
-        return 'flex btn_groups gap-2 mt-4 mb-3 justify-end items-center';
+        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-end items-center';
       default:
-        return 'flex btn_groups gap-2 mt-4 mb-3 justify-center items-center';
+        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-center items-center';
     }
   };
 
@@ -135,6 +146,7 @@ function CustomForm({
     event: SyntheticEvent,
     resetFn: () => void
   ) => {
+    event.preventDefault();
     onSubmit(data, event, resetFn);
     setIsResetForm(false);
   };
