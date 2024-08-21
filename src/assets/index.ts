@@ -19,6 +19,7 @@ import block from './icons/block.svg';
 import arrowRight from './icons/arrow-right.svg';
 import sortIcon from './icons/sort-icon.svg';
 import addIcon from './icons/add-icon.svg';
+import auction from './images/auction.png';
 
 export {
   Logo,
@@ -42,4 +43,5 @@ export {
   arrowRight,
   sortIcon,
   addIcon,
+  auction,
 };

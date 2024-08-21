@@ -129,7 +129,7 @@ function CustomTableView({
                         setSelectedSortType(sortOrder);
                       }}
                     >
-                      <div className="d-flex gap-1 align-items-center">
+                      <div className="d-flex gap-1 align-items-center ">
                         {column.title}
                         {column?.sortable ? (
                           <figure className="mb-0">

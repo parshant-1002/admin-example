@@ -8,10 +8,7 @@ import OTP_CODE_TYPE from './constants';
 const OTP_FORM_SCHEMA = (authenticationType: number) => ({
   otp: {
     type: INPUT_TYPES.NUMBER,
-    label:
-      authenticationType === OTP_CODE_TYPE.OTP
-        ? 'Enter Authenticator Code'
-        : 'Enter Recovery Code',
+    label: authenticationType === OTP_CODE_TYPE.OTP ? '' : '',
     className: 'col-md-12',
     placeholder:
       authenticationType === OTP_CODE_TYPE.OTP
