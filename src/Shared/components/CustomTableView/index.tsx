@@ -132,7 +132,7 @@ function CustomTableView({
                       <div className="d-flex gap-1 align-items-center ">
                         {column.title}
                         {column?.sortable ? (
-                          <figure className='mb-0'>
+                          <figure className="mb-0">
                             <img src={sortIcon} alt="" width={15} height={15} />
                           </figure>
                         ) : null}
