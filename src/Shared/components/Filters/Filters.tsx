@@ -21,7 +21,6 @@ import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
 import { FiltersState, PriceRange } from './helpers/models';
 import './style.scss';
-import TextField from '../form/TextInput/TextInput';
 
 // types
 interface StatsFiltersProps {
@@ -186,7 +185,7 @@ function StatsFilters({
             ) : null}
             {showSearch ? (
               <div className="dark-form-control position-relative w-100 w-sm-auto">
-                <TextField
+                <input
                   type="search"
                   className="form-control"
                   placeholder="Search..."
