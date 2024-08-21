@@ -1,10 +1,11 @@
-import { trimStart } from 'lodash';
 import { Fragment, Ref, SyntheticEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../Button';
 import type { FormDataProps, FormSchema } from './types/Formtypes';
 // import { ALIGNMENT } from '../../../../Shared/Constants';
 import RenderField from './RenderFields';
+import { INPUT_TYPES } from '../../../constants';
+import FORM_VALIDATION_MESSAGES from '../../../constants/validationMessages';
 
 function AddHorizontalTitle({
   isLine,
@@ -108,19 +109,6 @@ function CustomForm({
       if (errors[String(name)] && value[String(name)]) {
         setError(String(name), {});
       }
-      if (
-        formData[String(name)]?.schema &&
-        typeof formData[String(name)]?.schema !== 'function'
-      ) {
-        const schema = formData[String(name)]?.schema as FormSchema;
-        if (schema.required) {
-          const nameStr = String(name);
-          const fieldValue = value[nameStr];
-          if (typeof fieldValue === 'string') {
-            setValue(nameStr, trimStart(fieldValue));
-          }
-        }
-      }
 
       if (name && type) {
         handleStateDataChange({
@@ -142,6 +130,17 @@ function CustomForm({
       ) => FormSchema;
       const schema = schemaFunction(watch('password') as string);
 
+      return register(key, schema as unknown as FormDataProps);
+    }
+    if (
+      [INPUT_TYPES.TEXT, INPUT_TYPES.TEXT_AREA]?.includes(formData[key]?.type)
+    ) {
+      const schema = {
+        ...(formData[key].schema || {}),
+        validate: (value: string) =>
+          value.trim() !== '' ||
+          FORM_VALIDATION_MESSAGES(formData[key].label).REQUIRED,
+      };
       return register(key, schema as unknown as FormDataProps);
     }
 

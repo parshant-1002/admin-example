@@ -104,7 +104,8 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           min: 0,
           max: 100,
           schema: {
-            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE).REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE)
+              .REQUIRED,
             min: {
               value: 0,
               message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
@@ -122,7 +123,8 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
           readOnly: true,
           schema: {
-            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE).REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE)
+              .REQUIRED,
           },
         },
         [PLAN_FORM_FIELDS.END_DATE]: {
