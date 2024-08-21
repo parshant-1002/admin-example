@@ -1,6 +1,7 @@
 // src/components/Dashboard.tsx
 
 import Breadcrumbs from '../../Shared/components/layouts/components/breadcrumb/Breadcrumb';
+import { BidsHistory } from '../Transactions';
 import './style.scss';
 
 function Dashboard() {
@@ -65,6 +66,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      <BidsHistory onDashBoard />
     </>
   );
 }

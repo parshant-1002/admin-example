@@ -34,7 +34,7 @@ interface QueryParams {
   sortDirection: FilterOrder;
 }
 
-function BidsHistory() {
+function BidsHistory({ onDashBoard }: { onDashBoard?: boolean }) {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
@@ -85,7 +85,7 @@ function BidsHistory() {
   }, 1000);
 
   // Memoized columns for table
-  const columns = useMemo(() => BidsHistoryColumns, []);
+  const columns = useMemo(() => BidsHistoryColumns(onDashBoard), [onDashBoard]);
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -105,13 +105,15 @@ function BidsHistory() {
   };
   return (
     <div>
-      <Filters
-        handleClearSearch={() => setSearch('')}
-        handleSearch={debounceSearch}
-        showDateFilter
-        handleApply={handleApplyFilters}
-        statusOptions={BID_STATUS_OPTIONS}
-      />
+      {!onDashBoard ? (
+        <Filters
+          handleClearSearch={() => setSearch('')}
+          handleSearch={debounceSearch}
+          showDateFilter
+          handleApply={handleApplyFilters}
+          statusOptions={BID_STATUS_OPTIONS}
+        />
+      ) : null}
 
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
@@ -119,7 +121,7 @@ function BidsHistory() {
         pageSize={TABLE_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
-        pagination
+        pagination={!onDashBoard}
         pageCount={(listing?.count || 1) / TABLE_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}
