@@ -39,7 +39,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.PLAN_NAME,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.PLAN_NAME).REQUIRED,
     },
   },
   [PLAN_FORM_FIELDS.PRICE]: {
@@ -48,7 +48,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.DEAL_PRICE,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.DEAL_PRICE).REQUIRED,
       min: {
         value: 0,
         message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
@@ -68,7 +68,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.BIDS_CREDITED,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CREDITED).REQUIRED,
       min: {
         value: 0,
         message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
@@ -81,7 +81,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.HOT_DEAL,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.HOT_DEAL).REQUIRED,
     },
     options: [
       {
@@ -104,7 +104,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           min: 0,
           max: 100,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE).REQUIRED,
             min: {
               value: 0,
               message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
@@ -122,7 +122,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
           readOnly: true,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE).REQUIRED,
           },
         },
         [PLAN_FORM_FIELDS.END_DATE]: {
@@ -132,7 +132,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           placeholder: STRINGS.END_DATE,
           min: formatDate(new Date(), 'YYYY-MM-DD'),
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.END_DATE).REQUIRED,
           },
         },
       }
@@ -143,7 +143,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.STATUS,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.STATUS).REQUIRED,
     },
   },
 });

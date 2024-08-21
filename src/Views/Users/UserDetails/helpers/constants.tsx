@@ -488,7 +488,7 @@ const ADD_BIDS_FORM_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Add Bids',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Add Bids').REQUIRED,
     },
   },
 };

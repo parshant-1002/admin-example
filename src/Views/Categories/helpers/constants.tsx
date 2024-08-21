@@ -13,7 +13,7 @@ export const CATEGORIES_FORM_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
     },
   },
 };

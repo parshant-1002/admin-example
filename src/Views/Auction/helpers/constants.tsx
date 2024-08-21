@@ -87,7 +87,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: 'col-md-12',
     placeholder: 'Auction Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
     },
   },
   bidStartDate: {
@@ -96,7 +96,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: 'col-md-6 col-xl-6',
     placeholder: 'Auction Date',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Auction Date').REQUIRED,
       minDate: {
         value: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
         message: `Date cannot be earlier than ${moment().format(
@@ -111,7 +111,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: ' col-xl-6 col-md-6',
     placeholder: 'Reserve End Date',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Reserve End Date').REQUIRED,
       minDate: {
         value: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
         message: `Date cannot be earlier than ${moment(
@@ -127,7 +127,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Product',
     options: productOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Product').REQUIRED,
     },
   },
   categoryIds: {
@@ -138,7 +138,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     isMulti: true,
     options: categoryOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Category').REQUIRED,
     },
   },
   productPrice: {
@@ -147,7 +147,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: 'col-md-12',
     placeholder: 'Product Price (SEK)',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Product Price').REQUIRED,
     },
   },
   reservePrice: {
@@ -157,7 +157,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Reserve Price (SEK)',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Reserve Price').REQUIRED,
     },
   },
   description: {
@@ -167,7 +167,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Description',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
     },
   },
   prizeClaimDays: {
@@ -177,7 +177,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Prize Claim Duration (Days)',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Prize Claim Duration').REQUIRED,
     },
   },
   turnTimer: {
@@ -187,7 +187,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Bids Duration (Sec)',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Bids Duration').REQUIRED,
     },
   },
   images: {
@@ -196,6 +196,9 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Images',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
+    },
   },
   preAuctionUsersCount: {
     type: INPUT_TYPES.NUMBER,
@@ -204,7 +207,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Min Auction Users',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Min Auction Users').REQUIRED,
     },
   },
 });

@@ -21,7 +21,7 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Referral Pack Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referral Pack Name').REQUIRED,
     },
   },
   rewardBids: {
@@ -30,7 +30,7 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Bids Given',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Bids Given').REQUIRED,
     },
   },
   refereeBidRequirement: {
@@ -39,7 +39,7 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Referee Bids Purchased',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referee Bids Purchased').REQUIRED,
     },
   },
   startDate: {
@@ -49,7 +49,7 @@ export const REFERRAL_PACK_SCHEMA = {
     placeholder: 'Start Date',
     min: formatDate(new Date(), 'YYYY-MM-DD'),
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Start Date').REQUIRED,
     },
   },
   isEnabled: {
@@ -58,7 +58,7 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Status',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Status').REQUIRED,
     },
   },
 };

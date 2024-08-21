@@ -1,3 +1,4 @@
+import { trimStart } from 'lodash';
 import { Fragment, Ref, SyntheticEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../Button';
@@ -54,7 +55,6 @@ interface CustomFormProps {
   className?: string;
   isShowSubmit?: boolean;
   isShowSecondaryBtn?: boolean;
-  isDisabledSubmit?: boolean;
   submitBtnClassName?: string;
   alignFormActionBtns?: string;
   secondaryBtnClassName?: string;
@@ -75,7 +75,6 @@ function CustomForm({
   className = '',
   isShowSubmit = true,
   isShowSecondaryBtn = false,
-  isDisabledSubmit = false,
   submitBtnClassName = 'btn-md',
   alignFormActionBtns = 'center',
   secondaryBtnClassName = 'btn-md text-captialize w-100',
@@ -88,6 +87,7 @@ function CustomForm({
     watch,
     reset,
     getValues,
+    setError,
     control,
     formState: { errors },
     setValue,
@@ -97,9 +97,6 @@ function CustomForm({
     // onChangeValues(name, value);
   };
 
-  const watchedFields = watch();
-  const isFormValid = Object.keys(formData).some((key) => !!watchedFields[key]);
-
   useEffect(() => {
     if (Object.keys(defaultValues).length && isResetForm) {
       reset({ ...defaultValues });
@@ -108,6 +105,23 @@ function CustomForm({
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
+      if (errors[String(name)] && value[String(name)]) {
+        setError(String(name), {});
+      }
+      if (
+        formData[String(name)]?.schema &&
+        typeof formData[String(name)]?.schema !== 'function'
+      ) {
+        const schema = formData[String(name)]?.schema as FormSchema;
+        if (schema.required) {
+          const nameStr = String(name);
+          const fieldValue = value[nameStr];
+          if (typeof fieldValue === 'string') {
+            setValue(nameStr, trimStart(fieldValue));
+          }
+        }
+      }
+
       if (name && type) {
         handleStateDataChange({
           name,
@@ -119,7 +133,7 @@ function CustomForm({
       }
     });
     return () => subscription.unsubscribe();
-  }, [handleStateDataChange, setValue, watch]);
+  }, [errors, handleStateDataChange, setError, setValue, watch, formData]);
 
   const handleRegister = (key: string) => {
     if (typeof formData[key].schema === 'function') {
@@ -211,7 +225,6 @@ function CustomForm({
             )}
             type="submit"
             className={submitBtnClassName}
-            disabled={!isFormValid || isDisabledSubmit}
           >
             {submitText}
           </Button>

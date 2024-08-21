@@ -35,7 +35,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     className: 'col-md-12',
     placeholder: 'Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
     },
   },
   description: {
@@ -44,7 +44,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     className: 'col-md-12',
     placeholder: 'Description',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
     },
   },
   price: {
@@ -53,7 +53,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     className: 'col-md-12',
     placeholder: 'Price (SEK)',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Price').REQUIRED,
       min: {
         value: 1,
         message: 'Min value should be 1',
@@ -71,7 +71,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     isMulti: true,
     options: cateroryOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Categories').REQUIRED,
     },
   },
   stock: {
@@ -80,7 +80,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     className: 'col-md-12',
     placeholder: 'Item Count',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Item Count').REQUIRED,
       min: {
         value: 1,
         message: 'Min value should be 1',
@@ -97,7 +97,7 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     className: 'col-md-12',
     placeholder: 'Add Images',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
     },
   },
   // status: {

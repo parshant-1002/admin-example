@@ -18,6 +18,7 @@ import view from './icons/eye.svg';
 import block from './icons/block.svg';
 import arrowRight from './icons/arrow-right.svg';
 import sortIcon from './icons/sort-icon.svg';
+import addIcon from './icons/add-icon.svg';
 
 export {
   Logo,
@@ -40,4 +41,5 @@ export {
   block,
   arrowRight,
   sortIcon,
+  addIcon,
 };

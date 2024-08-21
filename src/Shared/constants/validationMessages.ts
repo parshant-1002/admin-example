@@ -17,8 +17,10 @@ type ValidationMessages = {
   MIN_VALUE: string;
 };
 
-const FORM_VALIDATION_MESSAGES = (...args: number[]): ValidationMessages => ({
-  REQUIRED: 'This is required.',
+const FORM_VALIDATION_MESSAGES = (
+  ...args: (number | string)[]
+): ValidationMessages => ({
+  REQUIRED: `${args[0] || 'Field'} is required.`,
   MIN_LENGTH: `This input requires a minimum of ${args[0]} characters.`,
   MAX_LENGTH: `This input exceeded the maximum length of ${args[0]} characters.`,
   VALID_EMAIL: 'Please enter a valid email.',

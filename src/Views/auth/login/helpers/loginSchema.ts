@@ -8,7 +8,7 @@ const LOGIN_FORM_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Email',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Email').REQUIRED,
       pattern: {
         value: VALIDATION_REGEX.EMAIL,
         message: FORM_VALIDATION_MESSAGES().VALID_EMAIL,
