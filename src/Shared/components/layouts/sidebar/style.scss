@@ -9,20 +9,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     a {
       position: $relative;
       color: rgba($white-color, 1);
-
-      // &::before {
-      //   content: '';
-      //   background-image: $submenuArrow;
-      //   background-repeat: $no-repeat;
-      //   width: 10px;
-      //   height: 10px;
-      //   background-size: 18px;
-      //   @include position($absolute, $left: 56px, $top: 23px);
-
-      //   @media (max-width:1199.98px) {
-      //     left: 20px;
-      //   }
-      // }
     }
   }
 }
@@ -37,6 +23,11 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   scrollbar-color: $transparent $body-color;
   background-color: $dark-voilet-color-900;
   scrollbar-width: $none;
+  @media (max-width: 1199px) {
+    left: 0;
+    max-width: 70px;
+    overflow: $unset;
+  }
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -291,18 +282,10 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   }
 }
 
-@media (max-width: 1199px) {
-  .sidebar {
-    left: 0;
-    max-width: 70px;
-    overflow: unset;
-  }
+@media (max-width: 1199.99px) {
   #main {
     margin-left: 70px;
   }
-}
-
-@media (max-width: 1199px) {
   .toggle-sidebar .sidebar {
     left: 0;
   }
