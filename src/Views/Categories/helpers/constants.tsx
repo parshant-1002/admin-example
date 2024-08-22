@@ -11,9 +11,17 @@ export const CATEGORIES_FORM_SCHEMA = {
     type: INPUT_TYPES.TEXT,
     label: 'Name',
     className: 'col-md-12',
-    placeholder: 'Title',
+    placeholder: 'Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
 };

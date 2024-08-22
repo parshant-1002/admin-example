@@ -87,7 +87,7 @@ export default function AuctionForm({
       const payload = {
         description: data.description,
         productPrice: data.productPrice,
-        turnTimer: data.turnTimer,
+        bidDuration: data.bidDuration,
         prizeClaimDays: data.prizeClaimDays,
         reservePrice: data.reservePrice,
         title: data.title,

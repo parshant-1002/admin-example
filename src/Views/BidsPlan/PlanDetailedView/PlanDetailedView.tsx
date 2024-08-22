@@ -13,16 +13,18 @@ import { FilterOrder, STRINGS } from '../../../Shared/constants';
 import { PlanDetailedViewColumns } from '../helpers/constants';
 
 // API
-import { useGetReferralPackHistoryQuery } from '../../../Services/Api/module/referral';
-import { useGetBidPlansQuery } from '../../../Services/Api/module/plans';
+import {
+  useGetBidPlansQuery,
+  useGetBidsTransactionsQuery,
+} from '../../../Services/Api/module/plans';
 
 // Utilities
+import { DetailsCard } from '../../../Shared/components';
 import {
   convertToLocale,
   formatDate,
   removeEmptyValues,
 } from '../../../Shared/utils/functions';
-import { DetailsCard } from '../../../Shared/components';
 
 // Interfaces
 interface QueryParams {
@@ -58,7 +60,7 @@ function PlanDetailedView() {
   };
 
   // API Queries
-  const { data: listing, refetch } = useGetReferralPackHistoryQuery(
+  const { data: listing, refetch } = useGetBidsTransactionsQuery(
     {
       params: removeEmptyValues(
         queryParams as unknown as Record<string, unknown>
@@ -69,17 +71,17 @@ function PlanDetailedView() {
     }
   );
 
-  const { data: referralPackDetails, refetch: refetchReferralPack } =
-    useGetBidPlansQuery(
-      {
-        params: removeEmptyValues(
-          queryParams as unknown as Record<string, unknown>
-        ),
-      },
-      {
-        skip: !id,
-      }
-    );
+  const { data: referralPackDetails } = useGetBidPlansQuery(
+    {
+      params: removeEmptyValues({ bidPlanId: id || '' } as unknown as Record<
+        string,
+        unknown
+      >),
+    },
+    {
+      skip: !id,
+    }
+  );
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -100,11 +102,10 @@ function PlanDetailedView() {
     if (id) {
       if (onComponentMountRef.current) {
         refetch();
-        refetchReferralPack();
       }
       onComponentMountRef.current = true;
     }
-  }, [refetch, currentPage, sortKey, sortDirection, id, refetchReferralPack]);
+  }, [refetch, currentPage, sortKey, sortDirection, id]);
 
   const renderPackDetails = useMemo(() => {
     if (referralPackDetails?.data?.[0]) {

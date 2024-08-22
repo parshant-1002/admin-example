@@ -27,6 +27,7 @@ interface TextFieldProps {
   control?: Control;
   accept?: string;
   value?: number | string | undefined;
+  config?: object | undefined;
   minDate: string;
   [key: string]: unknown;
 }
@@ -40,6 +41,7 @@ const TextField = React.forwardRef(function TextField(
     accept,
     value,
     minDate,
+    config,
     ...otherProps
   }: TextFieldProps,
   ref: Ref<HTMLInputElement>
@@ -75,11 +77,11 @@ const TextField = React.forwardRef(function TextField(
     case INPUT_TYPES.DATE:
       return (
         <Controller
-          name="dob"
+          name={otherProps.name as string}
           control={control}
           defaultValue={[]}
           {...otherProps}
-          render={({ field: { ref: reff, ...rest } }) => {
+          render={({ field: { ...rest } }) => {
             return (
               <input
                 type="date"
@@ -96,7 +98,7 @@ const TextField = React.forwardRef(function TextField(
     case INPUT_TYPES.FILE:
       return (
         <Controller
-          name="file"
+          name={otherProps.name as string}
           control={control}
           defaultValue={[]}
           {...otherProps}

@@ -66,9 +66,15 @@ function RenderField({
             readOnly={field.readOnly || false}
             placeholder={field.placeholder}
             accept={field.accept || ''}
+            config={field.config}
             onChange={(e: SyntheticEvent) =>
               handleInputChange(id, (e.target as HTMLInputElement).value)
             }
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (field?.blockInvalidChars) {
+                field?.blockInvalidChars(e);
+              }
+            }}
             maxLength={maxLength || ''}
             minLength={minLength || ''}
             minDate={minDate || ''}
@@ -105,23 +111,26 @@ function RenderField({
             {...handleRegister(id)}
             render={({
               field: { onChange, onBlur, value: selectValue, name, ref },
-            }) => (
-              <CustomSelect
-                ref={ref}
-                name={name}
-                id={id}
-                options={field.options}
-                {...handleRegister(id)}
-                onChange={(selectedValue: unknown) => {
-                  onChange(selectedValue);
-                  handleInputChange(id, selectedValue);
-                }}
-                onBlur={onBlur}
-                className={className}
-                isMulti={field?.isMulti}
-                value={selectValue}
-              />
-            )}
+            }) => {
+              return (
+                <CustomSelect
+                  ref={ref}
+                  name={name}
+                  id={id}
+                  placeholder={field.placeholder}
+                  options={field.options}
+                  {...handleRegister(id)}
+                  onChange={(selectedValue: unknown) => {
+                    onChange(selectedValue);
+                    handleInputChange(id, selectedValue);
+                  }}
+                  onBlur={onBlur}
+                  className={className}
+                  isMulti={field?.isMulti}
+                  value={selectValue}
+                />
+              );
+            }}
           />
         );
       //   case INPUT_TYPES.RICH_TEXT:

@@ -190,7 +190,7 @@
   @media (min-width: 768px){
     font-size: 16px!important;
   }
-  @media (max-width: 767.99px){
+  @media (max-width: 767.98px){
     width: 44px;
     min-width:auto;
     padding:13px;
@@ -219,6 +219,25 @@
         }
         &[alt="filters"]{
           display:none !important;
+        }
+      }
+    }
+  }
+}
+.filter-wrapper{
+  .filter-items-box{
+    @media(min-width:575.98px){
+      [class*=col-]{
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 200px;
+        min-width: 180px;
+        max-width: 300px;
+        &:has(.price-filter){
+          min-width: 240px;
+        }
+        &:has(.calender_field){
+          min-width: 250px;
         }
       }
     }

@@ -15,13 +15,12 @@ import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
 import { SelectOption } from '../../../Models/common';
-import { Filter, cross } from '../../../assets';
+import { Filter, addIcon, cross } from '../../../assets';
 import CustomSelect from '../form/Select/Select';
 import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
 import { FiltersState, PriceRange } from './helpers/models';
 import './style.scss';
-import TextField from '../form/TextInput/TextInput';
 
 // types
 interface StatsFiltersProps {
@@ -148,6 +147,7 @@ function StatsFilters({
   const handleChangeSecondaryPriceRange = (
     selctedPriceRange: [number, number]
   ) => {
+    setIsFiltersOn(true);
     setFilterState((prev: FiltersState) => ({
       ...prev,
       secondaryPriceRange: [selctedPriceRange[0], selctedPriceRange[1]],
@@ -163,10 +163,10 @@ function StatsFilters({
   return (
     <div className="filter-wrapper">
       <div className="w-100 align-items-center d-flex flex-sm-row flex-column justify-content-between filter_main">
-        <div className="col-sm-4 col-md-5 col-xl-6">
+        <div className="col-sm-6 col-md-5 col-xl-6">
           {showHeading ? <Breadcrumbs /> : null}
         </div>
-        <div className=" col-12 col-sm-8 col-md-7 col-xl-6 mb-sm-3">
+        <div className=" col-12 col-sm-6 col-md-7 col-xl-6 mb-sm-3">
           <div className="d-flex justify-content-between justify-content-sm-end align-items-start stats_filter">
             {selectedIds?.length ? (
               <Button
@@ -185,7 +185,7 @@ function StatsFilters({
             ) : null}
             {showSearch ? (
               <div className="dark-form-control position-relative w-100 w-sm-auto">
-                <TextField
+                <input
                   type="search"
                   className="form-control"
                   placeholder="Search..."
@@ -210,7 +210,7 @@ function StatsFilters({
               >
                 <img src={filterToggleImage} alt="filters" width={30} />
                 <img
-                  src="/src/assets/icons/add-icon.svg"
+                  src={addIcon}
                   className="d-none"
                   alt="w-cross"
                   width={50}
@@ -314,15 +314,17 @@ function StatsFilters({
             </div>
           ) : null}
 
-          <Button
-            className="btn btn-sm"
-            btnType="primary"
-            onClick={() => {
-              handleApply(filtersState);
-            }}
-          >
-            {BUTTON_LABELS.APPLY}
-          </Button>
+          {isFiltersOn ? (
+            <Button
+              className="btn btn-sm"
+              btnType="primary"
+              onClick={() => {
+                handleApply(filtersState);
+              }}
+            >
+              {BUTTON_LABELS.APPLY}
+            </Button>
+          ) : null}
 
           {isFiltersOn ? (
             <Button

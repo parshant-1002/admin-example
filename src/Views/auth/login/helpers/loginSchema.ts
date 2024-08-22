@@ -4,11 +4,11 @@ import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMes
 const LOGIN_FORM_SCHEMA = {
   email: {
     type: INPUT_TYPES.EMAIL,
-    label: 'Email',
+    label: '',
     className: 'col-md-12',
     placeholder: 'Email',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Email').REQUIRED,
       pattern: {
         value: VALIDATION_REGEX.EMAIL,
         message: FORM_VALIDATION_MESSAGES().VALID_EMAIL,

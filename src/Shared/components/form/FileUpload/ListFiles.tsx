@@ -95,10 +95,10 @@ function ListFiles({
           </div>
         )}
       </div>
-      <div className="choose-file-button-container d-flex  gap-5 justify-content-center">
+      <div className="choose-file-button-container d-flex gap-3 justify-content-center ps-2">
         {selectedFiles?.length ? (
           <Button
-            className="mt-2  button_danger"
+            className="mt-2 px-4 button_danger"
             onClick={() => {
               handleDeleteFile(selectedFiles.map((file) => file._id));
               setSelectedFiles([]);
@@ -108,7 +108,7 @@ function ListFiles({
           </Button>
         ) : null}
         <Button
-          className="mt-2"
+          className="mt-2 px-3"
           onClick={() => handleChooseFile(selectedFiles)}
         >
           Choose file

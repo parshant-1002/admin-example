@@ -302,7 +302,8 @@ a.btn {
 
         &[disabled] {
             background-color: $grey-light-color-300;
-            border-color: $grey-light-color-300
+            border-color: $grey-light-color-300;
+            color: $base-color;
         }
     }
 
@@ -403,6 +404,10 @@ label {
         &.disabled,
         &:disabled {
             @include opacity (.5);
+        }
+        &:has(.react-select-prefix__control){
+            height: 44px;
+            padding-block: 0;
         }
     }
 
