@@ -8,12 +8,12 @@ import { CustomForm } from '../../../Shared/components';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper';
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants';
-import { transAPIRequestDataToFormFaq } from '../Faqs/helpers/transform';
 import { HOW_IT_WORKS_FORM_SCHEMA } from './helpers/howItWorksSchema';
 import {
   FormData,
   RoadMapItem,
-  transformAPIRequestDataFaq,
+  transAPIRequestDataToFormHowItsWork,
+  transformAPIRequestDataHowItsWork,
 } from './helpers/transform';
 
 const initialState: RoadMapItem = {
@@ -43,7 +43,7 @@ function HowItWorks() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.LANDING_PAGE]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormFaq(
+      const initialFormValues = transAPIRequestDataToFormHowItsWork(
         content.data[CONTENT_ENUMS.LANDING_PAGE]
       );
       setInitialValues(initialFormValues);
@@ -80,7 +80,7 @@ function HowItWorks() {
     }));
 
     const payload = {
-      [CONTENT_ENUMS.HOW_IT_WORKS_SECTION]: transformAPIRequestDataFaq(
+      [CONTENT_ENUMS.HOW_IT_WORKS_SECTION]: transformAPIRequestDataHowItsWork(
         formData,
         mappedRoadMap
       ),
