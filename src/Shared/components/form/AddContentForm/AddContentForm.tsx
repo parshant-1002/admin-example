@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Delete } from '../../../../assets/index';
 import { RoadMapItem } from '../../../../Views/ContentManagement/Faqs/helpers/transform';
 import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../constants';
-import { validateField } from '../../../utils/functions';
+// import { validateField } from '../../../utils/functions';
 import FileInput from '../FileUpload/FileUpload';
 import RichText from '../RIchText/RitchText';
 import CustomSelect from '../Select/Select';
@@ -34,10 +35,10 @@ function AddContentForm({
   title,
 }: AddContentFormProps) {
   const addLevel = () => {    
-    const currentErrors = validateField(roadMap[roadMap.length - 1]);
-    if (Object.keys(currentErrors).length === 0) {
+    // const currentErrors = validateField(roadMap[roadMap.length - 1]);
+    // if (Object.keys(currentErrors).length === 0) {
       setRoadMap([...roadMap, initialState]);
-    }
+    // }
     // else {
     //   const updatedRoadMap = roadMap.map((item, i) =>
     //     i === roadMap.length - 1 ? { ...item, errors: currentErrors } : item
@@ -161,7 +162,7 @@ function AddContentForm({
               className="btn btn-danger common_title_grp_btn mt-2"
               onClick={() => removeLevel(index)}
             >
-              <i className="bi bi-trash" />
+              <img src={Delete} alt={"Trash"} width={10} />
             </button>
           )}
         </div>

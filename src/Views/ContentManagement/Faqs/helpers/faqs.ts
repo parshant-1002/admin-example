@@ -42,7 +42,7 @@ export const FAQ_CONTENT_FORM_SCHEMA = {
     },
     isVisible: {
         type: INPUT_TYPES.SWITCH,
-        label: 'Show/Hide Partners Content',
+        label: 'Show/Hide Faq Content',
         className: 'col-md-12',
     }
 };
