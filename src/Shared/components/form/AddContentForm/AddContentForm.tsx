@@ -13,7 +13,6 @@ import TextField from '../TextInput/TextInput';
 import './AddContentForm.scss';
 import FieldSetWrapper from './FieldSetWrpper';
 
-
 // The props interface is now using FaqMapItem instead of RoadMapItem
 interface AddContentFormProps {
   roadMap: RoadMapItem[];
@@ -34,10 +33,10 @@ function AddContentForm({
   initialState,
   title,
 }: AddContentFormProps) {
-  const addLevel = () => {    
+  const addLevel = () => {
     // const currentErrors = validateField(roadMap[roadMap.length - 1]);
     // if (Object.keys(currentErrors).length === 0) {
-      setRoadMap([...roadMap, initialState]);
+    setRoadMap([...roadMap, initialState]);
     // }
     // else {
     //   const updatedRoadMap = roadMap.map((item, i) =>
@@ -68,7 +67,7 @@ function AddContentForm({
 
     console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
     setRoadMap(updatedRoadMap);
-};
+  };
 
   return (
     <FieldSetWrapper title={title}>
@@ -107,13 +106,15 @@ function AddContentForm({
                   <input
                     className="form-control"
                     type="file"
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      console.log('djfkjhdsjkdhjkdfhs', e.target);
+
                       updateField(
                         index,
                         typeKey,
-                        e.target.files ? e.target.files[0] : null
-                      )
-                    }
+                        e.target?.files ? e.target?.files[0] : null
+                      );
+                    }}
                   />
                 )}
                 {inputType === INPUT_TYPES.FILE_UPLOAD && (
@@ -121,13 +122,9 @@ function AddContentForm({
                     className="form-control"
                     accept={IMAGE_FILE_TYPES}
                     value={value}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateField(
-                        index,
-                        typeKey,
-                        e.target.files ? e.target.files[0] : null
-                      )
-                    }
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      updateField(index, typeKey, e);
+                    }}
                   />
                 )}
                 {inputType === INPUT_TYPES.SELECT && (
@@ -162,7 +159,7 @@ function AddContentForm({
               className="btn btn-danger common_title_grp_btn mt-2"
               onClick={() => removeLevel(index)}
             >
-              <img src={Delete} alt={"Trash"} width={10} />
+              <img src={Delete} alt={'Trash'} width={10} />
             </button>
           )}
         </div>

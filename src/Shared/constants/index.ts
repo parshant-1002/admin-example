@@ -198,8 +198,10 @@ export const CONTENT_ENUMS = {
   PRIVACY_POLICY_PAGE: 'privacyPolicy',
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
-  FAQS:"faq",
-  LANDING_PAGE:"landingPage"
+  FAQS: 'faq',
+  LANDING_PAGE: 'landingPage',
+  HOW_IT_WORKS_SECTION: 'howItWorksSection',
+  HOW_IT_WORKS: 'howItWorks',
 };
 
 export const BUTTON_LABELS = {
@@ -313,6 +315,7 @@ const ROUTES = {
   WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
   HEADERS_CONTENT: '/content-management/headers',
+  HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
   FQA_CONTENT: '/content-management/faqs',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
@@ -473,6 +476,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.FQA_CONTENT,
     title: 'Faqs Content',
   },
+  HOW_IT_WORKS_CONTENT: {
+    path: ROUTES.HOW_IT_WORKS_CONTENT,
+    title: 'How It Works Content',
+  },
 };
 
 enum POPUPTYPES {
@@ -520,15 +527,16 @@ const PRICE_RANGE = {
 const TABLE_PAGE_LIMIT = 10;
 
 export {
-  ROUTES,
-  WILDCARD_ROUTES,
-  ROUTES_CONFIG,
-  POPUPTYPES,
-  REFERRAL_STATUS,
-  PRODUCT_PURCHASE_STATUS,
+  BID_CREDIT_TYPES,
   BID_PLAN_TYPES,
   BID_STATUS,
-  TABLE_PAGE_LIMIT,
-  BID_CREDIT_TYPES,
+  POPUPTYPES,
   PRICE_RANGE,
+  PRODUCT_PURCHASE_STATUS,
+  REFERRAL_STATUS,
+  ROUTES,
+  ROUTES_CONFIG,
+  TABLE_PAGE_LIMIT,
+  WILDCARD_ROUTES
 };
+

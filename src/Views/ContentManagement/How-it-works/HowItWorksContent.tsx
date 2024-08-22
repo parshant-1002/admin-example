@@ -3,42 +3,43 @@ import { toast } from 'react-toastify';
 import {
   useGetContentQuery,
   useUpdateContentMutation,
-} from '../../../Services/Api/module/content/index';
-import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/CustomCardWrapper';
+} from '../../../Services/Api/module/content';
+import { CustomForm } from '../../../Shared/components';
+import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper';
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
-import { CustomForm } from '../../../Shared/components/index';
-import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
-import { FAQ_CONTENT_FORM_SCHEMA } from './helpers/faqs';
+import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants';
+import { transAPIRequestDataToFormFaq } from '../Faqs/helpers/transform';
+import { HOW_IT_WORKS_FORM_SCHEMA } from './helpers/howItWorksSchema';
 import {
   FormData,
   RoadMapItem,
-  transAPIRequestDataToFormFaq,
   transformAPIRequestDataFaq,
 } from './helpers/transform';
 
 const initialState: RoadMapItem = {
+  companyLogo: '',
   title: '',
   content: '',
-  companyLogo: '',
   errors: {},
 };
 
 const fieldTypes = {
+  companyLogo: INPUT_TYPES.FILE_UPLOAD,
   title: INPUT_TYPES.TEXT,
   content: INPUT_TYPES.TEXT,
 };
 
 const labels = {
-  title: 'Add Faq Title',
-  content: 'Add Faq Content',
+  companyLogo: 'Add Card Icon',
+  title: 'Add Card Title',
+  content: 'Add Card Description',
 };
 
-const FaqsContent = () => {
+function HowItWorks() {
   const [roadMap, setRoadMap] = useState<RoadMapItem[]>([initialState]);
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
-
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.LANDING_PAGE]) {
       // Set initial form values
@@ -48,13 +49,23 @@ const FaqsContent = () => {
       setInitialValues(initialFormValues);
 
       // Extract and set roadMap values
-      const formGetData = content.data[CONTENT_ENUMS.LANDING_PAGE][
-        CONTENT_ENUMS.FAQS
-      ].map(({ question, answer }: { question: string; answer: string }) => ({
-        title: String(question),
-        content: String(answer),
-      }));
-
+      const formGetData = content.data[CONTENT_ENUMS.HOW_IT_WORKS_SECTION][
+        CONTENT_ENUMS.HOW_IT_WORKS_SECTION
+      ].map(
+        ({
+          imageURL,
+          title,
+          description,
+        }: {
+          imageURL: string;
+          title: string;
+          description: string;
+        }) => ({
+          title: String(title),
+          content: String(description),
+          companyLogo: String(imageURL),
+        })
+      );
       setRoadMap(formGetData);
     }
   }, [content]);
@@ -63,12 +74,13 @@ const FaqsContent = () => {
     const formData = data as unknown as FormData;
 
     const mappedRoadMap = roadMap.map((item) => ({
-      question: item.title || '',
-      answer: item.content || '',
+      companyLogo: item.companyLogo || '',
+      title: item.title || '',
+      content: item.content || '',
     }));
 
     const payload = {
-      [CONTENT_ENUMS.LANDING_PAGE]: transformAPIRequestDataFaq(
+      [CONTENT_ENUMS.HOW_IT_WORKS_SECTION]: transformAPIRequestDataFaq(
         formData,
         mappedRoadMap
       ),
@@ -86,11 +98,11 @@ const FaqsContent = () => {
   return (
     <CustomCardWrapper>
       <CustomForm
-        formData={FAQ_CONTENT_FORM_SCHEMA}
-        id={'faqs-form'}
+        formData={HOW_IT_WORKS_FORM_SCHEMA}
+        id="how-it-works-form"
         onSubmit={onSubmit}
         defaultValues={initialValues}
-        submitText="Update Faqs Content"
+        submitText="Update How It Works Content"
         preSubmitElement={
           <AddContentForm
             roadMap={roadMap}
@@ -103,6 +115,6 @@ const FaqsContent = () => {
       />
     </CustomCardWrapper>
   );
-};
+}
 
-export default FaqsContent;
+export default HowItWorks;
