@@ -2,23 +2,24 @@ import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
 // import { ProductsAdd, ProductsList } from '../Views/Products';
-import AuctionManagementList from '../Views/Auction/AuctionManagementList';
-import { ProductsList } from '../Views/Products';
-import { CustomRouter } from './RootRoutes';
-import { CategoriesList } from '../Views/Categories';
-import Users from '../Views/Users';
-import UserDetails from '../Views/Users/UserDetails';
-import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
-import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
-import { PlanDetailedView, Plans } from '../Views/BidsPlan';
 import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
+import AuctionManagementList from '../Views/Auction/AuctionManagementList';
+import { PlanDetailedView, Plans } from '../Views/BidsPlan';
+import { CategoriesList } from '../Views/Categories';
+import ContactUs from '../Views/ContentManagement/ContactUs/ContactUs';
+import Faqs from '../Views/ContentManagement/Faqs/FaqsContent';
+import HeaderContent from '../Views/ContentManagement/header-content/HeaderContent';
+import HowItWorks from '../Views/ContentManagement/How-it-works/HowItWorksContent';
+import TermsAndCondtion from '../Views/ContentManagement/TermsAndCondtion/TermsAndCondtion';
+import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
+import { ProductsList } from '../Views/Products';
+import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
 import { BidsHistory, PlansHistory } from '../Views/Transactions';
 import ProductsHistory from '../Views/Transactions/ProductsHistory';
 import ReferralHistory from '../Views/Transactions/ReferralHistory';
-import HeaderContent from '../Views/ContentManagement/header-content/HeaderContent';
-import Faqs from '../Views/ContentManagement/Faqs/FaqsContent';
-import ContactUs from '../Views/ContentManagement/ContactUs/ContactUs';
-import TermsAndCondtion from '../Views/ContentManagement/TermsAndCondtion/TermsAndCondtion';
+import Users from '../Views/Users';
+import UserDetails from '../Views/Users/UserDetails';
+import { CustomRouter } from './RootRoutes';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -124,6 +125,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.FAQS_CONTENT.path,
     element: <Faqs />,
     title: ROUTES_CONFIG.FAQS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.path,
+    element: <HowItWorks />,
+    title: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.title,
   },
   {
     path: ROUTES_CONFIG.CONTACTUS_CONTENT.path,

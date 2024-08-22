@@ -208,10 +208,12 @@ export const CONTENT_ENUMS = {
   PRIVACY_POLICY_PAGE: 'privacyPolicy',
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
-  FAQS:"faq",
-  CONTACT_US:"contactUs",
-  LANDING_PAGE:"landingPage",
-  TERMS_AND_CONDITIONS: "termsAndConditions",
+  FAQS: 'faq',
+  LANDING_PAGE: 'landingPage',
+  HOW_IT_WORKS_SECTION: 'howItWorksSection',
+  HOW_IT_WORKS: 'howItWorks',
+  CONTACT_US: 'contactUs',
+  TERMS_AND_CONDITIONS: 'termsAndConditions',
 };
 
 export const BUTTON_LABELS = {
@@ -325,6 +327,7 @@ const ROUTES = {
   WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
   HEADERS_CONTENT: '/content-management/headers',
+  HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
   FQA_CONTENT: '/content-management/faqs',
   CONTACTUS_CONTENT: '/content-management/contact-us',
   TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
@@ -487,6 +490,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.FQA_CONTENT,
     title: 'Faqs Content',
   },
+  HOW_IT_WORKS_CONTENT: {
+    path: ROUTES.HOW_IT_WORKS_CONTENT,
+    title: 'How It Works Content',
+  },
   CONTACTUS_CONTENT: {
     path: ROUTES.CONTACTUS_CONTENT,
     title: 'Contact US Content',
@@ -544,16 +551,14 @@ const TABLE_PAGE_LIMIT = 10;
 const CONFIRMATION_DESCRIPTION_INVOICE =
   'Are you sure you want to generate invoice';
 export {
-  ROUTES,
-  WILDCARD_ROUTES,
-  ROUTES_CONFIG,
-  POPUPTYPES,
-  REFERRAL_STATUS,
-  PRODUCT_PURCHASE_STATUS,
-  BID_PLAN_TYPES,
-  BID_STATUS,
-  TABLE_PAGE_LIMIT,
   BID_CREDIT_TYPES,
-  PRICE_RANGE,
-  CONFIRMATION_DESCRIPTION_INVOICE,
+  BID_PLAN_TYPES,
+  BID_STATUS, CONFIRMATION_DESCRIPTION_INVOICE, POPUPTYPES,
+  PRICE_RANGE, PRODUCT_PURCHASE_STATUS,
+  REFERRAL_STATUS,
+  ROUTES,
+  ROUTES_CONFIG,
+  TABLE_PAGE_LIMIT,
+  WILDCARD_ROUTES
 };
+
