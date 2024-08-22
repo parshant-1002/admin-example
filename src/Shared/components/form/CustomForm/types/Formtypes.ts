@@ -21,6 +21,8 @@ export interface FormSchema {
 }
 export interface FormDataProps {
   type: string;
+  imageFileType?: string;
+  ratio?: number[];
   readOnly?: boolean;
   placeholder: string;
   accept?: string;
@@ -51,5 +53,9 @@ export interface FormDataProps {
   config?: {
     type: string;
     min?: number;
+  };
+  fetchImageDataConfig?: {
+    key?: string;
+    value?: string;
   };
 }

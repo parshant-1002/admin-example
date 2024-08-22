@@ -94,6 +94,8 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  DROP_FILE_HERE: 'Drop file here',
+  NO_FILES_FOUND: 'No files found',
   TOTAL_SUPPLY: 'Total Supply',
   NEXT_BTN: 'next-btn',
   PREV_BTN: 'pre-btn',
@@ -211,6 +213,11 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
+  UPLOAD: ' Upload',
+  CHANGE_FILE: 'Change file',
+  CHOOSE_FILE: 'Choose file',
+  UPDATE_SELECTION: 'Update Selection',
+  SELECT_FILES: 'Select file',
   ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
   YES: 'Yes',
@@ -519,6 +526,22 @@ const TABLE_PAGE_LIMIT = 10;
 
 const CONFIRMATION_DESCRIPTION_INVOICE =
   'Are you sure you want to generate invoice';
+
+const TOAST_MESSAGES = (...arg: (string | number)[]) => ({
+  SELECT_ATLEAST_ONE_FILE: 'Please select at least one file.',
+  PLEASE_CHOOSE_ONLY_ACCEPTED_FILES: `Please choose only ${arg[0]} file.`,
+  PLEASE_UPLOAD_ONLY_ACCEPTED_FILES: `Please upload only ${arg[0]} file.`,
+  IMAGE_RATIO_ERROR: `Please select image of ratio ${arg[0]}:${arg[1]}`,
+});
+const FILE_TYPE: {
+  CMS?: string;
+  PRODUCT?: string;
+  AUCTION?: string;
+} = {
+  CMS: '1',
+  PRODUCT: '2',
+  AUCTION: '3',
+};
 export {
   ROUTES,
   WILDCARD_ROUTES,
@@ -532,4 +555,6 @@ export {
   BID_CREDIT_TYPES,
   PRICE_RANGE,
   CONFIRMATION_DESCRIPTION_INVOICE,
+  TOAST_MESSAGES,
+  FILE_TYPE,
 };

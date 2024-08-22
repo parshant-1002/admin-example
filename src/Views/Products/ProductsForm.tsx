@@ -3,6 +3,7 @@ import { SyntheticEvent } from 'react';
 
 // components
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import {
   useAddProductMutation,
   useEditProductMutation,
@@ -13,11 +14,12 @@ import CustomForm from '../../Shared/components/form/CustomForm';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
+import { updateUploadedImages } from '../../Store/UploadedImages';
 import { PRODUCT_FORM_SCHEMA } from './helpers/constants';
 import { ProductPayload, SelectOption } from './helpers/model';
 
 interface ProductFormTypes {
-  initialData: object | null;
+  initialData: { _id?: string } | null;
   isEdit: boolean;
   onAdd?: () => void;
   onEdit?: () => void;
@@ -32,6 +34,7 @@ export default function ProductForm({
   categoryOptions = [],
 }: ProductFormTypes) {
   // hooks
+  const dispatch = useDispatch();
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
 
@@ -39,6 +42,7 @@ export default function ProductForm({
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
     onAdd();
+    dispatch(updateUploadedImages([]));
   };
   const onSubmit = async (
     data: Record<string, unknown>,
@@ -56,6 +60,8 @@ export default function ProductForm({
         images: productData?.images?.map((image) => ({
           url: addBaseUrl(image?.fileURL || image?.url || ''),
           title: image?.fileName || image?.title,
+          fileId: image?._id,
+          assigned: image?.assigned,
         })),
         // status: productData?.status?.value,
         categoryIds: productData?.category?.map((category) => category?.value),
@@ -89,7 +95,7 @@ export default function ProductForm({
     <CustomForm
       id="products"
       className="row"
-      formData={PRODUCT_FORM_SCHEMA(categoryOptions)}
+      formData={PRODUCT_FORM_SCHEMA(categoryOptions, initialData?._id)}
       onSubmit={onSubmit}
       defaultValues={
         initialData as unknown as Record<string, unknown> | undefined

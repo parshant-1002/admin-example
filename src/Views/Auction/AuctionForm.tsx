@@ -2,6 +2,7 @@
 import { SyntheticEvent, useMemo } from 'react';
 
 // components
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import CustomForm from '../../Shared/components/form/CustomForm';
 
@@ -24,8 +25,9 @@ import {
 } from '../../Services/Api/module/auction';
 
 import { useGetProductsQuery } from '../../Services/Api/module/products';
-import { AuctionResponsePayload } from './helpers/model';
 import { addBaseUrl } from '../../Shared/utils/functions';
+import { updateUploadedImages } from '../../Store/UploadedImages';
+import { AuctionResponsePayload } from './helpers/model';
 
 interface ProductFormTypes {
   initialData: AuctionResponsePayload | null;
@@ -47,7 +49,7 @@ export default function AuctionForm({
   const [editAuction] = useEditAuctionMutation();
   const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
   const { data: productList } = useGetProductsQuery({ skip: 0 });
-
+  const dispatch = useDispatch();
   const helperCatergoryMap = (data: []) => {
     return data.map((category: Category) => ({
       value: category?._id,
@@ -74,6 +76,7 @@ export default function AuctionForm({
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
     onAdd();
+    dispatch(updateUploadedImages([]));
   };
 
   const onSubmit = async (
@@ -96,6 +99,8 @@ export default function AuctionForm({
         images: auctionData?.images?.map((image) => ({
           url: addBaseUrl(image?.fileURL || image?.url),
           title: image?.fileName || image?.title,
+          fileId: image?._id,
+          assigned: image?.assigned,
         })),
         // status: productData?.status?.value,
         categoryIds: auctionData?.categoryIds?.map(

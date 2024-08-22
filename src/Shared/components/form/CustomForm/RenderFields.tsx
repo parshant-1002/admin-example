@@ -100,6 +100,9 @@ function RenderField({
             minLength={minLength || ''}
             control={control}
             className={className}
+            ratio={field?.ratio}
+            imageFileType={field?.imageFileType}
+            fetchImageDataConfig={field?.fetchImageDataConfig}
             value={value}
           />
         );

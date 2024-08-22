@@ -4,6 +4,8 @@ export interface Image {
   title?: string;
   fileURL?: string;
   fileName?: string;
+  assigned?: boolean;
+  fileId?: string;
 }
 
 export interface SelectOption {

@@ -28,7 +28,7 @@ function Dashboard() {
                 <img src={UserIcon} alt="Icon" width="70" />
               </em>
               <span className="text-small">Total Users</span>
-              <h2 className="h4">5,900.00</h2>
+              <h2 className="h4">5,900</h2>
               <span className="d-inline-flex align-items-center badge bg-success">
                 <em className="me-2">
                   <img src={profitIcon} alt="profit" width={16} height={16} />{' '}
@@ -48,7 +48,7 @@ function Dashboard() {
                 <img src={NewUserIcon} alt="Icon" width="70" />
               </em>
               <span className="text-small">New Users (Month)</span>
-              <h2 className="h4">5,900.00</h2>
+              <h2 className="h4">5,900</h2>
               <span className="d-inline-flex align-items-center badge bg-success">
                 <em className="me-2">
                   <img src={profitIcon} alt="profit" width={16} height={16} />{' '}
@@ -68,7 +68,7 @@ function Dashboard() {
                 <img src={SupportIcon} alt="Icon" width="70" />
               </em>
               <span className="text-small">Users Contacted Live Support</span>
-              <h2 className="h4">4,900.00</h2>
+              <h2 className="h4">4,900</h2>
               <span className="d-inline-flex align-items-center badge bg-success">
                 <em className="me-2">
                   <img src={profitIcon} alt="profit" width={16} height={16} />{' '}

@@ -5,6 +5,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
+  FILE_TYPE,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
   blockInvalidChar,
@@ -28,7 +29,10 @@ export const PRODUCT_AVAILABILITY_STATUS = [
   { value: 1, label: 'SOLD OUT' },
   { value: 2, label: 'Available' },
 ];
-export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
+export const PRODUCT_FORM_SCHEMA = (
+  cateroryOptions: SelectOption[],
+  productId?: string
+) => ({
   title: {
     type: INPUT_TYPES.TEXT,
     label: 'Name',
@@ -113,6 +117,12 @@ export const PRODUCT_FORM_SCHEMA = (cateroryOptions: SelectOption[]) => ({
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Add Images',
+    imageFileType: FILE_TYPE.PRODUCT,
+    ratio: [1, 1],
+    fetchImageDataConfig: {
+      key: 'productId',
+      value: productId,
+    },
     schema: {
       required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
     },

@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   DATE_FORMATS,
+  FILE_TYPE,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
 } from '../../../Shared/constants';
@@ -53,10 +54,13 @@ interface ColumnData {
 }
 
 interface Image {
+  _id?: string;
   url: string;
-  title: string;
+  title?: string;
   fileURL?: string;
   fileName?: string;
+  assigned?: boolean;
+  fileId?: string;
 }
 export interface AuctionPayload {
   title: string;
@@ -76,7 +80,7 @@ export interface AuctionPayload {
 export const AUCTION_ADD_FORM_SCHEMA = (
   categoryOptions: SelectOption[],
   productOptions: SelectOption[],
-  initialData: { bidStartDate?: string } | null
+  initialData: AuctionResponsePayload | null
 ) => ({
   title: {
     type: INPUT_TYPES.TEXT,
@@ -225,6 +229,12 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Images',
+    ratio: [1, 1],
+    imageFileType: FILE_TYPE.AUCTION,
+    fetchImageDataConfig: {
+      key: 'auctionId',
+      value: initialData?._id,
+    },
     schema: {
       required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
     },
