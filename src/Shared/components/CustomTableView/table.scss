@@ -245,8 +245,8 @@ $arrow-left: url(../../../../src/assets/icons/arrow-left.svg);
                 a[aria-disabled="true"] {
                     @include opacity (1);
                     pointer-events: $none;
-                    background-color: $grey-light;
-                    border-color: $grey-light;
+                    background-color: $grey-light !important;
+                    border-color: $grey-light !important;
                 }
             }
             &.pre-btn,
