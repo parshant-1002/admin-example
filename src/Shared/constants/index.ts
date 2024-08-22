@@ -209,7 +209,9 @@ export const CONTENT_ENUMS = {
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
   FAQS:"faq",
-  LANDING_PAGE:"landingPage"
+  CONTACT_US:"contactUs",
+  LANDING_PAGE:"landingPage",
+  TERMS_AND_CONDITIONS: "termsAndConditions",
 };
 
 export const BUTTON_LABELS = {
@@ -324,6 +326,8 @@ const ROUTES = {
   CONTENT_MANAGEMENT: '/content-management',
   HEADERS_CONTENT: '/content-management/headers',
   FQA_CONTENT: '/content-management/faqs',
+  CONTACTUS_CONTENT: '/content-management/contact-us',
+  TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -482,6 +486,14 @@ const ROUTES_CONFIG = {
   FAQS_CONTENT: {
     path: ROUTES.FQA_CONTENT,
     title: 'Faqs Content',
+  },
+  CONTACTUS_CONTENT: {
+    path: ROUTES.CONTACTUS_CONTENT,
+    title: 'Contact US Content',
+  },
+  TERMSANDCONDITION_CONTENT: {
+    path: ROUTES.TERM_AND_CONDITION_CONTENT,
+    title: 'Term and Condition Content',
   },
 };
 

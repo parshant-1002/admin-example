@@ -5,79 +5,76 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
-import { FAQ_CONTENT_FORM_SCHEMA } from './helpers/faqs';
-import { RoadMapItem, transformAPIRequestDataFaq, FormData, transAPIRequestDataToFormFaq } from './helpers/transform';
+import { TERMS_AND_CONDITIONS_FORM_SCHEMA } from './helpers/contactus';
+import {  RoadMapItem, TermsAndConditionsFormData, transAPIRequestDataToFormTermsAndConditions, transformAPIRequestDataTermsAndConditions } from './helpers/transform';
 
 const initialState: RoadMapItem = {
   title: '',
   content: '',
   companyLogo: '',
+  moreInormationTitle:'',
   errors: {}
 };
 
 const fieldTypes = {
-  title: INPUT_TYPES.TEXT,
   content: INPUT_TYPES.TEXT,
 };
 
 const labels = {
-  title: 'Add Faq Title',
-  content: 'Add Faq Content',
+  content: 'Add Terms And Condition Section Content',
 };
 
-const FaqsContent = () => {
+const TermsAndCondtion = () => {
   const [roadMap, setRoadMap] = useState<RoadMapItem[]>([initialState]);
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
 
   useEffect(() => {
-    if (content?.data?.[CONTENT_ENUMS.LANDING_PAGE]) {
-      // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormFaq(content.data[CONTENT_ENUMS.LANDING_PAGE]);
-      setInitialValues(initialFormValues);
-  
-      // Extract and set roadMap values
-      const formGetData = content.data[CONTENT_ENUMS.LANDING_PAGE][CONTENT_ENUMS.FAQS]
-        ?.map(({ question, answer }: { question: string, answer: string }) => ({
-          title: String(question),
-          content: String(answer)
-        }));
+    if (content?.data?.[CONTENT_ENUMS.TERMS_AND_CONDITIONS]) {
+        // Set initial form values
+        const initialFormValues = transAPIRequestDataToFormTermsAndConditions(content.data[CONTENT_ENUMS.TERMS_AND_CONDITIONS]);
+        setInitialValues(initialFormValues);
+
+        // Extract and set roadMap values
+        const formGetData = content.data[CONTENT_ENUMS.TERMS_AND_CONDITIONS]
+            ?.sections.map((section: string) => ({
+                content: section
+            }));
         
-      setRoadMap(formGetData);
+        setRoadMap(formGetData || []);
     }
-  }, [content]);
+}, [content]);
   
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    const formData = data as unknown as FormData; 
-    
-    const mappedRoadMap = roadMap.map(item => ({
-      question: item.title || '',  
-      answer: item.content  || '' 
-    }));
+    const formData = data as unknown as TermsAndConditionsFormData;
 
+    const mappedRoadMap = roadMap.map(item => ({
+        content: item.content || ''
+    }));
+  
     const payload = {
-      [CONTENT_ENUMS.LANDING_PAGE]: transformAPIRequestDataFaq(formData, mappedRoadMap),
+        [CONTENT_ENUMS.TERMS_AND_CONDITIONS]: transformAPIRequestDataTermsAndConditions(formData, mappedRoadMap),
     };
 
     await updateContent({
-      payload,
-      onSuccess: (res: { message: string }) => {
-        toast.success(res.message);
-        refetch();
-      },
+        payload,
+        onSuccess: (res: { message: string }) => {
+            toast.success(res.message);
+            refetch();
+        },
     });
-  };
+};
 
   return (
     <CustomCardWrapper>
       <CustomForm
-        formData={FAQ_CONTENT_FORM_SCHEMA}
-        id={'faqs-form'}
+        formData={TERMS_AND_CONDITIONS_FORM_SCHEMA}
+        id={'termsAndCondition-form'}
         onSubmit={onSubmit}
         defaultValues={initialValues}
-        submitText="Update Faqs Content"
+        submitText="Update Terms And Condtion Content"
         preSubmitElement={
           <AddContentForm
             roadMap={roadMap || []}
@@ -92,4 +89,4 @@ const FaqsContent = () => {
   );
 };
 
-export default FaqsContent;
+export default TermsAndCondtion;

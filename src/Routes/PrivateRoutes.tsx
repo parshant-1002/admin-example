@@ -17,6 +17,8 @@ import ProductsHistory from '../Views/Transactions/ProductsHistory';
 import ReferralHistory from '../Views/Transactions/ReferralHistory';
 import HeaderContent from '../Views/ContentManagement/header-content/HeaderContent';
 import Faqs from '../Views/ContentManagement/Faqs/FaqsContent';
+import ContactUs from '../Views/ContentManagement/ContactUs/ContactUs';
+import TermsAndCondtion from '../Views/ContentManagement/TermsAndCondtion/TermsAndCondtion';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -122,6 +124,16 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.FAQS_CONTENT.path,
     element: <Faqs />,
     title: ROUTES_CONFIG.FAQS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.CONTACTUS_CONTENT.path,
+    element: <ContactUs />,
+    title: ROUTES_CONFIG.CONTACTUS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.TERMSANDCONDITION_CONTENT.path,
+    element: <TermsAndCondtion />,
+    title: ROUTES_CONFIG.TERMSANDCONDITION_CONTENT.title,
   },
   // Wildcard
   {
