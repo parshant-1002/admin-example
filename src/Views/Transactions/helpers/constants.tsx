@@ -41,7 +41,9 @@ export const PRODUCT_STATUS = [
 ];
 
 // Define the shape of the columns
-export const PlansHistoryColumns: ColumnData[] = [
+export const PlansHistoryColumns = (
+  handleInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
     title: STRINGS.T_ID,
     fieldName: 'id',
@@ -123,13 +125,13 @@ export const PlansHistoryColumns: ColumnData[] = [
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="btn btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          <Button>{STRINGS.GENERATE}</Button>
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),
@@ -137,12 +139,12 @@ export const PlansHistoryColumns: ColumnData[] = [
 ];
 
 // Define the shape of the columns
-export const BidsHistoryColumns: ColumnData[] = [
+export const BidsHistoryColumns = (onDashBoard?: boolean): ColumnData[] => [
   {
     title: STRINGS.T_ID,
     fieldName: 'id',
     render: renderIdWithHash,
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'id',
   },
   {
@@ -157,13 +159,13 @@ export const BidsHistoryColumns: ColumnData[] = [
     title: STRINGS.AUCTION_ID,
     fieldName: 'auctionId',
     render: renderIdWithHash,
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'auctionId',
   },
   {
     title: STRINGS.AUCTION_NAME,
     path: ['auctionDetails', 'title'],
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'auctionName',
   },
   {
@@ -174,14 +176,14 @@ export const BidsHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.DATE,
     fieldName: 'createdAt',
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
     title: STRINGS.ITEM_PRICE,
     fieldName: 'currentBidPrice',
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'currentBidPrice',
     render: (_, val) => `${convertToLocale(val)}`,
   },
@@ -205,8 +207,10 @@ export const BidsHistoryColumns: ColumnData[] = [
 // Define the shape of the columns
 export const ProductsHistoryColumns = ({
   handleMoreImagesClick = () => {},
+  handleInvoice = () => {},
 }: {
   handleMoreImagesClick: (imgs: Image[]) => void;
+  handleInvoice: (row: Invoice) => void;
 }): ColumnData[] => [
   {
     title: STRINGS.T_ID,
@@ -299,13 +303,13 @@ export const ProductsHistoryColumns = ({
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn-transparent"
+            className="btn btn44 btn-primary"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          <Button>{STRINGS.GENERATE}</Button>
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),
@@ -322,7 +326,7 @@ export const ReferralHistoryColumns: ColumnData[] = [
     sortType: 'id',
   },
   {
-    title: STRINGS.PLAN_ID,
+    title: 'Plan Id',
     fieldName: 'referralPackId',
     render: renderIdWithHash,
     sortable: true,

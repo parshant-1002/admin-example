@@ -2,13 +2,13 @@
 import { SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import { ErrorResponse } from '../../../Models/Apis/Error';
 import { useLoginMutation } from '../../../Services/Api/module/auth';
 import CustomForm from '../../../Shared/components/form/CustomForm';
 import { ROUTES } from '../../../Shared/constants';
-import './style.scss';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
+import { auction } from '../../../assets';
 import LOGIN_FORM_SCHEMA from './helpers/loginSchema';
+import './style.scss';
 
 interface LoginResponse {
   message: string;
@@ -24,9 +24,6 @@ function LoginPage() {
       state: { qrCode: data?.qrCodeURL, email: emailData },
     });
   };
-  const onErrorLogin = (error: ErrorResponse) => {
-    toast.error(error.data.message || error.error);
-  };
   const onSubmit = async (
     data: Record<string, unknown>,
     event: SyntheticEvent,
@@ -38,7 +35,6 @@ function LoginPage() {
       await loginRequest({
         payload: data,
         onSuccess: (res: LoginResponse) => onSuccessLogin(res, emailData),
-        onFailure: onErrorLogin,
       });
       reset();
     } catch (error: unknown) {
@@ -51,18 +47,32 @@ function LoginPage() {
   };
 
   return (
-    <div className="front-screen">
-      <div className="front-form m-auto d-flex align-items-center justify-content-center">
-        <div className="w-100 bg-white p-4 rounded border">
+    <div className="d-flex flex-column align-items-center justify-content-center w-100 form_front min-vh-100">
+      <div className="logo_login d-flex align-items-center justify-content-center">
+        <img
+          src={auction}
+          alt="Drag Racing"
+          width="150"
+          className="img-fluid"
+        />
+      </div>
+      <div className="form_card text-start">
+        <div className="col-md-12 login_secn">
           <div className="text-center title_group">
-            <h2 className="h3">Login</h2>
+            <span className="text-white fw-medium">Login</span>
           </div>
-          <CustomForm
-            id="login"
-            formData={LOGIN_FORM_SCHEMA}
-            onSubmit={onSubmit}
-            submitText="Login"
-          />
+          <div className="form-content">
+            <p className="p text-center w-100 form-disc">
+              Enter email address for log in
+            </p>
+            <CustomForm
+              id="login"
+              formData={LOGIN_FORM_SCHEMA}
+              onSubmit={onSubmit}
+              submitText="Login"
+              className="main-form"
+            />
+          </div>
         </div>
       </div>
     </div>

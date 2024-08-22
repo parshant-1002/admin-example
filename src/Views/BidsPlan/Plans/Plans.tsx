@@ -3,13 +3,13 @@ import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import AddEditPlan from '../components/AddEditPlan';
 
 // Constants
@@ -36,12 +36,14 @@ import {
 } from '../../../Services/Api/module/plans';
 
 // Utilities
-import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
-import { Filter, RED_WARNING } from '../../../assets';
-import { calculateDiscountedPrice } from '../helpers/utils';
 import Filters from '../../../Shared/components/Filters';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
+import { Filter, RED_WARNING } from '../../../assets';
+import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
+import { calculateDiscountedPrice } from '../helpers/utils';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 interface Popup {
   show: boolean;
@@ -89,6 +91,10 @@ function Plans() {
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
+  });
+  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
+    data: { title: '' },
+    show: false,
   });
 
   const [editBidPlan] = useEditBidPlanMutation();
@@ -138,9 +144,9 @@ function Plans() {
       delete payload[PLAN_FORM_FIELDS.END_DATE];
     }
 
-    payload[PLAN_FORM_FIELDS.IMAGE_URL] =
-      (data[PLAN_FORM_FIELDS.IMAGE_URL] as { fileURL: string }[])[0]?.fileURL ||
-      '';
+    // payload[PLAN_FORM_FIELDS.IMAGE_URL] =
+    //   (data[PLAN_FORM_FIELDS.IMAGE_URL] as { fileURL: string }[])[0]?.fileURL ||
+    //   '';
 
     if (popup.type === POPUPTYPES.EDIT) {
       payload.bidPlanId = popup.data?._id;
@@ -235,6 +241,7 @@ function Plans() {
         handleDelete: handleDeleteClick,
         handleStatusChange,
         handleSelectMultiple,
+        setShowMultiItemView,
         selectedIds,
       }),
     [handleStatusChange, handleView, selectedIds]
@@ -287,9 +294,15 @@ function Plans() {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
     });
+    setCurrentPage(0);
   };
   return (
     <div>
+      <ViewMultiTableItem
+        show={showMultiItemView}
+        setShow={setShowMultiItemView}
+      />
+
       {/* Filters */}
       <Filters
         handleClearSearch={() => setSearch('')}

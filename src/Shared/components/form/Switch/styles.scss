@@ -67,6 +67,7 @@
         background-color: white;
         border-radius: 25px;
         transition: transform 0.3s;
+        border: 1px solid #ddd;
       }
     }
     input:checked + .slider {

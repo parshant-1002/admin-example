@@ -1,10 +1,10 @@
-import { Delete, edit, InvoiceIcon, view } from '../../../assets';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { Dispatch, SetStateAction } from 'react';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import TruncateText from '../../../Shared/components/TruncateText';
 import {
   BID_PLAN_TYPES,
-  IMAGE_FILE_TYPES,
   INPUT_TYPES,
   REFERRAL_STATUS,
   STRINGS,
@@ -15,6 +15,8 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
+import { Delete, InvoiceIcon, edit, view } from '../../../assets';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -35,7 +37,15 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.PLAN_NAME,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.PLAN_NAME).REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
   [PLAN_FORM_FIELDS.PRICE]: {
@@ -44,30 +54,34 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.DEAL_PRICE,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.DEAL_PRICE).REQUIRED,
       min: {
-        value: 0,
-        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
   },
-  [PLAN_FORM_FIELDS.IMAGE_URL]: {
-    type: INPUT_TYPES.FILE,
-    label: 'Images',
-    accept: IMAGE_FILE_TYPES,
-    className: 'col-md-12',
-    placeholder: 'Images',
-  },
+  // [PLAN_FORM_FIELDS.IMAGE_URL]: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Images',
+  //   accept: IMAGE_FILE_TYPES,
+  //   className: 'col-md-12',
+  //   placeholder: 'Images',
+  // },
   [PLAN_FORM_FIELDS.BIDS]: {
     type: INPUT_TYPES.NUMBER,
     label: STRINGS.BIDS_CREDITED,
     className: 'col-md-12',
     placeholder: STRINGS.BIDS_CREDITED,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CREDITED).REQUIRED,
       min: {
-        value: 0,
-        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
       },
     },
   },
@@ -77,7 +91,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.HOT_DEAL,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.HOT_DEAL).REQUIRED,
     },
     options: [
       {
@@ -100,10 +114,11 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           min: 0,
           max: 100,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE)
+              .REQUIRED,
             min: {
               value: 0,
-              message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
             },
             max: {
               value: 100,
@@ -118,7 +133,12 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
           readOnly: true,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE)
+              .REQUIRED,
+            min: {
+              value: 1,
+              message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+            },
           },
         },
         [PLAN_FORM_FIELDS.END_DATE]: {
@@ -128,7 +148,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           placeholder: STRINGS.END_DATE,
           min: formatDate(new Date(), 'YYYY-MM-DD'),
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.END_DATE).REQUIRED,
           },
         },
       }
@@ -139,7 +159,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.STATUS,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.STATUS).REQUIRED,
     },
   },
 });
@@ -150,6 +170,7 @@ interface CreateReferralProps {
   handleEdit: (row: Record<string, unknown>) => void;
   handleStatusChange: (row: Record<string, unknown>) => void;
   handleSelectMultiple?: (id: string) => void;
+  setShowMultiItemView?: Dispatch<SetStateAction<ViewMultiData>>;
   selectedIds?: string[];
 }
 
@@ -160,6 +181,7 @@ export const PlansColumns = ({
   handleEdit,
   handleStatusChange,
   handleSelectMultiple = () => {},
+  // setShowMultiItemView = () => {},
   selectedIds = [],
 }: CreateReferralProps): ColumnData[] => [
   {
@@ -200,18 +222,30 @@ export const PlansColumns = ({
     fieldName: PLAN_FORM_FIELDS.PRICE,
     render: (_, val) => `${convertToLocale(val)}`,
   },
-  {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-    render: (_, imageURL: string | number) => (
-      <div className="d-inline-flex align-items-center position-relative uploaded_file">
-        <figure key={String(imageURL)}>
-          <FileRenderer fileURL={String(imageURL)} />
-        </figure>
-      </div>
-    ),
-  },
+  // {
+  //   title: STRINGS.IMAGE,
+  //   fieldName: 'imageURL',
+  //   sortable: false,
+  //   render: (_, imageURL: string | number) => (
+  //     <div className="d-inline-flex align-items-center position-relative uploaded_file pointer">
+  //       <figure
+  //         key={String(imageURL)}
+  //         onClick={() =>
+  //           setShowMultiItemView({
+  //             show: true,
+  //             data: {
+  //               title: 'Product Images',
+  //               size: 'lg',
+  //               imgData: [{ url: String(imageURL) }],
+  //             },
+  //           })
+  //         }
+  //       >
+  //         <FileRenderer fileURL={String(imageURL)} />
+  //       </figure>
+  //     </div>
+  //   ),
+  // },
   {
     title: STRINGS.CREATED_AT,
     fieldName: 'createdAt',
@@ -244,7 +278,7 @@ export const PlansColumns = ({
     title: STRINGS.STATUS,
     fieldName: PLAN_FORM_FIELDS.STATUS,
     render: (row, isEnabled) => (
-      <div className="form-check form-switch">
+      <div className="form-check form-switch d-flex d-lg-block justify-content-end">
         <input
           className="form-check-input"
           type="checkbox"
@@ -290,28 +324,30 @@ export const PlansColumns = ({
 export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.USERNAME,
     fieldName: 'name',
     sortable: true,
-    sortType: 'name',
-    render: (row) => row?.refererUser?.name,
+    sortType: 'userName',
+    render: (row) => <TruncateText text={row?.user?.name} />,
   },
   {
     title: STRINGS.EMAIL,
     fieldName: 'email',
     sortable: true,
-    sortType: 'email',
-    render: (row) => row?.refererUser?.email,
+    sortType: 'userEmail',
+    render: (row) => <TruncateText text={row?.user?.email} />,
   },
   {
     title: STRINGS.DEAL_OFFER,
-    fieldName: 'dealOffer',
+    fieldName: 'dealOfferPercentage',
     sortable: true,
-    sortType: 'dealOffer',
+    sortType: 'dealOfferPercentage',
     render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
@@ -322,28 +358,10 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-  },
-  {
-    title: STRINGS.REFEREE_EMAIL,
-    fieldName: 'refereeEmail',
-    sortable: true,
-    sortType: 'refereeBidRequirement',
-    render: (row) => row?.refereeUser?.email,
-  },
-  {
-    title: STRINGS.REWARD_AT,
-    fieldName: 'rewardAt',
-    sortable: true,
-    sortType: 'refereePurchasedBids',
-  },
-  {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'purchasedBids',
+    fieldName: 'bids',
     sortable: true,
-    sortType: 'purchasedBids',
+    sortType: 'bids',
   },
   {
     title: STRINGS.STATUS,
@@ -365,18 +383,20 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.DATE,
     fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
     render: (row) => formatDate(row?.createdAt),
   },
   {
     title: STRINGS.INVOICE,
     render: (row) =>
-      row?.url ? (
+      row?.invoiceURL ? (
         <div className="text-center">
           {' '}
           <img src={InvoiceIcon} alt="invoice" />{' '}
         </div>
       ) : (
-        ''
+        '-.-'
       ),
   },
 ];

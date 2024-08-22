@@ -57,13 +57,13 @@
   @include transition (all, 0.5s, ease-in-out);
   &:hover{
     box-shadow: 0px 4px 16px 0px rgba($dark-voilet-color-700, .25)!important;
-    background-color: $dark-voilet-color-900;
+    background-color: $primary-color;
     border-color: rgba($bordercolor, 1);
     color: $white-color!important;
   }
   &:focus, &:active{
     box-shadow: 0px 4px 16px 0px rgba($dark-voilet-color-700, .25)!important;
-    background: $dark-voilet-color-900!important;
+    background: $primary-color!important;
     border-color: $bordercolor!important;
     color: $white-color!important;
   }
@@ -299,7 +299,7 @@
   inset-inline-end: 0px;
   background: $transparent;
   @media (max-width:1199.98px){
-    height: 66px;
+    height: 23px;
   }
 }
 @mixin top-curve-before{

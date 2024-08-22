@@ -39,9 +39,17 @@ export interface FormDataProps {
   name?: string;
   addHorizontalLine?: boolean;
   addHorizontalTitle?: string;
+  blockInvalidChars?: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    chars?: string[]
+  ) => void;
   checkOptions?: {
     label: string;
     value: string;
   }[];
   isMulti?: boolean;
+  config?: {
+    type: string;
+    min?: number;
+  };
 }

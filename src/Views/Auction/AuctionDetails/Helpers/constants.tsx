@@ -105,7 +105,7 @@ export const AuctionColumn = (
     title: 'Bid Timer',
     isEditable: false,
     type: DetailType.Number,
-    fieldName: 'turnTimer',
+    fieldName: 'bidDuration',
     render: (row) => `${convertToLocale(row?.reservePrice)} sec`,
   },
   {
@@ -166,9 +166,9 @@ export const AuctionColumn = (
     render: (row) => `${convertToLocale(row?.reservePrice, true)}`,
   },
   {
-    title: 'Attachements',
+    title: 'Attachment',
     isEditable: false,
-    fieldName: 'productImage',
+    fieldName: 'images',
     render: (_, val) => {
       const imgData = val as unknown as {
         _id: string;

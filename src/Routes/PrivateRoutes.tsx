@@ -6,9 +6,11 @@ import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
 import AuctionManagementList from '../Views/Auction/AuctionManagementList';
 import { PlanDetailedView, Plans } from '../Views/BidsPlan';
 import { CategoriesList } from '../Views/Categories';
+import ContactUs from '../Views/ContentManagement/ContactUs/ContactUs';
 import Faqs from '../Views/ContentManagement/Faqs/FaqsContent';
 import HeaderContent from '../Views/ContentManagement/header-content/HeaderContent';
 import HowItWorks from '../Views/ContentManagement/How-it-works/HowItWorksContent';
+import TermsAndCondtion from '../Views/ContentManagement/TermsAndCondtion/TermsAndCondtion';
 import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
 import { ProductsList } from '../Views/Products';
 import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
@@ -128,6 +130,16 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.path,
     element: <HowItWorks />,
     title: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.CONTACTUS_CONTENT.path,
+    element: <ContactUs />,
+    title: ROUTES_CONFIG.CONTACTUS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.TERMSANDCONDITION_CONTENT.path,
+    element: <TermsAndCondtion />,
+    title: ROUTES_CONFIG.TERMSANDCONDITION_CONTENT.title,
   },
   // Wildcard
   {

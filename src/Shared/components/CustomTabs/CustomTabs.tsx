@@ -12,7 +12,7 @@ function CustomTabs({
   activeTab: string;
 }) {
   return (
-    <ul className="nav nav-tabs mt-3 mx-0 mb-3">
+    <ul className="nav nav-tabs mt-3 mx-0 mb-3 flex-column flex-lg-row">
       {tabs?.map((tab: string) => (
         <li
           key={tab}

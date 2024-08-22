@@ -48,13 +48,12 @@ const FaqsContent = () => {
       setInitialValues(initialFormValues);
 
       // Extract and set roadMap values
-      const formGetData = content.data[CONTENT_ENUMS.LANDING_PAGE][
-        CONTENT_ENUMS.FAQS
-      ].map(({ question, answer }: { question: string; answer: string }) => ({
-        title: String(question),
-        content: String(answer),
-      }));
-
+      const formGetData = content.data[CONTENT_ENUMS.LANDING_PAGE][CONTENT_ENUMS.FAQS]
+        ?.map(({ question, answer }: { question: string, answer: string }) => ({
+          title: String(question),
+          content: String(answer)
+        }));
+        
       setRoadMap(formGetData);
     }
   }, [content]);
@@ -93,7 +92,7 @@ const FaqsContent = () => {
         submitText="Update Faqs Content"
         preSubmitElement={
           <AddContentForm
-            roadMap={roadMap}
+            roadMap={roadMap || []}
             setRoadMap={setRoadMap}
             types={fieldTypes}
             labels={labels}

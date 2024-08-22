@@ -42,12 +42,15 @@ const transformBidderPurchaseResponse = (
   return {
     data: data?.data?.map((bidsPurchaseHistory) => ({
       id: bidsPurchaseHistory?.id,
+      _id: bidsPurchaseHistory?._id,
       packName: bidsPurchaseHistory?.bidPlan?.title,
       dealOffer: bidsPurchaseHistory?.bidPlan?.dealOffer,
       dealPrice: bidsPurchaseHistory?.bidPlan?.dealPrice,
       bids: bidsPurchaseHistory?.bids,
       date: bidsPurchaseHistory?.createdAt,
       status: getKeyByValue(BID_CREDIT_TYPES, bidsPurchaseHistory?.type),
+      invoiceURL: bidsPurchaseHistory?.invoiceURL,
+      invoiceDate: bidsPurchaseHistory?.invoiceDate,
     })),
     count: data?.count,
   };

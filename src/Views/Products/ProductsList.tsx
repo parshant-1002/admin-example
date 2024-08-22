@@ -279,6 +279,7 @@ export default function ProductsList() {
       priceRangeMax: filterState?.priceRange?.[1],
       categoryId: filterState?.selectedBrand?.value,
     });
+    setCurrentPage(0);
   };
   return (
     <div>
@@ -341,6 +342,7 @@ export default function ProductsList() {
         showDateFilter
         priceRange={PRICE_RANGE}
         handleApply={handleApplyFilters}
+        handleClearAll={() => setSelectedIds([])}
       />
 
       <CustomTableView

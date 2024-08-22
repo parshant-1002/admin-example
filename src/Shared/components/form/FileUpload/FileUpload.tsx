@@ -269,9 +269,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
     const handleChooseFile = (file: Files[] | undefined) => {
       if (!checkValidFileExtension(file?.[0]?.fileURL, accept)) {
-        return toast.error(`Please choose only ${accept} file.`, {
-          position: 'top-left',
-        });
+        return toast.error(`Please choose only ${accept} file.`);
       }
       if (file?.length) {
         onChange(file);

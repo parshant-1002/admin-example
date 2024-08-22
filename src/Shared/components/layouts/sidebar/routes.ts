@@ -24,6 +24,14 @@ const SIDEBAR_NAV = [
         label: 'FAQ',
         route: ROUTES.FQA_CONTENT,
       },
+      {
+        label: 'Contact US',
+        route: ROUTES.CONTACTUS_CONTENT,
+      },
+      {
+        label: 'Terms and Condition',
+        route: ROUTES.TERM_AND_CONDITION_CONTENT,
+      },
     ],
   },
   {
@@ -52,11 +60,11 @@ const SIDEBAR_NAV = [
     label: 'Invoices',
     children: [
       {
-        label: 'Auction',
+        label: 'Products',
         route: ROUTES.INVOICES_AUCTION,
       },
       {
-        label: 'Purchase',
+        label: 'Bids',
         route: ROUTES.INVOICES_PURCHASE,
       },
     ],

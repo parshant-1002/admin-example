@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
+import { Button } from 'react-bootstrap';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
 import {
   DATE_FORMATS,
@@ -13,7 +14,7 @@ import {
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../../Shared/utils/functions';
-import { InvoiceIcon, arrowRight, downArrow } from '../../../../assets';
+import { InvoiceIcon, downArrow } from '../../../../assets';
 import { UserBid, ViewMultiData } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
@@ -59,8 +60,9 @@ interface ColumnData {
 }
 
 // Define the shape of the columns
-const bidsPurchaseHistoryColumn // renderActions: RenderActions
-: ColumnData[] = [
+const bidsPurchaseHistoryColumn = (
+  handleInvoice: (row: UserBid) => void
+): ColumnData[] => [
   {
     title: 'Id',
     fieldName: 'id',
@@ -118,13 +120,13 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn44 btn-primary"
+            className="cursor-pointer btn44 btn-primary btn"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          '-.-'
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),
@@ -348,9 +350,11 @@ export const auctionHistoryColumn = (
       <div>
         {val}
         <img
-          src={selectedRow?.includes(row._id || '') ? downArrow : arrowRight}
+          src={downArrow}
           alt=""
-          className="ps-"
+          className={
+            selectedRow?.includes(row._id || '') ? 'arrow up' : 'arrow down'
+          }
           width={20}
         />
       </div>
@@ -484,7 +488,15 @@ const ADD_BIDS_FORM_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Add Bids',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Add Bids').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
     },
   },
 };

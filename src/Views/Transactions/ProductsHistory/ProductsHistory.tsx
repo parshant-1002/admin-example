@@ -3,14 +3,21 @@ import { debounce } from 'lodash';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
+import { toast } from 'react-toastify';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import { Filters, SeeAllImagesModal } from '../../../Shared/components';
+import {
+  ConfirmationModal,
+  Filters,
+  SeeAllImagesModal,
+} from '../../../Shared/components';
 
 // Constants
 import {
+  BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
   FilterOrder,
   PRICE_RANGE,
   STRINGS,
@@ -25,6 +32,9 @@ import { useGetInvoicesQuery } from '../../../Services/Api/module/invoices';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
 import { Image } from '../../../Models/common';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { useUserProductsInvoiceGenerationMutation } from '../../../Services/Api/module/invoiceGeneration';
+import { Invoice, InvoiceData } from '../helpers/model';
+import { RED_WARNING } from '../../../assets';
 
 // Interfaces
 interface QueryParams {
@@ -45,7 +55,10 @@ function ProductsHistory() {
     FilterOrder.ASCENDING
   );
   const [moreImagesPopup, setMoreImagesPopup] = useState<Image[]>();
-
+  const [invoiceModal, setInvoiceModal] = useState<InvoiceData>({
+    show: false,
+    data: null,
+  });
   // Refs
   const onComponentMountRef = useRef(false);
 
@@ -65,7 +78,10 @@ function ProductsHistory() {
       queryParams as unknown as Record<string, unknown>
     ),
   });
-
+  const [generateInvoice] = useUserProductsInvoiceGenerationMutation();
+  const handleInvoice = (row: Invoice) => {
+    setInvoiceModal({ show: true, data: row });
+  };
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -92,7 +108,7 @@ function ProductsHistory() {
 
   // Memoized columns for table
   const columns = useMemo(
-    () => ProductsHistoryColumns({ handleMoreImagesClick }),
+    () => ProductsHistoryColumns({ handleMoreImagesClick, handleInvoice }),
     []
   );
 
@@ -111,6 +127,22 @@ function ProductsHistory() {
       purchasedPriceMin: filterState?.priceRange?.[0],
       purchasedPriceMax: filterState?.priceRange?.[1],
     });
+    setCurrentPage(0);
+  };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = () => {
+    generateInvoice({
+      payload: {
+        userProductId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetch();
+        handleCloseInvoice();
+      },
+    });
   };
   return (
     <div>
@@ -119,6 +151,17 @@ function ProductsHistory() {
         show={!!moreImagesPopup?.length}
         onClose={() => setMoreImagesPopup([])}
         images={moreImagesPopup}
+      />
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
       />
 
       <Filters

@@ -1,76 +1,99 @@
 @import '../../../assets/scss/base';
 
-.front-screen {
-    height: 100vh;
-}
-
-.login-header {
-    padding: 20px 15px;
-}
-
-.front_logo {
-    text-align: $center;
-    img {
-        max-width: 200px;
-    }
-}
-
-.front-form {
-    padding: 40px;
-    max-width: 540px;
-    min-height: calc(100vh - 66px);
-    @media (max-width:767px){
-        padding: 25px;
-    }
-    label {
-        color: rgba($black-color, .7);
-        font-weight: $font-medium;
-    }
-    .form-control {
-        background-color: $grey-light-color-300;
-        border-color: $grey-color-400;
-    }
+.form_front { 
+    background: url(../../../assets/images/loginBg.png) $no-repeat;
+    background-size: $cover;
+    padding: 15px;
     @at-root {
-        .title_group {
-            margin: 0 0 15px;
-            .h3 {
-                @include font-size (1.5);
-                color: $black-color;
-                text-align: $center;
-            }
-            p {
-                @include font-size (.875);
-                color: rgba($black-color, .7);
-            }
-        }
-        .front_pic {
-            width: 100%;
-            height: 100%;
-            cursor: $pointer;
-            text-align: $center;
-            background: $body-color;
-            img {
+        .form_card {
+            max-width: 470px;
+            width: 860px;
+            @include border-radius (20px);
+            border: 1px solid $dark-voilet-color-900;
+            background-color: $white-color;
+            box-shadow: 0px 15px 10px rgba($black-color, 0.5);
+            font-family: $Popin-font;
+            @media (max-width:767px){
                 max-width: 100%;
             }
+            .h2 {
+                @include font-size(3);
+            }
         }
-        .forgot_txt {
-            @include font-size (.875);
-            @include transition-mixin (all, .5s, ease-in-out);
-            &:hover {
-                color: $base-color;
-                text-decoration: $underline;
+    }
+    @at-root .form_pad {
+        padding:30px 50px;
+    }
+    @at-root .logo_login {
+        max-width: 100px;
+        margin-top: -90px;
+        img {
+            width: 70px;
+            margin-bottom: 20px;
+        }
+    }
+}
+.title_group{    
+    background: $blue-color; 
+    padding-block: 10px;
+    font-size: 22px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    &:has(.qrSec){
+        padding-bottom: 0 !important;
+    }
+}
+.form-content{
+    padding: 20px 32px 32px;
+    min-height: 250px;
+    width: 100%;
+    .form-disc{
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        text-transform: $none;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: -0.03em;
+        margin: auto;
+        margin-bottom: 16px;
+        color: $black-color-100;
+        max-width: 360px;
+    }
+    .form-control{
+        padding: 12px 18px;
+    }
+    .btn_groups{
+        margin-bottom: 0 !important;
+        flex-direction: column;
+        button{
+            width: 100%;
+            font-size: 16px;
+            line-height: 1.1;
+            padding-block: 12px;
+            background-color: $blue-color;
+            &[disabled]{
+                opacity: 0.5;
+            }
+        }
+    }
+    .otpSec{
+        .btn_groups{
+            gap:16px !important;
+            margin-top: 0 !important;
+            button{
+                &:first-child{
+                    background-color: transparent;
+                    color: $black-color-100;
+                    font-weight: 600;
+                    letter-spacing: -0.03em;
+                }
             }
         }
     }
 }
-
-.show_hide_pwd {
-    @include position($absolute,$right:0, $top:0);
-    background-color: $transparent;
-    @include flexCenter;
-    height: 100%;
-    border: 0;
-    &:hover, &:focus, &:active{
-        border: 0;
-    }
+.toggle-space-between{  
+    display: flex;
+    justify-content: space-between;
 }
+
