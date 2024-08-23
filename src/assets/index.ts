@@ -29,6 +29,8 @@ import RedirectionIcon from './icons/arrow-redirection.svg';
 import sortIcon from './icons/sort-icon.svg';
 import addIcon from './icons/add-icon.svg';
 import auction from './images/auction.png';
+import calender from './icons/calender_icon_black.svg';
+import downArrowFilter from './icons/down-arrow-ico.svg';
 
 export {
   Logo,
@@ -62,4 +64,6 @@ export {
   sortIcon,
   addIcon,
   auction,
+  calender,
+  downArrowFilter,
 };

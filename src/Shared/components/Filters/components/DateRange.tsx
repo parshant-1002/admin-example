@@ -9,7 +9,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { FILTER_CONSTS } from '../../../constants';
 import DateRangeSelector from '../../DateRangeSelector';
 import { FiltersState } from '../helpers/models';
-
+import { calender } from '../../../../assets';
 // types
 interface DateRangeProps {
   startDate?: string | Date;
@@ -109,6 +109,7 @@ function DateRange({
         setDateRange={settingDateRange}
         setClickCount={setClickCount}
         isInitialEmpty={isInitialEmpty}
+        icon={calender}
       />
     </>
   );
