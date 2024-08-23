@@ -60,9 +60,22 @@ export default function ProductForm({
         images: productData?.images?.map((image) => ({
           url: addBaseUrl(image?.fileURL || image?.url || ''),
           title: image?.fileName || image?.title,
-          fileId: image?._id,
+          fileId: image?.fileId || image?._id,
           assigned: image?.assigned,
         })),
+        specifications: {
+          registrationNumber: productData?.registrationNumber,
+          modelYear: productData?.modelYear,
+          paint: productData?.paint,
+          fuel: productData?.fuel?.value,
+          motor: productData?.motor,
+          gearbox: productData?.gearbox?.value,
+          gearCount: productData?.gearCount,
+          seatCount: productData?.seatCount,
+          security: productData?.security,
+          comfort: productData?.comfort,
+          appearance: productData?.appearance,
+        },
         // status: productData?.status?.value,
         categoryIds: productData?.category?.map((category) => category?.value),
       };

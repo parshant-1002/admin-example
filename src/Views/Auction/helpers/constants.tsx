@@ -80,7 +80,9 @@ export interface AuctionPayload {
 export const AUCTION_ADD_FORM_SCHEMA = (
   categoryOptions: SelectOption[],
   productOptions: SelectOption[],
-  initialData: AuctionResponsePayload | null
+  initialData: AuctionResponsePayload | null,
+  isEdit: boolean,
+  selectedProductDetails: { _id: string }
 ) => ({
   title: {
     type: INPUT_TYPES.TEXT,
@@ -231,10 +233,23 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Images',
     ratio: [1, 1],
     imageFileType: FILE_TYPE.AUCTION,
-    fetchImageDataConfig: {
-      key: 'auctionId',
-      value: initialData?._id,
-    },
+    fetchImageDataConfig: isEdit
+      ? [
+          {
+            key: 'auctionId',
+            value: initialData?._id,
+          },
+          {
+            key: 'productId',
+            value: selectedProductDetails?._id,
+          },
+        ]
+      : [
+          {
+            key: 'productId',
+            value: selectedProductDetails?._id,
+          },
+        ],
     schema: {
       required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
     },

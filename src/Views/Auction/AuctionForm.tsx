@@ -1,5 +1,5 @@
 // libs
-import { SyntheticEvent, useMemo } from 'react';
+import { SyntheticEvent, useMemo, useState } from 'react';
 
 // components
 import { useDispatch } from 'react-redux';
@@ -47,6 +47,9 @@ export default function AuctionForm({
   // hooks
   const [addAuction] = useAddAuctionMutation();
   const [editAuction] = useEditAuctionMutation();
+  const [selectedProductDetails, setSelectedProductDetails] = useState({
+    _id: '',
+  });
   const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
   const { data: productList } = useGetProductsQuery({ skip: 0 });
   const dispatch = useDispatch();
@@ -99,7 +102,7 @@ export default function AuctionForm({
         images: auctionData?.images?.map((image) => ({
           url: addBaseUrl(image?.fileURL || image?.url),
           title: image?.fileName || image?.title,
-          fileId: image?._id,
+          fileId: image?.fileId || image?._id,
           assigned: image?.assigned,
         })),
         // status: productData?.status?.value,
@@ -158,6 +161,7 @@ export default function AuctionForm({
         setValue('description', productDetails.description);
         setValue('productPrice', productDetails.price);
         setValue('images', productDetails?.images);
+        setSelectedProductDetails(productDetails);
       }
     }
   };
@@ -169,7 +173,9 @@ export default function AuctionForm({
       formData={AUCTION_ADD_FORM_SCHEMA(
         cateroryOptions,
         productOptions,
-        initialData
+        initialData,
+        isEdit,
+        selectedProductDetails
       )}
       handleStateDataChange={handleStateChange}
       onSubmit={onSubmit}

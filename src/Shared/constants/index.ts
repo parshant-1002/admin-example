@@ -94,6 +94,7 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  SPECIFICATIONS: 'Specifications',
   DROP_FILE_HERE: 'Drop file here',
   NO_FILES_FOUND: 'No files found',
   TOTAL_SUPPLY: 'Total Supply',
@@ -213,6 +214,7 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
+  VIEW: 'View',
   UPLOAD: ' Upload',
   CHANGE_FILE: 'Change file',
   CHOOSE_FILE: 'Choose file',
@@ -540,21 +542,21 @@ const FILE_TYPE: {
 } = {
   CMS: '1',
   PRODUCT: '2',
-  AUCTION: '3',
+  AUCTION: '2',
 };
 export {
-  ROUTES,
-  WILDCARD_ROUTES,
-  ROUTES_CONFIG,
-  POPUPTYPES,
-  REFERRAL_STATUS,
-  PRODUCT_PURCHASE_STATUS,
+  BID_CREDIT_TYPES,
   BID_PLAN_TYPES,
   BID_STATUS,
-  TABLE_PAGE_LIMIT,
-  BID_CREDIT_TYPES,
-  PRICE_RANGE,
   CONFIRMATION_DESCRIPTION_INVOICE,
-  TOAST_MESSAGES,
   FILE_TYPE,
+  POPUPTYPES,
+  PRICE_RANGE,
+  PRODUCT_PURCHASE_STATUS,
+  REFERRAL_STATUS,
+  ROUTES,
+  ROUTES_CONFIG,
+  TABLE_PAGE_LIMIT,
+  TOAST_MESSAGES,
+  WILDCARD_ROUTES,
 };

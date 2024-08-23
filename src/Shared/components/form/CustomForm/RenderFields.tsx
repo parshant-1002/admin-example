@@ -220,10 +220,7 @@ function RenderField({
   };
 
   return (
-    <div
-      className={`mb-2 modal-form-field ${field?.containerClassName || ''}`}
-      key={id}
-    >
+    <div className={`mb-2 modal-form-field ${field?.className || ''}`} key={id}>
       {field.label && (
         <label
           className={

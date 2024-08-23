@@ -31,7 +31,7 @@ const FORM_VALIDATION_MESSAGES = (
   VALID_USERNAME:
     'Use a username between 5 to 18 lowercase alphanumeric characters; special characters and spaces are not allowed.',
   CONFIRM_PASSWORD: 'Your passwords do not match.',
-  ENTER_INTEGER: 'Please enter a valid integer',
+  ENTER_INTEGER: 'Please enter a integer value',
   VIDEO_NAME:
     'Use a filename between 5 to 18 alphanumeric characters; special characters are not allowed.',
   VALID_LINK: 'Please enter a valid link.',

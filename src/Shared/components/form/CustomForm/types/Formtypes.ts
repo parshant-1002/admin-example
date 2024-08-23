@@ -1,3 +1,5 @@
+import { ImageConfig } from '../../../../../Models/common';
+
 export interface FormSchema {
   required?: string;
   pattern?: {
@@ -54,8 +56,5 @@ export interface FormDataProps {
     type: string;
     min?: number;
   };
-  fetchImageDataConfig?: {
-    key?: string;
-    value?: string;
-  };
+  fetchImageDataConfig?: ImageConfig[];
 }

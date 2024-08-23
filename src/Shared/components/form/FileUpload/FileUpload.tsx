@@ -1,18 +1,11 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-await-in-loop */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable consistent-return */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Tab, Tabs } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-// import {
-//     deleteFiles,
-//     getAllFiles,
-//     uploadFiles,
-// } from '../../../../store/actions/mediaActions';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   useFileDeleteMutation,
@@ -37,6 +30,8 @@ import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
 import { FileData, Files } from './helpers/modal';
+import { ImageConfig } from '../../../../Models/common';
+import { RootState } from '../../../../Store';
 
 const TABS = {
   FILE_UPLOAD: 'fileUpload',
@@ -51,12 +46,13 @@ interface FileInputProps {
   accept?: string;
   ratio?: number[];
   imageFileType?: string;
-  fetchImageDataConfig?: {
-    key: string;
-    value: string;
-  };
+  fetchImageDataConfig?: ImageConfig[];
   [key: string]: unknown; // To handle any additional props
 }
+interface QueryParams {
+  [key: string]: string;
+}
+
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
     {
@@ -73,50 +69,55 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     ref
   ) => {
     const uploadedImages = useSelector(
-      (state: {
-        UploadedImages: {
-          images: {
-            _id?: string;
-            url?: string;
-            title?: string;
-            fileURL?: string;
-            fileName?: string;
-          }[];
-        };
-      }) => state?.UploadedImages?.images
+      (state: RootState) => state.UploadedImages.images
     );
+    // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION
     const isProductAuction = useMemo(
       () =>
         [FILE_TYPE.AUCTION, FILE_TYPE.PRODUCT]?.includes(String(imageFileType)),
       [imageFileType]
     );
+    // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION FOR CREATION PURPOSE
     const isCreateProductAuction = useMemo(
-      () =>
-        [FILE_TYPE.AUCTION, FILE_TYPE.PRODUCT]?.includes(
-          String(imageFileType)
-        ) && !fetchImageDataConfig?.value,
-      [fetchImageDataConfig?.value, imageFileType]
+      () => (fetchImageDataConfig || [])?.every((config) => !config.value),
+      [fetchImageDataConfig]
     );
+
+    const createQueryParams = (config?: ImageConfig[]): QueryParams => {
+      const params: QueryParams = {
+        startDate: '',
+        endDate: '',
+      };
+
+      config?.forEach(({ key, value: id }) => {
+        params[String(key)] = id || '';
+      });
+
+      return params;
+    };
+
     const dispatch = useDispatch();
     const [chooseFile, setChooseFile] = useState(value);
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState(TABS.LIST_FILES);
+
+    // API
     const [fileUpload] = useFileUploadMutation();
     const [fileDelete] = useFileDeleteMutation();
-    const { data, refetch } = useGetFilesQuery({
-      params: removeEmptyValues({
-        startDate: '',
-        endDate: '',
-        [`${fetchImageDataConfig?.key}`]: fetchImageDataConfig?.value,
-      }),
-      skip: true,
-    });
-    const imageList = isCreateProductAuction
-      ? { files: uploadedImages }
-      : isProductAuction
-      ? { files: [...(data?.files || []), ...(uploadedImages || [])] }
-      : data;
+    const { data, refetch } = useGetFilesQuery(
+      {
+        params: removeEmptyValues(createQueryParams(fetchImageDataConfig)),
+      },
+      {
+        skip: isCreateProductAuction,
+      }
+    );
+
+    const imageList = {
+      files: [...(data?.files || []), ...(uploadedImages || [])],
+    };
+
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
@@ -167,7 +168,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
             }
           } else {
-            toast.error(TOAST_MESSAGES().PLEASE_UPLOAD_ONLY_ACCEPTED_FILES);
+            toast.error(
+              TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES
+            );
           }
         });
       },
@@ -227,7 +230,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           );
         }
         setFileValue([]);
-        refetch();
+        if (isProductAuction && !isCreateProductAuction) {
+          refetch();
+        } else if (!isProductAuction) {
+          refetch();
+        }
         setActiveTab(TABS.LIST_FILES);
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -257,14 +264,20 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
           onSuccess: (res: { message: string }) => {
             toast.success(res?.message);
-            refetch();
+            if (isProductAuction && !isCreateProductAuction) {
+              refetch();
+            } else if (!isProductAuction) {
+              refetch();
+            }
           },
         });
         if (isProductAuction) {
-          const filteredImages = uploadedImages?.filter(
-            (file) => fileId?.some((id) => id !== file._id)
+          const filteredImages = (uploadedImages || imageList?.files)?.filter(
+            (file) => !fileId?.includes(file._id)
           );
+
           dispatch(updateUploadedImages(filteredImages));
+          setChooseFile(filteredImages?.filter((file) => file?.assigned));
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
