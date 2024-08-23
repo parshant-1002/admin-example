@@ -64,10 +64,10 @@
 }
 
 .thumbnails-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
     gap: 0.4rem;
-
+    width: 100%;
+    justify-content: center;
 }
 
 .thumbnail-item {
@@ -87,17 +87,18 @@
 
 
 .thumbnail-item img {
-    max-width: 100px;
-    max-height: 100px;
-    min-width: 100px;
-    min-height: 100px;
+    max-width: 90px;
+    max-height: 90px;
+    min-width: 90px;
+    min-height: 90px;
     width: 100%;
     @include border-radius(7px);
-    padding: 10px;
+    padding: 4px;
     object-fit: $contain;
     background-color: $white-color;
 }
 
 .arrow-btn {
     margin: 0 10px;
+    min-width: 40px;
 }

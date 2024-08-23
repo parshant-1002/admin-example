@@ -98,13 +98,13 @@ function DateRangeSelector({
   return (
     <div ref={datePickerRef} className="calender_field">
       <div className="form-control position-relative" onClick={toggleCalendar}>
-        {icon && <img src={icon} alt="Icon" className="icon" />}
         {isInitialEmpty ? (
           <span>{titleText}</span>
         ) : (
           <span>{renderRange()}</span>
         )}
         {daysError && <span className="error">{daysError}</span>}
+        {icon && <img src={icon} alt="Icon" className="icon calIcon" />}
       </div>
       {isOpen && (
         <div className="calendar-wrapper" onMouseDown={handleCalendarMouseDown}>
