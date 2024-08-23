@@ -37,6 +37,7 @@ interface FileInputProps {
   maxSize?: number;
   accept?: string;
   [key: string]: unknown; // To handle any additional props
+  singleImageSelectionEnabled: boolean;
 }
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
@@ -47,6 +48,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       subLabel,
       maxSize = 50000000, // 6mb
       accept = '',
+      singleImageSelectionEnabled = false,
     },
     ref
   ) => {
@@ -325,6 +327,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                     handleChooseFile={handleChooseFile}
                     data={data}
                     handleDeleteFile={handleDeleteFile}
+                    singleImageSelectionEnabled={singleImageSelectionEnabled}
                   />
                 </Tab>
                 <Tab

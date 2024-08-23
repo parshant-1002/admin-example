@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { Delete } from '../../../../assets';
 import FileRenderer from './FileRenderer';
 import { Files } from './helpers/modal';
@@ -8,26 +9,32 @@ interface ListFilesProps {
   handleChooseFile: (selectedFiles: Files[]) => void;
   data: { files: Files[] };
   handleDeleteFile: (fileId: (string | undefined)[]) => void;
+  singleImageSelectionEnabled?: boolean;
 }
 function ListFiles({
   handleChooseFile,
   data,
   handleDeleteFile,
+  singleImageSelectionEnabled = false,
 }: ListFilesProps) {
   const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
   const files = data?.files;
 
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
+    if (
+      selectedFiles.length >= 1 &&
+      !selectedFiles.some((f) => f._id === file._id) &&
+      singleImageSelectionEnabled
+    ) {
+      toast.error('Only one file can be selected');
+      return;
+    }
     setSelectedFiles((prevSelectedFiles) => {
       const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
       if (foundIndex > -1) {
         return prevSelectedFiles.filter((f) => f._id !== file._id);
       }
-      // if (selectedFiles?.length >= 1) {
-      //   toast.error('Only one file can be selected');
-      //   return prevSelectedFiles;
-      // }
       return [...prevSelectedFiles, file];
     });
   };
