@@ -28,6 +28,7 @@ import { Filter, RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
   PRODUCT_AVAILABILITY_STATUS,
   PRODUCT_STATUS,
   SPECIFICATIONS,
@@ -163,7 +164,7 @@ export default function ProductsList() {
           value: row?.specifications?.fuel,
         },
         gearbox: {
-          label: FUEL_OPTIONS?.find(
+          label: GEARBOX_OPTIONS?.find(
             (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
           )?.label,
           value: row?.specifications?.gearbox,

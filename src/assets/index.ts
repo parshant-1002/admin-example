@@ -33,6 +33,7 @@ import calender from './icons/calender_icon_black.svg';
 import downArrowFilter from './icons/down-arrow-ico.svg';
 import earnings from './icons/earning.svg';
 import bidsSold from './icons/sold.svg';
+import info from './icons/info.svg';
 
 export {
   Logo,
@@ -70,4 +71,5 @@ export {
   downArrowFilter,
   earnings,
   bidsSold,
+  info,
 };
