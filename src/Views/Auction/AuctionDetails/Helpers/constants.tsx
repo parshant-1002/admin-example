@@ -1,11 +1,11 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
-import { ProductDetailResponsePayload } from './Model';
 import { ColumnData } from '../../../../Models/Tables';
-import { ViewMultiData, Category } from '../../../Products/helpers/model';
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
-import { convertToLocale } from '../../../../Shared/utils/functions';
 import { DATE_FORMATS } from '../../../../Shared/constants';
+import { convertToLocale } from '../../../../Shared/utils/functions';
+import { Category, ViewMultiData } from '../../../Products/helpers/model';
+import { ProductDetailResponsePayload } from './Model';
 
 export enum DetailType {
   String,
@@ -20,11 +20,12 @@ export interface AuctionDetailsColumnData {
   fieldName?: string;
   isTurncated?: boolean;
   isEditable?: boolean;
+  info?: boolean;
   type?: DetailType;
   options?: OptionType[];
   render?: (
     row: ProductDetailResponsePayload,
-    val: string | number | { categories: []; images: [] }
+    val: string | number
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
 
@@ -119,6 +120,7 @@ export const AuctionColumn = (
     isEditable: false,
     type: DetailType.String,
     fieldName: 'productName',
+    info: true,
   },
   {
     title: 'Category',

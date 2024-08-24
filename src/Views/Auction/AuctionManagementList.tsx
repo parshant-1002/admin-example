@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
   Column,
@@ -45,12 +46,10 @@ import {
 } from './AuctionDetails/Helpers/constants';
 import AuctionForm from './AuctionForm';
 import { AuctionColumns } from './helpers/constants';
-import { AuctionResponsePayload } from './helpers/model';
-
-interface EditData {
-  data: AuctionResponsePayload | null;
-  show: boolean;
-}
+import { AuctionResponsePayload, EditData } from './helpers/model';
+import { updateUploadedImages } from '../../Store/UploadedImages';
+import { RootState } from '../../Store';
+import { Image } from '../../Models/common';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -59,6 +58,10 @@ interface DeleteData {
 const ADD_ONS_PAGE_LIMIT = 10;
 
 export default function AuctionManagementList() {
+  const dispatch = useDispatch();
+  const uploadedImages = useSelector(
+    (state: RootState) => state.UploadedImages.images
+  );
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     open: false,
     data: { id: '', ids: [] },
@@ -264,6 +267,14 @@ export default function AuctionManagementList() {
   const handleDeleteAll = () => {
     setDeleteModal({ open: true, data: { ids: selectedIds } });
   };
+  const handleCloseForm = () => {
+    if (!(uploadedImages as unknown as Image[])?.length) {
+      refetch();
+    }
+    setEditData({ data: null, show: false });
+    setAddData(false);
+    dispatch(updateUploadedImages([]));
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -285,7 +296,7 @@ export default function AuctionManagementList() {
         <CustomModal
           title="Edit"
           show={editData?.show}
-          onClose={() => setEditData({ data: null, show: false })}
+          onClose={handleCloseForm}
         >
           <AuctionForm
             isEdit
@@ -296,11 +307,7 @@ export default function AuctionManagementList() {
       )}
 
       {addData && (
-        <CustomModal
-          title="Add"
-          show={addData}
-          onClose={() => setAddData(false)}
-        >
+        <CustomModal title="Add" show={addData} onClose={handleCloseForm}>
           <AuctionForm
             isEdit={false}
             initialData={{}}

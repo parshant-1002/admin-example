@@ -1,29 +1,37 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable consistent-return */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Tab, Tabs } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-// import {
-//     deleteFiles,
-//     getAllFiles,
-//     uploadFiles,
-// } from '../../../../store/actions/mediaActions';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useFileDeleteMutation,
   useFileUploadMutation,
   useGetFilesQuery,
 } from '../../../../Services/Api/module/file';
+import { updateUploadedImages } from '../../../../Store/UploadedImages';
+import {
+  BUTTON_LABELS,
+  FILE_TYPE,
+  STRINGS,
+  TOAST_MESSAGES,
+} from '../../../constants';
 import ERROR_MESSAGES from '../../../constants/messages';
 import {
   checkValidFileExtension,
   convertFilesToFormData,
+  removeEmptyValues,
 } from '../../../utils/functions';
 import CustomModal from '../../CustomModal';
 import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
 import { FileData, Files } from './helpers/modal';
+import { ImageConfig } from '../../../../Models/common';
+import { RootState } from '../../../../Store';
 
 const TABS = {
   FILE_UPLOAD: 'fileUpload',
@@ -36,8 +44,15 @@ interface FileInputProps {
   subLabel?: string;
   maxSize?: number;
   accept?: string;
+  ratio?: number[];
+  imageFileType?: string;
+  fetchImageDataConfig?: ImageConfig[];
   [key: string]: unknown; // To handle any additional props
 }
+interface QueryParams {
+  [key: string]: string;
+}
+
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
     {
@@ -47,18 +62,62 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       subLabel,
       maxSize = 50000000, // 6mb
       accept = '',
+      ratio = [],
+      imageFileType,
+      fetchImageDataConfig,
     },
     ref
   ) => {
+    const uploadedImages = useSelector(
+      (state: RootState) => state.UploadedImages.images
+    );
+    // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION
+    const isProductAuction = useMemo(
+      () =>
+        [FILE_TYPE.AUCTION, FILE_TYPE.PRODUCT]?.includes(String(imageFileType)),
+      [imageFileType]
+    );
+    // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION FOR CREATION PURPOSE
+    const isCreateProductAuction = useMemo(
+      () => (fetchImageDataConfig || [])?.every((config) => !config.value),
+      [fetchImageDataConfig]
+    );
+
+    const createQueryParams = (config?: ImageConfig[]): QueryParams => {
+      const params: QueryParams = {
+        startDate: '',
+        endDate: '',
+      };
+
+      config?.forEach(({ key, value: id }) => {
+        params[String(key)] = id || '';
+      });
+
+      return params;
+    };
+
+    const dispatch = useDispatch();
     const [chooseFile, setChooseFile] = useState(value);
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState(TABS.LIST_FILES);
+
+    // API
     const [fileUpload] = useFileUploadMutation();
     const [fileDelete] = useFileDeleteMutation();
-    const { data, refetch } = useGetFilesQuery({ startDate: '', endDate: '' });
+    const { data, refetch } = useGetFilesQuery(
+      {
+        params: removeEmptyValues(createQueryParams(fetchImageDataConfig)),
+      },
+      {
+        skip: isCreateProductAuction,
+      }
+    );
 
-    // const dispatch = useDispatch();
+    const imageList = {
+      files: [...(data?.files || []), ...(uploadedImages || [])],
+    };
+
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
@@ -69,46 +128,114 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         acceptedFiles.forEach((file) => {
           if (file && checkValidFileExtension(file?.name, accept)) {
             if (file.size <= maxSize) {
-              // onChange({ file });
               const reader = new FileReader();
-              reader.onload = ((theFile: File) => {
-                return (e: ProgressEvent<FileReader>) => {
+              reader.onload = (e: ProgressEvent<FileReader>) => {
+                if (ratio?.length) {
+                  // If a ratio is provided, perform the ratio check
+                  const img = new Image();
+                  img.onload = () => {
+                    const { width, height } = img;
+                    const calculatedRatio = width / height;
+                    const [firstValue, secondValue] = ratio;
+                    const calculatedRequiredRatio = firstValue / secondValue;
+                    if (
+                      calculatedRatio.toFixed(2) ===
+                      Number(calculatedRequiredRatio).toFixed(2)
+                    ) {
+                      // Image has the required aspect ratio
+                      setFileValue((prevState: FileData[] | undefined) => [
+                        ...(prevState || []),
+                        { file, src: e?.target?.result },
+                      ]);
+                    } else {
+                      toast.error(
+                        TOAST_MESSAGES(firstValue, secondValue)
+                          .IMAGE_RATIO_ERROR
+                      ); // Customize your error message
+                    }
+                  };
+                  img.src = e?.target?.result as string;
+                } else {
+                  // If no ratio is provided, just proceed
                   setFileValue((prevState: FileData[] | undefined) => [
                     ...(prevState || []),
-                    { file: theFile, src: e?.target?.result },
+                    { file, src: e?.target?.result },
                   ]);
-                };
-              })(file);
+                }
+              };
               reader.readAsDataURL(file);
             } else {
               toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
             }
           } else {
-            // Display error message if the dropped file is of incorrect type
-            toast.error(`Please upload only ${accept} file.`);
+            toast.error(
+              TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES
+            );
           }
         });
       },
-      [accept, maxSize]
+      [accept, maxSize, ratio] // Added ratio to dependency array
     );
 
     const handleFileUpload = async () => {
       try {
-        if (fileValue?.length === 0)
-          return toast.error('Please select a file to upload');
+        if (fileValue?.length === 0) {
+          return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
+        }
+
         const fileList = fileValue as unknown as FileData[];
         const files = convertFilesToFormData(fileList, 'image');
-        // eslint-disable-next-line no-restricted-syntax
-        files?.forEach((file) => {
-          fileUpload({
-            payload: file,
-            onSuccess: () => {
-              setFileValue([]);
-              refetch();
-              setActiveTab(TABS.LIST_FILES);
-            },
-          });
+        const filesWithType = files?.map((file) => {
+          file.append('type', String(imageFileType));
+          return file;
         });
+
+        const responseData: {
+          fileName: string;
+          fileURL: string;
+          _id: string;
+        }[] = [];
+
+        // Loop through each file and upload them sequentially
+        for (const file of filesWithType) {
+          await new Promise<void>((resolve, reject) => {
+            fileUpload({
+              payload: file,
+              onSuccess: (res: {
+                fileName: string;
+                fileUrl: string;
+                fileId: string;
+              }) => {
+                responseData.push({
+                  fileName: res?.fileName,
+                  fileURL: res?.fileUrl,
+                  _id: res?.fileId,
+                });
+                resolve();
+              },
+              onError: (error: unknown) => {
+                reject(error);
+              },
+            });
+          });
+        }
+
+        // Update state and perform any necessary actions after all uploads are complete
+        if (isProductAuction) {
+          dispatch(
+            updateUploadedImages([
+              ...(uploadedImages || []),
+              ...(responseData || []),
+            ])
+          );
+        }
+        setFileValue([]);
+        if (isProductAuction && !isCreateProductAuction) {
+          refetch();
+        } else if (!isProductAuction) {
+          refetch();
+        }
+        setActiveTab(TABS.LIST_FILES);
       } catch (error: unknown) {
         if (error instanceof Error) {
           toast.error(error.message);
@@ -137,9 +264,21 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
           onSuccess: (res: { message: string }) => {
             toast.success(res?.message);
-            refetch();
+            if (isProductAuction && !isCreateProductAuction) {
+              refetch();
+            } else if (!isProductAuction) {
+              refetch();
+            }
           },
         });
+        if (isProductAuction) {
+          const filteredImages = (uploadedImages || imageList?.files)?.filter(
+            (file) => !fileId?.includes(file._id)
+          );
+
+          dispatch(updateUploadedImages(filteredImages));
+          setChooseFile(filteredImages?.filter((file) => file?.assigned));
+        }
       } catch (error: unknown) {
         if (error instanceof Error) {
           toast.error(error.message);
@@ -267,17 +406,57 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
 
-    const handleChooseFile = (file: Files[] | undefined) => {
-      if (!checkValidFileExtension(file?.[0]?.fileURL, accept)) {
-        return toast.error(`Please choose only ${accept} file.`);
+    const handleChooseFile = (files: Files[] | undefined) => {
+      if (!files?.length) {
+        return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
       }
-      if (file?.length) {
-        onChange(file);
-        setChooseFile(file);
+      if (
+        !checkValidFileExtension(files?.[0]?.fileURL || files?.[0]?.url, accept)
+      ) {
+        return toast.error(
+          TOAST_MESSAGES(accept).PLEASE_CHOOSE_ONLY_ACCEPTED_FILES
+        );
+      }
+      if (files?.length) {
+        const filesData = isProductAuction
+          ? imageList?.files?.map((file: { _id: string }) => {
+              if (
+                files?.some((selectedFile) => selectedFile._id === file._id)
+              ) {
+                return { ...file, assigned: true };
+              }
+              return file;
+            })
+          : files;
+        onChange(filesData);
+        setChooseFile(filesData);
         closeModal();
       }
     };
 
+    const renderUploadInstructions = (
+      acceptFormat: string,
+      ratioRequired?: number[]
+    ) => {
+      // Convert the `accept` string to a more readable format
+      const fileTypes = acceptFormat
+        .replace(/image\//g, '.')
+        .replace(/video\//g, '.')
+        .split(',')
+        .map((type) => type.trim())
+        .join(', ');
+
+      // Determine the aspect ratio description
+      const ratioDescription = ratioRequired?.length
+        ? `of ${
+            ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular'
+          } size, example: of ratio (${ratioRequired[0]} : ${
+            ratioRequired[1]
+          }) / size (${ratioRequired[0] * 378} * ${ratioRequired[1] * 378})`
+        : `.`;
+
+      return `Upload only ${fileTypes} ${ratioDescription}`;
+    };
     return (
       <>
         <div className="form-control">
@@ -286,18 +465,25 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             variant="primary"
             onClick={openModal}
           >
-            {chooseFile?.length ? 'Change file' : 'Choose file'}
+            {chooseFile?.length
+              ? BUTTON_LABELS.CHANGE_FILE
+              : BUTTON_LABELS.CHOOSE_FILE}
           </Button>
           {chooseFile?.length ? (
             <div className="p-3">
               <div className="grid-container">
-                {chooseFile?.map((img) => (
-                  <div key={img.url} className="grid-item m-2">
-                    <span className="uploaded_file">
-                      <FileRenderer fileURL={img.url || img.fileURL} />
-                    </span>
-                  </div>
-                ))}
+                {chooseFile?.map((img) => {
+                  if (isProductAuction && !img.assigned) {
+                    return null;
+                  }
+                  return (
+                    <div key={img.url} className="grid-item m-2">
+                      <span className="uploaded_file">
+                        <FileRenderer fileURL={img.url || img.fileURL} />
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ) : null}
@@ -322,8 +508,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   title="Select file"
                 >
                   <ListFiles
+                    chooseFile={chooseFile}
+                    isProductAuction={isProductAuction}
                     handleChooseFile={handleChooseFile}
-                    data={data}
+                    data={imageList}
                     handleDeleteFile={handleDeleteFile}
                   />
                 </Tab>
@@ -335,11 +523,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   <>
                     {label && <label className="form-label">{label}</label>}
                     {subLabel && <span>{subLabel}</span>}
-                    {accept && (
-                      <label>{`Upload only ${accept
-                        ?.replace('image/', ' .')
-                        .replace('video/', '.')}.`}</label>
-                    )}
+                    {accept && <p>{renderUploadInstructions(accept, ratio)}</p>}
                     <div className="text-center upload-file ">
                       {fileValue?.length ? (
                         <div className="uploaded-pic-grid">
@@ -355,12 +539,12 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                           />
                           {isDragActive ? (
                             <div className="upload-text">
-                              <span>Drop file here</span>
+                              <span>{STRINGS.DROP_FILE_HERE}</span>
                             </div>
                           ) : (
                             <div className="upload-text">
                               <span>
-                                Drop file here, or <br />
+                                {STRINGS.DROP_FILE_HERE}, or <br />
                                 <small>Click here</small> to browse
                               </span>
                             </div>
@@ -369,15 +553,15 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                       )}
                     </div>
                     <div className="text-center mt-3">
-                      {fileValue?.length && (
+                      {fileValue?.length ? (
                         <Button
                           className="btn-md"
                           variant="primary"
                           onClick={handleFileUpload}
                         >
-                          Upload
+                          {BUTTON_LABELS.UPLOAD}
                         </Button>
-                      )}
+                      ) : null}
                     </div>
                   </>
                 </Tab>

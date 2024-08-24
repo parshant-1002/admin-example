@@ -4,9 +4,16 @@ export interface Image {
   title?: string;
   fileURL?: string;
   fileName?: string;
+  assigned?: boolean;
+  fileId?: string;
 }
 
 export interface SelectOption {
   value?: number | string;
   label?: string | number;
 }
+
+export interface ImageConfig  {
+  key?: string;
+  value?: string;
+};

@@ -1,22 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Delete } from '../../../../assets';
 import FileRenderer from './FileRenderer';
 import { Files } from './helpers/modal';
+import { Image } from '../../../../Models/common';
+import { BUTTON_LABELS, STRINGS } from '../../../constants';
 
 interface ListFilesProps {
+  chooseFile: Image[];
+  isProductAuction: boolean;
   handleChooseFile: (selectedFiles: Files[]) => void;
   data: { files: Files[] };
   handleDeleteFile: (fileId: (string | undefined)[]) => void;
 }
 function ListFiles({
+  chooseFile,
+  isProductAuction,
   handleChooseFile,
   data,
   handleDeleteFile,
 }: ListFilesProps) {
   const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
-  const files = data?.files;
 
+  useEffect(() => {
+    const choosenFiles = chooseFile?.filter((file) => file?.assigned);
+    const choosenFilesWithId = isProductAuction
+      ? choosenFiles?.map((file) => {
+          if (file?.fileId) {
+            return {
+              ...file,
+              _id: file?.fileId,
+            };
+          }
+          return file;
+        })
+      : chooseFile;
+    setSelectedFiles(choosenFilesWithId);
+  }, [chooseFile, isProductAuction]);
+  const files = data?.files;
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
     setSelectedFiles((prevSelectedFiles) => {
@@ -40,13 +61,7 @@ function ListFiles({
             const isSelected =
               selectedFiles.findIndex((f: Files) => f._id === file._id) > -1;
             // Remaining rendering logic
-            if (
-              file.createdAt &&
-              file.fileName &&
-              file.fileURL &&
-              file.updatedAt &&
-              file._id
-            ) {
+            if (file.fileName && file.fileURL && file._id) {
               return (
                 <div
                   key={file._id}
@@ -91,7 +106,7 @@ function ListFiles({
           })
         ) : (
           <div className="w-100 d-flex justify-content-center align-items-center no_results">
-            No files found
+            {STRINGS.NO_FILES_FOUND}
           </div>
         )}
       </div>
@@ -104,14 +119,16 @@ function ListFiles({
               setSelectedFiles([]);
             }}
           >
-            Delete
+            {BUTTON_LABELS.DELETE}
           </Button>
         ) : null}
         <Button
           className="mt-2 px-3"
           onClick={() => handleChooseFile(selectedFiles)}
         >
-          Choose file
+          {chooseFile?.length
+            ? BUTTON_LABELS.UPDATE_SELECTION
+            : BUTTON_LABELS.SELECT_FILES}
         </Button>
       </div>
     </div>

@@ -5,6 +5,8 @@ export interface Files {
   url?: string;
   updatedAt?: string;
   _id?: string;
+  assigned?: boolean;
+  fileId?: string;
 }
 
 export interface FileData {
