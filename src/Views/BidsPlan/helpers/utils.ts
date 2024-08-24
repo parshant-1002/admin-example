@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 export const calculatePercentageValue = (price: number, percentage: number) => {
   return Number(((percentage * price) / 100).toFixed(2));
 };

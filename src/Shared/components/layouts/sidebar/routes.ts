@@ -9,6 +9,36 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
+    iconClass: 'bi bi-transactions',
+    label: 'Content Management',
+    children: [
+      {
+        label: 'Headers',
+        route: ROUTES.HEADERS_CONTENT,
+      },
+      {
+        label: 'How It Works',
+        route: ROUTES.HOW_IT_WORKS_CONTENT,
+      },
+      {
+        label: 'FAQ',
+        route: ROUTES.FQA_CONTENT,
+      },
+      {
+        label: 'Contact US',
+        route: ROUTES.CONTACTUS_CONTENT,
+      },
+      {
+        label: 'Terms and Condition',
+        route: ROUTES.TERM_AND_CONDITION_CONTENT,
+      },
+      {
+        label: 'Privacy Policy',
+        route: ROUTES.PRIVACY_POLICY_CONTENT,
+      },
+    ],
+  },
+  {
     iconClass: 'bi bi-user',
     label: 'Users',
     route: ROUTES.USERS,

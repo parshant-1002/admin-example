@@ -26,7 +26,7 @@ export interface FormDataProps {
   imageFileType?: string;
   ratio?: number[];
   readOnly?: boolean;
-  placeholder: string;
+  placeholder?: string;
   accept?: string;
   min?: string | number;
   max?: string | number;
@@ -57,4 +57,5 @@ export interface FormDataProps {
     min?: number;
   };
   fetchImageDataConfig?: ImageConfig[];
+  singleImageSelectionEnabled?: boolean;
 }

@@ -103,6 +103,7 @@ function RenderField({
             ratio={field?.ratio}
             imageFileType={field?.imageFileType}
             fetchImageDataConfig={field?.fetchImageDataConfig}
+            singleImageSelectionEnabled={field?.singleImageSelectionEnabled}
             value={value}
           />
         );

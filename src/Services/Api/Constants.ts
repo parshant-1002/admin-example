@@ -14,6 +14,7 @@ export const API_END_POINTS = {
   USER_BID_CREDIT_HISTORY: '/user/bidCreditHistory',
   UPDATE_USER: '/user/admin',
   CATEGORY: '/category',
+  CONTENT: '/content',
   AUCTION: '/auction',
   AUCTION_DETAILS: '/auction/details',
   LOGOUT: '/admin/logout',

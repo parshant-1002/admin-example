@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Delete } from '../../../../assets';
-import FileRenderer from './FileRenderer';
-import { Files } from './helpers/modal';
 import { Image } from '../../../../Models/common';
 import { BUTTON_LABELS, STRINGS } from '../../../constants';
+import FileRenderer from './FileRenderer';
+import { Files } from './helpers/modal';
 
 interface ListFilesProps {
   chooseFile: Image[];
@@ -12,6 +12,7 @@ interface ListFilesProps {
   handleChooseFile: (selectedFiles: Files[]) => void;
   data: { files: Files[] };
   handleDeleteFile: (fileId: (string | undefined)[]) => void;
+  singleImageSelectionEnabled?: boolean;
 }
 function ListFiles({
   chooseFile,
@@ -19,6 +20,7 @@ function ListFiles({
   handleChooseFile,
   data,
   handleDeleteFile,
+  singleImageSelectionEnabled = false,
 }: ListFilesProps) {
   const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
 
@@ -40,15 +42,21 @@ function ListFiles({
   const files = data?.files;
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
+
     setSelectedFiles((prevSelectedFiles) => {
-      const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
-      if (foundIndex > -1) {
+      const isFileSelected = prevSelectedFiles.some((f) => f._id === file._id);
+
+      // If the file is already selected, deselect it
+      if (isFileSelected) {
         return prevSelectedFiles.filter((f) => f._id !== file._id);
       }
-      // if (selectedFiles?.length >= 1) {
-      //   toast.error('Only one file can be selected');
-      //   return prevSelectedFiles;
-      // }
+
+      // If single image selection is enabled, replace the selected file with the new one
+      if (singleImageSelectionEnabled) {
+        return [file];
+      }
+
+      // Otherwise, add the new file to the selection
       return [...prevSelectedFiles, file];
     });
   };
@@ -111,7 +119,9 @@ function ListFiles({
         )}
       </div>
       <div className="choose-file-button-container d-flex gap-3 justify-content-center ps-2">
-        {selectedFiles?.length ? (
+        {selectedFiles?.length &&
+        selectedFiles?.length > 1 &&
+        !singleImageSelectionEnabled ? (
           <Button
             className="mt-2 px-4 button_danger"
             onClick={() => {
@@ -119,7 +129,7 @@ function ListFiles({
               setSelectedFiles([]);
             }}
           >
-            {BUTTON_LABELS.DELETE}
+            {BUTTON_LABELS.DELETE_SELECTION}
           </Button>
         ) : null}
         <Button

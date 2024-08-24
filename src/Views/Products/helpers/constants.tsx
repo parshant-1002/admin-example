@@ -118,6 +118,7 @@ export const PRODUCT_FORM_SCHEMA = (
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Add Images',
+    singleImageSelectionEnabled: false,
     imageFileType: FILE_TYPE.PRODUCT,
     ratio: [1, 1],
     fetchImageDataConfig: [

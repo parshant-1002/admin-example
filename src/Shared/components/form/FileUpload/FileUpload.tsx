@@ -47,6 +47,7 @@ interface FileInputProps {
   ratio?: number[];
   imageFileType?: string;
   fetchImageDataConfig?: ImageConfig[];
+  singleImageSelectionEnabled: boolean;
   [key: string]: unknown; // To handle any additional props
 }
 interface QueryParams {
@@ -62,8 +63,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       subLabel,
       maxSize = 50000000, // 6mb
       accept = '',
+      singleImageSelectionEnabled = true,
       ratio = [],
-      imageFileType,
+      imageFileType = FILE_TYPE.CMS,
       fetchImageDataConfig,
     },
     ref
@@ -79,14 +81,17 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     );
     // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION FOR CREATION PURPOSE
     const isCreateProductAuction = useMemo(
-      () => (fetchImageDataConfig || [])?.every((config) => !config.value),
-      [fetchImageDataConfig]
+      () =>
+        (fetchImageDataConfig || [])?.every((config) => !config.value) &&
+        String(imageFileType) !== FILE_TYPE.CMS,
+      [fetchImageDataConfig, imageFileType]
     );
 
     const createQueryParams = (config?: ImageConfig[]): QueryParams => {
       const params: QueryParams = {
         startDate: '',
         endDate: '',
+        type: imageFileType ? String(imageFileType) : '',
       };
 
       config?.forEach(({ key, value: id }) => {
@@ -119,7 +124,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     useEffect(() => {
-      if (value) setChooseFile(value);
+      if (value?.length) setChooseFile(value);
     }, [value]);
 
     const onDrop = useCallback(
@@ -477,7 +482,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                     return null;
                   }
                   return (
-                    <div key={img.url} className="grid-item m-2">
+                    <div key={img.url || img.fileURL} className="grid-item m-2">
                       <span className="uploaded_file">
                         <FileRenderer fileURL={img.url || img.fileURL} />
                       </span>
@@ -513,6 +518,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                     handleChooseFile={handleChooseFile}
                     data={imageList}
                     handleDeleteFile={handleDeleteFile}
+                    singleImageSelectionEnabled={singleImageSelectionEnabled}
                   />
                 </Tab>
                 <Tab

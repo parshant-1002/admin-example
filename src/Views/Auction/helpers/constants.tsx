@@ -230,6 +230,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Images',
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
+    singleImageSelectionEnabled: false,
     placeholder: 'Images',
     ratio: [1, 1],
     imageFileType: FILE_TYPE.AUCTION,

@@ -15,8 +15,8 @@ import {
 } from '../../../Store/Common';
 import { Copy, auction } from '../../../assets';
 import './OtpForm.scss';
-import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import OTP_CODE_TYPE from './helpers/constants';
+import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import QrCode from '../qrCode/QrCode';
 
 interface LoginResponse {

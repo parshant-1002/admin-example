@@ -6,9 +6,12 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { CustomRouter } from '../../Routes/RootRoutes';
+import { AddContentFormItem } from '../../Models/common';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
-import { API, DATE_FORMATS } from '../constants';
 import TruncateText from '../components/TruncateText';
+import { API, DATE_FORMATS } from '../constants';
+import FORM_VALIDATION_MESSAGES from '../constants/validationMessages';
+import ERROR_MESSAGES from '../constants/messages';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -52,12 +55,13 @@ const getStringValue = (value: unknown): string => {
 
 // Function to validate fields and return errors
 const validateField = (
-  fields: Record<string, unknown>
+  fields: AddContentFormItem,
+  label: { title?: string; content?: string }
 ): Record<string, string> => {
   const errorsObject: Record<string, string> = {};
-  Object.keys(fields).forEach((key) => {
+  Object.entries(label).forEach(([key, value]: [string, string]) => {
     if (!fields[key]) {
-      errorsObject[key] = `${key} is required`;
+      errorsObject[key] = FORM_VALIDATION_MESSAGES(value).REQUIRED;
     }
   });
   return errorsObject;
@@ -65,19 +69,20 @@ const validateField = (
 
 // Function to check for errors in a roadmap and update the roadmap with errors
 const isErrors = (
-  roadMap: Record<string, unknown>[],
-  setRoadMap: React.Dispatch<React.SetStateAction<Record<string, unknown>[]>>
+  subFromContent: AddContentFormItem[],
+  setSubFormContent: React.Dispatch<React.SetStateAction<AddContentFormItem[]>>,
+  labels: { title?: string; content?: string }
 ): boolean => {
   let errors = false;
-  roadMap.forEach((item, index) => {
-    const currentErrors = validateField(item);
+  subFromContent?.forEach((item, index) => {
+    const currentErrors = validateField(item, labels);
     if (Object.keys(currentErrors).length) {
       errors = true;
       // Update the roadmap with the errors
-      const updatedRoadMap = roadMap.map((items, i) =>
+      const updatedRoadMap = subFromContent?.map((items, i) =>
         i === index ? { ...items, errors: currentErrors } : items
       );
-      setRoadMap(updatedRoadMap);
+      setSubFormContent(updatedRoadMap);
     }
   });
   // Scroll to the first error field
@@ -100,7 +105,7 @@ const copyToClipboard = async (
     if (error instanceof Error) {
       toast.error(`Failed to copy text to clipboard: ${error.message}`);
     } else {
-      toast.error('An unknown error occurred');
+      toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
     }
   }
 };
@@ -286,6 +291,6 @@ export {
   matchRoute,
   onQueryStarted,
   removeEmptyValues,
-  validateField,
   renderIdWithHash,
+  validateField,
 };

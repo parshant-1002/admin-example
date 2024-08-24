@@ -94,6 +94,8 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
+  UPDATE_PRIVACY_AND_POLICY: 'Update Privacy Policy Content',
   REGULAR: 'Regular',
   SPECIFICATIONS: 'Specifications',
   DROP_FILE_HERE: 'Drop file here',
@@ -195,7 +197,7 @@ export const STRINGS = {
 };
 
 export const CONTENT_ENUMS = {
-  HEADER: 'headers',
+  HEADER: 'header',
   PRIZE: 'prizeSection',
   ROADMAP: 'roadmapSection',
   PREMIUM_TOKEN_WALLET: 'premiumTokenWallet',
@@ -217,6 +219,15 @@ export const CONTENT_ENUMS = {
   PRIVACY_POLICY_PAGE: 'privacyPolicy',
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
+  FAQS_SECTION: 'faqSection',
+  LANDING_PAGE: 'landingPage',
+  HOW_IT_WORKS_SECTION: 'howItWorksSection',
+  HOW_IT_WORKS: 'howItWorks',
+  CONTACT_US: 'contactUs',
+  TERMS_AND_CONDITIONS: 'termsAndConditions',
+  PRIVACY_POLICY: 'privacyPolicy',
+  CONTACT_US_SECTION: 'contactUsSection',
+  SOCIAL_CONNECT: 'socialConnect',
 };
 
 export const BUTTON_LABELS = {
@@ -232,6 +243,7 @@ export const BUTTON_LABELS = {
   NO: 'No',
   CANCEL: 'Cancel',
   DELETE: 'Delete',
+  DELETE_SELECTION: 'Delete Selection',
   ADD_MORE: 'Add more',
   SAVE: 'Save',
   CLEAR: 'Clear',
@@ -335,6 +347,12 @@ const ROUTES = {
   LOTTERY_MANAGEMENT: '/contract/lottery-management',
   WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
+  HEADERS_CONTENT: '/content-management/headers',
+  HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
+  FQA_CONTENT: '/content-management/faqs',
+  CONTACTUS_CONTENT: '/content-management/contact-us',
+  TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
+  PRIVACY_POLICY_CONTENT: '/content-management/privacy-policy',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -485,6 +503,30 @@ const ROUTES_CONFIG = {
   TRANSACTIONS_REFERRAL_HISTORY: {
     path: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
     title: 'Referral History',
+  },
+  HEADERS_CONTENT: {
+    path: ROUTES.HEADERS_CONTENT,
+    title: 'Headers Content',
+  },
+  FAQS_CONTENT: {
+    path: ROUTES.FQA_CONTENT,
+    title: 'Faqs Content',
+  },
+  HOW_IT_WORKS_CONTENT: {
+    path: ROUTES.HOW_IT_WORKS_CONTENT,
+    title: 'How It Works Content',
+  },
+  CONTACTUS_CONTENT: {
+    path: ROUTES.CONTACTUS_CONTENT,
+    title: 'Contact US Content',
+  },
+  TERMS_AND_CONDITION_CONTENT: {
+    path: ROUTES.TERM_AND_CONDITION_CONTENT,
+    title: 'Term and Condition Content',
+  },
+  PRIVACY_POLICY_CONTENT: {
+    path: ROUTES.PRIVACY_POLICY_CONTENT,
+    title: 'Privacy Policy Content',
   },
 };
 
