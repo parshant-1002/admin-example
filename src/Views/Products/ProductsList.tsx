@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
 // Components
+import { useDispatch, useSelector } from 'react-redux';
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
@@ -26,8 +27,11 @@ import {
 import { Filter, RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
   PRODUCT_AVAILABILITY_STATUS,
   PRODUCT_STATUS,
+  SPECIFICATIONS,
   productsColumns,
 } from './helpers/constants';
 
@@ -36,6 +40,7 @@ import {
   Category,
   ProductResponsePayload,
   ViewMultiData,
+  ViewSpecificationData,
 } from './helpers/model';
 
 // API
@@ -45,10 +50,14 @@ import {
 } from '../../Services/Api/module/products';
 
 // Utilities
+import { useGetCategorysQuery } from '../../Services/Api/module/category';
+import CustomDetailsBoard from '../../Shared/components/CustomDetailsBoard';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
-import { useGetCategorysQuery } from '../../Services/Api/module/category';
-import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import { updateUploadedImages } from '../../Store/UploadedImages';
+import { RootState } from '../../Store';
+import { Image } from '../../Models/common';
 
 // Interfaces
 interface EditData {
@@ -74,6 +83,10 @@ const PRODUCTS_PAGE_LIMIT = 10;
 
 export default function ProductsList() {
   // State Management
+  const dispatch = useDispatch();
+  const uploadedImages = useSelector(
+    (state: RootState) => state.UploadedImages.images
+  );
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '', ids: [''] },
@@ -87,6 +100,11 @@ export default function ProductsList() {
     FilterOrder.ASCENDING
   );
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
+  const [viewSpecifications, setViewSpecifications] =
+    useState<ViewSpecificationData>({
+      data: {},
+      show: false,
+    });
   const [addData, setAddData] = useState<boolean>(false);
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
@@ -129,6 +147,7 @@ export default function ProductsList() {
     setEditData({
       data: {
         ...row,
+        ...(row?.specifications || {}),
         status: {
           value: row?.status,
           label: PRODUCT_STATUS?.find((status) => status.value === row?.status)
@@ -138,6 +157,18 @@ export default function ProductsList() {
           value: category._id,
           label: category?.name,
         })),
+        fuel: {
+          label: FUEL_OPTIONS?.find(
+            (fuel) => fuel.value === Number(row?.specifications?.fuel)
+          )?.label,
+          value: row?.specifications?.fuel,
+        },
+        gearbox: {
+          label: GEARBOX_OPTIONS?.find(
+            (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
+          )?.label,
+          value: row?.specifications?.gearbox,
+        },
       },
       show: true,
     });
@@ -248,7 +279,8 @@ export default function ProductsList() {
         renderActions,
         setShowMultiItemView,
         handleChangeCheckBox,
-        selectedIds
+        selectedIds,
+        setViewSpecifications
       ),
     [renderActions, selectedIds]
   );
@@ -281,6 +313,15 @@ export default function ProductsList() {
     });
     setCurrentPage(0);
   };
+  const handleCloseForm = () => {
+    if (!(uploadedImages as unknown as Image[])?.length) {
+      refetch();
+    }
+    setEditData({ data: null, show: false });
+    setViewSpecifications({ data: {}, show: false });
+    setAddData(false);
+    dispatch(updateUploadedImages([]));
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -299,12 +340,23 @@ export default function ProductsList() {
         handleSubmit={handleDeleteClick}
         showClose={false}
       />
-
+      {viewSpecifications?.show && (
+        <CustomModal
+          title={STRINGS.SPECIFICATIONS}
+          show={viewSpecifications?.show}
+          onClose={handleCloseForm}
+        >
+          <CustomDetailsBoard
+            data={viewSpecifications?.data}
+            schema={SPECIFICATIONS}
+          />
+        </CustomModal>
+      )}
       {editData?.show && (
         <CustomModal
           title="Edit"
           show={editData?.show}
-          onClose={() => setEditData({ data: null, show: false })}
+          onClose={handleCloseForm}
         >
           <ProductAdd
             isEdit
@@ -316,11 +368,7 @@ export default function ProductsList() {
       )}
 
       {addData && (
-        <CustomModal
-          title="Add"
-          show={addData}
-          onClose={() => setAddData(false)}
-        >
+        <CustomModal title="Add" show={addData} onClose={handleCloseForm}>
           <ProductAdd
             isEdit={false}
             initialData={{}}

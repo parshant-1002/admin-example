@@ -115,6 +115,7 @@ function HowItWorks() {
             title="How it work card"
             labels={labels}
             initialState={initialState}
+            singleImageSelectionEnabled
           />
         }
       />

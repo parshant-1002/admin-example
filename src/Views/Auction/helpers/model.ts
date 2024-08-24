@@ -31,3 +31,8 @@ export interface AuctionResponsePayload {
   itemPrice?: number;
   reserveWaitingEndDate?: string;
 }
+
+export interface EditData {
+  data: AuctionResponsePayload | null;
+  show: boolean;
+}

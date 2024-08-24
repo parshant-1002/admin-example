@@ -100,6 +100,10 @@ function RenderField({
             minLength={minLength || ''}
             control={control}
             className={className}
+            ratio={field?.ratio}
+            imageFileType={field?.imageFileType}
+            fetchImageDataConfig={field?.fetchImageDataConfig}
+            singleImageSelectionEnabled={field?.singleImageSelectionEnabled}
             value={value}
           />
         );
@@ -217,10 +221,7 @@ function RenderField({
   };
 
   return (
-    <div
-      className={`mb-2 modal-form-field ${field?.containerClassName || ''}`}
-      key={id}
-    >
+    <div className={`mb-2 modal-form-field ${field?.className || ''}`} key={id}>
       {field.label && (
         <label
           className={

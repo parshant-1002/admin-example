@@ -96,6 +96,10 @@ export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 export const STRINGS = {
   UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
   UPDATE_PRIVACY_AND_POLICY: 'Update Privacy Policy Content',
+  REGULAR: 'Regular',
+  SPECIFICATIONS: 'Specifications',
+  DROP_FILE_HERE: 'Drop file here',
+  NO_FILES_FOUND: 'No files found',
   TOTAL_SUPPLY: 'Total Supply',
   NEXT_BTN: 'next-btn',
   PREV_BTN: 'pre-btn',
@@ -159,7 +163,9 @@ export const STRINGS = {
   ID: 'ID',
   END_AT: 'End At',
   HOT_DEAL: 'Hot Deal',
+  BID_PLAN_TYPE: 'Plan Type',
   YES: 'YES',
+  CUSTOM: 'Custom',
   NO: 'NO',
   T_ID: 'TId',
   DEAL_OFFER: 'Deal Offer',
@@ -167,7 +173,10 @@ export const STRINGS = {
   DATE: 'Date',
   BIDS_CREDITED: 'Bids Credited',
   DISCOUNT_PERCENTAGE: 'Discount Percentage (upto 100)',
+  BIDS_CONVERSION: 'Conversion Price (SEK)',
   DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
+  MONTHLY_PRICE: 'Monthly Price (SEK)',
+  YEARLY_PRICE: 'Yearly Price (SEK)',
   END_DATE: 'End Date',
   TRANSACTIONS: 'Transactions',
   ADD_BID_PLAN: 'Add Bid Plan',
@@ -222,12 +231,19 @@ export const CONTENT_ENUMS = {
 };
 
 export const BUTTON_LABELS = {
+  VIEW: 'View',
+  UPLOAD: ' Upload',
+  CHANGE_FILE: 'Change file',
+  CHOOSE_FILE: 'Choose file',
+  UPDATE_SELECTION: 'Update Selection',
+  SELECT_FILES: 'Select file',
   ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
   YES: 'Yes',
   NO: 'No',
   CANCEL: 'Cancel',
   DELETE: 'Delete',
+  DELETE_SELECTION: 'Delete Selection',
   ADD_MORE: 'Add more',
   SAVE: 'Save',
   CLEAR: 'Clear',
@@ -535,7 +551,7 @@ const PRODUCT_PURCHASE_STATUS = {
 
 const BID_PLAN_TYPES = {
   REGULAR: 1,
-  HOT_DEAL: 2,
+  CUSTOM: 2,
 };
 
 const BID_STATUS = {
@@ -560,11 +576,28 @@ const TABLE_PAGE_LIMIT = 10;
 
 const CONFIRMATION_DESCRIPTION_INVOICE =
   'Are you sure you want to generate invoice';
+
+const TOAST_MESSAGES = (...arg: (string | number)[]) => ({
+  SELECT_ATLEAST_ONE_FILE: 'Please select at least one file.',
+  PLEASE_CHOOSE_ONLY_ACCEPTED_FILES: `Please choose only ${arg[0]} file.`,
+  PLEASE_UPLOAD_ONLY_ACCEPTED_FILES: `Please upload only ${arg[0]} file.`,
+  IMAGE_RATIO_ERROR: `Please select image of ratio ${arg[0]}:${arg[1]}`,
+});
+const FILE_TYPE: {
+  CMS?: string;
+  PRODUCT?: string;
+  AUCTION?: string;
+} = {
+  CMS: '1',
+  PRODUCT: '2',
+  AUCTION: '2',
+};
 export {
   BID_CREDIT_TYPES,
   BID_PLAN_TYPES,
   BID_STATUS,
   CONFIRMATION_DESCRIPTION_INVOICE,
+  FILE_TYPE,
   POPUPTYPES,
   PRICE_RANGE,
   PRODUCT_PURCHASE_STATUS,
@@ -572,5 +605,6 @@ export {
   ROUTES,
   ROUTES_CONFIG,
   TABLE_PAGE_LIMIT,
+  TOAST_MESSAGES,
   WILDCARD_ROUTES,
 };

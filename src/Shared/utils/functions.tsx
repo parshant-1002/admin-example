@@ -133,7 +133,7 @@ const convertToLocale = (
   }
   const formattedNumber = num
     .toLocaleString('sv-SE', {
-      minimumFractionDigits: isCurrency ? 2 : 0,
+      minimumFractionDigits: 0,
       maximumFractionDigits: 2,
     })
     .replace(',', '.');

@@ -1,11 +1,23 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { ProductDetailResponsePayload } from '../../../Views/Auction/AuctionDetails/Helpers/Model';
 import {
   AuctionDetailsColumnData,
   DetailType,
 } from '../../../Views/Auction/AuctionDetails/Helpers/constants';
+import {
+  Specification,
+  ViewSpecificationData,
+} from '../../../Views/Products/helpers/model';
+import { info } from '../../../assets';
 // import { actions } from '../../../assets';
 
 const styles = {
@@ -43,6 +55,7 @@ const styles = {
 type DetailsWrapperCardProps = {
   details: ProductDetailResponsePayload;
   dataScema: AuctionDetailsColumnData[];
+  setViewSpecifications: Dispatch<SetStateAction<ViewSpecificationData>>;
 };
 
 // Helper function to format keys (convert camelCase or underscores to readable text)
@@ -127,6 +140,7 @@ const renderValue = (
 function DetailsWrapperEditableCard({
   details,
   dataScema,
+  setViewSpecifications,
 }: DetailsWrapperCardProps) {
   const [data, setData] = useState(details);
   useEffect(() => {
@@ -161,12 +175,32 @@ function DetailsWrapperEditableCard({
     []
   );
 
+  const handleClickInfo = (selectedData: ProductDetailResponsePayload) => {
+    const selectedDetailsProductsData = selectedData as unknown as {
+      productData: { specifications: Specification };
+    };
+    setViewSpecifications({
+      data: selectedDetailsProductsData?.productData?.specifications,
+      show: true,
+    });
+  };
   return (
     <div className="p-4 bg-white rounded shadow">
       <div className="row border p-3">
         {dataScema.map((field) => (
           <div key={field.title} className="col-md-3 mb-3">
-            <label className="font-weight-bold">{field.title}</label>
+            <div className="d-flex gap-1 ">
+              <label className="font-weight-bold">{field.title}</label>
+              {field?.info ? (
+                <img
+                  src={info}
+                  alt=""
+                  width={20}
+                  className="mb-1"
+                  onClick={() => handleClickInfo(data)}
+                />
+              ) : null}
+            </div>
             <p>
               {' '}
               {renderValue(getColumnValue(data, field), field, (newValue) =>

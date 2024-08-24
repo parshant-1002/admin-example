@@ -1,40 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import { Delete } from '../../../../assets';
+import { Image } from '../../../../Models/common';
+import { BUTTON_LABELS, STRINGS } from '../../../constants';
 import FileRenderer from './FileRenderer';
 import { Files } from './helpers/modal';
 
 interface ListFilesProps {
+  chooseFile: Image[];
+  isProductAuction: boolean;
   handleChooseFile: (selectedFiles: Files[]) => void;
   data: { files: Files[] };
   handleDeleteFile: (fileId: (string | undefined)[]) => void;
   singleImageSelectionEnabled?: boolean;
 }
 function ListFiles({
+  chooseFile,
+  isProductAuction,
   handleChooseFile,
   data,
   handleDeleteFile,
   singleImageSelectionEnabled = false,
 }: ListFilesProps) {
   const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
-  const files = data?.files;
 
+  useEffect(() => {
+    const choosenFiles = chooseFile?.filter((file) => file?.assigned);
+    const choosenFilesWithId = isProductAuction
+      ? choosenFiles?.map((file) => {
+          if (file?.fileId) {
+            return {
+              ...file,
+              _id: file?.fileId,
+            };
+          }
+          return file;
+        })
+      : chooseFile;
+    setSelectedFiles(choosenFilesWithId);
+  }, [chooseFile, isProductAuction]);
+  const files = data?.files;
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
-    if (
-      selectedFiles.length >= 1 &&
-      !selectedFiles.some((f) => f._id === file._id) &&
-      singleImageSelectionEnabled
-    ) {
-      toast.error('Only one file can be selected');
-      return;
-    }
+
     setSelectedFiles((prevSelectedFiles) => {
-      const foundIndex = prevSelectedFiles.findIndex((f) => f._id === file._id);
-      if (foundIndex > -1) {
+      const isFileSelected = prevSelectedFiles.some((f) => f._id === file._id);
+
+      // If the file is already selected, deselect it
+      if (isFileSelected) {
         return prevSelectedFiles.filter((f) => f._id !== file._id);
       }
+
+      // If single image selection is enabled, replace the selected file with the new one
+      if (singleImageSelectionEnabled) {
+        return [file];
+      }
+
+      // Otherwise, add the new file to the selection
       return [...prevSelectedFiles, file];
     });
   };
@@ -47,13 +69,7 @@ function ListFiles({
             const isSelected =
               selectedFiles.findIndex((f: Files) => f._id === file._id) > -1;
             // Remaining rendering logic
-            if (
-              file.createdAt &&
-              file.fileName &&
-              file.fileURL &&
-              file.updatedAt &&
-              file._id
-            ) {
+            if (file.fileName && file.fileURL && file._id) {
               return (
                 <div
                   key={file._id}
@@ -98,12 +114,14 @@ function ListFiles({
           })
         ) : (
           <div className="w-100 d-flex justify-content-center align-items-center no_results">
-            No files found
+            {STRINGS.NO_FILES_FOUND}
           </div>
         )}
       </div>
       <div className="choose-file-button-container d-flex gap-3 justify-content-center ps-2">
-        {selectedFiles?.length ? (
+        {selectedFiles?.length &&
+        selectedFiles?.length > 1 &&
+        !singleImageSelectionEnabled ? (
           <Button
             className="mt-2 px-4 button_danger"
             onClick={() => {
@@ -111,14 +129,16 @@ function ListFiles({
               setSelectedFiles([]);
             }}
           >
-            Delete
+            {BUTTON_LABELS.DELETE_SELECTION}
           </Button>
         ) : null}
         <Button
           className="mt-2 px-3"
           onClick={() => handleChooseFile(selectedFiles)}
         >
-          Choose file
+          {chooseFile?.length
+            ? BUTTON_LABELS.UPDATE_SELECTION
+            : BUTTON_LABELS.SELECT_FILES}
         </Button>
       </div>
     </div>
