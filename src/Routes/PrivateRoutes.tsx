@@ -24,6 +24,7 @@ import PrivacyPolicy from '../Views/ContentManagement/PrivacyPolicy';
 import Companies from '../Views/ContentManagement/Companies';
 import BidPackSection from '../Views/ContentManagement/BidPackSection/BidPackSection';
 import HeroContent from '../Views/ContentManagement/HeroContent';
+import TopAuction from '../Views/ContentManagement/TopAuction';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -164,6 +165,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.HERO_SECTION.path,
     element: <HeroContent />,
     title: ROUTES_CONFIG.HERO_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.TOP_AUCTION_SECTION.path,
+    element: <TopAuction />,
+    title: ROUTES_CONFIG.TOP_AUCTION_SECTION.title,
   },
   // Wildcard
   {

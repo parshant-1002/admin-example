@@ -231,6 +231,7 @@ export const CONTENT_ENUMS = {
   COMPANIES_SECTION: 'companies',
   SOCIAL_CONNECT: 'socialConnect',
   BID_PACK_CONTENT: 'bidPackSection',
+  TOP_AUCTION_CONTENT: 'topAuctionsSection',
 };
 
 export const BUTTON_LABELS = {
@@ -374,6 +375,7 @@ const ROUTES = {
     '/content-management/token-stats-info-content',
   BID_PACK_SECTION: '/content-management/bid-pack-content',
   HERO_SECTION: '/content-management/hero-content',
+  TOP_AUCTION_SECTION: '/content-management/top-auctions-section',
   EXTERNAL_AUDIT_CONTENT: '/content-management/external-audit-content',
   TOKEN_SUPPLY_CONTENT: '/content-management/token-supply-content',
   JOIN_AIRDROP_CONTENT: '/content-management/join-airdrop-content',
@@ -545,6 +547,10 @@ const ROUTES_CONFIG = {
   HERO_SECTION: {
     path: ROUTES.HERO_SECTION,
     title: 'Hero Section Content',
+  },
+  TOP_AUCTION_SECTION: {
+    path: ROUTES.TOP_AUCTION_SECTION,
+    title: 'Top Auction Content',
   },
 };
 

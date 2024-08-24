@@ -91,6 +91,7 @@ function FaqsContent() {
             setContent={setHeroCards}
             types={fieldTypes}
             labels={labels}
+            title="Hero Content"
             initialState={initialState}
           />
         }

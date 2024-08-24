@@ -5,7 +5,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   logoText: {
     type: INPUT_TYPES.TEXT,
     label: 'Header Logo Text',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Header Logo Text',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -14,7 +14,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   homeLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Home Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Home Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -23,7 +23,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   howItWorksLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'How It Works Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'How It Works Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -32,7 +32,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   auctionsLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Auctions Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Auctions Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -41,7 +41,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   buyCreditsLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Buy Credits Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Buy Credits Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -50,7 +50,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   searchPlaceholder: {
     type: INPUT_TYPES.TEXT,
     label: 'Search Placeholder',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Search Placeholder',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -59,7 +59,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   loginButtonLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Login Button Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Login Button Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -68,7 +68,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   registerButtonLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Register Button Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Register Button Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -78,7 +78,7 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   isVisible: {
     type: INPUT_TYPES.SWITCH,
     label: 'Show/Hide Header Content',
-    className: 'col-md-12',
+    className: 'col-md-6',
   },
 };
 

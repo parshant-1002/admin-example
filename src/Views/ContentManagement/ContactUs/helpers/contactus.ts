@@ -18,7 +18,7 @@ const CONTACT_US_FORM_SCHEMA = {
   phoneNumberTitle: {
     type: INPUT_TYPES.TEXT,
     label: 'Phone Number Title',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Phone Number Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -31,7 +31,7 @@ const CONTACT_US_FORM_SCHEMA = {
   phoneNumber: {
     type: INPUT_TYPES.TEXT,
     label: 'Phone Number',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Phone Number',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -54,7 +54,7 @@ const CONTACT_US_FORM_SCHEMA = {
   emailTitle: {
     type: INPUT_TYPES.TEXT,
     label: 'Email Title',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Email Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -67,7 +67,7 @@ const CONTACT_US_FORM_SCHEMA = {
   email: {
     type: INPUT_TYPES.TEXT,
     label: 'Email Address',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Email Address',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -86,7 +86,7 @@ const CONTACT_US_FORM_SCHEMA = {
   addressTitle: {
     type: INPUT_TYPES.TEXT,
     label: 'Address Title',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Address Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -99,7 +99,7 @@ const CONTACT_US_FORM_SCHEMA = {
   address: {
     type: INPUT_TYPES.TEXT,
     label: 'Address',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Address',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -112,7 +112,7 @@ const CONTACT_US_FORM_SCHEMA = {
   contactUsMapLatitude: {
     type: INPUT_TYPES.NUMBER,
     label: 'Map Latitude',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Map Latitude',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -121,7 +121,7 @@ const CONTACT_US_FORM_SCHEMA = {
   contactUsMapLongitude: {
     type: INPUT_TYPES.NUMBER,
     label: 'Map Longitude',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Map Longitude',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -130,7 +130,7 @@ const CONTACT_US_FORM_SCHEMA = {
   socialConnectTitle: {
     type: INPUT_TYPES.TEXT,
     label: 'Social Connect Title',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Enter Social Connect Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -153,7 +153,7 @@ const CONTACT_US_FORM_SCHEMA = {
   // socialConnectURL: {
   //     type: INPUT_TYPES.TEXT,
   //     label: 'Social URL',
-  //     className: 'col-md-12',
+  //     className: 'col-md-6',
   //     placeholder: 'Enter Social URL',
   //     schema: {
   //         required: FORM_VALIDATION_MESSAGES().REQUIRED,
@@ -162,7 +162,7 @@ const CONTACT_US_FORM_SCHEMA = {
   contactUsIsVisible: {
     type: INPUT_TYPES.SWITCH,
     label: 'Show/Hide Contact Us Section',
-    className: 'col-md-12',
+    className: 'col-md-6',
   },
 };
 
