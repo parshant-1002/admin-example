@@ -1,13 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import CustomModal from '../../../../Shared/components/CustomModal';
-import { PLAN_FORM_FIELDS, PLAN_SCHEMA } from '../../helpers/constants';
 import CustomForm from '../../../../Shared/components/form/CustomForm';
-import {
-  BID_PLAN_TYPES,
-  POPUPTYPES,
-  STRINGS,
-} from '../../../../Shared/constants';
-import { calculateDiscountedPrice } from '../../helpers/utils';
+import { POPUPTYPES, STRINGS } from '../../../../Shared/constants';
+import { PLAN_FORM_FIELDS, PLAN_SCHEMA } from '../../helpers/constants';
+import { calculateAnnualPrice } from '../../helpers/utils';
 
 interface HandleStateDataChangeProps {
   name: string;
@@ -28,13 +24,16 @@ function AddEditPlan({
   onClose: () => void;
   type: POPUPTYPES;
   initialValues?: Record<string, unknown> | null;
-  handleSubmit?: (data: Record<string, unknown>) => void;
+  handleSubmit?: (
+    data: Record<string, unknown>,
+    setShowHotDealSpecificFields: Dispatch<SetStateAction<number>>
+  ) => void;
 }) {
   const [showHotDealSpecificFields, setShowHotDealSpecificFields] =
-    useState<boolean>(false);
+    useState<number>(0);
 
   const onSubmit = (data: Record<string, unknown>) => {
-    handleSubmit(data);
+    handleSubmit(data, setShowHotDealSpecificFields);
   };
 
   const handleStateDataChange = ({
@@ -46,29 +45,44 @@ function AddEditPlan({
     // If hot deal is selected, show hot deal specific fields
     setShowHotDealSpecificFields(
       (
-        values?.[PLAN_FORM_FIELDS.HOT_DEAL] as {
+        values?.[PLAN_FORM_FIELDS.BID_PLAN_TYPE] as {
           label: string;
           value: number;
         }
-      )?.value === BID_PLAN_TYPES.HOT_DEAL
+      )?.value
     );
 
-    if (
-      name === PLAN_FORM_FIELDS.HOT_DEAL &&
-      (value as { label: string; value: number })?.value ===
-        BID_PLAN_TYPES.HOT_DEAL
-    ) {
-      setShowHotDealSpecificFields(true);
-    }
-
-    // If discount percentage is changed, calculate discounted price
-    if (name === PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE) {
-      const calculatedValue = calculateDiscountedPrice(
-        Number((values as Record<string, unknown>)?.price || 0),
-        Number(value || 0)
+    if (name === PLAN_FORM_FIELDS.BID_PLAN_TYPE) {
+      setShowHotDealSpecificFields(
+        (value as { label: string; value: number })?.value
       );
-      setValue(PLAN_FORM_FIELDS.DISCOUNT_PRICE, calculatedValue);
     }
+    if (
+      name === PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE ||
+      name === PLAN_FORM_FIELDS.MONTHLY_PRICE
+    ) {
+      const calculatedValue = calculateAnnualPrice(
+        Number(
+          (values as Record<string, unknown>)?.[
+            PLAN_FORM_FIELDS.MONTHLY_PRICE
+          ] || 0
+        ),
+        Number(
+          (values as Record<string, unknown>)?.[
+            PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE
+          ] || 0
+        )
+      );
+      setValue(PLAN_FORM_FIELDS.YEARLY_PRICE, calculatedValue);
+    }
+    // If discount percentage is changed, calculate discounted price
+    // if (name === PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE) {
+    //   const calculatedValue = calculateDiscountedPrice(
+    //     Number((values as Record<string, unknown>)?.price || 0),
+    //     Number(value || 0)
+    //   );
+    //   setValue(PLAN_FORM_FIELDS.DISCOUNT_PRICE, calculatedValue);
+    // }
   };
 
   const formSchema = useMemo(() => {
@@ -78,10 +92,14 @@ function AddEditPlan({
   useEffect(() => {
     if (
       initialValues &&
-      (initialValues[PLAN_FORM_FIELDS.HOT_DEAL] as { value: number })?.value ===
-        BID_PLAN_TYPES.HOT_DEAL
+      (initialValues[PLAN_FORM_FIELDS.BID_PLAN_TYPE] as { value: number })
+        ?.value
     ) {
-      setShowHotDealSpecificFields(true);
+      setShowHotDealSpecificFields(
+        initialValues &&
+          (initialValues[PLAN_FORM_FIELDS.BID_PLAN_TYPE] as { value: number })
+            ?.value
+      );
     }
   }, [initialValues]);
 
@@ -91,7 +109,10 @@ function AddEditPlan({
         type === POPUPTYPES.EDIT ? STRINGS.EDIT_BID_PLAN : STRINGS.ADD_BID_PLAN
       }
       show={open}
-      onClose={onClose}
+      onClose={() => {
+        onClose();
+        setShowHotDealSpecificFields(0);
+      }}
     >
       <CustomForm
         id="planForm"

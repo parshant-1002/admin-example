@@ -94,6 +94,7 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  REGULAR: 'Regular',
   SPECIFICATIONS: 'Specifications',
   DROP_FILE_HERE: 'Drop file here',
   NO_FILES_FOUND: 'No files found',
@@ -160,7 +161,9 @@ export const STRINGS = {
   ID: 'ID',
   END_AT: 'End At',
   HOT_DEAL: 'Hot Deal',
+  BID_PLAN_TYPE: 'Plan Type',
   YES: 'YES',
+  CUSTOM: 'Custom',
   NO: 'NO',
   T_ID: 'TId',
   DEAL_OFFER: 'Deal Offer',
@@ -168,7 +171,10 @@ export const STRINGS = {
   DATE: 'Date',
   BIDS_CREDITED: 'Bids Credited',
   DISCOUNT_PERCENTAGE: 'Discount Percentage (upto 100)',
+  BIDS_CONVERSION: 'Conversion Price (SEK)',
   DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
+  MONTHLY_PRICE: 'Monthly Price (SEK)',
+  YEARLY_PRICE: 'Yearly Price (SEK)',
   END_DATE: 'End Date',
   TRANSACTIONS: 'Transactions',
   ADD_BID_PLAN: 'Add Bid Plan',
@@ -503,7 +509,7 @@ const PRODUCT_PURCHASE_STATUS = {
 
 const BID_PLAN_TYPES = {
   REGULAR: 1,
-  HOT_DEAL: 2,
+  CUSTOM: 2,
 };
 
 const BID_STATUS = {
