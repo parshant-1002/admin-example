@@ -12,11 +12,11 @@ import {
   INPUT_TYPES,
   STRINGS,
 } from '../../../Shared/constants/index';
-import TERMS_AND_CONDITIONS_FORM_SCHEMA from './helpers/constants';
+import PRIVACY_POLICY_FORM_SCHEMA from './helpers/constant';
 import {
-  TermsAndConditionsFormData,
-  transAPIRequestDataToFormTermsAndConditions,
-  transformAPIRequestDataTermsAndConditions,
+  PrivacyPolicyData,
+  transAPIRequestDataToFormPrivacyPolicy,
+  transformAPIRequestDataPrivacyAndPolicy,
 } from './helpers/transform';
 import { AddContentFormItem } from '../../../Models/common';
 import { isErrors } from '../../../Shared/utils/functions';
@@ -33,11 +33,11 @@ const fieldTypes = {
 };
 
 const labels = {
-  content: 'Terms And Condition Section Content',
+  content: 'Privacy Policy Section Content',
 };
 
-function TermsAndCondtion() {
-  const [termsAndConditionSection, setTermAndConditionSection] = useState<
+function PrivacyPolicy() {
+  const [privacyAndPolicySection, setPrivacyAndPolicy] = useState<
     AddContentFormItem[]
   >([initialState]);
   const [initialValues, setInitialValues] = useState({});
@@ -45,36 +45,39 @@ function TermsAndCondtion() {
   const [updateContent] = useUpdateContentMutation({});
 
   useEffect(() => {
-    if (content?.data?.[CONTENT_ENUMS.TERMS_AND_CONDITIONS]) {
+    if (content?.data?.[CONTENT_ENUMS.PRIVACY_POLICY]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormTermsAndConditions(
-        content.data[CONTENT_ENUMS.TERMS_AND_CONDITIONS]
+      const initialFormValues = transAPIRequestDataToFormPrivacyPolicy(
+        content.data[CONTENT_ENUMS.PRIVACY_POLICY]
       );
       setInitialValues(initialFormValues);
 
-      // Extract and set termsAndConditionSection values
+      // Extract and set privacyAndPolicySection values
       const formGetData = content.data[
-        CONTENT_ENUMS.TERMS_AND_CONDITIONS
+        CONTENT_ENUMS.PRIVACY_POLICY
       ]?.sections.map((section: string) => ({
         content: section,
       }));
 
-      setTermAndConditionSection(formGetData || []);
+      setPrivacyAndPolicy(formGetData || []);
     }
   }, [content]);
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    if (isErrors(termsAndConditionSection, setTermAndConditionSection, labels))
-      return;
-    const formData = data as unknown as TermsAndConditionsFormData;
+    if (isErrors(privacyAndPolicySection, setPrivacyAndPolicy, labels)) return;
+    const formData = data as unknown as PrivacyPolicyData;
 
-    const mappedRoadMap = termsAndConditionSection.map((item) => ({
-      content: item.content || '',
-    }));
+    const mappedPrivacyAndPolicySection = privacyAndPolicySection.map(
+      (item) => ({
+        content: item.content || '',
+      })
+    );
 
     const payload = {
-      [CONTENT_ENUMS.TERMS_AND_CONDITIONS]:
-        transformAPIRequestDataTermsAndConditions(formData, mappedRoadMap),
+      [CONTENT_ENUMS.PRIVACY_POLICY]: transformAPIRequestDataPrivacyAndPolicy(
+        formData,
+        mappedPrivacyAndPolicySection
+      ),
     };
 
     await updateContent({
@@ -89,17 +92,17 @@ function TermsAndCondtion() {
   return (
     <CustomCardWrapper>
       <CustomForm
-        formData={TERMS_AND_CONDITIONS_FORM_SCHEMA}
-        id="termsAndCondition-form"
+        formData={PRIVACY_POLICY_FORM_SCHEMA}
+        id="privacy-policy-form"
         onSubmit={onSubmit}
         defaultValues={initialValues}
-        submitText={STRINGS.UPDATE_TERMS_AND_CNDTN}
+        submitText={STRINGS.UPDATE_PRIVACY_AND_POLICY}
         preSubmitElement={
           <AddContentForm
-            content={termsAndConditionSection || []}
-            setContent={setTermAndConditionSection}
-            title="terms an conditions section"
+            content={privacyAndPolicySection || []}
+            setContent={setPrivacyAndPolicy}
             types={fieldTypes}
+            title="Privacy policy section"
             labels={labels}
             initialState={initialState}
           />
@@ -109,4 +112,4 @@ function TermsAndCondtion() {
   );
 }
 
-export default TermsAndCondtion;
+export default PrivacyPolicy;

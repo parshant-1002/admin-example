@@ -32,6 +32,10 @@ const SIDEBAR_NAV = [
         label: 'Terms and Condition',
         route: ROUTES.TERM_AND_CONDITION_CONTENT,
       },
+      {
+        label: 'Privacy Policy',
+        route: ROUTES.PRIVACY_POLICY_CONTENT,
+      },
     ],
   },
   {

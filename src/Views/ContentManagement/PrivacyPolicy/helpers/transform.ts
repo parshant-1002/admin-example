@@ -4,7 +4,7 @@ interface SectionItem {
 }
 
 // Define types for the Terms and Conditions form data
-export interface TermsAndConditionsFormData {
+export interface PrivacyPolicyData {
   title: string;
   description: string;
   moreInormationTitle: string;
@@ -12,8 +12,8 @@ export interface TermsAndConditionsFormData {
 }
 
 // Define the transform function to convert form data to API request format
-export const transformAPIRequestDataTermsAndConditions = (
-  data: TermsAndConditionsFormData,
+export const transformAPIRequestDataPrivacyAndPolicy = (
+  data: PrivacyPolicyData,
   roadMap: SectionItem[]
 ) => {
   return {
@@ -25,8 +25,8 @@ export const transformAPIRequestDataTermsAndConditions = (
 };
 
 // Define the transform function to convert API response data back to form format
-export const transAPIRequestDataToFormTermsAndConditions = (
-  data: TermsAndConditionsFormData // Assuming API response data might not be of type TermsAndConditionsFormData
+export const transAPIRequestDataToFormPrivacyPolicy = (
+  data: PrivacyPolicyData // Assuming API response data might not be of type PrivacyPolicyData
 ) => {
   return {
     title: data?.title || '',

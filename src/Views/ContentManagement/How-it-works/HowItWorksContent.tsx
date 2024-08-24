@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { AddContentFormItem } from '../../../Models/common';
 import {
   useGetContentQuery,
   useUpdateContentMutation,
@@ -8,49 +9,51 @@ import { CustomForm } from '../../../Shared/components';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper';
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants';
-import { HOW_IT_WORKS_FORM_SCHEMA } from './helpers/howItWorksSchema';
+import { isErrors } from '../../../Shared/utils/functions';
+import HOW_IT_WORKS_FORM_SCHEMA from './helpers/howItWorksSchema';
 import {
   FormData,
-  RoadMapItem,
   transAPIRequestDataToFormHowItsWork,
   transformAPIRequestDataHowItsWork,
 } from './helpers/transform';
 
-const initialState: RoadMapItem = {
-  companyLogo: '',
+const initialState: AddContentFormItem = {
+  file: [{ fileURL: '' }],
   title: '',
   content: '',
   errors: {},
 };
 
 const fieldTypes = {
-  companyLogo: INPUT_TYPES.FILE_UPLOAD,
+  file: INPUT_TYPES.FILE_UPLOAD,
   title: INPUT_TYPES.TEXT,
   content: INPUT_TYPES.TEXT,
 };
 
 const labels = {
-  companyLogo: 'Add Card Icon',
-  title: 'Add Card Title',
-  content: 'Add Card Description',
+  file: 'Card Icon',
+  title: 'Card Title',
+  content: 'Card Description',
 };
 
 function HowItWorks() {
-  const [roadMap, setRoadMap] = useState<RoadMapItem[]>([initialState]);
+  const [howItWorkCardContent, setHowItWorkCardContent] = useState<
+    AddContentFormItem[]
+  >([initialState]);
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
   useEffect(() => {
-    if (content?.data?.[CONTENT_ENUMS.LANDING_PAGE]) {
+    if (content?.data?.[CONTENT_ENUMS.HOW_IT_WORKS_SECTION]) {
       // Set initial form values
       const initialFormValues = transAPIRequestDataToFormHowItsWork(
-        content.data[CONTENT_ENUMS.LANDING_PAGE]
+        content.data[CONTENT_ENUMS.HOW_IT_WORKS_SECTION]
       );
       setInitialValues(initialFormValues);
 
-      // Extract and set roadMap values
-      const formGetData = content.data[CONTENT_ENUMS.HOW_IT_WORKS_SECTION][
-        CONTENT_ENUMS.HOW_IT_WORKS_SECTION
+      // Extract and set howItWorkCardContent values
+      const formGetData = content.data?.[CONTENT_ENUMS.HOW_IT_WORKS_SECTION]?.[
+        CONTENT_ENUMS.HOW_IT_WORKS
       ].map(
         ({
           imageURL,
@@ -63,18 +66,19 @@ function HowItWorks() {
         }) => ({
           title: String(title),
           content: String(description),
-          companyLogo: String(imageURL),
+          file: [{ fileURL: String(imageURL) }],
         })
       );
-      setRoadMap(formGetData);
+      setHowItWorkCardContent(formGetData);
     }
   }, [content]);
 
   const onSubmit = async (data: Record<string, unknown>) => {
+    if (isErrors(howItWorkCardContent, setHowItWorkCardContent, labels)) return;
     const formData = data as unknown as FormData;
 
-    const mappedRoadMap = roadMap.map((item) => ({
-      companyLogo: item.companyLogo || '',
+    const mappedRoadMap = howItWorkCardContent.map((item) => ({
+      imageURL: item.file,
       title: item.title || '',
       content: item.content || '',
     }));
@@ -105,9 +109,10 @@ function HowItWorks() {
         submitText="Update How It Works Content"
         preSubmitElement={
           <AddContentForm
-            roadMap={roadMap}
-            setRoadMap={setRoadMap}
+            content={howItWorkCardContent}
+            setContent={setHowItWorkCardContent}
             types={fieldTypes}
+            title="How it work card"
             labels={labels}
             initialState={initialState}
           />
