@@ -42,7 +42,7 @@ interface CustomFormProps {
   ) => void;
   id: string;
   defaultValues?: Record<string, unknown>;
-  formData: Record<string, FormDataProps>;
+  formData?: Record<string, FormDataProps>;
   handleStateDataChange?: (prop: {
     name: string;
     value: unknown;
@@ -133,13 +133,15 @@ function CustomForm({
       return register(key, schema as unknown as FormDataProps);
     }
     if (
-      [INPUT_TYPES.TEXT, INPUT_TYPES.TEXT_AREA]?.includes(formData[key]?.type)
+      [INPUT_TYPES.TEXT, INPUT_TYPES.TEXT_AREA]?.includes(
+        `${formData?.[key]?.type}`
+      )
     ) {
       const schema = {
         ...(formData[key].schema || {}),
         validate: (value: string) =>
           value.trim() !== '' ||
-          FORM_VALIDATION_MESSAGES(formData[key].label).REQUIRED,
+          FORM_VALIDATION_MESSAGES(`${formData?.[key].label}`).REQUIRED,
       };
       return register(key, schema as unknown as FormDataProps);
     }

@@ -17,6 +17,18 @@ const SIDEBAR_NAV = [
         route: ROUTES.HEADERS_CONTENT,
       },
       {
+        label: 'Hero Content',
+        route: ROUTES.HERO_SECTION,
+      },
+      {
+        label: 'Companies',
+        route: ROUTES.COMPANIES_CONTENT,
+      },
+      {
+        label: 'Bid Pack ',
+        route: ROUTES.BID_PACK_SECTION,
+      },
+      {
         label: 'How It Works',
         route: ROUTES.HOW_IT_WORKS_CONTENT,
       },

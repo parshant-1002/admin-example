@@ -8,7 +8,7 @@ import { PlanDetailedView, Plans } from '../Views/BidsPlan';
 import { CategoriesList } from '../Views/Categories';
 import ContactUs from '../Views/ContentManagement/ContactUs/ContactUs';
 import Faqs from '../Views/ContentManagement/Faqs/FaqsContent';
-import HeaderContent from '../Views/ContentManagement/header-content/HeaderContent';
+import HeaderContent from '../Views/ContentManagement/HeaderContent';
 import HowItWorks from '../Views/ContentManagement/How-it-works/HowItWorksContent';
 import TermsAndCondtion from '../Views/ContentManagement/TermsAndCondtion/TermsAndCondtion';
 import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
@@ -21,6 +21,9 @@ import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import { CustomRouter } from './RootRoutes';
 import PrivacyPolicy from '../Views/ContentManagement/PrivacyPolicy';
+import Companies from '../Views/ContentManagement/Companies';
+import BidPackSection from '../Views/ContentManagement/BidPackSection/BidPackSection';
+import HeroContent from '../Views/ContentManagement/HeroContent';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -146,6 +149,21 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.path,
     element: <PrivacyPolicy />,
     title: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.COMPANIES_CONTENT.path,
+    element: <Companies />,
+    title: ROUTES_CONFIG.COMPANIES_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.BID_PACK_SECTION.path,
+    element: <BidPackSection />,
+    title: ROUTES_CONFIG.BID_PACK_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.HERO_SECTION.path,
+    element: <HeroContent />,
+    title: ROUTES_CONFIG.HERO_SECTION.title,
   },
   // Wildcard
   {

@@ -14,15 +14,6 @@ function HeaderContent() {
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
-  //   const getContentData = () => {
-  //     dispatch(getContent());
-  //   };
-
-  //   useEffect(() => {
-  //     if (!data) {
-  //       getContentData();
-  //     }
-  //   }, [dispatch]);
 
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.HEADER]) {

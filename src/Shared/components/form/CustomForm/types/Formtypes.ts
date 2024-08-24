@@ -22,7 +22,7 @@ export interface FormSchema {
   validate?: (value: string) => string | true;
 }
 export interface FormDataProps {
-  type: string;
+  type?: string;
   imageFileType?: string;
   ratio?: number[];
   readOnly?: boolean;
@@ -34,10 +34,10 @@ export interface FormDataProps {
   schema?: FormSchema | ((value: string) => FormSchema);
   options?: unknown[];
   value?: unknown;
-  className: string;
+  className?: string;
   containerClassName?: string;
   labelClassName?: string;
-  label: string;
+  label?: string;
   render?: () => JSX.Element;
   isShowInputCount?: boolean;
   name?: string;
