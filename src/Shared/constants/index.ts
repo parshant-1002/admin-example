@@ -220,6 +220,7 @@ export const CONTENT_ENUMS = {
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
   FAQS_SECTION: 'faqSection',
+  HERO_SECTION: 'heroSection',
   LANDING_PAGE: 'landingPage',
   HOW_IT_WORKS_SECTION: 'howItWorksSection',
   HOW_IT_WORKS: 'howItWorks',
@@ -227,7 +228,9 @@ export const CONTENT_ENUMS = {
   TERMS_AND_CONDITIONS: 'termsAndConditions',
   PRIVACY_POLICY: 'privacyPolicy',
   CONTACT_US_SECTION: 'contactUsSection',
+  COMPANIES_SECTION: 'companies',
   SOCIAL_CONNECT: 'socialConnect',
+  BID_PACK_CONTENT: 'bidPackSection',
 };
 
 export const BUTTON_LABELS = {
@@ -353,6 +356,7 @@ const ROUTES = {
   CONTACTUS_CONTENT: '/content-management/contact-us',
   TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
   PRIVACY_POLICY_CONTENT: '/content-management/privacy-policy',
+  COMPANIES_CONTENT: '/content-management/companies-content',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -368,6 +372,8 @@ const ROUTES = {
     '/content-management/premium-token-wallet-content',
   TOKEN_STATS_INFORMATION_CONTENT:
     '/content-management/token-stats-info-content',
+  BID_PACK_SECTION: '/content-management/bid-pack-content',
+  HERO_SECTION: '/content-management/hero-content',
   EXTERNAL_AUDIT_CONTENT: '/content-management/external-audit-content',
   TOKEN_SUPPLY_CONTENT: '/content-management/token-supply-content',
   JOIN_AIRDROP_CONTENT: '/content-management/join-airdrop-content',
@@ -527,6 +533,18 @@ const ROUTES_CONFIG = {
   PRIVACY_POLICY_CONTENT: {
     path: ROUTES.PRIVACY_POLICY_CONTENT,
     title: 'Privacy Policy Content',
+  },
+  COMPANIES_CONTENT: {
+    path: ROUTES.COMPANIES_CONTENT,
+    title: 'Compamies Content',
+  },
+  BID_PACK_SECTION: {
+    path: ROUTES.BID_PACK_SECTION,
+    title: 'Bid Pack Content',
+  },
+  HERO_SECTION: {
+    path: ROUTES.HERO_SECTION,
+    title: 'Hero Section Content',
   },
 };
 

@@ -23,7 +23,6 @@ interface AddContentFormProps {
   options?: { [key: string]: unknown[] };
   initialState: AddContentFormItem;
   title?: string;
-  singleImageSelectionEnabled?: boolean;
 }
 
 function AddContentForm({
@@ -34,7 +33,6 @@ function AddContentForm({
   options,
   initialState,
   title,
-  singleImageSelectionEnabled = false,
 }: AddContentFormProps) {
   const addLevel = () => {
     const currentErrors = validateField(content[content.length - 1], labels);
@@ -125,7 +123,6 @@ function AddContentForm({
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       updateField(index, typeKey, e);
                     }}
-                    singleImageSelectionEnabled={singleImageSelectionEnabled}
                   />
                 )}
                 {inputType === INPUT_TYPES.SELECT && (

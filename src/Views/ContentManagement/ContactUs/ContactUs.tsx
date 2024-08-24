@@ -93,7 +93,6 @@ function ContactUs() {
             types={fieldTypes}
             labels={labels}
             initialState={initialState}
-            singleImageSelectionEnabled
           />
         }
         submitText="Update ContactUs Content"

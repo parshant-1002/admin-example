@@ -45,7 +45,7 @@ function RenderField({
     field.schema.minDate?.value;
   const [inputType, setInputType] = useState(field.type);
   const handleEyeClick = () => {
-    setInputType((prev: string) =>
+    setInputType((prev?: string) =>
       prev === INPUT_TYPES.PASSWORD ? INPUT_TYPES.TEXT : INPUT_TYPES.PASSWORD
     );
   };

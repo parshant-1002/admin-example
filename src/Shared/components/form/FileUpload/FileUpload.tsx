@@ -47,7 +47,7 @@ interface FileInputProps {
   ratio?: number[];
   imageFileType?: string;
   fetchImageDataConfig?: ImageConfig[];
-  singleImageSelectionEnabled: boolean;
+  singleImageSelectionEnabled?: boolean;
   [key: string]: unknown; // To handle any additional props
 }
 interface QueryParams {
