@@ -25,6 +25,10 @@ const SIDEBAR_NAV = [
         route: ROUTES.COMPANIES_CONTENT,
       },
       {
+        label: 'Top Auctions',
+        route: ROUTES.TOP_AUCTION_SECTION,
+      },
+      {
         label: 'Bid Pack ',
         route: ROUTES.BID_PACK_SECTION,
       },

@@ -84,6 +84,7 @@ function ContactUs() {
       <CustomForm
         formData={CONTACT_US_FORM_SCHEMA}
         id="contactUs-form"
+        className="row"
         onSubmit={onSubmit}
         defaultValues={initialValues}
         preSubmitElement={

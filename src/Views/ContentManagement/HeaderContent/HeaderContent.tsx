@@ -40,6 +40,7 @@ function HeaderContent() {
         id="headers-content"
         formData={HEADER_CONTENT_FORM_SCHEMA}
         onSubmit={onSubmit}
+        className="row"
         defaultValues={initialValues}
         submitText="Update Header Content"
       />
