@@ -8,7 +8,20 @@ const HOW_IT_WORKS_FORM_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Title',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Title').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  tagLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'How It Works Tag Label',
+    className: 'col-md-12',
+    placeholder: 'How It Works Tag Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('How It Works Tag Label').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,

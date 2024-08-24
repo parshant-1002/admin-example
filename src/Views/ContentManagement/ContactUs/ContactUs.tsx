@@ -28,8 +28,8 @@ const fieldTypes = {
 };
 
 const labels = {
-  file: 'Add social contact icon',
-  title: 'Add social contact URL',
+  file: ' icon',
+  title: ' URL',
 };
 
 function ContactUs() {
@@ -94,6 +94,7 @@ function ContactUs() {
             types={fieldTypes}
             labels={labels}
             initialState={initialState}
+            title="social contact"
           />
         }
         submitText="Update ContactUs Content"

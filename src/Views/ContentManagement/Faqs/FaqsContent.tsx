@@ -30,8 +30,8 @@ const fieldTypes = {
 };
 
 const labels: { title?: string; content?: string } = {
-  title: 'Faq Title',
-  content: 'Faq Content',
+  title: 'Title',
+  content: 'Content',
 };
 
 function FaqsContent() {
@@ -98,6 +98,7 @@ function FaqsContent() {
             content={faqCard || []}
             setContent={setFaqCard}
             types={fieldTypes}
+            title="Faq Card"
             labels={labels}
             initialState={initialState}
           />

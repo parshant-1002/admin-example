@@ -23,8 +23,8 @@ const fieldTypes = {
 };
 
 const labels = {
-  file: 'company icon',
-  title: 'company URL',
+  file: 'icon',
+  title: 'URL',
 };
 
 function Companies() {
