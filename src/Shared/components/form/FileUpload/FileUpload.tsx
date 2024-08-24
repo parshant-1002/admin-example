@@ -4,11 +4,6 @@ import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Tab, Tabs } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-// import {
-//     deleteFiles,
-//     getAllFiles,
-//     uploadFiles,
-// } from '../../../../store/actions/mediaActions';
 import {
   useFileDeleteMutation,
   useFileUploadMutation,
@@ -60,7 +55,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [fileDelete] = useFileDeleteMutation();
     const { data, refetch } = useGetFilesQuery({ startDate: '', endDate: '' });
 
-    // const dispatch = useDispatch();
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
@@ -294,7 +288,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             <div className="p-3">
               <div className="grid-container">
                 {chooseFile?.map((img) => (
-                  <div key={img.url} className="grid-item m-2">
+                  <div key={img.url || img.fileURL} className="grid-item m-2">
                     <span className="uploaded_file">
                       <FileRenderer fileURL={img.url || img.fileURL} />
                     </span>

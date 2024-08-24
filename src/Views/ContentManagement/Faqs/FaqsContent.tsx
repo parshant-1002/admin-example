@@ -8,18 +8,19 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
-import { FAQ_CONTENT_FORM_SCHEMA } from './helpers/faqs';
+import { isErrors } from '../../../Shared/utils/functions';
 import {
+  FAQ_SUB_ENUM,
   FormData,
-  RoadMapItem,
   transAPIRequestDataToFormFaq,
   transformAPIRequestDataFaq,
 } from './helpers/transform';
+import { AddContentFormItem } from '../../../Models/common';
+import FAQ_CONTENT_FORM_SCHEMA from './helpers/faqs';
 
-const initialState: RoadMapItem = {
+const initialState: AddContentFormItem = {
   title: '',
   content: '',
-  companyLogo: '',
   errors: {},
 };
 
@@ -28,46 +29,48 @@ const fieldTypes = {
   content: INPUT_TYPES.TEXT,
 };
 
-const labels = {
-  title: 'Add Faq Title',
-  content: 'Add Faq Content',
+const labels: { title?: string; content?: string } = {
+  title: 'Faq Title',
+  content: 'Faq Content',
 };
 
-const FaqsContent = () => {
-  const [roadMap, setRoadMap] = useState<RoadMapItem[]>([initialState]);
+function FaqsContent() {
+  const [faqCard, setFaqCard] = useState<AddContentFormItem[]>([initialState]);
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
 
   useEffect(() => {
-    if (content?.data?.[CONTENT_ENUMS.LANDING_PAGE]) {
+    if (content?.data?.[CONTENT_ENUMS.FAQS_SECTION]) {
       // Set initial form values
       const initialFormValues = transAPIRequestDataToFormFaq(
-        content.data[CONTENT_ENUMS.LANDING_PAGE]
+        content.data[CONTENT_ENUMS.FAQS_SECTION]
       );
       setInitialValues(initialFormValues);
 
-      // Extract and set roadMap values
-      const formGetData = content.data[CONTENT_ENUMS.LANDING_PAGE][CONTENT_ENUMS.FAQS]
-        ?.map(({ question, answer }: { question: string, answer: string }) => ({
-          title: String(question),
-          content: String(answer)
-        }));
-        
-      setRoadMap(formGetData);
+      // Extract and set faqCard values
+      const formGetData = content.data[CONTENT_ENUMS.FAQS_SECTION][
+        FAQ_SUB_ENUM.FAQ
+      ]?.map(({ question, answer }: { question: string; answer: string }) => ({
+        title: String(question),
+        content: String(answer),
+      }));
+
+      setFaqCard(formGetData);
     }
   }, [content]);
 
   const onSubmit = async (data: Record<string, unknown>) => {
+    if (isErrors(faqCard, setFaqCard, labels)) return;
     const formData = data as unknown as FormData;
 
-    const mappedRoadMap = roadMap.map((item) => ({
+    const mappedRoadMap = faqCard.map((item) => ({
       question: item.title || '',
       answer: item.content || '',
     }));
 
     const payload = {
-      [CONTENT_ENUMS.LANDING_PAGE]: transformAPIRequestDataFaq(
+      [CONTENT_ENUMS.FAQS_SECTION]: transformAPIRequestDataFaq(
         formData,
         mappedRoadMap
       ),
@@ -86,14 +89,14 @@ const FaqsContent = () => {
     <CustomCardWrapper>
       <CustomForm
         formData={FAQ_CONTENT_FORM_SCHEMA}
-        id={'faqs-form'}
+        id="faqs-form"
         onSubmit={onSubmit}
         defaultValues={initialValues}
         submitText="Update Faqs Content"
         preSubmitElement={
           <AddContentForm
-            roadMap={roadMap || []}
-            setRoadMap={setRoadMap}
+            content={faqCard || []}
+            setContent={setFaqCard}
             types={fieldTypes}
             labels={labels}
             initialState={initialState}
@@ -102,6 +105,6 @@ const FaqsContent = () => {
       />
     </CustomCardWrapper>
   );
-};
+}
 
 export default FaqsContent;

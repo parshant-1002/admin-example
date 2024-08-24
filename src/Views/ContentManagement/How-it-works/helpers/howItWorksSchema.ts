@@ -1,7 +1,7 @@
-import { INPUT_TYPES } from "../../../../Shared/constants";
-import FORM_VALIDATION_MESSAGES from "../../../../Shared/constants/validationMessages";
+import { INPUT_TYPES } from '../../../../Shared/constants';
+import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
-export  const HOW_IT_WORKS_FORM_SCHEMA = {
+const HOW_IT_WORKS_FORM_SCHEMA = {
   title: {
     type: INPUT_TYPES.TEXT,
     label: 'How It Works Title',
@@ -21,3 +21,5 @@ export  const HOW_IT_WORKS_FORM_SCHEMA = {
     className: 'col-md-12',
   },
 };
+
+export default HOW_IT_WORKS_FORM_SCHEMA;

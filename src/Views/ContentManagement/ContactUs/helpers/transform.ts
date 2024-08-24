@@ -1,24 +1,25 @@
 // Define types for the SocialConnectItem
 interface SocialConnectItem {
-  imageURL: string | File;
+  imageURL?: [{ fileURL: string }];
   url: string;
 }
 
 // Define types for the ContactUs form data
 export interface ContactUsFormData {
-  phoneNumberImageURL: File | string | any;
+  phoneNumberImageURL: [{ fileURL: string }];
   phoneNumberTitle: string;
   phoneNumber: string;
-  emailImageURL: File | string | any;
+  emailImageURL: [{ fileURL: string }];
   emailTitle: string;
   email: string;
-  addressImageURL: File | string | any;
+  addressImageURL: [{ fileURL: string }];
   addressTitle: string;
   address: string;
   socialConnectTitle: string;
   contactUsMapLatitude: number;
   contactUsMapLongitude: number;
   contactUsIsVisible?: boolean;
+  socialConnect?: SocialConnectItem[];
 }
 
 // Define the transform function to convert form data to API request format
@@ -44,9 +45,6 @@ export const transformAPIRequestDataContactUs = (
           if (Array.isArray(imageURL)) {
             return url.trim() !== '' || imageURL[0]?.fileURL?.trim() !== '';
           }
-          if (typeof imageURL === 'string') {
-            return url.trim() !== '' || imageURL.trim() !== '';
-          }
           return false;
         })
         .map(({ imageURL, url }) => ({
@@ -64,7 +62,12 @@ export const transformAPIRequestDataContactUs = (
 
 // Define the transform function to convert API response data back to form format
 export const transAPIRequestDataToFormContactUs = (
-  data: any // Assuming API response data might not be of type ContactUsFormData
+  data: {
+    contactUsMapLatitude: number;
+    contactUsMapLongitude: number;
+    contactUsIsVisible: boolean;
+    contactUs: ContactUsFormData;
+  } // Assuming API response data might not be of type ContactUsFormData
 ) => {
   return {
     phoneNumberImageURL: data.contactUs.phoneNumberImageURL
@@ -83,22 +86,14 @@ export const transAPIRequestDataToFormContactUs = (
     addressTitle: data.contactUs.addressTitle || '',
     address: data.contactUs.address || '',
     socialConnectTitle: data.contactUs.socialConnectTitle || '',
-    socialConnect: (data.contactUs.socialConnect || []).map((item: any) => ({
-      imageURL: item.imageURL || '',
-      url: item.url || '',
-    })),
+    socialConnect: (data.contactUs.socialConnect || []).map(
+      (item: SocialConnectItem) => ({
+        imageURL: item.imageURL || '',
+        url: item.url,
+      })
+    ),
     contactUsMapLatitude: data.contactUsMapLatitude || 0,
     contactUsMapLongitude: data.contactUsMapLongitude || 0,
     contactUsIsVisible: data.contactUsIsVisible || false,
   };
 };
-
-// Define types for the RoadMapItem (if necessary for a different part of the form)
-export interface RoadMapItem {
-  id?: string;
-  title: string;
-  content?: string;
-  companyLogo?: File | string;
-  errors: { [key: string]: string };
-  [key: string]: any;
-}

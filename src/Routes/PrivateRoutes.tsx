@@ -20,6 +20,7 @@ import ReferralHistory from '../Views/Transactions/ReferralHistory';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import { CustomRouter } from './RootRoutes';
+import PrivacyPolicy from '../Views/ContentManagement/PrivacyPolicy';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -137,9 +138,14 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.CONTACTUS_CONTENT.title,
   },
   {
-    path: ROUTES_CONFIG.TERMSANDCONDITION_CONTENT.path,
+    path: ROUTES_CONFIG.TERMS_AND_CONDITION_CONTENT.path,
     element: <TermsAndCondtion />,
-    title: ROUTES_CONFIG.TERMSANDCONDITION_CONTENT.title,
+    title: ROUTES_CONFIG.TERMS_AND_CONDITION_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.path,
+    element: <PrivacyPolicy />,
+    title: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.title,
   },
   // Wildcard
   {

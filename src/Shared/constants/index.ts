@@ -94,6 +94,8 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
+  UPDATE_PRIVACY_AND_POLICY: 'Update Privacy Policy Content',
   TOTAL_SUPPLY: 'Total Supply',
   NEXT_BTN: 'next-btn',
   PREV_BTN: 'pre-btn',
@@ -208,12 +210,13 @@ export const CONTENT_ENUMS = {
   PRIVACY_POLICY_PAGE: 'privacyPolicy',
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
-  FAQS: 'faq',
+  FAQS_SECTION: 'faqSection',
   LANDING_PAGE: 'landingPage',
   HOW_IT_WORKS_SECTION: 'howItWorksSection',
   HOW_IT_WORKS: 'howItWorks',
   CONTACT_US: 'contactUs',
   TERMS_AND_CONDITIONS: 'termsAndConditions',
+  PRIVACY_POLICY: 'privacyPolicy',
   CONTACT_US_SECTION: 'contactUsSection',
   SOCIAL_CONNECT: 'socialConnect',
 };
@@ -333,6 +336,7 @@ const ROUTES = {
   FQA_CONTENT: '/content-management/faqs',
   CONTACTUS_CONTENT: '/content-management/contact-us',
   TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
+  PRIVACY_POLICY_CONTENT: '/content-management/privacy-policy',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -500,9 +504,13 @@ const ROUTES_CONFIG = {
     path: ROUTES.CONTACTUS_CONTENT,
     title: 'Contact US Content',
   },
-  TERMSANDCONDITION_CONTENT: {
+  TERMS_AND_CONDITION_CONTENT: {
     path: ROUTES.TERM_AND_CONDITION_CONTENT,
     title: 'Term and Condition Content',
+  },
+  PRIVACY_POLICY_CONTENT: {
+    path: ROUTES.PRIVACY_POLICY_CONTENT,
+    title: 'Privacy Policy Content',
   },
 };
 
@@ -564,6 +572,5 @@ export {
   ROUTES,
   ROUTES_CONFIG,
   TABLE_PAGE_LIMIT,
-  WILDCARD_ROUTES
+  WILDCARD_ROUTES,
 };
-

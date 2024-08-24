@@ -8,32 +8,34 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
-import { CONTACT_US_FORM_SCHEMA } from './helpers/contactus';
 import {
   ContactUsFormData,
-  RoadMapItem,
   transAPIRequestDataToFormContactUs,
   transformAPIRequestDataContactUs,
 } from './helpers/transform';
+import { AddContentFormItem } from '../../../Models/common';
+import CONTACT_US_FORM_SCHEMA from './helpers/contactus';
 
-const initialState: RoadMapItem = {
-  companyLogo: '',
+const initialState: AddContentFormItem = {
+  file: [{ fileURL: '' }],
   title: '',
   errors: {},
 };
 
 const fieldTypes = {
-  companyLogo: INPUT_TYPES.FILE_UPLOAD,
+  file: INPUT_TYPES.FILE_UPLOAD,
   title: INPUT_TYPES.TEXT,
 };
 
 const labels = {
-  companyLogo: 'Add social contact icon',
+  file: 'Add social contact icon',
   title: 'Add social contact URL',
 };
 
 function ContactUs() {
-  const [roadMap, setRoadMap] = useState<RoadMapItem[]>([initialState]);
+  const [socialConnectContent, setSocialConnectContent] = useState<
+    AddContentFormItem[]
+  >([initialState]);
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
@@ -44,23 +46,23 @@ function ContactUs() {
         content.data[CONTENT_ENUMS.CONTACT_US_SECTION]
       );
       setInitialValues(initialFormValues);
-      // Extract and set roadMap values
+      // Extract and set socialConnectContent values
       const formGetData = content.data[CONTENT_ENUMS.CONTACT_US_SECTION][
         CONTENT_ENUMS.CONTACT_US
       ][CONTENT_ENUMS.SOCIAL_CONNECT]?.map(
         ({ imageURL, url }: { imageURL: string; url: string }) => ({
           title: String(url),
-          companyLogo: [{ fileURL: String(imageURL) }],
+          file: [{ fileURL: String(imageURL) }],
         })
       );
-      setRoadMap(formGetData);
+      setSocialConnectContent(formGetData);
     }
   }, [content]);
   const onSubmit = async (data: Record<string, unknown>) => {
     const formData = data as unknown as ContactUsFormData;
-    const mappedRoadMap = roadMap.map((item) => ({
+    const mappedRoadMap = socialConnectContent.map((item) => ({
       url: item.title || '',
-      imageURL: item.companyLogo || '',
+      imageURL: item.file,
     }));
     const payload = {
       [CONTENT_ENUMS.CONTACT_US_SECTION]: transformAPIRequestDataContactUs(
@@ -86,8 +88,8 @@ function ContactUs() {
         defaultValues={initialValues}
         preSubmitElement={
           <AddContentForm
-            roadMap={roadMap || []}
-            setRoadMap={setRoadMap}
+            content={socialConnectContent || []}
+            setContent={setSocialConnectContent}
             types={fieldTypes}
             labels={labels}
             initialState={initialState}

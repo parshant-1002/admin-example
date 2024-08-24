@@ -4,7 +4,7 @@ import {
 } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
-export const CONTACT_US_FORM_SCHEMA = {
+const CONTACT_US_FORM_SCHEMA = {
   phoneNumberImageURL: {
     type: INPUT_TYPES.FILE,
     label: 'Phone Number Image',
@@ -165,3 +165,5 @@ export const CONTACT_US_FORM_SCHEMA = {
     className: 'col-md-12',
   },
 };
+
+export default CONTACT_US_FORM_SCHEMA;

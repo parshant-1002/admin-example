@@ -13,12 +13,11 @@ import {
   updateAuthTokenRedux,
   updateUserDataRedux,
 } from '../../../Store/Common';
-import { Copy } from '../../../assets';
+import { Copy, auction } from '../../../assets';
 import './OtpForm.scss';
 import OTP_CODE_TYPE from './helpers/constants';
-import OTP_FORM_SCHEMA from './helpers/otpSchema';
+import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import QrCode from '../qrCode/QrCode';
-import { auction } from '../../../assets/index';
 
 interface LoginResponse {
   token: string;
