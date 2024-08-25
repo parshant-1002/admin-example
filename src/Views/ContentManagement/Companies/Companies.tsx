@@ -10,6 +10,7 @@ import AddContentForm from '../../../Shared/components/form/AddContentForm/AddCo
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
 import { isErrors } from '../../../Shared/utils/functions';
+import ERROR_MESSAGES from '../../../Shared/constants/messages';
 
 const initialState: AddContentFormItem = {
   file: [{ fileURL: '' }],
@@ -46,19 +47,29 @@ function Companies() {
     }
   }, [content]);
   const onSubmit = async () => {
-    if (!isErrors(companiesData, setCompaniesData, labels)) return;
-    const mappedCompaniesData = companiesData.map((item) => ({
-      title: item.title || '',
-      url: item.file?.[0]?.fileURL,
-    }));
-    const payload = { [CONTENT_ENUMS.COMPANIES_SECTION]: mappedCompaniesData };
-    await updateContent({
-      payload,
-      onSuccess: (res: { message: string }) => {
-        toast.success(res.message);
-        refetch();
-      },
-    });
+    try {
+      if (isErrors(companiesData, setCompaniesData, labels)) return;
+      const mappedCompaniesData = companiesData.map((item) => ({
+        title: item.title || '',
+        url: item.file?.[0]?.fileURL,
+      }));
+      const payload = {
+        [CONTENT_ENUMS.COMPANIES_SECTION]: mappedCompaniesData,
+      };
+      await updateContent({
+        payload,
+        onSuccess: (res: { message: string }) => {
+          toast.success(res.message);
+          refetch();
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+      }
+    }
   };
 
   return (
