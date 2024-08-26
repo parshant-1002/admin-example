@@ -13,15 +13,23 @@ export interface SelectOption {
   label?: string | number;
 }
 
-export interface AddContentFormItem {
+export interface SubContent {
   id?: string;
   title?: string;
   content?: string;
   file?: [{ fileURL: string }];
   errors: { [key: string]: string };
+}
+export interface AddContentFormItem {
+  id?: string;
+  title?: string;
+  content?: string;
+  file?: [{ fileURL: string }];
+  errors?: { [key: string]: string };
+  subContent?: SubContent[];
   [key: string]: any;
 }
-export interface ImageConfig  {
+export interface ImageConfig {
   key?: string;
   value?: string;
-};
+}

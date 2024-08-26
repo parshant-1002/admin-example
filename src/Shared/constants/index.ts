@@ -228,6 +228,7 @@ export const CONTENT_ENUMS = {
   TERMS_AND_CONDITIONS: 'termsAndConditions',
   PRIVACY_POLICY: 'privacyPolicy',
   CONTACT_US_SECTION: 'contactUsSection',
+  FOOTER: 'footer',
   COMPANIES_SECTION: 'companies',
   SOCIAL_CONNECT: 'socialConnect',
   BID_PACK_CONTENT: 'bidPackSection',
@@ -376,6 +377,7 @@ const ROUTES = {
   BID_PACK_SECTION: '/content-management/bid-pack-content',
   HERO_SECTION: '/content-management/hero-content',
   TOP_AUCTION_SECTION: '/content-management/top-auctions-section',
+  FOOTER: '/content-management/footer',
   EXTERNAL_AUDIT_CONTENT: '/content-management/external-audit-content',
   TOKEN_SUPPLY_CONTENT: '/content-management/token-supply-content',
   JOIN_AIRDROP_CONTENT: '/content-management/join-airdrop-content',
@@ -551,6 +553,10 @@ const ROUTES_CONFIG = {
   TOP_AUCTION_SECTION: {
     path: ROUTES.TOP_AUCTION_SECTION,
     title: 'Top Auction Content',
+  },
+  FOOTER: {
+    path: ROUTES.FOOTER,
+    title: 'Footer',
   },
 };
 
