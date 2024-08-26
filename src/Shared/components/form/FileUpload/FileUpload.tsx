@@ -283,6 +283,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
           dispatch(updateUploadedImages(filteredImages));
           setChooseFile(filteredImages?.filter((file) => file?.assigned));
+          onChange(filteredImages?.filter((file) => file?.assigned));
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
