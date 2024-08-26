@@ -15,7 +15,7 @@ interface ListFilesProps {
   singleImageSelectionEnabled?: boolean;
 }
 function ListFiles({
-  chooseFile,
+  chooseFile = [],
   isProductAuction,
   handleChooseFile,
   data,
