@@ -1,0 +1,14 @@
+@import '../../../assets/scss/base';
+
+.color-picker {
+    &-palette {
+        position: $absolute;
+        z-index: 100;
+    }
+
+    &-hide {
+        content: "";
+        @include position($fixed, $top: 0, $left: 0, $bottom: 0, $right: 0);
+        background: $transparent;
+    }
+}

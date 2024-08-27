@@ -30,3 +30,13 @@ export const calculateAnnualPrice = (
       : 0
     : yearlyPrice;
 };
+
+export function containsHTML(text: string) {
+  const htmlRegex = /<[a-z/][\s\S]*>/i;
+  return htmlRegex.test(text);
+}
+
+export function htmlToText(html: string) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
+}

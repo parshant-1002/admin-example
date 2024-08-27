@@ -66,6 +66,7 @@ export const INPUT_TYPES = {
   SWITCH: 'switch',
   PHONE: 'phone',
   CHECKBOX: 'checkbox',
+  COLOR: 'color',
 };
 
 export const blockInvalidChar = (
@@ -94,6 +95,7 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
   UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
   UPDATE_PRIVACY_AND_POLICY: 'Update Privacy Policy Content',
   REGULAR: 'Regular',
@@ -404,6 +406,14 @@ const ROUTES = {
   TRANSACTIONS_BIDS_HISTORY: '/transactions/bids-history',
   TRANSACTIONS_PRODUCTS_HISTORY: '/transactions/products-history',
   TRANSACTIONS_REFERRAL_HISTORY: '/transactions/referral-history',
+  // notifications content
+  NOTIFICATIONS_CONTENT: '/notifications-content',
+  RESERVE_PRICE_REACHED: '/notifications-content/reserve-price-reached',
+  NEW_BID_PLACED: '/notifications-content/new-bid-placed',
+  AUTOMATIC_BID_RUNNED_OUT: '/notifications-content/automatic-bid-runned-out',
+  BID_TIME_LEFT: '/notifications-content/bid-time-left',
+  WINNER: '/notifications-content/winner',
+  AUCTION_ENDED: '/notifications-content/auction-ended',
 };
 
 const WILDCARD_ROUTES = {
@@ -558,6 +568,30 @@ const ROUTES_CONFIG = {
     path: ROUTES.FOOTER,
     title: 'Footer',
   },
+  RESERVE_PRICE_REACHED: {
+    path: ROUTES.RESERVE_PRICE_REACHED,
+    title: 'Reserve Price Reached',
+  },
+  NEW_BID_PLACED: {
+    path: ROUTES.NEW_BID_PLACED,
+    title: 'New Bid Placed',
+  },
+  AUTOMATIC_BID_RUNNED_OUT: {
+    path: ROUTES.AUTOMATIC_BID_RUNNED_OUT,
+    title: 'Automatic Bid Runed Out',
+  },
+  BID_TIME_LEFT: {
+    path: ROUTES.BID_TIME_LEFT,
+    title: 'Bid Time Left',
+  },
+  WINNER: {
+    path: ROUTES.WINNER,
+    title: 'Winner',
+  },
+  AUCTION_ENDED: {
+    path: ROUTES.AUCTION_ENDED,
+    title: 'Auction Ended',
+  },
 };
 
 enum POPUPTYPES {
@@ -622,6 +656,15 @@ const FILE_TYPE: {
   PRODUCT: '2',
   AUCTION: '2',
 };
+
+const NOTIFICATION_TYPE = {
+  RESERVE_PRICE_REACHED: 1,
+  NEW_BID_PLACED: 2,
+  AUTOMATIC_BID_RUNNED_OUT: 3,
+  BID_TIME_LEFT: 4,
+  WINNER: 5,
+  AUCTION_ENDED: 6,
+};
 export {
   BID_CREDIT_TYPES,
   BID_PLAN_TYPES,
@@ -637,4 +680,5 @@ export {
   TABLE_PAGE_LIMIT,
   TOAST_MESSAGES,
   WILDCARD_ROUTES,
+  NOTIFICATION_TYPE,
 };

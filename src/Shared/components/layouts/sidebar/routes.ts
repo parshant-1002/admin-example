@@ -10,7 +10,37 @@ const SIDEBAR_NAV = [
   },
   {
     iconClass: 'bi bi-transactions',
-    label: 'Content Management',
+    label: 'Notifications Content',
+    children: [
+      {
+        label: 'Reserve Price Reached',
+        route: ROUTES.RESERVE_PRICE_REACHED,
+      },
+      {
+        label: 'New Bid Placed',
+        route: ROUTES.NEW_BID_PLACED,
+      },
+      {
+        label: 'Automatic Bid Runed Out',
+        route: ROUTES.AUTOMATIC_BID_RUNNED_OUT,
+      },
+      {
+        label: 'Bid Time Left',
+        route: ROUTES.BID_TIME_LEFT,
+      },
+      {
+        label: 'Winner',
+        route: ROUTES.WINNER,
+      },
+      {
+        label: 'Auction Ended',
+        route: ROUTES.AUCTION_ENDED,
+      },
+    ],
+  },
+  {
+    iconClass: 'bi bi-transactions',
+    label: 'Pages Content',
     children: [
       {
         label: 'Headers',
