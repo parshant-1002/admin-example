@@ -6,11 +6,11 @@ import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
 import AuctionManagementList from '../Views/Auction/AuctionManagementList';
 import { PlanDetailedView, Plans } from '../Views/BidsPlan';
 import { CategoriesList } from '../Views/Categories';
-import ContactUs from '../Views/ContentManagement/ContactUs/ContactUs';
-import Faqs from '../Views/ContentManagement/Faqs/FaqsContent';
-import HeaderContent from '../Views/ContentManagement/HeaderContent';
-import HowItWorks from '../Views/ContentManagement/How-it-works/HowItWorksContent';
-import TermsAndCondtion from '../Views/ContentManagement/TermsAndCondtion/TermsAndCondtion';
+import ContactUs from '../Views/PagesContentManagement/ContactUs/ContactUs';
+import Faqs from '../Views/PagesContentManagement/Faqs/FaqsContent';
+import HeaderContent from '../Views/PagesContentManagement/HeaderContent';
+import HowItWorks from '../Views/PagesContentManagement/How-it-works/HowItWorksContent';
+import TermsAndCondtion from '../Views/PagesContentManagement/TermsAndCondtion/TermsAndCondtion';
 import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
 import { ProductsList } from '../Views/Products';
 import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
@@ -20,12 +20,18 @@ import ReferralHistory from '../Views/Transactions/ReferralHistory';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import { CustomRouter } from './RootRoutes';
-import PrivacyPolicy from '../Views/ContentManagement/PrivacyPolicy';
-import Companies from '../Views/ContentManagement/Companies';
-import BidPackSection from '../Views/ContentManagement/BidPackSection/BidPackSection';
-import HeroContent from '../Views/ContentManagement/HeroContent';
-import TopAuction from '../Views/ContentManagement/TopAuction';
-import Footer from '../Views/ContentManagement/Footer';
+import PrivacyPolicy from '../Views/PagesContentManagement/PrivacyPolicy';
+import Companies from '../Views/PagesContentManagement/Companies';
+import BidPackSection from '../Views/PagesContentManagement/BidPackSection/BidPackSection';
+import HeroContent from '../Views/PagesContentManagement/HeroContent';
+import TopAuction from '../Views/PagesContentManagement/TopAuction';
+import Footer from '../Views/PagesContentManagement/Footer';
+import ReservePriceReached from '../Views/NotificationsContentManagement/ReservePriceReached/ReservePriceReached';
+import NewBidPlaced from '../Views/NotificationsContentManagement/NewBidPlaced/NewBidPlaced';
+import AutomaticBidRunnedOut from '../Views/NotificationsContentManagement/AutomaticBidRunnedOut/AutomaticBidRunnedOut';
+import BidTimeLeft from '../Views/NotificationsContentManagement/BidTimeLeft/BidTimeLeft';
+import Winners from '../Views/NotificationsContentManagement/Winners/Winners';
+import AuctionEnded from '../Views/NotificationsContentManagement/AuctionEnded/AuctionEnded';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -176,6 +182,36 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.FOOTER.path,
     element: <Footer />,
     title: ROUTES_CONFIG.FOOTER.title,
+  },
+  {
+    path: ROUTES_CONFIG.RESERVE_PRICE_REACHED.path,
+    element: <ReservePriceReached />,
+    title: ROUTES_CONFIG.RESERVE_PRICE_REACHED.title,
+  },
+  {
+    path: ROUTES_CONFIG.NEW_BID_PLACED.path,
+    element: <NewBidPlaced />,
+    title: ROUTES_CONFIG.NEW_BID_PLACED.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUTOMATIC_BID_RUNNED_OUT.path,
+    element: <AutomaticBidRunnedOut />,
+    title: ROUTES_CONFIG.AUTOMATIC_BID_RUNNED_OUT.title,
+  },
+  {
+    path: ROUTES_CONFIG.BID_TIME_LEFT.path,
+    element: <BidTimeLeft />,
+    title: ROUTES_CONFIG.BID_TIME_LEFT.title,
+  },
+  {
+    path: ROUTES_CONFIG.WINNER.path,
+    element: <Winners />,
+    title: ROUTES_CONFIG.WINNER.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_ENDED.path,
+    element: <AuctionEnded />,
+    title: ROUTES_CONFIG.AUCTION_ENDED.title,
   },
   // Wildcard
   {

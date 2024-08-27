@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import { Ref, SyntheticEvent, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import TextField, { ErrorComponent } from '../TextInput/TextInput';
+import { INPUT_TYPES } from '../../../constants';
+import ColorPicker from '../../ColorPicker';
+import CheckBox from '../CheckBox';
+import RichText from '../RIchText/RitchText';
 import CustomSelect from '../Select';
 import { CustomSwitch } from '../Switch/Switch';
-import { INPUT_TYPES } from '../../../constants';
+import TextField, { ErrorComponent } from '../TextInput/TextInput';
 import type { FormDataProps } from './types/Formtypes';
-import CheckBox from '../CheckBox';
-// import { FileUpload } from '../../../../Shared/Model';
-// import ICONS from '../../../../assets';
 
 interface RenderFieldProps {
   field: FormDataProps;
@@ -137,16 +137,15 @@ function RenderField({
             }}
           />
         );
-      //   case INPUT_TYPES.RICH_TEXT:
-      //     return (
-      //       <RichText
-      //         id={id}
-      //         placeholder={field.placeholder}
-      //         content={field.value}
-      //         {...handleRegister(id)}
-      //         onChange={(value) => handleInputChange(id, value)}
-      //       />
-      //     );
+      case INPUT_TYPES.RICH_TEXT:
+        return (
+          <RichText
+            placeholder={field.placeholder}
+            content={field.value as string}
+            {...handleRegister(id)}
+            onChange={(richTextValue) => handleInputChange(id, richTextValue)}
+          />
+        );
       //   case INPUT_TYPES.FILE_UPLOAD:
       //     return (
       //       <FileUpload
@@ -188,6 +187,8 @@ function RenderField({
             }}
           />
         );
+      case INPUT_TYPES.COLOR:
+        return <ColorPicker id={id} control={control as Control} />;
       case INPUT_TYPES.CHECKBOX:
         return (
           <Controller
@@ -232,6 +233,11 @@ function RenderField({
         >
           {field.label}
         </label>
+      )}
+      {field.subLabel && (
+        <p className={field?.subLabelClassName || 'text-secondary '}>
+          {field.subLabel}
+        </p>
       )}
       <div className={field.groupClassName || ''}>
         {renderInput()}

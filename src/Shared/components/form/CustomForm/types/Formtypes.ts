@@ -58,4 +58,6 @@ export interface FormDataProps {
   };
   fetchImageDataConfig?: ImageConfig[];
   singleImageSelectionEnabled?: boolean;
+  subLabel?: string;
+  subLabelClassName?: string;
 }

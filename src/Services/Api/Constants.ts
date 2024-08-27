@@ -15,6 +15,7 @@ export const API_END_POINTS = {
   UPDATE_USER: '/user/admin',
   CATEGORY: '/category',
   CONTENT: '/content',
+  NOTIFICATIONS_CONTENT: '/notificationContent',
   AUCTION: '/auction',
   AUCTION_DETAILS: '/auction/details',
   LOGOUT: '/admin/logout',
