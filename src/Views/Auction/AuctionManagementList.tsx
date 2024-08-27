@@ -59,9 +59,12 @@ const ADD_ONS_PAGE_LIMIT = 10;
 
 export default function AuctionManagementList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const uploadedImages = useSelector(
     (state: RootState) => state.UploadedImages.images
   );
+
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     open: false,
     data: { id: '', ids: [] },
@@ -70,7 +73,6 @@ export default function AuctionManagementList() {
 
   const [filters, setFilters] = useState({});
   const [addData, setAddData] = useState<boolean>(false);
-  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
@@ -80,11 +82,9 @@ export default function AuctionManagementList() {
     show: false,
   });
 
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
   const [search, setSearch] = useState<string>('');
-  const [deleteAuction] = useDeleteAuctionMutation();
   // query
   const { data: AuctionListing, refetch } = useGetAuctionsQuery({
     params: removeEmptyValues({
@@ -95,6 +95,8 @@ export default function AuctionManagementList() {
       ...filters,
     }),
   });
+  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
+  const [deleteAuction] = useDeleteAuctionMutation();
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     const selectedPageNumber = selectedItem.selected as unknown as number;
@@ -216,6 +218,7 @@ export default function AuctionManagementList() {
         onSuccess: (data: { message: string }) => {
           toast.success(data?.message);
           handleCloseDelete();
+          setSelectedIds([]);
           refetch();
         },
       });

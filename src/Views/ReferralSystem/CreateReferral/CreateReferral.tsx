@@ -146,6 +146,7 @@ function CreateReferral() {
       onSuccess: (response: { message: string }) => {
         toast.success(response.message);
         refetch();
+        setSelectedIds([]);
         setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
       },
     });

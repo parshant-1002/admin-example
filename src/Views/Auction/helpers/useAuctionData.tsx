@@ -20,9 +20,14 @@ export const useAuctionData = (id: string) => {
     isLoading,
     isError,
     refetch,
-  } = useGetAuctionDetailsQuery({
-    params: { auctionId: id },
-  });
+  } = useGetAuctionDetailsQuery(
+    {
+      params: { auctionId: id },
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   //   const [updateAuction] = useUpdateAuctionMutation(); // Hook to handle updating auction data
   const [data, setData] = useState<Item[]>([]);

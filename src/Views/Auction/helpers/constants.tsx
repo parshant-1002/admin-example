@@ -101,6 +101,24 @@ export const AUCTION_ADD_FORM_SCHEMA = (
       },
     },
   },
+  description: {
+    type: INPUT_TYPES.TEXT_AREA,
+    label: 'Description',
+    className: 'col-md-12',
+    placeholder: 'Description',
+    options: AuctionStatus,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 500,
+        message: FORM_VALIDATION_MESSAGES(500).MAX_LENGTH,
+      },
+    },
+  },
   bidStartDate: {
     type: INPUT_TYPES.DATE,
     label: 'Auction Date',
@@ -179,24 +197,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
       },
     },
   },
-  description: {
-    type: INPUT_TYPES.TEXT_AREA,
-    label: 'Description',
-    className: 'col-md-12',
-    placeholder: 'Description',
-    options: AuctionStatus,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 500,
-        message: FORM_VALIDATION_MESSAGES(500).MAX_LENGTH,
-      },
-    },
-  },
+
   prizeClaimDays: {
     type: INPUT_TYPES.NUMBER,
     label: 'Prize Claim Duration (Days)',
