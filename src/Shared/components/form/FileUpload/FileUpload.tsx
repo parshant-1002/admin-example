@@ -124,7 +124,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     useEffect(() => {
-      if (value?.length) setChooseFile(value);
+      if (value) setChooseFile(value);
     }, [value]);
 
     const onDrop = useCallback(
@@ -280,10 +280,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           const filteredImages = (uploadedImages || imageList?.files)?.filter(
             (file) => !fileId?.includes(file._id)
           );
-
           dispatch(updateUploadedImages(filteredImages));
-          setChooseFile(filteredImages?.filter((file) => file?.assigned));
-          onChange(filteredImages?.filter((file) => file?.assigned));
+          if (!filteredImages?.length) {
+            setChooseFile([]);
+            onChange([]);
+          }
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -456,7 +457,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       const ratioDescription = ratioRequired?.length
         ? `of ${
             ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular'
-          } size, example: of ratio (${ratioRequired[0]} : ${
+          } shape, example: of ratio (${ratioRequired[0]} : ${
             ratioRequired[1]
           }) / size (${ratioRequired[0] * 378} * ${ratioRequired[1] * 378})`
         : `.`;

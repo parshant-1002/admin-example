@@ -183,6 +183,7 @@ function Plans() {
         toast.success(response.message);
         refetch();
         setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
+        setSelectedIds([]);
       },
       onFailure: (error: ErrorResponse) => {
         toast.error(error.data.message);

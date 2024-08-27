@@ -45,14 +45,20 @@ export default function AuctionForm({
   onAdd = () => {},
 }: ProductFormTypes) {
   // hooks
+  const dispatch = useDispatch();
   const [addAuction] = useAddAuctionMutation();
   const [editAuction] = useEditAuctionMutation();
   const [selectedProductDetails, setSelectedProductDetails] = useState({
     _id: '',
   });
-  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
-  const { data: productList } = useGetProductsQuery({ skip: 0 });
-  const dispatch = useDispatch();
+  const { data: categoryList } = useGetCategorysQuery(
+    { skip: 0 },
+    { refetchOnMountOrArgChange: true }
+  );
+  const { data: productList } = useGetProductsQuery(
+    { skip: 0 },
+    { refetchOnMountOrArgChange: true }
+  );
   const helperCatergoryMap = (data: []) => {
     return data.map((category: Category) => ({
       value: category?._id,

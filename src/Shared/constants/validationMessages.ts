@@ -37,11 +37,11 @@ const FORM_VALIDATION_MESSAGES = (
   VALID_LINK: 'Please enter a valid link.',
   ANSWER_REQUIRED: 'Please add your answer to join this squad.',
   LONGER_ANSWER_REQUIRED: 'Please provide a longer answer.',
-  MAX_NUMBER: `Maximum value should be less than ${args[0]}.`,
+  MAX_NUMBER: `Maximum value should be less than or equal to ${args[0]}.`,
   NEGATIVE_VALUES_NOT_ALLOWED:
     'Value should be greater than 0 and cannot be negative.',
   MAXIMUM_100_PERCENT_ALLOWED: 'Maximum 100% is allowed.',
-  MIN_VALUE: `Minimum value should be greater than ${args[0]}.`,
+  MIN_VALUE: `Minimum value should be greater than or equal to ${args[0]}.`,
 });
 
 export default FORM_VALIDATION_MESSAGES;
