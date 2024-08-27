@@ -1,4 +1,5 @@
 // utils
+import { Link } from 'react-router-dom';
 import {
   convertToLocale,
   formatDate,
@@ -17,6 +18,11 @@ import {
 } from '../../../Shared/constants';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import { Image } from '../../../Models/common';
+import TruncateText from '../../../Shared/components/TruncateText';
+import {
+  USER_PANEL,
+  VITE_PRODUCT_DETAIL_PATH,
+} from '../../../Services/Api/Constants';
 
 // Define types for renderActions and column data
 interface ColumnData {
@@ -161,6 +167,20 @@ export const BidsHistoryColumns = (onDashBoard?: boolean): ColumnData[] => [
     render: renderIdWithHash,
     sortable: !onDashBoard,
     sortType: 'auctionId',
+  },
+  {
+    title: STRINGS.AUCTION_LINK,
+    path: ['auctionDetails', '_id'],
+    render: (_, val) => (
+      <Link
+        to={`${USER_PANEL}${VITE_PRODUCT_DETAIL_PATH}/${val}`}
+        target="_blank"
+      >
+        <TruncateText
+          text={`${USER_PANEL}${VITE_PRODUCT_DETAIL_PATH}/${val}`}
+        />
+      </Link>
+    ),
   },
   {
     title: STRINGS.AUCTION_NAME,

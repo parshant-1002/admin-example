@@ -14,7 +14,7 @@ function Dashboard() {
       <Breadcrumbs />
       <div className="row dashboad-cards">
         {cardData?.map((card) => (
-          <div key={card?.label} className="col-lg-4 col-sm-6 col-xl-4 mb-4">
+          <div key={card?.label} className="col-lg-3 col-sm-6 col-xl-3 mb-4">
             <div className="card h-100">
               <div className="card-body d-inline-flex flex-column justify-content-center align-items-start">
                 <em className="d-Icon">
@@ -45,7 +45,7 @@ function Dashboard() {
           </div>
         ))}
       </div>
-      <BidsHistory onDashBoard />
+      <BidsHistory onDashBoard={false} />
     </>
   );
 }

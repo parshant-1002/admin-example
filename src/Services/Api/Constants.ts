@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
+export const USER_PANEL: string = import.meta.env.VITE_USER_PANEL;
+export const { VITE_PRODUCT_DETAIL_PATH } = import.meta.env;
 export const { VITE_API_VERSION } = import.meta.env;
 
 export const API_END_POINTS = {

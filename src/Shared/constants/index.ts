@@ -125,6 +125,7 @@ export const STRINGS = {
   ADD: 'Add',
   VIEW: 'View',
   AUCTION_ID: 'Auction Id',
+  AUCTION_LINK: 'Auction Link',
   AUCTION_NAME: 'Auction Name',
   P_ID: 'P.ID',
   P_NAME: 'P.Name',

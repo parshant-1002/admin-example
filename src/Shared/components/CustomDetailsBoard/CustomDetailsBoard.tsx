@@ -37,6 +37,7 @@ export interface DataKeys {
   security?: string;
   comfort?: string;
   appearance?: string;
+  personalNumber?: string;
 }
 
 interface CustomProfileProps {
