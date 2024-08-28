@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Button } from 'react-bootstrap';
 import { Delete } from '../../../../assets';
 import { Image } from '../../../../Models/common';
@@ -8,37 +8,25 @@ import { Files } from './helpers/modal';
 
 interface ListFilesProps {
   chooseFile: Image[];
-  isProductAuction: boolean;
+  selectedFiles: Files[];
+  setSelectedFiles: Dispatch<SetStateAction<Files[]>>;
   handleChooseFile: (selectedFiles: Files[]) => void;
   data: { files: Files[] };
-  handleDeleteFile: (fileId: (string | undefined)[]) => void;
+  handleDeleteFile: (
+    fileId: (string | undefined)[],
+    isMultiDelete?: boolean
+  ) => void;
   singleImageSelectionEnabled?: boolean;
 }
 function ListFiles({
   chooseFile = [],
-  isProductAuction,
+  selectedFiles,
+  setSelectedFiles,
   handleChooseFile,
   data,
   handleDeleteFile,
   singleImageSelectionEnabled = false,
 }: ListFilesProps) {
-  const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
-
-  useEffect(() => {
-    const choosenFiles = chooseFile?.filter((file) => file?.assigned);
-    const choosenFilesWithId = isProductAuction
-      ? choosenFiles?.map((file) => {
-          if (file?.fileId) {
-            return {
-              ...file,
-              _id: file?.fileId,
-            };
-          }
-          return file;
-        })
-      : chooseFile;
-    setSelectedFiles(choosenFilesWithId);
-  }, [chooseFile, isProductAuction]);
   const files = data?.files;
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
@@ -53,11 +41,11 @@ function ListFiles({
 
       // If single image selection is enabled, replace the selected file with the new one
       if (singleImageSelectionEnabled) {
-        return [file];
+        return [{ ...file, isActive: true }];
       }
 
       // Otherwise, add the new file to the selection
-      return [...prevSelectedFiles, file];
+      return [...prevSelectedFiles, { ...file, isActive: true }];
     });
   };
 
@@ -125,7 +113,10 @@ function ListFiles({
           <Button
             className="mt-2 px-4 button_danger"
             onClick={() => {
-              handleDeleteFile(selectedFiles.map((file) => file._id));
+              handleDeleteFile(
+                selectedFiles.map((file) => file._id),
+                true
+              );
               setSelectedFiles([]);
             }}
           >

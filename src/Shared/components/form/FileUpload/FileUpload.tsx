@@ -5,13 +5,15 @@
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Tab, Tabs } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ImageConfig } from '../../../../Models/common';
 import {
   useFileDeleteMutation,
   useFileUploadMutation,
   useGetFilesQuery,
 } from '../../../../Services/Api/module/file';
+import { RootState } from '../../../../Store';
 import { updateUploadedImages } from '../../../../Store/UploadedImages';
 import {
   BUTTON_LABELS,
@@ -30,8 +32,6 @@ import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
 import ListFiles from './ListFiles';
 import { FileData, Files } from './helpers/modal';
-import { ImageConfig } from '../../../../Models/common';
-import { RootState } from '../../../../Store';
 
 const TABS = {
   FILE_UPLOAD: 'fileUpload',
@@ -110,6 +110,23 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     // API
     const [fileUpload] = useFileUploadMutation();
     const [fileDelete] = useFileDeleteMutation();
+    const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
+
+    useEffect(() => {
+      const choosenFiles = chooseFile?.filter((file) => file?.assigned);
+      const choosenFilesWithId = isProductAuction
+        ? choosenFiles?.map((file) => {
+            if (file?.fileId) {
+              return {
+                ...file,
+                _id: file?.fileId,
+              };
+            }
+            return file;
+          })
+        : chooseFile;
+      setSelectedFiles(choosenFilesWithId);
+    }, [chooseFile, isProductAuction]);
     const { data, refetch } = useGetFilesQuery(
       {
         params: removeEmptyValues(createQueryParams(fetchImageDataConfig)),
@@ -262,7 +279,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       );
     };
 
-    const handleDeleteFile = async (fileId: (string | undefined)[]) => {
+    const handleDeleteFile = async (
+      fileId: (string | undefined)[],
+      isMultiDelete?: boolean
+    ) => {
       try {
         await fileDelete({
           payload: { fileId },
@@ -281,7 +301,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             (file) => !fileId?.includes(file._id)
           );
           dispatch(updateUploadedImages(filteredImages));
-          if (!filteredImages?.length) {
+          if (isMultiDelete) {
             setChooseFile([]);
             onChange([]);
           }
@@ -515,8 +535,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   title="Select file"
                 >
                   <ListFiles
+                    selectedFiles={selectedFiles}
+                    setSelectedFiles={setSelectedFiles}
                     chooseFile={chooseFile}
-                    isProductAuction={isProductAuction}
                     handleChooseFile={handleChooseFile}
                     data={imageList}
                     handleDeleteFile={handleDeleteFile}
