@@ -2,6 +2,7 @@
 import React, { Ref } from 'react';
 import { SelectOption } from '../../../../Models/common';
 import { SOCIAL_MEDIA_PLATFORMS_ICONS } from '../../../../Views/Auction/AuctionDetails/Helpers/constants';
+import './style.scss';
 
 interface CheckBoxProps {
   label?: string;
@@ -78,7 +79,7 @@ function CheckBox(
               }
             />
             <span
-              className="label pointer ms-1"
+              className="label pointer ms-1 social-checkbox"
               onClick={() => handleChange(option.value)}
             />
           </div>
