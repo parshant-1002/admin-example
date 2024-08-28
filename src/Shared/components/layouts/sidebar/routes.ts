@@ -36,6 +36,22 @@ const SIDEBAR_NAV = [
         label: 'Auction Ended',
         route: ROUTES.AUCTION_ENDED,
       },
+      {
+        label: 'New User Joined',
+        route: ROUTES.NEW_USER_JOINED,
+      },
+      {
+        label: 'Auction Started',
+        route: ROUTES.AUCTION_STARTED,
+      },
+      {
+        label: 'Bid Plan Purchased',
+        route: ROUTES.BID_PLAN_PURCHASED,
+      },
+      {
+        label: 'Contacted Support',
+        route: ROUTES.CONTACTED_SUPPORT,
+      },
     ],
   },
   {

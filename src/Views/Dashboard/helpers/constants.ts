@@ -17,22 +17,22 @@ const cardData = [
     field: 'totalUsers',
     isCurrency: false,
     redirectionRoute: ROUTES.USERS,
-    percentageField: 'totalUsersPercenatge',
+    percentageField: 'usersIncreasePercentage',
   },
   {
     icon: NewUserIcon,
     label: 'Active Users',
-    field: 'newUsers',
+    field: 'activeUsers',
     isCurrency: false,
     redirectionRoute: ROUTES.USERS,
-    percentageField: 'newUsersPercenatge',
+    percentageField: 'activeUsersIncreasePercentage',
   },
   {
     icon: SupportIcon,
     label: 'Users Contacted Live Support',
     field: 'usersWhoContactedLiveSupport',
     isCurrency: false,
-    percentageField: 'usersWhoContactedLiveSupportPercentage',
+    percentageField: 'usersWhoContactedLiveSupportIncreasePercentage',
   },
   {
     icon: TotalBidIcon,
@@ -40,7 +40,7 @@ const cardData = [
     field: 'bidsCount',
     isCurrency: false,
     redirectionRoute: ROUTES.TRANSACTIONS_BIDS_HISTORY,
-    percentageField: 'bidsCountPercentage',
+    percentageField: 'bidsCountIncreasePercentage',
   },
   {
     icon: AuctionIcon,
@@ -48,7 +48,7 @@ const cardData = [
     field: 'activeAuctions',
     isCurrency: false,
     redirectionRoute: ROUTES.AUCTION_MANAGEMENT,
-    percentageField: 'activeAuctionsPercentage',
+    percentageField: 'activeAuctionsIncreasePercentage',
   },
   {
     icon: ReserveIcon,
@@ -56,7 +56,7 @@ const cardData = [
     field: 'reservePriceMetAuctions',
     isCurrency: false,
     redirectionRoute: ROUTES.AUCTION_MANAGEMENT,
-    percentageField: 'reservePriceMetAuctionsPercentage',
+    percentageField: 'reservePriceMetAuctionsIncreasePercentage',
   },
   {
     icon: earnings,
@@ -64,7 +64,7 @@ const cardData = [
     field: 'earnings',
     isCurrency: true,
     redirectionRoute: ROUTES.TRANSACTIONS_PLANS_HISTORY,
-    percentageField: 'earningsPercentage',
+    percentageField: 'earningsIncreasePercentage',
   },
   {
     icon: bidsSold,
@@ -72,7 +72,7 @@ const cardData = [
     field: 'soldBids',
     isCurrency: false,
     redirectionRoute: ROUTES.TRANSACTIONS_PLANS_HISTORY,
-    percentageField: 'soldBidsPercentage',
+    percentageField: 'soldBidsIncreasePercentage',
   },
 ];
 

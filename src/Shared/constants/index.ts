@@ -416,6 +416,10 @@ const ROUTES = {
   BID_TIME_LEFT: '/notifications-content/bid-time-left',
   WINNER: '/notifications-content/winner',
   AUCTION_ENDED: '/notifications-content/auction-ended',
+  NEW_USER_JOINED: '/notifications-content/new-user-joined',
+  AUCTION_STARTED: '/notifications-content/auction-started',
+  BID_PLAN_PURCHASED: '/notifications-content/plan-purchased',
+  CONTACTED_SUPPORT: '/notifications-content/contacted-support',
 };
 
 const WILDCARD_ROUTES = {
@@ -594,6 +598,22 @@ const ROUTES_CONFIG = {
     path: ROUTES.AUCTION_ENDED,
     title: 'Auction Ended',
   },
+  NEW_USER_JOINED: {
+    path: ROUTES.NEW_USER_JOINED,
+    title: 'New User Joined',
+  },
+  AUCTION_STARTED: {
+    path: ROUTES.AUCTION_STARTED,
+    title: 'Auction Started',
+  },
+  BID_PLAN_PURCHASED: {
+    path: ROUTES.BID_PLAN_PURCHASED,
+    title: 'Bid Plan Purchased',
+  },
+  CONTACTED_SUPPORT: {
+    path: ROUTES.CONTACTED_SUPPORT,
+    title: 'Contacted Support',
+  },
 };
 
 enum POPUPTYPES {
@@ -666,6 +686,10 @@ const NOTIFICATION_TYPE = {
   BID_TIME_LEFT: 4,
   WINNER: 5,
   AUCTION_ENDED: 6,
+  NEW_USER_JOINED: 7,
+  AUCTION_STARTED: 8,
+  BID_PLAN_PURCHASED: 9,
+  CONTACTED_SUPPORT: 10,
 };
 export {
   BID_CREDIT_TYPES,

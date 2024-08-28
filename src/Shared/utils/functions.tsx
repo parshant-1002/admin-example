@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-bitwise */
 /* eslint-disable no-continue */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
@@ -12,6 +14,8 @@ import TruncateText from '../components/TruncateText';
 import { API, DATE_FORMATS } from '../constants';
 import FORM_VALIDATION_MESSAGES from '../constants/validationMessages';
 import ERROR_MESSAGES from '../constants/messages';
+import { store } from '../../Store';
+import { updateDeviceTokenRedux } from '../../Store/Common';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -274,6 +278,93 @@ const renderIdWithHash = (
   val: string | number
 ) => (val ? <TruncateText text={val} /> : '-.-');
 
+function hashCode(str: string) {
+  let hash = 0;
+  if (str.length === 0) {
+    return hash;
+  }
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash &= hash; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+function getBrowserName() {
+  const { userAgent } = navigator;
+  let browserName = 'Unknown';
+
+  if (userAgent.indexOf('Chrome') !== -1) {
+    browserName = 'Chrome';
+  } else if (userAgent.indexOf('Firefox') !== -1) {
+    browserName = 'Firefox';
+  } else if (userAgent.indexOf('Safari') !== -1) {
+    browserName = 'Safari';
+  } else if (userAgent.indexOf('Edge') !== -1) {
+    browserName = 'Edge';
+  } else if (
+    userAgent.indexOf('Opera') !== -1 ||
+    userAgent.indexOf('OPR') !== -1
+  ) {
+    browserName = 'Opera';
+  } else if (userAgent.indexOf('Trident') !== -1) {
+    browserName = 'Internet Explorer';
+  }
+
+  return browserName;
+}
+export function getDeviceIdAndBrowserName() {
+  // Attempt to retrieve the device ID from local storage
+  let deviceId = localStorage.getItem('deviceId');
+
+  // If device ID doesn't exist, generate a new one
+  if (!deviceId) {
+    // Generate a semi-unique identifier based on userAgent and platform
+    deviceId = String(hashCode(navigator.userAgent + navigator.platform));
+
+    // Store the generated device ID in local storage
+    localStorage.setItem('deviceId', deviceId);
+  }
+
+  // Get the browser name
+  const browserName = getBrowserName();
+
+  return { deviceId, browserName };
+}
+export const setNotificationDeviceToken = (token: string) => {
+  const { dispatch = () => {} } = store;
+  dispatch(updateDeviceTokenRedux(token));
+};
+
+export const updateNotificationToken = ({
+  deviceToken = '',
+  userToken = '',
+  token = '',
+}: {
+  deviceToken: string | null;
+  userToken: string | null;
+  token: string | null;
+}) => {
+  // const { deviceId, browserName } = getDeviceIdAndBrowserName();
+  if (userToken && token && deviceToken !== token) {
+    // const { dispatch = () => {} } = store;
+    // dispatch(
+    //   updateFirebaseToken(
+    //     {
+    //       registrationToken: token,
+    //       deviceId,
+    //       browserName,
+    //     },
+    //     (res) => {
+    //       if (!res) {
+    //         console.log('error in updating firebase/notification token');
+    //       }
+    //     }
+    //   )
+    // );
+  }
+};
 export {
   addBaseUrl,
   capitalizeFirstLetter,

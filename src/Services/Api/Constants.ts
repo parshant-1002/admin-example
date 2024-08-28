@@ -35,6 +35,8 @@ export const API_END_POINTS = {
   USER_PRODUCTS_INVOICE: '/userProducts/generateInvoice',
   BIDS_PLAN_INVOICE: '/bidPlan/generateInvoice',
   BID_CREDIT_INVOICE: '/user/bidCreditHistory/generateInvoice',
+  NOTIFICATIONS_CLEAR_ALL: '/notification/clearNotificationHistory',
+  NOTIFICATIONS_HISTORY: '/notification/fetchUserHistory',
 };
 
 export const HTTPS_METHODS = {
