@@ -11,7 +11,10 @@ import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessag
 import { convertToLocale } from '../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../Products/helpers/model';
 import { SelectOption } from '../../Users/helpers/model';
-import { AuctionStatus } from '../AuctionDetails/Helpers/constants';
+import {
+  AuctionStatus,
+  SOCIAL_MEDIA_PLATFORMS_OPTIONS,
+} from '../AuctionDetails/Helpers/constants';
 import { AuctionResponsePayload } from './model';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
@@ -173,7 +176,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   productPrice: {
     type: INPUT_TYPES.NUMBER,
     label: 'Product Price (SEK)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Product Price (SEK)',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Product Price').REQUIRED,
@@ -186,7 +189,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   reservePrice: {
     type: INPUT_TYPES.NUMBER,
     label: 'Reserve Price (SEK)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Reserve Price (SEK)',
     options: AuctionStatus,
     schema: {
@@ -201,7 +204,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   prizeClaimDays: {
     type: INPUT_TYPES.NUMBER,
     label: 'Prize Claim Duration (Days)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Prize Claim Duration (Days)',
     options: AuctionStatus,
     schema: {
@@ -215,7 +218,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   bidDuration: {
     type: INPUT_TYPES.NUMBER,
     label: 'Bids Duration (Sec)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Bids Duration (Sec)',
     options: AuctionStatus,
     schema: {
@@ -256,10 +259,29 @@ export const AUCTION_ADD_FORM_SCHEMA = (
       required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
     },
   },
+  enabledSocialMediaPlatforms: {
+    type: INPUT_TYPES.CHECKBOX,
+    label: 'Select Social Share Platform',
+    className: 'col-md-12',
+    placeholder: 'Select Social Share Platform',
+    checkOptions: SOCIAL_MEDIA_PLATFORMS_OPTIONS,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Select Social Share Platform')
+        .REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
+    },
+  },
   preAuctionUsersCount: {
     type: INPUT_TYPES.NUMBER,
     label: 'Min Auction Users',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Min Auction Users',
     options: AuctionStatus,
     schema: {
@@ -271,6 +293,19 @@ export const AUCTION_ADD_FORM_SCHEMA = (
       pattern: {
         value: /^[0-9]+$/,
         message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
+    },
+  },
+  socialMediaShareReward: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Social Media Share Reward',
+    className: 'col-md-6',
+    placeholder: 'Social Media Share Reward',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Social Media Share Reward').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
   },

@@ -1,4 +1,4 @@
-import { ImageConfig } from '../../../../../Models/common';
+import { ImageConfig, SelectOption } from '../../../../../Models/common';
 
 export interface FormSchema {
   required?: string;
@@ -47,10 +47,7 @@ export interface FormDataProps {
     e: React.KeyboardEvent<HTMLInputElement>,
     chars?: string[]
   ) => void;
-  checkOptions?: {
-    label: string;
-    value: string;
-  }[];
+  checkOptions?: SelectOption[];
   isMulti?: boolean;
   config?: {
     type: string;

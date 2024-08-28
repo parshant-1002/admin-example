@@ -6,6 +6,7 @@ import { DATE_FORMATS } from '../../../../Shared/constants';
 import { convertToLocale } from '../../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../../Products/helpers/model';
 import { ProductDetailResponsePayload } from './Model';
+import { SelectOption } from '../../../../Models/common';
 
 export enum DetailType {
   String,
@@ -14,7 +15,7 @@ export enum DetailType {
   Date,
   DateRange,
 }
-type OptionType = { value: number; label: string };
+type OptionType = { value: number | string; label: string };
 export interface AuctionDetailsColumnData {
   title?: string;
   fieldName?: string;
@@ -28,6 +29,20 @@ export interface AuctionDetailsColumnData {
     val: string | number
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
+export const SOCIAL_MEDIA_PLATFORMS = {
+  FACEBOOK: '1',
+  TWITTER: '2',
+  LINKEDIN: '3',
+  INSTAGRAM: '4',
+  WHATSAPP: '5',
+};
+export const SOCIAL_MEDIA_PLATFORMS_OPTIONS: SelectOption[] = [
+  { value: SOCIAL_MEDIA_PLATFORMS.FACEBOOK, label: 'Facebook' },
+  { value: SOCIAL_MEDIA_PLATFORMS.TWITTER, label: 'Twitter' },
+  { value: SOCIAL_MEDIA_PLATFORMS.LINKEDIN, label: 'Linkedin' },
+  { value: SOCIAL_MEDIA_PLATFORMS.INSTAGRAM, label: 'Instagram' },
+  { value: SOCIAL_MEDIA_PLATFORMS.WHATSAPP, label: 'Whatsapp' },
+];
 
 export const AuctionStatus: OptionType[] = [
   { value: 1, label: 'Pending' },
