@@ -34,7 +34,13 @@ interface QueryParams {
   sortDirection: FilterOrder;
 }
 
-function BidsHistory({ onDashBoard }: { onDashBoard?: boolean }) {
+function BidsHistory({
+  onDashBoard,
+  heading,
+}: {
+  onDashBoard?: boolean;
+  heading?: string;
+}) {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
@@ -110,6 +116,7 @@ function BidsHistory({ onDashBoard }: { onDashBoard?: boolean }) {
           handleClearSearch={() => setSearch('')}
           handleSearch={debounceSearch}
           showDateFilter
+          heading={heading}
           handleApply={handleApplyFilters}
           statusOptions={BID_STATUS_OPTIONS}
         />

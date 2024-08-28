@@ -6,6 +6,14 @@ import { DATE_FORMATS } from '../../../../Shared/constants';
 import { convertToLocale } from '../../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../../Products/helpers/model';
 import { ProductDetailResponsePayload } from './Model';
+import { SelectOption } from '../../../../Models/common';
+import {
+  facebook,
+  instagram,
+  linkedin,
+  twitter,
+  whatsapp,
+} from '../../../../assets';
 
 export enum DetailType {
   String,
@@ -14,7 +22,7 @@ export enum DetailType {
   Date,
   DateRange,
 }
-type OptionType = { value: number; label: string };
+type OptionType = { value: number | string; label: string };
 export interface AuctionDetailsColumnData {
   title?: string;
   fieldName?: string;
@@ -25,9 +33,36 @@ export interface AuctionDetailsColumnData {
   options?: OptionType[];
   render?: (
     row: ProductDetailResponsePayload,
-    val: string | number
+    val: string | number | number[]
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
+export const SOCIAL_MEDIA_PLATFORMS = {
+  FACEBOOK: 1,
+  TWITTER: 2,
+  LINKEDIN: 3,
+  INSTAGRAM: 4,
+  WHATSAPP: 5,
+};
+
+export const SOCIAL_MEDIA_PLATFORMS_ICONS = {
+  [SOCIAL_MEDIA_PLATFORMS.FACEBOOK]: facebook,
+  [SOCIAL_MEDIA_PLATFORMS.TWITTER]: twitter,
+  [SOCIAL_MEDIA_PLATFORMS.LINKEDIN]: linkedin,
+  [SOCIAL_MEDIA_PLATFORMS.INSTAGRAM]: instagram,
+  [SOCIAL_MEDIA_PLATFORMS.WHATSAPP]: whatsapp,
+};
+
+export const SOCIAL_MEDIA_PLATFORMS_OPTIONS: SelectOption[] = [
+  { value: SOCIAL_MEDIA_PLATFORMS.FACEBOOK, label: 'Facebook', icon: facebook },
+  { value: SOCIAL_MEDIA_PLATFORMS.TWITTER, label: 'Twitter', icon: twitter },
+  { value: SOCIAL_MEDIA_PLATFORMS.LINKEDIN, label: 'Linkedin', icon: linkedin },
+  {
+    value: SOCIAL_MEDIA_PLATFORMS.INSTAGRAM,
+    label: 'Instagram',
+    icon: instagram,
+  },
+  { value: SOCIAL_MEDIA_PLATFORMS.WHATSAPP, label: 'Whatsapp', icon: whatsapp },
+];
 
 export const AuctionStatus: OptionType[] = [
   { value: 1, label: 'Pending' },
@@ -242,6 +277,37 @@ export const AuctionColumn = (
     isEditable: false,
     fieldName: 'prizeClaimDays',
     type: DetailType.String,
+  },
+  {
+    title: 'Social Media Enabled',
+    isEditable: false,
+    fieldName: 'enabledSocialMediaPlatforms',
+    type: DetailType.String,
+    render: (_, val) => {
+      return (
+        <div className="d-flex gap-1">
+          {(val as number[])?.length
+            ? (val as number[])?.map((socialMediaType) => (
+                <em className="social-Icon" key={socialMediaType}>
+                  <img
+                    src={SOCIAL_MEDIA_PLATFORMS_ICONS[socialMediaType]}
+                    alt="Icon"
+                    width="70"
+                  />
+                </em>
+              ))
+            : '-.-'}
+          ;
+        </div>
+      );
+    },
+  },
+  {
+    title: 'Social Media Share Reward',
+    isEditable: false,
+    fieldName: 'socialMediaShareReward',
+    type: DetailType.String,
+    render: (_, val) => convertToLocale(val as string, true),
   },
 ];
 

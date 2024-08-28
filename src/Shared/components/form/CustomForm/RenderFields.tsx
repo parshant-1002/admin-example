@@ -210,6 +210,7 @@ function RenderField({
                     handleInputChange(id, inputValue); // Perform additional actions
                   }}
                   options={field?.checkOptions || []}
+                  isMulti={field?.isMulti}
                 />
               );
             }}

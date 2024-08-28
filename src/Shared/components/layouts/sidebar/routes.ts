@@ -9,7 +9,7 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
-    iconClass: 'bi bi-transactions',
+    iconClass: 'bi bi-notification-content',
     label: 'Notifications Content',
     children: [
       {
@@ -55,7 +55,7 @@ const SIDEBAR_NAV = [
     ],
   },
   {
-    iconClass: 'bi bi-transactions',
+    iconClass: 'bi bi-pages-content',
     label: 'Pages Content',
     children: [
       {

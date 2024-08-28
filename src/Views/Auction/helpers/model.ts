@@ -30,6 +30,8 @@ export interface AuctionResponsePayload {
   categoryIds?: SelectOption[];
   itemPrice?: number;
   reserveWaitingEndDate?: string;
+  enabledSocialMediaPlatforms?: number[];
+  socialMediaShareReward?: number;
 }
 
 export interface EditData {

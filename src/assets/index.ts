@@ -35,6 +35,13 @@ import earnings from './icons/earning.svg';
 import bidsSold from './icons/sold.svg';
 import info from './icons/info.svg';
 import whiteCross from './icons/whitecross.svg';
+import whatsapp from './icons/whatsapp.svg';
+import instagram from './icons/instagram.svg';
+import linkedin from './icons/linkedin.svg';
+import facebook from './icons/facebook.svg';
+import twitter from './icons/twitter.svg';
+import ascending from './icons/ascending.svg';
+import descending from './icons/descending.svg';
 
 export {
   Logo,
@@ -74,4 +81,11 @@ export {
   bidsSold,
   info,
   whiteCross,
+  whatsapp,
+  instagram,
+  linkedin,
+  facebook,
+  twitter,
+  ascending,
+  descending,
 };
