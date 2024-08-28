@@ -2,34 +2,39 @@
 
 .header {
   z-index: 99;
-  @include position (sticky, $top:0);
+  @include position (sticky, $top: 0);
   border-bottom: 1px solid $grey-color-200;
   width: calc(100% - 300px);
   padding-left: 30px;
   background-color: $white-color;
-  @media(max-width:1199.98px){
+
+  @media(max-width:1199.98px) {
     width: calc(100% - 70px);
     margin-left: $auto;
     background: $white-color;
     border-bottom: 1px solid $grey-color-200;
     padding-left: 20px;
   }
-  .header-nav{
+
+  .header-nav {
     @include flexbox;
     @include justify-content (flex-end);
     padding-block: 10px;
     background: $white-color;
     width: calc(100% - 300px);
-    @media(max-width:1199.98px){
+
+    @media(max-width:1199.98px) {
       background-color: $none;
       border: $none;
       width: $auto;
     }
   }
+
   .animated-arrow {
     display: flex !important;
     align-items: center;
-    span{
+
+    span {
       cursor: pointer;
       height: .125rem;
       width: .938rem;
@@ -38,6 +43,7 @@
       display: block;
       content: "";
       @include transition-mixin (all, .5s, ease-in-out);
+
       &:after,
       &:before {
         @include position ($absolute);
@@ -48,12 +54,62 @@
         display: $block;
         content: "";
       }
-      &::after{
+
+      &::after {
         bottom: -.375rem;
       }
-      &:before{
-          inset-block-start: -.375rem;
+
+      &:before {
+        inset-block-start: -.375rem;
       }
     }
+  }
+}
+
+.custom-close-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; // Full rounded corners
+  background: linear-gradient(180deg, #0B0071 0%, #0B006D 8.4%, #070047 100%);
+  padding: 0.25rem; // Tailwind 'p-1'
+  color: $white-color; // Tailwind 'text-gray-400'
+  cursor: pointer;
+
+  &:hover {
+    color: #ffffff; // Tailwind 'hover:text-white'
+  }
+
+  &:focus {
+    outline: none; // Tailwind 'focus:outline-none'
+    ring-color: #ffffff; // Tailwind 'focus:ring-2 focus:ring-white'
+    ring-width: 2px;
+    ring-offset-width: 2px; // Tailwind 'focus:ring-offset-2'
+    ring-offset-color: #1f2937; // Tailwind 'focus:ring-offset-gray-800'
+  }
+
+  .icon-background {
+    position: absolute;
+    top: -0.375rem; // Tailwind '-inset-1.5'
+    left: -0.375rem;
+    right: -0.375rem;
+    bottom: -0.375rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .icon {
+    height: 2rem; // Tailwind 'h-6'
+    width: 2rem; // Tailwind 'w-6'
   }
 }

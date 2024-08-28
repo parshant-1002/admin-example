@@ -34,6 +34,7 @@ import downArrowFilter from './icons/down-arrow-ico.svg';
 import earnings from './icons/earning.svg';
 import bidsSold from './icons/sold.svg';
 import info from './icons/info.svg';
+import whiteCross from './icons/whitecross.svg';
 
 export {
   Logo,
@@ -72,4 +73,5 @@ export {
   earnings,
   bidsSold,
   info,
+  whiteCross,
 };

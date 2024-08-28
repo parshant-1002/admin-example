@@ -1,0 +1,15 @@
+{
+  "name": "Penny Auction",
+  "short_name": "Penny Auction",
+  "start_url": "https://penny-auction.netlify.app/",
+  "id": "https://penny-auction.netlify.app/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://cdn.pushalert.co/icons/app-icon-72478-1.png?1724831684",
+      "sizes": "256x256"
+    }
+  ]
+}

@@ -24,6 +24,7 @@ module.exports = {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',
+    'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'simple-import-sort/imports': 'off',
@@ -44,5 +45,6 @@ module.exports = {
     'jsx-a11y/control-has-associated-label': ['off'],
     'no-underscore-dangle': ['off'],
     'import/no-extraneous-dependencies': ['off'],
+    'react/no-danger': ['off'],
   },
 };

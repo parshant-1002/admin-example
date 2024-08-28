@@ -1,0 +1,132 @@
+.notification-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    background: white;
+    border-radius: 6px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    z-index: 1050;
+    transition: transform 0.3s ease-in-out;
+
+    &.active {
+        transform: translateX(0);
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+    }
+}
+
+.notification-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
+    position: relative; // Ensure the close button is positioned correctly
+
+    .clear_all {
+        cursor: pointer;
+        color: #007bff; // Blue for better visibility
+        margin-left: auto; // Aligns 'Clear All' to the right
+    }
+
+    .h6, .btn-close {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+}
+
+.btn-close {
+    border: none;
+    background: transparent; // Ensures the button has no background
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+
+    svg {
+        fill: #000; // Black color for the SVG
+    }
+}
+
+.notification-list {
+    overflow-y: auto; // Enable vertical scrolling within the list
+    max-height: calc(100% - 60px); // Adjust based on header size
+    width: 100%;
+
+    &::-webkit-scrollbar {
+        width: 6px; // Slim scrollbar
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #007bff; // Blue scrollbar thumb for visibility
+        border-radius: 10px;
+    }
+}
+
+.notification-items {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ccc; // Light grey border for separation
+    background-color: #f9f9f9; // Light background for each item
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    &.unread-msg {
+        font-weight: bold;
+        background-color: #edf2fa; // Slightly blue background for unread messages
+    }
+
+    &.disable-casino {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .notification-content {
+        flex-grow: 1;
+        padding: 0 15px; // Padding on sides
+        display: flex;
+        flex-direction: column; // Stack elements vertically
+
+        .notification-body {
+            h4 {
+                margin-bottom: 5px; // Space between title and description
+            }
+
+            p {
+                margin: 0;
+            }
+
+            a {
+                color: #0066cc; // Link color
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.notifications-list {
+    list-style: none;
+    padding: 0;
+
+    .no-notifications {
+        text-align: center;
+        padding: 20px;
+        font-size: 16px;
+        color: #666;
+    }
+}

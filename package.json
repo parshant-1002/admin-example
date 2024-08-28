@@ -37,6 +37,7 @@
     "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
     "react-tooltip": "^5.28.0",
+    "react-virtuoso": "^4.10.1",
     "redux-persist": "^6.0.0",
     "vite-plugin-checker": "^0.6.1"
   },

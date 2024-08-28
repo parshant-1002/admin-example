@@ -1,6 +1,6 @@
 import { SyntheticEvent, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -18,6 +18,7 @@ import './OtpForm.scss';
 import OTP_CODE_TYPE from './helpers/constants';
 import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import QrCode from '../qrCode/QrCode';
+import { RootState } from '../../../Store';
 
 interface LoginResponse {
   token: string;
@@ -38,9 +39,13 @@ interface LoginResponseData {
 }
 function OtpForm() {
   const [verifyOtp] = useVerifyOtpMutation();
+  const registrationToken = useSelector(
+    (state: RootState) => state?.common?.deviceToken
+  );
   const navigate = useNavigate();
   const [recoveryCopied, setRecoveryCopied] = useState(false);
 
+  console.log('🚀 ~ OtpForm ~ registrationToken:', registrationToken);
   const [authenticationType, setAuthenticationType] = useState(
     OTP_CODE_TYPE.OTP
   );
@@ -94,6 +99,7 @@ function OtpForm() {
         ...data,
         email: state?.email,
         otpType: authenticationType,
+        registrationToken,
       };
       await verifyOtp({ payload, onSuccess });
       reset();
