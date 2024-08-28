@@ -552,7 +552,7 @@ const ROUTES_CONFIG = {
   },
   COMPANIES_CONTENT: {
     path: ROUTES.COMPANIES_CONTENT,
-    title: 'Compamies Content',
+    title: 'As Seen On Content',
   },
   BID_PACK_SECTION: {
     path: ROUTES.BID_PACK_SECTION,

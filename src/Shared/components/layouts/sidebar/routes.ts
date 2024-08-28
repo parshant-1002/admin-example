@@ -51,7 +51,7 @@ const SIDEBAR_NAV = [
         route: ROUTES.HERO_SECTION,
       },
       {
-        label: 'Companies',
+        label: 'As Seen On',
         route: ROUTES.COMPANIES_CONTENT,
       },
       {
