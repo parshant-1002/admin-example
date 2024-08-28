@@ -10,7 +10,7 @@ import {
   convertToLocale,
   removeEmptyValues,
 } from '../../Shared/utils/functions';
-import { RedirectionIcon } from '../../assets';
+import { Lossicon, RedirectionIcon, profitIcon } from '../../assets';
 import { BidsHistory } from '../Transactions';
 import cardData from './helpers/constants';
 import './style.scss';
@@ -64,20 +64,28 @@ function Dashboard() {
                 </em>
                 <span className="text-small">{card.label}</span>
                 <h2 className="h4">
-                  {convertToLocale(dashboard?.[card?.field], card.isCurrency)}
+                  {convertToLocale(dashboard?.[card.field], card.isCurrency)}
                 </h2>
                 <span
-                  className={`d-inline-flex align-items-center badge ${card.badge.color}`}
+                  className={`d-inline-flex align-items-center badge ${
+                    dashboard?.[card.percentageField] > 0
+                      ? 'bg-success'
+                      : 'bg-danger'
+                  }`}
                 >
                   <em className="me-2">
                     <img
-                      src={card.badge.icon}
+                      src={
+                        dashboard?.[card.percentageField] > 0
+                          ? profitIcon
+                          : Lossicon
+                      }
                       alt="badge"
                       width={16}
                       height={16}
                     />
                   </em>
-                  {card.badge.percentage}
+                  {convertToLocale(dashboard?.[card.percentageField])}
                 </span>
                 <Link className="redirection" to={card?.redirectionRoute || ''}>
                   <img src={RedirectionIcon} alt="" width="40" height="40" />

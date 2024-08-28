@@ -130,6 +130,7 @@ export const STRINGS = {
   P_ID: 'P.ID',
   P_NAME: 'P.Name',
   PURCHASED_DATE: 'Purchased Date',
+  BID_TYPE: 'Bid Type',
   INVOICE_DATE: 'Invoice Date',
   BID_PRICE: 'Bid Price (SEK)',
   USERNAME: 'Username',

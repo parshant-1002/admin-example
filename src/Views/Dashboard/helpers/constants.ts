@@ -1,7 +1,6 @@
 import { ROUTES } from '../../../Shared/constants';
 import {
   AuctionIcon,
-  Lossicon,
   NewUserIcon,
   ReserveIcon,
   SupportIcon,
@@ -9,7 +8,6 @@ import {
   UserIcon,
   bidsSold,
   earnings,
-  profitIcon,
 } from '../../../assets';
 
 const cardData = [
@@ -19,7 +17,7 @@ const cardData = [
     field: 'totalUsers',
     isCurrency: false,
     redirectionRoute: ROUTES.USERS,
-    badge: { icon: profitIcon, percentage: '55%', color: 'bg-success' },
+    percentageField: 'totalUsersPercenatge',
   },
   {
     icon: NewUserIcon,
@@ -27,14 +25,14 @@ const cardData = [
     field: 'newUsers',
     isCurrency: false,
     redirectionRoute: ROUTES.USERS,
-    badge: { icon: profitIcon, percentage: '55%', color: 'bg-success' },
+    percentageField: 'newUsersPercenatge',
   },
   {
     icon: SupportIcon,
     label: 'Users Contacted Live Support',
     field: 'usersWhoContactedLiveSupport',
     isCurrency: false,
-    badge: { icon: profitIcon, percentage: '55%', color: 'bg-success' },
+    percentageField: 'usersWhoContactedLiveSupportPercentage',
   },
   {
     icon: TotalBidIcon,
@@ -42,7 +40,7 @@ const cardData = [
     field: 'bidsCount',
     isCurrency: false,
     redirectionRoute: ROUTES.TRANSACTIONS_BIDS_HISTORY,
-    badge: { icon: profitIcon, percentage: '5%', color: 'bg-success' },
+    percentageField: 'bidsCountPercentage',
   },
   {
     icon: AuctionIcon,
@@ -50,7 +48,7 @@ const cardData = [
     field: 'activeAuctions',
     isCurrency: false,
     redirectionRoute: ROUTES.AUCTION_MANAGEMENT,
-    badge: { icon: Lossicon, percentage: '5%', color: 'bg-danger' },
+    percentageField: 'activeAuctionsPercentage',
   },
   {
     icon: ReserveIcon,
@@ -58,7 +56,7 @@ const cardData = [
     field: 'reservePriceMetAuctions',
     isCurrency: false,
     redirectionRoute: ROUTES.AUCTION_MANAGEMENT,
-    badge: { icon: Lossicon, percentage: '12%', color: 'bg-danger' },
+    percentageField: 'reservePriceMetAuctionsPercentage',
   },
   {
     icon: earnings,
@@ -66,7 +64,7 @@ const cardData = [
     field: 'earnings',
     isCurrency: true,
     redirectionRoute: ROUTES.TRANSACTIONS_PLANS_HISTORY,
-    badge: { icon: Lossicon, percentage: '12%', color: 'bg-danger' },
+    percentageField: 'earningsPercentage',
   },
   {
     icon: bidsSold,
@@ -74,7 +72,7 @@ const cardData = [
     field: 'soldBids',
     isCurrency: false,
     redirectionRoute: ROUTES.TRANSACTIONS_PLANS_HISTORY,
-    badge: { icon: Lossicon, percentage: '12%', color: 'bg-danger' },
+    percentageField: 'soldBidsPercentage',
   },
 ];
 
