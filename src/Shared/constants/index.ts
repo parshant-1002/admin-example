@@ -143,6 +143,7 @@ export const STRINGS = {
   DEAL_PRICE_LABEL: 'Deal Price',
   IMAGE: 'Image',
   BIDS_RECEIVED: 'Bids Received',
+  BIDS_HISTORY: 'Bids History',
   REFERRAL_ID: 'Id',
   NAME: 'Name',
   BIDS_GIVEN: 'Bids Given',

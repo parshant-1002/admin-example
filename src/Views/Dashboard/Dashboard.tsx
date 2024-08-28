@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useGetDashboardQuery } from '../../Services/Api/module/dashboard';
 import { Filters } from '../../Shared/components';
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
-import { DATE_FORMATS } from '../../Shared/constants';
+import { DATE_FORMATS, STRINGS } from '../../Shared/constants';
 import {
   convertToLocale,
   removeEmptyValues,
@@ -108,7 +108,7 @@ function Dashboard() {
           </div>
         ))}
       </div>
-      <BidsHistory onDashBoard={false} />
+      <BidsHistory onDashBoard={false} heading={STRINGS.BIDS_HISTORY} />
     </>
   );
 }

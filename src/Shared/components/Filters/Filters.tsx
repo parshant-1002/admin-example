@@ -47,10 +47,12 @@ interface StatsFiltersProps {
   rangeSilderTitle?: string;
   secondaryRangeSilderTitle?: string;
   showDateFilterTabs?: boolean;
+  heading?: string;
 }
 
 function StatsFilters({
   setAddData,
+  heading,
   addButtonLabel = BUTTON_LABELS.ADD,
   handleSearch = () => {},
   handleClearSearch = () => {}, // heading = 'Transactions',
@@ -170,8 +172,8 @@ function StatsFilters({
   return (
     <div className="filter-wrapper">
       <div className="w-100 align-items-center d-flex flex-sm-row flex-column justify-content-between filter_main">
-        <div className="col-sm-6 col-md-5 col-xl-6">
-          {showHeading ? <Breadcrumbs /> : null}
+        <div className="col-sm-6 col-md-5 col-xl-6 text-primary">
+          {showHeading ? heading || <Breadcrumbs /> : null}
         </div>
         <div className=" col-12 col-sm-6 col-md-7 col-xl-6 mb-sm-3">
           <div className="d-flex justify-content-between justify-content-sm-end align-items-start stats_filter">
