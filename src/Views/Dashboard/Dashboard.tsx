@@ -1,17 +1,59 @@
 // src/components/Dashboard.tsx
 
+import { debounce } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useGetDashboardQuery } from '../../Services/Api/module/dashboard';
+import { Filters } from '../../Shared/components';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import {
+  convertToLocale,
+  removeEmptyValues,
+} from '../../Shared/utils/functions';
 import { RedirectionIcon } from '../../assets';
-import Breadcrumbs from '../../Shared/components/layouts/components/breadcrumb/Breadcrumb';
 import { BidsHistory } from '../Transactions';
 import cardData from './helpers/constants';
 import './style.scss';
-import { convertToLocale } from '../../Shared/utils/functions';
 
 function Dashboard() {
+  const [search, setSearch] = useState<string>('');
+  const onComponentMountRef = useRef(false);
+
+  const [filters, setFilters] = useState({});
+  const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  }, 1000);
+
+  const handleApplyFilters = (filterState: FiltersState) => {
+    setFilters({
+      fromDate: filterState?.startDate,
+      toDate: filterState?.endDate,
+    });
+  };
+  const queryParams = {
+    searchString: search,
+    ...filters,
+  };
+  const { data: dashboard, refetch } = useGetDashboardQuery({
+    params: removeEmptyValues(
+      queryParams as unknown as Record<string, unknown>
+    ),
+  });
+  useEffect(() => {
+    if (onComponentMountRef.current) {
+      refetch();
+    }
+    onComponentMountRef.current = true;
+  }, [refetch, search, filters]);
   return (
     <>
-      <Breadcrumbs />
+      <Filters
+        handleClearSearch={() => setSearch('')}
+        handleSearch={debounceSearch}
+        showDateFilter
+        showSearch={false}
+        handleApply={handleApplyFilters}
+      />
       <div className="row dashboad-cards">
         {cardData?.map((card) => (
           <div key={card?.label} className="col-lg-3 col-sm-6 col-xl-3 mb-4">
@@ -22,7 +64,7 @@ function Dashboard() {
                 </em>
                 <span className="text-small">{card.label}</span>
                 <h2 className="h4">
-                  {convertToLocale(card.value, card.isCurrency)}
+                  {convertToLocale(dashboard?.[card?.field], card.isCurrency)}
                 </h2>
                 <span
                   className={`d-inline-flex align-items-center badge ${card.badge.color}`}
@@ -37,7 +79,7 @@ function Dashboard() {
                   </em>
                   {card.badge.percentage}
                 </span>
-                <Link className="redirection" to="">
+                <Link className="redirection" to={card?.redirectionRoute || ''}>
                   <img src={RedirectionIcon} alt="" width="40" height="40" />
                 </Link>
               </div>
