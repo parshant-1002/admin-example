@@ -11,6 +11,7 @@ export interface Image {
 export interface SelectOption {
   value?: number | string;
   label?: string | number;
+  icon?: string;
 }
 
 export interface SubContent {

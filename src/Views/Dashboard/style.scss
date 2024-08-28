@@ -22,7 +22,7 @@
             color: #1c1c1c;
         }
 
-        .d-Icon {
+        @at-root .d-Icon {
             @include position($absolute, $top: 25px, $left: 20px);
             background: linear-gradient(180deg, #0B0071 0%, #0B006D 8.4%, #070047 100%);
             @include border-radius (8px);

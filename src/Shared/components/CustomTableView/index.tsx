@@ -1,13 +1,13 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 // libs
-import { useState, Fragment, useCallback } from 'react';
-import './table.scss';
+import { Fragment, useCallback, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import TruncatedText from '../TruncateText/TruncateText';
+import { ascending, descending, downArrow } from '../../../assets';
 import { FilterOrder } from '../../constants';
 import { convertToLocale, getValueFromPath } from '../../utils/functions';
-import { downArrow, sortIcon } from '../../../assets';
+import TruncatedText from '../TruncateText/TruncateText';
+import './table.scss';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -62,6 +62,9 @@ function CustomTableView({
 }: CustomTableViewProps) {
   const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
     FilterOrder.ASCENDING
+  );
+  const [selectedSortKey, setSelectedSortKey] = useState<string | undefined>(
+    undefined
   );
 
   const rowsToBeRendered = isServerPagination
@@ -127,13 +130,25 @@ function CustomTableView({
 
                         handleSortingClick(sortOrder, sortKey);
                         setSelectedSortType(sortOrder);
+                        setSelectedSortKey(sortKey);
                       }}
                     >
                       <div className="d-flex gap-1 align-items-center ">
                         {column.title}
                         {column?.sortable ? (
                           <figure className="mb-0">
-                            <img src={sortIcon} alt="" width={15} height={15} />
+                            <img
+                              src={
+                                selectedSortKey === column.sortType
+                                  ? selectedSortType === FilterOrder.ASCENDING
+                                    ? ascending
+                                    : descending
+                                  : ascending
+                              }
+                              alt=""
+                              width={15}
+                              height={15}
+                            />
                           </figure>
                         ) : null}
                       </div>

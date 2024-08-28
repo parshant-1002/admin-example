@@ -78,6 +78,7 @@ export interface AuctionPayload {
   description: string;
   productPrice: number;
   categoryIds: SelectOption[];
+  enabledSocialMediaPlatforms: string[];
 }
 
 export const AUCTION_ADD_FORM_SCHEMA = (
@@ -264,6 +265,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Select Social Share Platform',
     className: 'col-md-12',
     placeholder: 'Select Social Share Platform',
+    isMulti: true,
     checkOptions: SOCIAL_MEDIA_PLATFORMS_OPTIONS,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Select Social Share Platform')
@@ -283,7 +285,6 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Min Auction Users',
     className: 'col-md-6',
     placeholder: 'Min Auction Users',
-    options: AuctionStatus,
     schema: {
       required: FORM_VALIDATION_MESSAGES('Min Auction Users').REQUIRED,
       min: {

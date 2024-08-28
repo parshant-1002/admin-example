@@ -94,6 +94,8 @@ export default function AuctionForm({
     reset: () => void
   ) => {
     event.preventDefault();
+    console.log({ data });
+
     try {
       const auctionData = data as unknown as AuctionPayload;
       const payload = {
@@ -104,6 +106,8 @@ export default function AuctionForm({
         reservePrice: data.reservePrice,
         title: data.title,
         preAuctionUsersCount: data.preAuctionUsersCount,
+        enabledSocialMediaPlatforms: data.enabledSocialMediaPlatforms,
+        socialMediaShareReward: data.socialMediaShareReward,
         // currentBidPrice: data.currentBidPrice,
         images: auctionData?.images?.map((image) => ({
           url: addBaseUrl(image?.fileURL || image?.url),
