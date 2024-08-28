@@ -1,11 +1,13 @@
 // src/components/Dashboard.tsx
 
 import { debounce } from 'lodash';
+import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetDashboardQuery } from '../../Services/Api/module/dashboard';
 import { Filters } from '../../Shared/components';
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import { DATE_FORMATS } from '../../Shared/constants';
 import {
   convertToLocale,
   removeEmptyValues,
@@ -19,15 +21,25 @@ function Dashboard() {
   const [search, setSearch] = useState<string>('');
   const onComponentMountRef = useRef(false);
 
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState<{
+    fromDate: string | Date | undefined;
+    toDate: string | Date | undefined;
+  }>({
+    fromDate: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
+    toDate: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
+  });
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, 1000);
 
   const handleApplyFilters = (filterState: FiltersState) => {
     setFilters({
-      fromDate: filterState?.startDate,
-      toDate: filterState?.endDate,
+      fromDate: moment(filterState?.startDate).format(
+        DATE_FORMATS.DISPLAY_DATE_REVERSE
+      ),
+      toDate: moment(filterState?.endDate).format(
+        DATE_FORMATS.DISPLAY_DATE_REVERSE
+      ),
     });
   };
   const queryParams = {
@@ -53,6 +65,7 @@ function Dashboard() {
         showDateFilter
         showSearch={false}
         handleApply={handleApplyFilters}
+        showDateFilterTabs
       />
       <div className="row dashboad-cards">
         {cardData?.map((card) => (

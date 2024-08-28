@@ -21,6 +21,7 @@ import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
 import { FiltersState, PriceRange } from './helpers/models';
 import './style.scss';
+import DateFilterButtons from '../../../Views/Dashboard/components/DateFilterButtons';
 
 // types
 interface StatsFiltersProps {
@@ -45,6 +46,7 @@ interface StatsFiltersProps {
   secondarySelectOptions?: SelectOption[];
   rangeSilderTitle?: string;
   secondaryRangeSilderTitle?: string;
+  showDateFilterTabs?: boolean;
 }
 
 function StatsFilters({
@@ -69,6 +71,7 @@ function StatsFilters({
   secondarySelectPlaceHolder,
   rangeSilderTitle,
   handleApply = () => {},
+  showDateFilterTabs,
 }: StatsFiltersProps) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
   const intitialFilterState: FiltersState = {
@@ -81,6 +84,9 @@ function StatsFilters({
       secondaryPriceRange?.max || 0,
     ],
   };
+  const [activeDateButtonIndex, setActiveDateButtonIndex] = useState<
+    number | null
+  >(0);
   const [showFilters, setShowFilters] = useState(false);
   const [isFiltersOn, setIsFiltersOn] = useState(false);
   const [isInitialEmptyForDate, setIsInitialEmptyForDate] = useState(true);
@@ -96,6 +102,7 @@ function StatsFilters({
     handleApply(intitialFilterState);
   };
   const handleClickAllData = () => {
+    setActiveDateButtonIndex(0);
     handleClear();
     if (clearDateRangeFilterRef.current) {
       clearDateRangeFilterRef.current.click();
@@ -182,6 +189,13 @@ function StatsFilters({
                 />
                 {BUTTON_LABELS.DELETE_ALL}
               </Button>
+            ) : null}
+            {showDateFilterTabs ? (
+              <DateFilterButtons
+                handleApply={handleApply}
+                activeDateButtonIndex={activeDateButtonIndex}
+                setActiveDateButtonIndex={setActiveDateButtonIndex}
+              />
             ) : null}
             {showSearch ? (
               <div className="dark-form-control position-relative w-100 w-sm-auto">
@@ -319,6 +333,7 @@ function StatsFilters({
               className="btn btn-sm"
               btnType="primary"
               onClick={() => {
+                setActiveDateButtonIndex(null);
                 handleApply(filtersState);
               }}
             >

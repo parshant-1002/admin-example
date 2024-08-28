@@ -199,3 +199,16 @@
 .card-img-overlay {
     background-color: rgba(255, 255, 255, 0.6);
 }
+
+.button-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #ffffff;
+    color: #006400;
+    border: 1px solid #006400;
+    cursor: pointer;
+  }

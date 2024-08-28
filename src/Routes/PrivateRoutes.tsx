@@ -32,6 +32,10 @@ import AutomaticBidRunnedOut from '../Views/NotificationsContentManagement/Autom
 import BidTimeLeft from '../Views/NotificationsContentManagement/BidTimeLeft/BidTimeLeft';
 import Winners from '../Views/NotificationsContentManagement/Winners/Winners';
 import AuctionEnded from '../Views/NotificationsContentManagement/AuctionEnded/AuctionEnded';
+import NewUserJoined from '../Views/NotificationsContentManagement/NewUserJoined/NewUserJoined';
+import AuctionStarted from '../Views/NotificationsContentManagement/AuctionStarted/AuctionStarted';
+import BidPlanPurchased from '../Views/NotificationsContentManagement/BidPlanPurchased/BidPlanPurchased';
+import ContactedSupport from '../Views/NotificationsContentManagement/ContactedSupport/ContactedSupport';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -212,6 +216,26 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.AUCTION_ENDED.path,
     element: <AuctionEnded />,
     title: ROUTES_CONFIG.AUCTION_ENDED.title,
+  },
+  {
+    path: ROUTES_CONFIG.NEW_USER_JOINED.path,
+    element: <NewUserJoined />,
+    title: ROUTES_CONFIG.NEW_USER_JOINED.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_STARTED.path,
+    element: <AuctionStarted />,
+    title: ROUTES_CONFIG.AUCTION_STARTED.title,
+  },
+  {
+    path: ROUTES_CONFIG.BID_PLAN_PURCHASED.path,
+    element: <BidPlanPurchased />,
+    title: ROUTES_CONFIG.BID_PLAN_PURCHASED.title,
+  },
+  {
+    path: ROUTES_CONFIG.CONTACTED_SUPPORT.path,
+    element: <ContactedSupport />,
+    title: ROUTES_CONFIG.CONTACTED_SUPPORT.title,
   },
   // Wildcard
   {
