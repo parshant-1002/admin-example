@@ -22,6 +22,7 @@ const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 const USER_DETAILS_SCHEMA: FieldSchema[] = [
   { label: 'Name', key: 'name' },
   { label: 'Email', key: 'email', truncate: true },
+  { label: 'Personal Number', key: 'personalNumber', truncate: true },
   { label: 'Phone No.', key: 'phoneNumber' },
   { label: 'Address', key: 'address', truncate: true },
   { label: 'Total Bids', key: 'bidBalance', format: true },
@@ -44,6 +45,7 @@ const UserDetailsTabs = {
   AUCTION_HISTORY: 'Auction History',
   PRODUCT_HISTORY: 'Product History',
   REFERRAL_HISTORY: 'Referral History',
+  INVOICE: 'Invoices',
 };
 
 // Define types for renderActions and column data
@@ -79,7 +81,7 @@ const bidsPurchaseHistoryColumn = (
   {
     title: 'Deal Offer',
     fieldName: 'dealOffer',
-    render: (_, val) => `${convertToLocale(val)} %`,
+    render: (_, val) => (val ? `${convertToLocale(val)} %` : `-.-`),
     sortable: true,
     sortType: 'dealOfferPercentage',
   },
@@ -172,7 +174,47 @@ const biddingHistoryColumn // renderActions: RenderActions
     fieldName: 'status',
   },
 ];
-
+const userInvoicesColumn // renderActions: RenderActions
+: ColumnData[] = [
+  {
+    title: 'Id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
+  },
+  {
+    title: 'Type',
+    fieldName: 'type',
+    sortable: true,
+    sortType: 'type',
+  },
+  {
+    title: 'Date',
+    fieldName: 'date',
+    render: (_, val) =>
+      moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
+  },
+  {
+    title: STRINGS.INVOICE,
+    sortable: true,
+    sortType: 'invoiceDate',
+    render: (row) => (
+      <div className="text-center">
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn44 btn-primary"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
+        ) : (
+          '-.-'
+        )}
+      </div>
+    ),
+  },
+];
 const productHistoryColumn = (
   setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
 ): ColumnData[] => [
@@ -500,6 +542,17 @@ const ADD_BIDS_FORM_SCHEMA = {
     },
   },
 };
+
+const INVOICE_TYPE = {
+  'BID PLAN': 1,
+  'BID CREDIT': 2,
+  'USER PRODUCT': 3,
+};
+const INVOICE_TYPE_OPTIONS = [
+  { label: 'BID PLAN', value: 1 },
+  { label: 'BID CREDIT', value: 2 },
+  { label: 'USER PRODUCT', value: 3 },
+];
 export {
   ADD_BIDS_FORM_SCHEMA,
   AUCTION_HISTORY_FRONTEND_OPTIONS,
@@ -516,4 +569,7 @@ export {
   bidsPurchaseHistoryColumn,
   productHistoryColumn,
   referralHistoryColumn,
+  userInvoicesColumn,
+  INVOICE_TYPE,
+  INVOICE_TYPE_OPTIONS,
 };

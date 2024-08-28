@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
+export const USER_PANEL: string = import.meta.env.VITE_USER_PANEL;
+export const { VITE_PRODUCT_DETAIL_PATH } = import.meta.env;
 export const { VITE_API_VERSION } = import.meta.env;
 
 export const API_END_POINTS = {
@@ -8,6 +10,7 @@ export const API_END_POINTS = {
   USER: '/user',
   USER_BIDS: '/user/addBids',
   USER_PRODUCTS: '/userProducts',
+  USER_INVOICES: '/user/invoices',
   BIDS_SPENT_HISTORY: '/bidSpent/history',
   AUCTION_HISTORY: '/auction/history',
   REFERRAL_HISTORY: 'referral/referredUsers',
@@ -17,6 +20,7 @@ export const API_END_POINTS = {
   CONTENT: '/content',
   NOTIFICATIONS_CONTENT: '/notificationContent',
   AUCTION: '/auction',
+  DASHBOARD: '/dashboard',
   AUCTION_DETAILS: '/auction/details',
   LOGOUT: '/admin/logout',
   VERIFY_OTP: '/admin/verifyOTP',

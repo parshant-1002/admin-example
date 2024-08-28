@@ -1,4 +1,5 @@
 // utils
+import { Link } from 'react-router-dom';
 import {
   convertToLocale,
   formatDate,
@@ -17,6 +18,12 @@ import {
 } from '../../../Shared/constants';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import { Image } from '../../../Models/common';
+import TruncateText from '../../../Shared/components/TruncateText';
+import {
+  USER_PANEL,
+  VITE_PRODUCT_DETAIL_PATH,
+} from '../../../Services/Api/Constants';
+import { getKeyByValue } from '../../Users/UserDetails/helpers/utils';
 
 // Define types for renderActions and column data
 interface ColumnData {
@@ -28,7 +35,7 @@ interface ColumnData {
   render?: (
     row: Invoice,
     val: string | number
-  ) => JSX.Element[] | string | JSX.Element | string[];
+  ) => JSX.Element[] | string | JSX.Element | string[] | undefined;
   path?: string[];
 }
 
@@ -39,7 +46,10 @@ export const PRODUCT_STATUS = [
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
 ];
-
+export const BIDS_TYPE = {
+  Auto: 1,
+  Manual: 2,
+};
 // Define the shape of the columns
 export const PlansHistoryColumns = (
   handleInvoice: (row: Invoice) => void
@@ -155,12 +165,26 @@ export const BidsHistoryColumns = (onDashBoard?: boolean): ColumnData[] => [
     title: STRINGS.EMAIL,
     fieldName: 'userEmail',
   },
+  // {
+  //   title: STRINGS.AUCTION_ID,
+  //   fieldName: 'auctionId',
+  //   render: renderIdWithHash,
+  //   sortable: !onDashBoard,
+  //   sortType: 'auctionId',
+  // },
   {
-    title: STRINGS.AUCTION_ID,
-    fieldName: 'auctionId',
-    render: renderIdWithHash,
-    sortable: !onDashBoard,
-    sortType: 'auctionId',
+    title: STRINGS.AUCTION_LINK,
+    path: ['auctionDetails', '_id'],
+    render: (_, val) => (
+      <Link
+        to={`${USER_PANEL}${VITE_PRODUCT_DETAIL_PATH}/${val}`}
+        target="_blank"
+      >
+        <TruncateText
+          text={`${USER_PANEL}${VITE_PRODUCT_DETAIL_PATH}/${val}`}
+        />
+      </Link>
+    ),
   },
   {
     title: STRINGS.AUCTION_NAME,
@@ -186,6 +210,11 @@ export const BidsHistoryColumns = (onDashBoard?: boolean): ColumnData[] => [
     sortable: !onDashBoard,
     sortType: 'currentBidPrice',
     render: (_, val) => `${convertToLocale(val)}`,
+  },
+  {
+    title: STRINGS.BID_TYPE,
+    fieldName: 'bidType',
+    render: (_, val) => (val ? getKeyByValue(BIDS_TYPE, Number(val)) : '-.-'),
   },
   {
     title: STRINGS.STATUS,
