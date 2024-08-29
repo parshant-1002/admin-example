@@ -31,9 +31,9 @@
   }
 
   .animated-arrow {
-    display: flex !important;
-    align-items: center;
-
+    width: 20px;
+    height: 20px;
+    cursor: $pointer;
     span {
       cursor: pointer;
       height: .125rem;
@@ -111,5 +111,11 @@
   .icon {
     height: 2rem; // Tailwind 'h-6'
     width: 2rem; // Tailwind 'w-6'
+  }
+}
+
+.toggle-sidebar {
+  .header {
+    width: 100%;
   }
 }
