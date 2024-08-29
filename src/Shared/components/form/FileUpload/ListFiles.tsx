@@ -41,11 +41,11 @@ function ListFiles({
 
       // If single image selection is enabled, replace the selected file with the new one
       if (singleImageSelectionEnabled) {
-        return [{ ...file, isActive: true }];
+        return [{ ...file, assigned: true }];
       }
 
       // Otherwise, add the new file to the selection
-      return [...prevSelectedFiles, { ...file, isActive: true }];
+      return [...prevSelectedFiles, { ...file, assigned: true }];
     });
   };
 

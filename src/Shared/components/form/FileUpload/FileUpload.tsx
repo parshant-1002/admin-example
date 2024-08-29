@@ -130,6 +130,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [fileDelete] = useFileDeleteMutation();
     const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
 
+    console.log({ uploadedImages, deletedIds, value, chooseFile });
     useEffect(() => {
       const choosenFiles = chooseFile?.filter((file) => file?.assigned);
       const choosenFilesWithId = isProductAuction
@@ -266,7 +267,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         if (isProductAuction) {
           dispatch(
             updateUploadedImages([
-              ...(uploadedImages || []),
+              ...(imageList.files || []),
               ...(responseData || []),
             ])
           );
@@ -312,26 +313,39 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     const handleDeleteClick = async () => {
-      const fileId = deleteModal?.data?.fileId;
-      const isMultiDelete = deleteModal?.data?.isMultiDelete;
+      const { fileId, isMultiDelete } = deleteModal?.data || {};
+
       try {
         if (isProductAuction) {
           handleCloseDelete();
-          const filteredImages = (uploadedImages || [])?.filter(
+          const files = imageList?.files || [];
+
+          // Filter and separate images based on deletion criteria
+          const filteredImages = files.filter(
             (file: { _id: string }) => !fileId?.includes(file._id)
           );
-          const deletedImagesFromList = (uploadedImages || [])?.filter(
+          const deletedImagesFromList = files.filter(
             (file: { _id: string }) => fileId?.includes(file._id)
           );
           const deletedImagesArray = [
             ...(deletedIds || []),
-            ...(deletedImagesFromList || []),
+            ...deletedImagesFromList,
           ];
+
           dispatch(deletedImages(deletedImagesArray));
           dispatch(updateUploadedImages(filteredImages));
-          if (isMultiDelete) {
+
+          // Check if there are any remaining selected files after deletion
+          const isLeftOutFilesSelected = filteredImages.some(
+            (val: { _id: string }) =>
+              selectedFiles?.some((file) => file._id === val._id)
+          );
+
+          // Reset state if multiple delete or no files are left selected
+          if (isMultiDelete || !isLeftOutFilesSelected) {
             setChooseFile([]);
             onChange([]);
+            setSelectedFiles([]);
           }
         } else {
           await fileDelete({
@@ -348,11 +362,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           });
         }
       } catch (error: unknown) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-        }
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : ERROR_MESSAGES().SOMETHING_WENT_WRONG;
+        toast.error(errorMessage);
       }
     };
 
@@ -525,7 +539,33 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
       return `Upload only ${fileTypes} ${ratioDescription}`;
     };
+    const handleCloseModal = () => {
+      if (isProductAuction && selectedFiles?.length && chooseFile?.length) {
+        // Get the files to persist by filtering the selected files
+        const filesToPersist = selectedFiles?.filter(
+          (file) =>
+            chooseFile?.some(
+              (choosedFile) =>
+                choosedFile.assigned &&
+                (choosedFile.fileId || choosedFile._id) === file._id
+            )
+        );
 
+        // Map over the image list files and mark the files that need to be persisted
+        const updatedFiles = imageList?.files?.map((file: { _id: string }) => ({
+          ...file,
+          assigned: filesToPersist?.some(
+            (selectedFile) => selectedFile._id === file._id
+          ),
+        }));
+
+        // Trigger the onChange event with the updated files list
+        onChange(updatedFiles);
+
+        // Close the modal
+      }
+      closeModal();
+    };
     return (
       <>
         <ConfirmationModal
@@ -572,7 +612,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           <CustomModal
             title="Choose and upload file"
             show={showModal}
-            onClose={closeModal}
+            onClose={handleCloseModal}
           >
             <div className="modal-body">
               <Tabs
