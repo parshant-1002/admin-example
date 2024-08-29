@@ -78,7 +78,7 @@ function DateFilterButtons({
 
   return (
     <div>
-      <div className="button-group">
+      <div className="button-group dy_group_wrapper">
         {BUTTON_LABELS.map((label, index) => (
           <Button
             key={label}

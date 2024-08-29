@@ -76,31 +76,36 @@ function Dashboard() {
                   <img src={card.icon} alt="Icon" width="70" />
                 </em>
                 <span className="text-small">{card.label}</span>
-                <h2 className="h4">
-                  {convertToLocale(dashboard?.[card.field], card.isCurrency)}
-                </h2>
-                <span
-                  className={`d-inline-flex align-items-center badge ${
-                    dashboard?.[card.percentageField] > 0
-                      ? 'bg-success'
-                      : 'bg-danger'
-                  }`}
+                <div className="growth_wrapper d-flex align-items-center gap-3 mt-3 mr-2 flex-wrap">
+                  <h2 className="h4 m-0">
+                    {convertToLocale(dashboard?.[card.field], card.isCurrency)}
+                  </h2>
+                  <span
+                    className={`d-inline-flex align-items-center badge ${
+                      dashboard?.[card.percentageField] > 0
+                        ? 'bg-success'
+                        : 'bg-danger'
+                    }`}
+                  >
+                    <em className="me-2">
+                      <img
+                        src={
+                          dashboard?.[card.percentageField] > 0
+                            ? profitIcon
+                            : Lossicon
+                        }
+                        alt="badge"
+                        width={16}
+                        height={16}
+                      />
+                    </em>
+                    {convertToLocale(dashboard?.[card.percentageField])}
+                  </span>
+                </div>
+                <Link
+                  className="redirection d-none"
+                  to={card?.redirectionRoute || ''}
                 >
-                  <em className="me-2">
-                    <img
-                      src={
-                        dashboard?.[card.percentageField] > 0
-                          ? profitIcon
-                          : Lossicon
-                      }
-                      alt="badge"
-                      width={16}
-                      height={16}
-                    />
-                  </em>
-                  {convertToLocale(dashboard?.[card.percentageField])}
-                </span>
-                <Link className="redirection" to={card?.redirectionRoute || ''}>
                   <img src={RedirectionIcon} alt="" width="40" height="40" />
                 </Link>
               </div>
