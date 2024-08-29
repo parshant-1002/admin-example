@@ -34,9 +34,8 @@ body {
 
                 .notification-icon {
                     padding-right: 0;
-                    padding-top: 15px;
+                    padding-top: 20px;
                     padding-left: 18px;
-                    display: flex;
 
                     img {
                         align-self: center;
@@ -62,6 +61,19 @@ body {
                 }
 
             }
+            &-content-wrapper{
+                display: flex;
+                justify-content: space-between;
+                small{
+                    color: $white-color !important;
+                    padding-right: 20px;
+                }
+            }
+        }
+        &-header{
+            .close-btn{
+                @include position($absolute, $top:5px, $right:5px)
+            }
         }
     }
 }
@@ -69,7 +81,7 @@ body {
 .message_summary {
     width: 100%;
     margin: $auto 0;
-    padding: 20px 15px;
+    padding: 30px 15px;
     position: $relative;
 
     .h6 {
@@ -85,6 +97,7 @@ body {
     p {
         @include font-size (.875);
         color: $white-color;
+        font-weight: 200;
     }
 }
 

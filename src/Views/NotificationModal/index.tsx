@@ -90,7 +90,7 @@ function NotificationModal({
         <div
           className={
             notification.icon
-              ? 'notification-content with-icon'
+              ? 'notification-content with-icon gap-2'
               : 'notification-content no-icon'
           }
           style={{
@@ -112,7 +112,7 @@ function NotificationModal({
             <img src={addBaseUrl(notification.icon)} alt="Notification Icon" />
           )}
           <div className="notification-body">
-            <h4>{notification.title}</h4>
+            <h4 className="h6 fw-bold">{notification.title}</h4>
             <p
               dangerouslySetInnerHTML={{
                 __html: notification.htmlDescription || '',
@@ -128,12 +128,12 @@ function NotificationModal({
   return (
     <div>
       <div className="notification-modal active">
-        <div className="notification-header">
+        <div className="notification-header-wrapper">
           <div className="form-row align-items-center">
             <div className="notification-header">
               <div className="col-12">
-                <h2 className="h6 mb-0 d-flex justify-content-between gap-3">
-                  <div>Notifications</div>
+                <h2 className="h6 mb-0 d-flex justify-content-between gap-3 align-items-center">
+                  <div className="fw-bold header-title">Notifications</div>
                   <span className="clear_all ml-3" onClick={() => clearAll()}>
                     {BUTTON_LABELS.CLEAR_ALL}
                   </span>
@@ -142,7 +142,7 @@ function NotificationModal({
                     className="btn-close off-nav"
                     onClick={() => handleChange()}
                   >
-                    <img src={cross} alt="" />
+                    <img className="img-fluid" src={cross} alt="" />
                   </button>
                 </h2>
               </div>

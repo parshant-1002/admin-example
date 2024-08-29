@@ -43,7 +43,7 @@ interface NotificationEvent {
 
 function NotificationToast() {
   const [pageNo, setPageNo] = useState<number>(1);
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(true);
   const [notification, setNotification] = useState<
     NotificationInApp | undefined
   >(undefined);
@@ -160,10 +160,12 @@ function NotificationToast() {
                     : '',
                 }}
               >
-                <h6 className="h6 text-white">{notification?.title}</h6>
-                <small className="notification_time">
-                  {notification?.createdAt}
-                </small>
+                <div className="toast-content-wrapper">
+                  <h6 className="h6 text-white">{notification?.title}</h6>
+                  <small className="notification_time">
+                    {notification?.createdAt}
+                  </small>
+                </div>
                 {notification?.body ? (
                   <p>
                     {notification.body.length > 150
@@ -176,7 +178,7 @@ function NotificationToast() {
             <button
               type="button"
               onClick={handleClose}
-              className="p-0 ms-3  btn-transparent"
+              className="p-0 ms-3 close-btn btn-transparent"
             >
               <img src={whiteCross} alt="" width={20} />
             </button>
