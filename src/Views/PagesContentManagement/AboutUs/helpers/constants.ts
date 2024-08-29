@@ -1,7 +1,7 @@
 import { INPUT_TYPES } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
-const PRIVACY_POLICY_FORM_SCHEMA = {
+const ABOUT_US_FORM_SCHEMA = {
   title: {
     type: INPUT_TYPES.TEXT,
     label: 'Title',
@@ -19,7 +19,7 @@ const PRIVACY_POLICY_FORM_SCHEMA = {
     type: INPUT_TYPES.TEXT,
     label: 'Description',
     className: 'col-md-12',
-    placeholder: 'Privacy policy Description',
+    placeholder: 'Description',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
       minLength: {
@@ -27,13 +27,12 @@ const PRIVACY_POLICY_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
     },
-    // addHorizontalLine: true,
   },
   moreInormationTitle: {
     type: INPUT_TYPES.TEXT,
-    label: 'Privacy policy more Information Title',
+    label: 'More Information Title',
     className: 'col-md-12',
-    placeholder: 'Privacy policy more Information Title',
+    placeholder: 'More Information Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
       minLength: {
@@ -41,8 +40,7 @@ const PRIVACY_POLICY_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
     },
-    // addHorizontalLine: true,
   },
 };
 
-export default PRIVACY_POLICY_FORM_SCHEMA;
+export default ABOUT_US_FORM_SCHEMA;

@@ -97,6 +97,8 @@ export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 export const STRINGS = {
   UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
   UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
+  UPDATE_ABOUT_US: 'Update About Us Content',
+  UPDATE_COOKIES: 'Updates Cookies Policy Content',
   UPDATE_PRIVACY_AND_POLICY: 'Update Privacy Policy Content',
   REGULAR: 'Regular',
   SPECIFICATIONS: 'Specifications',
@@ -162,6 +164,7 @@ export const STRINGS = {
   USER_DELETED: 'User Deleted',
   PLAN_ID: 'Id',
   PLAN_NAME: 'Plan Name',
+  PLAN_DESCRIPTION: 'Plan Description',
   CREATED_AT: 'Created At',
   CLOSED_AT: 'Closed At',
   REFERRALS: 'Referrals',
@@ -231,6 +234,7 @@ export const CONTENT_ENUMS = {
   HOW_IT_WORKS: 'howItWorks',
   CONTACT_US: 'contactUs',
   TERMS_AND_CONDITIONS: 'termsAndConditions',
+  ABOUT_US: 'aboutUsPage',
   PRIVACY_POLICY: 'privacyPolicy',
   CONTACT_US_SECTION: 'contactUsSection',
   FOOTER: 'footer',
@@ -238,6 +242,7 @@ export const CONTENT_ENUMS = {
   SOCIAL_CONNECT: 'socialConnect',
   BID_PACK_CONTENT: 'bidPackSection',
   TOP_AUCTION_CONTENT: 'topAuctionsSection',
+  COOKIES: 'cookiesPolicyPage',
 };
 
 export const BUTTON_LABELS = {
@@ -359,9 +364,10 @@ const ROUTES = {
   CONTENT_MANAGEMENT: '/content-management',
   HEADERS_CONTENT: '/content-management/headers',
   HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
-  FQA_CONTENT: '/content-management/faqs',
+  FAQ_CONTENT: '/content-management/faqs',
   CONTACTUS_CONTENT: '/content-management/contact-us',
   TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
+  ABOUT_US_CONTENT: '/content-management/about-us',
   PRIVACY_POLICY_CONTENT: '/content-management/privacy-policy',
   COMPANIES_CONTENT: '/content-management/companies-content',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
@@ -388,6 +394,7 @@ const ROUTES = {
   JOIN_AIRDROP_CONTENT: '/content-management/join-airdrop-content',
   PARTNER_CONTENT: '/content-management/partners-content',
   FOOTER_CONTENT: '/content-management/footer-content',
+  COOKIES: '/content-management/cookies-content',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
   AIR_DROP_HISTORY: '/air-drop/history',
@@ -536,7 +543,7 @@ const ROUTES_CONFIG = {
     title: 'Headers Content',
   },
   FAQS_CONTENT: {
-    path: ROUTES.FQA_CONTENT,
+    path: ROUTES.FAQ_CONTENT,
     title: 'Faqs Content',
   },
   HOW_IT_WORKS_CONTENT: {
@@ -550,6 +557,14 @@ const ROUTES_CONFIG = {
   TERMS_AND_CONDITION_CONTENT: {
     path: ROUTES.TERM_AND_CONDITION_CONTENT,
     title: 'Term and Condition Content',
+  },
+  ABOUT_US_CONTENT: {
+    path: ROUTES.ABOUT_US_CONTENT,
+    title: 'About us Content',
+  },
+  COOKIES: {
+    path: ROUTES.COOKIES,
+    title: 'Cookies Content',
   },
   PRIVACY_POLICY_CONTENT: {
     path: ROUTES.PRIVACY_POLICY_CONTENT,

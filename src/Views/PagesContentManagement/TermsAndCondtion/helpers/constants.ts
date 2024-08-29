@@ -27,7 +27,6 @@ const TERMS_AND_CONDITIONS_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
     },
-    addHorizontalLine: true,
   },
   moreInormationTitle: {
     type: INPUT_TYPES.TEXT,
@@ -41,7 +40,6 @@ const TERMS_AND_CONDITIONS_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
     },
-    addHorizontalLine: true,
   },
 };
 

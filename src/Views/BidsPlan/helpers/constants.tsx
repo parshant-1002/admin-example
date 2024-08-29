@@ -20,6 +20,7 @@ import { ViewMultiData } from '../../Products/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
+  DESCRIPTION: 'description',
   PRICE: 'price',
   YEARLY_PRICE: 'priceAnnual',
   BIDS: 'bids',
@@ -51,43 +52,23 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
       },
     },
   },
-  // [PLAN_FORM_FIELDS.PRICE]: {
-  //   type: INPUT_TYPES.NUMBER,
-  //   label: STRINGS.DEAL_PRICE,
-  //   className: 'col-md-12',
-  //   placeholder: STRINGS.DEAL_PRICE,
-  //   schema: {
-  //     required: FORM_VALIDATION_MESSAGES(STRINGS.DEAL_PRICE).REQUIRED,
-  //     min: {
-  //       value: 1,
-  //       message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
-  //     },
-  //   },
-  // },
-  // [PLAN_FORM_FIELDS.IMAGE_URL]: {
-  //   type: INPUT_TYPES.FILE,
-  //   label: 'Images',
-  //   accept: IMAGE_FILE_TYPES,
-  //   className: 'col-md-12',
-  //   placeholder: 'Images',
-  // },
-  // [PLAN_FORM_FIELDS.BIDS]: {
-  //   type: INPUT_TYPES.NUMBER,
-  //   label: STRINGS.BIDS_CREDITED,
-  //   className: 'col-md-12',
-  //   placeholder: STRINGS.BIDS_CREDITED,
-  //   schema: {
-  //     required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CREDITED).REQUIRED,
-  //     min: {
-  //       value: 1,
-  //       message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
-  //     },
-  //     pattern: {
-  //       value: /^[0-9]+$/,
-  //       message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
-  //     },
-  //   },
-  // },
+  [PLAN_FORM_FIELDS.DESCRIPTION]: {
+    type: INPUT_TYPES.TEXT,
+    label: STRINGS.PLAN_DESCRIPTION,
+    className: 'col-md-12',
+    placeholder: STRINGS.PLAN_DESCRIPTION,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES(STRINGS.PLAN_DESCRIPTION).REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 100,
+        message: FORM_VALIDATION_MESSAGES(100).MAX_LENGTH,
+      },
+    },
+  },
   [PLAN_FORM_FIELDS.BID_PLAN_TYPE]: {
     type: INPUT_TYPES.SELECT,
     label: STRINGS.BID_PLAN_TYPE,
@@ -124,51 +105,6 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
             },
           },
         },
-        // [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
-        //   type: INPUT_TYPES.NUMBER,
-        //   label: STRINGS.DISCOUNT_PERCENTAGE,
-        //   className: 'col-md-12',
-        //   placeholder: STRINGS.DISCOUNT_PERCENTAGE,
-        //   min: 0,
-        //   max: 100,
-        //   schema: {
-        //     required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE)
-        //       .REQUIRED,
-        //     min: {
-        //       value: 0,
-        //       message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
-        //     },
-        //     max: {
-        //       value: 100,
-        //       message: FORM_VALIDATION_MESSAGES().MAXIMUM_100_PERCENT_ALLOWED,
-        //     },
-        //   },
-        // },
-        // [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
-        //   type: INPUT_TYPES.NUMBER,
-        //   label: STRINGS.DISCOUNT_OFFER_PRICE,
-        //   className: 'col-md-12',
-        //   placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
-        //   readOnly: true,
-        //   schema: {
-        //     required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE)
-        //       .REQUIRED,
-        //     min: {
-        //       value: 1,
-        //       message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
-        //     },
-        //   },
-        // },
-        // [PLAN_FORM_FIELDS.END_DATE]: {
-        //   type: INPUT_TYPES.DATE,
-        //   label: STRINGS.END_DATE,
-        //   className: 'col-md-12',
-        //   placeholder: STRINGS.END_DATE,
-        //   min: formatDate(new Date(), 'YYYY-MM-DD'),
-        //   schema: {
-        //     required: FORM_VALIDATION_MESSAGES(STRINGS.END_DATE).REQUIRED,
-        //   },
-        // },
       }
     : {}),
   ...(showHotDealSpecificFields === BID_PLAN_TYPES.REGULAR
@@ -213,8 +149,6 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
           placeholder: STRINGS.YEARLY_PRICE,
           readOnly: true,
           schema: {
-            // required: FORM_VALIDATION_MESSAGES(STRINGS.YEARLY_PRICE)
-            //   .REQUIRED,
             min: {
               value: 1,
               message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
@@ -238,51 +172,6 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
             },
           },
         },
-        // [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
-        //   type: INPUT_TYPES.NUMBER,
-        //   label: STRINGS.DISCOUNT_PERCENTAGE,
-        //   className: 'col-md-12',
-        //   placeholder: STRINGS.DISCOUNT_PERCENTAGE,
-        //   min: 0,
-        //   max: 100,
-        //   schema: {
-        //     required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE)
-        //       .REQUIRED,
-        //     min: {
-        //       value: 0,
-        //       message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
-        //     },
-        //     max: {
-        //       value: 100,
-        //       message: FORM_VALIDATION_MESSAGES().MAXIMUM_100_PERCENT_ALLOWED,
-        //     },
-        //   },
-        // },
-        // [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
-        //   type: INPUT_TYPES.NUMBER,
-        //   label: STRINGS.DISCOUNT_OFFER_PRICE,
-        //   className: 'col-md-12',
-        //   placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
-        //   readOnly: true,
-        //   schema: {
-        //     required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_OFFER_PRICE)
-        //       .REQUIRED,
-        //     min: {
-        //       value: 1,
-        //       message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
-        //     },
-        //   },
-        // },
-        // [PLAN_FORM_FIELDS.END_DATE]: {
-        //   type: INPUT_TYPES.DATE,
-        //   label: STRINGS.END_DATE,
-        //   className: 'col-md-12',
-        //   placeholder: STRINGS.END_DATE,
-        //   min: formatDate(new Date(), 'YYYY-MM-DD'),
-        //   schema: {
-        //     required: FORM_VALIDATION_MESSAGES(STRINGS.END_DATE).REQUIRED,
-        //   },
-        // },
       }
     : {}),
   [PLAN_FORM_FIELDS.STATUS]: {
@@ -313,7 +202,6 @@ export const PlansColumns = ({
   handleEdit,
   handleStatusChange,
   handleSelectMultiple = () => {},
-  // setShowMultiItemView = () => {},
   selectedIds = [],
 }: CreateReferralProps): ColumnData[] => [
   {
@@ -364,30 +252,6 @@ export const PlansColumns = ({
     fieldName: PLAN_FORM_FIELDS.YEARLY_PRICE,
     render: (_, val) => `${convertToLocale(val)}`,
   },
-  // {
-  //   title: STRINGS.IMAGE,
-  //   fieldName: 'imageURL',
-  //   sortable: false,
-  //   render: (_, imageURL: string | number) => (
-  //     <div className="d-inline-flex align-items-center position-relative uploaded_file pointer">
-  //       <figure
-  //         key={String(imageURL)}
-  //         onClick={() =>
-  //           setShowMultiItemView({
-  //             show: true,
-  //             data: {
-  //               title: 'Product Images',
-  //               size: 'lg',
-  //               imgData: [{ url: String(imageURL) }],
-  //             },
-  //           })
-  //         }
-  //       >
-  //         <FileRenderer fileURL={String(imageURL)} />
-  //       </figure>
-  //     </div>
-  //   ),
-  // },
   {
     title: STRINGS.CREATED_AT,
     fieldName: 'createdAt',
@@ -396,11 +260,6 @@ export const PlansColumns = ({
     render: (_, createdAt) =>
       createdAt ? formatDate(createdAt as string) : '-.-',
   },
-  // {
-  //   title: STRINGS.END_AT,
-  //   fieldName: PLAN_FORM_FIELDS.END_DATE,
-  //   render: (_, endDate) => (endDate ? formatDate(endDate as string) : '-.-'),
-  // },
   {
     title: STRINGS.BID_PLAN_TYPE,
     fieldName: PLAN_FORM_FIELDS.BID_PLAN_TYPE,
