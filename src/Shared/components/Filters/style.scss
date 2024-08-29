@@ -203,6 +203,20 @@
     padding:13px;
   }
 }
+.dy_group_wrapper{
+  .onlyIcon{    
+    @media (max-width: 991.98px){
+      font-size: 13px !important;
+      padding: 12px;
+      min-width: auto;
+    }
+    @media (max-width: 767.98px){
+      font-size: 8px !important;
+      padding: 2px;
+      white-space: break-spaces;
+    }
+  }
+}
 [data-label="Actions"]{
   .btn44{
     @media (max-width: 575.99px){

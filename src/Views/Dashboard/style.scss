@@ -6,12 +6,12 @@
 
         &-body {
             @include border-radius (24px);
-            padding: 24px 24px 24px 100px;
+            padding: 16px 16px 15px 94px;
             position: $relative;
         }
 
         .text-small {
-            @include font-size (1);
+            @include font-size (0.875);
             color: #333;
         }
 
@@ -23,7 +23,7 @@
         }
 
         @at-root .d-Icon {
-            @include position($absolute, $top: 25px, $left: 20px);
+            @include position($absolute, $top: 16px, $left: 16px);
             background: linear-gradient(180deg, #0B0071 0%, #0B006D 8.4%, #070047 100%);
             @include border-radius (8px);
             width: 64px;
