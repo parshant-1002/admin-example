@@ -117,7 +117,7 @@ function ListFiles({
                 selectedFiles.map((file) => file._id),
                 true
               );
-              setSelectedFiles([]);
+              // setSelectedFiles([]);
             }}
           >
             {BUTTON_LABELS.DELETE_SELECTION}

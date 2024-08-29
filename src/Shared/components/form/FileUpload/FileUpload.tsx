@@ -15,8 +15,10 @@ import {
 } from '../../../../Services/Api/module/file';
 import { RootState } from '../../../../Store';
 import { updateUploadedImages } from '../../../../Store/UploadedImages';
+import { RED_WARNING } from '../../../../assets';
 import {
   BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
   FILE_TYPE,
   STRINGS,
   TOAST_MESSAGES,
@@ -27,6 +29,7 @@ import {
   convertFilesToFormData,
   removeEmptyValues,
 } from '../../../utils/functions';
+import ConfirmationModal from '../../ConfirmationModal';
 import CustomModal from '../../CustomModal';
 import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
@@ -50,6 +53,10 @@ interface FileInputProps {
   singleImageSelectionEnabled?: boolean;
   [key: string]: unknown; // To handle any additional props
 }
+interface DeleteData {
+  data: { fileId?: (string | undefined)[]; isMultiDelete?: boolean } | null;
+  show: boolean;
+}
 interface QueryParams {
   [key: string]: string;
 }
@@ -70,6 +77,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     },
     ref
   ) => {
+    const [deleteModal, setDeleteModal] = useState<DeleteData>({
+      show: false,
+      data: { fileId: [''] },
+    });
     const uploadedImages = useSelector(
       (state: RootState) => state.UploadedImages.images
     );
@@ -278,17 +289,29 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           prevState?.filter((_, i) => i !== index)
       );
     };
-
-    const handleDeleteFile = async (
+    const handleDeleteFile = (
       fileId: (string | undefined)[],
       isMultiDelete?: boolean
     ) => {
+      setDeleteModal({
+        data: { fileId, isMultiDelete },
+        show: true,
+      });
+    };
+    const handleCloseDelete = () => {
+      setDeleteModal({ data: null, show: false });
+    };
+
+    const handleDeleteClick = async () => {
+      const fileId = deleteModal?.data?.fileId;
+      const isMultiDelete = deleteModal?.data?.isMultiDelete;
       try {
         await fileDelete({
           payload: { fileId },
 
           onSuccess: (res: { message: string }) => {
             toast.success(res?.message);
+            handleCloseDelete();
             if (isProductAuction && !isCreateProductAuction) {
               refetch();
             } else if (!isProductAuction) {
@@ -484,8 +507,20 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
       return `Upload only ${fileTypes} ${ratioDescription}`;
     };
+
     return (
       <>
+        <ConfirmationModal
+          title={CONFIRMATION_DESCRIPTION_IMAGE_DELETE}
+          open={deleteModal?.show}
+          handleClose={handleCloseDelete}
+          showCancelButton
+          submitButtonText={BUTTON_LABELS.YES}
+          cancelButtonText={BUTTON_LABELS.NO}
+          icon={RED_WARNING}
+          handleSubmit={handleDeleteClick}
+          showClose={false}
+        />
         <div className="form-control">
           <Button
             className="btn btn-md my-2  me-2"
