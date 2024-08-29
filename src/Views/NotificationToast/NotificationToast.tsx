@@ -43,7 +43,7 @@ interface NotificationEvent {
 
 function NotificationToast() {
   const [pageNo, setPageNo] = useState<number>(1);
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
   const [notification, setNotification] = useState<
     NotificationInApp | undefined
   >(undefined);
