@@ -12,7 +12,7 @@ import {
   convertToLocale,
   removeEmptyValues,
 } from '../../Shared/utils/functions';
-import { Lossicon, RedirectionIcon, profitIcon } from '../../assets';
+import { Lossicon, profitIcon } from '../../assets';
 import { BidsHistory } from '../Transactions';
 import cardData from './helpers/constants';
 import './style.scss';
@@ -69,7 +69,11 @@ function Dashboard() {
       />
       <div className="row dashboad-cards">
         {cardData?.map((card) => (
-          <div key={card?.label} className="col-lg-3 col-sm-6 col-xl-3 mb-4">
+          <Link
+            to={card?.redirectionRoute || ''}
+            key={card?.label}
+            className="col-lg-3 col-sm-6 col-xl-3 mb-4"
+          >
             <div className="card h-100">
               <div className="card-body d-inline-flex flex-column justify-content-center align-items-start">
                 <em className="d-Icon">
@@ -102,15 +106,15 @@ function Dashboard() {
                     {convertToLocale(dashboard?.[card.percentageField])}
                   </span>
                 </div>
-                <Link
+                {/* <Link
                   className="redirection d-none"
                   to={card?.redirectionRoute || ''}
                 >
                   <img src={RedirectionIcon} alt="" width="40" height="40" />
-                </Link>
+                </Link> */}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <BidsHistory onDashBoard={false} heading={STRINGS.BIDS_HISTORY} />
