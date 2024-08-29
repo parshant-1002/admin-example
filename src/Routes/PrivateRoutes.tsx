@@ -36,6 +36,8 @@ import NewUserJoined from '../Views/NotificationsContentManagement/NewUserJoined
 import AuctionStarted from '../Views/NotificationsContentManagement/AuctionStarted/AuctionStarted';
 import BidPlanPurchased from '../Views/NotificationsContentManagement/BidPlanPurchased/BidPlanPurchased';
 import ContactedSupport from '../Views/NotificationsContentManagement/ContactedSupport/ContactedSupport';
+import AboutUs from '../Views/PagesContentManagement/AboutUs';
+import Cookies from '../Views/PagesContentManagement/Cookies';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -161,6 +163,16 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.path,
     element: <PrivacyPolicy />,
     title: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.ABOUT_US_CONTENT.path,
+    element: <AboutUs />,
+    title: ROUTES_CONFIG.ABOUT_US_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.COOKIES.path,
+    element: <Cookies />,
+    title: ROUTES_CONFIG.COOKIES.title,
   },
   {
     path: ROUTES_CONFIG.COMPANIES_CONTENT.path,

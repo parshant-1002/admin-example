@@ -297,7 +297,6 @@ export const AuctionColumn = (
                 </em>
               ))
             : '-.-'}
-          ;
         </div>
       );
     },

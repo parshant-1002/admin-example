@@ -127,19 +127,19 @@ const CONTACT_US_FORM_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  socialConnectTitle: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Social Connect Title',
-    className: 'col-md-6',
-    placeholder: 'Enter Social Connect Title',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
+  // socialConnectTitle: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Social Connect Title',
+  //   className: 'col-md-6',
+  //   placeholder: 'Enter Social Connect Title',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES().REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
   // socialConnectImageURL: {
   //     type: INPUT_TYPES.FILE,
   //     label: 'Social Icon Image',

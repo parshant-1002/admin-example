@@ -5,9 +5,9 @@ import {
   useUpdateContentMutation,
 } from '../../../Services/Api/module/pagescontent/index';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/CustomCardWrapper';
-import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
+// import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CustomForm } from '../../../Shared/components/index';
-import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
+import { CONTENT_ENUMS } from '../../../Shared/constants/index';
 import {
   ContactUsFormData,
   transAPIRequestDataToFormContactUs,
@@ -22,15 +22,15 @@ const initialState: AddContentFormItem = {
   errors: {},
 };
 
-const fieldTypes = {
-  file: INPUT_TYPES.FILE_UPLOAD,
-  title: INPUT_TYPES.TEXT,
-};
+// const fieldTypes = {
+//   file: INPUT_TYPES.FILE_UPLOAD,
+//   title: INPUT_TYPES.TEXT,
+// };
 
-const labels = {
-  file: ' icon',
-  title: ' URL',
-};
+// const labels = {
+//   file: ' icon',
+//   title: ' URL',
+// };
 
 function ContactUs() {
   const [socialConnectContent, setSocialConnectContent] = useState<
@@ -87,16 +87,16 @@ function ContactUs() {
         className="row"
         onSubmit={onSubmit}
         defaultValues={initialValues}
-        preSubmitElement={
-          <AddContentForm
-            content={socialConnectContent || []}
-            setContent={setSocialConnectContent}
-            types={fieldTypes}
-            labels={labels}
-            initialState={initialState}
-            title="social contact"
-          />
-        }
+        // preSubmitElement={
+        //   <AddContentForm
+        //     content={socialConnectContent || []}
+        //     setContent={setSocialConnectContent}
+        //     types={fieldTypes}
+        //     labels={labels}
+        //     initialState={initialState}
+        //     title="social contact"
+        //   />
+        // }
         submitText="Update ContactUs Content"
       />
     </CustomCardWrapper>

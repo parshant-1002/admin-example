@@ -84,11 +84,19 @@ const SIDEBAR_NAV = [
       },
       {
         label: 'FAQ',
-        route: ROUTES.FQA_CONTENT,
+        route: ROUTES.FAQ_CONTENT,
       },
       {
-        label: 'Contact US',
+        label: 'Contact Us',
         route: ROUTES.CONTACTUS_CONTENT,
+      },
+      {
+        label: 'About Us',
+        route: ROUTES.ABOUT_US_CONTENT,
+      },
+      {
+        label: 'Cookies',
+        route: ROUTES.COOKIES,
       },
       {
         label: 'Terms and Condition',

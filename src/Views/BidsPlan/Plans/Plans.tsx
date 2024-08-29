@@ -304,6 +304,12 @@ function Plans() {
               : ''),
             [PLAN_FORM_FIELDS.STATUS]:
               popup.data?.[PLAN_FORM_FIELDS.STATUS] || false,
+            [PLAN_FORM_FIELDS.DESCRIPTION]:
+              popup?.data?.[PLAN_FORM_FIELDS.DESCRIPTION],
+            [PLAN_FORM_FIELDS.MIN_BIDS]:
+              popup?.data?.[PLAN_FORM_FIELDS.MIN_BIDS],
+            [PLAN_FORM_FIELDS.MAX_BIDS]:
+              popup?.data?.[PLAN_FORM_FIELDS.MAX_BIDS],
           }
         : {
             [PLAN_FORM_FIELDS.NAME]: '',
@@ -314,6 +320,9 @@ function Plans() {
             [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: '',
             [PLAN_FORM_FIELDS.END_DATE]: '',
             [PLAN_FORM_FIELDS.STATUS]: false,
+            [PLAN_FORM_FIELDS.DESCRIPTION]: '',
+            [PLAN_FORM_FIELDS.MIN_BIDS]: '',
+            [PLAN_FORM_FIELDS.MAX_BIDS]: '',
           },
     [popup?.data, popup?.type]
   );
