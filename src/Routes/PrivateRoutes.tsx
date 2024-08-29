@@ -38,6 +38,15 @@ import BidPlanPurchased from '../Views/NotificationsContentManagement/BidPlanPur
 import ContactedSupport from '../Views/NotificationsContentManagement/ContactedSupport/ContactedSupport';
 import AboutUs from '../Views/PagesContentManagement/AboutUs';
 import Cookies from '../Views/PagesContentManagement/Cookies';
+import AuctionPage from '../Views/PagesContentManagement/AuctionPage';
+import ProfilePage from '../Views/PagesContentManagement/ProfilePage';
+import ProfileOverview from '../Views/PagesContentManagement/ProfileOverview';
+import UserProfileSection from '../Views/PagesContentManagement/UserProfileSection';
+import AuctionSection from '../Views/PagesContentManagement/AuctionSection';
+import PennyAuctionSection from '../Views/PagesContentManagement/PennyAuctionSection';
+import CurrentBidsSection from '../Views/PagesContentManagement/CurrentBidsSection';
+import WalletSection from '../Views/PagesContentManagement/WalletSection';
+import ReferralSection from '../Views/PagesContentManagement/ReferralSection';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -143,6 +152,51 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.FAQS_CONTENT.path,
     element: <Faqs />,
     title: ROUTES_CONFIG.FAQS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_PAGE.path,
+    element: <AuctionPage />,
+    title: ROUTES_CONFIG.AUCTION_PAGE.title,
+  },
+  {
+    path: ROUTES_CONFIG.PROFILE_PAGE_CONTENT.path,
+    element: <ProfilePage />,
+    title: ROUTES_CONFIG.PROFILE_PAGE_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.PROFILE_OVERVIEW.path,
+    element: <ProfileOverview />,
+    title: ROUTES_CONFIG.PROFILE_OVERVIEW.title,
+  },
+  {
+    path: ROUTES_CONFIG.USER_PROFILE_SECTION.path,
+    element: <UserProfileSection />,
+    title: ROUTES_CONFIG.USER_PROFILE_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.PENNY_AUCTION_SECTION.path,
+    element: <PennyAuctionSection />,
+    title: ROUTES_CONFIG.PENNY_AUCTION_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_SECTIONS.path,
+    element: <AuctionSection />,
+    title: ROUTES_CONFIG.AUCTION_SECTIONS.title,
+  },
+  {
+    path: ROUTES_CONFIG.CURRENT_BIDS_SECTION.path,
+    element: <CurrentBidsSection />,
+    title: ROUTES_CONFIG.CURRENT_BIDS_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.WALLET_SECTION.path,
+    element: <WalletSection />,
+    title: ROUTES_CONFIG.WALLET_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.REFERRAL_SECTION.path,
+    element: <ReferralSection />,
+    title: ROUTES_CONFIG.REFERRAL_SECTION.title,
   },
   {
     path: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.path,

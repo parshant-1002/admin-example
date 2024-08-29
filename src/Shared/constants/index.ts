@@ -96,6 +96,16 @@ export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
   UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
+  UPDATE_REFERRAL_SECTION: 'Update Referral Content',
+  UPDATE_CURRENT_BIDS_SECTION: 'Update Current Bids Section',
+  UPDATE_WALLET_SECTION: 'Update Wallet Section',
+  UPDATE_AUCTION_PAGE: 'Update Auction Page',
+  UPDATE_PENNY_AUCTION_SECTION: 'Update Penny Auction',
+  UPDATE_AUCTION_SECTION: 'Update Auction Section',
+  UPDATE_CURRENT_BIDS_SEECTION: '',
+  UPDATE_PROFILE_OVERVIEW: 'Update Profile Overview',
+  UPDATE_USER_PROFILE_SECTION: 'Update Profile Section',
+  UPDATE_PROFILE_PAGE: 'Update Profile Page',
   UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
   UPDATE_ABOUT_US: 'Update About Us Content',
   UPDATE_COOKIES: 'Updates Cookies Policy Content',
@@ -237,6 +247,7 @@ export const CONTENT_ENUMS = {
   CONTACT_US: 'contactUs',
   TERMS_AND_CONDITIONS: 'termsAndConditions',
   ABOUT_US: 'aboutUsPage',
+  AUCTION_PAGE: 'auctionPage',
   PRIVACY_POLICY: 'privacyPolicy',
   CONTACT_US_SECTION: 'contactUsSection',
   FOOTER: 'footer',
@@ -245,6 +256,14 @@ export const CONTENT_ENUMS = {
   BID_PACK_CONTENT: 'bidPackSection',
   TOP_AUCTION_CONTENT: 'topAuctionsSection',
   COOKIES: 'cookiePolicyPage',
+  PROFILE_PAGE: 'profilePage',
+  PROFILE_OVERVIEW: 'profileOverview',
+  USER_PROFILE_SECTION: 'userProfileSection',
+  AUCTION_SECTION: 'auctionsSection',
+  PENNY_AUCTION_SECTION: 'pennyAuctionSection',
+  CURRENT_BIDS_SECTION: 'currentBidsSection',
+  WALLET_SECTION: 'walletSection',
+  REFERRAL_SECTION: 'referralSection',
 };
 
 export const BUTTON_LABELS = {
@@ -367,6 +386,7 @@ const ROUTES = {
   HEADERS_CONTENT: '/content-management/headers',
   HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
   FAQ_CONTENT: '/content-management/faqs',
+  AUCTION_PAGE: '/content-management/auction-page',
   CONTACTUS_CONTENT: '/content-management/contact-us',
   TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
   ABOUT_US_CONTENT: '/content-management/about-us',
@@ -381,6 +401,8 @@ const ROUTES = {
   ROAD_MAP_SECTION_CONTENT: '/content-management/roadmap-section-content',
   FEATURES_CONTENT: '/content-management/features-content',
   TOKEN_INFORMATION_CONTENT: '/content-management/token-information-content',
+  REFERRAL_SECTION: '/content-management/referral-section',
+  WALLET_SECTION: '/content-management/wallet-section',
   PREMIUM_MARKET_PLACE_CONTENT:
     '/content-management/premium-marketplace-content',
   PREMIUM_TOKEN_WALLET_CONTENT:
@@ -397,6 +419,12 @@ const ROUTES = {
   PARTNER_CONTENT: '/content-management/partners-content',
   FOOTER_CONTENT: '/content-management/footer-content',
   COOKIES: '/content-management/cookies-content',
+  PROFILE_PAGE_CONTENT: '/content-management/profile-page',
+  PROFILE_OVERVIEW: '/content-management/profile-overview',
+  USER_PROFILE_SECTION: '/content-management/user-profile-section',
+  AUCTION_SECTIONS: '/content-management/auction-section',
+  PENNY_AUCTION_SECTION: '/content-management/penny-auction-section',
+  CURRENT_BIDS_SECTION: '/content-management/current-bids-section',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
   AIR_DROP_HISTORY: '/air-drop/history',
@@ -547,6 +575,42 @@ const ROUTES_CONFIG = {
   FAQS_CONTENT: {
     path: ROUTES.FAQ_CONTENT,
     title: 'Faqs Content',
+  },
+  AUCTION_PAGE: {
+    path: ROUTES.AUCTION_PAGE,
+    title: 'Auction Page',
+  },
+  PROFILE_PAGE_CONTENT: {
+    path: ROUTES.PROFILE_PAGE_CONTENT,
+    title: 'Profile Page Content',
+  },
+  PROFILE_OVERVIEW: {
+    path: ROUTES.PROFILE_OVERVIEW,
+    title: 'Profile Overview',
+  },
+  USER_PROFILE_SECTION: {
+    path: ROUTES.USER_PROFILE_SECTION,
+    title: ' User Profile Section',
+  },
+  PENNY_AUCTION_SECTION: {
+    path: ROUTES.PENNY_AUCTION_SECTION,
+    title: 'Penny Auction Section',
+  },
+  AUCTION_SECTIONS: {
+    path: ROUTES.AUCTION_SECTIONS,
+    title: 'Auction Sections',
+  },
+  CURRENT_BIDS_SECTION: {
+    path: ROUTES.CURRENT_BIDS_SECTION,
+    title: 'Current Bids Section',
+  },
+  WALLET_SECTION: {
+    path: ROUTES.WALLET_SECTION,
+    title: 'Wallet Section',
+  },
+  REFERRAL_SECTION: {
+    path: ROUTES.REFERRAL_SECTION,
+    title: 'Referral Section',
   },
   HOW_IT_WORKS_CONTENT: {
     path: ROUTES.HOW_IT_WORKS_CONTENT,

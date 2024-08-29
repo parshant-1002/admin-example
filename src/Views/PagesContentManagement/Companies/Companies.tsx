@@ -13,7 +13,7 @@ import { isErrors } from '../../../Shared/utils/functions';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
 
 const initialState: AddContentFormItem = {
-  file: [{ fileURL: '' }],
+  file: [{ fileURL: '', fileId: '' }],
   title: '',
   errors: {},
 };
@@ -38,9 +38,17 @@ function Companies() {
     if (content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]) {
       // Extract and set companiesData values
       const formGetData = content.data[CONTENT_ENUMS.COMPANIES_SECTION]?.map(
-        ({ title, url }: { title: string; url: string }) => ({
+        ({
+          title,
+          url,
+          fileId,
+        }: {
+          title: string;
+          url: string;
+          fileId: string;
+        }) => ({
           title: String(title),
-          file: [{ fileURL: String(url) }],
+          file: [{ fileURL: String(url), fileId: String(fileId) }],
         })
       );
       setCompaniesData(formGetData);

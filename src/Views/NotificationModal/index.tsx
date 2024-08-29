@@ -55,10 +55,7 @@ function NotificationModal({
     if (data?.data?.length) {
       const notificationData = data.data;
 
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        ...notificationData,
-      ]);
+      setNotifications(notificationData);
       setTotalCount((prev) => prev + 10);
     }
   }, [pageno, data]);

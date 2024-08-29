@@ -13,14 +13,14 @@ import {
   transAPIRequestDataToFormContactUs,
   transformAPIRequestDataContactUs,
 } from './helpers/transform';
-import { AddContentFormItem } from '../../../Models/common';
+// import { AddContentFormItem } from '../../../Models/common';
 import CONTACT_US_FORM_SCHEMA from './helpers/contactus';
 
-const initialState: AddContentFormItem = {
-  file: [{ fileURL: '' }],
-  title: '',
-  errors: {},
-};
+// const initialState: AddContentFormItem = {
+//   file: [{ fileURL: '', fileId: '' }],
+//   title: '',
+//   errors: {},
+// };
 
 // const fieldTypes = {
 //   file: INPUT_TYPES.FILE_UPLOAD,
@@ -33,9 +33,9 @@ const initialState: AddContentFormItem = {
 // };
 
 function ContactUs() {
-  const [socialConnectContent, setSocialConnectContent] = useState<
-    AddContentFormItem[]
-  >([initialState]);
+  // const [socialConnectContent, setSocialConnectContent] = useState<
+  //   AddContentFormItem[]
+  // >([initialState]);
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
@@ -47,27 +47,27 @@ function ContactUs() {
       );
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
-      const formGetData = content.data[CONTENT_ENUMS.CONTACT_US_SECTION][
-        CONTENT_ENUMS.CONTACT_US
-      ][CONTENT_ENUMS.SOCIAL_CONNECT]?.map(
-        ({ imageURL, url }: { imageURL: string; url: string }) => ({
-          title: String(url),
-          file: [{ fileURL: String(imageURL) }],
-        })
-      );
-      setSocialConnectContent(formGetData);
+      // const formGetData = content.data[CONTENT_ENUMS.CONTACT_US_SECTION][
+      //   CONTENT_ENUMS.CONTACT_US
+      // ][CONTENT_ENUMS.SOCIAL_CONNECT]?.map(
+      //   ({ imageURL, url }: { imageURL: string; url: string }) => ({
+      //     title: String(url),
+      //     file: [{ fileURL: String(imageURL) }],
+      //   })
+      // );
+      // setSocialConnectContent(formGetData);
     }
   }, [content]);
   const onSubmit = async (data: Record<string, unknown>) => {
     const formData = data as unknown as ContactUsFormData;
-    const mappedRoadMap = socialConnectContent.map((item) => ({
-      url: item.title || '',
-      imageURL: item.file,
-    }));
+    // const mappedRoadMap = socialConnectContent.map((item) => ({
+    //   url: item.title || '',
+    //   imageURL: item.file,
+    // }));
     const payload = {
       [CONTENT_ENUMS.CONTACT_US_SECTION]: transformAPIRequestDataContactUs(
-        formData,
-        mappedRoadMap
+        formData
+        // mappedRoadMap
       ),
     };
     await updateContent({
