@@ -29,7 +29,7 @@ const initialState: AddContentFormItem = {
 };
 
 const fieldTypes = {
-  content: INPUT_TYPES.TEXT,
+  content: INPUT_TYPES.RICH_TEXT,
 };
 
 const labels = {

@@ -25,7 +25,7 @@ export interface AddContentFormItem {
   id?: string;
   title?: string;
   content?: string;
-  file?: [{ fileURL: string }];
+  file?: [{ fileURL: string; fileId: string }];
   errors?: { [key: string]: string };
   subContent?: SubContent[];
   [key: string]: any;

@@ -18,7 +18,7 @@ import {
 } from './helpers/transform';
 
 const initialState: AddContentFormItem = {
-  file: [{ fileURL: '' }],
+  file: [{ fileURL: '', fileId: '' }],
   title: '',
   content: '',
   errors: {},
@@ -59,14 +59,16 @@ function HowItWorks() {
           imageURL,
           title,
           description,
+          fileId,
         }: {
           imageURL: string;
           title: string;
           description: string;
+          fileId: string;
         }) => ({
           title: String(title),
           content: String(description),
-          file: [{ fileURL: String(imageURL) }],
+          file: [{ fileURL: String(imageURL), fileId: String(fileId) }],
         })
       );
       setHowItWorkCardContent(formGetData);

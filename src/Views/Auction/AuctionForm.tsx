@@ -64,12 +64,16 @@ export default function AuctionForm({
     _id: '',
   });
   const { data: categoryList } = useGetCategorysQuery(
-    { skip: 0 },
+    {},
     { refetchOnMountOrArgChange: true }
   );
   const { data: productList } = useGetProductsQuery(
-    { skip: 0 },
-    { refetchOnMountOrArgChange: true }
+    {
+      params: { nonAssignedProduct: true },
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
   );
   const helperCatergoryMap = (data: []) => {
     return data.map((category: Category) => ({

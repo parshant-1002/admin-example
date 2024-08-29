@@ -20,7 +20,7 @@ import FOOTER_FORM_SCHEMA from './helpers/constants';
 import { isErrors } from '../../../Shared/utils/functions';
 
 const initialState: AddContentFormItem = {
-  file: [{ fileURL: '' }],
+  file: [{ fileURL: '', fileId: '' }],
   title: '',
   errors: {},
 };
@@ -72,10 +72,20 @@ function Footer() {
       // Extract and set socialConnectContent values
       const formGetData = content.data[CONTENT_ENUMS.FOOTER][
         CONTENT_ENUMS.SOCIAL_CONNECT
-      ]?.map(({ imageURL, url }: { imageURL: string; url: string }) => ({
-        title: String(url),
-        file: [{ fileURL: String(imageURL) }] || [],
-      }));
+      ]?.map(
+        ({
+          imageURL,
+          url,
+          fileId,
+        }: {
+          imageURL: string;
+          url: string;
+          fileId: string;
+        }) => ({
+          title: String(url),
+          file: [{ fileURL: String(imageURL), fileId: String(fileId) }] || [],
+        })
+      );
 
       const sectionEntries1 = transfornSectionEntriesData(
         content?.data?.[CONTENT_ENUMS.FOOTER],

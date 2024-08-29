@@ -83,8 +83,44 @@ const SIDEBAR_NAV = [
         route: ROUTES.HOW_IT_WORKS_CONTENT,
       },
       {
+        label: 'Wallet Section',
+        route: ROUTES.WALLET_SECTION,
+      },
+      {
+        label: 'Referral Section',
+        route: ROUTES.REFERRAL_SECTION,
+      },
+      {
         label: 'FAQ',
         route: ROUTES.FAQ_CONTENT,
+      },
+      {
+        label: 'Auction Page',
+        route: ROUTES.AUCTION_PAGE,
+      },
+      {
+        label: 'Profile Page',
+        route: ROUTES.PROFILE_PAGE_CONTENT,
+      },
+      {
+        label: 'Profile Overview',
+        route: ROUTES.PROFILE_OVERVIEW,
+      },
+      {
+        label: 'User Profile Section',
+        route: ROUTES.USER_PROFILE_SECTION,
+      },
+      {
+        route: ROUTES.PENNY_AUCTION_SECTION,
+        label: 'Penny Auction Section',
+      },
+      {
+        label: 'Auction Sections',
+        route: ROUTES.AUCTION_SECTIONS,
+      },
+      {
+        route: ROUTES.CURRENT_BIDS_SECTION,
+        label: 'Current Bids Section',
       },
       {
         label: 'Contact Us',

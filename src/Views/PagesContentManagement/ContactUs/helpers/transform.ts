@@ -24,8 +24,8 @@ export interface ContactUsFormData {
 
 // Define the transform function to convert form data to API request format
 export const transformAPIRequestDataContactUs = (
-  data: ContactUsFormData,
-  roadMap: SocialConnectItem[]
+  data: ContactUsFormData
+  // roadMap: SocialConnectItem[]F
 ) => {
   return {
     contactUs: {
@@ -39,20 +39,20 @@ export const transformAPIRequestDataContactUs = (
       addressTitle: data.addressTitle,
       address: data.address,
       socialConnectTitle: data.socialConnectTitle,
-      socialConnect: roadMap
-        .filter(({ url, imageURL }) => {
-          // Check if imageURL is an array of objects or a string
-          if (Array.isArray(imageURL)) {
-            return url.trim() !== '' || imageURL[0]?.fileURL?.trim() !== '';
-          }
-          return false;
-        })
-        .map(({ imageURL, url }) => ({
-          imageURL: Array.isArray(imageURL)
-            ? imageURL[0]?.fileURL || ''
-            : String(imageURL),
-          url: String(url),
-        })),
+      // socialConnect: roadMap
+      //   .filter(({ url, imageURL }) => {
+      //     // Check if imageURL is an array of objects or a string
+      //     if (Array.isArray(imageURL)) {
+      //       return url.trim() !== '' || imageURL[0]?.fileURL?.trim() !== '';
+      //     }
+      //     return false;
+      //   })
+      //   .map(({ imageURL, url }) => ({
+      //     imageURL: Array.isArray(imageURL)
+      //       ? imageURL[0]?.fileURL || ''
+      //       : String(imageURL),
+      //     url: String(url),
+      //   })),
     },
     contactUsMapLatitude: data.contactUsMapLatitude,
     contactUsMapLongitude: data.contactUsMapLongitude,
