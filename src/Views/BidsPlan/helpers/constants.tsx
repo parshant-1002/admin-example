@@ -27,6 +27,8 @@ export const PLAN_FORM_FIELDS = {
   BID_PLAN_TYPE: 'type',
   DISCOUNT_PERCENTAGE: 'dealOfferPercentage',
   BID_COVERSION: 'bidConversion',
+  MIN_BIDS: 'bidMin',
+  MAX_BIDS: 'bidMax',
   DISCOUNT_PRICE: 'dealPrice',
   MONTHLY_PRICE: 'priceMonthly',
   END_DATE: 'endDate',
@@ -53,7 +55,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
     },
   },
   [PLAN_FORM_FIELDS.DESCRIPTION]: {
-    type: INPUT_TYPES.TEXT,
+    type: INPUT_TYPES.TEXT_AREA,
     label: STRINGS.PLAN_DESCRIPTION,
     className: 'col-md-12',
     placeholder: STRINGS.PLAN_DESCRIPTION,
@@ -99,6 +101,34 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
           schema: {
             required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CONVERSION)
               .REQUIRED,
+            min: {
+              value: 0,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
+            },
+          },
+        },
+        [PLAN_FORM_FIELDS.MIN_BIDS]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.MIN_BIDS,
+          className: 'col-md-6',
+          placeholder: STRINGS.MIN_BIDS,
+          min: 0,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES(STRINGS.MIN_BIDS).REQUIRED,
+            min: {
+              value: 0,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
+            },
+          },
+        },
+        [PLAN_FORM_FIELDS.MAX_BIDS]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.MAX_BIDS,
+          className: 'col-md-6',
+          placeholder: STRINGS.MAX_BIDS,
+          min: 0,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES(STRINGS.MAX_BIDS).REQUIRED,
             min: {
               value: 0,
               message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
@@ -230,6 +260,11 @@ export const PlansColumns = ({
   {
     title: STRINGS.NAME,
     fieldName: PLAN_FORM_FIELDS.NAME,
+    isTruncated: true,
+  },
+  {
+    title: STRINGS.PLAN_DESCRIPTION,
+    fieldName: PLAN_FORM_FIELDS.DESCRIPTION,
     isTruncated: true,
   },
   {

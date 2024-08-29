@@ -182,6 +182,8 @@ export const STRINGS = {
   BIDS_CREDITED: 'Bids Credited',
   DISCOUNT_PERCENTAGE: 'Discount Percentage (upto 100)',
   BIDS_CONVERSION: 'Conversion Price (SEK)',
+  MIN_BIDS: 'Custom range min Bid',
+  MAX_BIDS: 'Custom range max Bid',
   DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
   MONTHLY_PRICE: 'Monthly Price (SEK)',
   YEARLY_PRICE: 'Yearly Price (SEK)',
@@ -242,7 +244,7 @@ export const CONTENT_ENUMS = {
   SOCIAL_CONNECT: 'socialConnect',
   BID_PACK_CONTENT: 'bidPackSection',
   TOP_AUCTION_CONTENT: 'topAuctionsSection',
-  COOKIES: 'cookiesPolicyPage',
+  COOKIES: 'cookiePolicyPage',
 };
 
 export const BUTTON_LABELS = {
