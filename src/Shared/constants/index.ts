@@ -664,6 +664,8 @@ const TABLE_PAGE_LIMIT = 10;
 const CONFIRMATION_DESCRIPTION_INVOICE =
   'Are you sure you want to generate invoice';
 
+const CONFIRMATION_DESCRIPTION_IMAGE_DELETE = 'Are you sure you want to delete';
+
 const TOAST_MESSAGES = (...arg: (string | number)[]) => ({
   SELECT_ATLEAST_ONE_FILE: 'Please select at least one file.',
   PLEASE_CHOOSE_ONLY_ACCEPTED_FILES: `Please choose only ${arg[0]} file.`,
@@ -697,6 +699,7 @@ export {
   BID_PLAN_TYPES,
   BID_STATUS,
   CONFIRMATION_DESCRIPTION_INVOICE,
+  CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
   FILE_TYPE,
   POPUPTYPES,
   PRICE_RANGE,

@@ -123,19 +123,16 @@ export default function AuctionDetails() {
         dataScema={AuctionColumn(setShowMultiItemView)}
       />
       {editData?.show && (
-        <CustomModal
-          title="Edit"
-          show={editData?.show}
-          onClose={handleCloseForm}
-        >
-          <div className="p-4">
-            <AuctionForm
-              isEdit
-              initialData={editData?.data}
-              onEdit={handleEditSuccess}
-            />
-          </div>
-        </CustomModal>
+        <div className="p-4">
+          <AuctionForm
+            title="Edit"
+            show={editData?.show}
+            onClose={handleCloseForm}
+            isEdit
+            initialData={editData?.data}
+            onEdit={handleEditSuccess}
+          />
+        </div>
       )}
       <Button
         className="btn btn44 position-absolute auction-details-edit"
