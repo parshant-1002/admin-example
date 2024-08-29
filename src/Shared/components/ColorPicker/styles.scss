@@ -4,6 +4,39 @@
     &-palette {
         position: $absolute;
         z-index: 100;
+        border: 1px solid #cfcfcf;
+        padding: 22px;
+        border-radius: 6px;        
+        @media (max-width: 767.98px){
+            position: $relative; 
+         }
+        .chrome-picker{
+            display: flex;
+            @media (min-width: 768px){
+                width: 250px !important; 
+             }
+            @media (min-width: 992px){
+                width: 360px !important; 
+             }   
+            @media (min-width: 1200px){
+                width: 340px !important; 
+             }
+            @media (min-width: 1300px){
+               width: 380px !important; 
+            }        
+            @media (max-width: 767.98px){
+                width: 100% !important; 
+             }
+            &>div:first-child{
+                width: 58% !important;
+                padding-bottom: 40% !important;
+            }
+            &>div:last-child{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
     }
 
     &-hide {

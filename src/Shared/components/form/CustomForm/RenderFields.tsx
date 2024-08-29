@@ -240,7 +240,7 @@ function RenderField({
           {field.subLabel}
         </p>
       )}
-      <div className={field.groupClassName || ''}>
+      <div className={field.groupClassName || 'nc_choose_file'}>
         {renderInput()}
         {field.type === INPUT_TYPES.PASSWORD && (
           <img
