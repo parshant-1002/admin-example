@@ -13,7 +13,7 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
-import ProductAdd from './ProductsForm';
+import ProductForm from './ProductsForm';
 import ActionsDropDown from './components/ActionsDropDown';
 import ViewMultiTableItem from './components/ViewMultiTableItem';
 
@@ -353,29 +353,27 @@ export default function ProductsList() {
         </CustomModal>
       )}
       {editData?.show && (
-        <CustomModal
+        <ProductForm
           title="Edit"
           show={editData?.show}
           onClose={handleCloseForm}
-        >
-          <ProductAdd
-            isEdit
-            initialData={editData?.data}
-            onEdit={handleEditSuccess}
-            categoryOptions={categoryOptions}
-          />
-        </CustomModal>
+          isEdit
+          initialData={editData?.data}
+          onEdit={handleEditSuccess}
+          categoryOptions={categoryOptions}
+        />
       )}
 
       {addData && (
-        <CustomModal title="Add" show={addData} onClose={handleCloseForm}>
-          <ProductAdd
-            isEdit={false}
-            initialData={{}}
-            onAdd={handleAddSuccess}
-            categoryOptions={categoryOptions}
-          />
-        </CustomModal>
+        <ProductForm
+          title="Add"
+          show={addData}
+          onClose={handleCloseForm}
+          isEdit={false}
+          initialData={{}}
+          onAdd={handleAddSuccess}
+          categoryOptions={categoryOptions}
+        />
       )}
 
       <StatsFilters

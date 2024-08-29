@@ -10,11 +10,15 @@ import { toast } from 'react-toastify';
 import { ImageConfig } from '../../../../Models/common';
 import {
   useFileDeleteMutation,
+  // useFileDeleteMutation,
   useFileUploadMutation,
   useGetFilesQuery,
 } from '../../../../Services/Api/module/file';
 import { RootState } from '../../../../Store';
-import { updateUploadedImages } from '../../../../Store/UploadedImages';
+import {
+  deletedImages,
+  updateUploadedImages,
+} from '../../../../Store/UploadedImages';
 import { RED_WARNING } from '../../../../assets';
 import {
   BUTTON_LABELS,
@@ -84,6 +88,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const uploadedImages = useSelector(
       (state: RootState) => state.UploadedImages.images
     );
+    const deletedIds = useSelector(
+      (state: RootState) => state.UploadedImages.deletedIds
+    );
     // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION
     const isProductAuction = useMemo(
       () =>
@@ -148,9 +155,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     );
 
     const imageList = {
-      files: [...(data?.files || []), ...(uploadedImages || [])],
+      files: [...(uploadedImages || [])],
     };
-
+    useEffect(() => {
+      dispatch(updateUploadedImages(data?.files));
+    }, [data?.files, dispatch]);
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
@@ -306,28 +315,37 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       const fileId = deleteModal?.data?.fileId;
       const isMultiDelete = deleteModal?.data?.isMultiDelete;
       try {
-        await fileDelete({
-          payload: { fileId },
-
-          onSuccess: (res: { message: string }) => {
-            toast.success(res?.message);
-            handleCloseDelete();
-            if (isProductAuction && !isCreateProductAuction) {
-              refetch();
-            } else if (!isProductAuction) {
-              refetch();
-            }
-          },
-        });
         if (isProductAuction) {
-          const filteredImages = (uploadedImages || imageList?.files)?.filter(
-            (file) => !fileId?.includes(file._id)
+          handleCloseDelete();
+          const filteredImages = (uploadedImages || [])?.filter(
+            (file: { _id: string }) => !fileId?.includes(file._id)
           );
+          const deletedImagesFromList = (uploadedImages || [])?.filter(
+            (file: { _id: string }) => fileId?.includes(file._id)
+          );
+          const deletedImagesArray = [
+            ...(deletedIds || []),
+            ...(deletedImagesFromList || []),
+          ];
+          dispatch(deletedImages(deletedImagesArray));
           dispatch(updateUploadedImages(filteredImages));
           if (isMultiDelete) {
             setChooseFile([]);
             onChange([]);
           }
+        } else {
+          await fileDelete({
+            payload: { fileId },
+            onSuccess: (res: { message: string }) => {
+              toast.success(res?.message);
+              handleCloseDelete();
+              if (isProductAuction && !isCreateProductAuction) {
+                refetch();
+              } else if (!isProductAuction) {
+                refetch();
+              }
+            },
+          });
         }
       } catch (error: unknown) {
         if (error instanceof Error) {

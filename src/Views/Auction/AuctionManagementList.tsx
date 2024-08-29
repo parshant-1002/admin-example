@@ -10,7 +10,6 @@ import { debounce } from 'lodash';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
   Column,
   Row,
@@ -296,27 +295,25 @@ export default function AuctionManagementList() {
         showClose={false}
       />
       {editData?.show && (
-        <CustomModal
+        <AuctionForm
           title="Edit"
           show={editData?.show}
           onClose={handleCloseForm}
-        >
-          <AuctionForm
-            isEdit
-            initialData={editData?.data}
-            onEdit={handleEditSuccess}
-          />
-        </CustomModal>
+          isEdit
+          initialData={editData?.data}
+          onEdit={handleEditSuccess}
+        />
       )}
 
       {addData && (
-        <CustomModal title="Add" show={addData} onClose={handleCloseForm}>
-          <AuctionForm
-            isEdit={false}
-            initialData={{}}
-            onAdd={handleAddSuccess}
-          />
-        </CustomModal>
+        <AuctionForm
+          title="Add"
+          show={addData}
+          onClose={handleCloseForm}
+          isEdit={false}
+          initialData={{}}
+          onAdd={handleAddSuccess}
+        />
       )}
 
       <StatsFilters

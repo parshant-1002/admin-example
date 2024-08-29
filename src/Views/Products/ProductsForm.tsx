@@ -3,7 +3,7 @@ import { SyntheticEvent } from 'react';
 
 // components
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   useAddProductMutation,
   useEditProductMutation,
@@ -14,9 +14,15 @@ import CustomForm from '../../Shared/components/form/CustomForm';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
-import { updateUploadedImages } from '../../Store/UploadedImages';
+import {
+  deletedImages,
+  updateUploadedImages,
+} from '../../Store/UploadedImages';
 import { PRODUCT_FORM_SCHEMA } from './helpers/constants';
 import { ProductPayload, SelectOption } from './helpers/model';
+import { useFileDeleteMutation } from '../../Services/Api/module/file';
+import { RootState } from '../../Store';
+import { CustomModal } from '../../Shared/components';
 
 interface ProductFormTypes {
   initialData: { _id?: string } | null;
@@ -24,6 +30,9 @@ interface ProductFormTypes {
   onAdd?: () => void;
   onEdit?: () => void;
   categoryOptions: SelectOption[];
+  title: string;
+  show: boolean;
+  onClose: () => void;
 }
 // component
 export default function ProductForm({
@@ -32,16 +41,40 @@ export default function ProductForm({
   onEdit = () => {},
   onAdd = () => {},
   categoryOptions = [],
+  title = '',
+  show = false,
+  onClose = () => {},
 }: ProductFormTypes) {
   // hooks
   const dispatch = useDispatch();
   const [addProduct] = useAddProductMutation();
   const [editProduct] = useEditProductMutation();
+  const [fileDelete] = useFileDeleteMutation();
+  const deletedFiles = useSelector(
+    (state: RootState) => state?.UploadedImages?.deletedIds
+  );
+  const uploadedFiles = useSelector(
+    (state: RootState) => state?.UploadedImages?.images
+  );
 
-  //   const dispatch = useDispatch();
+  const deleteFiles = async () => {
+    const fileIds = (deletedFiles || [])?.map(
+      (file: { _id: string }) => file?._id
+    );
+    if (fileIds?.length) {
+      await fileDelete({
+        payload: { fileId: fileIds },
+
+        onSuccess: () => {
+          dispatch(deletedImages(null));
+        },
+      });
+    }
+  };
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
     onAdd();
+    deleteFiles();
     dispatch(updateUploadedImages([]));
   };
   const onSubmit = async (
@@ -104,16 +137,25 @@ export default function ProductForm({
       }
     }
   };
+  const handleClose = () => {
+    dispatch(
+      updateUploadedImages([...(uploadedFiles || []), ...(deletedFiles || [])])
+    );
+    dispatch(deletedImages(null));
+    onClose();
+  };
   return (
-    <CustomForm
-      id="products"
-      className="row"
-      formData={PRODUCT_FORM_SCHEMA(categoryOptions, initialData?._id)}
-      onSubmit={onSubmit}
-      defaultValues={
-        initialData as unknown as Record<string, unknown> | undefined
-      }
-      submitText={isEdit ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
-    />
+    <CustomModal title={title} show={show} onClose={handleClose}>
+      <CustomForm
+        id="products"
+        className="row"
+        formData={PRODUCT_FORM_SCHEMA(categoryOptions, initialData?._id)}
+        onSubmit={onSubmit}
+        defaultValues={
+          initialData as unknown as Record<string, unknown> | undefined
+        }
+        submitText={isEdit ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
+      />
+    </CustomModal>
   );
 }

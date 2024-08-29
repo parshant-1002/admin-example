@@ -2,7 +2,7 @@
 import { SyntheticEvent, useMemo, useState } from 'react';
 
 // components
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import CustomForm from '../../Shared/components/form/CustomForm';
 
@@ -24,9 +24,15 @@ import {
   useEditAuctionMutation,
 } from '../../Services/Api/module/auction';
 
+import { useFileDeleteMutation } from '../../Services/Api/module/file';
 import { useGetProductsQuery } from '../../Services/Api/module/products';
+import { CustomModal } from '../../Shared/components';
 import { addBaseUrl } from '../../Shared/utils/functions';
-import { updateUploadedImages } from '../../Store/UploadedImages';
+import { RootState } from '../../Store';
+import {
+  deletedImages,
+  updateUploadedImages,
+} from '../../Store/UploadedImages';
 import { AuctionResponsePayload } from './helpers/model';
 
 interface ProductFormTypes {
@@ -34,6 +40,9 @@ interface ProductFormTypes {
   isEdit: boolean;
   onAdd?: () => void;
   onEdit?: () => void;
+  title: string;
+  show: boolean;
+  onClose: () => void;
 }
 type OptionType = { value: string; label: string };
 type AuctionFormFieldType = number | string | OptionType | unknown;
@@ -43,6 +52,9 @@ export default function AuctionForm({
   initialData = {},
   onEdit = () => {},
   onAdd = () => {},
+  title = '',
+  show = false,
+  onClose = () => {},
 }: ProductFormTypes) {
   // hooks
   const dispatch = useDispatch();
@@ -81,11 +93,34 @@ export default function AuctionForm({
       })),
     [productList?.data]
   );
+  const [fileDelete] = useFileDeleteMutation();
+  const deletedFiles = useSelector(
+    (state: RootState) => state?.UploadedImages?.deletedIds
+  );
+  const uploadedFiles = useSelector(
+    (state: RootState) => state?.UploadedImages?.images
+  );
+
+  const deleteFiles = async () => {
+    const fileIds = (deletedFiles || [])?.map(
+      (file: { _id: string }) => file?._id
+    );
+    if (fileIds?.length) {
+      await fileDelete({
+        payload: { fileId: fileIds },
+
+        onSuccess: () => {
+          dispatch(deletedImages(null));
+        },
+      });
+    }
+  };
   //   const dispatch = useDispatch();
   const onSuccess = (res: { message: string }) => {
     toast.success(res?.message);
     onAdd();
     dispatch(updateUploadedImages([]));
+    deleteFiles();
   };
 
   const onSubmit = async (
@@ -175,24 +210,32 @@ export default function AuctionForm({
       }
     }
   };
-
+  const handleClose = () => {
+    dispatch(
+      updateUploadedImages([...(uploadedFiles || []), ...(deletedFiles || [])])
+    );
+    dispatch(deletedImages(null));
+    onClose();
+  };
   return (
-    <CustomForm
-      id="products"
-      className="row"
-      formData={AUCTION_ADD_FORM_SCHEMA(
-        cateroryOptions,
-        productOptions,
-        initialData,
-        isEdit,
-        selectedProductDetails
-      )}
-      handleStateDataChange={handleStateChange}
-      onSubmit={onSubmit}
-      defaultValues={
-        initialData as unknown as Record<string, unknown> | undefined
-      }
-      submitText={isEdit ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
-    />
+    <CustomModal title={title} show={show} onClose={handleClose}>
+      <CustomForm
+        id="products"
+        className="row"
+        formData={AUCTION_ADD_FORM_SCHEMA(
+          cateroryOptions,
+          productOptions,
+          initialData,
+          isEdit,
+          selectedProductDetails
+        )}
+        handleStateDataChange={handleStateChange}
+        onSubmit={onSubmit}
+        defaultValues={
+          initialData as unknown as Record<string, unknown> | undefined
+        }
+        submitText={isEdit ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
+      />
+    </CustomModal>
   );
 }
