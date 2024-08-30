@@ -37,7 +37,10 @@ export const GEARBOX_TYPE = {
   MANUAL: 1,
   AUTOMATIC: 2,
 };
-
+export const PRODUCT_AVAILABILITY_STATUS = {
+  AVAILABLE: 1,
+  SOLD_OUT: 2,
+};
 export const GEARBOX_OPTIONS = [
   { value: 1, label: 'MANUAL' },
   { value: 2, label: 'AUTOMATIC' },
@@ -57,9 +60,9 @@ export const PRODUCT_STATUS = [
   { value: 3, label: 'Ended' },
 ];
 
-export const PRODUCT_AVAILABILITY_STATUS = [
-  { value: 1, label: 'SOLD OUT' },
-  { value: 2, label: 'Available' },
+export const PRODUCT_AVAILABILITY_STATUS_OPTIONS = [
+  { value: PRODUCT_AVAILABILITY_STATUS.SOLD_OUT, label: 'SOLD OUT' },
+  { value: PRODUCT_AVAILABILITY_STATUS.AVAILABLE, label: 'Available' },
 ];
 
 export const PRODUCT_FORM_SCHEMA = (

@@ -29,7 +29,7 @@ import {
   CONFIRMATION_DESCRIPTION,
   FUEL_OPTIONS,
   GEARBOX_OPTIONS,
-  PRODUCT_AVAILABILITY_STATUS,
+  PRODUCT_AVAILABILITY_STATUS_OPTIONS,
   PRODUCT_STATUS,
   SPECIFICATIONS,
   productsColumns,
@@ -384,7 +384,7 @@ export default function ProductsList() {
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
         brandOptions={categoryOptions}
-        statusOptions={PRODUCT_AVAILABILITY_STATUS}
+        statusOptions={PRODUCT_AVAILABILITY_STATUS_OPTIONS}
         showDateFilter
         priceRange={PRICE_RANGE}
         handleApply={handleApplyFilters}

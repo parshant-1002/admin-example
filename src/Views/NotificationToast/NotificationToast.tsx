@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable consistent-return */
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Toast } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNotificationsQuery } from '../../Services/Api/module/notificationApi/index';
@@ -58,11 +58,12 @@ function NotificationToast() {
     limit: LIMIT,
   });
 
-  const handleMessage = useCallback(
-    (event: NotificationEvent) => {
-      const { title, message, url, icon, image } = event.data;
-      setShow(true);
+  const handleMessage = (event: NotificationEvent) => {
+    const { title, message, url, icon, image } = event.data;
+    console.log(' NotificationToast ~ event.data:', event);
 
+    if (title || message || url || icon || image) {
+      setShow(true);
       setNotification({
         title,
         body: message,
@@ -72,19 +73,18 @@ function NotificationToast() {
         isLocked: false, // default value
         createdAt: new Date().toISOString(), // current timestamp or any other appropriate value
       });
-      if (title || message || url || icon || image) setPageNo(1);
-      dispatch(setUnseenCount(unseenCount + 1));
-      console.log('Received Notification in React Component:', {
-        title,
-        message,
-        url,
-        icon,
-        image,
-        data,
-      });
-    },
-    [data, dispatch, unseenCount]
-  );
+      setPageNo(1);
+    }
+    dispatch(setUnseenCount(unseenCount + 1));
+    console.log('Received Notification in React Component:', {
+      title,
+      message,
+      url,
+      icon,
+      image,
+      data,
+    });
+  };
 
   useEffect(() => {
     try {
@@ -98,7 +98,7 @@ function NotificationToast() {
     } catch (error) {
       console.error('Error setting up push notification:', error);
     }
-  }, [handleMessage]);
+  }, []);
   const handleClose = () => {
     setShow(false);
   };

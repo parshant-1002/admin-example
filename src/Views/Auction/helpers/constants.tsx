@@ -299,11 +299,12 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   socialMediaShareReward: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Social Media Share Reward',
+    label: 'Social Media Share Reward (SEK)',
     className: 'col-md-6',
-    placeholder: 'Social Media Share Reward',
+    placeholder: 'Social Media Share Reward (SEK)',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Social Media Share Reward').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Social Media Share Reward (SEK)')
+        .REQUIRED,
       min: {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,

@@ -33,6 +33,7 @@ import {
   deletedImages,
   updateUploadedImages,
 } from '../../Store/UploadedImages';
+import { PRODUCT_AVAILABILITY_STATUS } from '../Products/helpers/constants';
 import { AuctionResponsePayload } from './helpers/model';
 
 interface ProductFormTypes {
@@ -69,7 +70,7 @@ export default function AuctionForm({
   );
   const { data: productList } = useGetProductsQuery(
     {
-      params: { nonAssignedProduct: true },
+      params: { status: PRODUCT_AVAILABILITY_STATUS.AVAILABLE },
     },
     {
       refetchOnMountOrArgChange: true,
