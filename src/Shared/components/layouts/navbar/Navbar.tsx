@@ -7,21 +7,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from '../../../../Services/Api/module/auth';
+import { RootState } from '../../../../Store';
 import { updateAuthTokenRedux } from '../../../../Store/Common';
 import NotificationModal from '../../../../Views/NotificationModal';
 import NotificationToast from '../../../../Views/NotificationToast';
 import ProfileDropdown from './ProfileDropdown';
 import './navbar.scss';
 
-// Define the state type for useSelector
-interface RootState {
-  common: {
-    userData: { profilePicture: string }; // Adjust the type based on your user data structure
-  };
-}
-
 function Navbar() {
   const userData = useSelector((state: RootState) => state?.common?.userData);
+  const unseenCount = useSelector(
+    (state: RootState) => state?.unseenCount?.count
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
@@ -74,8 +71,11 @@ function Navbar() {
               setNotificationListingData(!notificationListingData);
             }}
             type="button"
-            className="custom-close-button"
+            className="custom-close-button position-relative"
           >
+            {unseenCount ? (
+              <div className="unseen-count">{unseenCount}</div>
+            ) : null}
             <svg
               className="icon"
               fill="none"

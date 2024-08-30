@@ -6,32 +6,41 @@
         z-index: 100;
         border: 1px solid #cfcfcf;
         padding: 22px;
-        border-radius: 6px;        
-        @media (max-width: 767.98px){
-            position: $relative; 
-         }
-        .chrome-picker{
+        border-radius: 6px;
+
+        @media (max-width: 767.98px) {
+            position: $relative;
+        }
+
+        .chrome-picker {
             display: flex;
-            @media (min-width: 768px){
-                width: 250px !important; 
-             }
-            @media (min-width: 992px){
-                width: 360px !important; 
-             }   
-            @media (min-width: 1200px){
-                width: 340px !important; 
-             }
-            @media (min-width: 1300px){
-               width: 380px !important; 
-            }        
-            @media (max-width: 767.98px){
-                width: 100% !important; 
-             }
-            &>div:first-child{
+
+            @media (min-width: 768px) {
+                width: 250px !important;
+            }
+
+            @media (min-width: 992px) {
+                width: 360px !important;
+            }
+
+            @media (min-width: 1200px) {
+                width: 340px !important;
+            }
+
+            @media (min-width: 1300px) {
+                width: 380px !important;
+            }
+
+            @media (max-width: 767.98px) {
+                width: 100% !important;
+            }
+
+            &>div:first-child {
                 width: 58% !important;
                 padding-bottom: 40% !important;
             }
-            &>div:last-child{
+
+            &>div:last-child {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -44,4 +53,57 @@
         @include position($fixed, $top: 0, $left: 0, $bottom: 0, $right: 0);
         background: $transparent;
     }
+}
+
+.color-picker-container {
+    display: flex;
+    flex-direction: column;
+    color: $black-color;
+}
+
+.color-picker-header {
+    font-size: 18px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.color-picker-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.color-box {
+    display: flex;
+    border: 1px solid $black-color;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+.selected-color {
+    width: 30px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+}
+
+.color-code-input {
+    border: none;
+    outline: none;
+    background-color: #ffffff;
+    padding: 5px;
+    font-size: 16px;
+    width: 100px;
+    text-align: center;
+}
+
+.color-picker-cover {
+    position: absolute;
+    z-index: 2;
+    margin-left: 150px;
+    top:-70px
+}
+
+.refresh-icon {
+    cursor: pointer;
 }

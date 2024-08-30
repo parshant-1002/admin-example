@@ -25,7 +25,7 @@ const AUCTION_ENDED_FORM_SCHEMA = {
   icon: {
     type: INPUT_TYPES.FILE,
     label: 'Icon',
-    className: 'col-md-6',
+    className: 'col-md-12',
     accept: IMAGE_FILE_TYPES,
     placeholder: 'Icon',
     schema: {
@@ -35,7 +35,7 @@ const AUCTION_ENDED_FORM_SCHEMA = {
   backgroundColor: {
     type: INPUT_TYPES.COLOR,
     label: 'Background Color',
-    className: 'col-md-6',
+    className: 'col-md-12',
     placeholder: 'Background Color',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Background Color').REQUIRED,

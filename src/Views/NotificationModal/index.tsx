@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   useClearAllNotificationsMutation,
   useNotificationsQuery,
 } from '../../Services/Api/module/notificationApi/index';
 import InfiniteScroll from '../../Shared/components/InfiniteScroll';
-import './notifications.scss';
-import { addBaseUrl } from '../../Shared/utils/functions';
-import { cross } from '../../assets';
 import { BUTTON_LABELS } from '../../Shared/constants';
+import { addBaseUrl } from '../../Shared/utils/functions';
+import { setUnseenCount } from '../../Store/UnseenCount';
+import { cross } from '../../assets';
+import './notifications.scss';
 
 const LIMIT = 10;
 
@@ -37,6 +39,7 @@ interface NotificationModalProps {
 function NotificationModal({
   handleChange = () => {},
 }: NotificationModalProps) {
+  const dispatch = useDispatch();
   const [pageno, setPageNo] = useState<number>(1);
   const [totalCount, setTotalCount] = useState<number>(1);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -68,6 +71,7 @@ function NotificationModal({
     try {
       const success = await clearAllNotification({}).unwrap(); // No arguments passed here
       if (success) {
+        dispatch(setUnseenCount(0));
         setNotifications([]);
         setTotalCount(0);
       }

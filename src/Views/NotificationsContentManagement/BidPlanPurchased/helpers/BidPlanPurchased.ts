@@ -35,7 +35,7 @@ const BID_PLAN_PURCHASED_FORM_SCHEMA = {
   backgroundColor: {
     type: INPUT_TYPES.COLOR,
     label: 'Background Color',
-    className: 'col-md-6',
+    className: 'col-md-12',
     placeholder: 'Background Color',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Background Color').REQUIRED,

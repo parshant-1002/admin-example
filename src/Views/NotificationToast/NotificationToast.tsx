@@ -3,12 +3,13 @@
 /* eslint-disable consistent-return */
 import { useCallback, useEffect, useState } from 'react';
 import { Toast } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNotificationsQuery } from '../../Services/Api/module/notificationApi/index';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import { RootState } from '../../Store/index';
 import { whiteCross } from '../../assets';
 import './notificationToast.scss';
+import { setUnseenCount } from '../../Store/UnseenCount';
 
 const LIMIT = 10;
 
@@ -42,6 +43,7 @@ interface NotificationEvent {
 }
 
 function NotificationToast() {
+  const dispatch = useDispatch();
   const [pageNo, setPageNo] = useState<number>(1);
   const [show, setShow] = useState<boolean>(false);
   const [notification, setNotification] = useState<
@@ -68,7 +70,7 @@ function NotificationToast() {
         createdAt: new Date().toISOString(), // current timestamp or any other appropriate value
       });
       if (title || message || url || icon || image) setPageNo(1);
-
+      dispatch(setUnseenCount(data?.count));
       console.log('Received Notification in React Component:', {
         title,
         message,
@@ -78,7 +80,7 @@ function NotificationToast() {
         data,
       });
     },
-    [data]
+    [data, dispatch]
   );
 
   useEffect(() => {
