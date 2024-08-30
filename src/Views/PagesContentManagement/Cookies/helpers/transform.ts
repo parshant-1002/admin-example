@@ -7,8 +7,11 @@ interface SectionItem {
 export interface CookiesFormData {
   title: string;
   description: string;
-  moreInormationTitle: string;
+  moreInformationTitle: string;
+  headerImageFileId: string;
+  headerImageURL: string;
   sections: string[];
+  image: [{ fileURL: string; fileId: string }];
 }
 
 // Define the transform function to convert form data to API request format
@@ -19,7 +22,9 @@ export const transformAPIRequestDataCookies = (
   return {
     title: data.title,
     description: data.description,
-    moreInormationTitle: data.moreInormationTitle,
+    headerImageFileId: data?.image?.[0]?.fileId,
+    headerImageURL: data?.image?.[0]?.fileURL,
+    moreInformationTitle: data.moreInformationTitle,
     sections: roadMap.map((section) => section.content),
   };
 };
@@ -31,6 +36,7 @@ export const transAPIRequestDataToFormCookies = (
   return {
     title: data?.title || '',
     description: data?.description || '',
-    moreInormationTitle: data?.moreInormationTitle || '',
+    image: [{ fileURL: data?.headerImageURL, fileId: data?.headerImageFileId }],
+    moreInformationTitle: data?.moreInformationTitle || '',
   };
 };

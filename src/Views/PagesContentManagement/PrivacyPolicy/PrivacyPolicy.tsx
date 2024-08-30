@@ -24,7 +24,6 @@ import { isErrors } from '../../../Shared/utils/functions';
 const initialState: AddContentFormItem = {
   title: '',
   content: '',
-  moreInormationTitle: '',
   errors: {},
 };
 

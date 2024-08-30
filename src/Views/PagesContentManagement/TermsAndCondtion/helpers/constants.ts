@@ -1,4 +1,7 @@
-import { INPUT_TYPES } from '../../../../Shared/constants/index';
+import {
+  IMAGE_FILE_TYPES,
+  INPUT_TYPES,
+} from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const TERMS_AND_CONDITIONS_FORM_SCHEMA = {
@@ -16,7 +19,7 @@ const TERMS_AND_CONDITIONS_FORM_SCHEMA = {
     },
   },
   description: {
-    type: INPUT_TYPES.TEXT,
+    type: INPUT_TYPES.RICH_TEXT,
     label: 'Description',
     className: 'col-md-12',
     placeholder: 'Terms and Conditions Description',
@@ -28,7 +31,17 @@ const TERMS_AND_CONDITIONS_FORM_SCHEMA = {
       },
     },
   },
-  moreInormationTitle: {
+  image: {
+    type: INPUT_TYPES.FILE,
+    label: 'Header Image',
+    className: 'col-md-12',
+    accept: IMAGE_FILE_TYPES,
+    placeholder: 'Header Image',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+  moreInformationTitle: {
     type: INPUT_TYPES.TEXT,
     label: 'Terms and Conditions more Information Title',
     className: 'col-md-12',

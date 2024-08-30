@@ -7,8 +7,11 @@ interface SectionItem {
 export interface AboutUsFormData {
   title: string;
   description: string;
-  moreInormationTitle: string;
+  moreInformationTitle: string;
+  headerImageFileId: string;
+  headerImageURL: string;
   sections: string[];
+  image: [{ fileURL: string; fileId: string }];
 }
 
 // Define the transform function to convert form data to API request format
@@ -19,7 +22,9 @@ export const transformAPIRequestDataAboutUs = (
   return {
     title: data.title,
     description: data.description,
-    moreInormationTitle: data.moreInormationTitle,
+    moreInformationTitle: data.moreInformationTitle,
+    headerImageFileId: data?.image?.[0]?.fileId,
+    headerImageURL: data?.image?.[0]?.fileURL,
     sections: roadMap.map((section) => section.content),
   };
 };
@@ -31,6 +36,7 @@ export const transAPIRequestDataToFormAboutUs = (
   return {
     title: data?.title || '',
     description: data?.description || '',
-    moreInormationTitle: data?.moreInormationTitle || '',
+    image: [{ fileURL: data?.headerImageURL, fileId: data?.headerImageFileId }],
+    moreInformationTitle: data?.moreInformationTitle || '',
   };
 };

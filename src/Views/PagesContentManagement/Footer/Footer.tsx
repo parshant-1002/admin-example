@@ -95,14 +95,14 @@ function Footer() {
         content?.data?.[CONTENT_ENUMS.FOOTER],
         'sectionEntries2'
       );
-      const sectionEntries3 = transfornSectionEntriesData(
-        content?.data?.[CONTENT_ENUMS.FOOTER],
-        'sectionEntries3'
-      );
+      // const sectionEntries3 = transfornSectionEntriesData(
+      //   content?.data?.[CONTENT_ENUMS.FOOTER],
+      //   'sectionEntries3'
+      // );
       setSocialConnectContent(formGetData);
       setSection1Content(sectionEntries1);
       setSection2Content(sectionEntries2);
-      setSection3Content(sectionEntries3);
+      // setSection3Content(sectionEntries3);
     }
   }, [content]);
   const onSubmit = async (data: Record<string, unknown>) => {

@@ -119,7 +119,7 @@ function NotificationModal({
                 __html: notification.htmlDescription || '',
               }}
             />
-            <a href={notification.link}>Read more</a>
+            {/* <a href={notification.link}>Read more</a> */}
           </div>
         </div>
       </div>

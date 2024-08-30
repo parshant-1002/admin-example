@@ -80,7 +80,7 @@ const RichText = forwardRef<Jodit, RichTextProps>(
           'cut',
           'selectall',
         ],
-        disablePlugins: ['paste', 'stat', 'color'],
+        disablePlugins: ['paste', 'stat'],
         events: {},
         textIcons: false,
         showXPathInStatusbar: false,
