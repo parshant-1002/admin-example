@@ -10,7 +10,7 @@ import './App.scss';
 import RootRouter from './Routes/RootRouter';
 import Loader from './Shared/components/loader';
 import {
-  getDeviceIdAndBrowserName,
+  // getDeviceIdAndBrowserName,
   setNotificationDeviceToken,
 } from './Shared/utils/functions';
 import { persistor, store } from './Store';
@@ -37,14 +37,14 @@ function App() {
       userToken: string | null;
       token: string | null;
     }) => {
-      const { deviceId, browserName } = getDeviceIdAndBrowserName();
+      // const { deviceId, browserName } = getDeviceIdAndBrowserName();
 
       if (userToken && token && deviceToken !== token) {
         updateRegistration({
           payload: {
             registrationToken: token,
-            deviceId,
-            browserName,
+            // deviceId,
+            // browserName,
           },
           onFailure: (res: { message: ErrorResponse }) => {
             if (!res) {
