@@ -314,7 +314,7 @@ function getBrowserName() {
 
   return browserName;
 }
-export function getDeviceIdAndBrowserName() {
+function getDeviceIdAndBrowserName() {
   // Attempt to retrieve the device ID from local storage
   let deviceId = localStorage.getItem('deviceId');
 
@@ -332,39 +332,11 @@ export function getDeviceIdAndBrowserName() {
 
   return { deviceId, browserName };
 }
-export const setNotificationDeviceToken = (token: string) => {
+const setNotificationDeviceToken = (token: string) => {
   const { dispatch = () => {} } = store;
   dispatch(updateDeviceTokenRedux(token));
 };
 
-export const updateNotificationToken = ({
-  deviceToken = '',
-  userToken = '',
-  token = '',
-}: {
-  deviceToken: string | null;
-  userToken: string | null;
-  token: string | null;
-}) => {
-  // const { deviceId, browserName } = getDeviceIdAndBrowserName();
-  if (userToken && token && deviceToken !== token) {
-    // const { dispatch = () => {} } = store;
-    // dispatch(
-    //   updateFirebaseToken(
-    //     {
-    //       registrationToken: token,
-    //       deviceId,
-    //       browserName,
-    //     },
-    //     (res) => {
-    //       if (!res) {
-    //         console.log('error in updating firebase/notification token');
-    //       }
-    //     }
-    //   )
-    // );
-  }
-};
 export {
   addBaseUrl,
   capitalizeFirstLetter,
@@ -384,4 +356,6 @@ export {
   removeEmptyValues,
   renderIdWithHash,
   validateField,
+  setNotificationDeviceToken,
+  getDeviceIdAndBrowserName,
 };

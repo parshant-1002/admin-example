@@ -57,11 +57,11 @@ function NotificationModal({
   useEffect(() => {
     if (data?.data?.length) {
       const notificationData = data.data;
-
+      dispatch(setUnseenCount(data?.count));
       setNotifications(notificationData);
       setTotalCount((prev) => prev + 10);
     }
-  }, [pageno, data]);
+  }, [pageno, data, dispatch]);
 
   const fetchNotifications = () => {
     setPageNo((prevPageNo) => prevPageNo + 1);

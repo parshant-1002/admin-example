@@ -10,10 +10,12 @@ import './App.scss';
 import RootRouter from './Routes/RootRouter';
 import Loader from './Shared/components/loader';
 import {
+  getDeviceIdAndBrowserName,
   setNotificationDeviceToken,
-  updateNotificationToken,
 } from './Shared/utils/functions';
 import { persistor, store } from './Store';
+import { ErrorResponse } from './Models/Apis/Error';
+import { useUpdateRegistrationTokenMutation } from './Services/Api/module/notificationApi';
 
 const baseName = import.meta.env.VITE_BASE_NAME;
 interface Window {
@@ -24,6 +26,36 @@ interface Window {
   pushalertbyiw?: unknown[]; // Adjust the type as per your actual implementation
 }
 function App() {
+  const [updateRegistration] = useUpdateRegistrationTokenMutation();
+  const updateNotificationToken = useCallback(
+    ({
+      deviceToken = '',
+      userToken = '',
+      token = '',
+    }: {
+      deviceToken: string | null;
+      userToken: string | null;
+      token: string | null;
+    }) => {
+      const { deviceId, browserName } = getDeviceIdAndBrowserName();
+
+      if (userToken && token && deviceToken !== token) {
+        updateRegistration({
+          payload: {
+            registrationToken: token,
+            deviceId,
+            browserName,
+          },
+          onFailure: (res: { message: ErrorResponse }) => {
+            if (!res) {
+              console.log('error in updating firebase/notification token');
+            }
+          },
+        });
+      }
+    },
+    [updateRegistration]
+  );
   const onNotification = (data: unknown) => {
     console.log('PushAlert Notification Received:', data);
     // Add your notification handling logic here
@@ -32,18 +64,21 @@ function App() {
     console.log(result?.status);
     console.log('PERMISSION Denied');
   };
-  const handleSuccessPushAlert = (
-    subscriptionDetails: { subscriber_id: string },
-    deviceToken: string | null,
-    userToken: string | null
-  ) => {
-    const token = subscriptionDetails?.subscriber_id;
-    console.log('onSuccess token from pushAlert ', token);
-    if (token) {
-      setNotificationDeviceToken(token);
-      updateNotificationToken({ deviceToken, userToken, token });
-    }
-  };
+  const handleSuccessPushAlert = useCallback(
+    (
+      subscriptionDetails: { subscriber_id: string },
+      deviceToken: string | null,
+      userToken: string | null
+    ) => {
+      const token = subscriptionDetails?.subscriber_id;
+      console.log('onSuccess token from pushAlert ', token);
+      if (token) {
+        setNotificationDeviceToken(token);
+        updateNotificationToken({ deviceToken, userToken, token });
+      }
+    },
+    [updateNotificationToken]
+  );
 
   const getTokenPushAlert = useCallback(
     (deviceToken: string | null, userToken: string | null) => {
@@ -63,7 +98,7 @@ function App() {
       ]);
       (windowObject.pushalertbyiw || []).push(['onFailure', callbackOnFailure]);
     },
-    []
+    [updateNotificationToken]
   );
 
   useEffect(() => {
@@ -79,7 +114,7 @@ function App() {
       (subscriptionDetails: { subscriber_id: string }) =>
         handleSuccessPushAlert(subscriptionDetails, deviceToken, userToken),
     ]);
-  }, [getTokenPushAlert]);
+  }, [getTokenPushAlert, handleSuccessPushAlert]);
 
   return (
     <Provider store={store}>

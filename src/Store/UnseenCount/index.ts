@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const unseenCount = createSlice({
   name: 'unseenCount',
-  initialState: { count: false },
+  initialState: { count: 0 },
   reducers: {
     setUnseenCount: (state, action) => ({
       ...state,

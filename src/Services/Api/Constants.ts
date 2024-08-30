@@ -36,6 +36,7 @@ export const API_END_POINTS = {
   BIDS_PLAN_INVOICE: '/bidPlan/generateInvoice',
   BID_CREDIT_INVOICE: '/user/bidCreditHistory/generateInvoice',
   NOTIFICATIONS_CLEAR_ALL: '/notification/clearNotificationHistory',
+  UPDATE_REGISTRATION_TOKEN: '/updateRegistrationToken',
   NOTIFICATIONS_HISTORY: '/notification/fetchUserHistory',
 };
 

@@ -50,6 +50,9 @@ function NotificationToast() {
     NotificationInApp | undefined
   >(undefined);
   const userToken = useSelector((state: RootState) => state.common.token);
+  const unseenCount = useSelector(
+    (state: RootState) => state.unseenCount.count
+  );
   const { data } = useNotificationsQuery({
     skip: pageNo - 1,
     limit: LIMIT,
@@ -70,7 +73,7 @@ function NotificationToast() {
         createdAt: new Date().toISOString(), // current timestamp or any other appropriate value
       });
       if (title || message || url || icon || image) setPageNo(1);
-      dispatch(setUnseenCount(data?.count));
+      dispatch(setUnseenCount(unseenCount + 1));
       console.log('Received Notification in React Component:', {
         title,
         message,
@@ -80,7 +83,7 @@ function NotificationToast() {
         data,
       });
     },
-    [data, dispatch]
+    [data, dispatch, unseenCount]
   );
 
   useEffect(() => {

@@ -21,9 +21,22 @@ export const notificationApi = api.injectEndpoints({
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
+    updateRegistrationToken: builder.mutation({
+      query: ({ payload }) => ({
+        url: API_END_POINTS.UPDATE_REGISTRATION_TOKEN,
+        method: HTTPS_METHODS.PUT,
+        body: payload,
+      }),
+      async onQueryStarted(arg, { queryFulfilled }) {
+        onQueryStarted(arg, { queryFulfilled });
+      },
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useNotificationsQuery, useClearAllNotificationsMutation } =
-  notificationApi;
+export const {
+  useNotificationsQuery,
+  useClearAllNotificationsMutation,
+  useUpdateRegistrationTokenMutation,
+} = notificationApi;
