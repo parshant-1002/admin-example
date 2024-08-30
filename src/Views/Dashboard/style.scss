@@ -3,6 +3,11 @@
 .dashboad-cards {
     .card {
         @include border-radius (24px);
+        @include transition-mixin (all, .3s, ease-in-out);
+        &:hover{
+            box-shadow: $none;
+            transform: scale(0.99);
+        }
 
         &-body {
             @include border-radius (24px);
@@ -188,7 +193,6 @@
     @include border-radius (5px);
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
     @include border-radius (10px);
-
     &-body {
         background-color: rgba($white-color, 1);
         @include border-radius (5px);

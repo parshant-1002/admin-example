@@ -65,7 +65,7 @@ function Navbar() {
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>
       <nav className="header-nav ms-auto">
-        <ul className="d-flex gap-2 align-items-center">
+        <ul className="d-flex gap-2 align-items-center list-inline">
           <button
             onClick={() => {
               setNotificationListingData(!notificationListingData);

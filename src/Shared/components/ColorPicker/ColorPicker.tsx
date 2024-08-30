@@ -51,7 +51,7 @@ export default function ColorPicker({
                   className="selected-color"
                   style={{ backgroundColor: colorValue || '#fff' }}
                 />
-                <div className=" text-center">
+                <div className="d-flex flex-column align-items-center justify-content-center">
                   <div className="color-picker-header">
                     Select Color{' '}
                     <span
@@ -64,7 +64,7 @@ export default function ColorPicker({
                     </span>
                   </div>
                   <span
-                    className=" border px-5 py-1 pointer bg-grey-100"
+                    className="pointer color-code"
                     onClick={() => setShowPicker((prev) => !prev)}
                   >
                     {colorValue}
