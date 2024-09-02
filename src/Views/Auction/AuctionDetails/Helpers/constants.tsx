@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { ColumnData } from '../../../../Models/Tables';
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 import { DATE_FORMATS } from '../../../../Shared/constants';
-import { convertToLocale } from '../../../../Shared/utils/functions';
+import { convertToLocale, formatDate } from '../../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../../Products/helpers/model';
 import { ProductDetailResponsePayload } from './Model';
 import { SelectOption } from '../../../../Models/common';
@@ -344,19 +344,13 @@ export const AuctionBidColumn = (): ColumnData[] => [
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
-    render: (_, val) => {
-      const date = new Date(val);
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-      const day = date.getDate().toString().padStart(2, '0');
-      return `${day}-${month}-${year}`;
-    },
+    render: (_, createdAt) =>
+      createdAt ? formatDate(createdAt as string) : '-.-',
   },
   {
     title: 'Item Price (SEK)',
     sortable: true,
     sortType: 'currentBidPrice',
-    fieldName: 'currentBidPrice',
-    render: (row) => `${convertToLocale(row?.reservePrice)}`,
+    render: (row) => `${convertToLocale(row?.currentBidPrice)}`,
   },
 ];

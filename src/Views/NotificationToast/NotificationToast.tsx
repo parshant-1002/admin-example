@@ -100,6 +100,11 @@ function NotificationToast() {
       console.error('Error setting up push notification:', error);
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(setUnseenCount(data?.count));
+  }, [data]);
+
   const handleClose = () => {
     setShow(false);
   };

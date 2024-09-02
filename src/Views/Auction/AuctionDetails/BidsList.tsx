@@ -151,10 +151,11 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
         showDateFilter
+        heading={`History (${userAuctionHistory?.count})`}
+        showHeading
         rangeSilderTitle="Item Price"
         handleApply={handleApplyFilters}
         priceRange={PRICE_RANGE}
-        showHeading={false}
       />
 
       <CustomTableView

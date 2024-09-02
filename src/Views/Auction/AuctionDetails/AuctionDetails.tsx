@@ -29,6 +29,7 @@ import '../Auction.scss';
 import { edit } from '../../../assets';
 import CustomDetailsBoard from '../../../Shared/components/CustomDetailsBoard';
 import { SPECIFICATIONS } from '../../Products/helpers/constants';
+import Breadcrumbs from '../../../Shared/components/layouts/components/breadcrumb/Breadcrumb';
 
 interface EditData {
   data: AuctionResponsePayload | null;
@@ -100,50 +101,53 @@ export default function AuctionDetails() {
     setViewSpecifications({ data: {}, show: false });
   };
   return (
-    <div className="position-relative">
-      <ViewMultiTableItem
-        show={showMultiItemView}
-        setShow={setShowMultiItemView}
-      />
-      {viewSpecifications?.show && (
-        <CustomModal
-          title={STRINGS.SPECIFICATIONS}
-          show={viewSpecifications?.show}
-          onClose={handleCloseForm}
-        >
-          <CustomDetailsBoard
-            data={viewSpecifications?.data}
-            schema={SPECIFICATIONS}
-          />
-        </CustomModal>
-      )}
-      <DetailsWrapperEditableCard
-        details={data}
-        setViewSpecifications={setViewSpecifications}
-        dataScema={AuctionColumn(setShowMultiItemView)}
-      />
-      {editData?.show && (
-        <div className="p-4">
-          <AuctionForm
-            title="Edit"
-            show={editData?.show}
+    <>
+      <Breadcrumbs />
+      <div className="position-relative">
+        <ViewMultiTableItem
+          show={showMultiItemView}
+          setShow={setShowMultiItemView}
+        />
+        {viewSpecifications?.show && (
+          <CustomModal
+            title={STRINGS.SPECIFICATIONS}
+            show={viewSpecifications?.show}
             onClose={handleCloseForm}
-            isEdit
-            initialData={editData?.data}
-            onEdit={handleEditSuccess}
-          />
-        </div>
-      )}
-      <Button
-        className="btn btn44 position-absolute auction-details-edit"
-        onClick={handleEdit}
-      >
-        <img src={edit} alt={BUTTON_LABELS.EDIT} />
-      </Button>
-      {/* <Button className="btn btn-sm" onClick={saveChanges}>
+          >
+            <CustomDetailsBoard
+              data={viewSpecifications?.data}
+              schema={SPECIFICATIONS}
+            />
+          </CustomModal>
+        )}
+        <DetailsWrapperEditableCard
+          details={data}
+          setViewSpecifications={setViewSpecifications}
+          dataScema={AuctionColumn(setShowMultiItemView)}
+        />
+        {editData?.show && (
+          <div className="p-4">
+            <AuctionForm
+              title="Edit"
+              show={editData?.show}
+              onClose={handleCloseForm}
+              isEdit
+              initialData={editData?.data}
+              onEdit={handleEditSuccess}
+            />
+          </div>
+        )}
+        <Button
+          className="btn btn44 position-absolute auction-details-edit"
+          onClick={handleEdit}
+        >
+          <img src={edit} alt={BUTTON_LABELS.EDIT} />
+        </Button>
+        {/* <Button className="btn btn-sm" onClick={saveChanges}>
         {BUTTON_LABELS.CANCEL}
       </Button> */}
-      <BidsList auctionId={id} />
-    </div>
+        <BidsList auctionId={id} />
+      </div>
+    </>
   );
 }
