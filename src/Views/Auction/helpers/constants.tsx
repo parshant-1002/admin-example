@@ -237,7 +237,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: 'col-md-12',
     singleImageSelectionEnabled: false,
     placeholder: 'Images',
-    ratio: [1, 1],
+    ratio: [1.5, 1],
     imageFileType: FILE_TYPE.AUCTION,
     fetchImageDataConfig: isEdit
       ? [

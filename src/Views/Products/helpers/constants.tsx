@@ -123,7 +123,7 @@ export const PRODUCT_FORM_SCHEMA = (
     placeholder: 'Add Images',
     singleImageSelectionEnabled: false,
     imageFileType: FILE_TYPE.PRODUCT,
-    ratio: [1, 1],
+    ratio: [1.5, 1],
     fetchImageDataConfig: [
       {
         key: 'productId',

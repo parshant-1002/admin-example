@@ -181,9 +181,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                     const calculatedRatio = width / height;
                     const [firstValue, secondValue] = ratio;
                     const calculatedRequiredRatio = firstValue / secondValue;
+
                     if (
-                      calculatedRatio.toFixed(2) ===
-                      Number(calculatedRequiredRatio).toFixed(2)
+                      calculatedRatio.toFixed(1) ===
+                      Number(calculatedRequiredRatio).toFixed(1)
                     ) {
                       // Image has the required aspect ratio
                       setFileValue((prevState: FileData[] | undefined) => [
