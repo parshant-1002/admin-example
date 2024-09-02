@@ -33,6 +33,7 @@ export interface Specification {
   security?: string;
   comfort?: string;
   appearance?: string;
+  bodyType?: string;
 }
 // Define the main type
 export interface ProductPayload {
@@ -54,6 +55,7 @@ export interface ProductPayload {
   security: string;
   comfort: string;
   appearance: string;
+  bodyType: SelectOption;
 }
 
 // Define the type for the category field

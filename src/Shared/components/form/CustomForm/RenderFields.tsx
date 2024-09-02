@@ -194,6 +194,7 @@ function RenderField({
           <Controller
             name={id}
             control={control as Control}
+            {...handleRegister(id)}
             render={({ field: ControllableField }) => {
               // Destructure the field state provided by React Hook Form
               const {
@@ -204,6 +205,7 @@ function RenderField({
               return (
                 <CheckBox
                   {...restField} // Spread rest of the field props (like name, ref, etc.)
+                  {...handleRegister(id)}
                   value={checked as string | undefined} // Set the checked state
                   onChange={(inputValue: unknown) => {
                     onChange(inputValue); // Update the React Hook Form state

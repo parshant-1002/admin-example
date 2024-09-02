@@ -26,6 +26,7 @@ import {
 } from '../../Shared/constants';
 import { Filter, RED_WARNING } from '../../assets';
 import {
+  CAR_BODY_TYPE_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   FUEL_OPTIONS,
   GEARBOX_OPTIONS,
@@ -168,6 +169,13 @@ export default function ProductsList() {
             (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
           )?.label,
           value: row?.specifications?.gearbox,
+        },
+        bodyType: {
+          label: CAR_BODY_TYPE_OPTIONS?.find(
+            (bodyType) =>
+              bodyType.value === Number(row?.specifications?.bodyType)
+          )?.label,
+          value: row?.specifications?.bodyType,
         },
       },
       show: true,

@@ -108,6 +108,7 @@ export default function ProductForm({
           security: productData?.security,
           comfort: productData?.comfort,
           appearance: productData?.appearance,
+          bodyType: productData?.bodyType?.value,
         },
         // status: productData?.status?.value,
         categoryIds: productData?.category?.map((category) => category?.value),

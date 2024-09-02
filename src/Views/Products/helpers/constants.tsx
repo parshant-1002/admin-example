@@ -64,7 +64,124 @@ export const PRODUCT_AVAILABILITY_STATUS_OPTIONS = [
   { value: PRODUCT_AVAILABILITY_STATUS.SOLD_OUT, label: 'SOLD OUT' },
   { value: PRODUCT_AVAILABILITY_STATUS.AVAILABLE, label: 'Available' },
 ];
-
+export const CAR_BODY_TYPE_OPTIONS = [
+  {
+    value: 3,
+    label: 'Suv',
+  },
+  {
+    value: 1,
+    label: 'Sedan',
+  },
+  {
+    value: 4,
+    label: 'Hatchback',
+  },
+  {
+    value: 6,
+    label: 'Coupe',
+  },
+  {
+    value: 14,
+    label: 'Convertible',
+  },
+  {
+    value: 8,
+    label: 'Minivan',
+  },
+  {
+    value: 7,
+    label: 'Pickup Truck',
+  },
+  {
+    value: 2,
+    label: 'Crossover',
+  },
+  {
+    value: 5,
+    label: 'Station Wagon',
+  },
+  {
+    value: 9,
+    label: 'Roadster',
+  },
+  {
+    value: 10,
+    label: 'Van',
+  },
+  {
+    value: 11,
+    label: 'Sports Car',
+  },
+  {
+    value: 13,
+    label: 'Luxury Car',
+  },
+  {
+    value: 12,
+    label: 'Supercar',
+  },
+  {
+    value: 15,
+    label: 'Muscle Car',
+  },
+  {
+    value: 16,
+    label: 'Microcar',
+  },
+  {
+    value: 17,
+    label: 'Camper Van',
+  },
+  {
+    value: 18,
+    label: 'Minitruck',
+  },
+  {
+    value: 19,
+    label: 'Limousine',
+  },
+  {
+    value: 20,
+    label: 'Truck',
+  },
+  {
+    value: 21,
+    label: 'Hot Hatch',
+  },
+  {
+    value: 22,
+    label: 'Ute',
+  },
+  {
+    value: 23,
+    label: 'Pony Car',
+  },
+  {
+    value: 24,
+    label: 'Military Vehicle',
+  },
+  {
+    value: 25,
+    label: 'Dragster',
+  },
+  {
+    value: 26,
+    label: 'Grand Tourer',
+  },
+  {
+    value: 27,
+    label: 'Shooting Brake',
+  },
+  {
+    value: 28,
+    label: 'Hot Rod',
+  },
+  {
+    value: 29,
+    label: 'Low Rider',
+  },
+];
 export const PRODUCT_FORM_SCHEMA = (
   cateroryOptions: SelectOption[],
   productId?: string
@@ -153,6 +270,16 @@ export const PRODUCT_FORM_SCHEMA = (
   //   config: { min: 1, type: 'number' },
   //   blockInvalidChars: blockInvalidChar,
   // },
+  bodyType: {
+    type: INPUT_TYPES.SELECT,
+    label: 'Body Type',
+    className: 'col-md-6',
+    placeholder: 'Select a body type',
+    options: CAR_BODY_TYPE_OPTIONS,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Body Type').REQUIRED,
+    },
+  },
   price: {
     type: INPUT_TYPES.NUMBER,
     label: 'Price (SEK)',
@@ -230,14 +357,15 @@ export const PRODUCT_FORM_SCHEMA = (
   },
   gearbox: {
     type: INPUT_TYPES.SELECT,
-    label: 'gearbox',
+    label: 'GearBox',
     className: 'col-md-3',
     placeholder: 'Select a gearbox',
     options: GEARBOX_OPTIONS,
     schema: {
-      required: FORM_VALIDATION_MESSAGES('gearbox').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('GearBox').REQUIRED,
     },
   },
+
   motor: {
     type: INPUT_TYPES.TEXT,
     label: 'Motor',
@@ -549,6 +677,14 @@ export const SPECIFICATIONS: FieldSchemaForSpecifications[] = [
     key: 'gearbox',
     render: (value: string | number | undefined) =>
       GEARBOX_OPTIONS?.find((fuel) => fuel.value === Number(value))?.label,
+  },
+  {
+    label: 'Body Type',
+    key: 'bodyType',
+    render: (value: string | number | undefined) =>
+      CAR_BODY_TYPE_OPTIONS?.find(
+        (bodyType) => bodyType.value === Number(value)
+      )?.label,
   },
   { label: 'Gear Count', key: 'gearCount', format: true },
   { label: 'Seat Count', key: 'seatCount', format: true },
