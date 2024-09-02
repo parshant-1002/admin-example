@@ -24,7 +24,7 @@ export const transformAPIRequestDataReferralSection = (
     ...data,
     socialConnect: socialConnectContent.map(({ file, title }) => ({
       imageURL: file?.[0]?.fileURL,
-      fileId: file?.[0]?.fileId,
+      fileId: file?.[0]?.fileId || file?.[0]?._id,
       url: String(title),
     })),
   };

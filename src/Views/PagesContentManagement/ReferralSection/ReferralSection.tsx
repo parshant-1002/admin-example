@@ -62,7 +62,7 @@ function ReferralSection() {
           fileId: string;
         }) => ({
           title: String(url),
-          file: [{ fileURL: String(imageURL), fileId: String(fileId) }],
+          file: [{ fileURL: String(imageURL), fileId }],
         })
       );
       setSocialConnectContent(formGetData);

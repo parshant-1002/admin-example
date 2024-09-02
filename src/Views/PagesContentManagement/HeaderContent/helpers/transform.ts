@@ -1,104 +1,94 @@
-import { getStringValue } from '../../../../Shared/utils/functions';
-
-interface SocialMediaData {
-  url?: string;
-  image?: string;
-  hovers?: string;
+interface ImageData {
+  fileURL: string;
+  fileId: string;
+  _id: string;
 }
 
-interface ButtonData {
-  url?: string;
-  text?: string;
-  image?: string;
-}
-
-interface APIData {
-  premiumTokenTitle?: string;
-  twitter?: SocialMediaData;
-  discord?: SocialMediaData;
-  telegram?: SocialMediaData;
-  viewChartButton?: ButtonData;
-  airdropButton?: ButtonData;
-  buyTokenButton?: Omit<ButtonData, 'image'>;
-  isVisible?: boolean;
+export interface APIData {
+  logoText: string;
+  homeLabel: string;
+  howItWorksLabel: string;
+  auctionsLabel: string;
+  buyCreditsLabel: string;
+  searchPlaceholder: string;
+  loginButtonLabel: string;
+  registerButtonLabel: string;
+  userProfileIcon: ImageData[];
+  logoutIcon: ImageData[];
+  notificationIcon: ImageData[];
+  walletIcon: ImageData[];
+  isVisible: boolean;
 }
 
 interface TransformedData {
-  logo?: string;
-  twitterLink?: string;
-  twitterImage?: string;
-  twitterHoverImage?: string;
-  discordLink?: string;
-  discordImage?: string;
-  discordHoverImage?: string;
-  telegramLink?: string;
-  telegramImage?: string;
-  telegramHoverImage?: string;
-  viewChartButtonLink?: string;
-  viewChartButtonText?: string;
-  airdropButtonLink?: string;
-  airdropButtonImage?: string;
-  airdropButtonText?: string;
-  buyTokenButtonText?: string;
-  buyTokenButtonLink?: string;
-  isVisible?: boolean;
+  logoText: string;
+  homeLabel: string;
+  howItWorksLabel: string;
+  auctionsLabel: string;
+  buyCreditsLabel: string;
+  searchPlaceholder: string;
+  loginButtonLabel: string;
+  registerButtonLabel: string;
+  userProfileIconFileId: string;
+  userProfileIconURL: string;
+  logoutFileId: string;
+  logoutURL: string;
+  notificationFileId: string;
+  notificationURL: string;
+  walletIconFileId: string;
+  walletIconURL: string;
+  isVisible: boolean;
 }
 
-export const transformAPIData = (data: APIData): TransformedData => {
+export const transformAPIData = (data: APIData) => {
   const transformedData: TransformedData = {
-    logo: data?.premiumTokenTitle,
-    twitterLink: data?.twitter?.url,
-    twitterImage: data?.twitter?.image,
-    twitterHoverImage: data?.twitter?.hovers,
-    discordLink: data?.discord?.url,
-    discordImage: data?.discord?.image,
-    discordHoverImage: data?.discord?.hovers,
-    telegramLink: data?.telegram?.url,
-    telegramImage: data?.telegram?.image,
-    telegramHoverImage: data?.telegram?.hovers,
-    viewChartButtonLink: data?.viewChartButton?.url,
-    viewChartButtonText: data?.viewChartButton?.text,
-    airdropButtonLink: data?.airdropButton?.url,
-    airdropButtonImage: data?.airdropButton?.image,
-    airdropButtonText: data?.airdropButton?.text,
-    buyTokenButtonText: data?.buyTokenButton?.text,
-    buyTokenButtonLink: data?.buyTokenButton?.url,
+    logoText: data?.logoText,
+    homeLabel: data?.homeLabel,
+    howItWorksLabel: data?.howItWorksLabel,
+    auctionsLabel: data?.auctionsLabel,
+    buyCreditsLabel: data?.buyCreditsLabel,
+    searchPlaceholder: data?.searchPlaceholder,
+    loginButtonLabel: data?.loginButtonLabel,
+    registerButtonLabel: data?.registerButtonLabel,
+    userProfileIconFileId:
+      data?.userProfileIcon?.[0]?.fileId || data?.userProfileIcon?.[0]?._id,
+    userProfileIconURL: data?.userProfileIcon?.[0]?.fileURL,
+    logoutFileId: data?.logoutIcon?.[0]?.fileId || data?.logoutIcon?.[0]?._id,
+    logoutURL: data?.logoutIcon?.[0]?.fileURL,
+    notificationFileId:
+      data?.notificationIcon?.[0]?.fileId || data?.notificationIcon?.[0]?._id,
+    notificationURL: data?.notificationIcon?.[0]?.fileURL,
+    walletIconFileId:
+      data?.walletIcon?.[0]?.fileId || data?.walletIcon?.[0]?._id,
+    walletIconURL: data?.walletIcon?.[0]?.fileURL,
     isVisible: data?.isVisible,
   };
   return transformedData;
 };
 
-export const transformAPIRequestData = (data: TransformedData): APIData => {
+export const transformAPIRequestData = (data: TransformedData) => {
   return {
-    premiumTokenTitle: getStringValue(data.logo),
-    twitter: {
-      url: data?.twitterLink,
-      image: getStringValue(data.twitterImage),
-      hovers: data?.twitterHoverImage,
-    },
-    discord: {
-      url: data?.discordLink,
-      image: getStringValue(data.discordImage),
-      hovers: data?.discordHoverImage,
-    },
-    telegram: {
-      url: data?.telegramLink,
-      image: getStringValue(data.telegramImage),
-      hovers: data?.telegramHoverImage,
-    },
-    viewChartButton: {
-      url: data?.viewChartButtonLink,
-      text: data?.viewChartButtonText,
-    },
-    airdropButton: {
-      url: data?.airdropButtonLink,
-      image: getStringValue(data.airdropButtonImage),
-      text: data?.airdropButtonText,
-    },
-    buyTokenButton: {
-      url: data?.buyTokenButtonLink,
-      text: data?.buyTokenButtonText,
-    },
-    isVisible: data?.isVisible || false,
+    logoText: data?.logoText,
+    homeLabel: data?.homeLabel,
+    howItWorksLabel: data?.howItWorksLabel,
+    auctionsLabel: data?.auctionsLabel,
+    buyCreditsLabel: data?.buyCreditsLabel,
+    searchPlaceholder: data?.searchPlaceholder,
+    loginButtonLabel: data?.loginButtonLabel,
+    registerButtonLabel: data?.registerButtonLabel,
+    userProfileIcon: [
+      {
+        fileId: data?.userProfileIconFileId,
+        fileURL: data?.userProfileIconURL,
+      },
+    ],
+    logoutIcon: [{ fileId: data?.logoutFileId, fileURL: data?.logoutURL }],
+    notificationIcon: [
+      { fileId: data?.notificationFileId, fileURL: data?.notificationURL },
+    ],
+    walletIcon: [
+      { fileId: data?.walletIconFileId, fileURL: data?.walletIconURL },
+    ],
+    isVisible: data?.isVisible,
   };
 };

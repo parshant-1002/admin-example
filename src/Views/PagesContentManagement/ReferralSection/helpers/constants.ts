@@ -23,8 +23,8 @@ const REFERRAL_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('ID Column Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },

@@ -1,5 +1,5 @@
-import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { CustomForm } from '../../../Shared/components';
 import HEADER_CONTENT_FORM_SCHEMA from './helpers/headerSchema';
 
@@ -9,6 +9,11 @@ import {
 } from '../../../Services/Api/module/pagescontent';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper';
 import { CONTENT_ENUMS } from '../../../Shared/constants';
+import {
+  APIData,
+  transformAPIData,
+  transformAPIRequestData,
+} from './helpers/transform';
 
 function HeaderContent() {
   const [initialValues, setInitialValues] = useState({});
@@ -17,13 +22,15 @@ function HeaderContent() {
 
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.HEADER]) {
-      setInitialValues(content?.data?.[CONTENT_ENUMS.HEADER]);
+      setInitialValues(
+        transformAPIRequestData(content?.data?.[CONTENT_ENUMS.HEADER])
+      );
     }
   }, [content]);
 
-  const onSubmit = async (data: unknown) => {
+  const onSubmit = async (data: Record<string, unknown>) => {
     const payload = {
-      [CONTENT_ENUMS.HEADER]: data,
+      [CONTENT_ENUMS.HEADER]: transformAPIData(data as unknown as APIData),
     };
     await updateContent({
       payload,

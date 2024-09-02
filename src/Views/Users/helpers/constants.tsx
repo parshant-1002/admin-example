@@ -63,7 +63,7 @@ export const usersColumns = (
     sortType: 'name',
   },
   {
-    title: 'Personal Number',
+    title: 'SSL No.',
     fieldName: 'personalNumber',
     sortable: true,
     sortType: 'personalNumber',

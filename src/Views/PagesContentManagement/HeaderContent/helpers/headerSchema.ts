@@ -1,4 +1,4 @@
-import { INPUT_TYPES } from '../../../../Shared/constants';
+import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const HEADER_CONTENT_FORM_SCHEMA = {
@@ -74,7 +74,46 @@ const HEADER_CONTENT_FORM_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-
+  userProfileIcon: {
+    type: INPUT_TYPES.FILE,
+    label: 'User Profile Icon',
+    accept: IMAGE_FILE_TYPES,
+    className: 'col-md-6',
+    placeholder: 'User Profile Icon',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+  logoutIcon: {
+    type: INPUT_TYPES.FILE,
+    label: 'Logout Icon',
+    accept: IMAGE_FILE_TYPES,
+    className: 'col-md-6',
+    placeholder: 'Logout Icon',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+  notificationIcon: {
+    type: INPUT_TYPES.FILE,
+    label: 'Notification Icon',
+    accept: IMAGE_FILE_TYPES,
+    className: 'col-md-6',
+    placeholder: 'Notification Icon',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+  walletIcon: {
+    type: INPUT_TYPES.FILE,
+    label: 'Wallet Icon',
+    accept: IMAGE_FILE_TYPES,
+    className: 'col-md-6',
+    placeholder: 'Wallet Icon',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
   isVisible: {
     type: INPUT_TYPES.SWITCH,
     label: 'Show/Hide Header Content',

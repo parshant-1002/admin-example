@@ -22,7 +22,7 @@ const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 const USER_DETAILS_SCHEMA: FieldSchema[] = [
   { label: 'Name', key: 'name' },
   { label: 'Email', key: 'email', truncate: true },
-  { label: 'Personal Number', key: 'personalNumber', truncate: true },
+  { label: 'SSL No.', key: 'personalNumber', truncate: true },
   { label: 'Phone No.', key: 'phoneNumber' },
   { label: 'Address', key: 'address', truncate: true },
   { label: 'Total Bids', key: 'bidBalance', format: true },
