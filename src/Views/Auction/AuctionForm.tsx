@@ -33,7 +33,12 @@ import {
   deletedImages,
   updateUploadedImages,
 } from '../../Store/UploadedImages';
-import { PRODUCT_AVAILABILITY_STATUS } from '../Products/helpers/constants';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+  PRODUCT_AVAILABILITY_STATUS,
+} from '../Products/helpers/constants';
 import { AuctionResponsePayload } from './helpers/model';
 
 interface ProductFormTypes {
@@ -134,20 +139,33 @@ export default function AuctionForm({
     reset: () => void
   ) => {
     event.preventDefault();
-    console.log({ data });
 
     try {
       const auctionData = data as unknown as AuctionPayload;
       const payload = {
-        description: data.description,
-        productPrice: data.productPrice,
-        bidDuration: data.bidDuration,
-        prizeClaimDays: data.prizeClaimDays,
-        reservePrice: data.reservePrice,
-        title: data.title,
-        preAuctionUsersCount: data.preAuctionUsersCount,
-        enabledSocialMediaPlatforms: data.enabledSocialMediaPlatforms,
-        socialMediaShareReward: data.socialMediaShareReward,
+        description: auctionData.description,
+        productPrice: auctionData.productPrice,
+        bidDuration: auctionData.bidDuration,
+        prizeClaimDays: auctionData.prizeClaimDays,
+        reservePrice: auctionData.reservePrice,
+        title: auctionData.title,
+        preAuctionUsersCount: auctionData.preAuctionUsersCount,
+        enabledSocialMediaPlatforms: auctionData.enabledSocialMediaPlatforms,
+        socialMediaShareReward: auctionData.socialMediaShareReward,
+        specifications: {
+          registrationNumber: auctionData?.registrationNumber,
+          bodyType: auctionData?.bodyType?.value,
+          modelYear: auctionData?.modelYear,
+          paint: auctionData?.paint,
+          fuel: auctionData?.fuel?.value,
+          motor: auctionData?.motor,
+          gearbox: auctionData?.gearbox?.value,
+          gearCount: auctionData?.gearCount,
+          seatCount: auctionData?.seatCount,
+          security: auctionData?.security,
+          comfort: auctionData?.comfort,
+          appearance: auctionData?.appearance,
+        },
         // currentBidPrice: data.currentBidPrice,
         images: auctionData?.images?.map((image) => ({
           url: addBaseUrl(image?.fileURL || image?.url),
@@ -207,10 +225,47 @@ export default function AuctionForm({
         (element: Category) => element._id === data.value
       );
       if (productDetails) {
+        const fuelData = {
+          label: FUEL_OPTIONS?.find(
+            (fuel) =>
+              fuel.value === Number(productDetails?.specifications?.fuel)
+          )?.label,
+          value: productDetails?.specifications?.fuel,
+        };
+        const gearboxData = {
+          label: GEARBOX_OPTIONS?.find(
+            (gearbox) =>
+              gearbox.value === Number(productDetails?.specifications?.gearbox)
+          )?.label,
+          value: productDetails?.specifications?.gearbox,
+        };
+        const bodyTypeData = {
+          label: CAR_BODY_TYPE_OPTIONS?.find(
+            (bodyType) =>
+              bodyType.value ===
+              Number(productDetails?.specifications?.bodyType)
+          )?.label,
+          value: productDetails?.specifications?.bodyType,
+        };
         setValue('categoryIds', helperCatergoryMap(productDetails.categories));
         setValue('description', productDetails.description);
         setValue('productPrice', productDetails.price);
         setValue('images', productDetails?.images);
+        setValue('bodyType', bodyTypeData);
+        setValue(
+          'registrationNumber',
+          productDetails?.specifications?.registrationNumber
+        );
+        setValue('modelYear', productDetails?.specifications?.modelYear);
+        setValue('paint', productDetails?.specifications?.paint);
+        setValue('fuel', fuelData);
+        setValue('gearbox', gearboxData);
+        setValue('motor', productDetails?.specifications?.motor);
+        setValue('gearCount', productDetails?.specifications?.gearCount);
+        setValue('seatCount', productDetails?.specifications?.seatCount);
+        setValue('security', productDetails?.specifications?.security);
+        setValue('comfort', productDetails?.specifications?.comfort);
+        setValue('appearance', productDetails?.specifications?.appearance);
         setSelectedProductDetails(productDetails);
       }
     }

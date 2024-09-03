@@ -28,7 +28,12 @@ import Button from '../../../Shared/components/form/Button';
 import '../Auction.scss';
 import { edit } from '../../../assets';
 import CustomDetailsBoard from '../../../Shared/components/CustomDetailsBoard';
-import { SPECIFICATIONS } from '../../Products/helpers/constants';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+  SPECIFICATIONS,
+} from '../../Products/helpers/constants';
 import Breadcrumbs from '../../../Shared/components/layouts/components/breadcrumb/Breadcrumb';
 
 interface EditData {
@@ -59,9 +64,33 @@ export default function AuctionDetails() {
   if (isError) return <div>Error loading data.</div>;
 
   const handleEdit = () => {
+    const specifications = {
+      ...(auctionDataa?.specifications || {}),
+      fuel: {
+        label: FUEL_OPTIONS?.find(
+          (fuel) => fuel.value === Number(auctionDataa?.specifications?.fuel)
+        )?.label,
+        value: auctionDataa?.specifications?.fuel,
+      },
+      gearbox: {
+        label: GEARBOX_OPTIONS?.find(
+          (gearbox) =>
+            gearbox.value === Number(auctionDataa?.specifications?.gearbox)
+        )?.label,
+        value: auctionDataa?.specifications?.gearbox,
+      },
+      bodyType: {
+        label: CAR_BODY_TYPE_OPTIONS?.find(
+          (bodyType) =>
+            bodyType.value === Number(auctionDataa?.specifications?.bodyType)
+        )?.label,
+        value: auctionDataa?.specifications?.bodyType,
+      },
+    };
     setEditData({
       data: {
         ...auctionDataa,
+        ...(specifications || {}),
         statusData: {
           value: auctionDataa?.status,
           label:

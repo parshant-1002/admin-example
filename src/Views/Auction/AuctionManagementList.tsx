@@ -49,6 +49,11 @@ import { AuctionResponsePayload, EditData } from './helpers/model';
 import { updateUploadedImages } from '../../Store/UploadedImages';
 import { RootState } from '../../Store';
 import { Image } from '../../Models/common';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+} from '../Products/helpers/constants';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -103,9 +108,31 @@ export default function AuctionManagementList() {
   };
 
   const handleEdit = (row: AuctionResponsePayload) => {
+    const specifications = {
+      ...(row?.specifications || {}),
+      fuel: {
+        label: FUEL_OPTIONS?.find(
+          (fuel) => fuel.value === Number(row?.specifications?.fuel)
+        )?.label,
+        value: row?.specifications?.fuel,
+      },
+      gearbox: {
+        label: GEARBOX_OPTIONS?.find(
+          (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
+        )?.label,
+        value: row?.specifications?.gearbox,
+      },
+      bodyType: {
+        label: CAR_BODY_TYPE_OPTIONS?.find(
+          (bodyType) => bodyType.value === Number(row?.specifications?.bodyType)
+        )?.label,
+        value: row?.specifications?.bodyType,
+      },
+    };
     setEditData({
       data: {
         ...row,
+        ...(specifications || {}),
         statusData: {
           value: row?.status,
           label:

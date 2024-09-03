@@ -177,10 +177,10 @@ function DetailsWrapperEditableCard({
 
   const handleClickInfo = (selectedData: ProductDetailResponsePayload) => {
     const selectedDetailsProductsData = selectedData as unknown as {
-      productData: { specifications: Specification };
+      specifications: Specification;
     };
     setViewSpecifications({
-      data: selectedDetailsProductsData?.productData?.specifications,
+      data: selectedDetailsProductsData?.specifications,
       show: true,
     });
   };

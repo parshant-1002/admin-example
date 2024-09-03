@@ -1,4 +1,5 @@
 import { SelectOption } from '../../../Models/common';
+import { Specification } from '../../Products/helpers/model';
 
 interface Category {
   _id: string;
@@ -17,6 +18,7 @@ export interface AuctionResponsePayload {
     images?: [];
     price?: number;
   };
+  specifications?: Specification;
   auctionDate?: string;
   bidStartDate?: string;
   reservePrice?: number;
