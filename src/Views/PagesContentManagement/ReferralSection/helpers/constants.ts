@@ -2,13 +2,52 @@ import { INPUT_TYPES } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const REFERRAL_SECTION_FORM_SCHEMA = {
-  joinedHeader: {
+  referredLabel: {
     type: INPUT_TYPES.TEXT,
-    label: 'Joined Header',
+    label: 'Referred Label',
     className: 'col-md-6',
-    placeholder: 'Joined Header',
+    placeholder: 'Referred Label',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Joined Header').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referred Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  earningsLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Earning Label',
+    className: 'col-md-6',
+    placeholder: 'Earning Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Earning Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  recievedBonusLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Received Bonus Label',
+    className: 'col-md-6',
+    placeholder: 'Received Bonus Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Received Bonus Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  referralCodeTagLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Referral Code Tag Label',
+    className: 'col-md-6',
+    placeholder: 'Referral Code Tag Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Referral Code Tag Label').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
@@ -61,58 +100,6 @@ const REFERRAL_SECTION_FORM_SCHEMA = {
     placeholder: 'Bids Earned Column Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Bids Earned Column Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  referralCodeLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Referral Code Label',
-    className: 'col-md-6',
-    placeholder: 'Referral Code Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Referral Code Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  referralLinkLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Referral Link Label',
-    className: 'col-md-6',
-    placeholder: 'Referral Link Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Referral Link Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  recievedBonusLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Received Bonus Label',
-    className: 'col-md-6',
-    placeholder: 'Received Bonus Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Received Bonus Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  referralCodeTagLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Referral Code Tag Label',
-    className: 'col-md-6',
-    placeholder: 'Referral Code Tag Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Referral Code Tag Label').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,

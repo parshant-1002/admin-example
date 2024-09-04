@@ -81,7 +81,6 @@ function ReferralSection() {
             socialConnectContent
           ),
       };
-
       await updateContent({
         payload,
         onSuccess: (res: { message: string }) => {
