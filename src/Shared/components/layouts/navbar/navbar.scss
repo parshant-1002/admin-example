@@ -113,6 +113,13 @@
     height: 2rem; // Tailwind 'h-6'
     width: 2rem; // Tailwind 'w-6'
   }
+
+  @media(max-width:1280px) {
+    .icon {
+      height: 24px;
+      width: 24px;
+    }
+  }
 }
 
 .toggle-sidebar {
@@ -134,4 +141,28 @@
   max-height: 30px;
   color: $white-color;
   font-weight: 600;
+
+  @media (max-width:767px) {
+    font-size: 10px;
+    top: -5px;
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+.header-nav {
+  .nav-item {
+    &.dropdown {
+      .nav-link {
+        @media(max-width:1280px) {
+          img {
+            width: 34px;
+            height: 34px;
+            min-width: auto;
+            min-height: auto;
+          }
+        }
+      }
+    }
+  }
 }

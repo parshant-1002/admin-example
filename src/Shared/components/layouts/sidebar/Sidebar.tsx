@@ -1,12 +1,10 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
 import SIDEBAR_NAV from './routes';
 import './style.scss';
 
-// Define types for sidebar items and props
 interface SidebarItem {
   label: string;
   iconClass?: string;
@@ -19,22 +17,44 @@ interface SidebarItem {
 function Sidebar() {
   const location = useLocation();
 
+  const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 1200);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1200);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   const handleButtonClick = (item: SidebarItem) => {
     if (item.label === 'Logout') {
       // Implement logout functionality
     }
   };
 
+  const toggleAccordion = (label: string) => {
+    setActiveAccordion((prevActive) => (prevActive === label ? null : label));
+  };
+
+  const handleItemClick = () => {
+    if (isMobile) {
+      setActiveAccordion(null);
+    }
+  };
+
   const mapChilds = useCallback(
     (sidebar: SidebarItem, childrens: SidebarItem[]) => {
-      const findIndex = childrens.findIndex(
-        (children) => children.route === location.pathname
-      );
+      // const findIndex = childrens.findIndex(
+      //   (children) => children.route === location.pathname
+      // );
       return (
         <li className="nav-item" key={`sidebar-${sidebar.label}`}>
-          <Accordion defaultActiveKey={findIndex > -1 ? '0' : ''}>
+          <Accordion activeKey={activeAccordion === sidebar.label ? '0' : ''}>
             <Accordion.Item eventKey="0">
-              <Accordion.Header>
+              <Accordion.Header onClick={() => toggleAccordion(sidebar.label)}>
                 <span className="curve-top" />
                 <span className="curve-bottom" />
                 {sidebar.iconClass && <i className={sidebar.iconClass} />}
@@ -48,13 +68,18 @@ function Sidebar() {
                   {childrens.map((children) => (
                     <li key={`sidebar-${children.label}-`}>
                       {children?.isOnClick ? (
-                        <button type="button" className="dropdown-item">
+                        <button
+                          type="button"
+                          className="dropdown-item"
+                          onClick={handleItemClick}
+                        >
                           {children.label}
                         </button>
                       ) : (
                         <NavLink
                           className="dropdown-item d-flex"
                           to={children.route || ''}
+                          onClick={handleItemClick}
                         >
                           <>
                             <figure className="me-3">
@@ -90,7 +115,7 @@ function Sidebar() {
         </li>
       );
     },
-    [location.pathname]
+    [location.pathname, activeAccordion, isMobile]
   );
 
   const recursiveSidebar = useCallback(
@@ -135,10 +160,12 @@ function Sidebar() {
       }),
     [mapChilds]
   );
+
   const sidebar = useMemo(
     () => recursiveSidebar(SIDEBAR_NAV),
     [recursiveSidebar]
   );
+
   return (
     <aside id="sidebar" className="sidebar">
       <Link
