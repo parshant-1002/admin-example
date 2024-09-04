@@ -160,3 +160,7 @@ $downArrow : url("./assets/icons/downArrow.svg");
     box-sizing: border-box !important;
   }
 }
+
+.pagination-group ul {
+  gap: 4px;
+}
