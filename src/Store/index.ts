@@ -15,15 +15,19 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import api from '../Services/Api/api';
 import common from './Common';
 import loader from './Loader';
+import UploadedImages from './UploadedImages';
+import unseenCount from './UnseenCount';
 
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['common'],
+  whitelist: ['common', 'uploadedImages', 'unseenCount'],
 };
 const reducers = combineReducers({
   common,
   loader,
+  UploadedImages,
+  unseenCount,
   [api.reducerPath]: api.reducer,
 });
 

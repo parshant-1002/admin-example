@@ -2,19 +2,51 @@ import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
 import Dashboard from '../Views/Dashboard';
 // import { ProductsAdd, ProductsList } from '../Views/Products';
-import AuctionManagementList from '../Views/Auction/AuctionManagementList';
-import { ProductsList } from '../Views/Products';
-import { CustomRouter } from './RootRoutes';
-import { CategoriesList } from '../Views/Categories';
-import Users from '../Views/Users';
-import UserDetails from '../Views/Users/UserDetails';
-import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
-import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
-import { PlanDetailedView, Plans } from '../Views/BidsPlan';
 import AuctionDetails from '../Views/Auction/AuctionDetails/AuctionDetails';
+import AuctionManagementList from '../Views/Auction/AuctionManagementList';
+import { PlanDetailedView, Plans } from '../Views/BidsPlan';
+import { CategoriesList } from '../Views/Categories';
+import ContactUs from '../Views/PagesContentManagement/ContactUs/ContactUs';
+import Faqs from '../Views/PagesContentManagement/Faqs/FaqsContent';
+import HeaderContent from '../Views/PagesContentManagement/HeaderContent';
+import HowItWorks from '../Views/PagesContentManagement/How-it-works/HowItWorksContent';
+import TermsAndCondtion from '../Views/PagesContentManagement/TermsAndCondtion/TermsAndCondtion';
+import { AuctionInvoices, PurchaseInvoices } from '../Views/Invoices';
+import { ProductsList } from '../Views/Products';
+import { CreateReferral, ReferralListing } from '../Views/ReferralSystem';
 import { BidsHistory, PlansHistory } from '../Views/Transactions';
 import ProductsHistory from '../Views/Transactions/ProductsHistory';
 import ReferralHistory from '../Views/Transactions/ReferralHistory';
+import Users from '../Views/Users';
+import UserDetails from '../Views/Users/UserDetails';
+import { CustomRouter } from './RootRoutes';
+import PrivacyPolicy from '../Views/PagesContentManagement/PrivacyPolicy';
+import Companies from '../Views/PagesContentManagement/Companies';
+import BidPackSection from '../Views/PagesContentManagement/BidPackSection/BidPackSection';
+import HeroContent from '../Views/PagesContentManagement/HeroContent';
+import TopAuction from '../Views/PagesContentManagement/TopAuction';
+import Footer from '../Views/PagesContentManagement/Footer';
+import ReservePriceReached from '../Views/NotificationsContentManagement/ReservePriceReached/ReservePriceReached';
+import NewBidPlaced from '../Views/NotificationsContentManagement/NewBidPlaced/NewBidPlaced';
+import AutomaticBidRunnedOut from '../Views/NotificationsContentManagement/AutomaticBidRunnedOut/AutomaticBidRunnedOut';
+import BidTimeLeft from '../Views/NotificationsContentManagement/BidTimeLeft/BidTimeLeft';
+import Winners from '../Views/NotificationsContentManagement/Winners/Winners';
+import AuctionEnded from '../Views/NotificationsContentManagement/AuctionEnded/AuctionEnded';
+import NewUserJoined from '../Views/NotificationsContentManagement/NewUserJoined/NewUserJoined';
+import AuctionStarted from '../Views/NotificationsContentManagement/AuctionStarted/AuctionStarted';
+import BidPlanPurchased from '../Views/NotificationsContentManagement/BidPlanPurchased/BidPlanPurchased';
+import ContactedSupport from '../Views/NotificationsContentManagement/ContactedSupport/ContactedSupport';
+import AboutUs from '../Views/PagesContentManagement/AboutUs';
+import Cookies from '../Views/PagesContentManagement/Cookies';
+import AuctionPage from '../Views/PagesContentManagement/AuctionPage';
+import ProfilePage from '../Views/PagesContentManagement/ProfilePage';
+import ProfileOverview from '../Views/PagesContentManagement/ProfileOverview';
+import UserProfileSection from '../Views/PagesContentManagement/UserProfileSection';
+import AuctionSection from '../Views/PagesContentManagement/AuctionSection';
+import PennyAuctionSection from '../Views/PagesContentManagement/PennyAuctionSection';
+import CurrentBidsSection from '../Views/PagesContentManagement/CurrentBidsSection';
+import WalletSection from '../Views/PagesContentManagement/WalletSection';
+import ReferralSection from '../Views/PagesContentManagement/ReferralSection';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -110,6 +142,166 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.TRANSACTIONS_REFERRAL_HISTORY.path,
     element: <ReferralHistory />,
     title: ROUTES_CONFIG.TRANSACTIONS_REFERRAL_HISTORY.title,
+  },
+  {
+    path: ROUTES_CONFIG.HEADERS_CONTENT.path,
+    element: <HeaderContent />,
+    title: ROUTES_CONFIG.HEADERS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.FAQS_CONTENT.path,
+    element: <Faqs />,
+    title: ROUTES_CONFIG.FAQS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_PAGE.path,
+    element: <AuctionPage />,
+    title: ROUTES_CONFIG.AUCTION_PAGE.title,
+  },
+  {
+    path: ROUTES_CONFIG.PROFILE_PAGE_CONTENT.path,
+    element: <ProfilePage />,
+    title: ROUTES_CONFIG.PROFILE_PAGE_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.PROFILE_OVERVIEW.path,
+    element: <ProfileOverview />,
+    title: ROUTES_CONFIG.PROFILE_OVERVIEW.title,
+  },
+  {
+    path: ROUTES_CONFIG.USER_PROFILE_SECTION.path,
+    element: <UserProfileSection />,
+    title: ROUTES_CONFIG.USER_PROFILE_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.PENNY_AUCTION_SECTION.path,
+    element: <PennyAuctionSection />,
+    title: ROUTES_CONFIG.PENNY_AUCTION_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_SECTIONS.path,
+    element: <AuctionSection />,
+    title: ROUTES_CONFIG.AUCTION_SECTIONS.title,
+  },
+  {
+    path: ROUTES_CONFIG.CURRENT_BIDS_SECTION.path,
+    element: <CurrentBidsSection />,
+    title: ROUTES_CONFIG.CURRENT_BIDS_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.WALLET_SECTION.path,
+    element: <WalletSection />,
+    title: ROUTES_CONFIG.WALLET_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.REFERRAL_SECTION.path,
+    element: <ReferralSection />,
+    title: ROUTES_CONFIG.REFERRAL_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.path,
+    element: <HowItWorks />,
+    title: ROUTES_CONFIG.HOW_IT_WORKS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.CONTACTUS_CONTENT.path,
+    element: <ContactUs />,
+    title: ROUTES_CONFIG.CONTACTUS_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.TERMS_AND_CONDITION_CONTENT.path,
+    element: <TermsAndCondtion />,
+    title: ROUTES_CONFIG.TERMS_AND_CONDITION_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.path,
+    element: <PrivacyPolicy />,
+    title: ROUTES_CONFIG.PRIVACY_POLICY_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.ABOUT_US_CONTENT.path,
+    element: <AboutUs />,
+    title: ROUTES_CONFIG.ABOUT_US_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.COOKIES.path,
+    element: <Cookies />,
+    title: ROUTES_CONFIG.COOKIES.title,
+  },
+  {
+    path: ROUTES_CONFIG.COMPANIES_CONTENT.path,
+    element: <Companies />,
+    title: ROUTES_CONFIG.COMPANIES_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.BID_PACK_SECTION.path,
+    element: <BidPackSection />,
+    title: ROUTES_CONFIG.BID_PACK_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.HERO_SECTION.path,
+    element: <HeroContent />,
+    title: ROUTES_CONFIG.HERO_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.TOP_AUCTION_SECTION.path,
+    element: <TopAuction />,
+    title: ROUTES_CONFIG.TOP_AUCTION_SECTION.title,
+  },
+  {
+    path: ROUTES_CONFIG.FOOTER.path,
+    element: <Footer />,
+    title: ROUTES_CONFIG.FOOTER.title,
+  },
+  {
+    path: ROUTES_CONFIG.RESERVE_PRICE_REACHED.path,
+    element: <ReservePriceReached />,
+    title: ROUTES_CONFIG.RESERVE_PRICE_REACHED.title,
+  },
+  {
+    path: ROUTES_CONFIG.NEW_BID_PLACED.path,
+    element: <NewBidPlaced />,
+    title: ROUTES_CONFIG.NEW_BID_PLACED.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUTOMATIC_BID_RUNNED_OUT.path,
+    element: <AutomaticBidRunnedOut />,
+    title: ROUTES_CONFIG.AUTOMATIC_BID_RUNNED_OUT.title,
+  },
+  {
+    path: ROUTES_CONFIG.BID_TIME_LEFT.path,
+    element: <BidTimeLeft />,
+    title: ROUTES_CONFIG.BID_TIME_LEFT.title,
+  },
+  {
+    path: ROUTES_CONFIG.WINNER.path,
+    element: <Winners />,
+    title: ROUTES_CONFIG.WINNER.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_ENDED.path,
+    element: <AuctionEnded />,
+    title: ROUTES_CONFIG.AUCTION_ENDED.title,
+  },
+  {
+    path: ROUTES_CONFIG.NEW_USER_JOINED.path,
+    element: <NewUserJoined />,
+    title: ROUTES_CONFIG.NEW_USER_JOINED.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_STARTED.path,
+    element: <AuctionStarted />,
+    title: ROUTES_CONFIG.AUCTION_STARTED.title,
+  },
+  {
+    path: ROUTES_CONFIG.BID_PLAN_PURCHASED.path,
+    element: <BidPlanPurchased />,
+    title: ROUTES_CONFIG.BID_PLAN_PURCHASED.title,
+  },
+  {
+    path: ROUTES_CONFIG.CONTACTED_SUPPORT.path,
+    element: <ContactedSupport />,
+    title: ROUTES_CONFIG.CONTACTED_SUPPORT.title,
   },
   // Wildcard
   {

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
+import { Button } from 'react-bootstrap';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
 import {
   DATE_FORMATS,
@@ -21,6 +22,7 @@ const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 2;
 const USER_DETAILS_SCHEMA: FieldSchema[] = [
   { label: 'Name', key: 'name' },
   { label: 'Email', key: 'email', truncate: true },
+  { label: 'SSL No.', key: 'personalNumber', truncate: true },
   { label: 'Phone No.', key: 'phoneNumber' },
   { label: 'Address', key: 'address', truncate: true },
   { label: 'Total Bids', key: 'bidBalance', format: true },
@@ -43,6 +45,7 @@ const UserDetailsTabs = {
   AUCTION_HISTORY: 'Auction History',
   PRODUCT_HISTORY: 'Product History',
   REFERRAL_HISTORY: 'Referral History',
+  INVOICE: 'Invoices',
 };
 
 // Define types for renderActions and column data
@@ -59,8 +62,9 @@ interface ColumnData {
 }
 
 // Define the shape of the columns
-const bidsPurchaseHistoryColumn // renderActions: RenderActions
-: ColumnData[] = [
+const bidsPurchaseHistoryColumn = (
+  handleInvoice: (row: UserBid) => void
+): ColumnData[] => [
   {
     title: 'Id',
     fieldName: 'id',
@@ -77,7 +81,7 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
   {
     title: 'Deal Offer',
     fieldName: 'dealOffer',
-    render: (_, val) => `${convertToLocale(val)} %`,
+    render: (_, val) => (val ? `${convertToLocale(val)} %` : `-.-`),
     sortable: true,
     sortType: 'dealOfferPercentage',
   },
@@ -118,13 +122,13 @@ const bidsPurchaseHistoryColumn // renderActions: RenderActions
         {row?.invoiceURL ? (
           <button
             type="button"
-            className="cursor-pointer btn44 btn-primary"
+            className="cursor-pointer btn44 btn-primary btn"
             onClick={() => window.open(row?.invoiceURL, '_blank')}
           >
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          '-.-'
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),
@@ -170,7 +174,47 @@ const biddingHistoryColumn // renderActions: RenderActions
     fieldName: 'status',
   },
 ];
-
+const userInvoicesColumn // renderActions: RenderActions
+: ColumnData[] = [
+  {
+    title: 'Id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
+  },
+  {
+    title: 'Type',
+    fieldName: 'type',
+    sortable: true,
+    sortType: 'type',
+  },
+  {
+    title: 'Date',
+    fieldName: 'date',
+    render: (_, val) =>
+      moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
+  },
+  {
+    title: STRINGS.INVOICE,
+    sortable: true,
+    sortType: 'invoiceDate',
+    render: (row) => (
+      <div className="text-center">
+        {row?.invoiceURL ? (
+          <button
+            type="button"
+            className="cursor-pointer btn44 btn-primary"
+            onClick={() => window.open(row?.invoiceURL, '_blank')}
+          >
+            <img src={InvoiceIcon} alt="" />
+          </button>
+        ) : (
+          '-.-'
+        )}
+      </div>
+    ),
+  },
+];
 const productHistoryColumn = (
   setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
 ): ColumnData[] => [
@@ -486,10 +530,29 @@ const ADD_BIDS_FORM_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Add Bids',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Add Bids').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
     },
   },
 };
+
+const INVOICE_TYPE = {
+  'BID PLAN': 1,
+  'BID CREDIT': 2,
+  'USER PRODUCT': 3,
+};
+const INVOICE_TYPE_OPTIONS = [
+  { label: 'BID PLAN', value: 1 },
+  { label: 'BID CREDIT', value: 2 },
+  { label: 'USER PRODUCT', value: 3 },
+];
 export {
   ADD_BIDS_FORM_SCHEMA,
   AUCTION_HISTORY_FRONTEND_OPTIONS,
@@ -506,4 +569,7 @@ export {
   bidsPurchaseHistoryColumn,
   productHistoryColumn,
   referralHistoryColumn,
+  userInvoicesColumn,
+  INVOICE_TYPE,
+  INVOICE_TYPE_OPTIONS,
 };

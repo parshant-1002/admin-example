@@ -3,43 +3,57 @@
 .dashboad-cards {
     .card {
         @include border-radius (24px);
+        @include transition-mixin (all, .3s, ease-in-out);
+        &:hover{
+            box-shadow: $none;
+            transform: scale(0.99);
+        }
+
         &-body {
             @include border-radius (24px);
-            padding: 24px 24px 24px 100px;
+            padding: 16px 16px 15px 94px;
             position: $relative;
         }
+
         .text-small {
-            @include font-size (1);
+            @include font-size (0.875);
             color: #333;
         }
+
         .h4 {
             font-weight: $font-semibold;
             @include font-size (2rem);
             margin: 5px 0 14px;
             color: #1c1c1c;
         }
-        .d-Icon {
-            @include position($absolute, $top:25px, $left:20px);
+
+        @at-root .d-Icon {
+            @include position($absolute, $top: 16px, $left: 16px);
             background: linear-gradient(180deg, #0B0071 0%, #0B006D 8.4%, #070047 100%);
             @include border-radius (8px);
-            width: 64px; height: 64px;
+            width: 64px;
+            height: 64px;
             @include flexCenter;
+
             img {
                 width: 24px;
                 height: 24px;
                 object-fit: $contain;
             }
         }
+
         .bg-success {
-            background-color: rgba(#34C759, .10)!important;
+            background-color: rgba(#34C759, .10) !important;
             @include border-radius (30px);
             color: #34C759;
         }
+
         .bg-danger {
-            background-color: rgba(#FF3B30, .10)!important;
+            background-color: rgba(#FF3B30, .10) !important;
             @include border-radius (30px);
             color: #FF3B30;
         }
+
         .badge {
             padding: 7px 10px;
         }
@@ -49,7 +63,12 @@
 .redirection {
     @include position($absolute, $right: 24px, $bottom: 20px);
     @include opacity (.25);
-    pointer-events: $none;
+
+    &:hover {
+        @include opacity (1);
+    }
+
+    // pointer-events: $none;
 }
 
 .userGreeting {
@@ -59,6 +78,7 @@
     @include border-radius (8);
     padding: 16px;
     margin-bottom: 32px;
+
     .avatar {
         margin-right: 16px;
         background-color: #ff6347;
@@ -75,9 +95,11 @@
     @include flexbox;
     flex-wrap: wrap;
     gap: 16px;
+
     .card {
         flex: 1;
         min-width: 300px;
+
         h6 {
             color: $black-color;
         }
@@ -100,9 +122,11 @@
     margin-bottom: 16px;
     background-color: #f5f5f5;
     border-radius: 8px;
+
     &:last-child {
         margin-bottom: 0;
     }
+
     .avatar {
         margin-right: 16px;
         background-color: #ff6347;
@@ -120,6 +144,7 @@
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+
         .name {
             font-weight: bold;
         }
@@ -161,6 +186,7 @@
         color: #666;
     }
 }
+
 /* Card */
 .card {
     border: $none;
@@ -168,12 +194,25 @@
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
     @include border-radius (10px);
     &-body {
-      background-color: rgba($white-color, 1);
-      @include border-radius (5px);
-      padding: 20px;
+        background-color: rgba($white-color, 1);
+        @include border-radius (5px);
+        padding: 20px;
     }
-  }
+}
 
-  .card-img-overlay {
+.card-img-overlay {
     background-color: rgba(255, 255, 255, 0.6);
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #ffffff;
+    color: #006400;
+    border: 1px solid #006400;
+    cursor: pointer;
   }

@@ -1,13 +1,28 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
 import { Copy } from '../../../assets';
-import { copyToClipboard } from '../../utils/functions';
 import './style.scss';
 
 // Define props type for TruncatedText
 interface TruncatedTextProps {
   text: string | number; // Assuming text is always a string
 }
+const copyToClipboard = async (
+  value?: string | number | undefined
+): Promise<void> => {
+  try {
+    if (!value) return;
+    await navigator.clipboard.writeText(`${value}`);
+    toast.success('Copied to clipboard');
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      toast.error(`Failed to copy text to clipboard: ${error.message}`);
+    } else {
+      toast.error('An unknown error occurred');
+    }
+  }
+};
 
 function TruncatedText({ text }: TruncatedTextProps) {
   const [tooltipId, setTooltipId] = useState('');

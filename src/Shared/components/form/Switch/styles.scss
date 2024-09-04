@@ -1,3 +1,4 @@
+@import '../../../../../src/assets/scss/base';
 .switch-container {
     display: inline-block;
     cursor: pointer;
@@ -5,7 +6,7 @@
       width: 40px;
       height: 18px;
       border-radius: 25px;
-      background-color: #ccc;
+      background-color: $grey-color-100;
       position: relative;
       transition: background-color 0.3s;
     }
@@ -52,7 +53,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
+      background-color: $grey-color-100;
       transition: .4s;
       border-radius: 34px;
   
@@ -67,6 +68,7 @@
         background-color: white;
         border-radius: 25px;
         transition: transform 0.3s;
+        border: 1px solid #ddd;
       }
     }
     input:checked + .slider {

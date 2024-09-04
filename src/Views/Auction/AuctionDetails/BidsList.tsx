@@ -126,6 +126,7 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
       currentBidPriceMin: filterState?.priceRange?.[0],
       currentBidPriceMax: filterState?.priceRange?.[1],
     });
+    setCurrentPage(0);
   };
   return (
     <div className="mt-5">
@@ -150,10 +151,11 @@ export default function BidsList({ auctionId }: { auctionId?: string }) {
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
         showDateFilter
+        heading={`History (${userAuctionHistory?.count})`}
+        showHeading
         rangeSilderTitle="Item Price"
         handleApply={handleApplyFilters}
         priceRange={PRICE_RANGE}
-        showHeading={false}
       />
 
       <CustomTableView

@@ -5,6 +5,36 @@ export interface SelectOption {
   label: string | number;
 }
 
+export interface ViewSpecificationData {
+  data: Specification;
+  show: boolean;
+}
+
+export interface FieldSchemaForSpecifications {
+  label: string;
+  key: keyof Specification;
+  truncate?: boolean;
+  format?: boolean;
+  currencyFormat?: boolean;
+  render?: (
+    value: string | number | undefined,
+    data: Specification
+  ) => React.ReactNode;
+}
+export interface Specification {
+  registrationNumber?: string;
+  modelYear?: string;
+  paint?: string;
+  fuel?: string;
+  motor?: string;
+  gearbox?: string;
+  gearCount?: number;
+  seatCount?: number;
+  security?: string;
+  comfort?: string;
+  appearance?: string;
+  bodyType?: string;
+}
 // Define the main type
 export interface ProductPayload {
   title: string;
@@ -14,6 +44,18 @@ export interface ProductPayload {
   images: Image[];
   category: SelectOption[];
   stock: number;
+  registrationNumber: string;
+  modelYear: string;
+  paint: string;
+  fuel: SelectOption;
+  motor: string;
+  gearbox: SelectOption;
+  gearCount: number;
+  seatCount: number;
+  security: string;
+  comfort: string;
+  appearance: string;
+  bodyType: SelectOption;
 }
 
 // Define the type for the category field
@@ -33,6 +75,7 @@ export interface ProductResponsePayload {
   reservePrice: number;
   images: Image[];
   categories: Category[];
+  specifications: Specification;
 }
 
 export interface ViewMultiData {

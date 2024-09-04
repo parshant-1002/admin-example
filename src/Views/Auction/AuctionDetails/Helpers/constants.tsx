@@ -1,11 +1,19 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
-import { ProductDetailResponsePayload } from './Model';
 import { ColumnData } from '../../../../Models/Tables';
-import { ViewMultiData, Category } from '../../../Products/helpers/model';
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
-import { convertToLocale } from '../../../../Shared/utils/functions';
 import { DATE_FORMATS } from '../../../../Shared/constants';
+import { convertToLocale, formatDate } from '../../../../Shared/utils/functions';
+import { Category, ViewMultiData } from '../../../Products/helpers/model';
+import { ProductDetailResponsePayload } from './Model';
+import { SelectOption } from '../../../../Models/common';
+import {
+  facebook,
+  instagram,
+  linkedin,
+  twitter,
+  whatsapp,
+} from '../../../../assets';
 
 export enum DetailType {
   String,
@@ -14,19 +22,47 @@ export enum DetailType {
   Date,
   DateRange,
 }
-type OptionType = { value: number; label: string };
+type OptionType = { value: number | string; label: string };
 export interface AuctionDetailsColumnData {
   title?: string;
   fieldName?: string;
   isTurncated?: boolean;
   isEditable?: boolean;
+  info?: boolean;
   type?: DetailType;
   options?: OptionType[];
   render?: (
     row: ProductDetailResponsePayload,
-    val: string | number | { categories: []; images: [] }
+    val: string | number | number[]
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
+export const SOCIAL_MEDIA_PLATFORMS = {
+  FACEBOOK: 1,
+  TWITTER: 2,
+  LINKEDIN: 3,
+  INSTAGRAM: 4,
+  WHATSAPP: 5,
+};
+
+export const SOCIAL_MEDIA_PLATFORMS_ICONS = {
+  [SOCIAL_MEDIA_PLATFORMS.FACEBOOK]: facebook,
+  [SOCIAL_MEDIA_PLATFORMS.TWITTER]: twitter,
+  [SOCIAL_MEDIA_PLATFORMS.LINKEDIN]: linkedin,
+  [SOCIAL_MEDIA_PLATFORMS.INSTAGRAM]: instagram,
+  [SOCIAL_MEDIA_PLATFORMS.WHATSAPP]: whatsapp,
+};
+
+export const SOCIAL_MEDIA_PLATFORMS_OPTIONS: SelectOption[] = [
+  { value: SOCIAL_MEDIA_PLATFORMS.FACEBOOK, label: 'Facebook', icon: facebook },
+  { value: SOCIAL_MEDIA_PLATFORMS.TWITTER, label: 'Twitter', icon: twitter },
+  { value: SOCIAL_MEDIA_PLATFORMS.LINKEDIN, label: 'Linkedin', icon: linkedin },
+  {
+    value: SOCIAL_MEDIA_PLATFORMS.INSTAGRAM,
+    label: 'Instagram',
+    icon: instagram,
+  },
+  { value: SOCIAL_MEDIA_PLATFORMS.WHATSAPP, label: 'Whatsapp', icon: whatsapp },
+];
 
 export const AuctionStatus: OptionType[] = [
   { value: 1, label: 'Pending' },
@@ -105,7 +141,7 @@ export const AuctionColumn = (
     title: 'Bid Timer',
     isEditable: false,
     type: DetailType.Number,
-    fieldName: 'turnTimer',
+    fieldName: 'bidDuration',
     render: (row) => `${convertToLocale(row?.reservePrice)} sec`,
   },
   {
@@ -119,6 +155,7 @@ export const AuctionColumn = (
     isEditable: false,
     type: DetailType.String,
     fieldName: 'productName',
+    info: true,
   },
   {
     title: 'Category',
@@ -168,7 +205,7 @@ export const AuctionColumn = (
   {
     title: 'Attachment',
     isEditable: false,
-    fieldName: 'productImage',
+    fieldName: 'images',
     render: (_, val) => {
       const imgData = val as unknown as {
         _id: string;
@@ -241,6 +278,36 @@ export const AuctionColumn = (
     fieldName: 'prizeClaimDays',
     type: DetailType.String,
   },
+  {
+    title: 'Social Media Enabled',
+    isEditable: false,
+    fieldName: 'enabledSocialMediaPlatforms',
+    type: DetailType.String,
+    render: (_, val) => {
+      return (
+        <div className="d-flex gap-1">
+          {(val as number[])?.length
+            ? (val as number[])?.map((socialMediaType) => (
+                <em className="social-Icon" key={socialMediaType}>
+                  <img
+                    src={SOCIAL_MEDIA_PLATFORMS_ICONS[socialMediaType]}
+                    alt="Icon"
+                    width="70"
+                  />
+                </em>
+              ))
+            : '-.-'}
+        </div>
+      );
+    },
+  },
+  {
+    title: 'Social Media Share Reward',
+    isEditable: false,
+    fieldName: 'socialMediaShareReward',
+    type: DetailType.String,
+    render: (_, val) => convertToLocale(val as string, true),
+  },
 ];
 
 export const AuctionBidColumn = (): ColumnData[] => [
@@ -277,19 +344,13 @@ export const AuctionBidColumn = (): ColumnData[] => [
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
-    render: (_, val) => {
-      const date = new Date(val);
-      const year = date.getFullYear();
-      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-      const day = date.getDate().toString().padStart(2, '0');
-      return `${day}-${month}-${year}`;
-    },
+    render: (_, createdAt) =>
+      createdAt ? formatDate(createdAt as string) : '-.-',
   },
   {
     title: 'Item Price (SEK)',
     sortable: true,
     sortType: 'currentBidPrice',
-    fieldName: 'currentBidPrice',
-    render: (row) => `${convertToLocale(row?.reservePrice)}`,
+    render: (row) => `${convertToLocale(row?.currentBidPrice)}`,
   },
 ];

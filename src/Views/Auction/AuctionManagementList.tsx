@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import CustomModal from '../../Shared/components/CustomModal';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomTableView, {
   Column,
   Row,
@@ -45,12 +45,15 @@ import {
 } from './AuctionDetails/Helpers/constants';
 import AuctionForm from './AuctionForm';
 import { AuctionColumns } from './helpers/constants';
-import { AuctionResponsePayload } from './helpers/model';
-
-interface EditData {
-  data: AuctionResponsePayload | null;
-  show: boolean;
-}
+import { AuctionResponsePayload, EditData } from './helpers/model';
+import { updateUploadedImages } from '../../Store/UploadedImages';
+import { RootState } from '../../Store';
+import { Image } from '../../Models/common';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+} from '../Products/helpers/constants';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -59,6 +62,13 @@ interface DeleteData {
 const ADD_ONS_PAGE_LIMIT = 10;
 
 export default function AuctionManagementList() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const uploadedImages = useSelector(
+    (state: RootState) => state.UploadedImages.images
+  );
+
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     open: false,
     data: { id: '', ids: [] },
@@ -67,7 +77,6 @@ export default function AuctionManagementList() {
 
   const [filters, setFilters] = useState({});
   const [addData, setAddData] = useState<boolean>(false);
-  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
@@ -77,11 +86,9 @@ export default function AuctionManagementList() {
     show: false,
   });
 
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
   const [search, setSearch] = useState<string>('');
-  const [deleteAuction] = useDeleteAuctionMutation();
   // query
   const { data: AuctionListing, refetch } = useGetAuctionsQuery({
     params: removeEmptyValues({
@@ -92,6 +99,8 @@ export default function AuctionManagementList() {
       ...filters,
     }),
   });
+  const { data: categoryList } = useGetCategorysQuery({ skip: 0 });
+  const [deleteAuction] = useDeleteAuctionMutation();
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     const selectedPageNumber = selectedItem.selected as unknown as number;
@@ -99,9 +108,31 @@ export default function AuctionManagementList() {
   };
 
   const handleEdit = (row: AuctionResponsePayload) => {
+    const specifications = {
+      ...(row?.specifications || {}),
+      fuel: {
+        label: FUEL_OPTIONS?.find(
+          (fuel) => fuel.value === Number(row?.specifications?.fuel)
+        )?.label,
+        value: row?.specifications?.fuel,
+      },
+      gearbox: {
+        label: GEARBOX_OPTIONS?.find(
+          (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
+        )?.label,
+        value: row?.specifications?.gearbox,
+      },
+      bodyType: {
+        label: CAR_BODY_TYPE_OPTIONS?.find(
+          (bodyType) => bodyType.value === Number(row?.specifications?.bodyType)
+        )?.label,
+        value: row?.specifications?.bodyType,
+      },
+    };
     setEditData({
       data: {
         ...row,
+        ...(specifications || {}),
         statusData: {
           value: row?.status,
           label:
@@ -213,6 +244,7 @@ export default function AuctionManagementList() {
         onSuccess: (data: { message: string }) => {
           toast.success(data?.message);
           handleCloseDelete();
+          setSelectedIds([]);
           refetch();
         },
       });
@@ -242,6 +274,7 @@ export default function AuctionManagementList() {
       categoryId: filterState?.selectedBrand?.value,
       productPurchaseStatus: filterState?.selectedSecondaryOptions?.value,
     });
+    setCurrentPage(0);
   };
 
   const categoryOptions = useMemo(
@@ -263,6 +296,14 @@ export default function AuctionManagementList() {
   const handleDeleteAll = () => {
     setDeleteModal({ open: true, data: { ids: selectedIds } });
   };
+  const handleCloseForm = () => {
+    if (!(uploadedImages as unknown as Image[])?.length) {
+      refetch();
+    }
+    setEditData({ data: null, show: false });
+    setAddData(false);
+    dispatch(updateUploadedImages([]));
+  };
   return (
     <div>
       <ViewMultiTableItem
@@ -281,31 +322,25 @@ export default function AuctionManagementList() {
         showClose={false}
       />
       {editData?.show && (
-        <CustomModal
+        <AuctionForm
           title="Edit"
           show={editData?.show}
-          onClose={() => setEditData({ data: null, show: false })}
-        >
-          <AuctionForm
-            isEdit
-            initialData={editData?.data}
-            onEdit={handleEditSuccess}
-          />
-        </CustomModal>
+          onClose={handleCloseForm}
+          isEdit
+          initialData={editData?.data}
+          onEdit={handleEditSuccess}
+        />
       )}
 
       {addData && (
-        <CustomModal
+        <AuctionForm
           title="Add"
           show={addData}
-          onClose={() => setAddData(false)}
-        >
-          <AuctionForm
-            isEdit={false}
-            initialData={{}}
-            onAdd={handleAddSuccess}
-          />
-        </CustomModal>
+          onClose={handleCloseForm}
+          isEdit={false}
+          initialData={{}}
+          onAdd={handleAddSuccess}
+        />
       )}
 
       <StatsFilters
@@ -325,6 +360,7 @@ export default function AuctionManagementList() {
         secondaryPriceRange={PRICE_RANGE}
         filterToggleImage={Filter}
         secondarySelectOptions={PurchaseStatus}
+        handleClearAll={() => setSelectedIds([])}
       />
 
       <CustomTableView

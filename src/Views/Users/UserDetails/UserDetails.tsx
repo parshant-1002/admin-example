@@ -14,6 +14,7 @@ import ProductHistoryList from './components/ProfileRelatedLists/ProductHistory'
 import ReferalHistoryList from './components/ProfileRelatedLists/ReferalHistoryList';
 import AuctionHistory from './components/ProfileRelatedLists/AuctionHistory';
 import { useGetUsersQuery } from '../../../Services/Api/module/users';
+import Invoices from './components/ProfileRelatedLists/Invoices';
 
 export default function UserDetails() {
   const { state } = useLocation();
@@ -120,6 +121,22 @@ export default function UserDetails() {
       case UserDetailsTabs.AUCTION_HISTORY:
         return (
           <AuctionHistory
+            search={search}
+            setSearch={setSearch}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            sortKey={sortKey}
+            sortDirection={sortDirection}
+            setSortKey={setSortKey}
+            setSortDirection={setSortDirection}
+            userId={state}
+            currentTab={activeTab}
+            callBidsCreditApi={callBidsCreditApi}
+          />
+        );
+      case UserDetailsTabs.INVOICE:
+        return (
+          <Invoices
             search={search}
             setSearch={setSearch}
             currentPage={currentPage}

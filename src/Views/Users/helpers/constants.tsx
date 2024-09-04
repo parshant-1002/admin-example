@@ -63,6 +63,12 @@ export const usersColumns = (
     sortType: 'name',
   },
   {
+    title: 'SSL No.',
+    fieldName: 'personalNumber',
+    sortable: true,
+    sortType: 'personalNumber',
+  },
+  {
     title: 'Email',
     fieldName: 'email',
     isTruncated: true,

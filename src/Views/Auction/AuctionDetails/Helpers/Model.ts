@@ -2,7 +2,7 @@ export interface ProductDetailResponsePayload {
   id_: string;
   title: string;
   bidStartDate: string;
-  turnTimer: number;
+  bidDuration: number;
   reservePrice: string;
   preAuctionPrice: string;
   reserveWaitingEndDate: string;

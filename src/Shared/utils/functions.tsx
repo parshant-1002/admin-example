@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-bitwise */
 /* eslint-disable no-continue */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
@@ -6,8 +8,14 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
 import { CustomRouter } from '../../Routes/RootRoutes';
+import { AddContentFormItem } from '../../Models/common';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
-import { API } from '../constants';
+import TruncateText from '../components/TruncateText';
+import { API, DATE_FORMATS } from '../constants';
+import FORM_VALIDATION_MESSAGES from '../constants/validationMessages';
+import ERROR_MESSAGES from '../constants/messages';
+import { store } from '../../Store';
+import { updateDeviceTokenRedux } from '../../Store/Common';
 
 interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
@@ -51,12 +59,13 @@ const getStringValue = (value: unknown): string => {
 
 // Function to validate fields and return errors
 const validateField = (
-  fields: Record<string, unknown>
+  fields: AddContentFormItem,
+  label: { title?: string; content?: string }
 ): Record<string, string> => {
   const errorsObject: Record<string, string> = {};
-  Object.keys(fields).forEach((key) => {
+  Object.entries(label).forEach(([key, value]: [string, string]) => {
     if (!fields[key]) {
-      errorsObject[key] = `${key} is required`;
+      errorsObject[key] = FORM_VALIDATION_MESSAGES(value).REQUIRED;
     }
   });
   return errorsObject;
@@ -64,19 +73,20 @@ const validateField = (
 
 // Function to check for errors in a roadmap and update the roadmap with errors
 const isErrors = (
-  roadMap: Record<string, unknown>[],
-  setRoadMap: React.Dispatch<React.SetStateAction<Record<string, unknown>[]>>
+  subFromContent: AddContentFormItem[],
+  setSubFormContent: React.Dispatch<React.SetStateAction<AddContentFormItem[]>>,
+  labels: { title?: string; content?: string }
 ): boolean => {
   let errors = false;
-  roadMap.forEach((item, index) => {
-    const currentErrors = validateField(item);
+  subFromContent?.forEach((item, index) => {
+    const currentErrors = validateField(item, labels);
     if (Object.keys(currentErrors).length) {
       errors = true;
       // Update the roadmap with the errors
-      const updatedRoadMap = roadMap.map((items, i) =>
+      const updatedRoadMap = subFromContent?.map((items, i) =>
         i === index ? { ...items, errors: currentErrors } : items
       );
-      setRoadMap(updatedRoadMap);
+      setSubFormContent(updatedRoadMap);
     }
   });
   // Scroll to the first error field
@@ -99,7 +109,7 @@ const copyToClipboard = async (
     if (error instanceof Error) {
       toast.error(`Failed to copy text to clipboard: ${error.message}`);
     } else {
-      toast.error('An unknown error occurred');
+      toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
     }
   }
 };
@@ -127,7 +137,7 @@ const convertToLocale = (
   }
   const formattedNumber = num
     .toLocaleString('sv-SE', {
-      minimumFractionDigits: isCurrency ? 2 : 0,
+      minimumFractionDigits: 0,
       maximumFractionDigits: 2,
     })
     .replace(',', '.');
@@ -215,7 +225,10 @@ function daysBetweenDates(date1: Date, date2: Date): number {
 
   return daysDifference;
 }
-function formatDate(date: Date | string, format = 'DD-MM-YYYY'): string {
+function formatDate(
+  date: Date | string,
+  format = DATE_FORMATS.DISPLAY_DATE_WITH_TIME
+): string {
   if (!date) return '';
   return moment(date).format(format);
 }
@@ -263,7 +276,66 @@ function getValueFromPath(
 const renderIdWithHash = (
   _: Record<string, unknown> | unknown,
   val: string | number
-) => (val ? `${val}` : '-.-');
+) => (val ? <TruncateText text={val} /> : '-.-');
+
+function hashCode(str: string) {
+  let hash = 0;
+  if (str.length === 0) {
+    return hash;
+  }
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash &= hash; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+function getBrowserName() {
+  const { userAgent } = navigator;
+  let browserName = 'Unknown';
+
+  if (userAgent.indexOf('Chrome') !== -1) {
+    browserName = 'Chrome';
+  } else if (userAgent.indexOf('Firefox') !== -1) {
+    browserName = 'Firefox';
+  } else if (userAgent.indexOf('Safari') !== -1) {
+    browserName = 'Safari';
+  } else if (userAgent.indexOf('Edge') !== -1) {
+    browserName = 'Edge';
+  } else if (
+    userAgent.indexOf('Opera') !== -1 ||
+    userAgent.indexOf('OPR') !== -1
+  ) {
+    browserName = 'Opera';
+  } else if (userAgent.indexOf('Trident') !== -1) {
+    browserName = 'Internet Explorer';
+  }
+
+  return browserName;
+}
+function getDeviceIdAndBrowserName() {
+  // Attempt to retrieve the device ID from local storage
+  let deviceId = localStorage.getItem('deviceId');
+
+  // If device ID doesn't exist, generate a new one
+  if (!deviceId) {
+    // Generate a semi-unique identifier based on userAgent and platform
+    deviceId = String(hashCode(navigator.userAgent + navigator.platform));
+
+    // Store the generated device ID in local storage
+    localStorage.setItem('deviceId', deviceId);
+  }
+
+  // Get the browser name
+  const browserName = getBrowserName();
+
+  return { deviceId, browserName };
+}
+const setNotificationDeviceToken = (token: string) => {
+  const { dispatch = () => {} } = store;
+  dispatch(updateDeviceTokenRedux(token));
+};
 
 export {
   addBaseUrl,
@@ -282,6 +354,8 @@ export {
   matchRoute,
   onQueryStarted,
   removeEmptyValues,
-  validateField,
   renderIdWithHash,
+  validateField,
+  setNotificationDeviceToken,
+  getDeviceIdAndBrowserName,
 };

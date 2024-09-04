@@ -26,6 +26,22 @@ import TotalBidIcon from './icons/bid_total_icon.svg';
 import AuctionIcon from './icons/auction_icon.svg';
 import ReserveIcon from './icons/reserve_icon.svg';
 import RedirectionIcon from './icons/arrow-redirection.svg';
+import sortIcon from './icons/sort-icon.svg';
+import addIcon from './icons/add-icon.svg';
+import auction from './images/auction.png';
+import calender from './icons/calender_icon_black.svg';
+import downArrowFilter from './icons/down-arrow-ico.svg';
+import earnings from './icons/earning.svg';
+import bidsSold from './icons/sold.svg';
+import info from './icons/info.svg';
+import whiteCross from './icons/whitecross.svg';
+import whatsapp from './icons/whatsapp.svg';
+import instagram from './icons/instagram.svg';
+import linkedin from './icons/linkedin.svg';
+import facebook from './icons/facebook.svg';
+import twitter from './icons/twitter.svg';
+import ascending from './icons/ascending.svg';
+import descending from './icons/descending.svg';
 
 export {
   Logo,
@@ -56,4 +72,20 @@ export {
   AuctionIcon,
   ReserveIcon,
   RedirectionIcon,
+  sortIcon,
+  addIcon,
+  auction,
+  calender,
+  downArrowFilter,
+  earnings,
+  bidsSold,
+  info,
+  whiteCross,
+  whatsapp,
+  instagram,
+  linkedin,
+  facebook,
+  twitter,
+  ascending,
+  descending,
 };

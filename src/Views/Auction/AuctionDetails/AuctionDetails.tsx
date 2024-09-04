@@ -5,20 +5,36 @@ import moment from 'moment';
 import { useAuctionData } from '../helpers/useAuctionData';
 
 import BidsList from './BidsList';
-import { Category, ViewMultiData } from '../../Products/helpers/model';
+import {
+  Category,
+  ViewMultiData,
+  ViewSpecificationData,
+} from '../../Products/helpers/model';
 import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
 import { AuctionColumn, AuctionStatus } from './Helpers/constants';
 import DetailsWrapperEditableCard from '../../../Shared/components/DetailsEditableCard';
 import { CustomModal } from '../../../Shared/components';
 import AuctionForm from '../AuctionForm';
 import { AuctionResponsePayload } from '../helpers/model';
-import { BUTTON_LABELS, DATE_FORMATS } from '../../../Shared/constants';
+import {
+  BUTTON_LABELS,
+  DATE_FORMATS,
+  STRINGS,
+} from '../../../Shared/constants';
 import { useGetAuctionsQuery } from '../../../Services/Api/module/auction';
 import { removeEmptyValues } from '../../../Shared/utils/functions';
 import Button from '../../../Shared/components/form/Button';
 
 import '../Auction.scss';
 import { edit } from '../../../assets';
+import CustomDetailsBoard from '../../../Shared/components/CustomDetailsBoard';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+  SPECIFICATIONS,
+} from '../../Products/helpers/constants';
+import Breadcrumbs from '../../../Shared/components/layouts/components/breadcrumb/Breadcrumb';
 
 interface EditData {
   data: AuctionResponsePayload | null;
@@ -33,6 +49,11 @@ export default function AuctionDetails() {
       auctionId: id,
     }),
   });
+  const [viewSpecifications, setViewSpecifications] =
+    useState<ViewSpecificationData>({
+      data: {},
+      show: false,
+    });
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
     show: false,
@@ -43,9 +64,33 @@ export default function AuctionDetails() {
   if (isError) return <div>Error loading data.</div>;
 
   const handleEdit = () => {
+    const specifications = {
+      ...(auctionDataa?.specifications || {}),
+      fuel: {
+        label: FUEL_OPTIONS?.find(
+          (fuel) => fuel.value === Number(auctionDataa?.specifications?.fuel)
+        )?.label,
+        value: auctionDataa?.specifications?.fuel,
+      },
+      gearbox: {
+        label: GEARBOX_OPTIONS?.find(
+          (gearbox) =>
+            gearbox.value === Number(auctionDataa?.specifications?.gearbox)
+        )?.label,
+        value: auctionDataa?.specifications?.gearbox,
+      },
+      bodyType: {
+        label: CAR_BODY_TYPE_OPTIONS?.find(
+          (bodyType) =>
+            bodyType.value === Number(auctionDataa?.specifications?.bodyType)
+        )?.label,
+        value: auctionDataa?.specifications?.bodyType,
+      },
+    };
     setEditData({
       data: {
         ...auctionDataa,
+        ...(specifications || {}),
         statusData: {
           value: auctionDataa?.status,
           label:
@@ -69,7 +114,7 @@ export default function AuctionDetails() {
         reserveWaitingEndDate: moment(
           auctionDataa.reserveWaitingEndDate
         ).format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
-        images: auctionDataa?.product?.images,
+        images: auctionDataa?.images,
       },
       show: true,
     });
@@ -79,41 +124,59 @@ export default function AuctionDetails() {
     refetch();
     auctionRefetch();
   };
+
+  const handleCloseForm = () => {
+    setEditData({ data: null, show: false });
+    setViewSpecifications({ data: {}, show: false });
+  };
   return (
-    <div className="position-relative">
-      <ViewMultiTableItem
-        show={showMultiItemView}
-        setShow={setShowMultiItemView}
-      />
-      <DetailsWrapperEditableCard
-        details={data}
-        dataScema={AuctionColumn(setShowMultiItemView)}
-      />
-      {editData?.show && (
-        <CustomModal
-          title="Edit"
-          show={editData?.show}
-          onClose={() => setEditData({ data: null, show: false })}
-        >
+    <>
+      <Breadcrumbs />
+      <div className="position-relative">
+        <ViewMultiTableItem
+          show={showMultiItemView}
+          setShow={setShowMultiItemView}
+        />
+        {viewSpecifications?.show && (
+          <CustomModal
+            title={STRINGS.SPECIFICATIONS}
+            show={viewSpecifications?.show}
+            onClose={handleCloseForm}
+          >
+            <CustomDetailsBoard
+              data={viewSpecifications?.data}
+              schema={SPECIFICATIONS}
+            />
+          </CustomModal>
+        )}
+        <DetailsWrapperEditableCard
+          details={data}
+          setViewSpecifications={setViewSpecifications}
+          dataScema={AuctionColumn(setShowMultiItemView)}
+        />
+        {editData?.show && (
           <div className="p-4">
             <AuctionForm
+              title="Edit"
+              show={editData?.show}
+              onClose={handleCloseForm}
               isEdit
               initialData={editData?.data}
               onEdit={handleEditSuccess}
             />
           </div>
-        </CustomModal>
-      )}
-      <Button
-        className="btn btn44 position-absolute auction-details-edit"
-        onClick={handleEdit}
-      >
-        <img src={edit} alt={BUTTON_LABELS.EDIT} />
-      </Button>
-      {/* <Button className="btn btn-sm" onClick={saveChanges}>
+        )}
+        <Button
+          className="btn btn44 position-absolute auction-details-edit"
+          onClick={handleEdit}
+        >
+          <img src={edit} alt={BUTTON_LABELS.EDIT} />
+        </Button>
+        {/* <Button className="btn btn-sm" onClick={saveChanges}>
         {BUTTON_LABELS.CANCEL}
       </Button> */}
-      <BidsList auctionId={id} />
-    </div>
+        <BidsList auctionId={id} />
+      </div>
+    </>
   );
 }

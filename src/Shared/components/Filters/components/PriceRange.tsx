@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import { Tooltip } from 'react-tooltip';
-import { downArrow } from '../../../../assets';
+import { downArrowFilter } from '../../../../assets';
 import Button from '../../form/Button';
 
 interface PriceRangeSliderProps {
@@ -81,9 +81,9 @@ function PriceRangeSlider({
         onClick={toggleTooltip}
         data-tooltip-id={open ? `my-tooltip-${rangeSilderTitle}` : ''}
       >
-        {rangeSilderTitle} (${value?.[0]} - ${value?.[1]}){' '}
+        {rangeSilderTitle} ({value?.[0]} - {value?.[1]}) SEK{' '}
         <span className={!open ? 'arrow-down' : 'arrow-right'}>
-          <img src={downArrow} alt="" width={15} />
+          <img src={downArrowFilter} alt="" height={20} width={20} />
         </span>{' '}
       </div>
       <Tooltip
@@ -96,8 +96,8 @@ function PriceRangeSlider({
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">
-            <h6>{rangeSilderTitle} Range Slider</h6>${value?.[0]} - $
-            {value?.[1]}
+            <h6>{rangeSilderTitle} Range Selector</h6>({value?.[0]} -
+            {value?.[1]}) SEK
           </div>
           {isFiltersOn ? (
             <div>

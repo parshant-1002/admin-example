@@ -1,6 +1,7 @@
 import { Delete, edit, view } from '../../../assets';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
+import TruncatedText from '../../../Shared/components/TruncateText/TruncateText';
 import {
   INPUT_TYPES,
   REFERRAL_STATUS,
@@ -20,7 +21,15 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Referral Pack Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referral Pack Name').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
   rewardBids: {
@@ -29,7 +38,11 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Bids Given',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Bids Given').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   refereeBidRequirement: {
@@ -38,7 +51,11 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Referee Bids Purchased',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Referee Bids Purchased').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   startDate: {
@@ -48,7 +65,7 @@ export const REFERRAL_PACK_SCHEMA = {
     placeholder: 'Start Date',
     min: formatDate(new Date(), 'YYYY-MM-DD'),
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Start Date').REQUIRED,
     },
   },
   isEnabled: {
@@ -57,7 +74,7 @@ export const REFERRAL_PACK_SCHEMA = {
     className: 'col-md-12',
     placeholder: 'Status',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Status').REQUIRED,
     },
   },
 };
@@ -93,14 +110,16 @@ export const CreateReferralColumns = ({
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
           />
-          <div className="checkbox-custom" />
+          <span className="label" />
         </div>
       );
     },
   },
   {
     title: STRINGS.REFERRAL_ID,
-    fieldName: '_id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {
@@ -182,16 +201,16 @@ export const CreateReferralColumns = ({
 export const ReferralListColumns: ColumnData[] = [
   {
     title: STRINGS.REFERRAL_ID,
-    fieldName: '_id',
+    fieldName: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.REFERRER_NAME,
-    render: (row) => row?.refererUser?.name,
+    render: (row) => <TruncatedText text={row?.refererUser?.name} />,
   },
   {
     title: STRINGS.REFERRER_EMAIL,
-    render: (row) => row?.refererUser?.email,
+    render: (row) => <TruncatedText text={row?.refererUser?.email} />,
   },
   {
     title: STRINGS.REWARDS,
@@ -201,21 +220,20 @@ export const ReferralListColumns: ColumnData[] = [
   },
   {
     title: STRINGS.REFEREE_EMAIL,
-    render: (row) => row?.refereeUser?.email,
+    render: (row) => <TruncatedText text={row?.refereeUser?.email} />,
   },
   {
     title: STRINGS.REWARD_AT,
-    fieldName: 'rewardAt',
+    fieldName: 'refereePurchasedBids',
     sortable: true,
-    sortType: 'rewardAt',
+    sortType: 'refereePurchasedBids',
   },
   {
     title: STRINGS.REFERRAL_DATE,
     fieldName: 'createdAt',
     sortable: true,
     sortType: 'createdAt',
-    render: (_, startDate) =>
-      startDate ? new Date(startDate).toDateString() : '',
+    render: (_, startDate) => (startDate ? formatDate(String(startDate)) : ''),
   },
   {
     title: STRINGS.STATUS,

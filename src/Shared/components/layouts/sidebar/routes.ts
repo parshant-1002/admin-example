@@ -9,6 +9,146 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
+    iconClass: 'bi bi-notification-content',
+    label: 'Notifications Content',
+    children: [
+      {
+        label: 'Reserve Price Reached',
+        route: ROUTES.RESERVE_PRICE_REACHED,
+      },
+      {
+        label: 'New Bid Placed',
+        route: ROUTES.NEW_BID_PLACED,
+      },
+      {
+        label: 'Automatic Bid Runed Out',
+        route: ROUTES.AUTOMATIC_BID_RUNNED_OUT,
+      },
+      {
+        label: 'Bid Time Left',
+        route: ROUTES.BID_TIME_LEFT,
+      },
+      {
+        label: 'Winner',
+        route: ROUTES.WINNER,
+      },
+      {
+        label: 'Auction Ended',
+        route: ROUTES.AUCTION_ENDED,
+      },
+      {
+        label: 'New User Joined',
+        route: ROUTES.NEW_USER_JOINED,
+      },
+      {
+        label: 'Auction Started',
+        route: ROUTES.AUCTION_STARTED,
+      },
+      {
+        label: 'Bid Plan Purchased',
+        route: ROUTES.BID_PLAN_PURCHASED,
+      },
+      {
+        label: 'Contacted Support',
+        route: ROUTES.CONTACTED_SUPPORT,
+      },
+    ],
+  },
+  {
+    iconClass: 'bi bi-pages-content',
+    label: 'Pages Content',
+    children: [
+      {
+        label: 'Headers',
+        route: ROUTES.HEADERS_CONTENT,
+      },
+      {
+        label: 'Hero Content',
+        route: ROUTES.HERO_SECTION,
+      },
+      {
+        label: 'As Seen On',
+        route: ROUTES.COMPANIES_CONTENT,
+      },
+      {
+        label: 'Top Auctions',
+        route: ROUTES.TOP_AUCTION_SECTION,
+      },
+      {
+        label: 'Bid Pack ',
+        route: ROUTES.BID_PACK_SECTION,
+      },
+      {
+        label: 'How It Works',
+        route: ROUTES.HOW_IT_WORKS_CONTENT,
+      },
+      {
+        label: 'Wallet Section',
+        route: ROUTES.WALLET_SECTION,
+      },
+      {
+        label: 'Referral Section',
+        route: ROUTES.REFERRAL_SECTION,
+      },
+      {
+        label: 'FAQ',
+        route: ROUTES.FAQ_CONTENT,
+      },
+      {
+        label: 'Auction Page',
+        route: ROUTES.AUCTION_PAGE,
+      },
+      {
+        label: 'Profile Page',
+        route: ROUTES.PROFILE_PAGE_CONTENT,
+      },
+      {
+        label: 'Profile Overview',
+        route: ROUTES.PROFILE_OVERVIEW,
+      },
+      {
+        label: 'User Profile Section',
+        route: ROUTES.USER_PROFILE_SECTION,
+      },
+      {
+        route: ROUTES.PENNY_AUCTION_SECTION,
+        label: 'Penny Auction Section',
+      },
+      {
+        label: 'Auction Sections',
+        route: ROUTES.AUCTION_SECTIONS,
+      },
+      {
+        route: ROUTES.CURRENT_BIDS_SECTION,
+        label: 'Current Bids Section',
+      },
+      {
+        label: 'Contact Us',
+        route: ROUTES.CONTACTUS_CONTENT,
+      },
+      {
+        label: 'About Us',
+        route: ROUTES.ABOUT_US_CONTENT,
+      },
+      {
+        label: 'Cookies',
+        route: ROUTES.COOKIES,
+      },
+      {
+        label: 'Terms and Condition',
+        route: ROUTES.TERM_AND_CONDITION_CONTENT,
+      },
+      {
+        label: 'Privacy Policy',
+        route: ROUTES.PRIVACY_POLICY_CONTENT,
+      },
+      {
+        label: 'Footer',
+        route: ROUTES.FOOTER,
+      },
+    ],
+  },
+  {
     iconClass: 'bi bi-user',
     label: 'Users',
     route: ROUTES.USERS,
@@ -34,11 +174,11 @@ const SIDEBAR_NAV = [
     label: 'Invoices',
     children: [
       {
-        label: 'Auction',
+        label: 'Products',
         route: ROUTES.INVOICES_AUCTION,
       },
       {
-        label: 'Purchase',
+        label: 'Bids',
         route: ROUTES.INVOICES_PURCHASE,
       },
     ],
@@ -75,127 +215,6 @@ const SIDEBAR_NAV = [
       },
     ],
   },
-  // {
-  //   // icon: AirDropIcon,
-  //   label: 'AirDrop',
-  //   // route: ROUTES.AIR_DROP,
-  //   children: [
-  //     {
-  //       label: 'List',
-  //       // route: ROUTES.AIR_DROP_LIST,
-  //     },
-  //     {
-  //       label: 'History',
-  //       // route: ROUTES.AIR_DROP_HISTORY,
-  //     },
-  //   ],
-  // },
-  // {
-  //   iconClass: 'bi bi-body-text',
-  //   label: 'Content Management',
-  //   //   // route: ROUTES.CONTENT_MANAGEMENT,
-  //   children: [
-  //     {
-  //       label: 'Top Header Content',
-  //       route: ROUTES.TOP_NAVBAR_CONTENT,
-  //     },
-  //     //     {
-  //     //       label: 'Video Content',
-  //     //       // route: ROUTES.VIDEO_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Prize Section Content',
-  //     //       // route: ROUTES.PRIZE_SECTION_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Winner List Content',
-  //     //       // route: ROUTES.WINNER_LIST_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Winner Rules Content',
-  //     //       // route: ROUTES.WINNER_RULES_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Contract details Content',
-  //     //       // route: ROUTES.CONTRACT_DETAILS_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Roadmap Section Content',
-  //     //       // route: ROUTES.ROAD_MAP_SECTION_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Premium Token Wallet Content',
-  //     //       // route: ROUTES.PREMIUM_TOKEN_WALLET_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Featured on Content',
-  //     //       // route: ROUTES.FEATURES_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Token Information Content',
-  //     //       // route: ROUTES.TOKEN_INFORMATION_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'External Audit Content',
-  //     //       // route: ROUTES.EXTERNAL_AUDIT_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Premium Marketplace Content',
-  //     //       // route: ROUTES.PREMIUM_MARKET_PLACE_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Token Supply & Stats Content',
-  //     //       // route: ROUTES.TOKEN_STATS_INFORMATION_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Join Airdrop Content',
-  //     //       // route: ROUTES.JOIN_AIRDROP_CONTENT,
-  //     //     },
-  //     //     // {
-  //     //     //   label: 'Partners Content',
-  //     //     // route: ROUTES.PARTNER_CONTENT,
-  //     //     // },
-  //     //     {
-  //     //       label: 'Footer Content',
-  //     //       // route: ROUTES.FOOTER_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Prize Popup Content',
-  //     //       // route: ROUTES.PRIZE_SECTION_POPUP_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Privacy Policy Content',
-  //     //       // route: ROUTES.PRIVACY_POLICY_PAGE_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'Term And Condition Content',
-  //     //       // route: ROUTES.TERM_AND_CONDITION_PAGE_CONTENT,
-  //     //     },
-  //     //     {
-  //     //       label: 'SEO Meta Content',
-  //     //       // route: ROUTES.META_CONTENT,
-  //     //     },
-  //   ],
-  // },
-  // {
-  //   iconClass: 'bi bi-currency-bitcoin',
-  //   label: 'Contract Management',
-  //   // route: ROUTES.WINNERS_STATS,
-  //   children: [
-  //     {
-  //       // route: ROUTES.TOKEN_MANAGEMENT,
-  //       label: 'Token management',
-  //     },
-  //     {
-  //       // route: ROUTES.LOTTERY_MANAGEMENT,
-  //       label: 'Smart Contract management',
-  //     },
-  //     {
-  //       // route: ROUTES.WINNERS_LIST,
-  //       label: 'Winners list',
-  //     },
-  //   ],
-  // },
 ];
 
 export default SIDEBAR_NAV;

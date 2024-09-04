@@ -1,0 +1,157 @@
+@import '../../../src/assets/scss/base';
+.notification-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 480px;
+    height: 100%;
+    background: $dark-voilet-color-900;
+    border-radius: 6px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    z-index: 1050;
+    transition: transform 0.3s ease-in-out;
+
+    &.active {
+        transform: translateX(0);
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+    }
+}
+
+.notification-header {
+    padding: 20px 60px 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $grey-dark;
+    position: relative; // Ensure the close button is positioned correctly
+
+    .clear_all {
+        cursor: pointer;
+        color: $white-color; // Blue for better visibility
+        margin-left: auto; // Aligns 'Clear All' to the right
+        font-size: 14px;
+    }
+
+    .h6, .btn-close {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+    .form-row{
+        width: 100%;
+    }
+}
+
+.btn-close {
+    border: none;
+    background: transparent; // Ensures the button has no background
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    filter: invert(1) brightness(9);
+
+    svg {
+        fill: #000; // Black color for the SVG
+    }
+}
+
+.notification-list {
+    overflow-y: auto; // Enable vertical scrolling within the list
+    max-height: calc(100% - 60px); // Adjust based on header size
+    width: 100%;
+
+    &::-webkit-scrollbar {
+        width: 6px; // Slim scrollbar
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #007bff; // Blue scrollbar thumb for visibility
+        border-radius: 10px;
+    }
+}
+
+.notification-items {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    border-top: 1px solid $grey-dark; // Light grey border for separation
+
+    &:hover {
+        background-color: #f0f0f0;
+    }
+
+    &.unread-msg {
+        font-weight: bold;
+        background-color: $dark-voilet-color-900; // Slightly blue background for unread messages
+    }
+
+    &.disable-casino {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .notification-content {
+        flex-grow: 1;
+        display: flex;
+        align-items: flex-start;
+        background-color: transparent !important;
+        justify-content: space-between;
+        img{
+            max-width: 120px;
+        }
+
+        .notification-body {
+            h4 {
+                margin-bottom: 5px; // Space between title and description
+                color: $white-color;
+            }
+
+            p {
+                margin: 0;
+                font-weight: 400;
+                font-size: 14px;
+                color: rgba($white-color, 0.8);
+                font-weight: 200;
+            }
+
+            a {
+                color: $white-color; // Link color
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 14px;
+                margin-top: 10px;
+                display: block;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        .notification-body {
+            width: 100%;
+            max-width: calc(100% - 130px) !important;
+        }
+    }
+}
+
+.notifications-list {
+    list-style: none;
+    padding: 0;
+
+    .no-notifications {
+        text-align: center;
+        padding: 20px;
+        font-size: 16px;
+        color: #666;
+    }
+}
+.header-title{
+    color: $white-color;
+}

@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import { Ref, SyntheticEvent, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import TextField, { ErrorComponent } from '../TextInput/TextInput';
+import { INPUT_TYPES } from '../../../constants';
+import ColorPicker from '../../ColorPicker';
+import CheckBox from '../CheckBox';
+import RichText from '../RIchText/RitchText';
 import CustomSelect from '../Select';
 import { CustomSwitch } from '../Switch/Switch';
-import { INPUT_TYPES } from '../../../constants';
+import TextField, { ErrorComponent } from '../TextInput/TextInput';
 import type { FormDataProps } from './types/Formtypes';
-import CheckBox from '../CheckBox';
-// import { FileUpload } from '../../../../Shared/Model';
-// import ICONS from '../../../../assets';
 
 interface RenderFieldProps {
   field: FormDataProps;
@@ -45,7 +45,7 @@ function RenderField({
     field.schema.minDate?.value;
   const [inputType, setInputType] = useState(field.type);
   const handleEyeClick = () => {
-    setInputType((prev: string) =>
+    setInputType((prev?: string) =>
       prev === INPUT_TYPES.PASSWORD ? INPUT_TYPES.TEXT : INPUT_TYPES.PASSWORD
     );
   };
@@ -66,9 +66,15 @@ function RenderField({
             readOnly={field.readOnly || false}
             placeholder={field.placeholder}
             accept={field.accept || ''}
+            config={field.config}
             onChange={(e: SyntheticEvent) =>
               handleInputChange(id, (e.target as HTMLInputElement).value)
             }
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (field?.blockInvalidChars) {
+                field?.blockInvalidChars(e);
+              }
+            }}
             maxLength={maxLength || ''}
             minLength={minLength || ''}
             minDate={minDate || ''}
@@ -94,6 +100,10 @@ function RenderField({
             minLength={minLength || ''}
             control={control}
             className={className}
+            ratio={field?.ratio}
+            imageFileType={field?.imageFileType}
+            fetchImageDataConfig={field?.fetchImageDataConfig}
+            singleImageSelectionEnabled={field?.singleImageSelectionEnabled}
             value={value}
           />
         );
@@ -105,35 +115,37 @@ function RenderField({
             {...handleRegister(id)}
             render={({
               field: { onChange, onBlur, value: selectValue, name, ref },
-            }) => (
-              <CustomSelect
-                ref={ref}
-                name={name}
-                id={id}
-                options={field.options}
-                {...handleRegister(id)}
-                onChange={(selectedValue: unknown) => {
-                  onChange(selectedValue);
-                  handleInputChange(id, selectedValue);
-                }}
-                onBlur={onBlur}
-                className={className}
-                isMulti={field?.isMulti}
-                value={selectValue}
-              />
-            )}
+            }) => {
+              return (
+                <CustomSelect
+                  ref={ref}
+                  name={name}
+                  id={id}
+                  placeholder={field.placeholder}
+                  options={field.options}
+                  {...handleRegister(id)}
+                  onChange={(selectedValue: unknown) => {
+                    onChange(selectedValue);
+                    handleInputChange(id, selectedValue);
+                  }}
+                  onBlur={onBlur}
+                  className={className}
+                  isMulti={field?.isMulti}
+                  value={selectValue}
+                />
+              );
+            }}
           />
         );
-      //   case INPUT_TYPES.RICH_TEXT:
-      //     return (
-      //       <RichText
-      //         id={id}
-      //         placeholder={field.placeholder}
-      //         content={field.value}
-      //         {...handleRegister(id)}
-      //         onChange={(value) => handleInputChange(id, value)}
-      //       />
-      //     );
+      case INPUT_TYPES.RICH_TEXT:
+        return (
+          <RichText
+            placeholder={field.placeholder}
+            content={field.value as string}
+            {...handleRegister(id)}
+            onChange={(richTextValue) => handleInputChange(id, richTextValue)}
+          />
+        );
       //   case INPUT_TYPES.FILE_UPLOAD:
       //     return (
       //       <FileUpload
@@ -175,11 +187,14 @@ function RenderField({
             }}
           />
         );
+      case INPUT_TYPES.COLOR:
+        return <ColorPicker id={id} control={control as Control} />;
       case INPUT_TYPES.CHECKBOX:
         return (
           <Controller
             name={id}
             control={control as Control}
+            {...handleRegister(id)}
             render={({ field: ControllableField }) => {
               // Destructure the field state provided by React Hook Form
               const {
@@ -190,12 +205,14 @@ function RenderField({
               return (
                 <CheckBox
                   {...restField} // Spread rest of the field props (like name, ref, etc.)
+                  {...handleRegister(id)}
                   value={checked as string | undefined} // Set the checked state
                   onChange={(inputValue: unknown) => {
                     onChange(inputValue); // Update the React Hook Form state
                     handleInputChange(id, inputValue); // Perform additional actions
                   }}
                   options={field?.checkOptions || []}
+                  isMulti={field?.isMulti}
                 />
               );
             }}
@@ -208,10 +225,7 @@ function RenderField({
   };
 
   return (
-    <div
-      className={`mb-2 modal-form-field ${field?.containerClassName || ''}`}
-      key={id}
-    >
+    <div className={`mb-2 modal-form-field ${field?.className || ''}`} key={id}>
       {field.label && (
         <label
           className={
@@ -223,7 +237,12 @@ function RenderField({
           {field.label}
         </label>
       )}
-      <div className={field.groupClassName || ''}>
+      {field.subLabel && (
+        <p className={field?.subLabelClassName || 'text-secondary '}>
+          {field.subLabel}
+        </p>
+      )}
+      <div className={field.groupClassName || 'nc_choose_file'}>
         {renderInput()}
         {field.type === INPUT_TYPES.PASSWORD && (
           <img

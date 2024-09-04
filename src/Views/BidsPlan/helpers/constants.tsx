@@ -1,10 +1,10 @@
-import { Delete, edit, InvoiceIcon, view } from '../../../assets';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { Dispatch, SetStateAction } from 'react';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import TruncateText from '../../../Shared/components/TruncateText';
 import {
   BID_PLAN_TYPES,
-  IMAGE_FILE_TYPES,
   INPUT_TYPES,
   REFERRAL_STATUS,
   STRINGS,
@@ -15,83 +15,143 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
+import { Delete, InvoiceIcon, edit, view } from '../../../assets';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
+  DESCRIPTION: 'description',
   PRICE: 'price',
+  YEARLY_PRICE: 'priceAnnual',
   BIDS: 'bids',
-  HOT_DEAL: 'type',
+  BID_PLAN_TYPE: 'type',
   DISCOUNT_PERCENTAGE: 'dealOfferPercentage',
+  BID_COVERSION: 'bidConversion',
+  MIN_BIDS: 'bidMin',
+  MAX_BIDS: 'bidMax',
   DISCOUNT_PRICE: 'dealPrice',
+  MONTHLY_PRICE: 'priceMonthly',
   END_DATE: 'endDate',
   STATUS: 'isEnabled',
   IMAGE_URL: 'imageURL',
 };
 
-export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
+export const PLAN_SCHEMA = (showHotDealSpecificFields: number) => ({
   [PLAN_FORM_FIELDS.NAME]: {
     type: INPUT_TYPES.TEXT,
     label: STRINGS.PLAN_NAME,
     className: 'col-md-12',
     placeholder: STRINGS.PLAN_NAME,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
-  [PLAN_FORM_FIELDS.PRICE]: {
-    type: INPUT_TYPES.NUMBER,
-    label: STRINGS.DEAL_PRICE,
-    className: 'col-md-12',
-    placeholder: STRINGS.DEAL_PRICE,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-      min: {
-        value: 0,
-        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.PLAN_NAME).REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
       },
     },
   },
-  [PLAN_FORM_FIELDS.IMAGE_URL]: {
-    type: INPUT_TYPES.FILE,
-    label: 'Images',
-    accept: IMAGE_FILE_TYPES,
+  [PLAN_FORM_FIELDS.DESCRIPTION]: {
+    type: INPUT_TYPES.TEXT_AREA,
+    label: STRINGS.PLAN_DESCRIPTION,
     className: 'col-md-12',
-    placeholder: 'Images',
-  },
-  [PLAN_FORM_FIELDS.BIDS]: {
-    type: INPUT_TYPES.NUMBER,
-    label: STRINGS.BIDS_CREDITED,
-    className: 'col-md-12',
-    placeholder: STRINGS.BIDS_CREDITED,
+    placeholder: STRINGS.PLAN_DESCRIPTION,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-      min: {
-        value: 0,
-        message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.PLAN_DESCRIPTION).REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 100,
+        message: FORM_VALIDATION_MESSAGES(100).MAX_LENGTH,
       },
     },
   },
-  [PLAN_FORM_FIELDS.HOT_DEAL]: {
+  [PLAN_FORM_FIELDS.BID_PLAN_TYPE]: {
     type: INPUT_TYPES.SELECT,
-    label: STRINGS.HOT_DEAL,
+    label: STRINGS.BID_PLAN_TYPE,
     className: 'col-md-12',
-    placeholder: STRINGS.HOT_DEAL,
+    placeholder: STRINGS.BID_PLAN_TYPE,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.BID_PLAN_TYPE).REQUIRED,
     },
     options: [
       {
-        label: STRINGS.YES,
-        value: BID_PLAN_TYPES.HOT_DEAL,
+        label: STRINGS.CUSTOM,
+        value: BID_PLAN_TYPES.CUSTOM,
       },
       {
-        label: STRINGS.NO,
+        label: STRINGS.REGULAR,
         value: BID_PLAN_TYPES.REGULAR,
       },
     ],
   },
-  ...(showHotDealSpecificFields
+  ...(showHotDealSpecificFields === BID_PLAN_TYPES.CUSTOM
     ? {
+        [PLAN_FORM_FIELDS.BID_COVERSION]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.BIDS_CONVERSION,
+          className: 'col-md-12',
+          placeholder: STRINGS.BIDS_CONVERSION,
+          min: 0,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CONVERSION)
+              .REQUIRED,
+            min: {
+              value: 0,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
+            },
+          },
+        },
+        [PLAN_FORM_FIELDS.MIN_BIDS]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.MIN_BIDS,
+          className: 'col-md-6',
+          placeholder: STRINGS.MIN_BIDS,
+          min: 0,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES(STRINGS.MIN_BIDS).REQUIRED,
+            min: {
+              value: 0,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
+            },
+          },
+        },
+        [PLAN_FORM_FIELDS.MAX_BIDS]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.MAX_BIDS,
+          className: 'col-md-6',
+          placeholder: STRINGS.MAX_BIDS,
+          min: 0,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES(STRINGS.MAX_BIDS).REQUIRED,
+            min: {
+              value: 0,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
+            },
+          },
+        },
+      }
+    : {}),
+  ...(showHotDealSpecificFields === BID_PLAN_TYPES.REGULAR
+    ? {
+        [PLAN_FORM_FIELDS.MONTHLY_PRICE]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.MONTHLY_PRICE,
+          className: 'col-md-12',
+          placeholder: STRINGS.MONTHLY_PRICE,
+          schema: {
+            required: FORM_VALIDATION_MESSAGES(STRINGS.MONTHLY_PRICE).REQUIRED,
+            min: {
+              value: 1,
+              message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+            },
+          },
+        },
         [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: {
           type: INPUT_TYPES.NUMBER,
           label: STRINGS.DISCOUNT_PERCENTAGE,
@@ -100,10 +160,11 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
           min: 0,
           max: 100,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.DISCOUNT_PERCENTAGE)
+              .REQUIRED,
             min: {
               value: 0,
-              message: FORM_VALIDATION_MESSAGES().NEGATIVE_VALUES_NOT_ALLOWED,
+              message: FORM_VALIDATION_MESSAGES(0).MIN_LENGTH,
             },
             max: {
               value: 100,
@@ -111,24 +172,34 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
             },
           },
         },
-        [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: {
+        [PLAN_FORM_FIELDS.YEARLY_PRICE]: {
           type: INPUT_TYPES.NUMBER,
-          label: STRINGS.DISCOUNT_OFFER_PRICE,
+          label: STRINGS.YEARLY_PRICE,
           className: 'col-md-12',
-          placeholder: STRINGS.DISCOUNT_OFFER_PRICE,
+          placeholder: STRINGS.YEARLY_PRICE,
           readOnly: true,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            min: {
+              value: 1,
+              message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+            },
           },
         },
-        [PLAN_FORM_FIELDS.END_DATE]: {
-          type: INPUT_TYPES.DATE,
-          label: STRINGS.END_DATE,
+        [PLAN_FORM_FIELDS.BIDS]: {
+          type: INPUT_TYPES.NUMBER,
+          label: STRINGS.BIDS_CREDITED,
           className: 'col-md-12',
-          placeholder: STRINGS.END_DATE,
-          min: formatDate(new Date(), 'YYYY-MM-DD'),
+          placeholder: STRINGS.BIDS_CREDITED,
           schema: {
-            required: FORM_VALIDATION_MESSAGES().REQUIRED,
+            required: FORM_VALIDATION_MESSAGES(STRINGS.BIDS_CREDITED).REQUIRED,
+            min: {
+              value: 1,
+              message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+            },
+            pattern: {
+              value: /^[0-9]+$/,
+              message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+            },
           },
         },
       }
@@ -139,7 +210,7 @@ export const PLAN_SCHEMA = (showHotDealSpecificFields: boolean) => ({
     className: 'col-md-12',
     placeholder: STRINGS.STATUS,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES(STRINGS.STATUS).REQUIRED,
     },
   },
 });
@@ -150,6 +221,7 @@ interface CreateReferralProps {
   handleEdit: (row: Record<string, unknown>) => void;
   handleStatusChange: (row: Record<string, unknown>) => void;
   handleSelectMultiple?: (id: string) => void;
+  setShowMultiItemView?: Dispatch<SetStateAction<ViewMultiData>>;
   selectedIds?: string[];
 }
 
@@ -191,26 +263,29 @@ export const PlansColumns = ({
     isTruncated: true,
   },
   {
+    title: STRINGS.PLAN_DESCRIPTION,
+    fieldName: PLAN_FORM_FIELDS.DESCRIPTION,
+    isTruncated: true,
+  },
+  {
     title: STRINGS.BIDS_GIVEN,
     fieldName: PLAN_FORM_FIELDS.BIDS,
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: STRINGS.DEAL_PRICE,
-    fieldName: PLAN_FORM_FIELDS.PRICE,
+    title: STRINGS.BIDS_CONVERSION,
+    fieldName: PLAN_FORM_FIELDS.BID_COVERSION,
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-    render: (_, imageURL: string | number) => (
-      <div className="d-inline-flex align-items-center position-relative uploaded_file">
-        <figure key={String(imageURL)}>
-          <FileRenderer fileURL={String(imageURL)} />
-        </figure>
-      </div>
-    ),
+    title: STRINGS.MONTHLY_PRICE,
+    fieldName: PLAN_FORM_FIELDS.MONTHLY_PRICE,
+    render: (_, val) => `${convertToLocale(val)}`,
+  },
+  {
+    title: STRINGS.YEARLY_PRICE,
+    fieldName: PLAN_FORM_FIELDS.YEARLY_PRICE,
+    render: (_, val) => `${convertToLocale(val)}`,
   },
   {
     title: STRINGS.CREATED_AT,
@@ -221,20 +296,15 @@ export const PlansColumns = ({
       createdAt ? formatDate(createdAt as string) : '-.-',
   },
   {
-    title: STRINGS.END_AT,
-    fieldName: PLAN_FORM_FIELDS.END_DATE,
-    render: (_, endDate) => (endDate ? formatDate(endDate as string) : '-.-'),
-  },
-  {
-    title: STRINGS.HOT_DEAL,
-    fieldName: PLAN_FORM_FIELDS.HOT_DEAL,
+    title: STRINGS.BID_PLAN_TYPE,
+    fieldName: PLAN_FORM_FIELDS.BID_PLAN_TYPE,
     render: (_, value) =>
       (() => {
         switch (value) {
-          case BID_PLAN_TYPES.HOT_DEAL:
-            return STRINGS.YES;
+          case BID_PLAN_TYPES.CUSTOM:
+            return STRINGS.CUSTOM;
           case BID_PLAN_TYPES.REGULAR:
-            return STRINGS.NO;
+            return STRINGS.REGULAR;
           default:
             return '';
         }
@@ -290,28 +360,30 @@ export const PlansColumns = ({
 export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.T_ID,
-    fieldName: '_id',
+    fieldName: 'id',
+    sortable: true,
+    sortType: 'id',
     render: renderIdWithHash,
   },
   {
     title: STRINGS.USERNAME,
     fieldName: 'name',
     sortable: true,
-    sortType: 'name',
-    render: (row) => row?.refererUser?.name,
+    sortType: 'userName',
+    render: (row) => <TruncateText text={row?.user?.name} />,
   },
   {
     title: STRINGS.EMAIL,
     fieldName: 'email',
     sortable: true,
-    sortType: 'email',
-    render: (row) => row?.refererUser?.email,
+    sortType: 'userEmail',
+    render: (row) => <TruncateText text={row?.user?.email} />,
   },
   {
     title: STRINGS.DEAL_OFFER,
-    fieldName: 'dealOffer',
+    fieldName: 'dealOfferPercentage',
     sortable: true,
-    sortType: 'dealOffer',
+    sortType: 'dealOfferPercentage',
     render: (_, val) => `${convertToLocale(val)} % Off`,
   },
   {
@@ -322,28 +394,10 @@ export const PlanDetailedViewColumns: ColumnData[] = [
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: STRINGS.IMAGE,
-    fieldName: 'imageURL',
-    sortable: false,
-  },
-  {
-    title: STRINGS.REFEREE_EMAIL,
-    fieldName: 'refereeEmail',
-    sortable: true,
-    sortType: 'refereeBidRequirement',
-    render: (row) => row?.refereeUser?.email,
-  },
-  {
-    title: STRINGS.REWARD_AT,
-    fieldName: 'rewardAt',
-    sortable: true,
-    sortType: 'refereePurchasedBids',
-  },
-  {
     title: STRINGS.BIDS_RECEIVED,
-    fieldName: 'purchasedBids',
+    fieldName: 'bids',
     sortable: true,
-    sortType: 'purchasedBids',
+    sortType: 'bids',
   },
   {
     title: STRINGS.STATUS,
@@ -365,18 +419,20 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   {
     title: STRINGS.DATE,
     fieldName: 'createdAt',
+    sortable: true,
+    sortType: 'createdAt',
     render: (row) => formatDate(row?.createdAt),
   },
   {
     title: STRINGS.INVOICE,
     render: (row) =>
-      row?.url ? (
+      row?.invoiceURL ? (
         <div className="text-center">
           {' '}
           <img src={InvoiceIcon} alt="invoice" />{' '}
         </div>
       ) : (
-        ''
+        '-.-'
       ),
   },
 ];

@@ -18,7 +18,7 @@ import {
 import { BidsHistoryColumns } from '../helpers/constants';
 
 // API
-import { useGetBidsSpentHistoryQuery } from '../../../Services/Api/module/auctions';
+import { useGetBidsSpentHistoryQuery } from '../../../Services/Api/module/auctionHistories';
 
 // Utilities
 import { removeEmptyValues } from '../../../Shared/utils/functions';
@@ -34,7 +34,13 @@ interface QueryParams {
   sortDirection: FilterOrder;
 }
 
-function BidsHistory() {
+function BidsHistory({
+  onDashBoard,
+  heading,
+}: {
+  onDashBoard?: boolean;
+  heading?: string;
+}) {
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
@@ -85,7 +91,7 @@ function BidsHistory() {
   }, 1000);
 
   // Memoized columns for table
-  const columns = useMemo(() => BidsHistoryColumns, []);
+  const columns = useMemo(() => BidsHistoryColumns(onDashBoard), [onDashBoard]);
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -101,16 +107,20 @@ function BidsHistory() {
       toDate: filterState?.endDate,
       status: filterState?.selectedStatus?.value,
     });
+    setCurrentPage(0);
   };
   return (
     <div>
-      <Filters
-        handleClearSearch={() => setSearch('')}
-        handleSearch={debounceSearch}
-        showDateFilter
-        handleApply={handleApplyFilters}
-        statusOptions={BID_STATUS_OPTIONS}
-      />
+      {!onDashBoard ? (
+        <Filters
+          handleClearSearch={() => setSearch('')}
+          handleSearch={debounceSearch}
+          showDateFilter
+          heading={heading}
+          handleApply={handleApplyFilters}
+          statusOptions={BID_STATUS_OPTIONS}
+        />
+      ) : null}
 
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
@@ -118,7 +128,7 @@ function BidsHistory() {
         pageSize={TABLE_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
-        pagination
+        pagination={!onDashBoard}
         pageCount={(listing?.count || 1) / TABLE_PAGE_LIMIT}
         onPageChange={handlePageClick}
         currentPage={currentPage}

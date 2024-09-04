@@ -5,6 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
 // Components
+import { useDispatch, useSelector } from 'react-redux';
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
 import CustomModal from '../../Shared/components/CustomModal';
 import CustomTableView, {
@@ -12,7 +13,7 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
-import ProductAdd from './ProductsForm';
+import ProductForm from './ProductsForm';
 import ActionsDropDown from './components/ActionsDropDown';
 import ViewMultiTableItem from './components/ViewMultiTableItem';
 
@@ -25,9 +26,13 @@ import {
 } from '../../Shared/constants';
 import { Filter, RED_WARNING } from '../../assets';
 import {
+  CAR_BODY_TYPE_OPTIONS,
   CONFIRMATION_DESCRIPTION,
-  PRODUCT_AVAILABILITY_STATUS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+  PRODUCT_AVAILABILITY_STATUS_OPTIONS,
   PRODUCT_STATUS,
+  SPECIFICATIONS,
   productsColumns,
 } from './helpers/constants';
 
@@ -36,6 +41,7 @@ import {
   Category,
   ProductResponsePayload,
   ViewMultiData,
+  ViewSpecificationData,
 } from './helpers/model';
 
 // API
@@ -45,10 +51,14 @@ import {
 } from '../../Services/Api/module/products';
 
 // Utilities
+import { useGetCategorysQuery } from '../../Services/Api/module/category';
+import CustomDetailsBoard from '../../Shared/components/CustomDetailsBoard';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
-import { useGetCategorysQuery } from '../../Services/Api/module/category';
-import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import { updateUploadedImages } from '../../Store/UploadedImages';
+import { RootState } from '../../Store';
+import { Image } from '../../Models/common';
 
 // Interfaces
 interface EditData {
@@ -74,6 +84,10 @@ const PRODUCTS_PAGE_LIMIT = 10;
 
 export default function ProductsList() {
   // State Management
+  const dispatch = useDispatch();
+  const uploadedImages = useSelector(
+    (state: RootState) => state.UploadedImages.images
+  );
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '', ids: [''] },
@@ -87,6 +101,11 @@ export default function ProductsList() {
     FilterOrder.ASCENDING
   );
   const [editData, setEditData] = useState<EditData>({ data: {}, show: false });
+  const [viewSpecifications, setViewSpecifications] =
+    useState<ViewSpecificationData>({
+      data: {},
+      show: false,
+    });
   const [addData, setAddData] = useState<boolean>(false);
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
     data: { title: '' },
@@ -129,6 +148,7 @@ export default function ProductsList() {
     setEditData({
       data: {
         ...row,
+        ...(row?.specifications || {}),
         status: {
           value: row?.status,
           label: PRODUCT_STATUS?.find((status) => status.value === row?.status)
@@ -138,6 +158,25 @@ export default function ProductsList() {
           value: category._id,
           label: category?.name,
         })),
+        fuel: {
+          label: FUEL_OPTIONS?.find(
+            (fuel) => fuel.value === Number(row?.specifications?.fuel)
+          )?.label,
+          value: row?.specifications?.fuel,
+        },
+        gearbox: {
+          label: GEARBOX_OPTIONS?.find(
+            (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
+          )?.label,
+          value: row?.specifications?.gearbox,
+        },
+        bodyType: {
+          label: CAR_BODY_TYPE_OPTIONS?.find(
+            (bodyType) =>
+              bodyType.value === Number(row?.specifications?.bodyType)
+          )?.label,
+          value: row?.specifications?.bodyType,
+        },
       },
       show: true,
     });
@@ -248,7 +287,8 @@ export default function ProductsList() {
         renderActions,
         setShowMultiItemView,
         handleChangeCheckBox,
-        selectedIds
+        selectedIds,
+        setViewSpecifications
       ),
     [renderActions, selectedIds]
   );
@@ -279,6 +319,16 @@ export default function ProductsList() {
       priceRangeMax: filterState?.priceRange?.[1],
       categoryId: filterState?.selectedBrand?.value,
     });
+    setCurrentPage(0);
+  };
+  const handleCloseForm = () => {
+    if (!(uploadedImages as unknown as Image[])?.length) {
+      refetch();
+    }
+    setEditData({ data: null, show: false });
+    setViewSpecifications({ data: {}, show: false });
+    setAddData(false);
+    dispatch(updateUploadedImages([]));
   };
   return (
     <div>
@@ -298,35 +348,40 @@ export default function ProductsList() {
         handleSubmit={handleDeleteClick}
         showClose={false}
       />
-
-      {editData?.show && (
+      {viewSpecifications?.show && (
         <CustomModal
-          title="Edit"
-          show={editData?.show}
-          onClose={() => setEditData({ data: null, show: false })}
+          title={STRINGS.SPECIFICATIONS}
+          show={viewSpecifications?.show}
+          onClose={handleCloseForm}
         >
-          <ProductAdd
-            isEdit
-            initialData={editData?.data}
-            onEdit={handleEditSuccess}
-            categoryOptions={categoryOptions}
+          <CustomDetailsBoard
+            data={viewSpecifications?.data}
+            schema={SPECIFICATIONS}
           />
         </CustomModal>
       )}
+      {editData?.show && (
+        <ProductForm
+          title="Edit"
+          show={editData?.show}
+          onClose={handleCloseForm}
+          isEdit
+          initialData={editData?.data}
+          onEdit={handleEditSuccess}
+          categoryOptions={categoryOptions}
+        />
+      )}
 
       {addData && (
-        <CustomModal
+        <ProductForm
           title="Add"
           show={addData}
-          onClose={() => setAddData(false)}
-        >
-          <ProductAdd
-            isEdit={false}
-            initialData={{}}
-            onAdd={handleAddSuccess}
-            categoryOptions={categoryOptions}
-          />
-        </CustomModal>
+          onClose={handleCloseForm}
+          isEdit={false}
+          initialData={{}}
+          onAdd={handleAddSuccess}
+          categoryOptions={categoryOptions}
+        />
       )}
 
       <StatsFilters
@@ -337,10 +392,11 @@ export default function ProductsList() {
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
         brandOptions={categoryOptions}
-        statusOptions={PRODUCT_AVAILABILITY_STATUS}
+        statusOptions={PRODUCT_AVAILABILITY_STATUS_OPTIONS}
         showDateFilter
         priceRange={PRICE_RANGE}
         handleApply={handleApplyFilters}
+        handleClearAll={() => setSelectedIds([])}
       />
 
       <CustomTableView

@@ -26,6 +26,19 @@ export interface DataKeys {
   ongoingAuctions?: number;
   totalSpent?: number;
   referredFriendsCount?: number;
+  registrationNumber?: string;
+  modelYear?: string;
+  paint?: string;
+  fuel?: string;
+  motor?: string;
+  gearbox?: string;
+  gearCount?: number;
+  seatCount?: number;
+  security?: string;
+  comfort?: string;
+  appearance?: string;
+  personalNumber?: string;
+  bodyType?: string;
 }
 
 interface CustomProfileProps {
@@ -35,7 +48,7 @@ interface CustomProfileProps {
 
 function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
   const renderFieldValue = (field: FieldSchema) => {
-    const value = data[field.key];
+    const value = data?.[field.key];
 
     if (field.render) {
       return field.render(value, data);

@@ -3,14 +3,17 @@ import { debounce } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 
 // Components
+import { toast } from 'react-toastify';
+import { ConfirmationModal, Filters } from '../../../Shared/components';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import { Filters } from '../../../Shared/components';
 
 // Constants
 import {
+  BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
   FilterOrder,
   STRINGS,
   TABLE_PAGE_LIMIT,
@@ -21,9 +24,12 @@ import { PlansHistoryColumns } from '../helpers/constants';
 import { useGetUserBidsCreditHistoryQuery } from '../../../Services/Api/module/users';
 
 // Utilities
-import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { useBidsCreditInvoiceGenerationMutation } from '../../../Services/Api/module/invoiceGeneration';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { RED_WARNING } from '../../../assets';
 import { BID_CREDIT_TYPES_OPTIONS } from '../../Users/UserDetails/helpers/constants';
+import { Invoice, InvoiceData } from '../helpers/model';
 
 function PlansHistory() {
   // State Management
@@ -34,7 +40,10 @@ function PlansHistory() {
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
-
+  const [invoiceModal, setInvoiceModal] = useState<InvoiceData>({
+    show: false,
+    data: null,
+  });
   // Refs
   const onComponentMountRef = useRef(false);
 
@@ -54,7 +63,12 @@ function PlansHistory() {
       queryParams as unknown as Record<string, unknown>
     ),
   });
+  const [generateInvoice] = useBidsCreditInvoiceGenerationMutation();
+  const handleInvoice = (row: Invoice) => {
+    setInvoiceModal({ show: true, data: row });
+  };
 
+  const columns = PlansHistoryColumns(handleInvoice);
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -89,6 +103,22 @@ function PlansHistory() {
       toDate: filterState?.endDate,
       type: filterState?.selectedStatus?.value,
     });
+    setCurrentPage(0);
+  };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = () => {
+    generateInvoice({
+      payload: {
+        bidCreditHistoryId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetch();
+        handleCloseInvoice();
+      },
+    });
   };
   return (
     <div>
@@ -99,10 +129,21 @@ function PlansHistory() {
         handleApply={handleApplyFilters}
         statusOptions={BID_CREDIT_TYPES_OPTIONS}
       />
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
+      />
 
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
-        columns={PlansHistoryColumns as unknown as Column[]}
+        columns={columns as unknown as Column[]}
         pageSize={TABLE_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}

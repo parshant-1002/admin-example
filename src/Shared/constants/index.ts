@@ -66,6 +66,17 @@ export const INPUT_TYPES = {
   SWITCH: 'switch',
   PHONE: 'phone',
   CHECKBOX: 'checkbox',
+  COLOR: 'color',
+};
+
+export const blockInvalidChar = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  chars: string[] = []
+) => {
+  const invalidChars = ['e', 'E', '+', '-', ...chars];
+  if (invalidChars.includes(e.key)) {
+    e.preventDefault();
+  }
 };
 
 export const VALIDATION_REGEX = {
@@ -84,6 +95,25 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
+  UPDATE_REFERRAL_SECTION: 'Update Referral Content',
+  UPDATE_CURRENT_BIDS_SECTION: 'Update Current Bids Section',
+  UPDATE_WALLET_SECTION: 'Update Wallet Section',
+  UPDATE_AUCTION_PAGE: 'Update Auction Page',
+  UPDATE_PENNY_AUCTION_SECTION: 'Update Penny Auction',
+  UPDATE_AUCTION_SECTION: 'Update Auction Section',
+  UPDATE_CURRENT_BIDS_SEECTION: '',
+  UPDATE_PROFILE_OVERVIEW: 'Update Profile Overview',
+  UPDATE_USER_PROFILE_SECTION: 'Update Profile Section',
+  UPDATE_PROFILE_PAGE: 'Update Profile Page',
+  UPDATE_TERMS_AND_CNDTN: 'Update Terms And Condtion Content',
+  UPDATE_ABOUT_US: 'Update About Us Content',
+  UPDATE_COOKIES: 'Updates Cookies Policy Content',
+  UPDATE_PRIVACY_AND_POLICY: 'Update Privacy Policy Content',
+  REGULAR: 'Regular',
+  SPECIFICATIONS: 'Specifications',
+  DROP_FILE_HERE: 'Drop file here',
+  NO_FILES_FOUND: 'No files found',
   TOTAL_SUPPLY: 'Total Supply',
   NEXT_BTN: 'next-btn',
   PREV_BTN: 'pre-btn',
@@ -107,10 +137,12 @@ export const STRINGS = {
   ADD: 'Add',
   VIEW: 'View',
   AUCTION_ID: 'Auction Id',
+  AUCTION_LINK: 'Auction Link',
   AUCTION_NAME: 'Auction Name',
   P_ID: 'P.ID',
   P_NAME: 'P.Name',
   PURCHASED_DATE: 'Purchased Date',
+  BID_TYPE: 'Bid Type',
   INVOICE_DATE: 'Invoice Date',
   BID_PRICE: 'Bid Price (SEK)',
   USERNAME: 'Username',
@@ -123,7 +155,8 @@ export const STRINGS = {
   DEAL_PRICE_LABEL: 'Deal Price',
   IMAGE: 'Image',
   BIDS_RECEIVED: 'Bids Received',
-  REFERRAL_ID: 'Referral Id',
+  BIDS_HISTORY: 'Bids History',
+  REFERRAL_ID: 'Id',
   NAME: 'Name',
   BIDS_GIVEN: 'Bids Given',
   REFEREE_BIDS_PURCHASED: 'Referee Bids Purchased',
@@ -139,23 +172,31 @@ export const STRINGS = {
   COMPLETED: 'Completed',
   PENDING: 'Pending',
   USER_DELETED: 'User Deleted',
-  PLAN_ID: 'Plan Id',
+  PLAN_ID: 'Id',
   PLAN_NAME: 'Plan Name',
+  PLAN_DESCRIPTION: 'Plan Description',
   CREATED_AT: 'Created At',
   CLOSED_AT: 'Closed At',
   REFERRALS: 'Referrals',
   ID: 'ID',
   END_AT: 'End At',
   HOT_DEAL: 'Hot Deal',
-  YES: 'Yes',
-  NO: 'No',
-  T_ID: 'T Id',
+  BID_PLAN_TYPE: 'Plan Type',
+  YES: 'YES',
+  CUSTOM: 'Custom',
+  NO: 'NO',
+  T_ID: 'TId',
   DEAL_OFFER: 'Deal Offer',
   FAILED: 'Failed',
   DATE: 'Date',
   BIDS_CREDITED: 'Bids Credited',
   DISCOUNT_PERCENTAGE: 'Discount Percentage (upto 100)',
+  BIDS_CONVERSION: 'Conversion Price (SEK)',
+  MIN_BIDS: 'Custom range min Bid',
+  MAX_BIDS: 'Custom range max Bid',
   DISCOUNT_OFFER_PRICE: 'Discounted Offer Price',
+  MONTHLY_PRICE: 'Monthly Price (SEK)',
+  YEARLY_PRICE: 'Yearly Price (SEK)',
   END_DATE: 'End Date',
   TRANSACTIONS: 'Transactions',
   ADD_BID_PLAN: 'Add Bid Plan',
@@ -176,7 +217,7 @@ export const STRINGS = {
 };
 
 export const CONTENT_ENUMS = {
-  HEADER: 'headers',
+  HEADER: 'header',
   PRIZE: 'prizeSection',
   ROADMAP: 'roadmapSection',
   PREMIUM_TOKEN_WALLET: 'premiumTokenWallet',
@@ -198,15 +239,47 @@ export const CONTENT_ENUMS = {
   PRIVACY_POLICY_PAGE: 'privacyPolicy',
   TERM_AND_CONDITION_PAGE: 'termAndCondition',
   META_CONTENT: 'metaSection',
+  FAQS_SECTION: 'faqSection',
+  HERO_SECTION: 'heroSection',
+  LANDING_PAGE: 'landingPage',
+  HOW_IT_WORKS_SECTION: 'howItWorksSection',
+  HOW_IT_WORKS: 'howItWorks',
+  CONTACT_US: 'contactUs',
+  TERMS_AND_CONDITIONS: 'termsAndConditions',
+  ABOUT_US: 'aboutUsPage',
+  AUCTION_PAGE: 'auctionPage',
+  PRIVACY_POLICY: 'privacyPolicy',
+  CONTACT_US_SECTION: 'contactUsSection',
+  FOOTER: 'footer',
+  COMPANIES_SECTION: 'companies',
+  SOCIAL_CONNECT: 'socialConnect',
+  BID_PACK_CONTENT: 'bidPackSection',
+  TOP_AUCTION_CONTENT: 'topAuctionsSection',
+  COOKIES: 'cookiePolicyPage',
+  PROFILE_PAGE: 'profilePage',
+  PROFILE_OVERVIEW: 'profileOverview',
+  USER_PROFILE_SECTION: 'userProfileSection',
+  AUCTION_SECTION: 'auctionsSection',
+  PENNY_AUCTION_SECTION: 'pennyAuctionSection',
+  CURRENT_BIDS_SECTION: 'currentBidsSection',
+  WALLET_SECTION: 'walletSection',
+  REFERRAL_SECTION: 'referralSection',
 };
 
 export const BUTTON_LABELS = {
-  ADD_BIDS: 'Add Bids',
+  VIEW: 'View',
+  UPLOAD: ' Upload',
+  CHANGE_FILE: 'Change file',
+  CHOOSE_FILE: 'Choose file',
+  UPDATE_SELECTION: 'Update Selection',
+  SELECT_FILES: 'Select file',
+  ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
   YES: 'Yes',
   NO: 'No',
   CANCEL: 'Cancel',
   DELETE: 'Delete',
+  DELETE_SELECTION: 'Delete Selection',
   ADD_MORE: 'Add more',
   SAVE: 'Save',
   CLEAR: 'Clear',
@@ -227,7 +300,7 @@ export const DATE_FORMATS = {
   FOR_DATE_RANGE: 'DD MMM  YYYY',
   DISPLAY_DATE: 'DD-MM-YYYY',
   DISPLAY_DATE_REVERSE: 'YYYY-MM-DD',
-  DISPLAY_DATE_WITH_TIME: 'DD-MM-YYYY, HH:mm',
+  DISPLAY_DATE_WITH_TIME: 'DD MMM YYYY  HH:mm',
 };
 
 export const ALIGNMENT = {
@@ -310,6 +383,15 @@ const ROUTES = {
   LOTTERY_MANAGEMENT: '/contract/lottery-management',
   WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
+  HEADERS_CONTENT: '/content-management/headers',
+  HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
+  FAQ_CONTENT: '/content-management/faqs',
+  AUCTION_PAGE: '/content-management/auction-page',
+  CONTACTUS_CONTENT: '/content-management/contact-us',
+  TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
+  ABOUT_US_CONTENT: '/content-management/about-us',
+  PRIVACY_POLICY_CONTENT: '/content-management/privacy-policy',
+  COMPANIES_CONTENT: '/content-management/companies-content',
   TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
   VIDEO_CONTENT: '/content-management/video-content',
   PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
@@ -319,17 +401,30 @@ const ROUTES = {
   ROAD_MAP_SECTION_CONTENT: '/content-management/roadmap-section-content',
   FEATURES_CONTENT: '/content-management/features-content',
   TOKEN_INFORMATION_CONTENT: '/content-management/token-information-content',
+  REFERRAL_SECTION: '/content-management/referral-section',
+  WALLET_SECTION: '/content-management/wallet-section',
   PREMIUM_MARKET_PLACE_CONTENT:
     '/content-management/premium-marketplace-content',
   PREMIUM_TOKEN_WALLET_CONTENT:
     '/content-management/premium-token-wallet-content',
   TOKEN_STATS_INFORMATION_CONTENT:
     '/content-management/token-stats-info-content',
+  BID_PACK_SECTION: '/content-management/bid-pack-content',
+  HERO_SECTION: '/content-management/hero-content',
+  TOP_AUCTION_SECTION: '/content-management/top-auctions-section',
+  FOOTER: '/content-management/footer',
   EXTERNAL_AUDIT_CONTENT: '/content-management/external-audit-content',
   TOKEN_SUPPLY_CONTENT: '/content-management/token-supply-content',
   JOIN_AIRDROP_CONTENT: '/content-management/join-airdrop-content',
   PARTNER_CONTENT: '/content-management/partners-content',
   FOOTER_CONTENT: '/content-management/footer-content',
+  COOKIES: '/content-management/cookies-content',
+  PROFILE_PAGE_CONTENT: '/content-management/profile-page',
+  PROFILE_OVERVIEW: '/content-management/profile-overview',
+  USER_PROFILE_SECTION: '/content-management/user-profile-section',
+  AUCTION_SECTIONS: '/content-management/auction-section',
+  PENNY_AUCTION_SECTION: '/content-management/penny-auction-section',
+  CURRENT_BIDS_SECTION: '/content-management/current-bids-section',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
   AIR_DROP_HISTORY: '/air-drop/history',
@@ -351,6 +446,18 @@ const ROUTES = {
   TRANSACTIONS_BIDS_HISTORY: '/transactions/bids-history',
   TRANSACTIONS_PRODUCTS_HISTORY: '/transactions/products-history',
   TRANSACTIONS_REFERRAL_HISTORY: '/transactions/referral-history',
+  // notifications content
+  NOTIFICATIONS_CONTENT: '/notifications-content',
+  RESERVE_PRICE_REACHED: '/notifications-content/reserve-price-reached',
+  NEW_BID_PLACED: '/notifications-content/new-bid-placed',
+  AUTOMATIC_BID_RUNNED_OUT: '/notifications-content/automatic-bid-runned-out',
+  BID_TIME_LEFT: '/notifications-content/bid-time-left',
+  WINNER: '/notifications-content/winner',
+  AUCTION_ENDED: '/notifications-content/auction-ended',
+  NEW_USER_JOINED: '/notifications-content/new-user-joined',
+  AUCTION_STARTED: '/notifications-content/auction-started',
+  BID_PLAN_PURCHASED: '/notifications-content/plan-purchased',
+  CONTACTED_SUPPORT: '/notifications-content/contacted-support',
 };
 
 const WILDCARD_ROUTES = {
@@ -461,6 +568,134 @@ const ROUTES_CONFIG = {
     path: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
     title: 'Referral History',
   },
+  HEADERS_CONTENT: {
+    path: ROUTES.HEADERS_CONTENT,
+    title: 'Headers Content',
+  },
+  FAQS_CONTENT: {
+    path: ROUTES.FAQ_CONTENT,
+    title: 'Faqs Content',
+  },
+  AUCTION_PAGE: {
+    path: ROUTES.AUCTION_PAGE,
+    title: 'Auction Page',
+  },
+  PROFILE_PAGE_CONTENT: {
+    path: ROUTES.PROFILE_PAGE_CONTENT,
+    title: 'Profile Page Content',
+  },
+  PROFILE_OVERVIEW: {
+    path: ROUTES.PROFILE_OVERVIEW,
+    title: 'Profile Overview',
+  },
+  USER_PROFILE_SECTION: {
+    path: ROUTES.USER_PROFILE_SECTION,
+    title: ' User Profile Section',
+  },
+  PENNY_AUCTION_SECTION: {
+    path: ROUTES.PENNY_AUCTION_SECTION,
+    title: 'Penny Auction Section',
+  },
+  AUCTION_SECTIONS: {
+    path: ROUTES.AUCTION_SECTIONS,
+    title: 'Auction Sections',
+  },
+  CURRENT_BIDS_SECTION: {
+    path: ROUTES.CURRENT_BIDS_SECTION,
+    title: 'Current Bids Section',
+  },
+  WALLET_SECTION: {
+    path: ROUTES.WALLET_SECTION,
+    title: 'Wallet Section',
+  },
+  REFERRAL_SECTION: {
+    path: ROUTES.REFERRAL_SECTION,
+    title: 'Referral Section',
+  },
+  HOW_IT_WORKS_CONTENT: {
+    path: ROUTES.HOW_IT_WORKS_CONTENT,
+    title: 'How It Works Content',
+  },
+  CONTACTUS_CONTENT: {
+    path: ROUTES.CONTACTUS_CONTENT,
+    title: 'Contact US Content',
+  },
+  TERMS_AND_CONDITION_CONTENT: {
+    path: ROUTES.TERM_AND_CONDITION_CONTENT,
+    title: 'Term and Condition Content',
+  },
+  ABOUT_US_CONTENT: {
+    path: ROUTES.ABOUT_US_CONTENT,
+    title: 'About us Content',
+  },
+  COOKIES: {
+    path: ROUTES.COOKIES,
+    title: 'Cookies Content',
+  },
+  PRIVACY_POLICY_CONTENT: {
+    path: ROUTES.PRIVACY_POLICY_CONTENT,
+    title: 'Privacy Policy Content',
+  },
+  COMPANIES_CONTENT: {
+    path: ROUTES.COMPANIES_CONTENT,
+    title: 'As Seen On Content',
+  },
+  BID_PACK_SECTION: {
+    path: ROUTES.BID_PACK_SECTION,
+    title: 'Bid Pack Content',
+  },
+  HERO_SECTION: {
+    path: ROUTES.HERO_SECTION,
+    title: 'Hero Section Content',
+  },
+  TOP_AUCTION_SECTION: {
+    path: ROUTES.TOP_AUCTION_SECTION,
+    title: 'Top Auction Content',
+  },
+  FOOTER: {
+    path: ROUTES.FOOTER,
+    title: 'Footer',
+  },
+  RESERVE_PRICE_REACHED: {
+    path: ROUTES.RESERVE_PRICE_REACHED,
+    title: 'Reserve Price Reached',
+  },
+  NEW_BID_PLACED: {
+    path: ROUTES.NEW_BID_PLACED,
+    title: 'New Bid Placed',
+  },
+  AUTOMATIC_BID_RUNNED_OUT: {
+    path: ROUTES.AUTOMATIC_BID_RUNNED_OUT,
+    title: 'Automatic Bid Runed Out',
+  },
+  BID_TIME_LEFT: {
+    path: ROUTES.BID_TIME_LEFT,
+    title: 'Bid Time Left',
+  },
+  WINNER: {
+    path: ROUTES.WINNER,
+    title: 'Winner',
+  },
+  AUCTION_ENDED: {
+    path: ROUTES.AUCTION_ENDED,
+    title: 'Auction Ended',
+  },
+  NEW_USER_JOINED: {
+    path: ROUTES.NEW_USER_JOINED,
+    title: 'New User Joined',
+  },
+  AUCTION_STARTED: {
+    path: ROUTES.AUCTION_STARTED,
+    title: 'Auction Started',
+  },
+  BID_PLAN_PURCHASED: {
+    path: ROUTES.BID_PLAN_PURCHASED,
+    title: 'Bid Plan Purchased',
+  },
+  CONTACTED_SUPPORT: {
+    path: ROUTES.CONTACTED_SUPPORT,
+    title: 'Contacted Support',
+  },
 };
 
 enum POPUPTYPES {
@@ -484,7 +719,7 @@ const PRODUCT_PURCHASE_STATUS = {
 
 const BID_PLAN_TYPES = {
   REGULAR: 1,
-  HOT_DEAL: 2,
+  CUSTOM: 2,
 };
 
 const BID_STATUS = {
@@ -502,21 +737,92 @@ const BID_CREDIT_TYPES = {
 
 const PRICE_RANGE = {
   min: 0,
-  max: 10000,
+  max: 10000000,
 };
 
 const TABLE_PAGE_LIMIT = 10;
 
+const CONFIRMATION_DESCRIPTION_INVOICE =
+  'Are you sure you want to generate invoice';
+
+const CONFIRMATION_DESCRIPTION_IMAGE_DELETE = 'Are you sure you want to delete';
+
+const TOAST_MESSAGES = (...arg: (string | number)[]) => ({
+  SELECT_ATLEAST_ONE_FILE: 'Please select at least one file.',
+  PLEASE_CHOOSE_ONLY_ACCEPTED_FILES: `Please choose only ${arg[0]} file.`,
+  PLEASE_UPLOAD_ONLY_ACCEPTED_FILES: `Please upload only ${arg[0]} file.`,
+  IMAGE_RATIO_ERROR: `Please select image of ratio ${arg[0]}:${arg[1]}`,
+});
+const FILE_TYPE: {
+  CMS?: string;
+  PRODUCT?: string;
+  AUCTION?: string;
+} = {
+  CMS: '1',
+  PRODUCT: '2',
+  AUCTION: '2',
+};
+
+const NOTIFICATION_TYPE = {
+  RESERVE_PRICE_REACHED: 1,
+  NEW_BID_PLACED: 2,
+  AUTOMATIC_BID_RUNNED_OUT: 3,
+  BID_TIME_LEFT: 4,
+  WINNER: 5,
+  AUCTION_ENDED: 6,
+  NEW_USER_JOINED: 7,
+  AUCTION_STARTED: 8,
+  BID_PLAN_PURCHASED: 9,
+  CONTACTED_SUPPORT: 10,
+};
+
+const CAR_BODY_TYPE = {
+  SEDAN: 1,
+  CROSSOVER: 2,
+  SUV: 3,
+  HATCHBACK: 4,
+  STATION_WAGON: 5,
+  COUPE: 6,
+  PICKUP_TRUCK: 7,
+  MINIVAN: 8,
+  ROADSTER: 9,
+  VAN: 10,
+  SPORTS_CAR: 11,
+  SUPERCAR: 12,
+  LUXURY_CAR: 13,
+  CONVERTIBLE: 14,
+  MUSCLE_CAR: 15,
+  MICROCAR: 16,
+  CAMPER_VAN: 17,
+  MINITRUCK: 18,
+  LIMOUSINE: 19,
+  TRUCK: 20,
+  HOT_HATCH: 21,
+  UTE: 22,
+  PONY_CAR: 23,
+  MILITARY_VEHICLE: 24,
+  DRAGSTER: 25,
+  GRAND_TOURER: 26,
+  SHOOTING_BRAKE: 27,
+  HOT_ROD: 28,
+  LOW_RIDER: 29,
+};
 export {
-  ROUTES,
-  WILDCARD_ROUTES,
-  ROUTES_CONFIG,
-  POPUPTYPES,
-  REFERRAL_STATUS,
-  PRODUCT_PURCHASE_STATUS,
+  BID_CREDIT_TYPES,
   BID_PLAN_TYPES,
   BID_STATUS,
-  TABLE_PAGE_LIMIT,
-  BID_CREDIT_TYPES,
+  CONFIRMATION_DESCRIPTION_INVOICE,
+  CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
+  FILE_TYPE,
+  POPUPTYPES,
   PRICE_RANGE,
+  PRODUCT_PURCHASE_STATUS,
+  REFERRAL_STATUS,
+  ROUTES,
+  ROUTES_CONFIG,
+  TABLE_PAGE_LIMIT,
+  TOAST_MESSAGES,
+  WILDCARD_ROUTES,
+  NOTIFICATION_TYPE,
+  CAR_BODY_TYPE,
 };

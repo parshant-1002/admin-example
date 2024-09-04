@@ -1,20 +1,27 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
+import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   DATE_FORMATS,
+  FILE_TYPE,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
+  blockInvalidChar,
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
-import { AuctionResponsePayload } from './model';
+import { convertToLocale } from '../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../Products/helpers/model';
 import { SelectOption } from '../../Users/helpers/model';
 import {
   AuctionStatus,
-  PurchaseStatus,
+  SOCIAL_MEDIA_PLATFORMS_OPTIONS,
 } from '../AuctionDetails/Helpers/constants';
-import { convertToLocale } from '../../../Shared/utils/functions';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import { AuctionResponsePayload } from './model';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+} from '../../Products/helpers/constants';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
@@ -56,17 +63,20 @@ interface ColumnData {
 }
 
 interface Image {
+  _id?: string;
   url: string;
-  title: string;
+  title?: string;
   fileURL?: string;
   fileName?: string;
+  assigned?: boolean;
+  fileId?: string;
 }
 export interface AuctionPayload {
   title: string;
   productId: SelectOption;
   reservePrice: number;
   bidStartDate: string;
-  turnTimer: number;
+  bidDuration: number;
   reserveWaitingEndDate: string;
   prizeClaimDays: number;
   preAuctionUsersCount: number;
@@ -74,12 +84,28 @@ export interface AuctionPayload {
   description: string;
   productPrice: number;
   categoryIds: SelectOption[];
+  enabledSocialMediaPlatforms: string[];
+  registrationNumber?: string;
+  bodyType?: SelectOption;
+  modelYear?: number;
+  paint?: string;
+  fuel?: SelectOption;
+  motor?: string;
+  gearbox?: SelectOption;
+  gearCount?: number;
+  seatCount?: number;
+  security?: string;
+  comfort?: string;
+  appearance?: string;
+  socialMediaShareReward?: number;
 }
 
 export const AUCTION_ADD_FORM_SCHEMA = (
   categoryOptions: SelectOption[],
   productOptions: SelectOption[],
-  initialData: { bidStartDate?: string } | null
+  initialData: AuctionResponsePayload | null,
+  isEdit: boolean,
+  selectedProductDetails: { _id: string }
 ) => ({
   title: {
     type: INPUT_TYPES.TEXT,
@@ -87,16 +113,25 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: 'col-md-12',
     placeholder: 'Auction Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
+
   bidStartDate: {
     type: INPUT_TYPES.DATE,
     label: 'Auction Date',
     className: 'col-md-6 col-xl-6',
     placeholder: 'Auction Date',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Auction Date').REQUIRED,
       minDate: {
         value: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
         message: `Date cannot be earlier than ${moment().format(
@@ -111,7 +146,7 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     className: ' col-xl-6 col-md-6',
     placeholder: 'Reserve End Date',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Reserve End Date').REQUIRED,
       minDate: {
         value: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
         message: `Date cannot be earlier than ${moment(
@@ -127,7 +162,25 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     placeholder: 'Product',
     options: productOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Product').REQUIRED,
+    },
+  },
+  description: {
+    type: INPUT_TYPES.TEXT_AREA,
+    label: 'Description',
+    className: 'col-md-12',
+    placeholder: 'Description',
+    options: AuctionStatus,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 500,
+        message: FORM_VALIDATION_MESSAGES(500).MAX_LENGTH,
+      },
     },
   },
   categoryIds: {
@@ -138,56 +191,63 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     isMulti: true,
     options: categoryOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Category').REQUIRED,
     },
   },
   productPrice: {
     type: INPUT_TYPES.NUMBER,
     label: 'Product Price (SEK)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Product Price (SEK)',
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Product Price').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   reservePrice: {
     type: INPUT_TYPES.NUMBER,
     label: 'Reserve Price (SEK)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Reserve Price (SEK)',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Reserve Price').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
-  description: {
-    type: INPUT_TYPES.TEXT_AREA,
-    label: 'Description',
-    className: 'col-md-12',
-    placeholder: 'Description',
-    options: AuctionStatus,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
+
   prizeClaimDays: {
     type: INPUT_TYPES.NUMBER,
     label: 'Prize Claim Duration (Days)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Prize Claim Duration (Days)',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Prize Claim Duration').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
-  turnTimer: {
+  bidDuration: {
     type: INPUT_TYPES.NUMBER,
     label: 'Bids Duration (Sec)',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Bids Duration (Sec)',
     options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Bids Duration').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
     },
   },
   images: {
@@ -195,16 +255,269 @@ export const AUCTION_ADD_FORM_SCHEMA = (
     label: 'Images',
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
+    singleImageSelectionEnabled: false,
     placeholder: 'Images',
+    ratio: [1.5, 1],
+    imageFileType: FILE_TYPE.AUCTION,
+    fetchImageDataConfig: isEdit
+      ? [
+          {
+            key: 'auctionId',
+            value: initialData?._id,
+          },
+          {
+            key: 'productId',
+            value: selectedProductDetails?._id,
+          },
+        ]
+      : [
+          {
+            key: 'productId',
+            value: selectedProductDetails?._id,
+          },
+        ],
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
+    },
+  },
+  enabledSocialMediaPlatforms: {
+    type: INPUT_TYPES.CHECKBOX,
+    label: 'Select Social Share Platform',
+    className: 'col-md-12',
+    placeholder: 'Select Social Share Platform',
+    isMulti: true,
+    checkOptions: SOCIAL_MEDIA_PLATFORMS_OPTIONS,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Select Social Share Platform')
+        .REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
+    },
   },
   preAuctionUsersCount: {
     type: INPUT_TYPES.NUMBER,
     label: 'Min Auction Users',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Min Auction Users',
-    options: AuctionStatus,
     schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Min Auction Users').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
+    },
+  },
+  socialMediaShareReward: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Social Media Share Reward (SEK)',
+    className: 'col-md-6',
+    placeholder: 'Social Media Share Reward (SEK)',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Social Media Share Reward (SEK)')
+        .REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+    },
+  },
+  bodyType: {
+    type: INPUT_TYPES.SELECT,
+    label: 'Body Type',
+    className: 'col-md-6',
+    placeholder: 'Select a body type',
+    options: CAR_BODY_TYPE_OPTIONS,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Body Type').REQUIRED,
+    },
+  },
+  registrationNumber: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Registration Number',
+    className: 'col-md-3',
+    placeholder: 'Registration Number',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Registration Number').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 30,
+        message: FORM_VALIDATION_MESSAGES(30).MAX_LENGTH,
+      },
+    },
+  },
+  modelYear: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Model Year',
+    className: 'col-md-3',
+    placeholder: 'Model Year',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Model Year').REQUIRED,
+      minLength: {
+        value: 4,
+        message: FORM_VALIDATION_MESSAGES(4).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 4,
+        message: FORM_VALIDATION_MESSAGES(4).MAX_LENGTH,
+      },
+    },
+  },
+  paint: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Paint',
+    className: 'col-md-3',
+    placeholder: 'Paint',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Paint').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
+    },
+  },
+  fuel: {
+    type: INPUT_TYPES.SELECT,
+    label: 'Fuel',
+    className: 'col-md-3',
+    placeholder: 'Select a fuel',
+    options: FUEL_OPTIONS,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Fuel').REQUIRED,
+    },
+  },
+  gearbox: {
+    type: INPUT_TYPES.SELECT,
+    label: 'GearBox',
+    className: 'col-md-3',
+    placeholder: 'Select a gearbox',
+    options: GEARBOX_OPTIONS,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('GearBox').REQUIRED,
+    },
+  },
+
+  motor: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Motor',
+    className: 'col-md-3',
+    placeholder: 'Motor',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Motor').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
+    },
+  },
+
+  gearCount: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Gear Count',
+    className: 'col-md-3',
+    placeholder: 'Gear Count',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Gear Count').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
+    },
+    config: { min: 1, type: 'number' },
+    blockInvalidChars: blockInvalidChar,
+  },
+  seatCount: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Seat Count',
+    className: 'col-md-3',
+    placeholder: 'Seat Count',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Seat Count').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+      },
+    },
+    config: { min: 1, type: 'number' },
+    blockInvalidChars: blockInvalidChar,
+  },
+  security: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Security',
+    className: 'col-md-3',
+    placeholder: 'Security',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Security').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
+    },
+  },
+  comfort: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Comfort',
+    className: 'col-md-3',
+    placeholder: 'Comfort',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Comfort').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
+    },
+  },
+  appearance: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Appearance',
+    className: 'col-md-3',
+    placeholder: 'Appearance',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Appearance').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+      maxLength: {
+        value: 25,
+        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+      },
     },
   },
 });
@@ -367,25 +680,31 @@ export const AuctionColumns = (
     render: (_, val) => `${convertToLocale(val)}`,
   },
   {
-    title: 'Winner',
-    fieldName: 'winnerName',
-    isTruncated: true,
+    title: 'Users Joined',
+    fieldName: 'currentlySubscribedUser',
     sortable: true,
-    sortType: 'winnerName',
+    sortType: 'currentlySubscribedUser',
   },
-  {
-    title: 'Prize Status',
-    fieldName: 'productPurchaseStatus',
-    sortable: true,
-    sortType: 'productPurchaseStatus',
-    render: (_, val) => {
-      return (
-        PurchaseStatus.find((item) => {
-          return item.value === val;
-        })?.label.toString() || '-.-'
-      );
-    },
-  },
+  // {
+  //   title: 'Winner',
+  //   fieldName: 'winnerName',
+  //   isTruncated: true,
+  //   sortable: true,
+  //   sortType: 'winnerName',
+  // },
+  // {
+  //   title: 'Prize Status',
+  //   fieldName: 'productPurchaseStatus',
+  //   sortable: true,
+  //   sortType: 'productPurchaseStatus',
+  //   render: (_, val) => {
+  //     return (
+  //       PurchaseStatus.find((item) => {
+  //         return item.value === val;
+  //       })?.label.toString() || '-.-'
+  //     );
+  //   },
+  // },
   {
     title: 'Status',
     fieldName: 'status',

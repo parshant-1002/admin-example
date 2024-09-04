@@ -1,5 +1,10 @@
 import { daysBetweenDates } from '../../../../Shared/utils/functions';
-import { AUCTION_STATUS, BID_CREDIT_TYPES, BID_STATUS } from './constants';
+import {
+  AUCTION_STATUS,
+  BID_CREDIT_TYPES,
+  BID_STATUS,
+  INVOICE_TYPE,
+} from './constants';
 import {
   UserReferralHistoryResponse,
   UserBiddingHistoryResponse,
@@ -42,12 +47,15 @@ const transformBidderPurchaseResponse = (
   return {
     data: data?.data?.map((bidsPurchaseHistory) => ({
       id: bidsPurchaseHistory?.id,
+      _id: bidsPurchaseHistory?._id,
       packName: bidsPurchaseHistory?.bidPlan?.title,
       dealOffer: bidsPurchaseHistory?.bidPlan?.dealOffer,
       dealPrice: bidsPurchaseHistory?.bidPlan?.dealPrice,
       bids: bidsPurchaseHistory?.bids,
       date: bidsPurchaseHistory?.createdAt,
       status: getKeyByValue(BID_CREDIT_TYPES, bidsPurchaseHistory?.type),
+      invoiceURL: bidsPurchaseHistory?.invoiceURL,
+      invoiceDate: bidsPurchaseHistory?.invoiceDate,
     })),
     count: data?.count,
   };
@@ -120,10 +128,22 @@ const transformAuctionHistoryResponse = (data: UserAuctionHistoryResponse) => {
   };
 };
 
+const transformInvoicesResponse = (data: UserAuctionHistoryResponse) => {
+  return {
+    data: data?.data?.map((invoice) => ({
+      _id: invoice?._id,
+      id: invoice?.id,
+      invoiceURL: invoice?.invoiceURL,
+      type: getKeyByValue(INVOICE_TYPE, invoice?.type),
+    })),
+    count: data?.count,
+  };
+};
 export {
   transformBidderPurchaseResponse,
   transformBiddingHistoryResponse,
   transformProductHistoryResponse,
   transformReferralHistoryResponse,
   transformAuctionHistoryResponse,
+  transformInvoicesResponse,
 };

@@ -1,19 +1,25 @@
 import { HTMLProps, ReactNode } from 'react';
+import Breadcrumbs from '../layouts/components/breadcrumb/Breadcrumb';
 
 interface CustomCardWrapperProps extends HTMLProps<HTMLDivElement> {
   children: ReactNode;
   className?: string;
+  showBreadCrumbs?: boolean;
 }
 
 function CustomCardWrapper({
   children,
   className = '',
+  showBreadCrumbs = true,
   ...rest
 }: CustomCardWrapperProps) {
   return (
-    <div className={`card ${className}`} {...rest}>
-      <div className="card-body">{children}</div>
-    </div>
+    <>
+      {showBreadCrumbs ? <Breadcrumbs /> : null}
+      <div className={`card ${className}`} {...rest}>
+        <div className="card-body">{children}</div>
+      </div>
+    </>
   );
 }
 

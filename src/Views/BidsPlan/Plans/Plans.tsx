@@ -1,15 +1,23 @@
 // Libraries
 import { debounce } from 'lodash';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 // Components
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import CustomTableView, {
   Column,
   Row,
 } from '../../../Shared/components/CustomTableView';
-import ConfirmationModal from '../../../Shared/components/ConfirmationModal';
 import AddEditPlan from '../components/AddEditPlan';
 
 // Constants
@@ -21,11 +29,7 @@ import {
   ROUTES,
   STRINGS,
 } from '../../../Shared/constants';
-import {
-  PLAN_FORM_FIELDS,
-  PLAN_SCHEMA,
-  PlansColumns,
-} from '../helpers/constants';
+import { PLAN_FORM_FIELDS, PlansColumns } from '../helpers/constants';
 
 // API
 import {
@@ -36,12 +40,13 @@ import {
 } from '../../../Services/Api/module/plans';
 
 // Utilities
-import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { ErrorResponse } from '../../../Models/Apis/Error';
-import { Filter, RED_WARNING } from '../../../assets';
-import { calculateDiscountedPrice } from '../helpers/utils';
 import Filters from '../../../Shared/components/Filters';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
+import { Filter, RED_WARNING } from '../../../assets';
+import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
+import { ViewMultiData } from '../../Products/helpers/model';
 
 interface Popup {
   show: boolean;
@@ -90,6 +95,10 @@ function Plans() {
       queryParams as unknown as Record<string, unknown>
     ),
   });
+  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
+    data: { title: '' },
+    show: false,
+  });
 
   const [editBidPlan] = useEditBidPlanMutation();
   const [addBidPlan] = useAddBidPlanMutation();
@@ -123,24 +132,29 @@ function Plans() {
     setSearch(e.target.value);
   }, 1000);
 
-  const handleAddEditPopupSubmit = (data: Record<string, unknown>) => {
+  const handleAddEditPopupSubmit = (
+    data: Record<string, unknown>,
+    reset: Dispatch<SetStateAction<number>>
+  ) => {
     const payload = { ...data };
-    payload[PLAN_FORM_FIELDS.HOT_DEAL] =
-      (payload[PLAN_FORM_FIELDS.HOT_DEAL] as { value: unknown })?.value || '';
-    payload.endDate = formatDate(
-      payload.endDate as string,
-      'YYYY-MM-DD HH:mm:ss'
-    );
-    delete payload?.[PLAN_FORM_FIELDS.DISCOUNT_PRICE];
-
-    if (payload[PLAN_FORM_FIELDS.HOT_DEAL] === BID_PLAN_TYPES.REGULAR) {
-      delete payload[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE];
-      delete payload[PLAN_FORM_FIELDS.END_DATE];
-    }
-
-    payload[PLAN_FORM_FIELDS.IMAGE_URL] =
-      (data[PLAN_FORM_FIELDS.IMAGE_URL] as { fileURL: string }[])[0]?.fileURL ||
+    payload[PLAN_FORM_FIELDS.BID_PLAN_TYPE] =
+      (payload[PLAN_FORM_FIELDS.BID_PLAN_TYPE] as { value: unknown })?.value ||
       '';
+    // payload.endDate = formatDate(
+    //   payload.endDate as string,
+    //   'YYYY-MM-DD HH:mm:ss'
+    // );
+    delete payload?.[PLAN_FORM_FIELDS.DISCOUNT_PRICE];
+    delete payload?.[PLAN_FORM_FIELDS.YEARLY_PRICE];
+
+    // if (payload[PLAN_FORM_FIELDS.BID_PLAN_TYPE] === BID_PLAN_TYPES.REGULAR) {
+    //   delete payload[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE];
+    //   delete payload[PLAN_FORM_FIELDS.END_DATE];
+    // }
+
+    // payload[PLAN_FORM_FIELDS.IMAGE_URL] =
+    //   (data[PLAN_FORM_FIELDS.IMAGE_URL] as { fileURL: string }[])[0]?.fileURL ||
+    //   '';
 
     if (popup.type === POPUPTYPES.EDIT) {
       payload.bidPlanId = popup.data?._id;
@@ -149,15 +163,16 @@ function Plans() {
     const action = popup.type === POPUPTYPES.EDIT ? editBidPlan : addBidPlan;
 
     action({
-      payload,
+      payload: removeEmptyValues(payload),
       onSuccess: (response: { message: string }) => {
         toast.success(response.message);
         refetch();
+        reset(0);
         setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
       },
-      onFailure: (error: ErrorResponse) => {
-        toast.error(error.data.message);
-      },
+      // onFailure: (error: ErrorResponse) => {
+      //   toast.error(error.data.message);
+      // },
     });
   };
 
@@ -168,6 +183,7 @@ function Plans() {
         toast.success(response.message);
         refetch();
         setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
+        setSelectedIds([]);
       },
       onFailure: (error: ErrorResponse) => {
         toast.error(error.data.message);
@@ -193,6 +209,7 @@ function Plans() {
     (data: Record<string, unknown>) => {
       const payload = {
         bidPlanId: data?._id,
+        type: data?.type,
         isEnabled: !data?.isEnabled,
       };
       editBidPlan({
@@ -235,6 +252,7 @@ function Plans() {
         handleDelete: handleDeleteClick,
         handleStatusChange,
         handleSelectMultiple,
+        setShowMultiItemView,
         selectedIds,
       }),
     [handleStatusChange, handleView, selectedIds]
@@ -245,39 +263,66 @@ function Plans() {
       popup?.type === POPUPTYPES.EDIT && popup?.data
         ? {
             [PLAN_FORM_FIELDS.NAME]: popup.data?.[PLAN_FORM_FIELDS.NAME] || '',
-            [PLAN_FORM_FIELDS.PRICE]: popup.data?.[PLAN_FORM_FIELDS.PRICE] || 0,
-            [PLAN_FORM_FIELDS.BIDS]: popup.data?.[PLAN_FORM_FIELDS.BIDS] || 0,
-            [PLAN_FORM_FIELDS.HOT_DEAL]:
-              PLAN_SCHEMA(true)?.[PLAN_FORM_FIELDS.HOT_DEAL]?.options?.find(
-                (f) => f.value === popup.data?.[PLAN_FORM_FIELDS.HOT_DEAL]
-              ) || '',
+            // [PLAN_FORM_FIELDS.PRICE]: popup.data?.[PLAN_FORM_FIELDS.PRICE],
+            [PLAN_FORM_FIELDS.MONTHLY_PRICE]:
+              popup.data?.[PLAN_FORM_FIELDS.MONTHLY_PRICE],
+            [PLAN_FORM_FIELDS.YEARLY_PRICE]:
+              popup.data?.[PLAN_FORM_FIELDS.YEARLY_PRICE],
+            [PLAN_FORM_FIELDS.BIDS]: popup.data?.[PLAN_FORM_FIELDS.BIDS],
+            [PLAN_FORM_FIELDS.BID_PLAN_TYPE]:
+              popup.data?.[PLAN_FORM_FIELDS.BID_PLAN_TYPE] ===
+              BID_PLAN_TYPES.CUSTOM
+                ? {
+                    label: STRINGS.CUSTOM,
+                    value: BID_PLAN_TYPES.CUSTOM,
+                  }
+                : {
+                    label: STRINGS.REGULAR,
+                    value: BID_PLAN_TYPES.REGULAR,
+                  },
             [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]:
-              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] || 0,
-            [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: calculateDiscountedPrice(
-              popup.data?.[PLAN_FORM_FIELDS.PRICE] as number,
-              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] as number
-            ),
-            ...(popup?.data?.[PLAN_FORM_FIELDS.HOT_DEAL] ===
-            BID_PLAN_TYPES.HOT_DEAL
+              popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE],
+            // [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: calculateDiscountedPrice(
+            //   popup.data?.[PLAN_FORM_FIELDS.PRICE] as number,
+            //   popup.data?.[PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE] as number
+            // ),
+            // ...(popup?.data?.[PLAN_FORM_FIELDS.BID_PLAN_TYPE] ===
+            //   BID_PLAN_TYPES.CUSTOM
+            //   ? {
+            //     [PLAN_FORM_FIELDS.END_DATE]: formatDate(
+            //       popup.data?.[PLAN_FORM_FIELDS.END_DATE] as string,
+            //       'YYYY-MM-DD'
+            //     ),
+            //   }
+            //   : ''),
+            ...(popup?.data?.[PLAN_FORM_FIELDS.BID_PLAN_TYPE] ===
+            BID_PLAN_TYPES.CUSTOM
               ? {
-                  [PLAN_FORM_FIELDS.END_DATE]: formatDate(
-                    popup.data?.[PLAN_FORM_FIELDS.END_DATE] as string,
-                    'YYYY-MM-DD'
-                  ),
+                  [PLAN_FORM_FIELDS.BID_COVERSION]:
+                    popup.data?.[PLAN_FORM_FIELDS.BID_COVERSION],
                 }
               : ''),
             [PLAN_FORM_FIELDS.STATUS]:
               popup.data?.[PLAN_FORM_FIELDS.STATUS] || false,
+            [PLAN_FORM_FIELDS.DESCRIPTION]:
+              popup?.data?.[PLAN_FORM_FIELDS.DESCRIPTION],
+            [PLAN_FORM_FIELDS.MIN_BIDS]:
+              popup?.data?.[PLAN_FORM_FIELDS.MIN_BIDS],
+            [PLAN_FORM_FIELDS.MAX_BIDS]:
+              popup?.data?.[PLAN_FORM_FIELDS.MAX_BIDS],
           }
         : {
             [PLAN_FORM_FIELDS.NAME]: '',
             [PLAN_FORM_FIELDS.PRICE]: '',
             [PLAN_FORM_FIELDS.BIDS]: '',
-            [PLAN_FORM_FIELDS.HOT_DEAL]: '',
+            [PLAN_FORM_FIELDS.BID_PLAN_TYPE]: '',
             [PLAN_FORM_FIELDS.DISCOUNT_PERCENTAGE]: '',
             [PLAN_FORM_FIELDS.DISCOUNT_PRICE]: '',
             [PLAN_FORM_FIELDS.END_DATE]: '',
             [PLAN_FORM_FIELDS.STATUS]: false,
+            [PLAN_FORM_FIELDS.DESCRIPTION]: '',
+            [PLAN_FORM_FIELDS.MIN_BIDS]: '',
+            [PLAN_FORM_FIELDS.MAX_BIDS]: '',
           },
     [popup?.data, popup?.type]
   );
@@ -287,9 +332,15 @@ function Plans() {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
     });
+    setCurrentPage(0);
   };
   return (
     <div>
+      <ViewMultiTableItem
+        show={showMultiItemView}
+        setShow={setShowMultiItemView}
+      />
+
       {/* Filters */}
       <Filters
         handleClearSearch={() => setSearch('')}

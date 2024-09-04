@@ -4,6 +4,8 @@ import Button from '../Button';
 import type { FormDataProps, FormSchema } from './types/Formtypes';
 // import { ALIGNMENT } from '../../../../Shared/Constants';
 import RenderField from './RenderFields';
+import { INPUT_TYPES, blockInvalidChar } from '../../../constants';
+import FORM_VALIDATION_MESSAGES from '../../../constants/validationMessages';
 
 function AddHorizontalTitle({
   isLine,
@@ -40,7 +42,7 @@ interface CustomFormProps {
   ) => void;
   id: string;
   defaultValues?: Record<string, unknown>;
-  formData: Record<string, FormDataProps>;
+  formData?: Record<string, FormDataProps>;
   handleStateDataChange?: (prop: {
     name: string;
     value: unknown;
@@ -54,7 +56,6 @@ interface CustomFormProps {
   className?: string;
   isShowSubmit?: boolean;
   isShowSecondaryBtn?: boolean;
-  isDisabledSubmit?: boolean;
   submitBtnClassName?: string;
   alignFormActionBtns?: string;
   secondaryBtnClassName?: string;
@@ -75,7 +76,6 @@ function CustomForm({
   className = '',
   isShowSubmit = true,
   isShowSecondaryBtn = false,
-  isDisabledSubmit = false,
   submitBtnClassName = 'btn-md',
   alignFormActionBtns = 'center',
   secondaryBtnClassName = 'btn-md text-captialize w-100',
@@ -88,6 +88,7 @@ function CustomForm({
     watch,
     reset,
     getValues,
+    setError,
     control,
     formState: { errors },
     setValue,
@@ -105,6 +106,10 @@ function CustomForm({
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
+      if (errors[String(name)] && value[String(name)]) {
+        setError(String(name), {});
+      }
+
       if (name && type) {
         handleStateDataChange({
           name,
@@ -116,7 +121,7 @@ function CustomForm({
       }
     });
     return () => subscription.unsubscribe();
-  }, [handleStateDataChange, setValue, watch]);
+  }, [errors, handleStateDataChange, setError, setValue, watch, formData]);
 
   const handleRegister = (key: string) => {
     if (typeof formData[key].schema === 'function') {
@@ -127,7 +132,26 @@ function CustomForm({
 
       return register(key, schema as unknown as FormDataProps);
     }
-
+    if (
+      [INPUT_TYPES.TEXT, INPUT_TYPES.TEXT_AREA]?.includes(
+        `${formData?.[key]?.type}`
+      )
+    ) {
+      const schema = {
+        ...(formData[key].schema || {}),
+        validate: (value: string) =>
+          value.trim() !== '' ||
+          FORM_VALIDATION_MESSAGES(`${formData?.[key].label}`).REQUIRED,
+      };
+      return register(key, schema as unknown as FormDataProps);
+    }
+    if (formData[key]?.type === INPUT_TYPES.NUMBER) {
+      const schema = {
+        ...(formData[key].schema || {}),
+        blockInvalidChars: blockInvalidChar,
+      };
+      return register(key, schema as unknown as FormDataProps);
+    }
     return register(key, formData[key].schema as unknown as FormDataProps);
   };
   const getAlignmentForFormActionBtn = () => {
@@ -157,6 +181,10 @@ function CustomForm({
       // onSubmit={handleSubmit(onSubmit)}
     >
       {Object.keys(formData).map((key) => {
+        let field = { ...formData[key] };
+        if (formData[key].type === INPUT_TYPES.NUMBER) {
+          field = { ...formData[key], blockInvalidChars: blockInvalidChar };
+        }
         return (
           <Fragment key={key}>
             <AddHorizontalTitle
@@ -165,7 +193,7 @@ function CustomForm({
             />
             <RenderField
               id={key}
-              field={formData[key]}
+              field={field}
               handleRegister={
                 handleRegister as unknown as () => Ref<HTMLInputElement>
               }
@@ -208,7 +236,6 @@ function CustomForm({
             )}
             type="submit"
             className={submitBtnClassName}
-            disabled={isDisabledSubmit}
           >
             {submitText}
           </Button>

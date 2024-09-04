@@ -59,18 +59,18 @@ export const loginApi = api.injectEndpoints({
         url: API_END_POINTS.USER_BID_CREDIT_HISTORY,
         params,
       }),
-      async onQueryStarted(arg, { queryFulfilled }) {
-        onQueryStarted(arg, { queryFulfilled });
-      },
     }),
     getUserProductHistory: builder.query({
       query: ({ params }) => ({
         url: API_END_POINTS.USER_PRODUCTS,
         params,
       }),
-      async onQueryStarted(arg, { queryFulfilled }) {
-        onQueryStarted(arg, { queryFulfilled });
-      },
+    }),
+    getUserInvoices: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.USER_INVOICES,
+        params,
+      }),
     }),
   }),
 });
@@ -83,4 +83,5 @@ export const {
   useAddUserBidsMutation,
   useGetUserProductHistoryQuery,
   useGetUserBidsCreditHistoryQuery,
+  useGetUserInvoicesQuery,
 } = loginApi;

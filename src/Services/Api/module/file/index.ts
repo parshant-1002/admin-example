@@ -36,6 +36,7 @@ export const loginApi = api.injectEndpoints({
         url: API_END_POINTS.GET_FILES,
         params,
       }),
+      keepUnusedDataFor: 0,
       async onQueryStarted(arg, { queryFulfilled }) {
         onQueryStarted(arg, { queryFulfilled });
       },

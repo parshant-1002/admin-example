@@ -1,3 +1,5 @@
+import { ImageConfig, SelectOption } from '../../../../../Models/common';
+
 export interface FormSchema {
   required?: string;
   pattern?: {
@@ -20,9 +22,11 @@ export interface FormSchema {
   validate?: (value: string) => string | true;
 }
 export interface FormDataProps {
-  type: string;
+  type?: string;
+  imageFileType?: string;
+  ratio?: number[];
   readOnly?: boolean;
-  placeholder: string;
+  placeholder?: string;
   accept?: string;
   min?: string | number;
   max?: string | number;
@@ -30,18 +34,27 @@ export interface FormDataProps {
   schema?: FormSchema | ((value: string) => FormSchema);
   options?: unknown[];
   value?: unknown;
-  className: string;
+  className?: string;
   containerClassName?: string;
   labelClassName?: string;
-  label: string;
+  label?: string;
   render?: () => JSX.Element;
   isShowInputCount?: boolean;
   name?: string;
   addHorizontalLine?: boolean;
   addHorizontalTitle?: string;
-  checkOptions?: {
-    label: string;
-    value: string;
-  }[];
+  blockInvalidChars?: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    chars?: string[]
+  ) => void;
+  checkOptions?: SelectOption[];
   isMulti?: boolean;
+  config?: {
+    type: string;
+    min?: number;
+  };
+  fetchImageDataConfig?: ImageConfig[];
+  singleImageSelectionEnabled?: boolean;
+  subLabel?: string;
+  subLabelClassName?: string;
 }

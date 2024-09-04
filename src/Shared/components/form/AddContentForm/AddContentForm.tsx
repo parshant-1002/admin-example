@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Delete } from '../../../../assets/index';
+import { AddContentFormItem } from '../../../../Models/common';
 import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../constants';
-import { validateField } from '../../../utils/functions';
+// import { validateField } from '../../../utils/functions';
 import FileInput from '../FileUpload/FileUpload';
 import RichText from '../RIchText/RitchText';
 import CustomSelect from '../Select/Select';
@@ -10,25 +12,22 @@ import Switch from '../Switch/Switch';
 import TextField from '../TextInput/TextInput';
 import './AddContentForm.scss';
 import FieldSetWrapper from './FieldSetWrpper';
+import { validateField } from '../../../utils/functions';
 
-interface RoadMapItem {
-  [key: string]: string | { [key: string]: string };
-  errors: { [key: string]: string };
-}
-
+// The props interface is now using FaqMapItem instead of AddContentFormItem
 interface AddContentFormProps {
-  roadMap: RoadMapItem[];
-  setRoadMap: React.Dispatch<React.SetStateAction<RoadMapItem[]>>;
+  content: AddContentFormItem[];
+  setContent: React.Dispatch<React.SetStateAction<AddContentFormItem[]>>;
   types: { [key: string]: string };
   labels: { [key: string]: string };
   options?: { [key: string]: unknown[] };
-  initialState: RoadMapItem;
+  initialState: AddContentFormItem;
   title?: string;
 }
 
 function AddContentForm({
-  roadMap,
-  setRoadMap,
+  content,
+  setContent,
   types,
   labels,
   options,
@@ -36,24 +35,23 @@ function AddContentForm({
   title,
 }: AddContentFormProps) {
   const addLevel = () => {
-    const currentErrors = validateField(roadMap[roadMap.length - 1]);
+    const currentErrors = validateField(content[content.length - 1], labels);
     if (Object.keys(currentErrors).length === 0) {
-      setRoadMap([...roadMap, initialState]);
+      setContent([...content, initialState]);
+    } else {
+      const updatedRoadMap = content.map((item, i) =>
+        i === content.length - 1 ? { ...item, errors: currentErrors } : item
+      );
+      setContent(updatedRoadMap);
     }
-    // else {
-    //   const updatedRoadMap = roadMap.map((item, i) =>
-    //     i === roadMap.length - 1 ? { ...item, errors: currentErrors } : item
-    //   );
-    //   //   setRoadMap(updatedRoadMap);
-    // }
   };
 
   const removeLevel = (index: number) => {
-    setRoadMap(roadMap.filter((_, i) => i !== index));
+    setContent(content.filter((_, i) => i !== index));
   };
 
   const updateField = (index: number, field: string, value: unknown) => {
-    roadMap.map((item, i) => {
+    const updatedRoadMap = content.map((item, i) => {
       if (i === index) {
         const newErrors = { ...item.errors };
         delete newErrors[field];
@@ -66,14 +64,14 @@ function AddContentForm({
       }
       return item;
     });
-    // console.log('🚀 ~ updatedRoadMap ~ updatedRoadMap:', updatedRoadMap);
-    // setRoadMap(updatedRoadMap);
+
+    setContent(updatedRoadMap);
   };
 
   return (
     <FieldSetWrapper title={title}>
-      {roadMap.map((item, index) => (
-        <div className="common_title_grp" key={`${item}-`}>
+      {content.map((item, index) => (
+        <div className="common_title_grp" key={`${item.id}}`}>
           {Object.keys(types).map((typeKey) => {
             const inputType = types[typeKey];
             const label = labels[typeKey];
@@ -90,6 +88,7 @@ function AddContentForm({
                   <TextField
                     type={inputType}
                     value={value}
+                    placeholder={label}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateField(index, typeKey, e.target.value)
                     }
@@ -107,13 +106,13 @@ function AddContentForm({
                   <input
                     className="form-control"
                     type="file"
-                    onChange={(e) =>
+                    onChange={(e) => {
                       updateField(
                         index,
                         typeKey,
-                        e.target.files ? e.target.files[0] : null
-                      )
-                    }
+                        e.target?.files ? e.target?.files[0] : null
+                      );
+                    }}
                   />
                 )}
                 {inputType === INPUT_TYPES.FILE_UPLOAD && (
@@ -121,18 +120,15 @@ function AddContentForm({
                     className="form-control"
                     accept={IMAGE_FILE_TYPES}
                     value={value}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      updateField(
-                        index,
-                        typeKey,
-                        e.target.files ? e.target.files[0] : null
-                      )
-                    }
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      updateField(index, typeKey, e);
+                    }}
                   />
                 )}
                 {inputType === INPUT_TYPES.SELECT && (
                   <CustomSelect
                     value={value}
+                    placeholder={label}
                     options={options?.[typeKey] || []}
                     onChange={(valueSelect: unknown) =>
                       updateField(index, typeKey, valueSelect)
@@ -156,13 +152,13 @@ function AddContentForm({
               </div>
             );
           })}
-          {roadMap.length > 1 && (
+          {content.length > 1 && (
             <button
               type="button"
               className="btn btn-danger common_title_grp_btn mt-2"
               onClick={() => removeLevel(index)}
             >
-              <i className="bi bi-trash" />
+              <img src={Delete} alt="Trash" width={10} />
             </button>
           )}
         </div>

@@ -53,6 +53,7 @@ interface BidPlan {
 // Define the type for each item in the data array
 export interface UserBid {
   id: string;
+  invoiceDate: string;
   _id?: string;
   name?: string;
   bids?: number;

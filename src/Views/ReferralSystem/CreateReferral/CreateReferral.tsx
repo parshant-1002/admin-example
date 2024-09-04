@@ -31,11 +31,10 @@ import {
 } from '../../../Services/Api/module/referral';
 
 // Utilities
-import { ErrorResponse } from '../../../Models/Apis/Error';
 import Filters from '../../../Shared/components/Filters';
+import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 import { formatDate, removeEmptyValues } from '../../../Shared/utils/functions';
 import { Filter, RED_WARNING } from '../../../assets';
-import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 
 interface Popup {
   show: boolean;
@@ -138,9 +137,6 @@ function CreateReferral() {
         refetch();
         setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
       },
-      onFailure: (error: ErrorResponse) => {
-        toast.error(error.data.message);
-      },
     });
   };
 
@@ -150,10 +146,8 @@ function CreateReferral() {
       onSuccess: (response: { message: string }) => {
         toast.success(response.message);
         refetch();
+        setSelectedIds([]);
         setPopup({ show: false, data: null, type: POPUPTYPES.NONE });
-      },
-      onFailure: (error: ErrorResponse) => {
-        toast.error(error.data.message);
       },
     });
   };
@@ -183,9 +177,6 @@ function CreateReferral() {
         onSuccess: (response: { message: string }) => {
           toast.success(response.message);
           refetch();
-        },
-        onFailure: (error: ErrorResponse) => {
-          toast.error(error.data.message);
         },
       });
     },
@@ -227,6 +218,7 @@ function CreateReferral() {
       fromDate: filter?.startDate,
       toDate: filter?.endDate,
     });
+    setCurrentPage(0);
   };
   return (
     <div>

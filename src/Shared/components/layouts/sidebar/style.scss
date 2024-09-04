@@ -132,6 +132,14 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         mask-image: url(/src/assets/icons/transactions.svg);
         -webkit-mask-image: url(/src/assets/icons/transactions.svg);
       }
+      .bi-notification-content {
+        mask-image: url(/src/assets/icons/notifications_content.svg);
+        -webkit-mask-image: url(/src/assets/icons/notifications_content.svg);
+      }
+      .bi-pages-content {
+        mask-image: url(/src/assets/icons/pages_content.svg);
+        -webkit-mask-image: url(/src/assets/icons/pages_content.svg);
+      }
     }
 
     .accordion-item {

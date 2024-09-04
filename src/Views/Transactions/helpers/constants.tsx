@@ -1,4 +1,5 @@
 // utils
+import { Link } from 'react-router-dom';
 import {
   convertToLocale,
   formatDate,
@@ -17,6 +18,12 @@ import {
 } from '../../../Shared/constants';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import { Image } from '../../../Models/common';
+import TruncateText from '../../../Shared/components/TruncateText';
+import {
+  USER_PANEL,
+  VITE_PRODUCT_DETAIL_PATH,
+} from '../../../Services/Api/Constants';
+import { getKeyByValue } from '../../Users/UserDetails/helpers/utils';
 
 // Define types for renderActions and column data
 interface ColumnData {
@@ -28,7 +35,7 @@ interface ColumnData {
   render?: (
     row: Invoice,
     val: string | number
-  ) => JSX.Element[] | string | JSX.Element | string[];
+  ) => JSX.Element[] | string | JSX.Element | string[] | undefined;
   path?: string[];
 }
 
@@ -39,9 +46,14 @@ export const PRODUCT_STATUS = [
   { value: 2, label: 'Active' },
   { value: 3, label: 'Ended' },
 ];
-
+export const BIDS_TYPE = {
+  Auto: 1,
+  Manual: 2,
+};
 // Define the shape of the columns
-export const PlansHistoryColumns: ColumnData[] = [
+export const PlansHistoryColumns = (
+  handleInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
     title: STRINGS.T_ID,
     fieldName: 'id',
@@ -129,7 +141,7 @@ export const PlansHistoryColumns: ColumnData[] = [
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          <Button>{STRINGS.GENERATE}</Button>
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),
@@ -137,12 +149,12 @@ export const PlansHistoryColumns: ColumnData[] = [
 ];
 
 // Define the shape of the columns
-export const BidsHistoryColumns: ColumnData[] = [
+export const BidsHistoryColumns = (onDashBoard?: boolean): ColumnData[] => [
   {
     title: STRINGS.T_ID,
     fieldName: 'id',
     render: renderIdWithHash,
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'id',
   },
   {
@@ -153,17 +165,31 @@ export const BidsHistoryColumns: ColumnData[] = [
     title: STRINGS.EMAIL,
     fieldName: 'userEmail',
   },
+  // {
+  //   title: STRINGS.AUCTION_ID,
+  //   fieldName: 'auctionId',
+  //   render: renderIdWithHash,
+  //   sortable: !onDashBoard,
+  //   sortType: 'auctionId',
+  // },
   {
-    title: STRINGS.AUCTION_ID,
-    fieldName: 'auctionId',
-    render: renderIdWithHash,
-    sortable: true,
-    sortType: 'auctionId',
+    title: STRINGS.AUCTION_LINK,
+    path: ['auctionDetails', '_id'],
+    render: (_, val) => (
+      <Link
+        to={`${USER_PANEL}${VITE_PRODUCT_DETAIL_PATH}/${val}`}
+        target="_blank"
+      >
+        <TruncateText
+          text={`${USER_PANEL}${VITE_PRODUCT_DETAIL_PATH}/${val}`}
+        />
+      </Link>
+    ),
   },
   {
     title: STRINGS.AUCTION_NAME,
     path: ['auctionDetails', 'title'],
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'auctionName',
   },
   {
@@ -174,16 +200,21 @@ export const BidsHistoryColumns: ColumnData[] = [
   {
     title: STRINGS.DATE,
     fieldName: 'createdAt',
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'createdAt',
     render: (_, val) => (val ? formatDate(val as string) : '-.-'),
   },
   {
     title: STRINGS.ITEM_PRICE,
     fieldName: 'currentBidPrice',
-    sortable: true,
+    sortable: !onDashBoard,
     sortType: 'currentBidPrice',
     render: (_, val) => `${convertToLocale(val)}`,
+  },
+  {
+    title: STRINGS.BID_TYPE,
+    fieldName: 'bidType',
+    render: (_, val) => (val ? getKeyByValue(BIDS_TYPE, Number(val)) : '-.-'),
   },
   {
     title: STRINGS.STATUS,
@@ -205,8 +236,10 @@ export const BidsHistoryColumns: ColumnData[] = [
 // Define the shape of the columns
 export const ProductsHistoryColumns = ({
   handleMoreImagesClick = () => {},
+  handleInvoice = () => {},
 }: {
   handleMoreImagesClick: (imgs: Image[]) => void;
+  handleInvoice: (row: Invoice) => void;
 }): ColumnData[] => [
   {
     title: STRINGS.T_ID,
@@ -305,7 +338,7 @@ export const ProductsHistoryColumns = ({
             <img src={InvoiceIcon} alt="" />
           </button>
         ) : (
-          <Button>{STRINGS.GENERATE}</Button>
+          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
         )}
       </div>
     ),
@@ -322,7 +355,7 @@ export const ReferralHistoryColumns: ColumnData[] = [
     sortType: 'id',
   },
   {
-    title: STRINGS.PLAN_ID,
+    title: 'Plan Id',
     fieldName: 'referralPackId',
     render: renderIdWithHash,
     sortable: true,
