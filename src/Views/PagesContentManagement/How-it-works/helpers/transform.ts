@@ -2,7 +2,7 @@ import { CONTENT_ENUMS } from '../../../../Shared/constants';
 
 export interface FormData {
   title: string;
-  description: string;
+  tagLabel: string;
   isVisible?: boolean;
 }
 
@@ -18,7 +18,7 @@ export const transformAPIRequestDataHowItsWork = (
 ) => {
   return {
     howItWorksTitle: data.title,
-    howItWorksTabLabel: data.description,
+    howItWorksTabLabel: data.tagLabel,
     howItWorksIsVisible: data?.isVisible || false,
     // faqImageURL: data?.companyLogo?.[0]?.fileURL,
     [CONTENT_ENUMS.HOW_IT_WORKS]: roadMap?.map(

@@ -70,7 +70,7 @@ function AddContentForm({
 
   return (
     <FieldSetWrapper title={title}>
-      {content.map((item, index) => (
+      {content?.map((item, index) => (
         <div className="common_title_grp" key={`${item.id}}`}>
           {Object.keys(types).map((typeKey) => {
             const inputType = types[typeKey];

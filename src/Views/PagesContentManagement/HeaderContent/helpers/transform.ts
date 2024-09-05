@@ -1,3 +1,5 @@
+import { AddContentFormItem } from '../../../../Models/common';
+
 interface ImageData {
   fileURL: string;
   fileId: string;
@@ -45,7 +47,10 @@ interface TransformedData {
   }[];
 }
 
-export const transformAPIData = (data: APIData) => {
+export const transformAPIData = (
+  data: APIData,
+  dropDownItems: AddContentFormItem[]
+) => {
   const transformedData: TransformedData = {
     logoText: data?.logoText,
     homeLabel: data?.homeLabel,
@@ -67,6 +72,11 @@ export const transformAPIData = (data: APIData) => {
       data?.walletIcon?.[0]?.fileId || data?.walletIcon?.[0]?._id,
     walletIconURL: data?.walletIcon?.[0]?.fileURL,
     isVisible: data?.isVisible,
+    menuItems: dropDownItems?.map((item) => ({
+      title: item?.title,
+      fileId: item?.file?.[0]?.fileId || item?.file?.[0]?._id,
+      imageURL: item?.file?.[0]?.fileURL,
+    })),
   };
   return transformedData;
 };
