@@ -5,6 +5,11 @@ import {
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const CONTACT_US_FORM_SCHEMA = {
+  contactUsIsVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Contact Us Section',
+    className: 'col-md-12 notifications',
+  },
   phoneNumberImageURL: {
     type: INPUT_TYPES.FILE,
     label: 'Phone Number Image',
@@ -159,11 +164,6 @@ const CONTACT_US_FORM_SCHEMA = {
   //         required: FORM_VALIDATION_MESSAGES().REQUIRED,
   //     }
   // }
-  contactUsIsVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Contact Us Section',
-    className: 'col-md-6',
-  },
 };
 
 export default CONTACT_US_FORM_SCHEMA;

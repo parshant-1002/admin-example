@@ -2,6 +2,11 @@ import { INPUT_TYPES } from '../../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const BID_PACK_CONTENT_FORM_SCHEMA = {
+  bidPackIsVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Bid Pack Content',
+    className: 'col-md-12 notifications',
+  },
   bidPackTagLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Bid Pack Tag Label',
@@ -104,11 +109,6 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Price Value').REQUIRED,
     },
-  },
-  bidPackIsVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Bid Pack Content',
-    className: 'col-md-12',
   },
 };
 

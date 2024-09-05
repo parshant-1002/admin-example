@@ -2,6 +2,11 @@ import { INPUT_TYPES } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const FAQ_CONTENT_FORM_SCHEMA = {
+  isVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Faq Content',
+    className: 'col-md-12 notifications',
+  },
   faqTagLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Faqs Tag Label',
@@ -38,11 +43,6 @@ const FAQ_CONTENT_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
     },
-  },
-  isVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Faq Content',
-    className: 'col-md-12',
   },
 };
 

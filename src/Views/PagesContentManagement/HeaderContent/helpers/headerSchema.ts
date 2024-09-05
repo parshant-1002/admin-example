@@ -2,6 +2,11 @@ import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const HEADER_CONTENT_FORM_SCHEMA = {
+  isVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Header Content',
+    className: 'col-md-12 notifications',
+  },
   logoText: {
     type: INPUT_TYPES.TEXT,
     label: 'Header Logo Text',
@@ -113,11 +118,6 @@ const HEADER_CONTENT_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
-  },
-  isVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Header Content',
-    className: 'col-md-6',
   },
 };
 

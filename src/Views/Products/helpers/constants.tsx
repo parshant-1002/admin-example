@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Button } from 'react-bootstrap';
 import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
+  BUTTON_LABELS,
   FILE_TYPE,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
@@ -13,7 +14,6 @@ import {
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
-import { view } from '../../../assets';
 import {
   Category,
   FieldSchemaForSpecifications,
@@ -641,12 +641,13 @@ export const productsColumns = (
     render: (row) => {
       return (
         <Button
-          className="btn44 btn btn-primary"
+          className="btn btn-primary px-3"
           onClick={() => {
             setViewSpecifications({ data: row?.specifications, show: true });
           }}
         >
-          <img src={view} alt="" />
+          {BUTTON_LABELS.VIEW}
+          {/* <img src={view} alt="" /> */}
         </Button>
       );
     },

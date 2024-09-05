@@ -163,9 +163,9 @@ function AddContentForm({
           )}
         </div>
       ))}
-      <div className="mb-2 mt-2">
-        <Button type="button" onClick={addLevel}>
-          + Add
+      <div className="mb-2 mt-2 text-center">
+        <Button type="button" onClick={addLevel} className="btn btn-sm">
+          Add
         </Button>
       </div>
     </FieldSetWrapper>
