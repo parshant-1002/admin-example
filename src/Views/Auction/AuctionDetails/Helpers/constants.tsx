@@ -3,7 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { ColumnData } from '../../../../Models/Tables';
 import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 import { DATE_FORMATS } from '../../../../Shared/constants';
-import { convertToLocale, formatDate } from '../../../../Shared/utils/functions';
+import {
+  convertToLocale,
+  formatDate,
+} from '../../../../Shared/utils/functions';
 import { Category, ViewMultiData } from '../../../Products/helpers/model';
 import { ProductDetailResponsePayload } from './Model';
 import { SelectOption } from '../../../../Models/common';
