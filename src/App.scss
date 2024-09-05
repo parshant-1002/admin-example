@@ -32,6 +32,17 @@ $downArrow : url("./assets/icons/downArrow.svg");
   border-color: $primary-color;
 }
 
+.btn44 {
+  img {
+    margin-top: -0.5px;
+  }
+}
+
+.form-check-input:checked {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
