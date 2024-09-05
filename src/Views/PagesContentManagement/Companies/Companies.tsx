@@ -37,7 +37,9 @@ function Companies() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]) {
       // Extract and set companiesData values
-      const formGetData = content.data[CONTENT_ENUMS.COMPANIES_SECTION]?.map(
+      const formGetData = content.data[
+        CONTENT_ENUMS.COMPANIES_SECTION
+      ]?.items?.map(
         ({
           title,
           url,
@@ -64,7 +66,7 @@ function Companies() {
       const payload = {
         [CONTENT_ENUMS.COMPANIES_SECTION]: {
           ...data,
-          companies: mappedCompaniesData,
+          items: mappedCompaniesData,
         },
       };
       await updateContent({
