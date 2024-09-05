@@ -15,7 +15,6 @@ interface SidebarItem {
 }
 
 function Sidebar() {
-  // const location = useLocation();
   const accordionRef = useRef<HTMLDivElement>(null); // Ref to track the accordion
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 1200);
@@ -31,6 +30,7 @@ function Sidebar() {
 
   // Function to toggle accordion
   const toggleAccordion = (label: string) => {
+    // If a different accordion is clicked, close the previous one
     setActiveAccordion((prevActive) => (prevActive === label ? null : label));
   };
 
@@ -50,15 +50,13 @@ function Sidebar() {
     }
 
     return () => {
-      // Cleanup listener when component unmounts or accordion closes
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [activeAccordion, isMobile, handleClickOutside]);
 
   const handleItemClick = () => {
-    if (isMobile) {
-      setActiveAccordion(null);
-    }
+    // Close any active accordion when an item is clicked (for mobile screens)
+    setActiveAccordion(null);
   };
 
   // Recursive function to generate the sidebar
@@ -84,7 +82,7 @@ function Sidebar() {
                       <button
                         type="button"
                         className="dropdown-item"
-                        onClick={handleItemClick}
+                        onClick={handleItemClick} // Close accordion when item is clicked
                       >
                         {children.label}
                       </button>
@@ -92,7 +90,7 @@ function Sidebar() {
                       <NavLink
                         className="dropdown-item d-flex"
                         to={children.route || ''}
-                        onClick={handleItemClick}
+                        onClick={handleItemClick} // Close accordion when navigation item is clicked
                       >
                         <>
                           <figure className="me-3">
@@ -141,7 +139,11 @@ function Sidebar() {
           <React.Fragment key={`sidebar-${sidebar.label}`}>
             {sidebar.route ? (
               <li className="nav-item">
-                <NavLink className="nav-link" to={sidebar.route}>
+                <NavLink
+                  className="nav-link"
+                  to={sidebar.route}
+                  onClick={handleItemClick} // Close accordion when another nav item is clicked
+                >
                   <span className="curve-top" />
                   <span className="curve-bottom" />
                   {sidebar.iconClass && <i className={sidebar.iconClass} />}
@@ -156,7 +158,7 @@ function Sidebar() {
                 <button
                   className="nav-link"
                   type="button"
-                // onClick={() => handleButtonClick(sidebar)}
+                  onClick={handleItemClick} // Close accordion when button is clicked
                 >
                   <em>
                     {sidebar.iconClass && <i className={sidebar.iconClass} />}
