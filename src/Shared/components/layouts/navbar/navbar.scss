@@ -29,41 +29,58 @@
       width: $auto;
     }
   }
+}
 
-  .animated-arrow {
-    width: 20px;
-    height: 20px;
-    cursor: $pointer;
+.animated-arrow {
+  width: 20px;
+  height: 20px;
+  cursor: $pointer;
+  position: relative; // Ensure it's relative to control the positioning of span
 
-    span {
+  span {
+    cursor: pointer;
+    height: 0.125rem;
+    width: 0.938rem;
+    background: $base-color;
+    position: absolute;
+    display: block;
+    content: "";
+    @include transition-mixin(all, 0.3s, ease-in-out);
+
+    &:after,
+    &:before {
+      @include position($absolute);
       cursor: pointer;
-      height: .125rem;
-      width: .938rem;
+      height: 0.125rem;
+      width: 1.25rem;
       background: $base-color;
-      position: absolute;
       display: block;
       content: "";
-      @include transition-mixin (all, .5s, ease-in-out);
-
-      &:after,
-      &:before {
-        @include position ($absolute);
-        cursor: pointer;
-        height: .125rem;
-        width: 1.25rem;
-        background: $base-color;
-        display: $block;
-        content: "";
-      }
-
-      &::after {
-        bottom: -.375rem;
-      }
-
-      &:before {
-        inset-block-start: -.375rem;
-      }
+      @include transition-mixin(all, 0.3s, ease-in-out);
     }
+
+    &::after {
+      bottom: -0.375rem;
+    }
+
+    &::before {
+      inset-block-start: -0.375rem;
+    }
+  }
+}
+
+// When the `.toggle` class is added to the body, we transform the arrow into a cross
+body.toggle-sidebar .animated-arrow span {
+  background: transparent; // Hide the middle bar
+
+  &::before {
+    transform: rotate(45deg); // Rotate to form a cross
+    inset-block-start: 0; // Align the bars vertically
+  }
+
+  &::after {
+    transform: rotate(-45deg); // Rotate the bottom bar to form a cross
+    bottom: 0; // Align the bars vertically
   }
 }
 

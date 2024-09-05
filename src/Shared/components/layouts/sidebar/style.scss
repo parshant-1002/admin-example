@@ -354,6 +354,17 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   }
 }
 
+@media (max-width:1200px) {
+  .toggle-sidebar .sidebar {
+    left: -70px;
+  }
+
+  .toggle-sidebar #main,
+  .toggle-sidebar #footer {
+    margin-left: 0px;
+  }
+}
+
 .sidebar-nav .nav-link .bi-chevron-down {
   margin-right: 0;
   transition: transform 0.2s ease-in-out;
