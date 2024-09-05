@@ -10,8 +10,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Current Price Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -24,8 +24,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES('Reserve Price Not Met Label')
         .REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -37,8 +37,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Users Not Joined Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -50,8 +50,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Reserve Price Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -63,8 +63,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Join List Button Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -76,8 +76,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Place Bid Button Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -89,8 +89,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('More Information Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -102,8 +102,8 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('History Button Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },

@@ -11,6 +11,7 @@ export interface TopAuctionFormData {
   moreInformationLabel: string;
   historyLabel: string;
   topAuctionsIsVisible: true;
+  bidPlacedLabel: string;
   auctionCard: {
     marketValueLabel: string;
     reservePriceMetLabel: string;
@@ -20,6 +21,7 @@ export interface TopAuctionFormData {
     reservePriceLabel: string;
     moreInformationLabel: string;
     historyLabel: string;
+    bidPlacedLabel: string;
   };
 }
 
@@ -39,6 +41,7 @@ export const transAPIRequestDataToFormTopAuction = (
     moreInformationLabel: data?.auctionCard?.moreInformationLabel,
     historyLabel: data?.auctionCard?.historyLabel,
     topAuctionsIsVisible: data?.topAuctionsIsVisible,
+    bidPlacedLabel: data?.auctionCard?.bidPlacedLabel,
   };
 };
 
@@ -58,6 +61,7 @@ export const transformAPIRequestDataTopAuction = (
       reservePriceLabel: data?.reservePriceLabel,
       moreInformationLabel: data?.moreInformationLabel,
       historyLabel: data?.historyLabel,
+      bidPlacedLabel: data?.bidPlacedLabel,
     },
     topAuctionsIsVisible: data?.topAuctionsIsVisible,
   };

@@ -41,6 +41,10 @@ export interface AuctionPageFormData {
   placeBidButtonLabel: string;
   moreInormationLabel: string;
   historyButtonLabel: string;
+  automaticBidLabel: string;
+  automaticBidCancelLabel: string;
+  automaticBidValue: string;
+  recentBidsLabel: string;
   fuelIcon: {
     fileId: string;
     fileURL: string;
@@ -109,6 +113,10 @@ export const transformAPIRequestDataAuctionPage = (
     placeBidButtonLabel: data?.placeBidButtonLabel,
     moreInormationLabel: data?.moreInormationLabel,
     historyButtonLabel: data?.historyButtonLabel,
+    automaticBidLabel: data?.automaticBidLabel,
+    automaticBidCancelLabel: data?.automaticBidCancelLabel,
+    automaticBidValue: data?.automaticBidValue,
+    recentBidsLabel: data?.recentBidsLabel,
   };
 };
 
@@ -162,5 +170,9 @@ export const transAPIRequestDataToFormAuctionPage = (
     placeBidButtonLabel: data?.placeBidButtonLabel,
     moreInormationLabel: data?.moreInormationLabel,
     historyButtonLabel: data?.historyButtonLabel,
+    automaticBidLabel: data?.automaticBidLabel,
+    automaticBidCancelLabel: data?.automaticBidCancelLabel,
+    automaticBidValue: data?.automaticBidValue,
+    recentBidsLabel: data?.recentBidsLabel,
   };
 };

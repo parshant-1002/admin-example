@@ -38,6 +38,11 @@ interface TransformedData {
   walletIconFileId: string;
   walletIconURL: string;
   isVisible: boolean;
+  menuItems?: {
+    title?: string;
+    fileId?: string;
+    imageURL?: string;
+  }[];
 }
 
 export const transformAPIData = (data: APIData) => {

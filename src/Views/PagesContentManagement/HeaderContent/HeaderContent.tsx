@@ -19,12 +19,26 @@ function HeaderContent() {
   const [initialValues, setInitialValues] = useState({});
   const { data: content, refetch } = useGetContentQuery({});
   const [updateContent] = useUpdateContentMutation({});
-
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.HEADER]) {
       setInitialValues(
         transformAPIRequestData(content?.data?.[CONTENT_ENUMS.HEADER])
       );
+      // const formGetData = content.data?.[CONTENT_ENUMS.HEADER]?.menuItems?.map(
+      //   ({
+      //     imageURL,
+      //     title,
+      //     _id,
+      //   }: {
+      //     imageURL: string;
+      //     title: string;
+      //     _id: string;
+      //   }) => ({
+      //     title: String(title),
+      //     file: [{ fileURL: String(imageURL), fileId: _id }],
+      //   })
+      // );
+      // setDropDownItems(formGetData);
     }
   }, [content]);
 
@@ -50,6 +64,16 @@ function HeaderContent() {
         className="row"
         defaultValues={initialValues}
         submitText="Update Header Content"
+        // preSubmitElement={
+        //   <AddContentForm
+        //     content={dropDownItems || []}
+        //     setContent={setDropDownItems}
+        //     types={fieldTypes}
+        //     labels={labels}
+        //     title="Header Drop Down Items"
+        //     initialState={initialState}
+        //   />
+        // }
       />
     </CustomCardWrapper>
   );

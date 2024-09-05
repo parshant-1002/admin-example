@@ -1,4 +1,11 @@
-import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
+/* eslint-disable jsx-a11y/alt-text */
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
@@ -32,7 +39,10 @@ function Sidebar() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         if (isMobile) {
           setActiveAccordion(null);
         }
@@ -62,11 +72,11 @@ function Sidebar() {
     setActiveAccordion((prevActive) => (prevActive === label ? null : label));
   };
 
-  const handleItemClick = () => {
+  const handleItemClick = useCallback(() => {
     if (isMobile) {
       setActiveAccordion(null);
     }
-  };
+  }, [isMobile]);
 
   const mapChilds = useCallback(
     (sidebar: SidebarItem, childrens: SidebarItem[]) => {
@@ -130,7 +140,7 @@ function Sidebar() {
         </li>
       );
     },
-    [activeAccordion, isMobile]
+    [activeAccordion, handleItemClick]
   );
 
   const recursiveSidebar = useCallback(

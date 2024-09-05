@@ -64,8 +64,8 @@ function FaqsContent() {
 
     const payload = {
       [CONTENT_ENUMS.HERO_SECTION]: {
+        ...data,
         [HERO_SECTION_SUB_ENUM.HERO_IMAGES]: mappedHeroImage,
-        heroImageIsVisible: data?.heroImageIsVisible,
       },
     };
     await updateContent({

@@ -460,6 +460,58 @@ const ABOUT_US_FORM_SCHEMA = {
       },
     },
   },
+  automaticBidLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Label',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  automaticBidCancelLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Cancel Label',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Cancel Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Cancel Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  automaticBidValue: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Value',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Value').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  recentBidsLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Recent Bids Label',
+    className: 'col-md-6',
+    placeholder: 'Recent Bids Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Recent Bids Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
 };
 
 export default ABOUT_US_FORM_SCHEMA;
