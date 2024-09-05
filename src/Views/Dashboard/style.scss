@@ -4,7 +4,8 @@
     .card {
         @include border-radius (24px);
         @include transition-mixin (all, .3s, ease-in-out);
-        &:hover{
+
+        &:hover {
             box-shadow: $none;
             transform: scale(0.99);
         }
@@ -193,6 +194,7 @@
     @include border-radius (5px);
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
     @include border-radius (10px);
+
     &-body {
         background-color: rgba($white-color, 1);
         @include border-radius (5px);
@@ -207,12 +209,18 @@
 .button-group {
     display: flex;
     gap: 10px;
-  }
-  
-  button {
+}
+
+button {
     padding: 10px;
     background-color: #ffffff;
     color: #006400;
     border: 1px solid #006400;
     cursor: pointer;
-  }
+}
+
+.notifications {
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+}

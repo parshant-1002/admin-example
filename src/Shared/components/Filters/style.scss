@@ -227,7 +227,7 @@
     }
 
     @media (max-width: 767.98px) {
-      font-size: 8px !important;
+      font-size: 10px !important;
       padding: 2px;
       white-space: break-spaces;
     }
@@ -336,6 +336,21 @@
         width: 48.5%;
         font-size: 12px !important;
       }
+    }
+  }
+
+  @media (max-width:480px) {
+    .button-group {
+      gap: 4%;
+
+      >button.onlyIcon {
+        width: 48%;
+        margin-bottom: 10px;
+      }
+    }
+
+    .stats-filter {
+      gap: 0px;
     }
   }
 }

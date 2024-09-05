@@ -131,7 +131,7 @@ export default function ProductForm({
         onSuccess,
       });
     } catch (error: unknown) {
-    if (error instanceof Error) {
+      if (error instanceof Error) {
         toast.error(error.message);
       } else {
         toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);

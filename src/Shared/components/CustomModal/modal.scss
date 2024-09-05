@@ -2,15 +2,16 @@
 
 .close_btn {
     z-index: 1;
-    @include position($absolute, $top:10px, $right:10px);
+    @include position($absolute, $top: 10px, $right: 10px);
     background-color: $transparent;
     padding: 0;
     width: 34px;
     height: 34px;
-    border:0;
+    border: 0;
     @include opacity (1);
     @include transition-mixin (all, .5s, ease-in-out);
-    svg  {
+
+    svg {
         width: 14px;
         height: 14px;
     }
@@ -18,15 +19,18 @@
 
 .modal {
     z-index: 1111;
+
     &-backdrop {
         z-index: 1111;
-        background-color: rgba($black-color, .9)!important;
+        background-color: rgba($black-color, .9) !important;
     }
+
     .modal {
         &-content {
             @at-root {
                 .modal-title {
                     width: 100%;
+
                     &.h4 {
                         @include font-size (1.1);
                         margin: 0;
@@ -34,16 +38,21 @@
                 }
             }
         }
+
         &-header {
             color: $white-color;
         }
+
         &-footer {
             margin-top: 10px;
             border-color: $white-color;
+
             .row {
                 margin: 0 -15px;
             }
         }
+
+
     }
 }
 
@@ -51,5 +60,15 @@
 .achievement-progress-table {
     .modal-title {
         padding: 20px;
+    }
+}
+
+.modal {
+    .modal-header {
+        background-color: #0e0e23;
+
+        h4 {
+            color: white;
+        }
     }
 }

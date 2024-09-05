@@ -14,7 +14,7 @@ interface CustomModalProps extends Omit<ModalProps, 'onHide'> {
 function CustomModal({
   title = '',
   show = false,
-  onClose = () => {},
+  onClose = () => { },
   showClose = true,
   children = null,
   size = 'lg',
@@ -48,7 +48,7 @@ function CustomModal({
                 id="Path_14400"
                 data-name="Path 14400"
                 d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
-                fill="#000"
+                fill="#fff"
               />
             </g>
           </svg>
