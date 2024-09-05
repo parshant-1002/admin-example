@@ -1,13 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import React, {
   useCallback,
-  useMemo,
-  useState,
   useEffect,
+  useMemo,
   useRef,
+  useState,
 } from 'react';
 import { Accordion } from 'react-bootstrap';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
 import SIDEBAR_NAV from './routes';
 import './style.scss';
@@ -22,45 +23,57 @@ interface SidebarItem {
 }
 
 function Sidebar() {
-  const location = useLocation();
+  const sidebarNavRef = useRef<HTMLUListElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 1200);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1200);
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        if (isMobile) {
-          setActiveAccordion(null);
-        }
+    const handleResize = () => {
+      const mobile = window.innerWidth < 1200;
+      setIsMobile(mobile);
+      if (sidebarNavRef.current) {
+        sidebarNavRef.current.classList.toggle('below-mac', mobile);
       }
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarNavRef.current?.classList.contains('below-mac') &&
+        sidebarNavRef.current &&
+        !sidebarNavRef.current.contains(event.target as Node) &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        setActiveAccordion(null);
+      }
+    };
+
+    const handleDropdownItemClick = (event: MouseEvent) => {
+      if (
+        sidebarNavRef.current?.classList.contains('below-mac') &&
+        (event.target as HTMLElement).classList.contains('dropdown-item')
+      ) {
+        setActiveAccordion(null);
+      }
+    };
+
+    handleResize(); // Initial check on mount
+
+    window.addEventListener('resize', handleResize);
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleDropdownItemClick);
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleDropdownItemClick);
+      if (sidebarNavRef.current) {
+        sidebarNavRef.current.classList.remove('below-mac'); // Clean up on unmount
+      }
     };
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (!isMobile) {
-      setActiveAccordion(null);
-    }
-  }, [location.pathname, isMobile]);
+  }, []);
 
   const handleButtonClick = (item: SidebarItem) => {
     if (item.label === 'Logout') {
@@ -72,11 +85,11 @@ function Sidebar() {
     setActiveAccordion((prevActive) => (prevActive === label ? null : label));
   };
 
-  const handleItemClick = useCallback(() => {
+  const handleItemClick = () => {
     if (isMobile) {
       setActiveAccordion(null);
     }
-  }, [isMobile]);
+  };
 
   const mapChilds = useCallback(
     (sidebar: SidebarItem, childrens: SidebarItem[]) => {
@@ -96,15 +109,12 @@ function Sidebar() {
               <Accordion.Body className="nav-content collapse show">
                 <ul className="sub-menu">
                   {childrens.map((children) => (
-                    <li key={`sidebar-${children.label}`}>
+                    <li key={`sidebar-${children.label}-`}>
                       {children?.isOnClick ? (
                         <button
                           type="button"
                           className="dropdown-item"
-                          onClick={() => {
-                            handleItemClick();
-                            // Optionally, perform additional actions for `isOnClick` items
-                          }}
+                          onClick={handleItemClick}
                         >
                           {children.label}
                         </button>
@@ -200,9 +210,12 @@ function Sidebar() {
         <h4 className="admin-brand-logo text-center d-none d-xl-block">
           Penny Auction
         </h4>
-        {/* <img src={Logo} alt="Logo" width={180} /> */}
       </Link>
-      <ul className="sidebar-nav mt-3 pt-4 pt-xl-0" id="sidebar-nav">
+      <ul
+        className="sidebar-nav mt-3 pt-4 pt-xl-0"
+        id="sidebar-nav"
+        ref={sidebarNavRef}
+      >
         {sidebar}
       </ul>
     </aside>

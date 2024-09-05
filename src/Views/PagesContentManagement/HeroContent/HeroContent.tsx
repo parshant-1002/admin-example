@@ -6,10 +6,9 @@ import {
   useUpdateContentMutation,
 } from '../../../Services/Api/module/pagescontent/index';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/CustomCardWrapper';
-import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CustomForm } from '../../../Shared/components/index';
-import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
-import { isErrors } from '../../../Shared/utils/functions';
+import { CONTENT_ENUMS } from '../../../Shared/constants/index';
+import { isErrors, removeEmptyValues } from '../../../Shared/utils/functions';
 import HERO_CONTENT_FORM_SCHEMA from './helpers/HeroContent';
 import { HERO_SECTION_SUB_ENUM } from './helpers/transform';
 
@@ -19,10 +18,10 @@ const initialState: AddContentFormItem = {
   errors: {},
 };
 
-const fieldTypes = {
-  title: INPUT_TYPES.TEXT,
-  file: INPUT_TYPES.FILE_UPLOAD,
-};
+// const fieldTypes = {
+//   title: INPUT_TYPES.TEXT,
+//   file: INPUT_TYPES.FILE_UPLOAD,
+// };
 
 const labels = {
   title: 'Title',
@@ -41,7 +40,16 @@ function FaqsContent() {
     if (content?.data?.[CONTENT_ENUMS.HERO_SECTION]) {
       // Set initial form values
       const initialFormValues = content.data[CONTENT_ENUMS.HERO_SECTION];
-      setInitialValues(initialFormValues);
+      const image = [
+        {
+          fileURL:
+            content.data[CONTENT_ENUMS.HERO_SECTION][
+              HERO_SECTION_SUB_ENUM.HERO_IMAGES
+            ]?.[0]?.url,
+        },
+      ];
+      const imageAddedInitialData = { ...initialFormValues, image };
+      setInitialValues(imageAddedInitialData);
 
       // Extract and set heroCards values
       const formGetData = content.data[CONTENT_ENUMS.HERO_SECTION][
@@ -57,16 +65,20 @@ function FaqsContent() {
   const onSubmit = async (data: Record<string, unknown>) => {
     if (isErrors(heroCards, setHeroCards, labels)) return;
 
-    const mappedHeroImage = heroCards.map((item) => ({
-      title: item.title || '',
-      url: item.file?.[0].fileURL || '',
-    }));
+    const mappedHeroImage = [
+      {
+        title: 'hero Image',
+        url:
+          (data?.image as unknown as { fileURL: string }[])?.[0].fileURL || '',
+      },
+    ];
 
     const payload = {
-      [CONTENT_ENUMS.HERO_SECTION]: {
+      [CONTENT_ENUMS.HERO_SECTION]: removeEmptyValues({
         ...data,
         [HERO_SECTION_SUB_ENUM.HERO_IMAGES]: mappedHeroImage,
-      },
+        image: '',
+      }),
     };
     await updateContent({
       payload,
@@ -85,16 +97,16 @@ function FaqsContent() {
         onSubmit={onSubmit}
         defaultValues={initialValues}
         submitText="Update Hero Content"
-        preSubmitElement={
-          <AddContentForm
-            content={heroCards || []}
-            setContent={setHeroCards}
-            types={fieldTypes}
-            labels={labels}
-            title="Hero Content"
-            initialState={initialState}
-          />
-        }
+        // preSubmitElement={
+        //   <AddContentForm
+        //     content={heroCards || []}
+        //     setContent={setHeroCards}
+        //     types={fieldTypes}
+        //     labels={labels}
+        //     title="Hero Content"
+        //     initialState={initialState}
+        //   />
+        // }
       />
     </CustomCardWrapper>
   );

@@ -1,4 +1,7 @@
-import { INPUT_TYPES } from '../../../../Shared/constants/index';
+import {
+  IMAGE_FILE_TYPES,
+  INPUT_TYPES,
+} from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const HERO_CONTENT_FORM_SCHEMA = {
@@ -57,6 +60,16 @@ const HERO_CONTENT_FORM_SCHEMA = {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
+    },
+  },
+  image: {
+    type: INPUT_TYPES.FILE,
+    label: 'Image',
+    className: 'col-md-12',
+    placeholder: 'Image',
+    accept: IMAGE_FILE_TYPES,
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Button Label').REQUIRED,
     },
   },
 };
