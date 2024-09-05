@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const common = createSlice({
   name: 'common',
-  initialState: { token: null, userData: null, deviceToken: null },
+  initialState: { token: null, userData: null, deviceToken: '' },
   reducers: {
     updateAuthTokenRedux: (state, action) => ({
       ...state,
