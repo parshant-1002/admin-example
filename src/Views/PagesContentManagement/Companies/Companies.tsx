@@ -97,7 +97,10 @@ function Companies() {
             className: 'col-md-12 notifications',
           },
         }}
-        defaultValues={{}}
+        defaultValues={{
+          isVisible:
+            content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]?.isVisible,
+        }}
         preSubmitElement={
           <AddContentForm
             content={companiesData || []}
