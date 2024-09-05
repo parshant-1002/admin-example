@@ -47,6 +47,8 @@ import PennyAuctionSection from '../Views/PagesContentManagement/PennyAuctionSec
 import CurrentBidsSection from '../Views/PagesContentManagement/CurrentBidsSection';
 import WalletSection from '../Views/PagesContentManagement/WalletSection';
 import ReferralSection from '../Views/PagesContentManagement/ReferralSection';
+import MyAuctions from '../Views/PagesContentManagement/MyAuctions';
+import AuctionWon from '../Views/PagesContentManagement/AuctionWon';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -157,6 +159,16 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.AUCTION_PAGE.path,
     element: <AuctionPage />,
     title: ROUTES_CONFIG.AUCTION_PAGE.title,
+  },
+  {
+    path: ROUTES_CONFIG.MY_AUCTIONS.path,
+    element: <MyAuctions />,
+    title: ROUTES_CONFIG.MY_AUCTIONS.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_WON.path,
+    element: <AuctionWon />,
+    title: ROUTES_CONFIG.AUCTION_WON.title,
   },
   {
     path: ROUTES_CONFIG.PROFILE_PAGE_CONTENT.path,

@@ -264,6 +264,8 @@ export const CONTENT_ENUMS = {
   CURRENT_BIDS_SECTION: 'currentBidsSection',
   WALLET_SECTION: 'walletSection',
   REFERRAL_SECTION: 'referralSection',
+  MY_AUCTIONS_CONTENT: 'myAuction',
+  AUCTION_WON_CONTENT: 'auctionWon',
 };
 
 export const BUTTON_LABELS = {
@@ -425,6 +427,8 @@ const ROUTES = {
   AUCTION_SECTIONS: '/content-management/auction-section',
   PENNY_AUCTION_SECTION: '/content-management/penny-auction-section',
   CURRENT_BIDS_SECTION: '/content-management/current-bids-section',
+  AUCTION_WON: '/content-management/current-bids-section',
+  MY_AUCTIONS: '/content-management/my-auctions',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
   AIR_DROP_HISTORY: '/air-drop/history',
@@ -579,6 +583,14 @@ const ROUTES_CONFIG = {
   AUCTION_PAGE: {
     path: ROUTES.AUCTION_PAGE,
     title: 'Auction Page',
+  },
+  MY_AUCTIONS: {
+    path: ROUTES.MY_AUCTIONS,
+    title: 'My Auctions',
+  },
+  AUCTION_WON: {
+    path: ROUTES.AUCTION_WON,
+    title: 'Auction Won',
   },
   PROFILE_PAGE_CONTENT: {
     path: ROUTES.PROFILE_PAGE_CONTENT,

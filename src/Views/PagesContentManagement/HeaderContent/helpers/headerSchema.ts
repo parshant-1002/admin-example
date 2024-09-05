@@ -70,15 +70,15 @@ const HEADER_CONTENT_FORM_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  registerButtonLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Register Button Label',
-    className: 'col-md-6',
-    placeholder: 'Register Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
+  // registerButtonLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Register Button Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Register Button Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES().REQUIRED,
+  //   },
+  // },
   userProfileIcon: {
     type: INPUT_TYPES.FILE,
     label: 'User Profile Icon',
