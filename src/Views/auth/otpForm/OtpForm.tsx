@@ -19,6 +19,7 @@ import OTP_CODE_TYPE from './helpers/constants';
 import OTP_FORM_SCHEMA from './helpers/OtpSchema';
 import QrCode from '../qrCode/QrCode';
 import { RootState } from '../../../Store';
+import { removeEmptyValues } from '../../../Shared/utils/functions';
 
 interface LoginResponse {
   token: string;
@@ -101,7 +102,10 @@ function OtpForm() {
         otpType: authenticationType,
         registrationToken,
       };
-      await verifyOtp({ payload, onSuccess });
+      await verifyOtp({
+        payload: removeEmptyValues(payload),
+        onSuccess,
+      });
       reset();
     } catch (error: unknown) {
       if (error instanceof Error) {

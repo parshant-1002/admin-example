@@ -98,14 +98,14 @@ const SIDEBAR_NAV = [
         label: 'Auction Page',
         route: ROUTES.AUCTION_PAGE,
       },
-      {
-        label: 'Profile Page',
-        route: ROUTES.PROFILE_PAGE_CONTENT,
-      },
-      {
-        label: 'Profile Overview',
-        route: ROUTES.PROFILE_OVERVIEW,
-      },
+      // {
+      //   label: 'Profile Page',
+      //   route: ROUTES.PROFILE_PAGE_CONTENT,
+      // },
+      // {
+      //   label: 'Profile Overview',
+      //   route: ROUTES.PROFILE_OVERVIEW,
+      // },
       {
         label: 'User Profile Section',
         route: ROUTES.USER_PROFILE_SECTION,

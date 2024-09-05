@@ -101,8 +101,8 @@ const WALLET_SECTION_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Bid Spent ID Label').REQUIRED,
       minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },
@@ -188,11 +188,11 @@ const WALLET_SECTION_FORM_SCHEMA = {
   },
   transactionAuctionLabel: {
     type: INPUT_TYPES.TEXT,
-    label: 'Transaction Auction Label',
+    label: 'Bids Purchase Label',
     className: 'col-md-6',
-    placeholder: 'Transaction Auction Label',
+    placeholder: 'Bids Purchase Label',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Transaction Auction Label').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Bids Purchase Label').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
@@ -201,12 +201,11 @@ const WALLET_SECTION_FORM_SCHEMA = {
   },
   transactionProductNameLabel: {
     type: INPUT_TYPES.TEXT,
-    label: 'Transaction Product Name Label',
+    label: 'Plan name Label',
     className: 'col-md-6',
-    placeholder: 'Transaction Product Name Label',
+    placeholder: 'Plan name Label',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Transaction Product Name Label')
-        .REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Plan name Label').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,

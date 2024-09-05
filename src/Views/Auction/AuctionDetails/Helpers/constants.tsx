@@ -145,7 +145,7 @@ export const AuctionColumn = (
     isEditable: false,
     type: DetailType.Number,
     fieldName: 'bidDuration',
-    render: (row) => `${convertToLocale(row?.reservePrice)} sec`,
+    render: (row) => `${convertToLocale(row?.bidDuration)} sec`,
   },
   {
     title: 'Min Auction Users',
