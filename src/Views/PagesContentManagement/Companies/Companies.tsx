@@ -114,6 +114,7 @@ function Companies() {
         defaultValues={{
           isVisible:
             content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]?.isVisible,
+          header: content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]?.header,
         }}
         preSubmitElement={
           <AddContentForm
