@@ -23,7 +23,8 @@ export interface TopAuctionFormData {
   placeBidsByLabel: string;
   backLabel: string;
   joinTheContentLabel: string;
-
+  exploreMoreAuctionsLabel: string;
+  noAuctionsLabel: string;
   biddersRequiredLabel: string;
   biddersRequiredValue: string;
   historyImage: {
@@ -37,6 +38,11 @@ export interface TopAuctionFormData {
     fileId: string;
     _id: string;
   }[];
+  userColumnLabel: string;
+  typeColumnLabel: string;
+  bidColumnLabel: string;
+  timeColumnLabel: string;
+  recentBidsTitle: string;
   auctionCard: {
     marketValueLabel: string;
     currentBidLabel: string;
@@ -66,6 +72,11 @@ export interface TopAuctionFormData {
   };
   recentBids: {
     backLabel: string;
+    title: string;
+    userColumnLabel: string;
+    typeColumnLabel: string;
+    bidColumnLabel: string;
+    timeColumnLabel: string;
   };
 }
 
@@ -95,7 +106,6 @@ export const transAPIRequestDataToFormTopAuction = (
     auctionStartsInLabel: data?.auctionCard?.auctionStartsInLabel,
     auctionEndsInLabel: data?.auctionCard?.auctionEndsInLabel,
     placeBidsByLabel: data?.auctionCard?.placeBidsByLabel,
-    backLabel: data?.recentBids?.backLabel,
     joinTheContentLabel: data?.auctionCard?.joinTheContentLabel,
     biddersRequiredLabel: data?.auctionCard?.biddersRequiredLabel,
     biddersRequiredValue: data?.auctionCard?.biddersRequiredValue,
@@ -111,6 +121,14 @@ export const transAPIRequestDataToFormTopAuction = (
         fileId: data?.auctionCard?.historyButtonIconFileId,
       },
     ],
+    backLabel: data?.recentBids?.backLabel,
+    userColumnLabel: data?.recentBids?.userColumnLabel,
+    typeColumnLabel: data?.recentBids?.typeColumnLabel,
+    bidColumnLabel: data?.recentBids?.bidColumnLabel,
+    timeColumnLabel: data?.recentBids?.timeColumnLabel,
+    recentBidsTitle: data?.recentBids?.title,
+    exploreMoreAuctionsLabel: data?.exploreMoreAuctionsLabel,
+    noAuctionsLabel: data?.noAuctionsLabel,
   };
 };
 
@@ -152,8 +170,15 @@ export const transformAPIRequestDataTopAuction = (
         data?.historyImage?.[0]?.fileId || data?.historyImage?.[0]?._id,
     },
     recentBids: {
+      title: data?.recentBidsTitle,
       backLabel: data?.backLabel,
+      userColumnLabel: data?.userColumnLabel,
+      typeColumnLabel: data?.typeColumnLabel,
+      bidColumnLabel: data?.bidColumnLabel,
+      timeColumnLabel: data?.timeColumnLabel,
     },
+    exploreMoreAuctionsLabel: data?.exploreMoreAuctionsLabel,
+    noAuctionsLabel: data?.noAuctionsLabel,
     topAuctionsIsVisible: data?.topAuctionsIsVisible,
   };
 };
