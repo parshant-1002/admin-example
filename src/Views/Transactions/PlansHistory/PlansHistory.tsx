@@ -108,17 +108,17 @@ function PlansHistory() {
   const handleCloseInvoice = () => {
     setInvoiceModal({ data: null, show: false });
   };
-  const handleGenerateInvoice = () => {
-    generateInvoice({
+  const handleGenerateInvoice = async () => {
+    await generateInvoice({
       payload: {
         bidCreditHistoryId: invoiceModal?.data?._id,
       },
       onSuccess: ({ message = '' }: { message: string }) => {
         toast.success(message);
         refetch();
-        handleCloseInvoice();
       },
     });
+    handleCloseInvoice();
   };
   return (
     <div>

@@ -2,6 +2,11 @@ import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const HEADER_CONTENT_FORM_SCHEMA = {
+  isVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Header Content',
+    className: 'col-md-12 notifications',
+  },
   logoText: {
     type: INPUT_TYPES.TEXT,
     label: 'Header Logo Text',
@@ -65,15 +70,15 @@ const HEADER_CONTENT_FORM_SCHEMA = {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
   },
-  registerButtonLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Register Button Label',
-    className: 'col-md-6',
-    placeholder: 'Register Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES().REQUIRED,
-    },
-  },
+  // registerButtonLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Register Button Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Register Button Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES().REQUIRED,
+  //   },
+  // },
   userProfileIcon: {
     type: INPUT_TYPES.FILE,
     label: 'User Profile Icon',
@@ -113,11 +118,6 @@ const HEADER_CONTENT_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
-  },
-  isVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Header Content',
-    className: 'col-md-6',
   },
 };
 

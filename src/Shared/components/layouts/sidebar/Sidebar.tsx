@@ -1,6 +1,14 @@
-import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/alt-text */
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Accordion } from 'react-bootstrap';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ROUTES } from '../../../constants';
 import SIDEBAR_NAV from './routes';
 import './style.scss';
@@ -15,7 +23,6 @@ interface SidebarItem {
 }
 
 function Sidebar() {
-  const location = useLocation();
   const sidebarNavRef = useRef<HTMLUListElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -143,7 +150,6 @@ function Sidebar() {
         </li>
       );
     },
-    [location.pathname, activeAccordion, isMobile]
   );
 
   const recursiveSidebar = useCallback(

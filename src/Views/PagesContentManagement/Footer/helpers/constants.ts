@@ -2,6 +2,11 @@ import { INPUT_TYPES } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const CONTACT_US_FORM_SCHEMA = {
+  isVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Footer Section',
+    className: 'col-md-12 notifications',
+  },
   title: {
     type: INPUT_TYPES.TEXT,
     label: 'Title',
@@ -88,11 +93,6 @@ const CONTACT_US_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
     },
-  },
-  isVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Contact Us Section',
-    className: 'col-md-6',
   },
 };
 

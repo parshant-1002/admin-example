@@ -1,7 +1,12 @@
 import { INPUT_TYPES } from '../../../../Shared/constants/index';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
-const CONTACT_US_FORM_SCHEMA = {
+const TOP_AUCTION_SECTION_CONTENT = {
+  topAuctionsIsVisible: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Show/Hide Top Auctions Section',
+    className: 'col-md-12 notifications',
+  },
   topAuctionsTabLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Top Auctions Tab Label',
@@ -133,11 +138,19 @@ const CONTACT_US_FORM_SCHEMA = {
       },
     },
   },
-  topAuctionsIsVisible: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Show/Hide Top Auctions Section',
-    className: 'col-md-6',
+  bidPlacedLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Bid Placed Label',
+    className: 'col-md-12',
+    placeholder: 'Bid Placed Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Bid Placed Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
   },
 };
 
-export default CONTACT_US_FORM_SCHEMA;
+export default TOP_AUCTION_SECTION_CONTENT;

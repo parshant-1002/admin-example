@@ -37,7 +37,9 @@ function Companies() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]) {
       // Extract and set companiesData values
-      const formGetData = content.data[CONTENT_ENUMS.COMPANIES_SECTION]?.map(
+      const formGetData = content.data[
+        CONTENT_ENUMS.COMPANIES_SECTION
+      ]?.items?.map(
         ({
           title,
           url,
@@ -54,7 +56,7 @@ function Companies() {
       setCompaniesData(formGetData);
     }
   }, [content]);
-  const onSubmit = async () => {
+  const onSubmit = async (data: Record<string, unknown>) => {
     try {
       if (isErrors(companiesData, setCompaniesData, labels)) return;
       const mappedCompaniesData = companiesData.map((item) => ({
@@ -62,7 +64,10 @@ function Companies() {
         url: item.file?.[0]?.fileURL,
       }));
       const payload = {
-        [CONTENT_ENUMS.COMPANIES_SECTION]: mappedCompaniesData,
+        [CONTENT_ENUMS.COMPANIES_SECTION]: {
+          ...data,
+          items: mappedCompaniesData,
+        },
       };
       await updateContent({
         payload,
@@ -85,7 +90,17 @@ function Companies() {
       <CustomForm
         id="contactUs-form"
         onSubmit={onSubmit}
-        defaultValues={{}}
+        formData={{
+          isVisible: {
+            type: INPUT_TYPES.SWITCH,
+            label: 'Show/Hide Header Content',
+            className: 'col-md-12 notifications',
+          },
+        }}
+        defaultValues={{
+          isVisible:
+            content?.data?.[CONTENT_ENUMS.COMPANIES_SECTION]?.isVisible,
+        }}
         preSubmitElement={
           <AddContentForm
             content={companiesData || []}

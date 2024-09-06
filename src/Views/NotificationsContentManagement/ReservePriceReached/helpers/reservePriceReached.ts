@@ -2,6 +2,11 @@ import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const RESERVE_PRICE_REACHED_FORM_SCHEMA = {
+  isEnabled: {
+    type: INPUT_TYPES.SWITCH,
+    label: 'Notification Enable',
+    className: 'col-md-12 notifications',
+  },
   text: {
     type: INPUT_TYPES.TEXT,
     label: 'Title',
@@ -39,11 +44,6 @@ const RESERVE_PRICE_REACHED_FORM_SCHEMA = {
     schema: {
       required: FORM_VALIDATION_MESSAGES('Background Color').REQUIRED,
     },
-  },
-  isEnabled: {
-    type: INPUT_TYPES.SWITCH,
-    label: 'Notification Enable',
-    className: 'col-md-12',
   },
 };
 

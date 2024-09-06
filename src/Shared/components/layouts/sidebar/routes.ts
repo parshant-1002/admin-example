@@ -111,17 +111,25 @@ const SIDEBAR_NAV = [
         route: ROUTES.USER_PROFILE_SECTION,
       },
       {
-        route: ROUTES.PENNY_AUCTION_SECTION,
-        label: 'Penny Auction Section',
+        label: 'My Auctions',
+        route: ROUTES.MY_AUCTIONS,
       },
       {
-        label: 'Auction Sections',
-        route: ROUTES.AUCTION_SECTIONS,
+        label: 'Auction Won',
+        route: ROUTES.AUCTION_WON,
       },
-      {
-        route: ROUTES.CURRENT_BIDS_SECTION,
-        label: 'Current Bids Section',
-      },
+      // {
+      //   route: ROUTES.PENNY_AUCTION_SECTION,
+      //   label: 'Penny Auction Section',
+      // },
+      // {
+      //   label: 'Auction Sections',
+      //   route: ROUTES.AUCTION_SECTIONS,
+      // },
+      // {
+      //   route: ROUTES.CURRENT_BIDS_SECTION,
+      //   label: 'Current Bids Section',
+      // },
       {
         label: 'Contact Us',
         route: ROUTES.CONTACTUS_CONTENT,

@@ -84,17 +84,17 @@ function AuctionInvoices() {
   const handleCloseInvoice = () => {
     setInvoiceModal({ data: null, show: false });
   };
-  const handleGenerateInvoice = () => {
-    generateInvoice({
+  const handleGenerateInvoice = async () => {
+    await generateInvoice({
       payload: {
         userProductId: invoiceModal?.data?._id,
       },
       onSuccess: ({ message = '' }: { message: string }) => {
         toast.success(message);
         refetch();
-        handleCloseInvoice();
       },
     });
+    handleCloseInvoice();
   };
   const columns = useMemo(() => AuctionInvoiceColumns(handleInvoice), []);
   // Function to handle page click
