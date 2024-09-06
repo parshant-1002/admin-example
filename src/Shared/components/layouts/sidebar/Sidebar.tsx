@@ -150,7 +150,6 @@ function Sidebar() {
         </li>
       );
     },
-    [activeAccordion, handleItemClick]
   );
 
   const recursiveSidebar = useCallback(
