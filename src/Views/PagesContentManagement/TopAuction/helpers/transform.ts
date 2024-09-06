@@ -12,16 +12,60 @@ export interface TopAuctionFormData {
   historyLabel: string;
   topAuctionsIsVisible: true;
   bidPlacedLabel: string;
+  currentBidLabel: string;
+  reservePriceValue: string;
+  totalBidsValue: string;
+  currentBidValue: string;
+  auctionEndedLabel: string;
+  alreadyJoinedLabel: string;
+  auctionStartsInLabel: string;
+  auctionEndsInLabel: string;
+  placeBidsByLabel: string;
+  backLabel: string;
+  joinTheContentLabel: string;
+
+  biddersRequiredLabel: string;
+  biddersRequiredValue: string;
+  historyImage: {
+    fileURL: string;
+    fileId: string;
+    _id: string;
+  }[];
+
+  totalBidsImage: {
+    fileURL: string;
+    fileId: string;
+    _id: string;
+  }[];
   auctionCard: {
     marketValueLabel: string;
+    currentBidLabel: string;
     reservePriceMetLabel: string;
     reservePriceNotMetLabel: string;
     placeBetButtonLabel: string;
     timeLeftLabel: string;
     reservePriceLabel: string;
+    reservePriceValue: string;
+    totalBidsValue: string;
     moreInformationLabel: string;
     historyLabel: string;
+    historyButtonIconFileId: string;
+    historyButtonIconURL: string;
     bidPlacedLabel: string;
+    currentBidValue: string;
+    totalBidsImageFileId: string;
+    totalBidsImageURL: string;
+    auctionEndedLabel: string;
+    alreadyJoinedLabel: string;
+    auctionStartsInLabel: string;
+    auctionEndsInLabel: string;
+    placeBidsByLabel: string;
+    joinTheContentLabel: string;
+    biddersRequiredLabel: string;
+    biddersRequiredValue: string;
+  };
+  recentBids: {
+    backLabel: string;
   };
 }
 
@@ -42,6 +86,31 @@ export const transAPIRequestDataToFormTopAuction = (
     historyLabel: data?.auctionCard?.historyLabel,
     topAuctionsIsVisible: data?.topAuctionsIsVisible,
     bidPlacedLabel: data?.auctionCard?.bidPlacedLabel,
+    currentBidLabel: data?.auctionCard?.currentBidLabel,
+    reservePriceValue: data?.auctionCard?.reservePriceValue,
+    totalBidsValue: data?.auctionCard?.totalBidsValue,
+    currentBidValue: data?.auctionCard?.currentBidValue,
+    auctionEndedLabel: data?.auctionCard?.auctionEndedLabel,
+    alreadyJoinedLabel: data?.auctionCard?.alreadyJoinedLabel,
+    auctionStartsInLabel: data?.auctionCard?.auctionStartsInLabel,
+    auctionEndsInLabel: data?.auctionCard?.auctionEndsInLabel,
+    placeBidsByLabel: data?.auctionCard?.placeBidsByLabel,
+    backLabel: data?.recentBids?.backLabel,
+    joinTheContentLabel: data?.auctionCard?.joinTheContentLabel,
+    biddersRequiredLabel: data?.auctionCard?.biddersRequiredLabel,
+    biddersRequiredValue: data?.auctionCard?.biddersRequiredValue,
+    totalBidsImage: [
+      {
+        fileURL: data?.auctionCard?.totalBidsImageURL,
+        fileId: data?.auctionCard?.totalBidsImageFileId,
+      },
+    ],
+    historyImage: [
+      {
+        fileURL: data?.auctionCard?.historyButtonIconURL,
+        fileId: data?.auctionCard?.historyButtonIconFileId,
+      },
+    ],
   };
 };
 
@@ -62,6 +131,28 @@ export const transformAPIRequestDataTopAuction = (
       moreInformationLabel: data?.moreInformationLabel,
       historyLabel: data?.historyLabel,
       bidPlacedLabel: data?.bidPlacedLabel,
+      currentBidLabel: data?.currentBidLabel,
+      reservePriceValue: data?.reservePriceValue,
+      totalBidsValue: data?.totalBidsValue,
+      currentBidValue: data?.currentBidValue,
+      auctionEndedLabel: data?.auctionEndedLabel,
+      alreadyJoinedLabel: data?.alreadyJoinedLabel,
+      auctionStartsInLabel: data?.auctionStartsInLabel,
+      auctionEndsInLabel: data?.auctionEndsInLabel,
+      placeBidsByLabel: data?.placeBidsByLabel,
+      backLabel: data?.backLabel,
+      joinTheContentLabel: data?.joinTheContentLabel,
+      biddersRequiredLabel: data?.biddersRequiredLabel,
+      biddersRequiredValue: data?.biddersRequiredValue,
+      totalBidsImageFileId:
+        data?.totalBidsImage?.[0]?.fileId || data?.totalBidsImage?.[0]?._id,
+      totalBidsImageURL: data?.totalBidsImage?.[0]?.fileURL,
+      historyButtonIconURL: data?.historyImage?.[0]?.fileURL,
+      historyButtonIconFileId:
+        data?.historyImage?.[0]?.fileId || data?.historyImage?.[0]?._id,
+    },
+    recentBids: {
+      backLabel: data?.backLabel,
     },
     topAuctionsIsVisible: data?.topAuctionsIsVisible,
   };

@@ -7,7 +7,7 @@ import {
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/CustomCardWrapper';
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/index';
-import CONTACT_US_FORM_SCHEMA from './helpers/constant';
+import TOP_AUCTION_SECTION_CONTENT from './helpers/constant';
 import {
   TopAuctionFormData,
   transAPIRequestDataToFormTopAuction,
@@ -47,12 +47,12 @@ function TopAuction() {
   return (
     <CustomCardWrapper>
       <CustomForm
-        formData={CONTACT_US_FORM_SCHEMA}
+        formData={TOP_AUCTION_SECTION_CONTENT}
         id="TopAuction-form"
         onSubmit={onSubmit}
         className="row"
         defaultValues={initialValues}
-        submitText="Update TopAuction Content"
+        submitText="Update Top Auction Content"
       />
     </CustomCardWrapper>
   );

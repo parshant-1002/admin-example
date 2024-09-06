@@ -14,13 +14,15 @@ function AddHorizontalTitle({
   isLine: boolean | undefined;
   title: string | undefined;
 }) {
+  console.log({ isLine, title });
+
   if (isLine && !title) {
     return <hr className="mt-4 hr_line" />;
   }
   if (isLine && title) {
     return (
       <div className="col-12">
-        <div className="text-center title_hr">
+        <div className="text-center hr_line">
           <h2 className="h4 mb-0">{title}</h2>
         </div>
       </div>
