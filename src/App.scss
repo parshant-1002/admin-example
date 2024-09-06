@@ -175,3 +175,26 @@ $downArrow : url("./assets/icons/downArrow.svg");
 .pagination-group ul {
   gap: 4px;
 }
+
+.title-line {
+  margin: 15px 0px;
+  position: relative;
+  z-index: 0;
+
+  h2 {
+    display: inline;
+    background: white;
+    padding: 10px;
+    z-index: 1;
+    line-height: 30px;
+  }
+
+  hr {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    z-index: -1;
+    margin: 0px;
+  }
+}

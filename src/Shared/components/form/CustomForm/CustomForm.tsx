@@ -22,8 +22,9 @@ function AddHorizontalTitle({
   if (isLine && title) {
     return (
       <div className="col-12">
-        <div className="text-center hr_line">
+        <div className="text-center hr_line title-line">
           <h2 className="h4 mb-0">{title}</h2>
+          <hr className='hr_line' />
         </div>
       </div>
     );
@@ -67,11 +68,11 @@ interface CustomFormProps {
 function CustomForm({
   submitText = 'Submit',
   preSubmitElement,
-  onSubmit = () => {},
+  onSubmit = () => { },
   id = 'hook-form',
   defaultValues = {},
   formData = {},
-  handleStateDataChange = () => {},
+  handleStateDataChange = () => { },
   secondaryBtnText = '',
   handleSecondaryButtonClick,
   secondaryButtonType = 'button',
@@ -180,7 +181,7 @@ function CustomForm({
     <form
       id={id}
       className={className}
-      // onSubmit={handleSubmit(onSubmit)}
+    // onSubmit={handleSubmit(onSubmit)}
     >
       {Object.keys(formData).map((key) => {
         let field = { ...formData[key] };
@@ -218,10 +219,10 @@ function CustomForm({
             onClick={
               secondaryButtonType === 'submit'
                 ? handleSubmit(
-                    handleSecondaryButtonClick as SubmitHandler<{
-                      [x: string]: unknown;
-                    }>
-                  )
+                  handleSecondaryButtonClick as SubmitHandler<{
+                    [x: string]: unknown;
+                  }>
+                )
                 : handleSecondaryButtonClick
             }
             className={secondaryBtnClassName}
