@@ -41,6 +41,20 @@ const TOPUP_POPUP_SECTION_CONTENT = {
       },
     },
   },
+  priceValue: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Price Value',
+    subLabel: 'Use {{priceValue}} to show price value',
+    className: 'col-md-6',
+    placeholder: 'Price Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Price Value').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+  },
   purchasePackageButtonLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' Purchase Package Button Label',
