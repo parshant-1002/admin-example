@@ -91,9 +91,8 @@ function Sidebar() {
     }
   };
 
-
   const mapChilds = useCallback(
-    (sidebar: SidebarItem, childrens: SidebarItem[]) =>
+    (sidebar: SidebarItem, childrens: SidebarItem[]) => (
       <li className="nav-item" key={`sidebar-${sidebar.label}`}>
         <Accordion activeKey={activeAccordion === sidebar.label ? '0' : ''}>
           <Accordion.Item eventKey="0">
@@ -149,7 +148,6 @@ function Sidebar() {
     ),
     [activeAccordion, isMobile]
   );
-
 
   const recursiveSidebar = useCallback(
     (menues?: SidebarItem[]) =>
