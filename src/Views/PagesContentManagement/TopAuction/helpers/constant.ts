@@ -36,6 +36,33 @@ const TOP_AUCTION_SECTION_CONTENT = {
       },
     },
   },
+  exploreMoreAuctionsLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Explore More Auctions Label',
+    className: 'col-md-6',
+    placeholder: 'Enter Explore More Auctions Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Explore More Auctions Label')
+        .REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  noAuctionsLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'No Auctions Label',
+    className: 'col-md-6',
+    placeholder: 'Enter No Auctions Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('No Auctions Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
   biddersRequiredLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Bidders Required Label',
@@ -340,19 +367,75 @@ const TOP_AUCTION_SECTION_CONTENT = {
       required: FORM_VALIDATION_MESSAGES('History Icon').REQUIRED,
     },
   },
-  // backLabel: {
+  // recent bids
+  recentBidsTitle: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Title',
+    subLabel: 'Use {{bidsCount}} to show recent bids count',
+    className: 'col-md-6',
+    placeholder: 'Title',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Title').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+    addHorizontalLine: true,
+    addHorizontalTitle: 'Recent Bids Section',
+  },
+  userColumnLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'User Column Label',
+    className: 'col-md-6',
+    placeholder: 'User Column Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('User Column Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+  },
+  // typeColumnLabel: {
   //   type: INPUT_TYPES.TEXT,
-  //   label: 'Back Label',
+  //   label: 'Type Column Label',
   //   className: 'col-md-6',
-  //   placeholder: 'Back Label',
+  //   placeholder: 'Type Column Label',
   //   schema: {
-  //     required: FORM_VALIDATION_MESSAGES('Back Label').REQUIRED,
+  //     required: FORM_VALIDATION_MESSAGES('Type Column Label').REQUIRED,
   //     minLength: {
   //       value: 1,
   //       message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
   //     },
   //   },
   // },
+  bidColumnLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Bid Column Label',
+    className: 'col-md-6',
+    placeholder: 'Bid Column Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Bid Column Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+  },
+  timeColumnLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Time Column Label',
+    className: 'col-md-6',
+    placeholder: 'Time Column Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Time Column Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+  },
 };
 
 export default TOP_AUCTION_SECTION_CONTENT;
