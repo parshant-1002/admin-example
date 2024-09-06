@@ -56,6 +56,32 @@ const SIDEBAR_NAV = [
   },
   {
     iconClass: 'bi bi-pages-content',
+    label: 'Popup pages Content',
+    children: [
+      {
+        label: 'Place Order',
+        route: ROUTES.PLACE_ORDER_POPUP,
+      },
+      {
+        label: 'Logout',
+        route: ROUTES.LOGOUT_POPUP,
+      },
+      {
+        label: 'Cancel subscription',
+        route: ROUTES.CANCEL_SUBSCRIPTION_POPUP,
+      },
+      {
+        label: 'Topup ',
+        route: ROUTES.TOPUP_POPUP,
+      },
+      {
+        label: 'Referral',
+        route: ROUTES.REFERRAL_POPUP,
+      },
+    ],
+  },
+  {
+    iconClass: 'bi bi-pages-content',
     label: 'Pages Content',
     children: [
       {
@@ -97,6 +123,14 @@ const SIDEBAR_NAV = [
       {
         label: 'Auction Page',
         route: ROUTES.AUCTION_PAGE,
+      },
+      {
+        label: 'Login Page',
+        route: ROUTES.LOGIN_CONTENT,
+      },
+      {
+        label: 'All Auction Page',
+        route: ROUTES.ALL_AUCTIONS,
       },
       // {
       //   label: 'Profile Page',

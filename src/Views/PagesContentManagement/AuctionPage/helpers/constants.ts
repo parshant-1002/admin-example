@@ -5,121 +5,121 @@ import {
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 
 const ABOUT_US_FORM_SCHEMA = {
-  modelHeader: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Model Header',
-    className: 'col-md-12',
-    placeholder: 'Model Header',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Model Header').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  modelIcon: {
-    type: INPUT_TYPES.FILE,
-    label: 'Model Icon',
-    className: 'col-md-12',
-    placeholder: 'Model Icon',
-    accept: IMAGE_FILE_TYPES,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Model Icon').REQUIRED,
-    },
-  },
-  fuelHeaderHeader: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Fuel Header',
-    className: 'col-md-12',
-    placeholder: 'Fuel Header',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Fuel Header').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  fuelIcon: {
-    type: INPUT_TYPES.FILE,
-    label: 'Fuel Icon',
-    className: 'col-md-12',
-    placeholder: 'Fuel Icon',
-    accept: IMAGE_FILE_TYPES,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Fuel Icon').REQUIRED,
-    },
-  },
-  engineHeader: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Engine Header',
-    className: 'col-md-12',
-    placeholder: 'Engine Header',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Engine Header').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  engineIcon: {
-    type: INPUT_TYPES.FILE,
-    label: 'Engine Icon',
-    className: 'col-md-12',
-    placeholder: 'Engine Icon',
-    accept: IMAGE_FILE_TYPES,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Engine Icon').REQUIRED,
-    },
-  },
-  gearboxHeader: {
-    type: INPUT_TYPES.TEXT,
-    label: 'GearBox Header',
-    className: 'col-md-12',
-    placeholder: 'GearBox Header',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('GearBox Header').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  gearboxIcon: {
-    type: INPUT_TYPES.FILE,
-    label: 'GearBox Icon',
-    className: 'col-md-12',
-    placeholder: 'GearBox Icon',
-    accept: IMAGE_FILE_TYPES,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('GearBox Icon').REQUIRED,
-    },
-  },
-  numberOfSeatsHeader: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Number Of Seats Header',
-    className: 'col-md-12',
-    placeholder: 'Number Of Seats Header',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Number Of Seats Header').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  numberOfSeatsIcon: {
-    type: INPUT_TYPES.FILE,
-    label: 'Number Of Seats Icon',
-    className: 'col-md-12',
-    placeholder: 'Number Of Seats Icon',
-    accept: IMAGE_FILE_TYPES,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Number Of Seats Icon').REQUIRED,
-    },
-  },
+  // modelHeader: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Model Header',
+  //   className: 'col-md-12',
+  //   placeholder: 'Model Header',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Model Header').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // modelIcon: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Model Icon',
+  //   className: 'col-md-12',
+  //   placeholder: 'Model Icon',
+  //   accept: IMAGE_FILE_TYPES,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Model Icon').REQUIRED,
+  //   },
+  // },
+  // fuelHeaderHeader: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Fuel Header',
+  //   className: 'col-md-12',
+  //   placeholder: 'Fuel Header',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Fuel Header').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // fuelIcon: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Fuel Icon',
+  //   className: 'col-md-12',
+  //   placeholder: 'Fuel Icon',
+  //   accept: IMAGE_FILE_TYPES,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Fuel Icon').REQUIRED,
+  //   },
+  // },
+  // engineHeader: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Engine Header',
+  //   className: 'col-md-12',
+  //   placeholder: 'Engine Header',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Engine Header').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // engineIcon: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Engine Icon',
+  //   className: 'col-md-12',
+  //   placeholder: 'Engine Icon',
+  //   accept: IMAGE_FILE_TYPES,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Engine Icon').REQUIRED,
+  //   },
+  // },
+  // gearboxHeader: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'GearBox Header',
+  //   className: 'col-md-12',
+  //   placeholder: 'GearBox Header',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('GearBox Header').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // gearboxIcon: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'GearBox Icon',
+  //   className: 'col-md-12',
+  //   placeholder: 'GearBox Icon',
+  //   accept: IMAGE_FILE_TYPES,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('GearBox Icon').REQUIRED,
+  //   },
+  // },
+  // numberOfSeatsHeader: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Number Of Seats Header',
+  //   className: 'col-md-12',
+  //   placeholder: 'Number Of Seats Header',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Number Of Seats Header').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // numberOfSeatsIcon: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Number Of Seats Icon',
+  //   className: 'col-md-12',
+  //   placeholder: 'Number Of Seats Icon',
+  //   accept: IMAGE_FILE_TYPES,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Number Of Seats Icon').REQUIRED,
+  //   },
+  // },
   currentPriceHeader: {
     type: INPUT_TYPES.TEXT,
     label: 'Current Price Header',
@@ -127,6 +127,34 @@ const ABOUT_US_FORM_SCHEMA = {
     placeholder: 'Current Price Header',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Current Price Header').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  currentPriceValue: {
+    type: INPUT_TYPES.TEXT,
+    subLabel: 'Use {{currentPrice}} to show current price',
+    label: 'Current Price Value',
+    className: 'col-md-6',
+    placeholder: 'Enter Current Price Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Current Price Value').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  reservePriceValue: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Reserve Price Value',
+    subLabel: 'Use {{reservePrice}} to show reserve price',
+    className: 'col-md-6',
+    placeholder: 'Enter Reserve Price Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Reserve Price Value').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
@@ -188,6 +216,7 @@ const ABOUT_US_FORM_SCHEMA = {
   shareAuctionHeader: {
     type: INPUT_TYPES.TEXT,
     label: 'Share Auction Header',
+    subLabel: 'Use {{earnBids}}  to show bids to earn with social share',
     className: 'col-md-6',
     placeholder: 'Share Auction Header',
     schema: {
@@ -205,6 +234,21 @@ const ABOUT_US_FORM_SCHEMA = {
     placeholder: 'Specifications Header',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Specifications Header').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+    addHorizontalLine: true,
+    addHorizontalTitle: 'Specifications Section',
+  },
+  modelHeader: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Body Type Label',
+    className: 'col-md-6',
+    placeholder: 'Body Type Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Body Type Label').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
@@ -489,6 +533,7 @@ const ABOUT_US_FORM_SCHEMA = {
   automaticBidValue: {
     type: INPUT_TYPES.TEXT,
     label: 'Automatic Bid Value',
+    subLabel: 'Use {{automaticBidValue}} to show automatic bids',
     className: 'col-md-6',
     placeholder: 'Automatic Bid Value',
     schema: {
@@ -499,16 +544,137 @@ const ABOUT_US_FORM_SCHEMA = {
       },
     },
   },
-  recentBidsLabel: {
+  manualBidRBLabel: {
     type: INPUT_TYPES.TEXT,
-    label: 'Recent Bids Label',
+    label: 'Manual Bid Radio Button Label',
     className: 'col-md-6',
-    placeholder: 'Recent Bids Label',
+    placeholder: 'Manual Bid Radio Button Label',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Recent Bids Label').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Manual Bid Radio Button Label')
+        .REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  automaticBidRBLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Radio Button Label',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Radio Button Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Radio Button Label')
+        .REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  placedBidLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Placed Bid Label',
+    className: 'col-md-6',
+    placeholder: 'Placed Bid Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Placed Bid Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  placedBidValue: {
+    type: INPUT_TYPES.TEXT,
+    subLabel: 'Use {{placedBid}} to show total placed bids',
+    label: 'Total Bids Placed Value',
+    className: 'col-md-6',
+    placeholder: 'Enter Total Bids Placed Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Total Bids Placed Value').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  placedBidIconData: {
+    type: INPUT_TYPES.FILE,
+    accept: IMAGE_FILE_TYPES,
+    label: 'Total Bids Icon',
+    className: 'col-md-6',
+    placeholder: 'Total Bids Icon',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Total Bids Icon').REQUIRED,
+    },
+  },
+  // recent bids
+  recentBidsTitle: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Title',
+    subLabel: 'Use {{bidsCount}} to show recent bids count',
+    className: 'col-md-6',
+    placeholder: 'Title',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Title').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+    addHorizontalLine: true,
+    addHorizontalTitle: 'Recent Bids Section',
+  },
+  userColumnLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'User Column Label',
+    className: 'col-md-6',
+    placeholder: 'User Column Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('User Column Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+  },
+  // typeColumnLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Type Column Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Type Column Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Type Column Label').REQUIRED,
+  //     minLength: {
+  //       value: 1,
+  //       message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  bidColumnLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Bid Column Label',
+    className: 'col-md-6',
+    placeholder: 'Bid Column Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Bid Column Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
+      },
+    },
+  },
+  timeColumnLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Time Column Label',
+    className: 'col-md-6',
+    placeholder: 'Time Column Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Time Column Label').REQUIRED,
+      minLength: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
   },

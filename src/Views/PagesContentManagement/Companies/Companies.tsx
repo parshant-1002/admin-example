@@ -11,6 +11,7 @@ import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
 import { isErrors } from '../../../Shared/utils/functions';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
+import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 
 const initialState: AddContentFormItem = {
   file: [{ fileURL: '', fileId: '' }],
@@ -95,6 +96,19 @@ function Companies() {
             type: INPUT_TYPES.SWITCH,
             label: 'Show/Hide Header Content',
             className: 'col-md-12 notifications',
+          },
+          header: {
+            type: INPUT_TYPES.TEXT,
+            label: 'Header',
+            className: 'col-md-12',
+            placeholder: 'Enter Header',
+            schema: {
+              required: FORM_VALIDATION_MESSAGES('Header').REQUIRED,
+              minLength: {
+                value: 3,
+                message: FORM_VALIDATION_MESSAGES(2).MIN_LENGTH,
+              },
+            },
           },
         }}
         defaultValues={{

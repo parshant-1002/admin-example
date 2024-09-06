@@ -45,6 +45,32 @@ export interface AuctionPageFormData {
   automaticBidCancelLabel: string;
   automaticBidValue: string;
   recentBidsLabel: string;
+  currentPriceValue: string;
+  reservePriceValue: string;
+
+  manualBidRBLabel: string;
+  automaticBidRBLabel: string;
+  placedBidLabel: string;
+  placedBidValue: string;
+  recentBidsTitle: string;
+  userColumnLabel: string;
+  typeColumnLabel: string;
+  bidColumnLabel: string;
+  timeColumnLabel: string;
+  recentBids: {
+    title: string;
+    backLabel: string;
+    userColumnLabel: string;
+    typeColumnLabel: string;
+    bidColumnLabel: string;
+    timeColumnLabel: string;
+  };
+  placedBidIconData: {
+    fileId: string;
+    fileURL: string;
+  }[];
+  placedBidIconFileId: string;
+  placedBidIcon: string;
   fuelIcon: {
     fileId: string;
     fileURL: string;
@@ -87,6 +113,8 @@ export const transformAPIRequestDataAuctionPage = (
     numberOfSeatsHeader: data?.numberOfSeatsHeader,
     numberOfSeatsIconFileId: data?.numberOfSeatsIcon?.[0]?.fileId,
     numberOfSeatsIconURL: data?.numberOfSeatsIcon?.[0]?.fileURL,
+    placedBidIconFileId: data?.placedBidIconData?.[0]?.fileId,
+    placedBidIcon: data?.placedBidIconData?.[0]?.fileURL,
     currentPriceHeader: data?.currentPriceHeader,
     reservePriceHeader: data?.reservePriceHeader,
     auctionTimeLabel: data?.auctionTimeLabel,
@@ -117,6 +145,19 @@ export const transformAPIRequestDataAuctionPage = (
     automaticBidCancelLabel: data?.automaticBidCancelLabel,
     automaticBidValue: data?.automaticBidValue,
     recentBidsLabel: data?.recentBidsLabel,
+    currentPriceValue: data?.currentPriceValue,
+    reservePriceValue: data?.reservePriceValue,
+    manualBidRBLabel: data?.manualBidRBLabel,
+    automaticBidRBLabel: data?.automaticBidRBLabel,
+    placedBidLabel: data?.placedBidLabel,
+    placedBidValue: data?.placedBidValue,
+    recentBids: {
+      title: data?.recentBidsTitle,
+      userColumnLabel: data?.userColumnLabel,
+      typeColumnLabel: data?.typeColumnLabel,
+      bidColumnLabel: data?.bidColumnLabel,
+      timeColumnLabel: data?.timeColumnLabel,
+    },
   };
 };
 
@@ -138,6 +179,13 @@ export const transAPIRequestDataToFormAuctionPage = (
       { fileURL: data?.gearboxIconURL, fileId: data?.gearboxIconFileId },
     ],
     numberOfSeatsHeader: data?.numberOfSeatsHeader,
+    placedBidIconData: [
+      {
+        fileURL: data?.placedBidIcon,
+        fileId: data?.placedBidIconFileId,
+      },
+    ],
+
     numberOfSeatsIcon: [
       {
         fileURL: data?.numberOfSeatsIconURL,
@@ -174,5 +222,17 @@ export const transAPIRequestDataToFormAuctionPage = (
     automaticBidCancelLabel: data?.automaticBidCancelLabel,
     automaticBidValue: data?.automaticBidValue,
     recentBidsLabel: data?.recentBidsLabel,
+    currentPriceValue: data?.currentPriceValue,
+    reservePriceValue: data?.reservePriceValue,
+    manualBidRBLabel: data?.manualBidRBLabel,
+    automaticBidRBLabel: data?.automaticBidRBLabel,
+    placedBidLabel: data?.placedBidLabel,
+    placedBidValue: data?.placedBidValue,
+
+    userColumnLabel: data?.recentBids?.userColumnLabel,
+    typeColumnLabel: data?.recentBids?.typeColumnLabel,
+    bidColumnLabel: data?.recentBids?.bidColumnLabel,
+    timeColumnLabel: data?.recentBids?.timeColumnLabel,
+    recentBidsTitle: data?.recentBids?.title,
   };
 };

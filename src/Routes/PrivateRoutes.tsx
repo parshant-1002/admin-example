@@ -49,6 +49,13 @@ import WalletSection from '../Views/PagesContentManagement/WalletSection';
 import ReferralSection from '../Views/PagesContentManagement/ReferralSection';
 import MyAuctions from '../Views/PagesContentManagement/MyAuctions';
 import AuctionWon from '../Views/PagesContentManagement/AuctionWon';
+import LoginContent from '../Views/PagesContentManagement/LoginContent';
+import AllAuctions from '../Views/PagesContentManagement/AllAuctions';
+import PlaceOrderPopupContent from '../Views/PopupContentManagement/PlaceOrderPopupContent';
+import LogoutPopup from '../Views/PopupContentManagement/LogoutPopup';
+import CancelSubscriptionPopup from '../Views/PopupContentManagement/CancelSubscriptionPopup';
+import TopupPupup from '../Views/PopupContentManagement/TopupPupup';
+import ReferralPopup from '../Views/PopupContentManagement/ReferralPopup';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -159,6 +166,16 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.AUCTION_PAGE.path,
     element: <AuctionPage />,
     title: ROUTES_CONFIG.AUCTION_PAGE.title,
+  },
+  {
+    path: ROUTES_CONFIG.LOGIN_CONTENT.path,
+    element: <LoginContent />,
+    title: ROUTES_CONFIG.LOGIN_CONTENT.title,
+  },
+  {
+    path: ROUTES_CONFIG.ALL_AUCTIONS.path,
+    element: <AllAuctions />,
+    title: ROUTES_CONFIG.ALL_AUCTIONS.title,
   },
   {
     path: ROUTES_CONFIG.MY_AUCTIONS.path,
@@ -314,6 +331,31 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.CONTACTED_SUPPORT.path,
     element: <ContactedSupport />,
     title: ROUTES_CONFIG.CONTACTED_SUPPORT.title,
+  },
+  {
+    path: ROUTES_CONFIG.PLACE_ORDER_POPUP.path,
+    element: <PlaceOrderPopupContent />,
+    title: ROUTES_CONFIG.PLACE_ORDER_POPUP.title,
+  },
+  {
+    path: ROUTES_CONFIG.LOGOUT_POPUP.path,
+    element: <LogoutPopup />,
+    title: ROUTES_CONFIG.LOGOUT_POPUP.title,
+  },
+  {
+    path: ROUTES_CONFIG.CANCEL_SUBSCRIPTION_POPUP.path,
+    element: <CancelSubscriptionPopup />,
+    title: ROUTES_CONFIG.CANCEL_SUBSCRIPTION_POPUP.title,
+  },
+  {
+    path: ROUTES_CONFIG.TOPUP_POPUP.path,
+    element: <TopupPupup />,
+    title: ROUTES_CONFIG.TOPUP_POPUP.title,
+  },
+  {
+    path: ROUTES_CONFIG.REFERRAL_POPUP.path,
+    element: <ReferralPopup />,
+    title: ROUTES_CONFIG.REFERRAL_POPUP.title,
   },
   // Wildcard
   {

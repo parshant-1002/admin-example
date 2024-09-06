@@ -266,6 +266,13 @@ export const CONTENT_ENUMS = {
   REFERRAL_SECTION: 'referralSection',
   MY_AUCTIONS_CONTENT: 'myAuction',
   AUCTION_WON_CONTENT: 'auctionWon',
+  ALL_AUCTIONS_DATA: 'allAuctions',
+  LOGIN_CONTENT: 'loginPage',
+  PLACE_ORDER_POPUP: 'placeOrderPopup',
+  LOGOUT_POPUP: 'logoutPopup',
+  CANCEL_SUBSCRIPTION: 'cancelSubscriptionPopup',
+  TOPUP_POPUP: 'topupPopup',
+  REFERRAL_POPUP: 'referralPopup',
 };
 
 export const BUTTON_LABELS = {
@@ -428,6 +435,8 @@ const ROUTES = {
   PENNY_AUCTION_SECTION: '/content-management/penny-auction-section',
   CURRENT_BIDS_SECTION: '/content-management/current-bids-section',
   AUCTION_WON: '/content-management/current-bids-section',
+  LOGIN_CONTENT: '/content-management/login-content',
+  ALL_AUCTIONS: '/content-management/all-auctions-contentf',
   MY_AUCTIONS: '/content-management/my-auctions',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
@@ -462,6 +471,12 @@ const ROUTES = {
   AUCTION_STARTED: '/notifications-content/auction-started',
   BID_PLAN_PURCHASED: '/notifications-content/plan-purchased',
   CONTACTED_SUPPORT: '/notifications-content/contacted-support',
+  POPUP_CONENT: '/popup-content',
+  PLACE_ORDER_POPUP: '/popup-content/place-order-popup',
+  LOGOUT_POPUP: '/popup-content/logout-popup',
+  CANCEL_SUBSCRIPTION_POPUP: '/popup-content/cancel-subcription-popup',
+  TOPUP_POPUP: '/popup-content/topup-popup',
+  REFERRAL_POPUP: '/popup-content/referral-popup',
 };
 
 const WILDCARD_ROUTES = {
@@ -583,6 +598,14 @@ const ROUTES_CONFIG = {
   AUCTION_PAGE: {
     path: ROUTES.AUCTION_PAGE,
     title: 'Auction Page',
+  },
+  LOGIN_CONTENT: {
+    path: ROUTES.LOGIN_CONTENT,
+    title: 'Login Page Content',
+  },
+  ALL_AUCTIONS: {
+    path: ROUTES.ALL_AUCTIONS,
+    title: 'All Auctions',
   },
   MY_AUCTIONS: {
     path: ROUTES.MY_AUCTIONS,
@@ -707,6 +730,26 @@ const ROUTES_CONFIG = {
   CONTACTED_SUPPORT: {
     path: ROUTES.CONTACTED_SUPPORT,
     title: 'Contacted Support',
+  },
+  PLACE_ORDER_POPUP: {
+    path: ROUTES.PLACE_ORDER_POPUP,
+    title: 'Place Order Popup',
+  },
+  LOGOUT_POPUP: {
+    path: ROUTES.LOGOUT_POPUP,
+    title: 'Logout Popup',
+  },
+  CANCEL_SUBSCRIPTION_POPUP: {
+    path: ROUTES.CANCEL_SUBSCRIPTION_POPUP,
+    title: 'Cancel Subscription Popup',
+  },
+  TOPUP_POPUP: {
+    path: ROUTES.TOPUP_POPUP,
+    title: 'Topup Popup',
+  },
+  REFERRAL_POPUP: {
+    path: ROUTES.REFERRAL_POPUP,
+    title: 'Referral Popup',
   },
 };
 
