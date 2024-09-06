@@ -121,14 +121,15 @@ const PLACE_ORDER_POPUP_SECTION_CONTENT = {
   },
   addressHeader: {
     type: INPUT_TYPES.TEXT,
-    label: 'Address Header',
+    label: 'Phone Number PlaceHolder',
     className: 'col-md-6',
-    placeholder: 'Enter address header',
+    placeholder: 'Enter Phone Number PlaceHolder',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Address Header').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Phone Number PlaceHolder').REQUIRED,
       minLength: {
         value: 3,
-        message: FORM_VALIDATION_MESSAGES('Address Header').MIN_LENGTH,
+        message: FORM_VALIDATION_MESSAGES('Phone Number PlaceHolder')
+          .MIN_LENGTH,
       },
     },
   },
@@ -158,32 +159,32 @@ const PLACE_ORDER_POPUP_SECTION_CONTENT = {
       },
     },
   },
-  stateLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'State',
-    className: 'col-md-6',
-    placeholder: 'Enter state',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('State').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES('State').MIN_LENGTH,
-      },
-    },
-  },
-  statePlaceholder: {
-    type: INPUT_TYPES.TEXT,
-    label: 'State Placeholder',
-    className: 'col-md-6',
-    placeholder: 'Enter state placeholder',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('State Placeholder').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES('State Placeholder').MIN_LENGTH,
-      },
-    },
-  },
+  // stateLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'State',
+  //   className: 'col-md-6',
+  //   placeholder: 'Enter state',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('State').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES('State').MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // statePlaceholder: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'State Placeholder',
+  //   className: 'col-md-6',
+  //   placeholder: 'Enter state placeholder',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('State Placeholder').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES('State Placeholder').MIN_LENGTH,
+  //     },
+  //   },
+  // },
   cityLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'City',

@@ -26,7 +26,6 @@ function CheckBox(
 ) {
   // Function to handle the change event
   function handleChange(optionValue: string | number | undefined) {
-    console.log(optionValue, 'skdjfj');
     if (isMulti) {
       // For multiple selections
       const newValue = Array.isArray(value)

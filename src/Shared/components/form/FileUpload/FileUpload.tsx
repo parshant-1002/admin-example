@@ -69,7 +69,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
     {
       value,
-      onChange = () => { },
+      onChange = () => {},
       label,
       subLabel,
       maxSize = 50000000, // 6mb
@@ -130,19 +130,18 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [fileDelete] = useFileDeleteMutation();
     const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
 
-    console.log({ uploadedImages, deletedIds, value, chooseFile });
     useEffect(() => {
       const choosenFiles = chooseFile?.filter((file) => file?.assigned);
       const choosenFilesWithId = isProductAuction
         ? choosenFiles?.map((file) => {
-          if (file?.fileId) {
-            return {
-              ...file,
-              _id: file?.fileId,
-            };
-          }
-          return file;
-        })
+            if (file?.fileId) {
+              return {
+                ...file,
+                _id: file?.fileId,
+              };
+            }
+            return file;
+          })
         : chooseFile;
       setSelectedFiles(choosenFilesWithId);
     }, [chooseFile, isProductAuction]);
@@ -503,13 +502,13 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       if (files?.length) {
         const filesData = isProductAuction
           ? imageList?.files?.map((file: { _id: string }) => {
-            if (
-              files?.some((selectedFile) => selectedFile._id === file._id)
-            ) {
-              return { ...file, assigned: true };
-            }
-            return file;
-          })
+              if (
+                files?.some((selectedFile) => selectedFile._id === file._id)
+              ) {
+                return { ...file, assigned: true };
+              }
+              return file;
+            })
           : files;
         onChange(filesData);
         setChooseFile(filesData);
@@ -531,9 +530,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
       // Determine the aspect ratio description
       const ratioDescription = ratioRequired?.length
-        ? `of ${ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular'
-        } shape, example: of ratio (${ratioRequired[0]} : ${ratioRequired[1]
-        }) / size (${ratioRequired[0] * 378} * ${ratioRequired[1] * 378})`
+        ? `of ${
+            ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular'
+          } shape, example: of ratio (${ratioRequired[0]} : ${
+            ratioRequired[1]
+          }) / size (${ratioRequired[0] * 378} * ${ratioRequired[1] * 378})`
         : `.`;
 
       return `Upload only ${fileTypes} ${ratioDescription}`;

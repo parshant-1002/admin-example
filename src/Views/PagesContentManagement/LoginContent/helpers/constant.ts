@@ -6,9 +6,9 @@ import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMes
 
 const LOGIN_SECTION_CONTENT = {
   title: {
-    type: INPUT_TYPES.TEXT,
+    type: INPUT_TYPES.RICH_TEXT,
     label: 'Title',
-    className: 'col-md-6',
+    className: 'col-md-12',
     placeholder: 'Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Title').REQUIRED,
@@ -21,7 +21,7 @@ const LOGIN_SECTION_CONTENT = {
   buttonLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Button Label',
-    className: 'col-md-6',
+    className: 'col-md-12',
     placeholder: 'Enter Button Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Button Label').REQUIRED,

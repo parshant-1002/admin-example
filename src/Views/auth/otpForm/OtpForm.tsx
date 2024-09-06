@@ -46,7 +46,6 @@ function OtpForm() {
   const navigate = useNavigate();
   const [recoveryCopied, setRecoveryCopied] = useState(false);
 
-  console.log('🚀 ~ OtpForm ~ registrationToken:', registrationToken);
   const [authenticationType, setAuthenticationType] = useState(
     OTP_CODE_TYPE.OTP
   );

@@ -15,7 +15,7 @@ const MY_AUCTIONS_SECTION_CONTENT = {
       },
     },
   },
-  filterPlaceHolder: {
+  filterPlaceholder: {
     type: INPUT_TYPES.TEXT,
     label: 'Filter Place Holder',
     className: 'col-md-6',

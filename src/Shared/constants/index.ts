@@ -266,7 +266,7 @@ export const CONTENT_ENUMS = {
   REFERRAL_SECTION: 'referralSection',
   MY_AUCTIONS_CONTENT: 'myAuction',
   AUCTION_WON_CONTENT: 'auctionWon',
-  ALL_AUCTIONS_DATA: 'allAuctions',
+  ALL_AUCTIONS_DATA: 'allAuctionsPage',
   LOGIN_CONTENT: 'loginPage',
   PLACE_ORDER_POPUP: 'placeOrderPopup',
   LOGOUT_POPUP: 'logoutPopup',
