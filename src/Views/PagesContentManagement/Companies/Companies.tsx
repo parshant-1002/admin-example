@@ -121,12 +121,12 @@ function Companies() {
             content={companiesData || []}
             setContent={setCompaniesData}
             types={fieldTypes}
-            title="Companies"
+            title="As Seen On"
             labels={labels}
             initialState={initialState}
           />
         }
-        submitText="Update Companies Content"
+        submitText="Update As Seen On Content"
       />
     </CustomCardWrapper>
   );

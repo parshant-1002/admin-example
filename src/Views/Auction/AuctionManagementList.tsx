@@ -145,7 +145,7 @@ export default function AuctionManagementList() {
         categoryIds: row?.categories?.map((category) => ({
           value: category._id,
           label: category?.name,
-        })),
+        }))?.[0],
         bidStartDate: moment(row.bidStartDate).format(
           DATE_FORMATS.DISPLAY_DATE_REVERSE
         ),

@@ -267,7 +267,7 @@ function StatsFilters({
                 value={filtersState.selectedBrand}
                 className="react-select"
                 classNamePrefix="react-select-prefix"
-                placeholder="Category"
+                placeholder="Select Company"
               />
             </div>
           ) : null}

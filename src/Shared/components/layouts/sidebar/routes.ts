@@ -121,7 +121,7 @@ const SIDEBAR_NAV = [
         route: ROUTES.FAQ_CONTENT,
       },
       {
-        label: 'Auction Page',
+        label: 'Auction Details Page',
         route: ROUTES.AUCTION_PAGE,
       },
       {

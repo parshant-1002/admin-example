@@ -42,7 +42,7 @@ export interface ProductPayload {
   price: string;
   status: SelectOption;
   images: Image[];
-  category: SelectOption[];
+  category: SelectOption;
   stock: number;
   registrationNumber: string;
   modelYear: string;

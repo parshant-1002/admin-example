@@ -107,7 +107,7 @@ export default function AuctionDetails() {
         categoryIds: auctionDataa?.categories?.map((category: Category) => ({
           value: category._id,
           label: category?.name,
-        })),
+        }))?.[0],
         bidStartDate: moment(auctionDataa.bidStartDate).format(
           DATE_FORMATS.DISPLAY_DATE_REVERSE
         ),

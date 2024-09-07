@@ -174,9 +174,10 @@ export default function AuctionForm({
           assigned: image?.assigned,
         })),
         // status: productData?.status?.value,
-        categoryIds: auctionData?.categoryIds?.map(
-          (category) => category?.value
-        ),
+        // categoryIds: auctionData?.categoryIds?.map(
+        //   (category) => category?.value
+        // )?.[0],
+        categoryIds: [auctionData?.categoryIds?.value],
         reserveWaitingEndDate: data.reserveWaitingEndDate,
         bidStartDate: data?.bidStartDate,
         status: 1,
@@ -247,7 +248,10 @@ export default function AuctionForm({
           )?.label,
           value: productDetails?.specifications?.bodyType,
         };
-        setValue('categoryIds', helperCatergoryMap(productDetails.categories));
+        setValue(
+          'categoryIds',
+          helperCatergoryMap(productDetails.categories)?.[0]
+        );
         setValue('description', productDetails.description);
         setValue('productPrice', productDetails.price);
         setValue('images', productDetails?.images);

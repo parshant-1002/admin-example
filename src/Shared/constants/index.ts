@@ -380,7 +380,7 @@ const ROUTES = {
   USERS: '/users',
   USERS_DETAILS: '/users/:id',
   PRODUCTS: '/products',
-  CATEGORIES: '/categories',
+  CATEGORIES: '/companies',
   PRODUCTS_ADD: '/products/add',
   PRODUCTS_LIST: '/products/list',
   VERIFY_EMAIL: '/verify-email',

@@ -157,7 +157,7 @@ export default function ProductsList() {
         category: row?.categories?.map((category) => ({
           value: category._id,
           label: category?.name,
-        })),
+        }))?.[0],
         fuel: {
           label: FUEL_OPTIONS?.find(
             (fuel) => fuel.value === Number(row?.specifications?.fuel)

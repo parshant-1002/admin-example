@@ -29,7 +29,7 @@ export interface AuctionResponsePayload {
     label?: string;
   };
   productId?: SelectOption;
-  categoryIds?: SelectOption[];
+  categoryIds?: SelectOption;
   itemPrice?: number;
   reserveWaitingEndDate?: string;
   enabledSocialMediaPlatforms?: number[];

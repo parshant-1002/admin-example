@@ -161,7 +161,7 @@ export const AuctionColumn = (
     info: true,
   },
   {
-    title: 'Category',
+    title: 'Company',
     isEditable: false,
     fieldName: 'categories',
     render: (_, val) => {
@@ -184,7 +184,7 @@ export const AuctionColumn = (
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
-                  data: { title: 'Companies', size: 'sm', categories },
+                  data: { title: 'Company', size: 'sm', categories },
                 })
               }
             >
@@ -280,6 +280,8 @@ export const AuctionColumn = (
     isEditable: false,
     fieldName: 'prizeClaimDays',
     type: DetailType.String,
+    render: (_, val) =>
+      `${convertToLocale(val as string)} ${Number(val) > 1 ? 'days' : 'day'}`,
   },
   {
     title: 'Social Media Enabled',
@@ -309,7 +311,7 @@ export const AuctionColumn = (
     isEditable: false,
     fieldName: 'socialMediaShareReward',
     type: DetailType.String,
-    render: (_, val) => convertToLocale(val as string, true),
+    render: (_, val) => convertToLocale(val as string),
   },
 ];
 

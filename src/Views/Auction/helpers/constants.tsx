@@ -83,7 +83,7 @@ export interface AuctionPayload {
   images: Image[];
   description: string;
   productPrice: number;
-  categoryIds: SelectOption[];
+  categoryIds: SelectOption;
   enabledSocialMediaPlatforms: string[];
   registrationNumber?: string;
   bodyType?: SelectOption;
@@ -185,13 +185,13 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   categoryIds: {
     type: INPUT_TYPES.SELECT,
-    label: 'Category',
+    label: 'Company',
     className: 'col-md-12',
-    placeholder: 'Category',
-    isMulti: true,
+    placeholder: 'Company',
+    // isMulti: true,
     options: categoryOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Category').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Company').REQUIRED,
     },
   },
   productPrice: {
@@ -319,12 +319,11 @@ export const AUCTION_ADD_FORM_SCHEMA = (
   },
   socialMediaShareReward: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Social Media Share Reward (SEK)',
+    label: 'Social Media Share Reward',
     className: 'col-md-6',
-    placeholder: 'Social Media Share Reward (SEK)',
+    placeholder: 'Social Media Share Reward',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Social Media Share Reward (SEK)')
-        .REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Social Media Share Reward').REQUIRED,
       min: {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
@@ -621,7 +620,7 @@ export const AuctionColumns = (
       moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME),
   },
   {
-    title: 'Category',
+    title: 'Company',
     fieldName: 'product',
     noClickEvent: true,
     render: (data) => {
@@ -645,7 +644,7 @@ export const AuctionColumns = (
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
-                  data: { title: 'Companies', size: 'sm', categories },
+                  data: { title: 'Company', size: 'sm', categories },
                 })
               }
             >

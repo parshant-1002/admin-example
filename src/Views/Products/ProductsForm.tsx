@@ -111,7 +111,10 @@ export default function ProductForm({
           bodyType: productData?.bodyType?.value,
         },
         // status: productData?.status?.value,
-        categoryIds: productData?.category?.map((category) => category?.value),
+        // categoryIds: productData?.category?.map(
+        //   (category) => category?.value
+        // ),
+        categoryIds: [productData?.category?.value],
       };
       if (isEdit) {
         // payload.id = initialData?._id;
