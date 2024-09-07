@@ -10,9 +10,19 @@ const HEADER_CONTENT_FORM_SCHEMA = {
   logo: {
     type: INPUT_TYPES.FILE,
     accept: IMAGE_FILE_TYPES,
-    label: 'Header Logo ',
+    label: 'Logo Website',
     className: 'col-md-6',
-    placeholder: 'Header Logo ',
+    placeholder: 'Logo Website',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES().REQUIRED,
+    },
+  },
+  logoMobile: {
+    type: INPUT_TYPES.FILE,
+    accept: IMAGE_FILE_TYPES,
+    label: 'Logo Mobile',
+    className: 'col-md-6',
+    placeholder: 'Logo Mobile',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },
