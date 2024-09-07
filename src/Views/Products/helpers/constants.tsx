@@ -223,13 +223,13 @@ export const PRODUCT_FORM_SCHEMA = (
 
   category: {
     type: INPUT_TYPES.SELECT,
-    label: 'Categories',
+    label: 'Companies',
     className: 'col-md-12',
-    placeholder: 'Select a category',
+    placeholder: 'Select a Company',
     isMulti: true,
     options: cateroryOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Categories').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Companies').REQUIRED,
     },
   },
   images: {
@@ -579,7 +579,7 @@ export const productsColumns = (
     },
   },
   {
-    title: 'Categories',
+    title: 'Companies',
     fieldName: 'categories',
     render: (_, val) => {
       const categories = (val || []) as unknown as Category[];
@@ -601,7 +601,7 @@ export const productsColumns = (
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
-                  data: { title: 'Categories', size: 'sm', categories },
+                  data: { title: 'Companies', size: 'sm', categories },
                 })
               }
             >

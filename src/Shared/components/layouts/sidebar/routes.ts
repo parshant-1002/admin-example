@@ -197,7 +197,7 @@ const SIDEBAR_NAV = [
   },
   {
     iconClass: 'bi bi-category',
-    label: 'Categories',
+    label: 'Companies',
     route: ROUTES.CATEGORIES,
   },
   {

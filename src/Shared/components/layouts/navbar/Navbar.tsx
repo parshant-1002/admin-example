@@ -60,7 +60,7 @@ function Navbar() {
         </div>
         <Link to="/" className="logo d-flex align-items-center">
           {/* <img src="assets/img/logo.png" alt="Logo" /> */}
-          <h4 className="admin-brand-logo ms-xl-4">Penny Auction</h4>
+          {/* <h4 className="admin-brand-logo ms-xl-4">Penny Auction</h4> */}
         </Link>
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>

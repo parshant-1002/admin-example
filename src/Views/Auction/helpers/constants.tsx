@@ -645,7 +645,7 @@ export const AuctionColumns = (
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
-                  data: { title: 'Categories', size: 'sm', categories },
+                  data: { title: 'Companies', size: 'sm', categories },
                 })
               }
             >

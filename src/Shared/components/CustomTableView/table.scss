@@ -329,8 +329,11 @@ $arrow-left: url(../../../../src/assets/icons/arrow-left.svg);
         .count_btn {
             font-size: 12px !important;
             padding: 1px;
-            height: 20px !important;
-            width: 20px !important;
+            height: 23px !important;
+            width: 23px !important;
+            position: $absolute;
+            top: 4px;
+            right: -6px;
         }
     }
 }

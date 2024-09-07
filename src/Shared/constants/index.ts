@@ -511,7 +511,7 @@ const ROUTES_CONFIG = {
   },
   CATEGORIES: {
     path: ROUTES.CATEGORIES,
-    title: 'Categories',
+    title: 'Companies',
   },
   USERS: {
     path: ROUTES.USERS,
