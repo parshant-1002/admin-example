@@ -273,6 +273,7 @@ export const CONTENT_ENUMS = {
   CANCEL_SUBSCRIPTION: 'cancelSubscriptionPopup',
   TOPUP_POPUP: 'topupPopup',
   REFERRAL_POPUP: 'referralPopup',
+  REFRESH_POPUP: 'refreshPopup',
 };
 
 export const BUTTON_LABELS = {
@@ -438,6 +439,7 @@ const ROUTES = {
   LOGIN_CONTENT: '/content-management/login-content',
   ALL_AUCTIONS: '/content-management/all-auctions-contentf',
   MY_AUCTIONS: '/content-management/my-auctions',
+  REFRESH_POPUP: '/content-management/refresh-popup',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
   AIR_DROP_HISTORY: '/air-drop/history',
@@ -750,6 +752,10 @@ const ROUTES_CONFIG = {
   REFERRAL_POPUP: {
     path: ROUTES.REFERRAL_POPUP,
     title: 'Referral Popup',
+  },
+  REFRESH_POPUP: {
+    path: ROUTES.REFRESH_POPUP,
+    title: 'Refresh Popup',
   },
 };
 

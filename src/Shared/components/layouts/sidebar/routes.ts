@@ -59,6 +59,10 @@ const SIDEBAR_NAV = [
     label: 'Popup pages Content',
     children: [
       {
+        label: 'Refresh Popup',
+        route: ROUTES.REFRESH_POPUP,
+      },
+      {
         label: 'Place Order',
         route: ROUTES.PLACE_ORDER_POPUP,
       },

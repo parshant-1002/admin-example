@@ -16,6 +16,7 @@ export interface APIData {
   loginButtonLabel: string;
   registerButtonLabel: string;
   userProfileIcon: ImageData[];
+  logo: ImageData[];
   logoutIcon: ImageData[];
   notificationIcon: ImageData[];
   walletIcon: ImageData[];
@@ -33,6 +34,8 @@ interface TransformedData {
   registerButtonLabel: string;
   userProfileIconFileId: string;
   userProfileIconURL: string;
+  logoFileId: string;
+  logoImgURL: string;
   logoutFileId: string;
   logoutURL: string;
   notificationFileId: string;
@@ -60,6 +63,8 @@ export const transformAPIData = (
     searchPlaceholder: data?.searchPlaceholder,
     loginButtonLabel: data?.loginButtonLabel,
     registerButtonLabel: data?.registerButtonLabel,
+    logoFileId: data?.logo?.[0]?.fileId || data?.logo?.[0]?._id,
+    logoImgURL: data?.logo?.[0]?.fileURL,
     userProfileIconFileId:
       data?.userProfileIcon?.[0]?.fileId || data?.userProfileIcon?.[0]?._id,
     userProfileIconURL: data?.userProfileIcon?.[0]?.fileURL,
@@ -95,6 +100,12 @@ export const transformAPIRequestData = (data: TransformedData) => {
       {
         fileId: data?.userProfileIconFileId,
         fileURL: data?.userProfileIconURL,
+      },
+    ],
+    logo: [
+      {
+        fileId: data?.logoFileId,
+        fileURL: data?.logoImgURL,
       },
     ],
     logoutIcon: [{ fileId: data?.logoutFileId, fileURL: data?.logoutURL }],

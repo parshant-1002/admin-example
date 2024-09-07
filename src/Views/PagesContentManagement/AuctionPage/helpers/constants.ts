@@ -200,6 +200,19 @@ const ABOUT_US_FORM_SCHEMA = {
       },
     },
   },
+  joinListButtonLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Join List Button Label',
+    className: 'col-md-6',
+    placeholder: 'Join List Button Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Join List Button Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
   placeAutomaticBidsLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Place Automatic Bids Label',
@@ -225,6 +238,112 @@ const ABOUT_US_FORM_SCHEMA = {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
       },
+    },
+  },
+  automaticBidLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Label',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  automaticBidCancelLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Cancel Label',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Cancel Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Cancel Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  automaticBidValue: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Value',
+    subLabel:
+      'Use {{automaticBidsLeft}} and {{automaticTotalBids}} to show automatic bids left and total bids',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Value').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  manualBidRBLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Manual Bid Radio Button Label',
+    className: 'col-md-6',
+    placeholder: 'Manual Bid Radio Button Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Manual Bid Radio Button Label')
+        .REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  automaticBidRBLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Automatic Bid Radio Button Label',
+    className: 'col-md-6',
+    placeholder: 'Automatic Bid Radio Button Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Automatic Bid Radio Button Label')
+        .REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  placedBidLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Placed Bid Label',
+    className: 'col-md-6',
+    placeholder: 'Placed Bid Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Placed Bid Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  placedBidValue: {
+    type: INPUT_TYPES.TEXT,
+    subLabel: 'Use {{placedBid}} to show total placed bids',
+    label: 'Total Bids Placed Value',
+    className: 'col-md-6',
+    placeholder: 'Enter Total Bids Placed Value',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Total Bids Placed Value').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
+  placedBidIconData: {
+    type: INPUT_TYPES.FILE,
+    accept: IMAGE_FILE_TYPES,
+    label: 'Total Bids Icon',
+    className: 'col-md-6',
+    placeholder: 'Total Bids Icon',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Total Bids Icon').REQUIRED,
     },
   },
   specificationsHeader: {
@@ -398,217 +517,88 @@ const ABOUT_US_FORM_SCHEMA = {
       },
     },
   },
-  exploreMoreAuctionsHeader: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Explore More Auctions Header',
-    className: 'col-md-6',
-    placeholder: 'Explore More Auctions Header',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Explore More Auctions Header')
-        .REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  currentPriceLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Current Price Label',
-    className: 'col-md-6',
-    placeholder: 'Current Price Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Current Price Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  reservePriceNotMetLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Reserve Price Not Met Label',
-    className: 'col-md-6',
-    placeholder: 'Reserve Price Not Met Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Reserve Price Not Met Label')
-        .REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  biddersRequiredLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Bidders Required Label',
-    className: 'col-md-6',
-    placeholder: 'Bidders Required Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Bidders Required Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  joinListButtonLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Join List Button Label',
-    className: 'col-md-6',
-    placeholder: 'Join List Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Join List Button Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  placeBidButtonLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Place Bid Button Label',
-    className: 'col-md-6',
-    placeholder: 'Place Bid Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Place Bid Button Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  moreInormationLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'More Information Label',
-    className: 'col-md-6',
-    placeholder: 'More Information Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('More Information Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  historyButtonLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'History Button Label',
-    className: 'col-md-6',
-    placeholder: 'History Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('History Button Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  automaticBidLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Automatic Bid Label',
-    className: 'col-md-6',
-    placeholder: 'Automatic Bid Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Automatic Bid Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  automaticBidCancelLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Automatic Bid Cancel Label',
-    className: 'col-md-6',
-    placeholder: 'Automatic Bid Cancel Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Automatic Bid Cancel Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  automaticBidValue: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Automatic Bid Value',
-    subLabel: 'Use {{automaticBidValue}} to show automatic bids',
-    className: 'col-md-6',
-    placeholder: 'Automatic Bid Value',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Automatic Bid Value').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  manualBidRBLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Manual Bid Radio Button Label',
-    className: 'col-md-6',
-    placeholder: 'Manual Bid Radio Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Manual Bid Radio Button Label')
-        .REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  automaticBidRBLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Automatic Bid Radio Button Label',
-    className: 'col-md-6',
-    placeholder: 'Automatic Bid Radio Button Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Automatic Bid Radio Button Label')
-        .REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  placedBidLabel: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Placed Bid Label',
-    className: 'col-md-6',
-    placeholder: 'Placed Bid Label',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Placed Bid Label').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  placedBidValue: {
-    type: INPUT_TYPES.TEXT,
-    subLabel: 'Use {{placedBid}} to show total placed bids',
-    label: 'Total Bids Placed Value',
-    className: 'col-md-6',
-    placeholder: 'Enter Total Bids Placed Value',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Total Bids Placed Value').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-    },
-  },
-  placedBidIconData: {
-    type: INPUT_TYPES.FILE,
-    accept: IMAGE_FILE_TYPES,
-    label: 'Total Bids Icon',
-    className: 'col-md-6',
-    placeholder: 'Total Bids Icon',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Total Bids Icon').REQUIRED,
-    },
-  },
+
+  // currentPriceLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Current Price Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Current Price Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Current Price Label').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // reservePriceNotMetLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Reserve Price Not Met Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Reserve Price Not Met Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Reserve Price Not Met Label')
+  //       .REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // biddersRequiredLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Bidders Required Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Bidders Required Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Bidders Required Label').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+
+  // placeBidButtonLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Place Bid Button Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'Place Bid Button Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Place Bid Button Label').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // moreInormationLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'More Information Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'More Information Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('More Information Label').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+  // historyButtonLabel: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'History Button Label',
+  //   className: 'col-md-6',
+  //   placeholder: 'History Button Label',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('History Button Label').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //   },
+  // },
+
   // recent bids
   recentBidsTitle: {
     type: INPUT_TYPES.TEXT,
@@ -677,6 +667,22 @@ const ABOUT_US_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(1).MIN_LENGTH,
       },
     },
+  },
+  exploreMoreAuctionsHeader: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Explore More Auctions Header',
+    className: 'col-md-6',
+    placeholder: 'Explore More Auctions Header',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Explore More Auctions Header')
+        .REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+    addHorizontalLine: true,
+    addHorizontalTitle: 'Explore More  Section',
   },
 };
 

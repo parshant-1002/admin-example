@@ -67,6 +67,19 @@ const WALLET_SECTION_FORM_SCHEMA = {
       },
     },
   },
+  cancelSubscriptionLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'Cancel Subscription Label',
+    className: 'col-md-6',
+    placeholder: 'Cancel Subscription Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Cancel Subscription Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
   bidsSpentTabLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Bids Spent Tab Label',

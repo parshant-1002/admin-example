@@ -69,6 +69,19 @@ const AUCTION_WON_SECTION_CONTENT = {
       },
     },
   },
+  noDataFound: {
+    type: INPUT_TYPES.TEXT,
+    label: 'No Data Found Label',
+    className: 'col-md-6',
+    placeholder: 'No Data Found Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('No Data Found Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
 };
 
 export default AUCTION_WON_SECTION_CONTENT;

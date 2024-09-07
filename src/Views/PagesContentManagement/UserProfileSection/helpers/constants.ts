@@ -54,6 +54,19 @@ const USER_PROFILE_SECTION_FORM_SCHEMA = {
       },
     },
   },
+  sslNumberLabel: {
+    type: INPUT_TYPES.TEXT,
+    label: 'SSL Number Label',
+    className: 'col-md-12',
+    placeholder: 'SSL Number Label',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('SSL Number Label').REQUIRED,
+      minLength: {
+        value: 3,
+        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+      },
+    },
+  },
   currentSubscriptionLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Current Subscription Label',

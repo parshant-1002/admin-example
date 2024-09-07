@@ -7,11 +7,12 @@ const HEADER_CONTENT_FORM_SCHEMA = {
     label: 'Show/Hide Header Content',
     className: 'col-md-12 notifications',
   },
-  logoText: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Header Logo Text',
+  logo: {
+    type: INPUT_TYPES.FILE,
+    accept: IMAGE_FILE_TYPES,
+    label: 'Header Logo ',
     className: 'col-md-6',
-    placeholder: 'Header Logo Text',
+    placeholder: 'Header Logo ',
     schema: {
       required: FORM_VALIDATION_MESSAGES().REQUIRED,
     },

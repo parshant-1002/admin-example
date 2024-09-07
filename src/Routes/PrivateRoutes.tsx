@@ -56,6 +56,7 @@ import LogoutPopup from '../Views/PopupContentManagement/LogoutPopup';
 import CancelSubscriptionPopup from '../Views/PopupContentManagement/CancelSubscriptionPopup';
 import TopupPupup from '../Views/PopupContentManagement/TopupPupup';
 import ReferralPopup from '../Views/PopupContentManagement/ReferralPopup';
+import RefreshPopup from '../Views/PopupContentManagement/RefreshPopup';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -356,6 +357,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.REFERRAL_POPUP.path,
     element: <ReferralPopup />,
     title: ROUTES_CONFIG.REFERRAL_POPUP.title,
+  },
+  {
+    path: ROUTES_CONFIG.REFRESH_POPUP.path,
+    element: <RefreshPopup />,
+    title: ROUTES_CONFIG.REFRESH_POPUP.title,
   },
   // Wildcard
   {
