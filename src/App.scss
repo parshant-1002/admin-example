@@ -198,3 +198,61 @@ $downArrow : url("./assets/icons/downArrow.svg");
     margin: 0px;
   }
 }
+
+.notify-panel{
+  .notification-modal{
+    border-radius: 10px 0 0 10px;
+    background: $white-color;
+    .notification-header{
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      border-bottom:1px solid rgba($black-color,0.1) !important;
+      border: none;
+      padding: 20px;
+      .header-title{
+        color: rgba($blue-color-700,1);
+        font-weight: $font-semibold !important;
+      }
+      .clear_all {
+        color: rgba($blue-color-700,1);
+        font-weight: $font-regular;
+      }
+      button.btn-close{
+        color: rgba($blue-color-700,1) !important;
+        @include position(relative, 0px, -10px);
+        filter: none;
+      }
+    }
+    .notifications-list{
+      .notification-items{
+        background-color: rgba($white-color,0.7);
+        border-top: none;
+        padding: 20px 20px;
+        // border-top:1px solid rgba($black,0.1);
+        border-bottom:1px solid rgba($black-color,0.1);
+        // box-shadow: 0px 0px 10px rgba($black, 0.1);
+        .unread-msg{
+          background-color: rgba($blue-color-700,1);
+        }
+        .notification-content{
+          .notification-body{
+            h4{
+              color: $black-color;
+            }
+            p{
+              color: rgba($black-color,0.7);
+              font-weight: $font-medium;
+              a{
+                color: rgba($black-color,1);
+                font-weight: $font-medium;
+              }
+            }
+            a{
+              color: rgba($blue-color-700,1) !important;
+              font-weight: $font-medium;
+            }
+          }
+        }
+      }
+    }
+  }
+}

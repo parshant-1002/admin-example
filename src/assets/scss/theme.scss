@@ -7,8 +7,9 @@
 
 body {
     margin: 0;
-    font-family: $Inter-font;
-    font-weight: $font-regular;
+    // font-family: $Inter-font;
+    // font-weight: $font-regular;
+    font-family: $Popin-font;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: $body-color;
@@ -17,6 +18,12 @@ body {
     overflow-x: $hidden;
     min-height: 100vh;
     scrollbar-width: thin;
+}
+
+h1,h2,h3,h4,h5,h6,p,span{
+    font-family: $Popin-font;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Scroll */
