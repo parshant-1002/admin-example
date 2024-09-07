@@ -74,7 +74,7 @@
     height: 23px;
     padding: 1px;
     font-size: 15px;
-    @include position ($absolute, $top: 4px, $right: -6px);
+    @include position ($absolute, $bottom: 0px, $right: 0px);
     z-index: 1;
 }
 

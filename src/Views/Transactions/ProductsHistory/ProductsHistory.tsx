@@ -151,6 +151,7 @@ function ProductsHistory() {
         show={!!moreImagesPopup?.length}
         onClose={() => setMoreImagesPopup([])}
         images={moreImagesPopup}
+        title="Product Images"
       />
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION_INVOICE}

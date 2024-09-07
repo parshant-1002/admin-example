@@ -569,7 +569,7 @@ export const AuctionColumns = (
       return (
         <div className="d-flex align-items-center gap-2">
           <div
-            className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+            className="d-inline-flex align-items-center  uploaded_file pointer"
             onClick={() =>
               setShowMultiItemView({
                 show: true,
@@ -579,26 +579,32 @@ export const AuctionColumns = (
           >
             {imgData?.map((img, index) =>
               index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                <figure key={img.url}>
+                <figure key={img.url} className="position-relative">
                   <FileRenderer fileURL={img.url} />
+                  {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+                    <button
+                      type="button"
+                      className="count_btn"
+                      onClick={() =>
+                        setShowMultiItemView({
+                          show: true,
+                          data: {
+                            title: 'Product Images',
+                            size: 'lg',
+                            imgData,
+                          },
+                        })
+                      }
+                    >
+                      {`+${
+                        imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
+                      }`}
+                    </button>
+                  ) : null}
                   {/* <span>{img.title}</span> */}
                 </figure>
               ) : null
             )}
-            {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <button
-                type="button"
-                className="count_btn"
-                onClick={() =>
-                  setShowMultiItemView({
-                    show: true,
-                    data: { title: 'Product Images', size: 'lg', imgData },
-                  })
-                }
-              >
-                {`+${imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
-              </button>
-            ) : null}
           </div>
           <div>{row.title}</div>
         </div>

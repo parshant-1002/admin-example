@@ -39,7 +39,7 @@ interface ColumnData {
   path?: string[];
 }
 
-const IMAGES_COUNT_IN_TABLE = 2;
+const IMAGES_COUNT_IN_TABLE = 1;
 
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
@@ -301,26 +301,26 @@ export const ProductsHistoryColumns = ({
       const images = row?.product?.images;
       return (
         <div
-          className="d-inline-flex align-items-center position-relative uploaded_file pointer"
+          className="d-inline-flex align-items-center  uploaded_file pointer"
           onClick={() => handleMoreImagesClick(images)}
         >
           {images?.map((img, index) =>
             index < IMAGES_COUNT_IN_TABLE ? (
-              <figure key={img.url}>
+              <figure key={img.url} className="position-relative">
                 <FileRenderer fileURL={img.url} />
+                {images?.length > IMAGES_COUNT_IN_TABLE ? (
+                  <button
+                    type="button"
+                    className="count_btn"
+                    onClick={() => handleMoreImagesClick(images)}
+                  >
+                    {`+${images.length - IMAGES_COUNT_IN_TABLE}`}
+                  </button>
+                ) : null}
                 {/* <span>{img.title}</span> */}
               </figure>
             ) : null
           )}
-          {images?.length > IMAGES_COUNT_IN_TABLE ? (
-            <button
-              type="button"
-              className="count_btn"
-              onClick={() => handleMoreImagesClick(images)}
-            >
-              {`+${images.length - IMAGES_COUNT_IN_TABLE}`}
-            </button>
-          ) : null}
         </div>
       );
     },
