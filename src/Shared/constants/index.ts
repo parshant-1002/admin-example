@@ -95,6 +95,7 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  PRODUCT_NOT_PURCHASED: 'Product Not Purchased',
   UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
   UPDATE_REFERRAL_SECTION: 'Update Referral Content',
   UPDATE_CURRENT_BIDS_SECTION: 'Update Current Bids Section',
