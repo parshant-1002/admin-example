@@ -57,6 +57,10 @@ import CancelSubscriptionPopup from '../Views/PopupContentManagement/CancelSubsc
 import TopupPupup from '../Views/PopupContentManagement/TopupPupup';
 import ReferralPopup from '../Views/PopupContentManagement/ReferralPopup';
 import RefreshPopup from '../Views/PopupContentManagement/RefreshPopup';
+import AuctionCard from '../Views/PagesContentManagement/AuctionCard';
+import RecentBids from '../Views/PagesContentManagement/RecentBids';
+import AuctionWonDetails from '../Views/PagesContentManagement/AuctionWonDetails';
+import Specifications from '../Views/PagesContentManagement/Specifications';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -322,6 +326,26 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.AUCTION_STARTED.path,
     element: <AuctionStarted />,
     title: ROUTES_CONFIG.AUCTION_STARTED.title,
+  },
+  {
+    path: ROUTES_CONFIG.SPECIFICATIONS.path,
+    element: <Specifications />,
+    title: ROUTES_CONFIG.SPECIFICATIONS.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_WON_DETAILS.path,
+    element: <AuctionWonDetails />,
+    title: ROUTES_CONFIG.AUCTION_WON_DETAILS.title,
+  },
+  {
+    path: ROUTES_CONFIG.AUCTION_CARD.path,
+    element: <AuctionCard />,
+    title: ROUTES_CONFIG.AUCTION_CARD.title,
+  },
+  {
+    path: ROUTES_CONFIG.RECENT_BIDS.path,
+    element: <RecentBids />,
+    title: ROUTES_CONFIG.RECENT_BIDS.title,
   },
   {
     path: ROUTES_CONFIG.BID_PLAN_PURCHASED.path,
