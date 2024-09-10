@@ -95,7 +95,9 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  PENNY_AUCTION: 'Penny Auction',
   UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
+  UPDATE_SPECIFICATIONS: 'Update Specifications Content',
   UPDATE_REFERRAL_SECTION: 'Update Referral Content',
   UPDATE_CURRENT_BIDS_SECTION: 'Update Current Bids Section',
   UPDATE_WALLET_SECTION: 'Update Wallet Section',
@@ -274,6 +276,7 @@ export const CONTENT_ENUMS = {
   TOPUP_POPUP: 'topupPopup',
   REFERRAL_POPUP: 'referralPopup',
   REFRESH_POPUP: 'refreshPopup',
+  AUCTION_WON_DETAILS_CONTENT: 'auctionWonDetailsPage',
 };
 
 export const BUTTON_LABELS = {
@@ -412,6 +415,7 @@ const ROUTES = {
   FEATURES_CONTENT: '/content-management/features-content',
   TOKEN_INFORMATION_CONTENT: '/content-management/token-information-content',
   REFERRAL_SECTION: '/content-management/referral-section',
+  SPECIFICATIONS: '/content-management/specifications-section',
   WALLET_SECTION: '/content-management/wallet-section',
   PREMIUM_MARKET_PLACE_CONTENT:
     '/content-management/premium-marketplace-content',
@@ -440,6 +444,8 @@ const ROUTES = {
   ALL_AUCTIONS: '/content-management/all-auctions-contentf',
   MY_AUCTIONS: '/content-management/my-auctions',
   REFRESH_POPUP: '/content-management/refresh-popup',
+  AUCTION_CARD: '/content-management/auction-card',
+  RECENT_BIDS: '/content-management/recent-bids-card',
   AIR_DROP: '/air-drop',
   AIR_DROP_LIST: '/air-drop/list',
   AIR_DROP_HISTORY: '/air-drop/history',
@@ -471,6 +477,7 @@ const ROUTES = {
   AUCTION_ENDED: '/notifications-content/auction-ended',
   NEW_USER_JOINED: '/notifications-content/new-user-joined',
   AUCTION_STARTED: '/notifications-content/auction-started',
+  AUCTION_WON_DETAILS: '/notifications-content/auction-won-details',
   BID_PLAN_PURCHASED: '/notifications-content/plan-purchased',
   CONTACTED_SUPPORT: '/notifications-content/contacted-support',
   POPUP_CONENT: '/popup-content',
@@ -494,6 +501,10 @@ const ROUTES_CONFIG = {
   AUCTION_MANAGEMENT: {
     path: ROUTES.AUCTION_MANAGEMENT,
     title: 'Products for Auction',
+  },
+  SPECIFICATIONS: {
+    path: ROUTES.SPECIFICATIONS,
+    title: 'Specifications',
   },
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
@@ -724,6 +735,18 @@ const ROUTES_CONFIG = {
   AUCTION_STARTED: {
     path: ROUTES.AUCTION_STARTED,
     title: 'Auction Started',
+  },
+  AUCTION_WON_DETAILS: {
+    path: ROUTES.AUCTION_WON_DETAILS,
+    title: 'Auction Won Details',
+  },
+  AUCTION_CARD: {
+    path: ROUTES.AUCTION_CARD,
+    title: 'Auction Card',
+  },
+  RECENT_BIDS: {
+    path: ROUTES.RECENT_BIDS,
+    title: 'Recent Bids Card',
   },
   BID_PLAN_PURCHASED: {
     path: ROUTES.BID_PLAN_PURCHASED,

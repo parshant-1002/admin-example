@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
-import { ROUTES } from '../../../constants';
+import { ROUTES, STRINGS } from '../../../constants';
 import SIDEBAR_NAV from './routes';
 import './style.scss';
 
@@ -204,7 +204,7 @@ function Sidebar() {
         className="text-center py-2 w-100 d-block aside_logo"
       >
         <h4 className="admin-brand-logo text-center d-none d-xl-block">
-          Penny Auction
+          {STRINGS.PENNY_AUCTION}
         </h4>
       </Link>
       <ul
