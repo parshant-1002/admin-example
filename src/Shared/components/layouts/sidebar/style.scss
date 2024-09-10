@@ -31,7 +31,13 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     // overflow-y: auto !important;
     overflow: $unset;
   }
-
+  @media (max-width: 1199px) {
+    left: 0;
+    max-width: 70px;
+    overflow: $unset;
+    position: absolute;
+    height: 100vh;
+  }
   .sidebar-nav {
     padding: 0;
     margin: 0;
