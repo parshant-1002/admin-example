@@ -22,7 +22,12 @@ export default function InvoiceView({
 }: InvoiceProps) {
   return (
     <div className="text-center" data-tooltip-id={disabled ? data?._id : ''}>
-      <Tooltip id={data?._id} place="top-end">
+      <Tooltip
+        id={data?._id}
+        place="top-end"
+        className="bg-primary text-white p-3 border border-rounded tool-tip"
+        opacity={1}
+      >
         {tooltipLabel}
       </Tooltip>
       {data?.invoiceURL ? (
