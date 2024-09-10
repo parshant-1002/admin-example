@@ -1,4 +1,5 @@
 // utils
+import { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import {
   convertToLocale,
@@ -7,23 +8,23 @@ import {
 } from '../../../Shared/utils/functions';
 
 // consts
-import { Image } from '../../../Models/common';
 import {
   USER_PANEL,
   VITE_PRODUCT_DETAIL_PATH,
 } from '../../../Services/Api/Constants';
+import ImageWithCount from '../../../Shared/components/ImageWithCount';
 import InvoiceView from '../../../Shared/components/InvoiceView';
 import TruncateText from '../../../Shared/components/TruncateText';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   BID_CREDIT_TYPES,
   BID_STATUS,
   REFERRAL_STATUS,
   STRINGS,
 } from '../../../Shared/constants';
+import { PRODUCT_AVAILABILITY_STATUS } from '../../Products/helpers/constants';
+import { ViewMultiData } from '../../Products/helpers/model';
 import { getKeyByValue } from '../../Users/UserDetails/helpers/utils';
 import { Invoice } from './model';
-import { PRODUCT_AVAILABILITY_STATUS } from '../../Products/helpers/constants';
 
 // Define types for renderActions and column data
 interface ColumnData {
@@ -223,10 +224,10 @@ export const BidsHistoryColumns = (onDashBoard?: boolean): ColumnData[] => [
 
 // Define the shape of the columns
 export const ProductsHistoryColumns = ({
-  handleMoreImagesClick = () => {},
+  setShowMultiItemView = () => {},
   handleInvoice = () => {},
 }: {
-  handleMoreImagesClick: (imgs: Image[]) => void;
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>;
   handleInvoice: (row: Invoice) => void;
 }): ColumnData[] => [
   {
@@ -288,28 +289,11 @@ export const ProductsHistoryColumns = ({
     render: (row) => {
       const images = row?.product?.images;
       return (
-        <div
-          className="d-inline-flex align-items-center  uploaded_file pointer"
-          onClick={() => handleMoreImagesClick(images)}
-        >
-          {images?.map((img, index) =>
-            index < IMAGES_COUNT_IN_TABLE ? (
-              <figure key={img.url} className="position-relative">
-                <FileRenderer fileURL={img.url} />
-                {images?.length > IMAGES_COUNT_IN_TABLE ? (
-                  <button
-                    type="button"
-                    className="count_btn"
-                    onClick={() => handleMoreImagesClick(images)}
-                  >
-                    {`+${images.length - IMAGES_COUNT_IN_TABLE}`}
-                  </button>
-                ) : null}
-                {/* <span>{img.title}</span> */}
-              </figure>
-            ) : null
-          )}
-        </div>
+        <ImageWithCount
+          imgData={images}
+          setShowMultiItemView={setShowMultiItemView}
+          count={IMAGES_COUNT_IN_TABLE}
+        />
       );
     },
   },

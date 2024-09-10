@@ -31,7 +31,7 @@ import {
 } from '../../helpers/constants';
 
 // Models
-import { UserBid, ViewMultiData } from '../../helpers/model';
+import { UserBid } from '../../helpers/model';
 
 // API
 
@@ -40,6 +40,7 @@ import { useUserProductsInvoiceGenerationMutation } from '../../../../../Service
 import { useGetUserProductHistoryQuery } from '../../../../../Services/Api/module/users';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
+import { ViewMultiData } from '../../../../Products/helpers/model';
 import { transformProductHistoryResponse } from '../../helpers/utils';
 
 interface DeleteData {

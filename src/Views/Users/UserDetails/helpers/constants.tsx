@@ -10,13 +10,14 @@ import {
 // libs
 
 // consts
+import ImageWithCount from '../../../../Shared/components/ImageWithCount';
 import InvoiceView from '../../../../Shared/components/InvoiceView';
-import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../../Shared/utils/functions';
 import { downArrow } from '../../../../assets';
-import { UserBid, ViewMultiData } from './model';
 import { PRODUCT_AVAILABILITY_STATUS } from '../../../Products/helpers/constants';
+import { ViewMultiData } from '../../../Products/helpers/model';
+import { UserBid } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 
@@ -251,32 +252,11 @@ const productHistoryColumn = (
         title: string;
       }[];
       return (
-        <div className="d-inline-flex align-items-center  uploaded_file">
-          {imgData?.map((img, index) =>
-            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <figure key={img.url} className="position-relative">
-                <FileRenderer fileURL={img.url} />
-                {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                  <button
-                    type="button"
-                    className="count_btn"
-                    onClick={() =>
-                      setShowMultiItemView({
-                        show: true,
-                        data: { title: 'Product Images', size: 'lg', imgData },
-                      })
-                    }
-                  >
-                    {`+${
-                      imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-                    }`}
-                  </button>
-                ) : null}
-                {/* <span>{img.title}</span> */}
-              </figure>
-            ) : null
-          )}
-        </div>
+        <ImageWithCount
+          imgData={imgData}
+          setShowMultiItemView={setShowMultiItemView}
+          count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
+        />
       );
     },
   },

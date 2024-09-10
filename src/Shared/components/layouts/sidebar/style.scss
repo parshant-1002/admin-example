@@ -31,7 +31,13 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     // overflow-y: auto !important;
     overflow: $unset;
   }
-
+  @media (max-height: 500px) {
+    left: 0;
+    max-width: 70px;
+    overflow: $unset;
+    position: absolute;
+    height: 100vh;
+  }
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -217,8 +223,8 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
       .accordion-button {
         border-radius: 0;
         border-bottom-right-radius: 0 !important;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px !important;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px !important;
         padding: 21px 15px 19px 55px;
         @include font(.875rem, 21.27px, 400);
         background-color: $transparent;
@@ -233,8 +239,8 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
       .dropdown-item {
         border-radius: 0;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px !important;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px !important;
         padding: 15px 10px 0px 55px;
         @include font-size (.875);
 

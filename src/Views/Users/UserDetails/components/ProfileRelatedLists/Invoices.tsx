@@ -1,8 +1,8 @@
 // Libraries
-import { toast } from 'react-toastify';
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
 
 // Components
 import ConfirmationModal from '../../../../../Shared/components/ConfirmationModal';
@@ -11,7 +11,6 @@ import CustomTableView, {
   Row,
 } from '../../../../../Shared/components/CustomTableView';
 import StatsFilters from '../../../../../Shared/components/Filters';
-import ViewMultiTableItem from '../ViewMultiTableItem';
 
 // Constants
 import {
@@ -28,7 +27,7 @@ import {
 } from '../../helpers/constants';
 
 // Models
-import { UserBid, ViewMultiData } from '../../helpers/model';
+import { UserBid } from '../../helpers/model';
 
 // API
 
@@ -98,10 +97,6 @@ export default function Invoices({
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
   const [tableData, setTableData] = useState({ data: [], count: 0 });
-  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
-    data: { title: '' },
-    show: false,
-  });
 
   // Refs
   const onComponentMountRef = useRef(false);
@@ -229,10 +224,6 @@ export default function Invoices({
   };
   return (
     <>
-      <ViewMultiTableItem
-        show={showMultiItemView}
-        setShow={setShowMultiItemView}
-      />
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION_INVOICE}
         open={invoiceModal?.show}

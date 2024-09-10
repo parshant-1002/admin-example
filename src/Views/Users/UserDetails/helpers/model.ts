@@ -33,16 +33,6 @@ export interface Category {
   name: string;
 }
 
-export interface ViewMultiData {
-  data: {
-    title: string;
-    categories?: Category[];
-    imgData?: Image[];
-    size?: 'sm' | 'lg' | 'xl' | undefined;
-  } | null;
-  show?: boolean;
-}
-
 interface BidPlan {
   _id: string;
   title: string;
