@@ -5,25 +5,25 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
-import Button from '../../../Shared/components/form/Button';
 
 // consts
-import { Invoice } from './model';
-import { InvoiceIcon } from '../../../assets';
+import { Image } from '../../../Models/common';
+import {
+  USER_PANEL,
+  VITE_PRODUCT_DETAIL_PATH,
+} from '../../../Services/Api/Constants';
+import InvoiceView from '../../../Shared/components/InvoiceView';
+import TruncateText from '../../../Shared/components/TruncateText';
+import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
 import {
   BID_CREDIT_TYPES,
   BID_STATUS,
   REFERRAL_STATUS,
   STRINGS,
 } from '../../../Shared/constants';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
-import { Image } from '../../../Models/common';
-import TruncateText from '../../../Shared/components/TruncateText';
-import {
-  USER_PANEL,
-  VITE_PRODUCT_DETAIL_PATH,
-} from '../../../Services/Api/Constants';
 import { getKeyByValue } from '../../Users/UserDetails/helpers/utils';
+import { Invoice } from './model';
+import { PRODUCT_AVAILABILITY_STATUS } from '../../Products/helpers/constants';
 
 // Define types for renderActions and column data
 interface ColumnData {
@@ -131,19 +131,7 @@ export const PlansHistoryColumns = (
   {
     title: STRINGS.INVOICE,
     render: (row) => (
-      <div className="text-center">
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="btn btn44 btn-primary"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
-        )}
-      </div>
+      <InvoiceView data={row} handleInvoice={() => handleInvoice(row)} />
     ),
   },
 ];
@@ -328,19 +316,11 @@ export const ProductsHistoryColumns = ({
   {
     title: STRINGS.INVOICE,
     render: (row) => (
-      <div className="text-center">
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="btn btn44 btn-primary"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
-        )}
-      </div>
+      <InvoiceView
+        data={row}
+        handleInvoice={() => handleInvoice(row)}
+        disabled={row?.status === PRODUCT_AVAILABILITY_STATUS.AVAILABLE}
+      />
     ),
   },
 ];
