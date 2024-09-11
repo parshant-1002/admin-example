@@ -495,10 +495,13 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   } 
 }
 
-.sidebar-nav .nav-content .sub-menu{
-  max-height: 400px;
-  overflow: auto;
-}
-.sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show, .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.collapsing{
-  margin-top: -160px;
+@media (min-width:320px) and (max-width:1199px){
+  .sidebar-nav .nav-content .sub-menu{
+    max-height: 400px;
+    overflow: auto;
+    scrollbar-gutter: stable;
+  }
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show, .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.collapsing{
+    margin-top: -160px;
+  }
 }
