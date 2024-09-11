@@ -31,13 +31,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     // overflow-y: auto !important;
     overflow: $unset;
   }
-  @media (max-height: 500px) {
-    left: 0;
-    max-width: 70px;
-    overflow: $unset;
-    position: absolute;
-    height: 100vh;
-  }
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -475,3 +468,42 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     }
   }
 }
+
+
+@media (max-height: 800px) and (max-width:1300px) {
+  #main{
+    min-height: 800px;
+  }
+  #main::before{
+    content: "";
+    position: absolute;
+    left: -70px;
+    top: 0px;
+    width: 70px;
+    background: #0e0e23;
+    height: 100%;
+  }
+  .sidebar{
+    position: absolute;
+  }
+  .sidebar-nav .nav-content .sub-menu{
+    max-height: 300px;
+    overflow: auto;
+  }
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show{
+    margin-top: -160px;
+  } 
+}
+
+@media (min-width:320px) and (max-width:1199px){
+  .sidebar-nav .nav-content .sub-menu{
+    max-height: 400px;
+    overflow: auto;
+    scrollbar-gutter: stable;
+  }
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show, .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.collapsing{
+    margin-top: -160px;
+  }
+}
+
+
