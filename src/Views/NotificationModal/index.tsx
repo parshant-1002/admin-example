@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import {
   useClearAllNotificationsMutation,
   useNotificationsQuery,
-} from '../../Services/Api/module/notificationApi/index';
+} from '../../Services/Api/module/notificationApi';
 import InfiniteScroll from '../../Shared/components/InfiniteScroll';
 import { BUTTON_LABELS } from '../../Shared/constants';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import { setUnseenCount } from '../../Store/UnseenCount';
-import { cross } from '../../assets';
 import './notifications.scss';
+import { cross } from '../../assets';
 
 const LIMIT = 10;
 
@@ -43,10 +43,12 @@ function NotificationModal({
   const [pageno, setPageNo] = useState<number>(1);
   const [totalCount, setTotalCount] = useState<number>(1);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { data, isLoading } = useNotificationsQuery(
+  const { data, isLoading, refetch } = useNotificationsQuery(
     {
-      skip: pageno - 1,
-      limit: LIMIT,
+      params: {
+        skip: pageno - 1,
+        limit: LIMIT,
+      },
     },
     {
       refetchOnMountOrArgChange: true,
@@ -57,9 +59,14 @@ function NotificationModal({
   useEffect(() => {
     if (data?.data?.length) {
       const notificationData = data.data;
-      dispatch(setUnseenCount(data?.count));
-      setNotifications(notificationData);
-      setTotalCount((prev) => prev + 10);
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        ...notificationData,
+      ]);
+      setTotalCount(data?.count ?? 1);
+      if (data?.unreadCount) {
+        dispatch(setUnseenCount(data?.unreadCount ?? 0));
+      }
     }
   }, [pageno, data, dispatch]);
 
@@ -71,9 +78,9 @@ function NotificationModal({
     try {
       const success = await clearAllNotification({}).unwrap(); // No arguments passed here
       if (success) {
-        dispatch(setUnseenCount(0));
         setNotifications([]);
         setTotalCount(0);
+        refetch();
       }
     } catch (error) {
       console.error('Failed to clear notifications:', error);
@@ -157,7 +164,7 @@ function NotificationModal({
               data={notifications}
               isLoading={isLoading}
               loadMore={fetchNotifications}
-              hasMore={totalCount < LIMIT * pageno} // Assuming totalCount reflects the number of items loaded
+              hasMore={totalCount > LIMIT * pageno} // Assuming totalCount reflects the total number of notifications
               content={renderNotification}
             />
           ) : (

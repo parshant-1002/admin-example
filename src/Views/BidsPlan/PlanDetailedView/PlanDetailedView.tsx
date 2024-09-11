@@ -1,5 +1,6 @@
 // Libraries
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 
 // Components
@@ -9,7 +10,12 @@ import CustomTableView, {
 } from '../../../Shared/components/CustomTableView';
 
 // Constants
-import { FilterOrder, STRINGS } from '../../../Shared/constants';
+import {
+  BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
+  FilterOrder,
+  STRINGS,
+} from '../../../Shared/constants';
 import { PlanDetailedViewColumns } from '../helpers/constants';
 
 // API
@@ -19,12 +25,15 @@ import {
 } from '../../../Services/Api/module/plans';
 
 // Utilities
-import { DetailsCard } from '../../../Shared/components';
+import { useUserProductsInvoiceGenerationMutation } from '../../../Services/Api/module/invoiceGeneration';
+import { ConfirmationModal, DetailsCard } from '../../../Shared/components';
 import {
   convertToLocale,
   formatDate,
   removeEmptyValues,
 } from '../../../Shared/utils/functions';
+import { RED_WARNING } from '../../../assets';
+import { Invoice, InvoiceData } from '../../Invoices/helpers/model';
 
 // Interfaces
 interface QueryParams {
@@ -39,9 +48,15 @@ interface QueryParams {
 const PLAN_DETAILS_PAGE_LIMIT = 10;
 
 function PlanDetailedView() {
+  const [generateInvoice] = useUserProductsInvoiceGenerationMutation();
+  const [invoiceModal, setInvoiceModal] = useState<InvoiceData>({
+    show: false,
+    data: null,
+  });
   const { id } = useParams();
   // State Management
   const [currentPage, setCurrentPage] = useState(0);
+
   const [sortKey, setSortKey] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
@@ -156,7 +171,24 @@ function PlanDetailedView() {
 
     return null;
   }, [referralPackDetails]);
-
+  const handleInvoice = (row: Invoice) => {
+    setInvoiceModal({ show: true, data: row });
+  };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = async () => {
+    await generateInvoice({
+      payload: {
+        userProductId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetch();
+      },
+    });
+    handleCloseInvoice();
+  };
   return (
     <div>
       {renderPackDetails}
@@ -165,9 +197,20 @@ function PlanDetailedView() {
       <h5>
         {STRINGS.TRANSACTIONS} ({listing?.count || 0})
       </h5>
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
+      />
       <CustomTableView
         rows={(listing?.data as unknown as Row[]) || []}
-        columns={PlanDetailedViewColumns as unknown as Column[]}
+        columns={PlanDetailedViewColumns(handleInvoice) as unknown as Column[]}
         pageSize={PLAN_DETAILS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}

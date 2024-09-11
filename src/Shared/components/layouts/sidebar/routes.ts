@@ -105,6 +105,18 @@ const SIDEBAR_NAV = [
         route: ROUTES.TOP_AUCTION_SECTION,
       },
       {
+        label: 'Auction Card',
+        route: ROUTES.AUCTION_CARD,
+      },
+      {
+        label: 'Specifications',
+        route: ROUTES.SPECIFICATIONS,
+      },
+      {
+        label: 'Recent Bids Card',
+        route: ROUTES.RECENT_BIDS,
+      },
+      {
         label: 'Bid Pack ',
         route: ROUTES.BID_PACK_SECTION,
       },
@@ -127,6 +139,10 @@ const SIDEBAR_NAV = [
       {
         label: 'Auction Details Page',
         route: ROUTES.AUCTION_PAGE,
+      },
+      {
+        label: 'Auction Won Details Page',
+        route: ROUTES.AUCTION_WON_DETAILS,
       },
       {
         label: 'Login Page',

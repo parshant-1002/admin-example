@@ -35,6 +35,8 @@ import { FiltersState } from '../../../Shared/components/Filters/helpers/models'
 import { useUserProductsInvoiceGenerationMutation } from '../../../Services/Api/module/invoiceGeneration';
 import { Invoice, InvoiceData } from '../helpers/model';
 import { RED_WARNING } from '../../../assets';
+import { ViewMultiData } from '../../Products/helpers/model';
+import ViewMultiTableItem from '../../Products/components/ViewMultiTableItem';
 
 // Interfaces
 interface QueryParams {
@@ -47,6 +49,10 @@ interface QueryParams {
 
 function ProductsHistory() {
   // State Management
+  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
+    data: { title: '' },
+    show: false,
+  });
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
   const [search, setSearch] = useState<string>('');
@@ -102,13 +108,9 @@ function ProductsHistory() {
     setSearch(e.target.value);
   }, 1000);
 
-  const handleMoreImagesClick = (imgs: Image[]) => {
-    setMoreImagesPopup(imgs);
-  };
-
   // Memoized columns for table
   const columns = useMemo(
-    () => ProductsHistoryColumns({ handleMoreImagesClick, handleInvoice }),
+    () => ProductsHistoryColumns({ setShowMultiItemView, handleInvoice }),
     []
   );
 
@@ -147,6 +149,10 @@ function ProductsHistory() {
   return (
     <div>
       {/* More Images Popup */}
+      <ViewMultiTableItem
+        show={showMultiItemView}
+        setShow={setShowMultiItemView}
+      />
       <SeeAllImagesModal
         show={!!moreImagesPopup?.length}
         onClose={() => setMoreImagesPopup([])}

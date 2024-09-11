@@ -12,7 +12,6 @@ import CustomTableView, {
   Row,
 } from '../../../../../Shared/components/CustomTableView';
 import StatsFilters from '../../../../../Shared/components/Filters';
-import ViewMultiTableItem from '../ViewMultiTableItem';
 
 // Constants
 import {
@@ -29,7 +28,6 @@ import {
 } from '../../helpers/constants';
 
 // Models
-import { ViewMultiData } from '../../helpers/model';
 
 // API
 
@@ -88,10 +86,6 @@ export default function ReferalHistoryList({
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
   const [tableData, setTableData] = useState({ data: [], count: 0 });
-  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
-    data: { title: '' },
-    show: false,
-  });
 
   // Refs
   const onComponentMountRef = useRef(false);
@@ -197,11 +191,6 @@ export default function ReferalHistoryList({
   };
   return (
     <>
-      <ViewMultiTableItem
-        show={showMultiItemView}
-        setShow={setShowMultiItemView}
-      />
-
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION.DELETE}
         open={deleteModal?.show}

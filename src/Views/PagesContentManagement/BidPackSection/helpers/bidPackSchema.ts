@@ -10,7 +10,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   bidPackTagLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Bid Pack Tag Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Bid Pack Tag Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Bid Pack Tag Label').REQUIRED,
@@ -19,7 +19,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   bidPackTitle: {
     type: INPUT_TYPES.TEXT,
     label: 'Bid Pack Title',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Bid Pack Title',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Bid Pack Title').REQUIRED,
@@ -28,7 +28,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   bidPackPurchaseButtonLabel: {
     type: INPUT_TYPES.TEXT,
     label: 'Bid Pack Purchase Button Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: 'Bid Pack Purchase Button Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Bid Pack Purchase Button Label')
@@ -38,7 +38,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   moreInformationLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' More Information Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' More Information Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('More Information Label').REQUIRED,
@@ -47,7 +47,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   monthlyTagLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' Monthly Tag Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Monthly Tag Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Monthly Tag Label').REQUIRED,
@@ -56,7 +56,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   yearlyTagLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' Yearly Tag Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Yearly Tag Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Yearly Tag Label').REQUIRED,
@@ -66,7 +66,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   mostPopularLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' Most Popular Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Most Popular Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Most Popular Label').REQUIRED,
@@ -75,7 +75,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   creditsLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' Credits Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Credits Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Credits Label').REQUIRED,
@@ -85,7 +85,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
     type: INPUT_TYPES.TEXT,
     label: ' Credits Value',
     subLabel: 'Use {{creditValue}} to show number of bids to credit',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Credits Value',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Credits Value').REQUIRED,
@@ -94,7 +94,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
   priceLabel: {
     type: INPUT_TYPES.TEXT,
     label: ' Price Label',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Price Label',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Price Label').REQUIRED,
@@ -104,7 +104,7 @@ const BID_PACK_CONTENT_FORM_SCHEMA = {
     type: INPUT_TYPES.TEXT,
     label: ' Price Value',
     subLabel: 'Use {{priceValue}} to show the pack price',
-    className: 'col-md-12',
+    className: 'col-md-6',
     placeholder: ' Price Value',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Price Value').REQUIRED,

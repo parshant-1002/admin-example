@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
-import { Button } from 'react-bootstrap';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
 import {
   DATE_FORMATS,
@@ -11,11 +10,14 @@ import {
 // libs
 
 // consts
-import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
+import ImageWithCount from '../../../../Shared/components/ImageWithCount';
+import InvoiceView from '../../../../Shared/components/InvoiceView';
 import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../../Shared/utils/functions';
-import { InvoiceIcon, downArrow } from '../../../../assets';
-import { UserBid, ViewMultiData } from './model';
+import { downArrow } from '../../../../assets';
+import { PRODUCT_AVAILABILITY_STATUS } from '../../../Products/helpers/constants';
+import { ViewMultiData } from '../../../Products/helpers/model';
+import { UserBid } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 
@@ -118,19 +120,7 @@ const bidsPurchaseHistoryColumn = (
     sortable: true,
     sortType: 'invoiceDate',
     render: (row) => (
-      <div className="text-center">
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="cursor-pointer btn44 btn-primary btn"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
-        )}
-      </div>
+      <InvoiceView data={row} handleInvoice={() => handleInvoice(row)} />
     ),
   },
 ];
@@ -174,8 +164,10 @@ const biddingHistoryColumn // renderActions: RenderActions
     fieldName: 'status',
   },
 ];
-const userInvoicesColumn // renderActions: RenderActions
-: ColumnData[] = [
+const userInvoicesColumn = (
+  handleInvoice: (row: UserBid) => void // renderActions: RenderActions
+  // renderActions: RenderActions
+): ColumnData[] => [
   {
     title: 'Id',
     fieldName: 'id',
@@ -199,24 +191,13 @@ const userInvoicesColumn // renderActions: RenderActions
     sortable: true,
     sortType: 'invoiceDate',
     render: (row) => (
-      <div className="text-center">
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="cursor-pointer btn44 btn-primary"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          '-.-'
-        )}
-      </div>
+      <InvoiceView data={row} handleInvoice={() => handleInvoice(row)} />
     ),
   },
 ];
 const productHistoryColumn = (
-  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
+  handleInvoice: (data: UserBid) => void
 ): ColumnData[] => [
   {
     title: 'Auction Id',
@@ -271,32 +252,11 @@ const productHistoryColumn = (
         title: string;
       }[];
       return (
-        <div className="d-inline-flex align-items-center  uploaded_file">
-          {imgData?.map((img, index) =>
-            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <figure key={img.url} className="position-relative">
-                <FileRenderer fileURL={img.url} />
-                {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                  <button
-                    type="button"
-                    className="count_btn"
-                    onClick={() =>
-                      setShowMultiItemView({
-                        show: true,
-                        data: { title: 'Product Images', size: 'lg', imgData },
-                      })
-                    }
-                  >
-                    {`+${
-                      imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-                    }`}
-                  </button>
-                ) : null}
-                {/* <span>{img.title}</span> */}
-              </figure>
-            ) : null
-          )}
-        </div>
+        <ImageWithCount
+          imgData={imgData}
+          setShowMultiItemView={setShowMultiItemView}
+          count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
+        />
       );
     },
   },
@@ -305,19 +265,11 @@ const productHistoryColumn = (
     sortable: true,
     sortType: 'invoiceDate',
     render: (row) => (
-      <div className="text-center">
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="cursor-pointer btn44 btn-primary"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          '-.-'
-        )}
-      </div>
+      <InvoiceView
+        data={row}
+        handleInvoice={() => handleInvoice(row)}
+        disabled={row?.status === PRODUCT_AVAILABILITY_STATUS.AVAILABLE}
+      />
     ),
   },
 ];
@@ -564,6 +516,8 @@ export {
   BID_STATUS,
   BID_STATUS_OPTIONS,
   CONFIRMATION_DESCRIPTION,
+  INVOICE_TYPE,
+  INVOICE_TYPE_OPTIONS,
   USER_DETAILS_SCHEMA,
   UserDetailsTabs,
   auctionBiddingHistoryColumn,
@@ -572,6 +526,4 @@ export {
   productHistoryColumn,
   referralHistoryColumn,
   userInvoicesColumn,
-  INVOICE_TYPE,
-  INVOICE_TYPE_OPTIONS,
 };

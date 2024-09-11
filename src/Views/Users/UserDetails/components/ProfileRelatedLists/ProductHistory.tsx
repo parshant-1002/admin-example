@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-console */
 // Libraries
@@ -17,6 +18,7 @@ import ViewMultiTableItem from '../ViewMultiTableItem';
 // Constants
 import {
   BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
   FilterOrder,
   PRICE_RANGE,
   STRINGS,
@@ -29,14 +31,16 @@ import {
 } from '../../helpers/constants';
 
 // Models
-import { ViewMultiData } from '../../helpers/model';
+import { UserBid } from '../../helpers/model';
 
 // API
 
 // Utilities
+import { useUserProductsInvoiceGenerationMutation } from '../../../../../Services/Api/module/invoiceGeneration';
 import { useGetUserProductHistoryQuery } from '../../../../../Services/Api/module/users';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
+import { ViewMultiData } from '../../../../Products/helpers/model';
 import { transformProductHistoryResponse } from '../../helpers/utils';
 
 interface DeleteData {
@@ -82,6 +86,14 @@ export default function ProductHistoryList({
   callBidsCreditApi?: boolean;
 }) {
   // State Management
+  const [generateInvoice] = useUserProductsInvoiceGenerationMutation();
+  const [invoiceModal, setInvoiceModal] = useState<{
+    show: boolean;
+    data: UserBid | null;
+  }>({
+    show: false,
+    data: null,
+  });
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '', ids: [''] },
@@ -145,10 +157,6 @@ export default function ProductHistoryList({
     setSearch(e.target.value);
   }, 1000);
 
-  const columns = useMemo(() => {
-    return productHistoryColumn(setShowMultiItemView);
-  }, [currentTab]);
-
   const refetchData = useCallback(() => {
     try {
       if (refetchUserProductHistory) {
@@ -199,6 +207,27 @@ export default function ProductHistoryList({
     setFilters(initalFilterPayload);
     setCurrentPage(0);
   };
+  const handleInvoice = (row: UserBid) => {
+    setInvoiceModal({ show: true, data: row });
+  };
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+  const handleGenerateInvoice = async () => {
+    await generateInvoice({
+      payload: {
+        userProductId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetchUserProductHistory();
+      },
+    });
+    handleCloseInvoice();
+  };
+  const columns = useMemo(() => {
+    return productHistoryColumn(setShowMultiItemView, handleInvoice);
+  }, [currentTab, handleInvoice]);
   return (
     <>
       <ViewMultiTableItem
@@ -231,7 +260,17 @@ export default function ProductHistoryList({
         }
         handleApply={handleApplyFilters}
       />
-
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
+      />
       <CustomTableView
         rows={(tableData?.data as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
