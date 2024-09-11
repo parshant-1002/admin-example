@@ -20,7 +20,7 @@ function ImageWithCount({
   count,
 }: ImageWithCountProps) {
   return (
-    <div className="d-flex align-items-center gap-2">
+    <div className="d-lg-flex align-items-center gap-2">
       <div
         className="d-inline-flex align-items-center uploaded_file pointer"
         onClick={() =>

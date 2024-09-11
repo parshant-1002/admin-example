@@ -21,7 +21,10 @@ export default function InvoiceView({
   tooltipLabel = STRINGS.PRODUCT_NOT_PURCHASED,
 }: InvoiceProps) {
   return (
-    <div className="text-center" data-tooltip-id={disabled ? data?._id : ''}>
+    <div
+      className="text-right d-lg-flex justify-content-center"
+      data-tooltip-id={disabled ? data?._id : ''}
+    >
       <Tooltip
         id={data?._id}
         place="top-end"
