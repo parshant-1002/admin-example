@@ -2,6 +2,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ColumnData } from '../../../Models/Tables';
 import CustomFilterIcons from '../../../Shared/components/CustomFilterIcons';
+import InvoiceView from '../../../Shared/components/InvoiceView';
 import TruncateText from '../../../Shared/components/TruncateText';
 import {
   BID_PLAN_TYPES,
@@ -15,8 +16,9 @@ import {
   formatDate,
   renderIdWithHash,
 } from '../../../Shared/utils/functions';
-import { Delete, InvoiceIcon, edit, view } from '../../../assets';
+import { Delete, edit, view } from '../../../assets';
 import { ViewMultiData } from '../../Products/helpers/model';
+import { Invoice } from '../../Invoices/helpers/model';
 
 export const PLAN_FORM_FIELDS = {
   NAME: 'title',
@@ -357,7 +359,9 @@ export const PlansColumns = ({
   },
 ];
 
-export const PlanDetailedViewColumns: ColumnData[] = [
+export const PlanDetailedViewColumns = (
+  handleGenerateInvoice: (row: Invoice) => void
+): ColumnData[] => [
   {
     title: STRINGS.T_ID,
     fieldName: 'id',
@@ -425,14 +429,11 @@ export const PlanDetailedViewColumns: ColumnData[] = [
   },
   {
     title: STRINGS.INVOICE,
-    render: (row) =>
-      row?.invoiceURL ? (
-        <div className="text-center">
-          {' '}
-          <img src={InvoiceIcon} alt="invoice" />{' '}
-        </div>
-      ) : (
-        '-.-'
-      ),
+    render: (row) => (
+      <InvoiceView
+        data={row}
+        handleInvoice={() => handleGenerateInvoice(row)}
+      />
+    ),
   },
 ];

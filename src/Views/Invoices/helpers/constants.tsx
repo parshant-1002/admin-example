@@ -1,5 +1,4 @@
 // utils
-import Button from '../../../Shared/components/form/Button';
 import {
   convertToLocale,
   formatDate,
@@ -7,10 +6,11 @@ import {
 } from '../../../Shared/utils/functions';
 
 // consts
+import InvoiceView from '../../../Shared/components/InvoiceView';
 import TruncatedText from '../../../Shared/components/TruncateText/TruncateText';
 import { STRINGS } from '../../../Shared/constants';
-import { InvoiceIcon } from '../../../assets';
 import { Invoice } from './model';
+import { PRODUCT_AVAILABILITY_STATUS } from '../../Products/helpers/constants';
 
 export const PRODUCT_STATUS = [
   { value: 1, label: 'Pending' },
@@ -89,21 +89,11 @@ export const AuctionInvoiceColumns = (
   {
     title: STRINGS.INVOICE,
     render: (row) => (
-      <div className="text-start">
-        {row?.invoiceURL ? (
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={() => window.open(row?.invoiceURL, '_blank')}
-          >
-            <img src={InvoiceIcon} alt="" />
-          </button>
-        ) : (
-          <Button onClick={() => handleGenerateInvoice(row)}>
-            {STRINGS.GENERATE}
-          </Button>
-        )}
-      </div>
+      <InvoiceView
+        data={row}
+        handleInvoice={() => handleGenerateInvoice(row)}
+        disabled={row?.status === PRODUCT_AVAILABILITY_STATUS.AVAILABLE}
+      />
     ),
   },
 ];
@@ -161,17 +151,8 @@ export const PurchaseInvoiceColumns = (
   },
   {
     title: STRINGS.INVOICE,
-    render: (row) =>
-      row?.invoiceURL ? (
-        <button
-          type="button"
-          className="btn btn44 btn-primary"
-          onClick={() => window.open(row?.invoiceURL, '_blank')}
-        >
-          <img src={InvoiceIcon} alt="" />
-        </button>
-      ) : (
-        <Button onClick={() => handleInvoice(row)}>{STRINGS.GENERATE}</Button>
-      ),
+    render: (row) => (
+      <InvoiceView data={row} handleInvoice={() => handleInvoice(row)} />
+    ),
   },
 ];

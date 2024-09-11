@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import ImageWithCount from '../../../Shared/components/ImageWithCount';
 import {
   DATE_FORMATS,
   FILE_TYPE,
@@ -10,6 +10,11 @@ import {
 } from '../../../Shared/constants';
 import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
+import {
+  CAR_BODY_TYPE_OPTIONS,
+  FUEL_OPTIONS,
+  GEARBOX_OPTIONS,
+} from '../../Products/helpers/constants';
 import { Category, ViewMultiData } from '../../Products/helpers/model';
 import { SelectOption } from '../../Users/helpers/model';
 import {
@@ -17,11 +22,6 @@ import {
   SOCIAL_MEDIA_PLATFORMS_OPTIONS,
 } from '../AuctionDetails/Helpers/constants';
 import { AuctionResponsePayload } from './model';
-import {
-  CAR_BODY_TYPE_OPTIONS,
-  FUEL_OPTIONS,
-  GEARBOX_OPTIONS,
-} from '../../Products/helpers/constants';
 // import { AuctionStatus } from '../../Users/UserDetails/helpers/constants';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
@@ -567,47 +567,12 @@ export const AuctionColumns = (
         title: string;
       }[];
       return (
-        <div className="d-flex align-items-center gap-2">
-          <div
-            className="d-inline-flex align-items-center  uploaded_file pointer"
-            onClick={() =>
-              setShowMultiItemView({
-                show: true,
-                data: { title: 'Product Images', size: 'lg', imgData },
-              })
-            }
-          >
-            {imgData?.map((img, index) =>
-              index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                <figure key={img.url} className="position-relative">
-                  <FileRenderer fileURL={img.url} />
-                  {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                    <button
-                      type="button"
-                      className="count_btn"
-                      onClick={() =>
-                        setShowMultiItemView({
-                          show: true,
-                          data: {
-                            title: 'Product Images',
-                            size: 'lg',
-                            imgData,
-                          },
-                        })
-                      }
-                    >
-                      {`+${
-                        imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-                      }`}
-                    </button>
-                  ) : null}
-                  {/* <span>{img.title}</span> */}
-                </figure>
-              ) : null
-            )}
-          </div>
-          <div>{row.title}</div>
-        </div>
+        <ImageWithCount
+          title={row?.title}
+          imgData={imgData}
+          setShowMultiItemView={setShowMultiItemView}
+          count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
+        />
       );
     },
   },

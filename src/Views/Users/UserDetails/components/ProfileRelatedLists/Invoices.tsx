@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-console */
 // Libraries
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
 
 // Components
 import ConfirmationModal from '../../../../../Shared/components/ConfirmationModal';
@@ -12,11 +11,11 @@ import CustomTableView, {
   Row,
 } from '../../../../../Shared/components/CustomTableView';
 import StatsFilters from '../../../../../Shared/components/Filters';
-import ViewMultiTableItem from '../ViewMultiTableItem';
 
 // Constants
 import {
   BUTTON_LABELS,
+  CONFIRMATION_DESCRIPTION_INVOICE,
   FilterOrder,
   STRINGS,
 } from '../../../../../Shared/constants';
@@ -28,11 +27,12 @@ import {
 } from '../../helpers/constants';
 
 // Models
-import { ViewMultiData } from '../../helpers/model';
+import { UserBid } from '../../helpers/model';
 
 // API
 
 // Utilities
+import { useUserProductsInvoiceGenerationMutation } from '../../../../../Services/Api/module/invoiceGeneration';
 import { useGetUserInvoicesQuery } from '../../../../../Services/Api/module/users';
 import { FiltersState } from '../../../../../Shared/components/Filters/helpers/models';
 import { removeEmptyValues } from '../../../../../Shared/utils/functions';
@@ -81,6 +81,14 @@ export default function Invoices({
   callBidsCreditApi?: boolean;
 }) {
   // State Management
+  const [generateInvoice] = useUserProductsInvoiceGenerationMutation();
+  const [invoiceModal, setInvoiceModal] = useState<{
+    show: boolean;
+    data: UserBid | null;
+  }>({
+    show: false,
+    data: null,
+  });
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
     data: { id: '', ids: [''] },
@@ -89,10 +97,6 @@ export default function Invoices({
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
 
   const [tableData, setTableData] = useState({ data: [], count: 0 });
-  const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
-    data: { title: '' },
-    show: false,
-  });
 
   // Refs
   const onComponentMountRef = useRef(false);
@@ -144,9 +148,30 @@ export default function Invoices({
     setSearch(e.target.value);
   }, 1000);
 
+  const handleInvoice = useCallback((row: UserBid) => {
+    setInvoiceModal({ show: true, data: row });
+  }, []);
+
+  const handleCloseInvoice = () => {
+    setInvoiceModal({ data: null, show: false });
+  };
+
+  const handleGenerateInvoice = async () => {
+    await generateInvoice({
+      payload: {
+        userProductId: invoiceModal?.data?._id,
+      },
+      onSuccess: ({ message = '' }: { message: string }) => {
+        toast.success(message);
+        refetchInvoices();
+      },
+    });
+    handleCloseInvoice();
+  };
+
   const columns = useMemo(() => {
-    return userInvoicesColumn;
-  }, [currentTab]);
+    return userInvoicesColumn(handleInvoice);
+  }, [handleInvoice]);
 
   const refetchData = useCallback(() => {
     try {
@@ -157,7 +182,7 @@ export default function Invoices({
     } catch (err) {
       console.error('error');
     }
-  }, []);
+  }, [refetchInvoices]);
 
   useEffect(() => {
     if (onComponentMountRef.current) {
@@ -199,11 +224,17 @@ export default function Invoices({
   };
   return (
     <>
-      <ViewMultiTableItem
-        show={showMultiItemView}
-        setShow={setShowMultiItemView}
+      <ConfirmationModal
+        title={CONFIRMATION_DESCRIPTION_INVOICE}
+        open={invoiceModal?.show}
+        handleClose={handleCloseInvoice}
+        showCancelButton
+        submitButtonText={BUTTON_LABELS.YES}
+        cancelButtonText={BUTTON_LABELS.NO}
+        icon={RED_WARNING}
+        handleSubmit={handleGenerateInvoice}
+        showClose={false}
       />
-
       <ConfirmationModal
         title={CONFIRMATION_DESCRIPTION.DELETE}
         open={deleteModal?.show}

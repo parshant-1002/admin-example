@@ -1,15 +1,13 @@
 import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
 import { ColumnData } from '../../../../Models/Tables';
-import FileRenderer from '../../../../Shared/components/form/FileUpload/FileRenderer';
+import { SelectOption } from '../../../../Models/common';
+import ImageWithCount from '../../../../Shared/components/ImageWithCount';
 import { DATE_FORMATS } from '../../../../Shared/constants';
 import {
   convertToLocale,
   formatDate,
 } from '../../../../Shared/utils/functions';
-import { Category, ViewMultiData } from '../../../Products/helpers/model';
-import { ProductDetailResponsePayload } from './Model';
-import { SelectOption } from '../../../../Models/common';
 import {
   facebook,
   instagram,
@@ -17,6 +15,8 @@ import {
   twitter,
   whatsapp,
 } from '../../../../assets';
+import { Category, ViewMultiData } from '../../../Products/helpers/model';
+import { ProductDetailResponsePayload } from './Model';
 
 export enum DetailType {
   String,
@@ -216,32 +216,11 @@ export const AuctionColumn = (
         title: string;
       }[];
       return (
-        <div className="d-inline-flex align-items-center  uploaded_file">
-          {imgData?.map((img, index) =>
-            index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-              <figure key={img.url} className="position-relative">
-                <FileRenderer fileURL={img.url} />
-                {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                  <button
-                    type="button"
-                    className="count_btn"
-                    onClick={() =>
-                      setShowMultiItemView({
-                        show: true,
-                        data: { title: 'Product Images', size: 'lg', imgData },
-                      })
-                    }
-                  >
-                    {`+${
-                      imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-                    }`}
-                  </button>
-                ) : null}
-                {/* <span>{img.title}</span> */}
-              </figure>
-            ) : null
-          )}
-        </div>
+        <ImageWithCount
+          imgData={imgData}
+          setShowMultiItemView={setShowMultiItemView}
+          count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
+        />
       );
     },
   },

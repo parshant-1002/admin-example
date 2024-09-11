@@ -77,11 +77,14 @@ const transformBiddingHistoryResponse = (data: UserBiddingHistoryResponse) => {
 const transformProductHistoryResponse = (data: UserProductHistoryResponse) => {
   return {
     data: data?.data?.map((productHistory) => ({
+      _id: productHistory?._id,
       auctionId: productHistory?.auction?.id,
       productId: productHistory?.product?.id,
+      status: productHistory?.status,
       auctionName: productHistory?.auction?.title,
       productName: productHistory?.product?.title,
       productPrice: productHistory?.purchasedPrice,
+      invoiceURL: productHistory?.invoiceURL,
       date: productHistory?.createdAt,
       images: productHistory?.product?.images,
     })),

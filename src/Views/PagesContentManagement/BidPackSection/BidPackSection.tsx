@@ -38,6 +38,7 @@ function BidPackSection() {
     <CustomCardWrapper>
       <CustomForm
         id="headers-content"
+        className="row"
         formData={BID_PACK_CONTENT_FORM_SCHEMA}
         onSubmit={onSubmit}
         defaultValues={initialValues}

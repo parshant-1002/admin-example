@@ -4,7 +4,7 @@
 // consts
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from 'react-bootstrap';
-import FileRenderer from '../../../Shared/components/form/FileUpload/FileRenderer';
+import ImageWithCount from '../../../Shared/components/ImageWithCount';
 import {
   BUTTON_LABELS,
   FILE_TYPE,
@@ -540,47 +540,12 @@ export const productsColumns = (
         title: string;
       }[];
       return (
-        <div className="d-flex align-items-center gap-2">
-          <div
-            className="d-inline-flex align-items-center uploaded_file pointer"
-            onClick={() =>
-              setShowMultiItemView({
-                show: true,
-                data: { title: 'Product Images', size: 'lg', imgData },
-              })
-            }
-          >
-            {imgData?.map((img, index) =>
-              index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                <figure key={img.url} className=" position-relative">
-                  {imgData?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-                    <button
-                      type="button"
-                      className="count_btn"
-                      onClick={() =>
-                        setShowMultiItemView({
-                          show: true,
-                          data: {
-                            title: 'Product Images',
-                            size: 'lg',
-                            imgData,
-                          },
-                        })
-                      }
-                    >
-                      {`+${
-                        imgData.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW
-                      }`}
-                    </button>
-                  ) : null}
-                  <FileRenderer fileURL={img.url} />
-                  {/* <span>{img.title}</span> */}
-                </figure>
-              ) : null
-            )}
-          </div>
-          <div>{row.title}</div>
-        </div>
+        <ImageWithCount
+          title={row?.title}
+          imgData={imgData}
+          setShowMultiItemView={setShowMultiItemView}
+          count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
+        />
       );
     },
   },
