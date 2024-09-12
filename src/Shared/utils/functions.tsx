@@ -337,8 +337,20 @@ const setNotificationDeviceToken = (token: string) => {
   dispatch(updateDeviceTokenRedux(token));
 };
 
+function containsHTML(text: string) {
+  const htmlRegex = /<[a-z/][\s\S]*>/i;
+  return htmlRegex.test(text);
+}
+
+function htmlToText(html: string) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
+}
+
 export {
   addBaseUrl,
+  containsHTML,
+  htmlToText,
   capitalizeFirstLetter,
   checkOffline,
   checkValidFileExtension,

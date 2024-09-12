@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { ViewMultiData } from '../../../Views/Products/helpers/model';
 import FileRenderer from '../form/FileUpload/FileRenderer';
 import './ImageGallery.scss';
+import { Image } from '../../../Models/common';
 // Define the ImageGallery component
-function ImageGallery({ data }: ViewMultiData) {
+function ImageGallery({ imgData }: { imgData: Image[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const dataCount = data?.imgData?.length || 0;
+  const dataCount = imgData?.length || 0;
   const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
 
-  const selectedImage = data?.imgData?.[selectedIndex];
-  const thumbnailsToShow = data?.imgData?.slice(
+  const selectedImage = imgData?.[selectedIndex];
+  const thumbnailsToShow = imgData?.slice(
     thumbnailStartIndex,
     thumbnailStartIndex + 5
   );

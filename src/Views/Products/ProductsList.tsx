@@ -14,8 +14,7 @@ import CustomTableView, {
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
 import ProductForm from './ProductsForm';
-import ActionsDropDown from './components/ActionsDropDown';
-import ViewMultiTableItem from './components/ViewMultiTableItem';
+import ViewMultiTableItem from '../../Shared/components/ViewMultiTableItem';
 
 // Constants
 import {
@@ -24,7 +23,7 @@ import {
   PRICE_RANGE,
   STRINGS,
 } from '../../Shared/constants';
-import { Filter, RED_WARNING } from '../../assets';
+import { Delete, Filter, RED_WARNING, edit } from '../../assets';
 import {
   CAR_BODY_TYPE_OPTIONS,
   CONFIRMATION_DESCRIPTION,
@@ -51,14 +50,16 @@ import {
 } from '../../Services/Api/module/products';
 
 // Utilities
+import { Image } from '../../Models/common';
 import { useGetCategorysQuery } from '../../Services/Api/module/category';
 import CustomDetailsBoard from '../../Shared/components/CustomDetailsBoard';
+import CustomFilterIcons from '../../Shared/components/CustomFilterIcons';
+import { SubmenuItem } from '../../Shared/components/CustomFilterIcons/CustomFilterIcons';
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
-import { updateUploadedImages } from '../../Store/UploadedImages';
 import { RootState } from '../../Store';
-import { Image } from '../../Models/common';
+import { updateUploadedImages } from '../../Store/UploadedImages';
 
 // Interfaces
 interface EditData {
@@ -237,19 +238,35 @@ export default function ProductsList() {
       }
     }
   };
-
+  const getActionsSchema = useCallback(
+    (row: ProductResponsePayload): SubmenuItem<ProductResponsePayload>[] => [
+      {
+        buttonLabel: 'Edit',
+        buttonAction: () => handleEdit(row),
+        isPrimary: true,
+        icon: edit,
+      },
+      {
+        buttonLabel: 'Delete',
+        buttonAction: () => handleDelete(row), // Make sure to use the row parameter here
+        icon: Delete,
+        isDanger: true,
+      },
+    ],
+    [] // Include all dependencies
+  );
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: ProductResponsePayload) => (
       <div className="d-flex justify-content-end justify-content-lg-start">
-        <ActionsDropDown
+        <CustomFilterIcons
           row={row}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
+          schema={getActionsSchema(row)}
+          isDropDown={false} // or true based on your needs
         />
       </div>
     ),
-    []
+    [getActionsSchema]
   );
 
   // Function to handle sorting click

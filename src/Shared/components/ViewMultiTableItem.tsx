@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
-import CustomModal from '../../../Shared/components/CustomModal';
-import ImageGallery from '../../../Shared/components/ImageGallery';
-import { ViewMultiData } from '../helpers/model';
+import CustomModal from './CustomModal';
+import ImageGallery from './ImageGallery';
+import { ViewMultiData } from '../../Views/Products/helpers/model';
 
 interface ViewMultiTableItemProp {
   show: ViewMultiData;
@@ -29,7 +29,7 @@ export default function ViewMultiTableItem({
           ))}
         </div>
       ) : null}
-      {data?.imgData?.length ? <ImageGallery data={data} /> : null}
+      {data?.imgData?.length ? <ImageGallery imgData={data?.imgData} /> : null}
     </CustomModal>
   );
 }

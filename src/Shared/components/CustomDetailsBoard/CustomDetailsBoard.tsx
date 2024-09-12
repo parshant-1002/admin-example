@@ -68,6 +68,7 @@ function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
     }
     return value || `---`;
   };
+
   return (
     <div className="card">
       <div className="card-body px-4">

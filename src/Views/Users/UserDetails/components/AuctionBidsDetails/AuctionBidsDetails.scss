@@ -1,9 +1,0 @@
-// Custom styles for the component container
-@import '../../../../../assets/scss/base';
-
-.auction-bid-details {
-    border: 1px solid; /* A more vibrant color for the border */
-    border-radius: 10px; /* Add rounded corners */
-    padding: 20px; /* Add some padding to create space inside the container */
-    background-color: $body-color; /* Light background color */
-}

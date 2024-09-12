@@ -1,4 +1,4 @@
-import { containsHTML, htmlToText } from '../../../BidsPlan/helpers/utils';
+import { containsHTML, htmlToText } from '../../../../Shared/utils/functions';
 
 interface APIData {
   type?: number;

@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { Ref } from 'react';
 import { SelectOption } from '../../../../Models/common';
-import { SOCIAL_MEDIA_PLATFORMS_ICONS } from '../../../../Views/Auction/AuctionDetails/Helpers/constants';
 import './style.scss';
 
 interface CheckBoxProps {
@@ -12,6 +11,7 @@ interface CheckBoxProps {
   value?: string | number | undefined | (string | number | undefined)[];
   options?: SelectOption[];
   isMulti?: boolean;
+  images?: string[];
 }
 
 function CheckBox(
@@ -21,6 +21,7 @@ function CheckBox(
     value = [],
     options = [],
     isMulti = false,
+    images,
   }: CheckBoxProps,
   ref: Ref<HTMLInputElement>
 ) {
@@ -52,7 +53,7 @@ function CheckBox(
             {option.icon ? (
               <em className="social-Icon">
                 <img
-                  src={SOCIAL_MEDIA_PLATFORMS_ICONS[option.value as number]}
+                  src={images?.[option.value as number]}
                   alt="Icon"
                   width="70"
                 />

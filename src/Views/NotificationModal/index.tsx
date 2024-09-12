@@ -5,7 +5,7 @@ import {
   useNotificationsQuery,
 } from '../../Services/Api/module/notificationApi';
 import InfiniteScroll from '../../Shared/components/InfiniteScroll';
-import { BUTTON_LABELS } from '../../Shared/constants';
+import { BUTTON_LABELS, STRINGS } from '../../Shared/constants';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import { setUnseenCount } from '../../Store/UnseenCount';
 import './notifications.scss';
@@ -40,13 +40,13 @@ function NotificationModal({
   handleChange = () => {},
 }: NotificationModalProps) {
   const dispatch = useDispatch();
-  const [pageno, setPageNo] = useState<number>(1);
+  const [pageno, setPageNo] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(1);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { data, isLoading, refetch } = useNotificationsQuery(
     {
       params: {
-        skip: pageno - 1,
+        skip: pageno * LIMIT,
         limit: LIMIT,
       },
     },
@@ -68,7 +68,7 @@ function NotificationModal({
         dispatch(setUnseenCount(data?.unreadCount ?? 0));
       }
     }
-  }, [pageno, data, dispatch]);
+  }, [data, dispatch]);
 
   const fetchNotifications = () => {
     setPageNo((prevPageNo) => prevPageNo + 1);
@@ -141,7 +141,9 @@ function NotificationModal({
             <div className="notification-header">
               <div className="col-12">
                 <h2 className="h6 mb-0 d-flex justify-content-between gap-3 align-items-center">
-                  <div className="fw-bold header-title">Notifications</div>
+                  <div className="fw-bold header-title">
+                    {STRINGS.NOTIFICATIONS_TITLE}
+                  </div>
                   <span className="clear_all ml-3" onClick={() => clearAll()}>
                     {BUTTON_LABELS.CLEAR_ALL}
                   </span>
@@ -164,11 +166,11 @@ function NotificationModal({
               data={notifications}
               isLoading={isLoading}
               loadMore={fetchNotifications}
-              hasMore={totalCount > LIMIT * pageno} // Assuming totalCount reflects the total number of notifications
+              hasMore={totalCount > notifications?.length} // Assuming totalCount reflects the total number of notifications
               content={renderNotification}
             />
           ) : (
-            <li className="no-notifications">No new notifications</li>
+            <li className="no-notifications">{STRINGS.NO_NEW_NOTIFICATION}</li>
           )}
         </ul>
       </div>

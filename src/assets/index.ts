@@ -1,91 +1,83 @@
-import Logo from './images/logo.svg';
-import ProfileIcon from './icons/profile-icon.svg';
-import CheckIcon from './icons/check_icon.svg';
-import CalenderIcon from './icons/calender_icon.svg';
-import RED_WARNING from './icons/red-warning.svg';
-import AirDropIcon from './icons/airdrop.svg';
-import DEFAULT_PROFILE from './images/default-profile.png';
-import Copy from './icons/copy-link-icon.svg';
-import Delete from './icons/delete.svg';
-import actions from './icons/dots 8.svg';
-import Filter from './icons/filter.svg';
-import InvoiceIcon from './icons/invoice.svg';
-import cross from './icons/cross.svg';
-import downArrow from './icons/downArrow.svg';
-import edit from './icons/edit.svg';
-import arrowRightBorder from './icons/arrow-right-bordered.svg';
-import view from './icons/eye.svg';
-import block from './icons/block.svg';
-import arrowRight from './icons/arrow-right.svg';
-import profitIcon from './icons/high_icon.svg';
-import Lossicon from './icons/low_icon.svg';
-import UserIcon from './icons/user_icons.svg';
-import NewUserIcon from './icons/new_user.svg';
-import SupportIcon from './icons/support_icon.svg';
-import TotalBidIcon from './icons/bid_total_icon.svg';
-import AuctionIcon from './icons/auction_icon.svg';
-import ReserveIcon from './icons/reserve_icon.svg';
-import RedirectionIcon from './icons/arrow-redirection.svg';
-import sortIcon from './icons/sort-icon.svg';
 import addIcon from './icons/add-icon.svg';
-import auction from './images/auction.png';
-import calender from './icons/calender_icon_black.svg';
-import downArrowFilter from './icons/down-arrow-ico.svg';
-import earnings from './icons/earning.svg';
-import bidsSold from './icons/sold.svg';
-import info from './icons/info.svg';
-import whiteCross from './icons/whitecross.svg';
-import whatsapp from './icons/whatsapp.svg';
-import instagram from './icons/instagram.svg';
-import linkedin from './icons/linkedin.svg';
-import facebook from './icons/facebook.svg';
-import twitter from './icons/twitter.svg';
+import RedirectionIcon from './icons/arrow-redirection.svg';
+import arrowRight from './icons/arrow-right.svg';
 import ascending from './icons/ascending.svg';
+import AuctionIcon from './icons/auction_icon.svg';
+import TotalBidIcon from './icons/bid_total_icon.svg';
+import block from './icons/block.svg';
+import CalenderIcon from './icons/calender_icon.svg';
+import calender from './icons/calender_icon_black.svg';
+import CheckIcon from './icons/check_icon.svg';
+import Copy from './icons/copy-link-icon.svg';
+import cross from './icons/cross.svg';
+import Delete from './icons/delete.svg';
 import descending from './icons/descending.svg';
+import downArrowFilter from './icons/down-arrow-ico.svg';
+import downArrow from './icons/downArrow.svg';
+import earnings from './icons/earning.svg';
+import edit from './icons/edit.svg';
+import view from './icons/eye.svg';
+import facebook from './icons/facebook.svg';
+import Filter from './icons/filter.svg';
+import profitIcon from './icons/high_icon.svg';
+import info from './icons/info.svg';
+import instagram from './icons/instagram.svg';
+import InvoiceIcon from './icons/invoice.svg';
+import linkedin from './icons/linkedin.svg';
+import Lossicon from './icons/low_icon.svg';
+import NewUserIcon from './icons/new_user.svg';
+import ProfileIcon from './icons/profile-icon.svg';
+import RED_WARNING from './icons/red-warning.svg';
+import ReserveIcon from './icons/reserve_icon.svg';
+import bidsSold from './icons/sold.svg';
+import SupportIcon from './icons/support_icon.svg';
+import twitter from './icons/twitter.svg';
+import UserIcon from './icons/user_icons.svg';
+import whatsapp from './icons/whatsapp.svg';
+import whiteCross from './icons/whitecross.svg';
+import auction from './images/auction.png';
+import DEFAULT_PROFILE from './images/default-profile.png';
+import actions from './icons/dots 8.svg';
 
 export {
-  Logo,
-  ProfileIcon,
-  CheckIcon,
+  AuctionIcon,
   CalenderIcon,
-  RED_WARNING,
-  AirDropIcon,
-  DEFAULT_PROFILE,
+  CheckIcon,
   Copy,
+  DEFAULT_PROFILE,
   Delete,
-  actions,
   Filter,
   InvoiceIcon,
-  cross,
-  downArrow,
-  edit,
-  arrowRightBorder,
-  view,
-  block,
-  arrowRight,
-  profitIcon,
   Lossicon,
-  UserIcon,
   NewUserIcon,
+  ProfileIcon,
+  RED_WARNING,
+  RedirectionIcon,
+  ReserveIcon,
   SupportIcon,
   TotalBidIcon,
-  AuctionIcon,
-  ReserveIcon,
-  RedirectionIcon,
-  sortIcon,
+  UserIcon,
   addIcon,
+  arrowRight,
+  ascending,
   auction,
+  bidsSold,
+  block,
   calender,
+  cross,
+  descending,
+  downArrow,
   downArrowFilter,
   earnings,
-  bidsSold,
+  edit,
+  facebook,
   info,
-  whiteCross,
-  whatsapp,
   instagram,
   linkedin,
-  facebook,
+  profitIcon,
   twitter,
-  ascending,
-  descending,
+  view,
+  whatsapp,
+  whiteCross,
+  actions,
 };

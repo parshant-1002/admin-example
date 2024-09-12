@@ -7,13 +7,12 @@ import { Link } from 'react-router-dom';
 import { useGetDashboardQuery } from '../../Services/Api/module/dashboard';
 import { Filters } from '../../Shared/components';
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
-import { DATE_FORMATS, STRINGS } from '../../Shared/constants';
+import { DATE_FORMATS } from '../../Shared/constants';
 import {
   convertToLocale,
   removeEmptyValues,
 } from '../../Shared/utils/functions';
 import { Lossicon, profitIcon } from '../../assets';
-import { BidsHistory } from '../Transactions';
 import cardData from './helpers/constants';
 import './style.scss';
 
@@ -117,7 +116,6 @@ function Dashboard() {
           </Link>
         ))}
       </div>
-      <BidsHistory onDashBoard={false} heading={STRINGS.BIDS_HISTORY} />
     </>
   );
 }

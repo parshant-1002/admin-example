@@ -95,8 +95,11 @@ export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 export const STRINGS = {
+  NOTIFICATIONS_TITLE: 'Notifications',
+  NO_NEW_NOTIFICATION: 'No new notifications',
   PRODUCT_NOT_PURCHASED: 'Product Not Purchased',
   PENNY_AUCTION: 'Penny Auction',
+  ADMIN_PANEL: 'Admin Panel',
   UPDATE_NOTIFICATION_CONTENT: 'Update Notification Content',
   UPDATE_SPECIFICATIONS: 'Update Specifications Content',
   UPDATE_REFERRAL_SECTION: 'Update Referral Content',
@@ -381,112 +384,17 @@ const ROUTES = {
   OTP_FORM: '/otp-form',
   QR_CODE: '/qr-code',
   REGISTER: '/register',
-  ABOUT: '/about-us',
   USERS: '/users',
   USERS_DETAILS: '/users/:id',
   PRODUCTS: '/products',
-  CATEGORIES: '/companies',
-  PRODUCTS_ADD: '/products/add',
   PRODUCTS_LIST: '/products/list',
-  VERIFY_EMAIL: '/verify-email',
-  FORGOT_PASSWORD: '/forgot/password',
-  RESET_PASSWORD: '/auth/reset-password/:token',
-  WINNERS: '/winners',
-  WINNERS_STATS: '/contract/stats',
-  TOKEN_MANAGEMENT: '/contract/token-management',
-  LOTTERY_MANAGEMENT: '/contract/lottery-management',
-  WINNERS_LIST: '/winners/list',
   CONTENT_MANAGEMENT: '/content-management',
   HEADERS_CONTENT: '/content-management/headers',
-  HOW_IT_WORKS_CONTENT: '/content-management/how-it-works',
-  FAQ_CONTENT: '/content-management/faqs',
-  AUCTION_PAGE: '/content-management/auction-page',
-  CONTACTUS_CONTENT: '/content-management/contact-us',
-  TERM_AND_CONDITION_CONTENT: '/content-management/terms-and-condition',
-  ABOUT_US_CONTENT: '/content-management/about-us',
-  PRIVACY_POLICY_CONTENT: '/content-management/privacy-policy',
-  COMPANIES_CONTENT: '/content-management/companies-content',
-  TOP_NAVBAR_CONTENT: '/content-management/top-navbar-content',
-  VIDEO_CONTENT: '/content-management/video-content',
-  PRIZE_SECTION_CONTENT: '/content-management/prize-section-content',
-  WINNER_LIST_CONTENT: '/content-management/winner-list-content',
-  WINNER_RULES_CONTENT: '/content-management/winner-rules-content',
-  CONTRACT_DETAILS_CONTENT: '/content-management/contract-details-content',
-  ROAD_MAP_SECTION_CONTENT: '/content-management/roadmap-section-content',
-  FEATURES_CONTENT: '/content-management/features-content',
-  TOKEN_INFORMATION_CONTENT: '/content-management/token-information-content',
-  REFERRAL_SECTION: '/content-management/referral-section',
-  SPECIFICATIONS: '/content-management/specifications-section',
-  WALLET_SECTION: '/content-management/wallet-section',
-  PREMIUM_MARKET_PLACE_CONTENT:
-    '/content-management/premium-marketplace-content',
-  PREMIUM_TOKEN_WALLET_CONTENT:
-    '/content-management/premium-token-wallet-content',
-  TOKEN_STATS_INFORMATION_CONTENT:
-    '/content-management/token-stats-info-content',
-  BID_PACK_SECTION: '/content-management/bid-pack-content',
-  HERO_SECTION: '/content-management/hero-content',
-  TOP_AUCTION_SECTION: '/content-management/top-auctions-section',
   FOOTER: '/content-management/footer',
-  EXTERNAL_AUDIT_CONTENT: '/content-management/external-audit-content',
-  TOKEN_SUPPLY_CONTENT: '/content-management/token-supply-content',
-  JOIN_AIRDROP_CONTENT: '/content-management/join-airdrop-content',
-  PARTNER_CONTENT: '/content-management/partners-content',
-  FOOTER_CONTENT: '/content-management/footer-content',
-  COOKIES: '/content-management/cookies-content',
-  PROFILE_PAGE_CONTENT: '/content-management/profile-page',
-  PROFILE_OVERVIEW: '/content-management/profile-overview',
-  USER_PROFILE_SECTION: '/content-management/user-profile-section',
-  AUCTION_SECTIONS: '/content-management/auction-section',
-  PENNY_AUCTION_SECTION: '/content-management/penny-auction-section',
-  CURRENT_BIDS_SECTION: '/content-management/current-bids-section',
-  AUCTION_WON: '/content-management/current-bids-section',
-  LOGIN_CONTENT: '/content-management/login-content',
-  ALL_AUCTIONS: '/content-management/all-auctions-contentf',
-  MY_AUCTIONS: '/content-management/my-auctions',
-  REFRESH_POPUP: '/content-management/refresh-popup',
-  AUCTION_CARD: '/content-management/auction-card',
-  RECENT_BIDS: '/content-management/recent-bids-card',
-  AIR_DROP: '/air-drop',
-  AIR_DROP_LIST: '/air-drop/list',
-  AIR_DROP_HISTORY: '/air-drop/history',
-  PRIZE_SECTION_POPUP_CONTENT: '/prize-section/pop-up-content',
-  PRIVACY_POLICY_PAGE_CONTENT: '/pages/privacy-policy-page-content',
-  TERM_AND_CONDITION_PAGE_CONTENT: '/pages/term-and-condition-page-content',
-  META_CONTENT: '/pages/meta-content',
-  CHANGE_PASSWORD: '/change-password',
-  MANUAL_TRANSFER: '/manual-transfer',
-  MANUAL_TRANSFER_LIST: '/manual-transfer/manual-transfer-list',
-  INVOICES_AUCTION: '/invoices/auction',
-  INVOICES_PURCHASE: '/invoices/purchase',
-  CREATE_REFERRAL: '/create-referral',
-  REFERRAL_LISTING: '/referral-listing',
-  BIDS_PLANS: '/bids-plans',
-  AUCTION_MANAGEMENT: '/auction-management',
-  AUCTION_DETAILS: '/auction-management/auction-details',
-  TRANSACTIONS_PLANS_HISTORY: '/transactions/plans-history',
-  TRANSACTIONS_BIDS_HISTORY: '/transactions/bids-history',
-  TRANSACTIONS_PRODUCTS_HISTORY: '/transactions/products-history',
-  TRANSACTIONS_REFERRAL_HISTORY: '/transactions/referral-history',
-  // notifications content
   NOTIFICATIONS_CONTENT: '/notifications-content',
   RESERVE_PRICE_REACHED: '/notifications-content/reserve-price-reached',
-  NEW_BID_PLACED: '/notifications-content/new-bid-placed',
-  AUTOMATIC_BID_RUNNED_OUT: '/notifications-content/automatic-bid-runned-out',
-  BID_TIME_LEFT: '/notifications-content/bid-time-left',
-  WINNER: '/notifications-content/winner',
-  AUCTION_ENDED: '/notifications-content/auction-ended',
-  NEW_USER_JOINED: '/notifications-content/new-user-joined',
-  AUCTION_STARTED: '/notifications-content/auction-started',
-  AUCTION_WON_DETAILS: '/notifications-content/auction-won-details',
-  BID_PLAN_PURCHASED: '/notifications-content/plan-purchased',
-  CONTACTED_SUPPORT: '/notifications-content/contacted-support',
   POPUP_CONENT: '/popup-content',
-  PLACE_ORDER_POPUP: '/popup-content/place-order-popup',
   LOGOUT_POPUP: '/popup-content/logout-popup',
-  CANCEL_SUBSCRIPTION_POPUP: '/popup-content/cancel-subcription-popup',
-  TOPUP_POPUP: '/popup-content/topup-popup',
-  REFERRAL_POPUP: '/popup-content/referral-popup',
 };
 
 const WILDCARD_ROUTES = {
@@ -495,18 +403,6 @@ const WILDCARD_ROUTES = {
 };
 
 const ROUTES_CONFIG = {
-  AUCTION_DETAILS: {
-    path: `${ROUTES.AUCTION_DETAILS}/:id`,
-    title: 'Auction Details',
-  },
-  AUCTION_MANAGEMENT: {
-    path: ROUTES.AUCTION_MANAGEMENT,
-    title: 'Products for Auction',
-  },
-  SPECIFICATIONS: {
-    path: ROUTES.SPECIFICATIONS,
-    title: 'Specifications',
-  },
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Welcome To Dashboard',
@@ -515,18 +411,7 @@ const ROUTES_CONFIG = {
     path: ROUTES.PRODUCTS,
     title: 'Product',
   },
-  INVOICES_AUCTION: {
-    path: ROUTES.INVOICES_AUCTION,
-    title: 'Auction Invoices',
-  },
-  INVOICES_PURCHASE: {
-    path: ROUTES.INVOICES_PURCHASE,
-    title: 'Purchase Invoices',
-  },
-  CATEGORIES: {
-    path: ROUTES.CATEGORIES,
-    title: 'Companies',
-  },
+
   USERS: {
     path: ROUTES.USERS,
     title: 'Users',
@@ -535,22 +420,12 @@ const ROUTES_CONFIG = {
     path: ROUTES.USERS_DETAILS,
     title: 'Users Details',
   },
-  PRODUCTS_ADD: {
-    path: ROUTES.PRODUCTS_ADD,
-    title: 'Add Product',
-  },
+
   PRODUCTS_LIST: {
     path: ROUTES.PRODUCTS_LIST,
     title: 'Products',
   },
-  VERIFY_EMAIL: {
-    path: ROUTES.VERIFY_EMAIL,
-    title: 'Verify Email',
-  },
-  RESET_PASSWORD: {
-    path: ROUTES.RESET_PASSWORD,
-    title: 'Reset Password',
-  },
+
   LOGIN: {
     path: ROUTES.LOGIN,
     title: 'Login',
@@ -567,140 +442,12 @@ const ROUTES_CONFIG = {
     path: ROUTES.REGISTER,
     title: 'Register',
   },
-  ABOUT: {
-    path: ROUTES.ABOUT,
-    title: 'About us',
-  },
-  // Referral
-  CREATE_REFERRAL: {
-    path: ROUTES.CREATE_REFERRAL,
-    title: 'Create Referral',
-  },
-  REFERRAL_LISTING: {
-    path: ROUTES.REFERRAL_LISTING,
-    title: 'Referral Listing',
-  },
-  BIDS_PLANS: {
-    path: ROUTES.BIDS_PLANS,
-    title: 'Bids Plans',
-  },
-  // Transactions
-  TRANSACTIONS_PLANS_HISTORY: {
-    path: ROUTES.TRANSACTIONS_PLANS_HISTORY,
-    title: 'Plans History',
-  },
-  TRANSACTIONS_BIDS_HISTORY: {
-    path: ROUTES.TRANSACTIONS_BIDS_HISTORY,
-    title: 'Bids History',
-  },
-  TRANSACTIONS_PRODUCTS_HISTORY: {
-    path: ROUTES.TRANSACTIONS_PRODUCTS_HISTORY,
-    title: 'Products History',
-  },
-  TRANSACTIONS_REFERRAL_HISTORY: {
-    path: ROUTES.TRANSACTIONS_REFERRAL_HISTORY,
-    title: 'Referral History',
-  },
+
   HEADERS_CONTENT: {
     path: ROUTES.HEADERS_CONTENT,
     title: 'Headers Content',
   },
-  FAQS_CONTENT: {
-    path: ROUTES.FAQ_CONTENT,
-    title: 'Faqs Content',
-  },
-  AUCTION_PAGE: {
-    path: ROUTES.AUCTION_PAGE,
-    title: 'Auction Page',
-  },
-  LOGIN_CONTENT: {
-    path: ROUTES.LOGIN_CONTENT,
-    title: 'Login Page Content',
-  },
-  ALL_AUCTIONS: {
-    path: ROUTES.ALL_AUCTIONS,
-    title: 'All Auctions',
-  },
-  MY_AUCTIONS: {
-    path: ROUTES.MY_AUCTIONS,
-    title: 'My Auctions',
-  },
-  AUCTION_WON: {
-    path: ROUTES.AUCTION_WON,
-    title: 'Auction Won',
-  },
-  PROFILE_PAGE_CONTENT: {
-    path: ROUTES.PROFILE_PAGE_CONTENT,
-    title: 'Profile Page Content',
-  },
-  PROFILE_OVERVIEW: {
-    path: ROUTES.PROFILE_OVERVIEW,
-    title: 'Profile Overview',
-  },
-  USER_PROFILE_SECTION: {
-    path: ROUTES.USER_PROFILE_SECTION,
-    title: ' User Profile Section',
-  },
-  PENNY_AUCTION_SECTION: {
-    path: ROUTES.PENNY_AUCTION_SECTION,
-    title: 'Penny Auction Section',
-  },
-  AUCTION_SECTIONS: {
-    path: ROUTES.AUCTION_SECTIONS,
-    title: 'Auction Sections',
-  },
-  CURRENT_BIDS_SECTION: {
-    path: ROUTES.CURRENT_BIDS_SECTION,
-    title: 'Current Bids Section',
-  },
-  WALLET_SECTION: {
-    path: ROUTES.WALLET_SECTION,
-    title: 'Wallet Section',
-  },
-  REFERRAL_SECTION: {
-    path: ROUTES.REFERRAL_SECTION,
-    title: 'Referral Section',
-  },
-  HOW_IT_WORKS_CONTENT: {
-    path: ROUTES.HOW_IT_WORKS_CONTENT,
-    title: 'How It Works Content',
-  },
-  CONTACTUS_CONTENT: {
-    path: ROUTES.CONTACTUS_CONTENT,
-    title: 'Contact US Content',
-  },
-  TERMS_AND_CONDITION_CONTENT: {
-    path: ROUTES.TERM_AND_CONDITION_CONTENT,
-    title: 'Term and Condition Content',
-  },
-  ABOUT_US_CONTENT: {
-    path: ROUTES.ABOUT_US_CONTENT,
-    title: 'About us Content',
-  },
-  COOKIES: {
-    path: ROUTES.COOKIES,
-    title: 'Cookies Content',
-  },
-  PRIVACY_POLICY_CONTENT: {
-    path: ROUTES.PRIVACY_POLICY_CONTENT,
-    title: 'Privacy Policy Content',
-  },
-  COMPANIES_CONTENT: {
-    path: ROUTES.COMPANIES_CONTENT,
-    title: 'As Seen On Content',
-  },
-  BID_PACK_SECTION: {
-    path: ROUTES.BID_PACK_SECTION,
-    title: 'Bid Pack Content',
-  },
-  HERO_SECTION: {
-    path: ROUTES.HERO_SECTION,
-    title: 'Hero Section Content',
-  },
-  TOP_AUCTION_SECTION: {
-    path: ROUTES.TOP_AUCTION_SECTION,
-    title: 'Top Auction Content',
-  },
+
   FOOTER: {
     path: ROUTES.FOOTER,
     title: 'Footer',
@@ -709,77 +456,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.RESERVE_PRICE_REACHED,
     title: 'Reserve Price Reached',
   },
-  NEW_BID_PLACED: {
-    path: ROUTES.NEW_BID_PLACED,
-    title: 'New Bid Placed',
-  },
-  AUTOMATIC_BID_RUNNED_OUT: {
-    path: ROUTES.AUTOMATIC_BID_RUNNED_OUT,
-    title: 'Automatic Bid Runed Out',
-  },
-  BID_TIME_LEFT: {
-    path: ROUTES.BID_TIME_LEFT,
-    title: 'Bid Time Left',
-  },
-  WINNER: {
-    path: ROUTES.WINNER,
-    title: 'Winner',
-  },
-  AUCTION_ENDED: {
-    path: ROUTES.AUCTION_ENDED,
-    title: 'Auction Ended',
-  },
-  NEW_USER_JOINED: {
-    path: ROUTES.NEW_USER_JOINED,
-    title: 'New User Joined',
-  },
-  AUCTION_STARTED: {
-    path: ROUTES.AUCTION_STARTED,
-    title: 'Auction Started',
-  },
-  AUCTION_WON_DETAILS: {
-    path: ROUTES.AUCTION_WON_DETAILS,
-    title: 'Auction Won Details',
-  },
-  AUCTION_CARD: {
-    path: ROUTES.AUCTION_CARD,
-    title: 'Auction Card',
-  },
-  RECENT_BIDS: {
-    path: ROUTES.RECENT_BIDS,
-    title: 'Recent Bids Card',
-  },
-  BID_PLAN_PURCHASED: {
-    path: ROUTES.BID_PLAN_PURCHASED,
-    title: 'Bid Plan Purchased',
-  },
-  CONTACTED_SUPPORT: {
-    path: ROUTES.CONTACTED_SUPPORT,
-    title: 'Contacted Support',
-  },
-  PLACE_ORDER_POPUP: {
-    path: ROUTES.PLACE_ORDER_POPUP,
-    title: 'Place Order Popup',
-  },
+
   LOGOUT_POPUP: {
     path: ROUTES.LOGOUT_POPUP,
     title: 'Logout Popup',
-  },
-  CANCEL_SUBSCRIPTION_POPUP: {
-    path: ROUTES.CANCEL_SUBSCRIPTION_POPUP,
-    title: 'Cancel Subscription Popup',
-  },
-  TOPUP_POPUP: {
-    path: ROUTES.TOPUP_POPUP,
-    title: 'Topup Popup',
-  },
-  REFERRAL_POPUP: {
-    path: ROUTES.REFERRAL_POPUP,
-    title: 'Referral Popup',
-  },
-  REFRESH_POPUP: {
-    path: ROUTES.REFRESH_POPUP,
-    title: 'Refresh Popup',
   },
 };
 
@@ -896,9 +576,11 @@ export {
   BID_CREDIT_TYPES,
   BID_PLAN_TYPES,
   BID_STATUS,
-  CONFIRMATION_DESCRIPTION_INVOICE,
+  CAR_BODY_TYPE,
   CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
+  CONFIRMATION_DESCRIPTION_INVOICE,
   FILE_TYPE,
+  NOTIFICATION_TYPE,
   POPUPTYPES,
   PRICE_RANGE,
   PRODUCT_PURCHASE_STATUS,
@@ -908,6 +590,4 @@ export {
   TABLE_PAGE_LIMIT,
   TOAST_MESSAGES,
   WILDCARD_ROUTES,
-  NOTIFICATION_TYPE,
-  CAR_BODY_TYPE,
 };

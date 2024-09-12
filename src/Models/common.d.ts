@@ -34,3 +34,38 @@ export interface ImageConfig {
   key?: string;
   value?: string;
 }
+
+export interface ProductDetailResponsePayload {
+  id_: string;
+  title: string;
+  bidStartDate: string;
+  bidDuration: number;
+  reservePrice: string;
+  preAuctionPrice: string;
+  reserveWaitingEndDate: string;
+  status: number;
+  uniqueUserCount: number;
+  prizeClaimDays: number;
+}
+
+export interface AuctionDetailsColumnData {
+  title?: string;
+  fieldName?: string;
+  isTurncated?: boolean;
+  isEditable?: boolean;
+  info?: boolean;
+  type?: DetailType;
+  options?: OptionType[];
+  render?: (
+    row: ProductDetailResponsePayload,
+    val: string | number | number[]
+  ) => JSX.Element[] | string | JSX.Element | string[];
+}
+
+export enum DetailType {
+  String,
+  Number,
+  Dropdown,
+  Date,
+  DateRange,
+}

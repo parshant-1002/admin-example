@@ -204,7 +204,7 @@ function Sidebar() {
         className="text-center py-2 w-100 d-block aside_logo"
       >
         <h4 className="admin-brand-logo text-center d-none d-xl-block">
-          {STRINGS.PENNY_AUCTION}
+          {STRINGS.ADMIN_PANEL}
         </h4>
       </Link>
       <ul

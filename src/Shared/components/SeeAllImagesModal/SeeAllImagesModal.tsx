@@ -19,9 +19,7 @@ export default function SeeAllImagesModal({
 }: SeeAllImagesModalProp) {
   return (
     <CustomModal show={show} onClose={onClose} title={title} size={size}>
-      {images?.length ? (
-        <ImageGallery data={{ imgData: images, title: '' }} />
-      ) : null}
+      {images?.length ? <ImageGallery imgData={images} /> : null}
     </CustomModal>
   );
 }

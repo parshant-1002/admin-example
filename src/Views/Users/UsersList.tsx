@@ -12,7 +12,6 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
-import ActionsDropDown from './components/ActionsDropDown';
 
 // Constants
 import {
@@ -21,7 +20,7 @@ import {
   ROUTES,
   STRINGS,
 } from '../../Shared/constants';
-import { Filter, RED_WARNING } from '../../assets';
+import { Delete, Filter, RED_WARNING, block, view } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   USER_STATUS,
@@ -37,9 +36,12 @@ import {
   useEditUsersMutation,
   useGetUsersQuery,
 } from '../../Services/Api/module/users';
+import CustomFilterIcons, {
+  SubmenuItem,
+} from '../../Shared/components/CustomFilterIcons/CustomFilterIcons';
+import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
-import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -110,9 +112,9 @@ export default function UsersList() {
   };
 
   // Function to handle delete action
-  const handleDelete = (row: UsersResponsePayload) => {
+  const handleDelete = useCallback((row: UsersResponsePayload) => {
     setDeleteModal({ show: true, data: { id: row?._id } });
-  };
+  }, []);
 
   const handleView = useCallback(
     (row: UsersResponsePayload) => {
@@ -121,12 +123,12 @@ export default function UsersList() {
     [navigate]
   );
 
-  const handleBlock = (row: UsersResponsePayload) => {
+  const handleBlock = useCallback((row: UsersResponsePayload) => {
     setBlockModal({
       show: true,
       data: { id: row?._id, isBlocked: row?.isBlocked },
     });
-  };
+  }, []);
   // Function to close delete modal
   const handleCloseDelete = () => {
     setDeleteModal({ data: null, show: false });
@@ -194,18 +196,40 @@ export default function UsersList() {
       }
     }
   };
+  const getActionsSchema = useCallback(
+    (row: UsersResponsePayload): SubmenuItem<UsersResponsePayload>[] => [
+      {
+        buttonLabel: 'View',
+        buttonAction: () => handleView(row), // Make sure to use the row parameter here
+        icon: view,
+        isPrimary: true,
+      },
+      {
+        buttonLabel: row.isBlocked ? 'UnBlock' : 'Block',
+        buttonAction: () => handleBlock(row), // Make sure to use the row parameter here
+        icon: block,
+        isDanger: row.isBlocked,
+      },
+      {
+        buttonLabel: 'Delete',
+        buttonAction: () => handleDelete(row), // Make sure to use the row parameter here
+        icon: Delete,
+        isDanger: true,
+      },
+    ],
+    [handleView, handleBlock, handleDelete] // Include all dependencies
+  );
 
   // Render actions column
   const renderActions = useCallback(
     (_: unknown, row: UsersResponsePayload) => (
-      <ActionsDropDown
+      <CustomFilterIcons
         row={row}
-        handleView={handleView}
-        handleDelete={handleDelete}
-        handleBlock={handleBlock}
+        schema={getActionsSchema(row)}
+        isDropDown // or true based on your needs
       />
     ),
-    [handleView]
+    [getActionsSchema]
   );
 
   // Function to handle sorting click

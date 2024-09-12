@@ -251,25 +251,6 @@ export const PRODUCT_FORM_SCHEMA = (
       required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
     },
   },
-  // stock: {
-  //   type: INPUT_TYPES.NUMBER,
-  //   label: 'Item Count',
-  //   className: 'col-md-6',
-  //   placeholder: 'Item Count',
-  //   schema: {
-  //     required: FORM_VALIDATION_MESSAGES('Item Count').REQUIRED,
-  //     min: {
-  //       value: 1,
-  //       message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
-  //     },
-  //     pattern: {
-  //       value: /^[0-9]+$/,
-  //       message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
-  //     },
-  //   },
-  //   config: { min: 1, type: 'number' },
-  //   blockInvalidChars: blockInvalidChar,
-  // },
   bodyType: {
     type: INPUT_TYPES.SELECT,
     label: 'Body Type',
@@ -473,16 +454,6 @@ export const PRODUCT_FORM_SCHEMA = (
       },
     },
   },
-  // status: {
-  //   type: INPUT_TYPES.SELECT,
-  //   label: 'Status',
-  //   className: 'col-md-12',
-  //   placeholder: 'Price',
-  //   options: PRODUCT_STATUS,
-  //   schema: {
-  //     required: FORM_VALIDATION_MESSAGES().REQUIRED,
-  //   },
-  // },
 });
 
 // Define types for renderActions and column data
@@ -590,13 +561,6 @@ export const productsColumns = (
     sortable: true,
     sortType: 'description',
   },
-  // {
-  //   title: 'Item Count',
-  //   fieldName: 'stock',
-  //   sortable: true,
-  //   sortType: 'stock',
-  //   render: (_, val) => `${convertToLocale(val)}`,
-  // },
   {
     title: 'Status',
     fieldName: 'stock',
