@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Dispatch, SetStateAction } from 'react';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 import Button from '../../../Shared/components/form/Button';
-import { FILTER_CONSTS } from '../../../Shared/constants';
+import { FILTER_CONSTS } from '../../../Shared/constants/constants';
 
 // Constants for button labels
 const TODAY = 'Today';

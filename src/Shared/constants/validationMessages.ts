@@ -18,7 +18,7 @@ type ValidationMessages = {
   ENTER_INTEGER: string;
 };
 
-const FORM_VALIDATION_MESSAGES = (
+export const FORM_VALIDATION_MESSAGES = (
   ...args: (number | string)[]
 ): ValidationMessages => ({
   REQUIRED: `${args[0] || 'Field'} is required.`,

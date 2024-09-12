@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import { Ref, SyntheticEvent, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import { INPUT_TYPES } from '../../../constants';
+import { INPUT_TYPES } from '../../../constants/constants';
 import ColorPicker from '../../ColorPicker';
 import CheckBox from '../CheckBox';
 import RichText from '../RIchText/RitchText';

@@ -11,8 +11,8 @@ import {
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
   blockInvalidChar,
-} from '../../../Shared/constants';
-import FORM_VALIDATION_MESSAGES from '../../../Shared/constants/validationMessages';
+} from '../../../Shared/constants/constants';
+import { FORM_VALIDATION_MESSAGES } from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
 import {
   Category,

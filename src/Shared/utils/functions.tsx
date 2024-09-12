@@ -1,26 +1,15 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-bitwise */
-/* eslint-disable no-continue */
-/* eslint-disable consistent-return */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-param-reassign */
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { ApiError, ErrorResponse } from '../../Models/Apis/Error';
-import { CustomRouter } from '../../Routes/RootRoutes';
-import { AddContentFormItem } from '../../Models/common';
-import { FileData } from '../components/form/FileUpload/helpers/modal';
-import TruncateText from '../components/TruncateText';
-import { API, DATE_FORMATS } from '../constants';
-import FORM_VALIDATION_MESSAGES from '../constants/validationMessages';
-import ERROR_MESSAGES from '../constants/messages';
+import { ApiError } from '../../Models/Apis/Error';
+import { AddContentFormItem, OnQueryStartedArgs } from '../../Models/common';
 import { store } from '../../Store';
 import { updateDeviceTokenRedux } from '../../Store/Common';
-
-interface OnQueryStartedArgs {
-  onSuccess?: (data: unknown) => void;
-  onFailure?: (error: ErrorResponse) => void;
-}
+import TruncateText from '../components/TruncateText';
+import { FileData } from '../components/form/FileUpload/helpers/modal';
+import { API, DATE_FORMATS } from '../constants/constants';
+import ERROR_MESSAGES from '../constants/messages';
+import HTML_REGEX from '../constants/regex';
+import { FORM_VALIDATION_MESSAGES } from '../constants/validationMessages';
 
 // Function to check if the browser is offline
 const checkOffline = (): boolean => {
@@ -31,16 +20,27 @@ const checkOffline = (): boolean => {
 function removeEmptyValues<T extends Record<string, unknown>>(
   obj: T = {} as T
 ): T {
-  try {
-    for (const key in obj) {
-      if (obj[key] === null || obj[key] === undefined || obj[key] === '') {
-        delete obj[key];
-      }
-    }
-  } catch (e) {
-    obj = {} as T;
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
   }
-  return obj;
+
+  const cleanedObject: Record<string, unknown> = {};
+
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key];
+
+    // Recursively clean nested objects
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      const cleanedValue = removeEmptyValues(value as Record<string, unknown>);
+      if (Object.keys(cleanedValue).length > 0) {
+        cleanedObject[key] = cleanedValue;
+      }
+    } else if (value !== null && value !== undefined && value !== '') {
+      cleanedObject[key] = value;
+    }
+  });
+
+  return cleanedObject as T;
 }
 
 // Function to get pagination limits based on window width
@@ -153,7 +153,7 @@ const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
 };
 
 const addBaseUrl = (url: string) => {
-  if (!url) return;
+  if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url; // Return unchanged if URL is already complete
   }
@@ -166,18 +166,13 @@ const onQueryStarted = async (
 ) => {
   const { onSuccess, onFailure } = arg;
   try {
-    // Await the result of the query
-    // store.dispatch(setLoading(true));
     const { data } = await queryFulfilled;
-    // Call onSuccess callback if provided
     if (onSuccess) {
       onSuccess(data);
     }
   } catch (error) {
-    // Check if the error is an instance of ApiError
     if (error && (error as ApiError)) {
       const apiError = error as ApiError;
-      // Call onFailure callback if provided
       if (onFailure) {
         onFailure(apiError?.error);
       }
@@ -189,27 +184,6 @@ function capitalizeFirstLetter(str: string): string {
   if (!str) return str; // Return the original string if it is empty
 
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function matchRoute(pathname: string, routes: Array<CustomRouter>) {
-  for (const route of routes) {
-    if (!route?.path) continue; // Skip if route or route.path is undefined
-
-    try {
-      // Escape only necessary special characters in route.path
-      const safePath = route.path.replace(/[-^$*+?.()|[\]{}]/g, '\\$&');
-
-      // Replace route parameters with a regex pattern that matches any non-slash characters
-      const regex = new RegExp(`^${safePath.replace(/:\w+/g, '[^/]+')}$`);
-
-      if (regex.test(pathname)) {
-        return route.title;
-      }
-    } catch (error) {
-      continue; // Skip to the next route if there is an error with regex creation
-    }
-  }
-  return null;
 }
 
 function daysBetweenDates(date1: Date, date2: Date): number {
@@ -233,7 +207,7 @@ function formatDate(
   return moment(date).format(format);
 }
 
-type NestedObject = { [key: string]: unknown };
+type NestedObject = Record<string, unknown>;
 
 function getValueFromPath(
   obj: NestedObject,
@@ -247,26 +221,22 @@ function getValueFromPath(
     return undefined;
   }
 
-  // Start with the root object
-  let current: unknown = obj;
-
-  // Traverse the object based on the path array
-  for (const segment of path) {
+  // Use reduce to traverse the object based on the path array
+  const result = path.reduce<unknown>((current, segment) => {
     if (current && typeof current === 'object' && segment in current) {
-      current = (current as { [key: string]: unknown })[segment];
-    } else {
-      // Return undefined if the path is invalid
-      return undefined;
+      return (current as { [key: string]: unknown })[segment];
     }
-  }
+    // Return undefined if the path is invalid
+    return undefined;
+  }, obj);
 
   // Check if the final value is a primitive type
   if (
-    typeof current === 'string' ||
-    typeof current === 'number' ||
-    typeof current === 'boolean'
+    typeof result === 'string' ||
+    typeof result === 'number' ||
+    typeof result === 'boolean'
   ) {
-    return current;
+    return result;
   }
 
   // Return undefined if the final value is not a primitive type
@@ -278,67 +248,13 @@ const renderIdWithHash = (
   val: string | number
 ) => (val ? <TruncateText text={val} /> : '-.-');
 
-function hashCode(str: string) {
-  let hash = 0;
-  if (str.length === 0) {
-    return hash;
-  }
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash &= hash; // Convert to 32bit integer
-  }
-  return hash;
-}
-
-function getBrowserName() {
-  const { userAgent } = navigator;
-  let browserName = 'Unknown';
-
-  if (userAgent.indexOf('Chrome') !== -1) {
-    browserName = 'Chrome';
-  } else if (userAgent.indexOf('Firefox') !== -1) {
-    browserName = 'Firefox';
-  } else if (userAgent.indexOf('Safari') !== -1) {
-    browserName = 'Safari';
-  } else if (userAgent.indexOf('Edge') !== -1) {
-    browserName = 'Edge';
-  } else if (
-    userAgent.indexOf('Opera') !== -1 ||
-    userAgent.indexOf('OPR') !== -1
-  ) {
-    browserName = 'Opera';
-  } else if (userAgent.indexOf('Trident') !== -1) {
-    browserName = 'Internet Explorer';
-  }
-
-  return browserName;
-}
-function getDeviceIdAndBrowserName() {
-  // Attempt to retrieve the device ID from local storage
-  let deviceId = localStorage.getItem('deviceId');
-
-  // If device ID doesn't exist, generate a new one
-  if (!deviceId) {
-    // Generate a semi-unique identifier based on userAgent and platform
-    deviceId = String(hashCode(navigator.userAgent + navigator.platform));
-
-    // Store the generated device ID in local storage
-    localStorage.setItem('deviceId', deviceId);
-  }
-
-  // Get the browser name
-  const browserName = getBrowserName();
-
-  return { deviceId, browserName };
-}
 const setNotificationDeviceToken = (token: string) => {
   const { dispatch = () => {} } = store;
   dispatch(updateDeviceTokenRedux(token));
 };
 
 function containsHTML(text: string) {
-  const htmlRegex = /<[a-z/][\s\S]*>/i;
+  const htmlRegex = HTML_REGEX;
   return htmlRegex.test(text);
 }
 
@@ -349,11 +265,10 @@ function htmlToText(html: string) {
 
 export {
   addBaseUrl,
-  containsHTML,
-  htmlToText,
   capitalizeFirstLetter,
   checkOffline,
   checkValidFileExtension,
+  containsHTML,
   convertFilesToFormData,
   convertToLocale,
   copyToClipboard,
@@ -362,12 +277,11 @@ export {
   getPaginationLimits,
   getStringValue,
   getValueFromPath,
+  htmlToText,
   isErrors,
-  matchRoute,
   onQueryStarted,
   removeEmptyValues,
   renderIdWithHash,
-  validateField,
   setNotificationDeviceToken,
-  getDeviceIdAndBrowserName,
+  validateField,
 };

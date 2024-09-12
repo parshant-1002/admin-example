@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
+import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants/constants';
 import Dashboard from '../Views/Dashboard';
 import ReservePriceReached from '../Views/NotificationsContentManagement/ReservePriceReached/ReservePriceReached';
 import Footer from '../Views/PagesContentManagement/Footer';

@@ -1,5 +1,8 @@
-import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../../Shared/constants';
-import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
+import {
+  IMAGE_FILE_TYPES,
+  INPUT_TYPES,
+} from '../../../../Shared/constants/constants';
+import { FORM_VALIDATION_MESSAGES } from '../../../../Shared/constants/validationMessages';
 
 const RESERVE_PRICE_REACHED_FORM_SCHEMA = {
   isEnabled: {

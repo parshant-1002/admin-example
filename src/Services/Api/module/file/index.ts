@@ -37,9 +37,6 @@ export const loginApi = api.injectEndpoints({
         params,
       }),
       keepUnusedDataFor: 0,
-      async onQueryStarted(arg, { queryFulfilled }) {
-        onQueryStarted(arg, { queryFulfilled });
-      },
     }),
   }),
 });

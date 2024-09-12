@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useLoginMutation } from '../../../Services/Api/module/auth';
 import CustomForm from '../../../Shared/components/form/CustomForm';
-import { ROUTES } from '../../../Shared/constants';
+import { ROUTES } from '../../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
 import { auction } from '../../../assets';
 import LOGIN_FORM_SCHEMA from './helpers/loginSchema';

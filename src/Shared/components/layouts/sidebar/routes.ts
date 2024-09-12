@@ -1,6 +1,6 @@
 // import { ROUTES } from '../../../constants/routes';
 
-import { ROUTES } from '../../../constants';
+import { ROUTES } from '../../../constants/constants';
 
 const SIDEBAR_NAV = [
   {

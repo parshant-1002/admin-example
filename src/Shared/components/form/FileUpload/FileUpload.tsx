@@ -25,9 +25,9 @@ import {
   CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
   FILE_TYPE,
   STRINGS,
-  TOAST_MESSAGES,
-} from '../../../constants';
+} from '../../../constants/constants';
 import ERROR_MESSAGES from '../../../constants/messages';
+import TOAST_MESSAGES from '../../../constants/toastMessages';
 import {
   checkValidFileExtension,
   convertFilesToFormData,

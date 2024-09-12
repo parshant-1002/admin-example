@@ -2,7 +2,7 @@
 
 // consts
 import moment from 'moment';
-import { DATE_FORMATS } from '../../../Shared/constants';
+import { DATE_FORMATS } from '../../../Shared/constants/constants';
 import { UsersResponsePayload } from './model';
 import { convertToLocale } from '../../../Shared/utils/functions';
 

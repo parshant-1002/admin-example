@@ -11,7 +11,7 @@ import {
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
-import { BUTTON_LABELS } from '../../Shared/constants';
+import { BUTTON_LABELS } from '../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import {

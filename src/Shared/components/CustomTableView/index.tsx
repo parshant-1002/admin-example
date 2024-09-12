@@ -5,10 +5,10 @@
 import { Fragment, useCallback, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { ascending, descending, downArrow } from '../../../assets';
-import { FilterOrder } from '../../constants';
 import { convertToLocale, getValueFromPath } from '../../utils/functions';
 import TruncatedText from '../TruncateText/TruncateText';
 import './table.scss';
+import { FilterOrder } from '../../constants/enums';
 
 interface CustomTableViewProps {
   columns?: Column[];

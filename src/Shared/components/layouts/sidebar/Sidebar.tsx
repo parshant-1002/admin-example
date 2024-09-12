@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
-import { ROUTES, STRINGS } from '../../../constants';
+import { ROUTES, STRINGS } from '../../../constants/constants';
 import SIDEBAR_NAV from './routes';
 import './style.scss';
 

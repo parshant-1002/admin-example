@@ -6,7 +6,7 @@ import moment from 'moment';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 // components
-import { FILTER_CONSTS } from '../../../constants';
+import { FILTER_CONSTS } from '../../../constants/constants';
 import DateRangeSelector from '../../DateRangeSelector';
 import { FiltersState } from '../helpers/models';
 import { calender } from '../../../../assets';

@@ -1,8 +1,8 @@
 import {
   INPUT_TYPES,
   VALIDATION_REGEX,
-} from '../../../../Shared/constants/index';
-import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
+} from '../../../../Shared/constants/constants';
+import { FORM_VALIDATION_MESSAGES } from '../../../../Shared/constants/validationMessages';
 import OTP_CODE_TYPE from './constants';
 
 const OTP_FORM_SCHEMA = (authenticationType: number) => ({

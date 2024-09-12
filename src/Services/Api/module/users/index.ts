@@ -40,9 +40,6 @@ export const loginApi = api.injectEndpoints({
         url: API_END_POINTS.USER,
         params,
       }),
-      async onQueryStarted(arg, { queryFulfilled }) {
-        onQueryStarted(arg, { queryFulfilled });
-      },
     }),
     addUserBids: builder.mutation({
       query: ({ payload }) => ({

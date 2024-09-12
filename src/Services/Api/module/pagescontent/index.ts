@@ -20,9 +20,6 @@ export const loginApi = api.injectEndpoints({
         url: API_END_POINTS.CONTENT,
         params,
       }),
-      async onQueryStarted(arg, { queryFulfilled }) {
-        onQueryStarted(arg, { queryFulfilled });
-      },
     }),
   }),
 });

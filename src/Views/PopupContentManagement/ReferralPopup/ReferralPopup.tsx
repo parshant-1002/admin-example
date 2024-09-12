@@ -6,7 +6,7 @@ import {
 } from '../../../Services/Api/module/pagescontent/index';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/CustomCardWrapper';
 import { CustomForm } from '../../../Shared/components/index';
-import { CONTENT_ENUMS } from '../../../Shared/constants/index';
+import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import REFERRAL_POPUP_SECTION_CONTENT from './helpers/constant';
 import {
   ReferralPopupFormData,

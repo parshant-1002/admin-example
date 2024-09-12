@@ -1,4 +1,4 @@
-import { TEXT_TYPES } from '../../constants';
+import { TEXT_TYPES } from '../../constants/constants';
 
 interface MarketTextType {
   text: string;

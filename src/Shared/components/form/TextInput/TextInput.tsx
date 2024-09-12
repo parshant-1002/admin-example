@@ -1,6 +1,6 @@
 import React, { Ref, useRef } from 'react';
 import { Control, Controller, FieldErrorsImpl } from 'react-hook-form';
-import { INPUT_TYPES } from '../../../constants';
+import { INPUT_TYPES } from '../../../constants/constants';
 import FileInput from '../FileUpload/FileUpload';
 
 export function ErrorComponent({

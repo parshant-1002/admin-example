@@ -1,4 +1,4 @@
-import { ROUTES } from '../../../Shared/constants';
+import { ROUTES } from '../../../Shared/constants/constants';
 import { NewUserIcon, UserIcon } from '../../../assets';
 
 const cardData = [

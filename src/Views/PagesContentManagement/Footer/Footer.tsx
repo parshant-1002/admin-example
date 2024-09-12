@@ -8,7 +8,7 @@ import {
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/CustomCardWrapper';
 import AddContentForm from '../../../Shared/components/form/AddContentForm/AddContentForm';
 import { CustomForm } from '../../../Shared/components/index';
-import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/index';
+import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/constants';
 import {
   FooterFormData,
   transAPIRequestDataToFormFooter,

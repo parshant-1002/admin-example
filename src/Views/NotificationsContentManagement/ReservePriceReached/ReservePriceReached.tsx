@@ -8,7 +8,10 @@ import {
   useUpdateNotificationContentMutation,
 } from '../../../Services/Api/module/notificationsContent';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper';
-import { NOTIFICATION_TYPE, STRINGS } from '../../../Shared/constants';
+import {
+  NOTIFICATION_TYPE,
+  STRINGS,
+} from '../../../Shared/constants/constants';
 import {
   TransformedData,
   transformAPIData,

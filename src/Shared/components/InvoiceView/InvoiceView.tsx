@@ -1,6 +1,6 @@
 import { Tooltip } from 'react-tooltip';
 import { InvoiceIcon } from '../../../assets';
-import { STRINGS } from '../../constants';
+import { STRINGS } from '../../constants/constants';
 import Button from '../form/Button';
 
 export interface InvoiceURLData {

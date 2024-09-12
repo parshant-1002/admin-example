@@ -1,5 +1,5 @@
-import { INPUT_TYPES } from '../../../../Shared/constants/index';
-import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
+import { INPUT_TYPES } from '../../../../Shared/constants/constants';
+import { FORM_VALIDATION_MESSAGES } from '../../../../Shared/constants/validationMessages';
 
 const PLACE_ORDER_POPUP_SECTION_CONTENT = {
   title: {

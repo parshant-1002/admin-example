@@ -13,16 +13,15 @@ import CustomTableView, {
   Row,
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
-import ProductForm from './ProductsForm';
 import ViewMultiTableItem from '../../Shared/components/ViewMultiTableItem';
+import ProductForm from './ProductsForm';
 
 // Constants
 import {
   BUTTON_LABELS,
-  FilterOrder,
   PRICE_RANGE,
   STRINGS,
-} from '../../Shared/constants';
+} from '../../Shared/constants/constants';
 import { Delete, Filter, RED_WARNING, edit } from '../../assets';
 import {
   CAR_BODY_TYPE_OPTIONS,
@@ -60,6 +59,7 @@ import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
 import { RootState } from '../../Store';
 import { updateUploadedImages } from '../../Store/UploadedImages';
+import { FilterOrder } from '../../Shared/constants/enums';
 
 // Interfaces
 interface EditData {

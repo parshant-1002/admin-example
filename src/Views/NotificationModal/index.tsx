@@ -5,7 +5,7 @@ import {
   useNotificationsQuery,
 } from '../../Services/Api/module/notificationApi';
 import InfiniteScroll from '../../Shared/components/InfiniteScroll';
-import { BUTTON_LABELS, STRINGS } from '../../Shared/constants';
+import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import { setUnseenCount } from '../../Store/UnseenCount';
 import './notifications.scss';

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useVerifyOtpMutation } from '../../../Services/Api/module/auth';
 import Button from '../../../Shared/components/form/Button';
 import CustomForm from '../../../Shared/components/form/CustomForm';
-import { ROUTES } from '../../../Shared/constants';
+import { ROUTES } from '../../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
 import {
   updateAuthTokenRedux,

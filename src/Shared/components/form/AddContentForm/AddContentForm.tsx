@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Delete } from '../../../../assets/index';
 import { AddContentFormItem } from '../../../../Models/common';
-import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../constants';
+import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../constants/constants';
 // import { validateField } from '../../../utils/functions';
 import FileInput from '../FileUpload/FileUpload';
 import RichText from '../RIchText/RitchText';

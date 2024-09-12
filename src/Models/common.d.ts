@@ -62,10 +62,8 @@ export interface AuctionDetailsColumnData {
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
 
-export enum DetailType {
-  String,
-  Number,
-  Dropdown,
-  Date,
-  DateRange,
+
+export interface OnQueryStartedArgs {
+  onSuccess?: (data: unknown) => void;
+  onFailure?: (error: ErrorResponse) => void;
 }

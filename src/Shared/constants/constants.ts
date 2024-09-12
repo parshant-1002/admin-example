@@ -1,5 +1,6 @@
 const VERSION = import.meta.env.VITE_API_VERSION || 'v1';
-export const API = {
+
+const API = {
   BASE_URL: import.meta.env.VITE_BASE_URL,
   GET_CONTENT_DATA: `/${VERSION}/getContentForAdminPanel`,
   UPDATE_CONTENT_DATA: `/${VERSION}/content`,
@@ -29,7 +30,7 @@ export const API = {
   SEND_TOKEN_SUCCESS: `${VERSION}/admin/prizeStatusUpdate`,
 };
 
-export const API_METHODS = {
+const API_METHODS = {
   GET: 'get',
   POST: 'post',
   PUT: 'put',
@@ -37,22 +38,17 @@ export const API_METHODS = {
   DELETE: 'delete',
 };
 
-export const STATUS_CODES = {
+const STATUS_CODES = {
   UNAUTHOURISED: 401,
   SUCCESS: 200,
 };
 
-export const STATUS = {
+const STATUS = {
   SUCCESS: 'success',
   ERROR: 'error',
 };
 
-export enum FilterOrder {
-  ASCENDING = -1,
-  DESCENDING = 1,
-}
-
-export const INPUT_TYPES = {
+const INPUT_TYPES = {
   TEXT: 'text',
   TEXT_AREA: 'textarea',
   DATE: 'date',
@@ -69,7 +65,7 @@ export const INPUT_TYPES = {
   COLOR: 'color',
 };
 
-export const blockInvalidChar = (
+const blockInvalidChar = (
   e: React.KeyboardEvent<HTMLInputElement>,
   chars: string[] = []
 ) => {
@@ -79,7 +75,7 @@ export const blockInvalidChar = (
   }
 };
 
-export const VALIDATION_REGEX = {
+const VALIDATION_REGEX = {
   OTP: /^\d{6}$/,
   EMAIL: /^\S+@\S+\.\S+$/,
   PASSWORD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/i,
@@ -91,10 +87,10 @@ export const VALIDATION_REGEX = {
   USERNAME: /^[a-z0-9]+$/,
 };
 
-export const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
-export const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
+const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
+const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
-export const STRINGS = {
+const STRINGS = {
   NOTIFICATIONS_TITLE: 'Notifications',
   NO_NEW_NOTIFICATION: 'No new notifications',
   PRODUCT_NOT_PURCHASED: 'Product Not Purchased',
@@ -222,7 +218,7 @@ export const STRINGS = {
   REFUND: 'Refund',
 };
 
-export const CONTENT_ENUMS = {
+const CONTENT_ENUMS = {
   HEADER: 'header',
   PRIZE: 'prizeSection',
   ROADMAP: 'roadmapSection',
@@ -283,7 +279,7 @@ export const CONTENT_ENUMS = {
   AUCTION_WON_DETAILS_CONTENT: 'auctionWonDetailsPage',
 };
 
-export const BUTTON_LABELS = {
+const BUTTON_LABELS = {
   VIEW: 'View',
   UPLOAD: ' Upload',
   CHANGE_FILE: 'Change file',
@@ -307,40 +303,40 @@ export const BUTTON_LABELS = {
   CLEAR_ALL: 'Clear all',
   APPLY: 'Apply',
 };
-export const PLACEHOLDER_TEXT = {
+const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',
   PASSWORD: 'Enter your password',
   CONFIRM_PASSWORD: 'Confirm your password',
 };
 
-export const DATE_FORMATS = {
+const DATE_FORMATS = {
   FOR_DATE_RANGE: 'DD MMM  YYYY',
   DISPLAY_DATE: 'DD-MM-YYYY',
   DISPLAY_DATE_REVERSE: 'YYYY-MM-DD',
   DISPLAY_DATE_WITH_TIME: 'DD MMM YYYY  HH:mm',
 };
 
-export const ALIGNMENT = {
+const ALIGNMENT = {
   LEFT: 'Left',
   RIGHT: 'Right',
   CENTER: 'Center',
 };
 
-export const PRIZE_TYPE = {
+const PRIZE_TYPE = {
   1: 'Car',
   2: 'Token',
 };
 
-export const TEXT_TYPES = {
+const TEXT_TYPES = {
   SUCCESS: 'success',
   DANGER: 'danger',
   PENDING: 'pending',
 };
 
-export const SHORT_CODE_NOTE =
+const SHORT_CODE_NOTE =
   'Note: Ensure there is a space before and after the shortcode.';
 
-export const FILTER_CONSTS = {
+const FILTER_CONSTS = {
   day: 'day',
   days: 'days',
   year: 'year',
@@ -362,21 +358,9 @@ export const FILTER_CONSTS = {
   defaultSortKey: 'approvedRequestCount',
 };
 
-/* Constants for RPC Connection the Solana Blockchain */
-// const COMMITMENT_LEVEL = 'processed';
-// export const ENDPOINT =
-//   import.meta.env.VITE_NEXT_PUBLIC_ALCHEMY_RPC_URL ||
-//   clusterApiUrl(
-//     import.meta.env.VITE_ENVIRONMENT === 'production'
-//       ? 'mainnet-beta'
-//       : 'devnet'
-//   );
-// export const connection = new Connection(ENDPOINT, COMMITMENT_LEVEL);
-
-export const SIGNATURE_MESSAGE = 'fasdkfjklandfkdsfjladsfodfafjalfadsfkads';
+const SIGNATURE_MESSAGE = 'fasdkfjklandfkdsfjladsfodfafjalfadsfkads';
 
 const STRING: string = 'Test';
-export { STRING };
 
 const ROUTES = {
   HOMEPAGE: '/',
@@ -463,13 +447,6 @@ const ROUTES_CONFIG = {
   },
 };
 
-enum POPUPTYPES {
-  NONE = 'NONE',
-  EDIT = 'EDIT',
-  ADD = 'ADD',
-  DELETE = 'DELETE',
-}
-
 const REFERRAL_STATUS = {
   PENDING: 1,
   COMPLETED: 2,
@@ -512,12 +489,6 @@ const CONFIRMATION_DESCRIPTION_INVOICE =
 
 const CONFIRMATION_DESCRIPTION_IMAGE_DELETE = 'Are you sure you want to delete';
 
-const TOAST_MESSAGES = (...arg: (string | number)[]) => ({
-  SELECT_ATLEAST_ONE_FILE: 'Please select at least one file.',
-  PLEASE_CHOOSE_ONLY_ACCEPTED_FILES: `Please choose only ${arg[0]} file.`,
-  PLEASE_UPLOAD_ONLY_ACCEPTED_FILES: `Please upload only ${arg[0]} file.`,
-  IMAGE_RATIO_ERROR: `Please select image of ratio ${arg[0]}:${arg[1]}`,
-});
 const FILE_TYPE: {
   CMS?: string;
   PRODUCT?: string;
@@ -581,13 +552,32 @@ export {
   CONFIRMATION_DESCRIPTION_INVOICE,
   FILE_TYPE,
   NOTIFICATION_TYPE,
-  POPUPTYPES,
   PRICE_RANGE,
   PRODUCT_PURCHASE_STATUS,
   REFERRAL_STATUS,
   ROUTES,
   ROUTES_CONFIG,
   TABLE_PAGE_LIMIT,
-  TOAST_MESSAGES,
+  API,
+  API_METHODS,
+  STATUS_CODES,
+  STATUS,
+  INPUT_TYPES,
+  blockInvalidChar,
+  VALIDATION_REGEX,
+  IMAGE_FILE_TYPES,
+  VIDEO_FILES_TYPES,
+  STRINGS,
+  CONTENT_ENUMS,
+  BUTTON_LABELS,
+  PLACEHOLDER_TEXT,
+  DATE_FORMATS,
+  ALIGNMENT,
+  PRIZE_TYPE,
+  TEXT_TYPES,
+  SHORT_CODE_NOTE,
+  FILTER_CONSTS,
+  SIGNATURE_MESSAGE,
   WILDCARD_ROUTES,
+  STRING,
 };

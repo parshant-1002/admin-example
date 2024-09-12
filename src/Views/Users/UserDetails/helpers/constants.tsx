@@ -1,11 +1,14 @@
 import moment from 'moment';
 import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/CustomDetailsBoard';
-import { DATE_FORMATS, INPUT_TYPES } from '../../../../Shared/constants';
+import {
+  DATE_FORMATS,
+  INPUT_TYPES,
+} from '../../../../Shared/constants/constants';
 
 // libs
 
 // consts
-import FORM_VALIDATION_MESSAGES from '../../../../Shared/constants/validationMessages';
+import { FORM_VALIDATION_MESSAGES } from '../../../../Shared/constants/validationMessages';
 
 const USER_DETAILS_SCHEMA: FieldSchema[] = [
   { label: 'Name', key: 'name' },

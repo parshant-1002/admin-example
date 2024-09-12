@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // consts
 import { SingleValue } from 'react-select';
-import { BUTTON_LABELS } from '../../constants';
+import { BUTTON_LABELS } from '../../constants/constants';
 
 // components
 import Button from '../form/Button';

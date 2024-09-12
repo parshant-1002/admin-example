@@ -4,8 +4,8 @@ import Button from '../Button';
 import type { FormDataProps, FormSchema } from './types/Formtypes';
 // import { ALIGNMENT } from '../../../../Shared/Constants';
 import RenderField from './RenderFields';
-import { INPUT_TYPES, blockInvalidChar } from '../../../constants';
-import FORM_VALIDATION_MESSAGES from '../../../constants/validationMessages';
+import { INPUT_TYPES, blockInvalidChar } from '../../../constants/constants';
+import { FORM_VALIDATION_MESSAGES } from '../../../constants/validationMessages';
 
 function AddHorizontalTitle({
   isLine,

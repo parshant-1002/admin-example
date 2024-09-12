@@ -7,7 +7,7 @@ import { DateRange, Range } from 'react-date-range';
 // styles
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { DATE_FORMATS } from '../../constants';
+import { DATE_FORMATS } from '../../constants/constants';
 import './style.scss';
 import CONSTS from './helpers/Constants';
 

@@ -16,10 +16,9 @@ import StatsFilters from '../../Shared/components/Filters';
 // Constants
 import {
   BUTTON_LABELS,
-  FilterOrder,
   ROUTES,
   STRINGS,
-} from '../../Shared/constants';
+} from '../../Shared/constants/constants';
 import { Delete, Filter, RED_WARNING, block, view } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
@@ -42,6 +41,7 @@ import CustomFilterIcons, {
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
+import { FilterOrder } from '../../Shared/constants/enums';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;

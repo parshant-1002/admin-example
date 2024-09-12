@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants';
+import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants/constants';
 import LoginPage from '../Views/Auth/login/LoginPage';
 import OtpForm from '../Views/Auth/otpForm/OtpForm';
 import { CustomRouter } from './RootRoutes';
