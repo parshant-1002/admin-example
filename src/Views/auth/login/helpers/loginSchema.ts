@@ -1,4 +1,7 @@
-import { INPUT_TYPES, VALIDATION_REGEX } from '../../../../Shared/constants/constants';
+import {
+  INPUT_TYPES,
+  VALIDATION_REGEX,
+} from '../../../../Shared/constants/constants';
 import { FORM_VALIDATION_MESSAGES } from '../../../../Shared/constants/validationMessages';
 
 const LOGIN_FORM_SCHEMA = {

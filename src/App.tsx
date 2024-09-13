@@ -9,10 +9,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './App.scss';
 import RootRouter from './Routes/RootRouter';
 import Loader from './Shared/components/loader';
-import {
-  // getDeviceIdAndBrowserName,
-  setNotificationDeviceToken,
-} from './Shared/utils/functions';
+import { setNotificationDeviceToken } from './Shared/utils/functions';
 import { persistor, store } from './Store';
 import { ErrorResponse } from './Models/Apis/Error';
 import { useUpdateRegistrationTokenMutation } from './Services/Api/module/notificationApi';
@@ -37,8 +34,6 @@ function App() {
       userToken: string | null;
       token: string | null;
     }) => {
-      // const { deviceId, browserName } = getDeviceIdAndBrowserName();
-
       if (userToken && token && deviceToken !== token) {
         updateRegistration({
           payload: {

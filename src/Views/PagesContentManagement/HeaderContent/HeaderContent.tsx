@@ -8,7 +8,10 @@ import {
   useUpdateContentMutation,
 } from '../../../Services/Api/module/pagescontent';
 import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper';
-import { CONTENT_ENUMS, INPUT_TYPES } from '../../../Shared/constants/constants';
+import {
+  CONTENT_ENUMS,
+  INPUT_TYPES,
+} from '../../../Shared/constants/constants';
 import {
   APIData,
   transformAPIData,
