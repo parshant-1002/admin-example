@@ -3,14 +3,13 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Tab, Tabs } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { ImageConfig } from '../../../../Models/common';
 import {
   useFileDeleteMutation,
-  // useFileDeleteMutation,
   useFileUploadMutation,
   useGetFilesQuery,
 } from '../../../../Services/Api/module/file';
@@ -24,7 +23,6 @@ import {
   BUTTON_LABELS,
   CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
   FILE_TYPE,
-  STRINGS,
 } from '../../../constants/constants';
 import ERROR_MESSAGES from '../../../constants/messages';
 import TOAST_MESSAGES from '../../../constants/toastMessages';
@@ -34,16 +32,12 @@ import {
   removeEmptyValues,
 } from '../../../utils/functions';
 import ConfirmationModal from '../../ConfirmationModal';
-import CustomModal from '../../CustomModal';
-import FileRenderer from './FileRenderer';
 import './FileUpload.scss';
-import ListFiles from './ListFiles';
+import FileRenderer from './components/FileRenderer';
+import FileUploadModal from './components/FileUploadModal';
+import TABS from './helpers/constants';
 import { FileData, Files } from './helpers/modal';
 
-const TABS = {
-  FILE_UPLOAD: 'fileUpload',
-  LIST_FILES: 'listFiles',
-};
 interface FileInputProps {
   value: Files[];
   onChange?: (files: Files[] | undefined) => void;
@@ -516,29 +510,6 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       }
     };
 
-    const renderUploadInstructions = (
-      acceptFormat: string,
-      ratioRequired?: number[]
-    ) => {
-      // Convert the `accept` string to a more readable format
-      const fileTypes = acceptFormat
-        .replace(/image\//g, '.')
-        .replace(/video\//g, '.')
-        .split(',')
-        .map((type) => type.trim())
-        .join(', ');
-
-      // Determine the aspect ratio description
-      const ratioDescription = ratioRequired?.length
-        ? `of ${
-            ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular'
-          } shape, example: of ratio (${ratioRequired[0]} : ${
-            ratioRequired[1]
-          }) / size (${ratioRequired[0] * 378} * ${ratioRequired[1] * 378})`
-        : `.`;
-
-      return `Upload only ${fileTypes} ${ratioDescription}`;
-    };
     const handleCloseModal = () => {
       if (isProductAuction && selectedFiles?.length && chooseFile?.length) {
         // Get the files to persist by filtering the selected files
@@ -608,89 +579,30 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             </div>
           ) : null}
         </div>
-        {showModal && (
-          <CustomModal
-            title="Choose and upload file"
-            show={showModal}
-            onClose={handleCloseModal}
-          >
-            <div className="modal-body">
-              <Tabs
-                id="controlled-tab-example"
-                activeKey={activeTab}
-                onSelect={(k) => setActiveTab(k || '')}
-                className="custom_tabs mb-2"
-                unmountOnExit
-              >
-                <Tab
-                  className="tab-body"
-                  eventKey={TABS.LIST_FILES}
-                  title="Select file"
-                >
-                  <ListFiles
-                    selectedFiles={selectedFiles}
-                    setSelectedFiles={setSelectedFiles}
-                    chooseFile={chooseFile}
-                    handleChooseFile={handleChooseFile}
-                    data={imageList}
-                    handleDeleteFile={handleDeleteFile}
-                    singleImageSelectionEnabled={singleImageSelectionEnabled}
-                  />
-                </Tab>
-                <Tab
-                  className="tab-body"
-                  eventKey={TABS.FILE_UPLOAD}
-                  title="Upload File"
-                >
-                  <>
-                    {label && <label className="form-label">{label}</label>}
-                    {subLabel && <span>{subLabel}</span>}
-                    {accept && <p>{renderUploadInstructions(accept, ratio)}</p>}
-                    <div className="text-center upload-file ">
-                      {fileValue?.length ? (
-                        <div className="uploaded-pic-grid">
-                          {renderSelectedFile}
-                        </div>
-                      ) : (
-                        <div {...getRootProps()}>
-                          <input
-                            ref={ref}
-                            accept={accept}
-                            {...getInputProps()}
-                            className="form-control upl-File"
-                          />
-                          {isDragActive ? (
-                            <div className="upload-text">
-                              <span>{STRINGS.DROP_FILE_HERE}</span>
-                            </div>
-                          ) : (
-                            <div className="upload-text">
-                              <span>
-                                {STRINGS.DROP_FILE_HERE}, or <br />
-                                <small>Click here</small> to browse
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <div className="text-center mt-3">
-                      {fileValue?.length ? (
-                        <Button
-                          className="btn-md"
-                          variant="primary"
-                          onClick={handleFileUpload}
-                        >
-                          {BUTTON_LABELS.UPLOAD}
-                        </Button>
-                      ) : null}
-                    </div>
-                  </>
-                </Tab>
-              </Tabs>
-            </div>
-          </CustomModal>
-        )}
+        <FileUploadModal
+          showModal={showModal}
+          handleCloseModal={handleCloseModal}
+          label={label}
+          subLabel={subLabel}
+          accept={accept}
+          ratio={ratio}
+          selectedFiles={selectedFiles}
+          setSelectedFiles={setSelectedFiles}
+          chooseFile={chooseFile}
+          handleChooseFile={handleChooseFile}
+          getRootProps={getRootProps}
+          getInputProps={getInputProps}
+          isDragActive={isDragActive}
+          fileValue={fileValue}
+          imageList={imageList}
+          handleDeleteFile={handleDeleteFile}
+          singleImageSelectionEnabled={singleImageSelectionEnabled}
+          handleFileUpload={handleFileUpload}
+          renderSelectedFile={renderSelectedFile}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          ref={ref}
+        />
       </>
     );
   }

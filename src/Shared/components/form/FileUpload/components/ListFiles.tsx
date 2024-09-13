@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from 'react-bootstrap';
-import { Delete } from '../../../../assets';
-import { Image } from '../../../../Models/common';
-import { BUTTON_LABELS, STRINGS } from '../../../constants/constants';
+import { Delete } from '../../../../../assets';
+import { Image } from '../../../../../Models/common';
+import { BUTTON_LABELS, STRINGS } from '../../../../constants/constants';
 import FileRenderer from './FileRenderer';
-import { Files } from './helpers/modal';
+import { Files } from '../helpers/modal';
 
 interface ListFilesProps {
   chooseFile: Image[];

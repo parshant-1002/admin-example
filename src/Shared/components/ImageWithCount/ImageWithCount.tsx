@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import FileRenderer from '../form/FileUpload/FileRenderer';
+import FileRenderer from '../form/FileUpload/components/FileRenderer';
 import { ViewMultiData } from '../../../Views/Products/helpers/model';
 
 // Define the types for the props

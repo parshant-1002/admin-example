@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import FileRenderer from '../form/FileUpload/FileRenderer';
+import FileRenderer from '../form/FileUpload/components/FileRenderer';
 import './ImageGallery.scss';
 import { Image } from '../../../Models/common';
 // Define the ImageGallery component

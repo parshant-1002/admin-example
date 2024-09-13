@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
-import { addBaseUrl } from '../../../utils/functions';
+import { addBaseUrl } from '../../../../utils/functions';
 
 interface FileRendererProps {
   fileURL?: string;
