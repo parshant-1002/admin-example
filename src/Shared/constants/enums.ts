@@ -17,4 +17,15 @@ enum POPUPTYPES {
   DELETE = 'DELETE',
 }
 
-export { DetailType, FilterOrder, POPUPTYPES };
+enum VariableTypes {
+  string = 'string',
+  number = 'number',
+}
+
+enum ButtonType {
+  button = 'button',
+  submit = 'submit',
+  reset = 'reset',
+}
+
+export { DetailType, FilterOrder, POPUPTYPES, VariableTypes, ButtonType };

@@ -1,3 +1,5 @@
+import { DetailType } from "../Shared/constants/enums";
+
 export interface Image {
   _id?: string;
   url?: string;
@@ -62,8 +64,26 @@ export interface AuctionDetailsColumnData {
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
 
-
 export interface OnQueryStartedArgs {
   onSuccess?: (data: unknown) => void;
   onFailure?: (error: ErrorResponse) => void;
+}
+
+export interface Notification {
+  _id: string;
+  msgRead: boolean;
+  isLocked: boolean;
+  backgroundColor?: string;
+  htmlDescription?: string;
+  icon?: string;
+  type?: string;
+  link?: string;
+  title: string;
+  createdAt: string;
+  achievementProgress?: number;
+  additionalInfo?: {
+    bonusButtonTitle?: string;
+    affiliateKey?: string;
+  };
+  image?: boolean;
 }

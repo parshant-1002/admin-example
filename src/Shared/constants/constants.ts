@@ -91,6 +91,9 @@ const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 const STRINGS = {
+  DEFAULT_VALUE: '_._',
+  ARE_YOU_SURE: 'Are you sure?',
+  SELECT_COLOR: 'Select Color',
   NOTIFICATIONS_TITLE: 'Notifications',
   NO_NEW_NOTIFICATION: 'No new notifications',
   PRODUCT_NOT_PURCHASED: 'Product Not Purchased',
@@ -303,6 +306,7 @@ const BUTTON_LABELS = {
   CLEAR_ALL: 'Clear all',
   APPLY: 'Apply',
 };
+
 const PLACEHOLDER_TEXT = {
   EMAIL: 'Enter your email',
   PASSWORD: 'Enter your password',
@@ -543,6 +547,7 @@ const CAR_BODY_TYPE = {
   HOT_ROD: 28,
   LOW_RIDER: 29,
 };
+
 export {
   BID_CREDIT_TYPES,
   BID_PLAN_TYPES,

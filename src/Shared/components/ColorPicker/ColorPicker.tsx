@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ChromePicker, ColorResult } from 'react-color';
 import { Control, Controller } from 'react-hook-form';
 import './styles.scss';
+import { STRINGS } from '../../constants/constants';
 
 export default function ColorPicker({
   id,
@@ -53,7 +54,7 @@ export default function ColorPicker({
                 />
                 <div className="d-flex flex-column align-items-center justify-content-center">
                   <div className="color-picker-header">
-                    Select Color{' '}
+                    {STRINGS.SELECT_COLOR}{' '}
                     <span
                       className="refresh-icon"
                       onClick={() => {

@@ -1,4 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { STRINGS } from '../../constants/constants';
+import { VariableTypes } from '../../constants/enums';
 import { convertToLocale } from '../../utils/functions';
 import TruncateText from '../TruncateText';
 
@@ -54,19 +56,19 @@ function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
       return field.render(value, data);
     }
 
-    if (field.truncate && typeof value === 'string') {
+    if (field.truncate && typeof value === VariableTypes.string) {
       return <TruncateText text={value || `No ${field.label}`} />;
     }
-    if (field.format && typeof value === 'number') {
+    if (field.format && typeof value === VariableTypes.number) {
       return convertToLocale(value);
     }
-    if (field.currencyFormat && typeof value === 'number') {
+    if (field.currencyFormat && typeof value === VariableTypes.number) {
       return `${convertToLocale(value, true)}`;
     }
-    if (typeof value === 'number') {
+    if (typeof value === VariableTypes.number) {
       return value;
     }
-    return value || `---`;
+    return value || STRINGS.DEFAULT_VALUE;
   };
 
   return (

@@ -1,3 +1,5 @@
+import { BUTTON_LABELS, STRINGS } from '../../constants/constants';
+import { ButtonType } from '../../constants/enums';
 import CustomModal from '../CustomModal';
 import Button from '../form/Button';
 import './style.scss';
@@ -19,13 +21,13 @@ interface ConfirmationModalProps {
 function ConfirmationModal({
   icon,
   open = false,
-  title = 'Are you sure?',
+  title = STRINGS.ARE_YOU_SURE,
   subTitle = '',
-  submitButtonText = 'Delete',
+  submitButtonText = BUTTON_LABELS.DELETE,
   handleSubmit,
   handleClose,
   showCancelButton = false,
-  cancelButtonText = 'Cancel',
+  cancelButtonText = BUTTON_LABELS.CANCEL,
   showClose,
   size = 'sm',
 }: ConfirmationModalProps) {
@@ -48,7 +50,7 @@ function ConfirmationModal({
         <div className="d-flex justify-content-center gap-3 pt-3">
           {showCancelButton && (
             <Button
-              type="button"
+              type={ButtonType.button}
               onClick={handleClose}
               className="btn btn-sm btn-outline-primary "
             >
@@ -56,7 +58,7 @@ function ConfirmationModal({
             </Button>
           )}
           <Button
-            type="button"
+            type={ButtonType.button}
             onClick={handleSubmit}
             className="btn btn-sm btn-primary"
           >

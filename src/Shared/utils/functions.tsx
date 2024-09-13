@@ -128,7 +128,7 @@ const checkValidFileExtension = (
 };
 
 const convertToLocale = (
-  number: number | string,
+  number?: number | string,
   isCurrency?: boolean
 ): string => {
   const num = Number(number);

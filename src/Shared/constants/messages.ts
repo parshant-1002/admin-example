@@ -9,5 +9,6 @@ const ERROR_MESSAGES = () => ({
     'For custom input enabled. Automatic status should be off',
   FILE_SIZE_TOO_LARGE: 'File size too latge',
   DELETE_ITEM: 'Are you sure to delete this item',
+  FAILED_CLEAR_NOTIFICATIONS: 'Failed to clear notifications:',
 });
 export default ERROR_MESSAGES;

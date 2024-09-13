@@ -1,5 +1,3 @@
-// src/components/Dashboard.tsx
-
 import { debounce } from 'lodash';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
@@ -13,7 +11,7 @@ import {
   removeEmptyValues,
 } from '../../Shared/utils/functions';
 import { Lossicon, profitIcon } from '../../assets';
-import cardData from './helpers/constants';
+import { cardData } from './helpers/constants';
 import './style.scss';
 
 function Dashboard() {
@@ -27,6 +25,17 @@ function Dashboard() {
     fromDate: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
     toDate: moment().format(DATE_FORMATS.DISPLAY_DATE_REVERSE),
   });
+
+  const queryParams = {
+    searchString: search,
+    ...filters,
+  };
+  const { data: dashboard, refetch } = useGetDashboardQuery({
+    params: removeEmptyValues(
+      queryParams as unknown as Record<string, unknown>
+    ),
+  });
+
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, 1000);
@@ -41,15 +50,7 @@ function Dashboard() {
       ),
     });
   };
-  const queryParams = {
-    searchString: search,
-    ...filters,
-  };
-  const { data: dashboard, refetch } = useGetDashboardQuery({
-    params: removeEmptyValues(
-      queryParams as unknown as Record<string, unknown>
-    ),
-  });
+
   useEffect(() => {
     if (onComponentMountRef.current) {
       refetch();
@@ -105,12 +106,6 @@ function Dashboard() {
                     {convertToLocale(dashboard?.[card.percentageField])}
                   </span>
                 </div>
-                {/* <Link
-                  className="redirection d-none"
-                  to={card?.redirectionRoute || ''}
-                >
-                  <img src={RedirectionIcon} alt="" width="40" height="40" />
-                </Link> */}
               </div>
             </div>
           </Link>

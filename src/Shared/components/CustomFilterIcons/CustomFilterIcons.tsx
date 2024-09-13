@@ -1,6 +1,8 @@
+/* eslint-disable react/button-has-type */
 import { Dropdown } from 'react-bootstrap';
 import { actions } from '../../../assets';
 import './CustomFilterIcons.scss';
+import { ButtonType } from '../../constants/enums';
 
 // Define the schema for the submenu items
 export interface SubmenuItem<T> {
@@ -65,7 +67,7 @@ function CustomFilterIcons<T>({
       <div className="d-flex gap-sm-3 gap-2 justify-content-end">
         {schema.map((item) => (
           <button
-            type="button"
+            type={ButtonType.button}
             key={item.buttonLabel}
             onClick={() => item.buttonAction(row)}
             className={

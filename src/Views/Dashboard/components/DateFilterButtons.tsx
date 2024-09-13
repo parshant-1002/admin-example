@@ -1,28 +1,12 @@
-/* eslint-disable no-multi-assign */
-import moment from 'moment';
+import moment, { unitOfTime } from 'moment';
 import { Dispatch, SetStateAction } from 'react';
 import { FiltersState } from '../../../Shared/components/Filters/helpers/models';
 import Button from '../../../Shared/components/form/Button';
-import { FILTER_CONSTS } from '../../../Shared/constants/constants';
-
-// Constants for button labels
-const TODAY = 'Today';
-const YESTERDAY = 'Yesterday';
-const SEVEN_DAYS = '7 days';
-const THIS_MONTH = 'This month';
-const LAST_MONTH = 'Last month';
-const THIS_YEAR = 'This year';
-
-const BUTTON_LABELS = [
-  TODAY,
-  YESTERDAY,
-  SEVEN_DAYS,
-  THIS_MONTH,
-  LAST_MONTH,
-  THIS_YEAR,
-] as const;
-
-type ButtonLabel = (typeof BUTTON_LABELS)[number];
+import {
+  DATE_FORMATS,
+  FILTER_CONSTS,
+} from '../../../Shared/constants/constants';
+import { BUTTON_LABELS, DateRange } from '../helpers/constants';
 
 function DateFilterButtons({
   handleApply,
@@ -33,43 +17,77 @@ function DateFilterButtons({
   activeDateButtonIndex: number | null;
   setActiveDateButtonIndex: Dispatch<SetStateAction<number | null>>;
 }) {
-  const handleDateChange = (type: ButtonLabel, index: number) => {
-    let fromDate: string;
-    let toDate: string;
-    const today = moment().format('YYYY-MM-DD');
+  const handleDateChange = (type: string, index: number) => {
+    const day = DateRange.DAY as unitOfTime.DurationConstructor;
+    const month = DateRange.MONTH as unitOfTime.DurationConstructor;
+    const year = DateRange.YEAR as unitOfTime.DurationConstructor;
+    const sevenDays = DateRange.SEVEN_DAYS;
+    const oneDay = DateRange.ONE_DAY;
+    const today = moment();
+    const formattedToday = today.format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
+
     setActiveDateButtonIndex(index);
+
+    let fromDate: string = formattedToday; // Default to today
+    let toDate: string = formattedToday; // Default to today
+
     switch (type) {
-      case TODAY:
-        fromDate = toDate = today;
+      case BUTTON_LABELS.TODAY:
+        fromDate = formattedToday;
+        toDate = formattedToday;
         break;
-      case YESTERDAY:
-        fromDate = toDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+
+      case BUTTON_LABELS.YESTERDAY: {
+        const yesterday = today
+          .clone()
+          .subtract(oneDay, day)
+          .format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
+        fromDate = yesterday;
+        toDate = yesterday;
         break;
-      case SEVEN_DAYS:
-        fromDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-        toDate = today;
+      }
+
+      case BUTTON_LABELS.SEVEN_DAYS:
+        fromDate = today
+          .clone()
+          .subtract(sevenDays, day)
+          .format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
+        toDate = formattedToday;
         break;
-      case THIS_MONTH:
-        fromDate = moment().startOf('month').format('YYYY-MM-DD');
-        toDate = today;
+
+      case BUTTON_LABELS.THIS_MONTH:
+        fromDate = today
+          .clone()
+          .startOf(month)
+          .format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
+        toDate = formattedToday;
         break;
-      case LAST_MONTH:
-        fromDate = moment()
-          .subtract(1, 'month')
-          .startOf('month')
-          .format('YYYY-MM-DD');
-        toDate = moment()
-          .subtract(1, 'month')
-          .endOf('month')
-          .format('YYYY-MM-DD');
+
+      case BUTTON_LABELS.LAST_MONTH: {
+        const lastMonthStart = today
+          .clone()
+          .subtract(oneDay, month)
+          .startOf(month);
+        const lastMonthEnd = today.clone().subtract(oneDay, month).endOf(month);
+        fromDate = lastMonthStart.format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
+        toDate = lastMonthEnd.format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
         break;
-      case THIS_YEAR:
-        fromDate = moment().startOf('year').format('YYYY-MM-DD');
-        toDate = today;
+      }
+
+      case BUTTON_LABELS.THIS_YEAR:
+        fromDate = today
+          .clone()
+          .startOf(year)
+          .format(DATE_FORMATS.DISPLAY_DATE_REVERSE);
+        toDate = formattedToday;
         break;
+
       default:
-        fromDate = toDate = today;
+        fromDate = formattedToday;
+        toDate = formattedToday;
+        break;
     }
+
     handleApply({
       startDate: moment(fromDate).format(FILTER_CONSTS.dateFormat),
       endDate: moment(toDate).format(FILTER_CONSTS.dateFormat),
@@ -79,7 +97,7 @@ function DateFilterButtons({
   return (
     <div>
       <div className="button-group dy_group_wrapper">
-        {BUTTON_LABELS.map((label, index) => (
+        {Object.values(BUTTON_LABELS).map((label, index) => (
           <Button
             key={label}
             btnType={activeDateButtonIndex === index ? 'primary' : 'secondary'}

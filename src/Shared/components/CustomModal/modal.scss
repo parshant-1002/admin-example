@@ -11,9 +11,9 @@
     @include opacity (1);
     @include transition-mixin (all, .5s, ease-in-out);
 
-    svg {
-        width: 14px;
-        height: 14px;
+    img {
+        width: 30px;
+        height: 30px;
     }
 }
 
