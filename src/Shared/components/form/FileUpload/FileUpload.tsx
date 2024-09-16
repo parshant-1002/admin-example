@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-await-in-loop */
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
@@ -33,9 +33,17 @@ import {
 } from '../../../utils/functions';
 import ConfirmationModal from '../../ConfirmationModal';
 import './FileUpload.scss';
+import DefaultFile from './components/DefaultFile';
 import FileRenderer from './components/FileRenderer';
 import FileUploadModal from './components/FileUploadModal';
-import TABS from './helpers/constants';
+import ImageFile from './components/ImageFile';
+import SpreadsheetFile from './components/SpreadsheetFile';
+import {
+  FILE_MAX_SIZE,
+  IMAGE_TYPES,
+  SPREAD_SHEET_TYPES,
+  TABS,
+} from './helpers/constants';
 import { FileData, Files } from './helpers/modal';
 
 interface FileInputProps {
@@ -49,6 +57,7 @@ interface FileInputProps {
   imageFileType?: string;
   fetchImageDataConfig?: ImageConfig[];
   singleImageSelectionEnabled?: boolean;
+  noListSelection?: boolean;
   [key: string]: unknown; // To handle any additional props
 }
 interface DeleteData {
@@ -66,12 +75,13 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       onChange = () => {},
       label,
       subLabel,
-      maxSize = 50000000, // 6mb
+      maxSize = FILE_MAX_SIZE, // 6mb
       accept = '',
       singleImageSelectionEnabled = true,
       ratio = [],
       imageFileType = FILE_TYPE.CMS,
       fetchImageDataConfig,
+      noListSelection = false,
     },
     ref
   ) => {
@@ -117,7 +127,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [chooseFile, setChooseFile] = useState(value);
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
-    const [activeTab, setActiveTab] = useState(TABS.LIST_FILES);
+    const [activeTab, setActiveTab] = useState(
+      noListSelection ? TABS.FILE_UPLOAD : TABS.LIST_FILES
+    );
 
     // API
     const [fileUpload] = useFileUploadMutation();
@@ -139,6 +151,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         : chooseFile;
       setSelectedFiles(choosenFilesWithId);
     }, [chooseFile, isProductAuction]);
+
     const { data, refetch } = useGetFilesQuery(
       {
         params: removeEmptyValues(createQueryParams(fetchImageDataConfig)),
@@ -151,148 +164,84 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const imageList = {
       files: [...(uploadedImages || [])],
     };
+
     useEffect(() => {
       dispatch(updateUploadedImages(data?.files));
     }, [data?.files, dispatch]);
+
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
 
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
+        // Clear previous file values
         setFileValue([]);
-        acceptedFiles.forEach((file) => {
-          if (file && checkValidFileExtension(file?.name, accept)) {
-            if (file.size <= maxSize) {
-              const reader = new FileReader();
-              reader.onload = (e: ProgressEvent<FileReader>) => {
-                if (ratio?.length) {
-                  // If a ratio is provided, perform the ratio check
-                  const img = new Image();
-                  img.onload = () => {
-                    const { width, height } = img;
-                    const calculatedRatio = width / height;
-                    const [firstValue, secondValue] = ratio;
-                    const calculatedRequiredRatio = firstValue / secondValue;
 
-                    if (
-                      calculatedRatio.toFixed(1) ===
-                      Number(calculatedRequiredRatio).toFixed(1)
-                    ) {
-                      // Image has the required aspect ratio
-                      setFileValue((prevState: FileData[] | undefined) => [
-                        ...(prevState || []),
-                        { file, src: e?.target?.result },
-                      ]);
-                    } else {
-                      toast.error(
-                        TOAST_MESSAGES(firstValue, secondValue)
-                          .IMAGE_RATIO_ERROR
-                      ); // Customize your error message
-                    }
-                  };
-                  img.src = e?.target?.result as string;
-                } else {
-                  // If no ratio is provided, just proceed
-                  setFileValue((prevState: FileData[] | undefined) => [
-                    ...(prevState || []),
-                    { file, src: e?.target?.result },
-                  ]);
-                }
-              };
-              reader.readAsDataURL(file);
-            } else {
-              toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
-            }
-          } else {
+        acceptedFiles.forEach((file) => {
+          if (!checkValidFileExtension(file.name, accept)) {
             toast.error(
               TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES
             );
+            return;
           }
+
+          if (file.size > maxSize) {
+            toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (e: ProgressEvent<FileReader>) => {
+            const result = e.target?.result as string;
+
+            if (ratio && ratio.length === 2) {
+              // If ratio is provided, perform ratio check
+              const img = new Image();
+              img.onload = () => {
+                const { width, height } = img;
+                const calculatedRatio = width / height;
+                const [firstValue, secondValue] = ratio;
+                const calculatedRequiredRatio = firstValue / secondValue;
+
+                if (Math.abs(calculatedRatio - calculatedRequiredRatio) < 0.1) {
+                  // Image has the required aspect ratio (tolerance of 0.1)
+                  setFileValue((prevState) => [
+                    ...(prevState || []),
+                    { file, src: result },
+                  ]);
+                } else {
+                  toast.error(
+                    TOAST_MESSAGES(firstValue, secondValue).IMAGE_RATIO_ERROR
+                  );
+                }
+              };
+              img.src = result;
+            } else {
+              // If no ratio is provided, just add the file
+              setFileValue((prevState) => [
+                ...(prevState || []),
+                { file, src: result },
+              ]);
+            }
+          };
+          reader.readAsDataURL(file);
         });
       },
       [accept, maxSize, ratio] // Added ratio to dependency array
     );
-
-    const handleFileUpload = async () => {
-      try {
-        if (fileValue?.length === 0) {
-          return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
-        }
-
-        const fileList = fileValue as unknown as FileData[];
-        const files = convertFilesToFormData(fileList, 'image');
-        const filesWithType = files?.map((file) => {
-          file.append('type', String(imageFileType));
-          return file;
-        });
-
-        const responseData: {
-          fileName: string;
-          fileURL: string;
-          _id: string;
-        }[] = [];
-
-        // Loop through each file and upload them sequentially
-        for (const file of filesWithType) {
-          await new Promise<void>((resolve, reject) => {
-            fileUpload({
-              payload: file,
-              onSuccess: (res: {
-                fileName: string;
-                fileUrl: string;
-                fileId: string;
-              }) => {
-                responseData.push({
-                  fileName: res?.fileName,
-                  fileURL: res?.fileUrl,
-                  _id: res?.fileId,
-                });
-                resolve();
-              },
-              onError: (error: unknown) => {
-                reject(error);
-              },
-            });
-          });
-        }
-
-        // Update state and perform any necessary actions after all uploads are complete
-        if (isProductAuction) {
-          dispatch(
-            updateUploadedImages([
-              ...(imageList.files || []),
-              ...(responseData || []),
-            ])
-          );
-        }
-        setFileValue([]);
-        if (isProductAuction && !isCreateProductAuction) {
-          refetch();
-        } else if (!isProductAuction) {
-          refetch();
-        }
-        setActiveTab(TABS.LIST_FILES);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-        }
-      }
-    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
       multiple: true,
     });
 
-    const handleRemoveFile = (index: number) => {
+    const handleRemoveFile = useCallback((index: number) => {
       setFileValue(
         (prevState: FileData[] | undefined) =>
           prevState?.filter((_, i) => i !== index)
       );
-    };
+    }, []);
     const handleDeleteFile = (
       fileId: (string | undefined)[],
       isMultiDelete?: boolean
@@ -365,149 +314,78 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     const renderSelectedFile = useMemo(() => {
-      return (
-        fileValue &&
-        fileValue?.map((fileData, index) => {
-          switch (fileData?.file?.type) {
-            case 'text/csv':
-            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            case 'application/vnd.ms-excel': // Added this case for .xls files
-              return (
-                <div className="uploaded_pic">
-                  <em className="me-2">file</em>
-                  <span>{fileData?.file?.name || ''}</span>
-                  <button
-                    type="button"
-                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger-outline ms-2"
-                    title="Delete"
-                    onClick={() => handleRemoveFile(index)}
-                  >
-                    <svg
-                      id="close"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10.569"
-                      height="10.569"
-                      viewBox="0 0 10.569 10.569"
-                    >
-                      <g id="Group_8836" data-name="Group 8836">
-                        <path
-                          id="Path_14400"
-                          data-name="Path 14400"
-                          d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
-                          fill="#000"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              );
-            case 'image/png':
-            case 'image/svg':
-            case 'image/jpeg':
-            case 'image/jpg':
-            case 'image/svg+xml':
-              return (
-                <div className="uploaded-pic-grid__item">
-                  <img
-                    id="blah"
-                    className="uploaded-pic-grid__image"
-                    width={200}
-                    src={fileData?.src as string | undefined}
-                    alt="..."
-                  />
-                  <div className="uploaded-pic-grid__details">
-                    <span className="uploaded-pic-grid__filename">
-                      {fileData?.file?.name || ''}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    className="uploaded-pic-grid__delete-button"
-                    title="Delete"
-                    onClick={() => handleRemoveFile(index)}
-                  >
-                    <svg
-                      id="close"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10.569"
-                      height="10.569"
-                      viewBox="0 0 10.569 10.569"
-                    >
-                      <g id="Group_8836" data-name="Group 8836">
-                        <path
-                          id="Path_14400"
-                          data-name="Path 14400"
-                          d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
-                          fill="#fff"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              );
-            default:
-              return (
-                <div className="uploaded_pic">
-                  <span>{fileData?.file?.name || ''}</span>
-                  <button
-                    type="button"
-                    className="d-inline-flex align-items-center justify-content-center btn btn44 btn-danger-outline mx-1"
-                    title="Delete"
-                    onClick={() => handleRemoveFile(index)}
-                  >
-                    <svg
-                      id="close"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10.569"
-                      height="10.569"
-                      viewBox="0 0 10.569 10.569"
-                    >
-                      <g id="Group_8836" data-name="Group 8836">
-                        <path
-                          id="Path_14400"
-                          data-name="Path 14400"
-                          d="M10.569,1.068,9.5,0,5.285,4.216,1.068,0,0,1.068,4.216,5.285,0,9.5l1.068,1.068L5.285,6.353,9.5,10.569,10.569,9.5,6.353,5.285Z"
-                          fill="#000"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              );
-          }
-        })
-      );
-    }, [fileValue]);
+      if (!fileValue) return null;
+
+      return fileValue.map((fileData, index) => {
+        const { type, name } = fileData?.file || {};
+        const src = fileData?.src;
+
+        if (!type || !name) return null;
+
+        if (SPREAD_SHEET_TYPES.includes(type)) {
+          return (
+            <SpreadsheetFile
+              key={type}
+              name={name}
+              index={index}
+              handleRemoveFile={handleRemoveFile}
+            />
+          );
+        }
+
+        if (IMAGE_TYPES.includes(type) && src) {
+          return (
+            <ImageFile
+              key={type}
+              name={name}
+              src={src as string}
+              index={index}
+              handleRemoveFile={handleRemoveFile}
+            />
+          );
+        }
+
+        return (
+          <DefaultFile
+            key={type}
+            name={name}
+            index={index}
+            handleRemoveFile={handleRemoveFile}
+          />
+        );
+      });
+    }, [fileValue, handleRemoveFile]);
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
 
+    const generateFilesData = (files: Files[]) => {
+      if (!isProductAuction) return files;
+
+      const selectedFileIds = new Set(files?.map((file) => file._id));
+
+      return imageList?.files?.map((file: { _id: string }) => ({
+        ...file,
+        assigned: selectedFileIds.has(file._id),
+      }));
+    };
+
     const handleChooseFile = (files: Files[] | undefined) => {
-      if (!files?.length) {
+      if (!files || files?.length === 0) {
         return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
       }
-      if (
-        !checkValidFileExtension(files?.[0]?.fileURL || files?.[0]?.url, accept)
-      ) {
+
+      const firstFileUrl = files?.[0]?.fileURL || files?.[0]?.url;
+      if (!checkValidFileExtension(firstFileUrl, accept)) {
         return toast.error(
           TOAST_MESSAGES(accept).PLEASE_CHOOSE_ONLY_ACCEPTED_FILES
         );
       }
-      if (files?.length) {
-        const filesData = isProductAuction
-          ? imageList?.files?.map((file: { _id: string }) => {
-              if (
-                files?.some((selectedFile) => selectedFile._id === file._id)
-              ) {
-                return { ...file, assigned: true };
-              }
-              return file;
-            })
-          : files;
-        onChange(filesData);
-        setChooseFile(filesData);
-        closeModal();
-      }
+
+      const filesData = generateFilesData(files);
+      onChange(filesData);
+      setChooseFile(filesData);
+      closeModal();
     };
 
     const handleCloseModal = () => {
@@ -536,6 +414,79 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         // Close the modal
       }
       closeModal();
+    };
+    const handleFileUpload = async () => {
+      try {
+        if (fileValue?.length === 0) {
+          return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
+        }
+
+        const fileList = fileValue as unknown as FileData[];
+        const files = convertFilesToFormData(fileList, 'image');
+        const filesWithType = files?.map((file) => {
+          file.append('type', String(imageFileType));
+          return file;
+        });
+
+        const responseData: {
+          fileName: string;
+          fileURL: string;
+          _id: string;
+        }[] = [];
+
+        // Loop through each file and upload them sequentially
+        for (const file of filesWithType) {
+          await new Promise<void>((resolve, reject) => {
+            fileUpload({
+              payload: file,
+              onSuccess: (res: {
+                fileName: string;
+                fileUrl: string;
+                fileId: string;
+              }) => {
+                responseData.push({
+                  fileName: res?.fileName,
+                  fileURL: res?.fileUrl,
+                  _id: res?.fileId,
+                });
+                resolve();
+              },
+              onError: (error: unknown) => {
+                reject(error);
+              },
+            });
+          });
+        }
+
+        // Update state and perform any necessary actions after all uploads are complete
+        if (isProductAuction) {
+          dispatch(
+            updateUploadedImages([
+              ...(imageList.files || []),
+              ...(responseData || []),
+            ])
+          );
+        }
+        setFileValue([]);
+        if (isProductAuction && !isCreateProductAuction) {
+          refetch();
+        } else if (!isProductAuction) {
+          refetch();
+        }
+        if (!noListSelection) {
+          setActiveTab(TABS.LIST_FILES);
+        } else {
+          onChange(responseData);
+          setChooseFile(responseData);
+          setShowModal(false);
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+        }
+      }
     };
     return (
       <>
@@ -602,6 +553,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           ref={ref}
+          noListSelection={noListSelection}
         />
       </>
     );

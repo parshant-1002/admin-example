@@ -105,6 +105,7 @@ function RenderField({
             fetchImageDataConfig={field?.fetchImageDataConfig}
             singleImageSelectionEnabled={field?.singleImageSelectionEnabled}
             value={value}
+            noListSelection={field?.noListSelection}
           />
         );
       case INPUT_TYPES.SELECT:

@@ -114,17 +114,21 @@ const copyToClipboard = async (
   }
 };
 
+const validExtensions = (accept: string) =>
+  accept
+    .replace(/image\//g, '.')
+    .replace(/video\//g, '.')
+    .replace(/document\//g, '.')
+    .split(',')
+    .map((type: string) => type.trim());
+
 const checkValidFileExtension = (
   fileUrl: string | undefined,
   accept: string
 ): boolean => {
-  const validExtensions = accept
-    .replace(/image\//g, '.')
-    .replace(/video\//g, '.')
-    .split(',')
-    .map((type: string) => type.trim());
+  const validatedExtensions = validExtensions(accept);
   const fileExtension = `.${fileUrl?.split('.').pop()?.toLowerCase() || ''}`;
-  return validExtensions.includes(fileExtension);
+  return validatedExtensions.includes(fileExtension);
 };
 
 const convertToLocale = (
@@ -279,6 +283,7 @@ export {
   getValueFromPath,
   htmlToText,
   isErrors,
+  validExtensions,
   onQueryStarted,
   removeEmptyValues,
   renderIdWithHash,
