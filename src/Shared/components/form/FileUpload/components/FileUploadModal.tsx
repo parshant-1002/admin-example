@@ -32,7 +32,7 @@ interface FileUploadModalProps {
   getRootProps: (props?: DropzoneRootProps) => DropzoneRootProps;
   getInputProps: (props?: DropzoneInputProps) => DropzoneInputProps;
   isDragActive: boolean;
-  noListSelection: boolean;
+  hideListSelection: boolean;
   ref: LegacyRef<HTMLInputElement> | undefined;
 }
 
@@ -58,7 +58,7 @@ function FileUploadModal({
   renderSelectedFile,
   activeTab,
   setActiveTab,
-  noListSelection,
+  hideListSelection,
   ref,
 }: FileUploadModalProps) {
   const renderUploadInstructions = (
@@ -80,7 +80,7 @@ function FileUploadModal({
     return `Upload only ${fileTypes} ${ratioDescription}`;
   };
   const tabSchema = () => {
-    if (noListSelection) {
+    if (hideListSelection) {
       return [
         {
           eventKey: TABS.FILE_UPLOAD,

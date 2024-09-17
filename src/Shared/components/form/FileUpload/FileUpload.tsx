@@ -1,7 +1,5 @@
 /* eslint-disable consistent-return */
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable no-await-in-loop */
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
@@ -18,7 +16,7 @@ import {
   deletedImages,
   updateUploadedImages,
 } from '../../../../Store/UploadedImages';
-import { RED_WARNING } from '../../../../assets';
+import { Delete, RED_WARNING } from '../../../../assets';
 import {
   BUTTON_LABELS,
   CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
@@ -57,12 +55,18 @@ interface FileInputProps {
   imageFileType?: string;
   fetchImageDataConfig?: ImageConfig[];
   singleImageSelectionEnabled?: boolean;
-  noListSelection?: boolean;
+  hideListSelection?: boolean;
   [key: string]: unknown; // To handle any additional props
 }
 interface DeleteData {
   data: { fileId?: (string | undefined)[]; isMultiDelete?: boolean } | null;
   show: boolean;
+}
+
+interface ImageUploadResponse {
+  fileName: string;
+  fileUrl: string;
+  fileId: string;
 }
 interface QueryParams {
   [key: string]: string;
@@ -81,7 +85,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       ratio = [],
       imageFileType = FILE_TYPE.CMS,
       fetchImageDataConfig,
-      noListSelection = false,
+      hideListSelection = false,
     },
     ref
   ) => {
@@ -128,7 +132,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
     const [activeTab, setActiveTab] = useState(
-      noListSelection ? TABS.FILE_UPLOAD : TABS.LIST_FILES
+      hideListSelection ? TABS.FILE_UPLOAD : TABS.LIST_FILES
     );
 
     // API
@@ -417,7 +421,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
     const handleFileUpload = async () => {
       try {
-        if (fileValue?.length === 0) {
+        if (!fileValue || fileValue.length === 0) {
           return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
         }
 
@@ -428,58 +432,54 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           return file;
         });
 
-        const responseData: {
-          fileName: string;
-          fileURL: string;
-          _id: string;
-        }[] = [];
-
-        // Loop through each file and upload them sequentially
-        for (const file of filesWithType) {
-          await new Promise<void>((resolve, reject) => {
-            fileUpload({
-              payload: file,
-              onSuccess: (res: {
-                fileName: string;
-                fileUrl: string;
-                fileId: string;
-              }) => {
-                responseData.push({
-                  fileName: res?.fileName,
-                  fileURL: res?.fileUrl,
-                  _id: res?.fileId,
-                });
-                resolve();
-              },
-              onError: (error: unknown) => {
-                reject(error);
-              },
-            });
-          });
-        }
-
-        // Update state and perform any necessary actions after all uploads are complete
-        if (isProductAuction) {
-          dispatch(
-            updateUploadedImages([
-              ...(imageList.files || []),
-              ...(responseData || []),
-            ])
+        const uploadFile = (file: FormData) =>
+          new Promise<{ fileName: string; fileUrl: string; fileId: string }>(
+            (resolve, reject) => {
+              fileUpload({
+                payload: file,
+                onSuccess: (
+                  res: ImageUploadResponse | PromiseLike<ImageUploadResponse>
+                ) => resolve(res),
+                onError: (error: unknown) => reject(error),
+              });
+            }
           );
-        }
-        setFileValue([]);
-        if (isProductAuction && !isCreateProductAuction) {
-          refetch();
-        } else if (!isProductAuction) {
-          refetch();
-        }
-        if (!noListSelection) {
-          setActiveTab(TABS.LIST_FILES);
+
+        // Upload files in parallel
+        const uploadedFiles = await Promise.all(
+          filesWithType.map((file) => uploadFile(file))
+        );
+
+        const responseData = uploadedFiles.map((res) => ({
+          fileName: res.fileName,
+          fileURL: res.fileUrl,
+          _id: res.fileId,
+        }));
+
+        // Merge with existing files
+        const imageData = [...(imageList.files || []), ...responseData];
+        const allAssignedData = imageData.map((val) => ({
+          ...val,
+          assigned: true,
+        }));
+
+        // Dispatch actions based on conditions
+        if (isProductAuction) {
+          const finalData = hideListSelection ? allAssignedData : imageData;
+          dispatch(updateUploadedImages(finalData));
+          if (hideListSelection) {
+            onChange(allAssignedData);
+            setChooseFile(allAssignedData);
+          } else {
+            setActiveTab(TABS.LIST_FILES);
+          }
         } else {
           onChange(responseData);
           setChooseFile(responseData);
-          setShowModal(false);
         }
+        setShowModal(false);
+        setFileValue([]);
+        refetch();
       } catch (error: unknown) {
         if (error instanceof Error) {
           toast.error(error.message);
@@ -487,6 +487,14 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
         }
       }
+    };
+
+    const handleClickDeleteOnSelectedImages = (img: Files) => {
+      const filteredFiles = chooseFile?.filter(
+        (file) => file?._id !== img?._id
+      );
+      setChooseFile(filteredFiles);
+      onChange(filteredFiles);
     };
     return (
       <>
@@ -520,7 +528,18 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                   }
                   return (
                     <div key={img.url || img.fileURL} className="grid-item m-2">
-                      <span className="uploaded_file">
+                      <span className="uploaded_file position-relative">
+                        {hideListSelection ? (
+                          <button
+                            type="button"
+                            className="btn  btn-danger d-inline-flex align-items-center justify-content-center btn-danger-outline ms-2 uploaded-pic-grid__delete-button"
+                            onClick={() =>
+                              handleClickDeleteOnSelectedImages(img)
+                            }
+                          >
+                            <img src={Delete} alt="delete" />
+                          </button>
+                        ) : null}
                         <FileRenderer fileURL={img.url || img.fileURL} />
                       </span>
                     </div>
@@ -553,7 +572,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           ref={ref}
-          noListSelection={noListSelection}
+          hideListSelection={hideListSelection}
         />
       </>
     );

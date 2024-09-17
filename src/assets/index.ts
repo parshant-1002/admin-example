@@ -38,6 +38,7 @@ import whiteCross from './icons/whitecross.svg';
 import auction from './images/auction.png';
 import DEFAULT_PROFILE from './images/default-profile.png';
 import actions from './icons/dots 8.svg';
+import dangerDelete from './icons/danger-delete.svg';
 
 export {
   AuctionIcon,
@@ -80,4 +81,5 @@ export {
   whatsapp,
   whiteCross,
   actions,
+  dangerDelete,
 };

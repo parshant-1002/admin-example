@@ -57,5 +57,5 @@ export interface FormDataProps {
   singleImageSelectionEnabled?: boolean;
   subLabel?: string;
   subLabelClassName?: string;
-  noListSelection?: boolean;
+  hideListSelection?: boolean;
 }
