@@ -1,11 +1,23 @@
 /* eslint-disable consistent-return */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+// libs
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+
+// types
 import { ImageConfig } from '../../../../Models/common';
+import {
+  DeleteData,
+  FileData,
+  FileInputProps,
+  Files,
+  ImageUploadResponse,
+  QueryParams,
+} from './helpers/modal';
+
+// redux
 import {
   useFileDeleteMutation,
   useFileUploadMutation,
@@ -16,6 +28,8 @@ import {
   deletedImages,
   updateUploadedImages,
 } from '../../../../Store/UploadedImages';
+
+// consts
 import { Delete, RED_WARNING } from '../../../../assets';
 import {
   BUTTON_LABELS,
@@ -25,52 +39,29 @@ import {
 import ERROR_MESSAGES from '../../../constants/messages';
 import TOAST_MESSAGES from '../../../constants/toastMessages';
 import {
-  checkValidFileExtension,
-  convertFilesToFormData,
-  removeEmptyValues,
-} from '../../../utils/functions';
-import ConfirmationModal from '../../ConfirmationModal';
-import './FileUpload.scss';
-import DefaultFile from './components/DefaultFile';
-import FileRenderer from './components/FileRenderer';
-import FileUploadModal from './components/FileUploadModal';
-import ImageFile from './components/ImageFile';
-import SpreadsheetFile from './components/SpreadsheetFile';
-import {
   FILE_MAX_SIZE,
   IMAGE_TYPES,
   SPREAD_SHEET_TYPES,
   TABS,
 } from './helpers/constants';
-import { FileData, Files } from './helpers/modal';
 
-interface FileInputProps {
-  value: Files[];
-  onChange?: (files: Files[] | undefined) => void;
-  label?: string;
-  subLabel?: string;
-  maxSize?: number;
-  accept?: string;
-  ratio?: number[];
-  imageFileType?: string;
-  fetchImageDataConfig?: ImageConfig[];
-  singleImageSelectionEnabled?: boolean;
-  hideListSelection?: boolean;
-  [key: string]: unknown; // To handle any additional props
-}
-interface DeleteData {
-  data: { fileId?: (string | undefined)[]; isMultiDelete?: boolean } | null;
-  show: boolean;
-}
+// utils
+import {
+  checkValidFileExtension,
+  convertFilesToFormData,
+  removeEmptyValues,
+} from '../../../utils/functions';
 
-interface ImageUploadResponse {
-  fileName: string;
-  fileUrl: string;
-  fileId: string;
-}
-interface QueryParams {
-  [key: string]: string;
-}
+// components
+import ConfirmationModal from '../../ConfirmationModal';
+import DefaultFile from './components/DefaultFile';
+import FileRenderer from './components/FileRenderer';
+import FileUploadModal from './components/FileUploadModal';
+import ImageFile from './components/ImageFile';
+import SpreadsheetFile from './components/SpreadsheetFile';
+
+// styles
+import './FileUpload.scss';
 
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   (
@@ -496,6 +487,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       setChooseFile(filteredFiles);
       onChange(filteredFiles);
     };
+
     return (
       <>
         <ConfirmationModal
