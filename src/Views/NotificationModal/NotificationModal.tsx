@@ -21,15 +21,15 @@ interface NotificationModalProps {
 
 function NotificationModal({
   handleChange = () => {},
-}: NotificationModalProps) {
+}: Readonly<NotificationModalProps>) {
   const dispatch = useDispatch();
-  const [pageno, setPageNo] = useState<number>(0);
+  const [pageNo, setPageNo] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(1);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { data, isLoading, refetch } = useNotificationsQuery(
     {
       params: {
-        skip: pageno * LIMIT,
+        skip: pageNo * LIMIT,
         limit: LIMIT,
       },
     },

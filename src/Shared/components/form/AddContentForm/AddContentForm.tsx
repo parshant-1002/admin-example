@@ -3,8 +3,11 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Delete } from '../../../../assets/index';
 import { AddContentFormItem } from '../../../../Models/common';
-import { IMAGE_FILE_TYPES, INPUT_TYPES } from '../../../constants/constants';
-// import { validateField } from '../../../utils/functions';
+import {
+  BUTTON_LABELS,
+  IMAGE_FILE_TYPES,
+  INPUT_TYPES,
+} from '../../../constants/constants';
 import FileInput from '../FileUpload/FileUpload';
 import RichText from '../RIchText/RitchText';
 import CustomSelect from '../Select/Select';
@@ -33,7 +36,7 @@ function AddContentForm({
   options,
   initialState,
   title,
-}: AddContentFormProps) {
+}: Readonly<AddContentFormProps>) {
   const addLevel = () => {
     const currentErrors = validateField(content[content.length - 1], labels);
     if (Object.keys(currentErrors).length === 0) {
@@ -144,7 +147,7 @@ function AddContentForm({
                   />
                 )}
 
-                {item.errors && item.errors[typeKey] && (
+                {item?.errors?.[typeKey] && (
                   <span className="d-block error invalid-feedback">
                     {item.errors[typeKey]}
                   </span>
@@ -165,7 +168,7 @@ function AddContentForm({
       ))}
       <div className="mb-2 mt-2 text-center">
         <Button type="button" onClick={addLevel} className="btn btn-sm">
-          Add
+          {BUTTON_LABELS.ADD}
         </Button>
       </div>
     </FieldSetWrapper>

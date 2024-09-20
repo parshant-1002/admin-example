@@ -120,7 +120,7 @@ function Sidebar() {
                     ) : (
                       <NavLink
                         className="dropdown-item d-flex"
-                        to={children.route || ''}
+                        to={children.route ?? STRINGS.EMPTY_STRING}
                         onClick={handleItemClick}
                       >
                         <figure className="me-3">

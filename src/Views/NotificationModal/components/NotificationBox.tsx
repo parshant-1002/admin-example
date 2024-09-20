@@ -2,13 +2,11 @@ import { Notification } from '../../../Models/common';
 import { VariableTypes } from '../../../Shared/constants/enums';
 import { addBaseUrl } from '../../../Shared/utils/functions';
 
-function NotifcationBox({
-  index,
-  notification,
-}: {
+interface NotifcationBoxProp {
   index: number;
   notification: Notification;
-}) {
+}
+function NotifcationBox({ index, notification }: Readonly<NotifcationBoxProp>) {
   function hexToRgba(hex: string, alpha = 1) {
     if (!hex || typeof hex !== VariableTypes.string) return '';
 

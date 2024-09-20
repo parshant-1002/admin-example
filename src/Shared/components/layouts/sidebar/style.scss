@@ -28,9 +28,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   @media (max-width: 1199px) {
     left: 0;
     max-width: 70px;
-    // overflow-y: auto !important;
     overflow: $unset;
   }
+
   .sidebar-nav {
     padding: 0;
     margin: 0;
@@ -166,26 +166,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
         padding-left: 0;
       }
 
-      .accordion-header {
-        position: $relative;
-
-        &::before {
-          @include top-curve-before;
-        }
-
-        &::after {
-          @include bottom-curve-after;
-        }
-
-        .curve-top {
-          @include curve-top;
-        }
-
-        .curve-bottom {
-          @include curve-bottom;
-        }
-      }
-
       &:has(.active) {
         .accordion-header {
           .accordion-button {
@@ -251,6 +231,27 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   }
 
   .accordion-header {
+    position: $relative;
+
+    &::before {
+      @include top-curve-before;
+    }
+
+    &::after {
+      @include bottom-curve-after;
+    }
+
+    .curve-top {
+      @include curve-top;
+    }
+
+    .curve-bottom {
+      @include curve-bottom;
+    }
+
+    color: $white-color;
+    border: $none;
+
     button {
       padding: 14px 15px;
       border: 0 !important;
@@ -322,11 +323,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   }
 
   .accordion-item {
-    border: $none;
-  }
-
-  .accordion-header {
-    color: $white-color;
     border: $none;
   }
 }
@@ -471,10 +467,11 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
 
 
 @media (max-height: 800px) and (max-width:1300px) {
-  #main{
+  #main {
     min-height: 800px;
   }
-  #main::before{
+
+  #main::before {
     content: "";
     position: absolute;
     left: -70px;
@@ -483,27 +480,30 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     background: #0e0e23;
     height: 100%;
   }
-  .sidebar{
+
+  .sidebar {
     position: absolute;
   }
-  .sidebar-nav .nav-content .sub-menu{
+
+  .sidebar-nav .nav-content .sub-menu {
     max-height: 300px;
     overflow: auto;
   }
-  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show{
+
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show {
     margin-top: -160px;
-  } 
+  }
 }
 
-@media (min-width:320px) and (max-width:1199px){
-  .sidebar-nav .nav-content .sub-menu{
+@media (min-width:320px) and (max-width:1199px) {
+  .sidebar-nav .nav-content .sub-menu {
     max-height: 400px;
     overflow: auto;
     scrollbar-gutter: stable;
   }
-  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show, .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.collapsing{
+
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show,
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.collapsing {
     margin-top: -160px;
   }
 }
-
-

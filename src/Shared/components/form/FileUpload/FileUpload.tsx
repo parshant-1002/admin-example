@@ -7,15 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 // types
-import { ImageConfig } from '../../../../Models/common';
-import {
-  DeleteData,
-  FileData,
-  FileInputProps,
-  Files,
-  ImageUploadResponse,
-  QueryParams,
-} from './helpers/modal';
+import { DeleteData, FileData, FileInputProps, Files } from './helpers/modal';
 
 // redux
 import {
@@ -48,7 +40,7 @@ import {
 // utils
 import {
   checkValidFileExtension,
-  convertFilesToFormData,
+  generateErrorMessage,
   removeEmptyValues,
 } from '../../../utils/functions';
 
@@ -62,9 +54,18 @@ import SpreadsheetFile from './components/SpreadsheetFile';
 
 // styles
 import './FileUpload.scss';
+import {
+  checkIsCreateProductAuction,
+  checkIsProductAuction,
+  createQueryParams,
+  getChoosenFilesWithId,
+  getCloseModalVariables,
+  getDeleteImageFunctionVariables,
+  getUploadFileVariables,
+} from './helpers/utils';
 
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
-  (
+  function FileInput(
     {
       value,
       onChange = () => {},
@@ -79,7 +80,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       hideListSelection = false,
     },
     ref
-  ) => {
+  ) {
     const [deleteModal, setDeleteModal] = useState<DeleteData>({
       show: false,
       data: { fileId: [''] },
@@ -92,31 +93,14 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     );
     // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION
     const isProductAuction = useMemo(
-      () =>
-        [FILE_TYPE.AUCTION, FILE_TYPE.PRODUCT]?.includes(String(imageFileType)),
+      () => checkIsProductAuction(imageFileType),
       [imageFileType]
     );
     // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION FOR CREATION PURPOSE
     const isCreateProductAuction = useMemo(
-      () =>
-        (fetchImageDataConfig || [])?.every((config) => !config.value) &&
-        String(imageFileType) !== FILE_TYPE.CMS,
+      () => checkIsCreateProductAuction(fetchImageDataConfig, imageFileType),
       [fetchImageDataConfig, imageFileType]
     );
-
-    const createQueryParams = (config?: ImageConfig[]): QueryParams => {
-      const params: QueryParams = {
-        startDate: '',
-        endDate: '',
-        type: imageFileType ? String(imageFileType) : '',
-      };
-
-      config?.forEach(({ key, value: id }) => {
-        params[String(key)] = id || '';
-      });
-
-      return params;
-    };
 
     const dispatch = useDispatch();
     const [chooseFile, setChooseFile] = useState(value);
@@ -132,24 +116,18 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
 
     useEffect(() => {
-      const choosenFiles = chooseFile?.filter((file) => file?.assigned);
-      const choosenFilesWithId = isProductAuction
-        ? choosenFiles?.map((file) => {
-            if (file?.fileId) {
-              return {
-                ...file,
-                _id: file?.fileId,
-              };
-            }
-            return file;
-          })
-        : chooseFile;
+      const choosenFilesWithId = getChoosenFilesWithId(
+        chooseFile,
+        isProductAuction
+      );
       setSelectedFiles(choosenFilesWithId);
     }, [chooseFile, isProductAuction]);
 
     const { data, refetch } = useGetFilesQuery(
       {
-        params: removeEmptyValues(createQueryParams(fetchImageDataConfig)),
+        params: removeEmptyValues(
+          createQueryParams(fetchImageDataConfig, imageFileType)
+        ),
       },
       {
         skip: isCreateProductAuction,
@@ -157,7 +135,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     );
 
     const imageList = {
-      files: [...(uploadedImages || [])],
+      files: [...(uploadedImages ?? [])],
     };
 
     useEffect(() => {
@@ -168,64 +146,88 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       if (value) setChooseFile(value);
     }, [value]);
 
+    const imageOnLoad = useCallback(
+      (img: HTMLImageElement, file: File, result: string) => {
+        const { width, height } = img;
+        const calculatedRatio = width / height;
+        const [firstValue, secondValue] = ratio;
+        const calculatedRequiredRatio = firstValue / secondValue;
+
+        if (Math.abs(calculatedRatio - calculatedRequiredRatio) < 0.1) {
+          // Image has the required aspect ratio (tolerance of 0.1)
+          setFileValue((prevState) => [
+            ...(prevState ?? []),
+            { file, src: result },
+          ]);
+        } else {
+          toast.error(
+            TOAST_MESSAGES(firstValue, secondValue).IMAGE_RATIO_ERROR
+          );
+        }
+      },
+      [ratio]
+    );
+
+    const isFileValid = useCallback(
+      (file: File) => {
+        if (!checkValidFileExtension(file.name, accept)) {
+          toast.error(TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES);
+          return false;
+        }
+
+        if (file.size > maxSize) {
+          toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
+          return false;
+        }
+
+        return true;
+      },
+      [accept, maxSize]
+    );
+
+    const handleImageLoad = useCallback(
+      (result: string, file: File) => {
+        const img = new Image();
+        img.onload = () => imageOnLoad(img, file, result);
+        img.src = result;
+      },
+      [imageOnLoad]
+    );
+
+    const addFileToState = (file: File, result: string) => {
+      setFileValue((prevState) => [
+        ...(prevState ?? []),
+        { file, src: result },
+      ]);
+    };
+    const handleFileLoad = useCallback(
+      (e: ProgressEvent<FileReader>, file: File) => {
+        const result = e.target?.result as string;
+
+        if (ratio && ratio.length === 2) {
+          handleImageLoad(result, file);
+        } else {
+          addFileToState(file, result);
+        }
+      },
+      [handleImageLoad, ratio]
+    );
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
         // Clear previous file values
         setFileValue([]);
 
         acceptedFiles.forEach((file) => {
-          if (!checkValidFileExtension(file.name, accept)) {
-            toast.error(
-              TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES
-            );
-            return;
-          }
-
-          if (file.size > maxSize) {
-            toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
-            return;
-          }
+          if (!isFileValid(file)) return;
 
           const reader = new FileReader();
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            const result = e.target?.result as string;
-
-            if (ratio && ratio.length === 2) {
-              // If ratio is provided, perform ratio check
-              const img = new Image();
-              img.onload = () => {
-                const { width, height } = img;
-                const calculatedRatio = width / height;
-                const [firstValue, secondValue] = ratio;
-                const calculatedRequiredRatio = firstValue / secondValue;
-
-                if (Math.abs(calculatedRatio - calculatedRequiredRatio) < 0.1) {
-                  // Image has the required aspect ratio (tolerance of 0.1)
-                  setFileValue((prevState) => [
-                    ...(prevState || []),
-                    { file, src: result },
-                  ]);
-                } else {
-                  toast.error(
-                    TOAST_MESSAGES(firstValue, secondValue).IMAGE_RATIO_ERROR
-                  );
-                }
-              };
-              img.src = result;
-            } else {
-              // If no ratio is provided, just add the file
-              setFileValue((prevState) => [
-                ...(prevState || []),
-                { file, src: result },
-              ]);
-            }
-          };
+          reader.onload = (e: ProgressEvent<FileReader>) =>
+            handleFileLoad(e, file);
           reader.readAsDataURL(file);
         });
       },
-      [accept, maxSize, ratio] // Added ratio to dependency array
+      [handleFileLoad, isFileValid] // Added ratio to dependency array
     );
-
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
       multiple: true,
@@ -237,50 +239,44 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           prevState?.filter((_, i) => i !== index)
       );
     }, []);
-    const handleDeleteFile = (
-      fileId: (string | undefined)[],
-      isMultiDelete?: boolean
-    ) => {
-      setDeleteModal({
-        data: { fileId, isMultiDelete },
-        show: true,
-      });
-    };
-    const handleCloseDelete = () => {
+
+    const handleDeleteFile = useCallback(
+      (fileId: (string | undefined)[], isMultiDelete?: boolean) => {
+        setDeleteModal({
+          data: { fileId, isMultiDelete },
+          show: true,
+        });
+      },
+      []
+    );
+
+    const handleCloseDelete = useCallback(() => {
       setDeleteModal({ data: null, show: false });
-    };
+    }, []);
 
     const handleDeleteClick = async () => {
-      const { fileId, isMultiDelete } = deleteModal?.data || {};
+      const {
+        shouldRefetch,
+        isResetValuesForProductionAuction,
+        deletedImagesArray,
+        filteredImages,
+        fileId,
+      } = getDeleteImageFunctionVariables(
+        isCreateProductAuction,
+        isProductAuction,
+        deleteModal,
+        imageList,
+        deletedIds,
+        selectedFiles
+      );
 
       try {
         if (isProductAuction) {
           handleCloseDelete();
-          const files = imageList?.files || [];
-
-          // Filter and separate images based on deletion criteria
-          const filteredImages = files.filter(
-            (file: { _id: string }) => !fileId?.includes(file._id)
-          );
-          const deletedImagesFromList = files.filter(
-            (file: { _id: string }) => fileId?.includes(file._id)
-          );
-          const deletedImagesArray = [
-            ...(deletedIds || []),
-            ...deletedImagesFromList,
-          ];
 
           dispatch(deletedImages(deletedImagesArray));
           dispatch(updateUploadedImages(filteredImages));
-
-          // Check if there are any remaining selected files after deletion
-          const isLeftOutFilesSelected = filteredImages.some(
-            (val: { _id: string }) =>
-              selectedFiles?.some((file) => file._id === val._id)
-          );
-
-          // Reset state if multiple delete or no files are left selected
-          if (isMultiDelete || !isLeftOutFilesSelected) {
+          if (isResetValuesForProductionAuction) {
             setChooseFile([]);
             onChange([]);
             setSelectedFiles([]);
@@ -291,19 +287,14 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             onSuccess: (res: { message: string }) => {
               toast.success(res?.message);
               handleCloseDelete();
-              if (isProductAuction && !isCreateProductAuction) {
-                refetch();
-              } else if (!isProductAuction) {
+              if (shouldRefetch) {
                 refetch();
               }
             },
           });
         }
       } catch (error: unknown) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : ERROR_MESSAGES().SOMETHING_WENT_WRONG;
+        const errorMessage = generateErrorMessage(error);
         toast.error(errorMessage);
       }
     };
@@ -312,7 +303,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       if (!fileValue) return null;
 
       return fileValue.map((fileData, index) => {
-        const { type, name } = fileData?.file || {};
+        const { type, name } = fileData?.file ?? {};
         const src = fileData?.src;
 
         if (!type || !name) return null;
@@ -351,10 +342,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       });
     }, [fileValue, handleRemoveFile]);
 
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
+    const openModal = useCallback(() => setShowModal(true), []);
+    const closeModal = useCallback(() => setShowModal(false), []);
 
-    const generateFilesData = (files: Files[]) => {
+    const generateFilesData = (files?: Files[]): Files[] | undefined => {
       if (!isProductAuction) return files;
 
       const selectedFileIds = new Set(files?.map((file) => file._id));
@@ -370,7 +361,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
       }
 
-      const firstFileUrl = files?.[0]?.fileURL || files?.[0]?.url;
+      const firstFileUrl = files?.[0]?.fileURL ?? files?.[0]?.url;
       if (!checkValidFileExtension(firstFileUrl, accept)) {
         return toast.error(
           TOAST_MESSAGES(accept).PLEASE_CHOOSE_ONLY_ACCEPTED_FILES
@@ -379,88 +370,44 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
       const filesData = generateFilesData(files);
       onChange(filesData);
-      setChooseFile(filesData);
+      setChooseFile(filesData as Files[]);
       closeModal();
     };
 
     const handleCloseModal = () => {
       if (isProductAuction && selectedFiles?.length && chooseFile?.length) {
         // Get the files to persist by filtering the selected files
-        const filesToPersist = selectedFiles?.filter(
-          (file) =>
-            chooseFile?.some(
-              (choosedFile) =>
-                choosedFile.assigned &&
-                (choosedFile.fileId || choosedFile._id) === file._id
-            )
+        const { updatedFiles } = getCloseModalVariables(
+          selectedFiles,
+          chooseFile,
+          imageList
         );
 
-        // Map over the image list files and mark the files that need to be persisted
-        const updatedFiles = imageList?.files?.map((file: { _id: string }) => ({
-          ...file,
-          assigned: filesToPersist?.some(
-            (selectedFile) => selectedFile._id === file._id
-          ),
-        }));
-
-        // Trigger the onChange event with the updated files list
         onChange(updatedFiles);
-
-        // Close the modal
       }
       closeModal();
     };
+
     const handleFileUpload = async () => {
       try {
-        if (!fileValue || fileValue.length === 0) {
+        if (fileValue && fileValue.length === 0) {
           return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
         }
-
-        const fileList = fileValue as unknown as FileData[];
-        const files = convertFilesToFormData(fileList, 'image');
-        const filesWithType = files?.map((file) => {
-          file.append('type', String(imageFileType));
-          return file;
-        });
-
-        const uploadFile = (file: FormData) =>
-          new Promise<{ fileName: string; fileUrl: string; fileId: string }>(
-            (resolve, reject) => {
-              fileUpload({
-                payload: file,
-                onSuccess: (
-                  res: ImageUploadResponse | PromiseLike<ImageUploadResponse>
-                ) => resolve(res),
-                onError: (error: unknown) => reject(error),
-              });
-            }
+        const { finalDataForProductAuction, allAssignedData, responseData } =
+          await getUploadFileVariables(
+            hideListSelection,
+            fileValue,
+            fileUpload,
+            imageList,
+            imageFileType
           );
-
-        // Upload files in parallel
-        const uploadedFiles = await Promise.all(
-          filesWithType.map((file) => uploadFile(file))
-        );
-
-        const responseData = uploadedFiles.map((res) => ({
-          fileName: res.fileName,
-          fileURL: res.fileUrl,
-          _id: res.fileId,
-        }));
-
-        // Merge with existing files
-        const imageData = [...(imageList.files || []), ...responseData];
-        const allAssignedData = imageData.map((val) => ({
-          ...val,
-          assigned: true,
-        }));
-
         // Dispatch actions based on conditions
         if (isProductAuction) {
-          const finalData = hideListSelection ? allAssignedData : imageData;
-          dispatch(updateUploadedImages(finalData));
+          dispatch(updateUploadedImages(finalDataForProductAuction));
           if (hideListSelection) {
             onChange(allAssignedData);
             setChooseFile(allAssignedData);
+            setShowModal(false);
           } else {
             setActiveTab(TABS.LIST_FILES);
           }
@@ -468,9 +415,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           onChange(responseData);
           setChooseFile(responseData);
         }
-        setShowModal(false);
+        if (!isCreateProductAuction) {
+          refetch();
+        }
         setFileValue([]);
-        refetch();
       } catch (error: unknown) {
         if (error instanceof Error) {
           toast.error(error.message);
@@ -519,7 +467,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                     return null;
                   }
                   return (
-                    <div key={img.url || img.fileURL} className="grid-item m-2">
+                    <div key={img.url ?? img.fileURL} className="grid-item m-2">
                       <span className="uploaded_file position-relative">
                         {hideListSelection ? (
                           <button
@@ -532,7 +480,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                             <img src={Delete} alt="delete" />
                           </button>
                         ) : null}
-                        <FileRenderer fileURL={img.url || img.fileURL} />
+                        <FileRenderer fileURL={img.url ?? img.fileURL} />
                       </span>
                     </div>
                   );

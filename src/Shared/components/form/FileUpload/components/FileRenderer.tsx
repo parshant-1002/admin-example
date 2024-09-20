@@ -7,7 +7,7 @@ interface FileRendererProps {
   alt?: string;
 }
 
-function FileRenderer({ fileURL, alt = '' }: FileRendererProps) {
+function FileRenderer({ fileURL, alt = '' }: Readonly<FileRendererProps>) {
   if (
     fileURL?.endsWith('.png') ||
     fileURL?.endsWith('.jpg') ||

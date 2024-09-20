@@ -8,7 +8,7 @@ type SwitchProps = {
   checked: boolean;
 };
 
-function Switch({ onChange, checked }: SwitchProps) {
+function Switch({ onChange, checked }: Readonly<SwitchProps>) {
   const [isChecked, setIsChecked] = useState(checked);
 
   useEffect(() => {

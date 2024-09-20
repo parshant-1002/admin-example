@@ -12,7 +12,7 @@ function CustomCardWrapper({
   className = '',
   showBreadCrumbs = true,
   ...rest
-}: CustomCardWrapperProps) {
+}: Readonly<CustomCardWrapperProps>) {
   return (
     <>
       {showBreadCrumbs ? <Breadcrumbs /> : null}

@@ -16,7 +16,7 @@ export default function SeeAllImagesModal({
   title,
   size = 'lg',
   images,
-}: SeeAllImagesModalProp) {
+}: Readonly<SeeAllImagesModalProp>) {
   return (
     <CustomModal show={show} onClose={onClose} title={title} size={size}>
       {images?.length ? <ImageGallery imgData={images} /> : null}

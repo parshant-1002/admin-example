@@ -41,6 +41,8 @@
     cursor: pointer;
     top: 50%;
     z-index: 10;
+    margin: 0 10px;
+    min-width: 40px;
 }
 
 .arrow-btn:disabled {
@@ -96,9 +98,4 @@
     padding: 4px;
     object-fit: $contain;
     background-color: $white-color;
-}
-
-.arrow-btn {
-    margin: 0 10px;
-    min-width: 40px;
 }

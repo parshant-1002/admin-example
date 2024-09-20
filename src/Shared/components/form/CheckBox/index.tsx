@@ -3,12 +3,11 @@ import React, { Ref } from 'react';
 import { SelectOption } from '../../../../Models/common';
 import './style.scss';
 
+type CheckBoxType = string | number | (string | number | undefined)[];
 interface CheckBoxProps {
   label?: string;
-  onChange?: (
-    value: string | number | undefined | (string | number | undefined)[]
-  ) => void;
-  value?: string | number | undefined | (string | number | undefined)[];
+  onChange?: (value?: CheckBoxType) => void;
+  value?: CheckBoxType;
   options?: SelectOption[];
   isMulti?: boolean;
   images?: string[];
@@ -25,15 +24,27 @@ function CheckBox(
   }: CheckBoxProps,
   ref: Ref<HTMLInputElement>
 ) {
+  function updateValue(prevValue: CheckBoxType, optionValue?: string | number) {
+    let newValue;
+
+    if (Array.isArray(prevValue)) {
+      if (prevValue.includes(optionValue)) {
+        newValue = prevValue.filter((v) => v !== optionValue);
+      } else {
+        newValue = [...prevValue, optionValue];
+      }
+    } else {
+      newValue = [optionValue];
+    }
+
+    return newValue;
+  }
+
   // Function to handle the change event
   function handleChange(optionValue: string | number | undefined) {
     if (isMulti) {
       // For multiple selections
-      const newValue = Array.isArray(value)
-        ? value.includes(optionValue)
-          ? value.filter((v) => v !== optionValue)
-          : [...value, optionValue]
-        : [optionValue];
+      const newValue = updateValue(value, optionValue);
       onChange(newValue);
     } else {
       // For single selection
@@ -67,7 +78,7 @@ function CheckBox(
               </label>
             )}
             <input
-              ref={ref as Ref<HTMLInputElement>}
+              ref={ref}
               className="custom-input"
               type="checkbox"
               id={`checkbox-${option.value}`}
@@ -78,8 +89,9 @@ function CheckBox(
                   : value === option.value
               }
             />
-            <span
-              className="label pointer ms-1 social-checkbox"
+            <button
+              type="button"
+              className="label pointer ms-1 social-checkbox btn btn-transparent"
               onClick={() => handleChange(option.value)}
             />
           </div>

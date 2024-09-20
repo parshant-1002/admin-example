@@ -48,7 +48,7 @@ interface CustomProfileProps {
   data: DataKeys;
 }
 
-function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
+function CustomDetailsBoard({ schema, data }: Readonly<CustomProfileProps>) {
   const renderFieldValue = (field: FieldSchema) => {
     const value = data?.[field.key];
 
@@ -57,7 +57,7 @@ function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
     }
 
     if (field.truncate && typeof value === VariableTypes.string) {
-      return <TruncateText text={value || `No ${field.label}`} />;
+      return <TruncateText text={value ?? `No ${field.label}`} />;
     }
     if (field.format && typeof value === VariableTypes.number) {
       return convertToLocale(value);
@@ -68,7 +68,7 @@ function CustomDetailsBoard({ schema, data }: CustomProfileProps) {
     if (typeof value === VariableTypes.number) {
       return value;
     }
-    return value || STRINGS.DEFAULT_VALUE;
+    return value ?? STRINGS.DEFAULT_VALUE;
   };
 
   return (

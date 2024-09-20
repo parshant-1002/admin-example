@@ -18,17 +18,18 @@ function ImageWithCount({
   imgData,
   setShowMultiItemView,
   count,
-}: ImageWithCountProps) {
+}: Readonly<ImageWithCountProps>) {
+  const showMultiView = () =>
+    setShowMultiItemView({
+      show: true,
+      data: { title: 'Product Images', size: 'lg', imgData },
+    });
   return (
     <div className="d-lg-flex align-items-center gap-2">
-      <div
-        className="d-inline-flex align-items-center uploaded_file pointer"
-        onClick={() =>
-          setShowMultiItemView({
-            show: true,
-            data: { title: 'Product Images', size: 'lg', imgData },
-          })
-        }
+      <button
+        type="button"
+        className="d-inline-flex align-items-center uploaded_file pointer btn btn-transparent"
+        onClick={showMultiView}
       >
         {imgData?.map((img, index) =>
           index < count ? (
@@ -55,7 +56,7 @@ function ImageWithCount({
             </figure>
           ) : null
         )}
-      </div>
+      </button>
       {title ? <div>{title}</div> : null}
     </div>
   );

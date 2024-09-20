@@ -54,7 +54,7 @@ function CustomFilterIcons<T>({
             key={item.buttonLabel}
             onClick={() => item.buttonAction(row)}
             className={
-              item.className || getButtonClass(item.isPrimary, item.isDanger)
+              item.className ?? getButtonClass(item.isPrimary, item.isDanger)
             }
           >
             {item.buttonLabel}
@@ -71,7 +71,7 @@ function CustomFilterIcons<T>({
             key={item.buttonLabel}
             onClick={() => item.buttonAction(row)}
             className={
-              item.className || getButtonClass(item.isPrimary, item.isDanger)
+              item.className ?? getButtonClass(item.isPrimary, item.isDanger)
             }
           >
             {item?.icon ? (

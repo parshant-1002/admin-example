@@ -6,7 +6,7 @@ import { store } from '../../Store';
 import { updateDeviceTokenRedux } from '../../Store/Common';
 import TruncateText from '../components/TruncateText';
 import { FileData } from '../components/form/FileUpload/helpers/modal';
-import { API, DATE_FORMATS } from '../constants/constants';
+import { API, DATE_FORMATS, STRINGS } from '../constants/constants';
 import ERROR_MESSAGES from '../constants/messages';
 import HTML_REGEX from '../constants/regex';
 import { FORM_VALIDATION_MESSAGES } from '../constants/validationMessages';
@@ -127,7 +127,9 @@ const checkValidFileExtension = (
   accept: string
 ): boolean => {
   const validatedExtensions = validExtensions(accept);
-  const fileExtension = `.${fileUrl?.split('.').pop()?.toLowerCase() || ''}`;
+  const fileExtension = `.${
+    fileUrl?.split('.').pop()?.toLowerCase() ?? STRINGS.EMPTY_STRING
+  }`;
   return validatedExtensions.includes(fileExtension);
 };
 
@@ -149,7 +151,7 @@ const convertToLocale = (
 };
 
 const convertFilesToFormData = (files: FileData[], key: string): FormData[] => {
-  return (files || [])?.map((fileObj) => {
+  return (files ?? [])?.map((fileObj) => {
     const formData = new FormData();
     formData.append(key, fileObj.file);
     return formData;
@@ -247,10 +249,8 @@ function getValueFromPath(
   return undefined;
 }
 
-const renderIdWithHash = (
-  _: Record<string, unknown> | unknown,
-  val: string | number
-) => (val ? <TruncateText text={val} /> : '-.-');
+const renderIdWithHash = (_: Record<string, unknown>, val: string | number) =>
+  val ? <TruncateText text={val} /> : '-.-';
 
 const setNotificationDeviceToken = (token: string) => {
   const { dispatch = () => {} } = store;
@@ -264,12 +264,20 @@ function containsHTML(text: string) {
 
 function htmlToText(html: string) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  return doc.body.textContent || '';
+  return doc.body.textContent ?? STRINGS.EMPTY_STRING;
+}
+
+function generateErrorMessage(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return ERROR_MESSAGES().SOMETHING_WENT_WRONG;
 }
 
 export {
   addBaseUrl,
   capitalizeFirstLetter,
+  generateErrorMessage,
   checkOffline,
   checkValidFileExtension,
   containsHTML,

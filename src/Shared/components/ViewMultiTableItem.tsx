@@ -11,7 +11,7 @@ interface ViewMultiTableItemProp {
 export default function ViewMultiTableItem({
   show: { show, data },
   setShow,
-}: ViewMultiTableItemProp) {
+}: Readonly<ViewMultiTableItemProp>) {
   return (
     <CustomModal
       show={show}

@@ -60,7 +60,17 @@ function FileUploadModal({
   setActiveTab,
   hideListSelection,
   ref,
-}: FileUploadModalProps) {
+}: Readonly<FileUploadModalProps>) {
+  const getRatioDescription = (ratioRequired?: number[]) => {
+    if (ratioRequired?.length) {
+      const shapeType =
+        ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular';
+      const size = `${ratioRequired[0] * 378} * ${ratioRequired[1] * 378}`;
+      return `of ${shapeType} shape, example: of ratio (${ratioRequired[0]} : ${ratioRequired[1]}) / size (${size})`;
+    }
+    return '.';
+  };
+
   const renderUploadInstructions = (
     acceptFormat: string,
     ratioRequired?: number[]
@@ -69,85 +79,29 @@ function FileUploadModal({
     const fileTypes = validExtensions(acceptFormat).join(', ');
 
     // Determine the aspect ratio description
-    const ratioDescription = ratioRequired?.length
-      ? `of ${
-          ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular'
-        } shape, example: of ratio (${ratioRequired[0]} : ${
-          ratioRequired[1]
-        }) / size (${ratioRequired[0] * 378} * ${ratioRequired[1] * 378})`
-      : `.`;
+    const ratioDescription = getRatioDescription(ratioRequired);
 
     return `Upload only ${fileTypes} ${ratioDescription}`;
   };
   const tabSchema = () => {
-    if (hideListSelection) {
-      return [
-        {
-          eventKey: TABS.FILE_UPLOAD,
-          title: 'Upload File',
-          content: (
-            <>
-              {label && <label className="form-label">{label}</label>}
-              {subLabel && <span>{subLabel}</span>}
-              {accept && <p>{renderUploadInstructions(accept, ratio)}</p>}
-              <div className="text-center upload-file">
-                {fileValue?.length ? (
-                  <div className="uploaded-pic-grid">{renderSelectedFile}</div>
-                ) : (
-                  <div {...getRootProps()}>
-                    <input
-                      ref={ref}
-                      accept={accept}
-                      {...getInputProps()}
-                      className="form-control upl-File"
-                    />
-                    {isDragActive ? (
-                      <div className="upload-text">
-                        <span>{STRINGS.DROP_FILE_HERE}</span>
-                      </div>
-                    ) : (
-                      <div className="upload-text">
-                        <span>
-                          {STRINGS.DROP_FILE_HERE}, or <br />
-                          <small>Click here</small> to browse
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="text-center mt-3">
-                {fileValue?.length && (
-                  <Button
-                    className="btn-md"
-                    variant="primary"
-                    onClick={handleFileUpload}
-                  >
-                    {BUTTON_LABELS.UPLOAD}
-                  </Button>
-                )}
-              </div>
-            </>
-          ),
-        },
-      ];
-    }
     return [
-      {
-        eventKey: TABS.LIST_FILES,
-        title: 'Select file',
-        content: (
-          <ListFiles
-            selectedFiles={selectedFiles}
-            setSelectedFiles={setSelectedFiles}
-            chooseFile={chooseFile}
-            handleChooseFile={handleChooseFile}
-            data={imageList}
-            handleDeleteFile={handleDeleteFile}
-            singleImageSelectionEnabled={singleImageSelectionEnabled}
-          />
-        ),
-      },
+      hideListSelection
+        ? {}
+        : {
+            eventKey: TABS.LIST_FILES,
+            title: 'Select file',
+            content: (
+              <ListFiles
+                selectedFiles={selectedFiles}
+                setSelectedFiles={setSelectedFiles}
+                chooseFile={chooseFile}
+                handleChooseFile={handleChooseFile}
+                data={imageList}
+                handleDeleteFile={handleDeleteFile}
+                singleImageSelectionEnabled={singleImageSelectionEnabled}
+              />
+            ),
+          },
       {
         eventKey: TABS.FILE_UPLOAD,
         title: 'Upload File',
@@ -209,7 +163,7 @@ function FileUploadModal({
         <Tabs
           id="controlled-tab-example"
           activeKey={activeTab}
-          onSelect={(k) => setActiveTab(k || '')}
+          onSelect={(k) => setActiveTab(k ?? STRINGS.EMPTY_STRING)}
           className="custom_tabs mb-2"
           unmountOnExit
         >

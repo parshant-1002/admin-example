@@ -5,7 +5,7 @@ interface MarketTextType {
   type: string;
 }
 
-function MarketText({ text, type }: MarketTextType) {
+function MarketText({ text, type }: Readonly<MarketTextType>) {
   switch (type) {
     case TEXT_TYPES.SUCCESS:
       return <span className="text-green">{text}</span>;

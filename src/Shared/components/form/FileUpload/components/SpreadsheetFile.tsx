@@ -10,7 +10,7 @@ function SpreadsheetFile({
   name,
   index,
   handleRemoveFile,
-}: SpreadsheetFileProps) {
+}: Readonly<SpreadsheetFileProps>) {
   return (
     <div className="uploaded-pic-grid__item" key={index}>
       <em className="me-2">file</em>

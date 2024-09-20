@@ -6,7 +6,11 @@ interface DefaultFileProps {
   handleRemoveFile: (index: number) => void;
 }
 
-function DefaultFile({ name, index, handleRemoveFile }: DefaultFileProps) {
+function DefaultFile({
+  name,
+  index,
+  handleRemoveFile,
+}: Readonly<DefaultFileProps>) {
   return (
     <div className="uploaded-pic-grid__item" key={index}>
       <div className="uploaded-pic-grid__details">

@@ -11,6 +11,7 @@ import { RootState } from '../../Store/index';
 import { whiteCross } from '../../assets';
 import './notificationToast.scss';
 import { setUnseenCount } from '../../Store/UnseenCount';
+import { STRINGS } from '../../Shared/constants/constants';
 
 const LIMIT = 10;
 
@@ -61,8 +62,6 @@ function NotificationToast() {
 
   const handleMessage = (event: NotificationEvent) => {
     const { title, message, url, icon, image } = event.data;
-    console.log(' NotificationToast ~ event.data:', event);
-
     if (title || message || url || icon || image) {
       setShow(true);
       setNotification({
@@ -148,7 +147,7 @@ function NotificationToast() {
                   style={{
                     backgroundColor: 'transparent',
                   }}
-                  src={addBaseUrl(notification?.image || '')}
+                  src={addBaseUrl(notification?.image ?? STRINGS.EMPTY_STRING)}
                   alt=""
                   width="50"
                   height="50"

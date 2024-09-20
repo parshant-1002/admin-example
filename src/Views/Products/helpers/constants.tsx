@@ -235,6 +235,7 @@ export const PRODUCT_FORM_SCHEMA = (
   images: {
     type: INPUT_TYPES.FILE,
     label: 'Images',
+    hideListSelection: true,
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Add Images',

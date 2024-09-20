@@ -8,15 +8,17 @@ import {
 } from '../../../Shared/constants/constants';
 import { BUTTON_LABELS, DateRange } from '../helpers/constants';
 
+interface DateFilterButtonsProps {
+  handleApply: (filter: FiltersState) => void;
+  activeDateButtonIndex: number | null;
+  setActiveDateButtonIndex: Dispatch<SetStateAction<number | null>>;
+}
+
 function DateFilterButtons({
   handleApply,
   activeDateButtonIndex,
   setActiveDateButtonIndex,
-}: {
-  handleApply: (filter: FiltersState) => void;
-  activeDateButtonIndex: number | null;
-  setActiveDateButtonIndex: Dispatch<SetStateAction<number | null>>;
-}) {
+}: Readonly<DateFilterButtonsProps>) {
   const handleDateChange = (type: string, index: number) => {
     const day = DateRange.DAY as unitOfTime.DurationConstructor;
     const month = DateRange.MONTH as unitOfTime.DurationConstructor;
@@ -28,8 +30,8 @@ function DateFilterButtons({
 
     setActiveDateButtonIndex(index);
 
-    let fromDate: string = formattedToday; // Default to today
-    let toDate: string = formattedToday; // Default to today
+    let fromDate; // Default to today
+    let toDate; // Default to today
 
     switch (type) {
       case BUTTON_LABELS.TODAY:

@@ -3,7 +3,10 @@ import FileRenderer from '../form/FileUpload/components/FileRenderer';
 import './ImageGallery.scss';
 import { Image } from '../../../Models/common';
 // Define the ImageGallery component
-function ImageGallery({ imgData }: { imgData: Image[] }) {
+interface ImageGalleryInterface {
+  imgData: Image[];
+}
+function ImageGallery({ imgData }: Readonly<ImageGalleryInterface>) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dataCount = imgData?.length || 0;
   const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
@@ -80,7 +83,8 @@ function ImageGallery({ imgData }: { imgData: Image[] }) {
         </button>
         <div className="thumbnails-container">
           {thumbnailsToShow?.map((img, index) => (
-            <div
+            <button
+              type="button"
               key={img.url}
               className={`thumbnail-item grid-item ${
                 selectedImage?.url === img.url ? 'active' : ''
@@ -88,7 +92,7 @@ function ImageGallery({ imgData }: { imgData: Image[] }) {
               onClick={() => setSelectedIndex(thumbnailStartIndex + index)}
             >
               <FileRenderer fileURL={img.url} />
-            </div>
+            </button>
           ))}
         </div>
         <button

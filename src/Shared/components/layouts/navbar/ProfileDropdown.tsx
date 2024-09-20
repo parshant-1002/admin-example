@@ -7,7 +7,10 @@ interface ProfileDropdownProps {
   handleLogout: () => void;
 }
 
-function ProfileDropdown({ userData, handleLogout }: ProfileDropdownProps) {
+function ProfileDropdown({
+  userData,
+  handleLogout,
+}: Readonly<ProfileDropdownProps>) {
   return (
     <Dropdown as="li" className="nav-item dropdown pe-3">
       <Dropdown.Toggle as="a" className="nav-link nav-icon overflow-hidden">

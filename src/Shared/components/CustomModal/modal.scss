@@ -25,22 +25,25 @@
         background-color: rgba($black-color, .9) !important;
     }
 
-    .modal {
-        &-content {
-            @at-root {
-                .modal-title {
-                    width: 100%;
+    &-content {
+        @at-root {
+            .modal-title {
+                width: 100%;
 
-                    &.h4 {
-                        @include font-size (1.1);
-                        margin: 0;
-                    }
+                &.h4 {
+                    @include font-size (1.1);
+                    margin: 0;
                 }
             }
         }
 
         &-header {
             color: $white-color;
+            background-color: #0e0e23;
+
+            h4 {
+                color: white;
+            }
         }
 
         &-footer {
@@ -60,15 +63,5 @@
 .achievement-progress-table {
     .modal-title {
         padding: 20px;
-    }
-}
-
-.modal {
-    .modal-header {
-        background-color: #0e0e23;
-
-        h4 {
-            color: white;
-        }
     }
 }

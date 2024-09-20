@@ -2,8 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-// import { logoutRequest } from '../../../../../store/actions/auth';
-// import { ROUTES } from '../../../../constants/routes';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from '../../../../Services/Api/module/auth';
@@ -54,14 +52,10 @@ function Navbar() {
           className="d-flex text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
           data-bs-toggle="sidebar"
           onClick={toggleSidebar}
-          // href="/spruha-js/preview/apps/tables/tables/"
         >
           <span />
         </div>
-        <Link to="/" className="logo d-flex align-items-center">
-          {/* <img src="assets/img/logo.png" alt="Logo" /> */}
-          {/* <h4 className="admin-brand-logo ms-xl-4">Penny Auction</h4> */}
-        </Link>
+        <Link to="/" className="logo d-flex align-items-center" />
         <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
       </div>
       <nav className="header-nav ms-auto">

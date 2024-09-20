@@ -31,7 +31,7 @@ function DateRange({
   clearFilterRef,
   setIsInitialEmpty = () => {},
   setIsFiltersOn = () => {},
-}: DateRangeProps) {
+}: Readonly<DateRangeProps>) {
   const [dateRange, setDateRange] = useState<{
     from?: string | Date;
     to?: string | Date;

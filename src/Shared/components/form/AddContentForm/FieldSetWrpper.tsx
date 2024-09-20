@@ -3,7 +3,7 @@ interface FieldSetWrapperProps {
   title?: string;
   children: React.ReactNode;
 }
-function FieldSetWrapper({ title, children }: FieldSetWrapperProps) {
+function FieldSetWrapper({ title, children }: Readonly<FieldSetWrapperProps>) {
   if (title) {
     return (
       <fieldset className="border p-2">

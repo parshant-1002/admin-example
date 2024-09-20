@@ -25,7 +25,7 @@ export const returnButtonClass = (
       classname = 'btn-lg';
       break;
     default:
-      classname = '';
+      break;
   }
 
   switch (btnType) {
@@ -61,7 +61,7 @@ function Button({
   prepend,
   append,
   ...otherProps
-}: ButtonProps) {
+}: Readonly<ButtonProps>) {
   const btnClass = returnButtonClass(size, btnType);
   return (
     <button

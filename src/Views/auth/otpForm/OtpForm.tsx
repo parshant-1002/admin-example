@@ -56,7 +56,7 @@ function OtpForm() {
   });
   const dispatch = useDispatch();
   const location = useLocation();
-  const { state } = location || {};
+  const { state } = location ?? {};
 
   const handleClickSubmitCopiedCode = (data: LoginResponse | null) => {
     dispatch(updateAuthTokenRedux({ token: data?.token }));
@@ -80,9 +80,6 @@ function OtpForm() {
   const handleCopy = () => {
     const button = document.getElementById('recovery_code_copy');
     if (button) {
-      // const rect = button.getBoundingClientRect();
-      // console.log(rect);
-
       toast.success('Copied!');
       setRecoveryCopied(true);
     }
@@ -174,7 +171,7 @@ function OtpForm() {
               </div>
               <div className="recoveryCodesContainer">
                 <ul className="recoveryCodesList">
-                  {(responseData?.recoveryCodes || [])?.map((val: string) => (
+                  {(responseData?.recoveryCodes ?? [])?.map((val: string) => (
                     <li
                       key={val}
                       className="recoveryCodeItem d-flex justify-content-center align-items-center"

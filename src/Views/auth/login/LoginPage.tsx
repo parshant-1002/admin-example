@@ -1,4 +1,3 @@
-// import { Logo } from '../../../assets';
 import { SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';

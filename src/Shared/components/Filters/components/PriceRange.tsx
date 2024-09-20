@@ -4,6 +4,7 @@ import 'react-range-slider-input/dist/style.css';
 import { Tooltip } from 'react-tooltip';
 import { downArrowFilter } from '../../../../assets';
 import Button from '../../form/Button';
+import { STRINGS } from '../../../constants/constants';
 
 interface PriceRangeSliderProps {
   min: number;
@@ -20,9 +21,9 @@ function PriceRangeSlider({
   value,
   onChange,
   isFiltersOn,
-  rangeSilderTitle = 'Price',
-}: PriceRangeSliderProps) {
-  const [open, setIsOpen] = useState<boolean>(false);
+  rangeSilderTitle = STRINGS.PRICE,
+}: Readonly<PriceRangeSliderProps>) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleSliderChange = (newValue: number[]) => {
     const updatedValue: [number, number] = [newValue[0], newValue[1]];
@@ -41,7 +42,7 @@ function PriceRangeSlider({
   const handleClickOutside = useCallback(
     (event: MouseEvent) => {
       if (
-        open &&
+        isOpen &&
         event.target instanceof HTMLElement &&
         !event.target.closest('.tooltip') &&
         !event.target.closest('.price-filter')
@@ -49,11 +50,11 @@ function PriceRangeSlider({
         setIsOpen(false);
       }
     },
-    [open]
+    [isOpen]
   );
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -62,7 +63,7 @@ function PriceRangeSlider({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [handleClickOutside, open]);
+  }, [handleClickOutside, isOpen]);
 
   useEffect(() => {
     if (!isFiltersOn) {
@@ -76,23 +77,24 @@ function PriceRangeSlider({
 
   return (
     <div>
-      <div
-        className="price-filter"
+      <button
+        type="button"
+        className="price-filter w-100"
         onClick={toggleTooltip}
-        data-tooltip-id={open ? `my-tooltip-${rangeSilderTitle}` : ''}
+        data-tooltip-id={isOpen ? `my-tooltip-${rangeSilderTitle}` : ''}
       >
         {rangeSilderTitle} ({value?.[0]} - {value?.[1]}) SEK{' '}
-        <span className={!open ? 'arrow-down' : 'arrow-right'}>
+        <span className={!isOpen ? 'arrow-down' : 'arrow-right'}>
           <img src={downArrowFilter} alt="" height={20} width={20} />
         </span>{' '}
-      </div>
+      </button>
       <Tooltip
         id={`my-tooltip-${rangeSilderTitle}`}
         clickable
         className="tooltip"
         place="bottom-end"
         opacity={1}
-        isOpen={open}
+        isOpen={isOpen}
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">

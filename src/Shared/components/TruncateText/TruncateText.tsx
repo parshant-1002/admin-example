@@ -24,13 +24,13 @@ const copyToClipboard = async (
   }
 };
 
-function TruncatedText({ text }: TruncatedTextProps) {
+function TruncatedText({ text }: Readonly<TruncatedTextProps>) {
   const [tooltipId, setTooltipId] = useState('');
 
   useEffect(() => {
     // Generate a unique ID for each tooltip
-    setTooltipId(`tooltip-${Math.random().toString(36).substr(2, 9)}`);
-  }, []);
+    setTooltipId(`tooltip-${text}`);
+  }, [text]);
 
   const maxLength = 20;
   const displayText =

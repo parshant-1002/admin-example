@@ -2,18 +2,18 @@ import { Fragment, Ref, SyntheticEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../Button';
 import type { FormDataProps, FormSchema } from './types/Formtypes';
-// import { ALIGNMENT } from '../../../../Shared/Constants';
 import RenderField from './RenderFields';
 import { INPUT_TYPES, blockInvalidChar } from '../../../constants/constants';
 import { FORM_VALIDATION_MESSAGES } from '../../../constants/validationMessages';
 
+interface AddHorizontalTitleProp {
+  isLine: boolean | undefined;
+  title: string | undefined;
+}
 function AddHorizontalTitle({
   isLine,
   title,
-}: {
-  isLine: boolean | undefined;
-  title: string | undefined;
-}) {
+}: Readonly<AddHorizontalTitleProp>) {
   if (isLine && !title) {
     return <hr className="mt-4 hr_line" />;
   }
@@ -81,7 +81,7 @@ function CustomForm({
   alignFormActionBtns = 'center',
   secondaryBtnClassName = 'btn-md text-captialize w-100',
   postSubmitElement,
-}: CustomFormProps) {
+}: Readonly<CustomFormProps>) {
   const [isResetForm, setIsResetForm] = useState(true);
   const {
     register,
@@ -96,7 +96,6 @@ function CustomForm({
   } = useForm({ defaultValues: { ...defaultValues } });
   const handleInputChange = (name: string, value: unknown) => {
     setValue(name, value);
-    // onChangeValues(name, value);
   };
 
   useEffect(() => {
@@ -155,15 +154,16 @@ function CustomForm({
     }
     return register(key, formData[key].schema as unknown as FormDataProps);
   };
-  const getAlignmentForFormActionBtn = () => {
-    switch (alignFormActionBtns) {
-      case 'left':
-        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-start items-center';
-      case 'right':
-        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-end items-center';
-      default:
-        return 'd-flex btn_groups gap-2 mt-4 mb-3 justify-content-center items-center';
+  const getAlignmentForFormActionBtn = (): string => {
+    let justifyContentClass = 'justify-content-center'; // Default alignment
+
+    if (alignFormActionBtns === 'left') {
+      justifyContentClass = 'justify-content-start';
+    } else if (alignFormActionBtns === 'right') {
+      justifyContentClass = 'justify-content-end';
     }
+
+    return `d-flex btn_groups gap-2 mt-4 mb-3 ${justifyContentClass} items-center`;
   };
 
   const handleSubmitClick = (
@@ -176,11 +176,7 @@ function CustomForm({
     setIsResetForm(false);
   };
   return (
-    <form
-      id={id}
-      className={className}
-      // onSubmit={handleSubmit(onSubmit)}
-    >
+    <form id={id} className={className}>
       {Object.keys(formData).map((key) => {
         let field = { ...formData[key] };
         if (formData[key].type === INPUT_TYPES.NUMBER) {

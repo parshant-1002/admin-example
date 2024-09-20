@@ -135,7 +135,6 @@
                 }
 
                 &[data-label="Actions"] {
-                    // position: $sticky;
                     right: 0;
                     top: 0;
                 }
@@ -190,8 +189,6 @@
         border: 0;
     }
 }
-
-@media (max-width:991px) {}
 
 .sort-arrow {
     @include position ($absolute, $top: 0, $right: 0);
