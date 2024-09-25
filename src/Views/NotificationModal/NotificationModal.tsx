@@ -85,9 +85,13 @@ function NotificationModal({
                   <div className="fw-bold header-title">
                     {STRINGS.NOTIFICATIONS_TITLE}
                   </div>
-                  <span className="clear_all ml-3" onClick={() => clearAll()}>
+                  <button
+                    type="button"
+                    className="clear_all ml-3 btn"
+                    onClick={() => clearAll()}
+                  >
                     {BUTTON_LABELS.CLEAR_ALL}
-                  </span>
+                  </button>
                   <button
                     type="button"
                     className="btn-close off-nav"

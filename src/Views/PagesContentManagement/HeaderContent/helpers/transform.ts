@@ -85,7 +85,7 @@ export const transformAPIData = (
     isVisible: data?.isVisible,
     menuItems: dropDownItems?.map((item) => ({
       title: item?.title,
-      fileId: item?.file?.[0]?.fileId || item?.file?.[0]?._id,
+      fileId: item?.file?.[0]?.fileId ?? item?.file?.[0]?._id,
       imageURL: item?.file?.[0]?.fileURL,
     })),
   };

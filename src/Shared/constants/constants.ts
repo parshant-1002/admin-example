@@ -77,7 +77,7 @@ const blockInvalidChar = (
 
 const VALIDATION_REGEX = {
   OTP: /^\d{6}$/,
-  EMAIL: /^\S+@\S+\.\S+$/,
+  EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   PASSWORD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d).{6,20}$/i,
   NUMBER: /\d+/g,
   SPECIAL_CHARACTERS_NOT_ALLOWED: /^[a-zA-Z0-9\s]+$/,
@@ -298,6 +298,8 @@ const BUTTON_LABELS = {
   SELECT_FILES: 'Select file',
   ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
+  BLOCK: 'Block',
+  UNBLOCK: 'Unblock',
   YES: 'Yes',
   NO: 'No',
   CANCEL: 'Cancel',

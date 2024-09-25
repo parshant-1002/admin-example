@@ -20,7 +20,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
   z-index: 111;
   padding: 10px 0;
   overflow-y: $auto;
-  scrollbar-width: thin;
   scrollbar-color: $transparent $body-color;
   background-color: $dark-voilet-color-900;
   scrollbar-width: $none;
@@ -286,7 +285,9 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     &.show,
     &.collapsing {
       background-color: $body-color !important;
-
+      @media (max-width:1200px) {
+        margin-top: -70px;
+      }
       @media (max-width: 1199.98px) {
         @include position ($absolute, $left: 71px);
         margin-top: -45px;
@@ -447,14 +448,6 @@ $submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
     }
   }
 }
-
-.sidebar .accordion-collapse.show,
-.sidebar .accordion-collapse.collapsing {
-  @media (max-width:1200px) {
-    margin-top: -70px;
-  }
-}
-
 .filter_main {
   @media (max-width:767px) {
     flex-direction: column !important;

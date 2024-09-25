@@ -3,6 +3,7 @@ import { FieldSchema } from '../../../../Shared/components/CustomDetailsBoard/Cu
 import {
   DATE_FORMATS,
   INPUT_TYPES,
+  VALIDATION_REGEX,
 } from '../../../../Shared/constants/constants';
 
 // libs
@@ -93,7 +94,7 @@ const ADD_BIDS_FORM_SCHEMA = {
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
       pattern: {
-        value: /^[0-9]+$/,
+        value: VALIDATION_REGEX.NUMBER,
         message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
       },
     },

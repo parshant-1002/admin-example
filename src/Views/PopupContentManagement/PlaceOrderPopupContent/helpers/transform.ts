@@ -24,21 +24,3 @@ export interface PlaceOrderPopupContentFormData {
   addressLine2Placeholder: string;
   placeOrderButtonLabel: string;
 }
-
-// Define the transform function to convert form data to API request format
-export const transAPIRequestDataToFormPlaceOrderPopupContent = (
-  data: PlaceOrderPopupContentFormData
-) => {
-  return {
-    ...data,
-  };
-};
-
-// Define the transform function to convert API response data back to form format
-export const transformAPIRequestDataPlaceOrderPopupContent = (
-  data: PlaceOrderPopupContentFormData // Assuming API response data might not be of type PlaceOrderPopupContentFormData
-) => {
-  return {
-    ...data,
-  };
-};

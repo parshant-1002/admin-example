@@ -8,11 +8,7 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import TOPUP_POPUP_SECTION_CONTENT from './helpers/constant';
-import {
-  TopupPupupFormData,
-  transAPIRequestDataToFormTopupPupup,
-  transformAPIRequestDataTopupPupup,
-} from './helpers/transform';
+import { TopupPupupFormData } from './helpers/transform';
 
 function TopupPupup() {
   const [initialValues, setInitialValues] = useState({});
@@ -21,9 +17,7 @@ function TopupPupup() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.TOPUP_POPUP]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormTopupPupup(
-        content.data[CONTENT_ENUMS.TOPUP_POPUP]
-      );
+      const initialFormValues = content.data[CONTENT_ENUMS.TOPUP_POPUP];
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
     }
@@ -32,7 +26,7 @@ function TopupPupup() {
     const formData = data as unknown as TopupPupupFormData;
 
     const payload = {
-      [CONTENT_ENUMS.TOPUP_POPUP]: transformAPIRequestDataTopupPupup(formData),
+      [CONTENT_ENUMS.TOPUP_POPUP]: formData,
     };
     await updateContent({
       payload,

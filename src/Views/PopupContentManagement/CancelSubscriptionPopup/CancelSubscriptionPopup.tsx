@@ -8,11 +8,7 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import CANCEL_SUBSCRIPTION_SECTION_CONTENT from './helpers/constant';
-import {
-  CancelSubscriptionPopupFormData,
-  transAPIRequestDataToFormCancelSubscriptionPopup,
-  transformAPIRequestDataCancelSubscriptionPopup,
-} from './helpers/transform';
+import { CancelSubscriptionPopupFormData } from './helpers/transform';
 
 function CancelSubscriptionPopup() {
   const [initialValues, setInitialValues] = useState({});
@@ -21,10 +17,7 @@ function CancelSubscriptionPopup() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.CANCEL_SUBSCRIPTION]) {
       // Set initial form values
-      const initialFormValues =
-        transAPIRequestDataToFormCancelSubscriptionPopup(
-          content.data[CONTENT_ENUMS.CANCEL_SUBSCRIPTION]
-        );
+      const initialFormValues = content.data[CONTENT_ENUMS.CANCEL_SUBSCRIPTION];
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
     }
@@ -33,8 +26,7 @@ function CancelSubscriptionPopup() {
     const formData = data as unknown as CancelSubscriptionPopupFormData;
 
     const payload = {
-      [CONTENT_ENUMS.CANCEL_SUBSCRIPTION]:
-        transformAPIRequestDataCancelSubscriptionPopup(formData),
+      [CONTENT_ENUMS.CANCEL_SUBSCRIPTION]: formData,
     };
     await updateContent({
       payload,

@@ -1,4 +1,5 @@
 import { Notification } from '../../../Models/common';
+import { STRINGS } from '../../../Shared/constants/constants';
 import { VariableTypes } from '../../../Shared/constants/enums';
 import { addBaseUrl } from '../../../Shared/utils/functions';
 
@@ -52,7 +53,7 @@ function NotifcationBox({ index, notification }: Readonly<NotifcationBoxProp>) {
             <h4 className="h6 fw-bold">{notification?.title}</h4>
             <p
               dangerouslySetInnerHTML={{
-                __html: notification?.htmlDescription || '',
+                __html: notification?.htmlDescription ?? STRINGS.EMPTY_STRING,
               }}
             />
           </div>

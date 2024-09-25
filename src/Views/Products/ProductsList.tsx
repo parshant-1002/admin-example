@@ -91,13 +91,13 @@ export default function ProductsList() {
   );
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
-    data: { id: '', ids: [''] },
+    data: { id: STRINGS.EMPTY_STRING, ids: [STRINGS.EMPTY_STRING] },
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
-  const [search, setSearch] = useState<string>('');
-  const [sortKey, setSortKey] = useState<string>('');
+  const [search, setSearch] = useState<string>(STRINGS.EMPTY_STRING);
+  const [sortKey, setSortKey] = useState<string>(STRINGS.EMPTY_STRING);
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
@@ -109,7 +109,7 @@ export default function ProductsList() {
     });
   const [addData, setAddData] = useState<boolean>(false);
   const [showMultiItemView, setShowMultiItemView] = useState<ViewMultiData>({
-    data: { title: '' },
+    data: { title: STRINGS.EMPTY_STRING },
     show: false,
   });
 
@@ -272,7 +272,7 @@ export default function ProductsList() {
   // Function to handle sorting click
   const handleSortingClick = (
     selectedOrder: number = FilterOrder.DESCENDING,
-    selectedSortKey: string = ''
+    selectedSortKey: string = STRINGS.EMPTY_STRING
   ) => {
     setSortKey(selectedSortKey);
     setSortDirection(selectedOrder);
@@ -377,32 +377,21 @@ export default function ProductsList() {
           />
         </CustomModal>
       )}
-      {editData?.show && (
+      {(editData?.show || addData) && (
         <ProductForm
-          title="Edit"
-          show={editData?.show}
+          title={editData?.show ? 'Edit' : 'Add'}
+          show={editData?.show || addData}
           onClose={handleCloseForm}
-          isEdit
-          initialData={editData?.data}
+          isEdit={!!editData?.show}
+          initialData={editData?.show ? editData?.data : {}}
           onEdit={handleEditSuccess}
-          categoryOptions={categoryOptions}
-        />
-      )}
-
-      {addData && (
-        <ProductForm
-          title="Add"
-          show={addData}
-          onClose={handleCloseForm}
-          isEdit={false}
-          initialData={{}}
           onAdd={handleAddSuccess}
           categoryOptions={categoryOptions}
         />
       )}
 
       <StatsFilters
-        handleClearSearch={() => setSearch('')}
+        handleClearSearch={() => setSearch(STRINGS.EMPTY_STRING)}
         handleSearch={debounceSearch}
         setAddData={() => setAddData(true)}
         selectedIds={selectedIds}

@@ -27,13 +27,13 @@ const createQueryParams = (
   imageFileType?: string
 ): QueryParams => {
   const params: QueryParams = {
-    startDate: '',
-    endDate: '',
-    type: imageFileType ? String(imageFileType) : '',
+    startDate: STRINGS.EMPTY_STRING,
+    endDate: STRINGS.EMPTY_STRING,
+    type: imageFileType ? String(imageFileType) : STRINGS.EMPTY_STRING,
   };
 
   config?.forEach(({ key, value: id }) => {
-    params[String(key)] = id ?? '';
+    params[String(key)] = id ?? STRINGS.EMPTY_STRING;
   });
 
   return params;
@@ -83,7 +83,7 @@ const getDeleteImageFunctionVariables = (
   );
   const shouldRefetch = !isCreateProductAuction || !isProductAuction;
   const isResetValuesForProductionAuction =
-    isMultiDelete ?? !isLeftOutFilesSelected;
+    isMultiDelete || !isLeftOutFilesSelected;
   return {
     shouldRefetch,
     isResetValuesForProductionAuction,

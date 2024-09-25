@@ -8,11 +8,7 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import LOGOUT_POPUP_SECTION_CONTENT from './helpers/constant';
-import {
-  LogoutPopupFormData,
-  transAPIRequestDataToFormLogoutPopup,
-  transformAPIRequestDataLogoutPopup,
-} from './helpers/transform';
+import { LogoutPopupFormData } from './helpers/transform';
 
 function LogoutPopup() {
   const [initialValues, setInitialValues] = useState({});
@@ -21,9 +17,7 @@ function LogoutPopup() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.LOGOUT_POPUP]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormLogoutPopup(
-        content.data[CONTENT_ENUMS.LOGOUT_POPUP]
-      );
+      const initialFormValues = content.data[CONTENT_ENUMS.LOGOUT_POPUP];
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
     }
@@ -32,8 +26,7 @@ function LogoutPopup() {
     const formData = data as unknown as LogoutPopupFormData;
 
     const payload = {
-      [CONTENT_ENUMS.LOGOUT_POPUP]:
-        transformAPIRequestDataLogoutPopup(formData),
+      [CONTENT_ENUMS.LOGOUT_POPUP]: formData,
     };
     await updateContent({
       payload,

@@ -59,12 +59,12 @@ function ListFiles({
             // Remaining rendering logic
             if (file.fileName && file.fileURL && file._id) {
               return (
-                <div
+                <button
                   key={file._id}
+                  type="button"
                   className={`card-file d-flex align-items-center justify-content-between ${
                     isSelected ? 'selected' : STRINGS.EMPTY_STRING
                   }`}
-                  onKeyDown={() => toggleFileSelection(file)}
                   onClick={() => toggleFileSelection(file)}
                 >
                   <div className="d-flex align-items-center img_card">
@@ -96,7 +96,7 @@ function ListFiles({
                   >
                     <img src={Delete} alt="delete" />
                   </button>
-                </div>
+                </button>
               );
             }
             return null;

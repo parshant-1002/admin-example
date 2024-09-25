@@ -44,7 +44,7 @@ export default function ProductForm({
   title = STRINGS.EMPTY_STRING,
   show = false,
   onClose = () => {},
-}: ProductFormTypes) {
+}: Readonly<ProductFormTypes>) {
   // hooks
   const dispatch = useDispatch();
   const [addProduct] = useAddProductMutation();
@@ -58,7 +58,7 @@ export default function ProductForm({
   );
 
   const deleteFiles = async () => {
-    const fileIds = (deletedFiles || [])?.map(
+    const fileIds = (deletedFiles ?? [])?.map(
       (file: { _id: string }) => file?._id
     );
     if (fileIds?.length) {
@@ -90,9 +90,9 @@ export default function ProductForm({
         description: productData?.description,
         price: productData?.price,
         images: productData?.images?.map((image) => ({
-          url: addBaseUrl(image?.fileURL || image?.url || ''),
-          title: image?.fileName || image?.title,
-          fileId: image?.fileId || image?._id,
+          url: addBaseUrl(image?.fileURL ?? image?.url ?? STRINGS.EMPTY_STRING),
+          title: image?.fileName ?? image?.title,
+          fileId: image?.fileId ?? image?._id,
           assigned: image?.assigned,
         })),
         specifications: {
@@ -137,7 +137,7 @@ export default function ProductForm({
   };
   const handleClose = () => {
     dispatch(
-      updateUploadedImages([...(uploadedFiles || []), ...(deletedFiles || [])])
+      updateUploadedImages([...(uploadedFiles ?? []), ...(deletedFiles ?? [])])
     );
     dispatch(deletedImages(null));
     onClose();

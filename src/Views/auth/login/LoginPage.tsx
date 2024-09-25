@@ -30,7 +30,7 @@ function LoginPage() {
   ) => {
     event.preventDefault();
     try {
-      const emailData = data?.email as unknown as string;
+      const emailData = data?.email as string;
       await loginRequest({
         payload: data,
         onSuccess: (res: LoginResponse) => onSuccessLogin(res, emailData),

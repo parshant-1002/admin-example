@@ -22,11 +22,11 @@ function Switch({ onChange, checked }: Readonly<SwitchProps>) {
   };
 
   return (
-    <div className="switch-container" onClick={handleToggle}>
+    <button type="button" className="switch-container" onClick={handleToggle}>
       <div className={`switch ${isChecked ? 'checked' : ''}`}>
         <div className="switch-toggle" />
       </div>
-    </div>
+    </button>
   );
 }
 

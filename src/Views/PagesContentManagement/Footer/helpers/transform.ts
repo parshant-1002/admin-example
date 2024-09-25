@@ -1,4 +1,5 @@
 import { AddContentFormItem } from '../../../../Models/common';
+import { STRINGS } from '../../../../Shared/constants/constants';
 
 // Define types for the SocialConnectItem
 interface SocialConnectItem {
@@ -62,7 +63,7 @@ export const transformAPIRequestDataFooter = (
     socialConnectTitle: data?.socialConnectTitle,
     socialConnect: socialConectItems?.map(({ imageURL, url }) => ({
       imageURL: Array.isArray(imageURL)
-        ? imageURL[0]?.fileURL || ''
+        ? imageURL[0]?.fileURL ?? STRINGS.EMPTY_STRING
         : String(imageURL),
       url: String(url),
     })),

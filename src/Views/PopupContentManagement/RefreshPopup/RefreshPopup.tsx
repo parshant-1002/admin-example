@@ -8,11 +8,7 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import REFRESH_POPUP_SECTION_CONTENT from './helpers/constant';
-import {
-  RefreshPopupFormData,
-  transAPIRequestDataToFormRefreshPopup,
-  transformAPIRequestDataRefreshPopup,
-} from './helpers/transform';
+import { RefreshPopupFormData } from './helpers/transform';
 
 function RefreshPopup() {
   const [initialValues, setInitialValues] = useState({});
@@ -21,9 +17,7 @@ function RefreshPopup() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.REFRESH_POPUP]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormRefreshPopup(
-        content.data[CONTENT_ENUMS.REFRESH_POPUP]
-      );
+      const initialFormValues = content.data[CONTENT_ENUMS.REFRESH_POPUP];
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
     }
@@ -32,8 +26,7 @@ function RefreshPopup() {
     const formData = data as unknown as RefreshPopupFormData;
 
     const payload = {
-      [CONTENT_ENUMS.REFRESH_POPUP]:
-        transformAPIRequestDataRefreshPopup(formData),
+      [CONTENT_ENUMS.REFRESH_POPUP]: formData,
     };
     await updateContent({
       payload,

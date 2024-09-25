@@ -4,9 +4,8 @@ export function Footer() {
       <div className="copyright">
         &copy; Copyright{' '}
         <strong>
-          {' '}
-          <span>Premium token</span>{' '}
-        </strong>
+          <span>Premium token</span>
+        </strong>{' '}
         . All Rights Reserved
       </div>
     </footer>

@@ -42,6 +42,7 @@ import { FiltersState } from '../../Shared/components/Filters/helpers/models';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
 import { FilterOrder } from '../../Shared/constants/enums';
+import { ActionType } from './UserDetails/helpers/model';
 
 interface DeleteData {
   data: { id?: string; ids?: string[] } | null;
@@ -66,17 +67,17 @@ export default function UsersList() {
   // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
-    data: { id: '', ids: [''] },
+    data: { id: STRINGS.EMPTY_STRING, ids: [STRINGS.EMPTY_STRING] },
   });
   const [blockModal, setBlockModal] = useState<BlockData>({
     show: false,
-    data: { id: '' },
+    data: { id: STRINGS.EMPTY_STRING },
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
-  const [search, setSearch] = useState<string>('');
-  const [sortKey, setSortKey] = useState<string>('');
+  const [search, setSearch] = useState<string>(STRINGS.EMPTY_STRING);
+  const [sortKey, setSortKey] = useState<string>(STRINGS.EMPTY_STRING);
   const [sortDirection, setSortDirection] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
@@ -130,88 +131,29 @@ export default function UsersList() {
     });
   }, []);
   // Function to close delete modal
-  const handleCloseDelete = () => {
-    setDeleteModal({ data: null, show: false });
-  };
-  const handleCloseBlock = () => {
-    setBlockModal({ data: null, show: false });
-  };
-
-  // Function to handle delete confirmation
-  // eslint-disable-next-line consistent-return
-  const handleDeleteClick = async () => {
-    try {
-      let deletePayload;
-      if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return null;
-      if (deleteModal?.data?.id) {
-        deletePayload = {
-          userIds: [deleteModal?.data?.id],
-        };
-      }
-      if (deleteModal?.data?.ids) {
-        deletePayload = {
-          userIds: deleteModal?.data?.ids,
-        };
-      }
-      await deleteUser({
-        payload: deletePayload,
-        onSuccess: (data: { message: string }) => {
-          toast.success(data?.message);
-          handleCloseDelete();
-          setSelectedIds([]);
-          refetch();
-        },
-      });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-      }
-    }
-  };
-  const handleBlockClick = async () => {
-    try {
-      let blockPayload;
-      if (blockModal?.data?.id) {
-        blockPayload = {
-          userId: blockModal?.data?.id,
-          isBlocked: !blockModal?.data?.isBlocked,
-        };
-      }
-      await editUser({
-        payload: blockPayload,
-        onSuccess: (data: { message: string }) => {
-          toast.success(data?.message);
-          handleCloseBlock();
-          setSelectedIds([]);
-          refetch();
-        },
-      });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-      }
-    }
+  const handleCloseModal = (modalType: ActionType) => {
+    if (modalType === ActionType.DELETE)
+      setDeleteModal({ data: null, show: false });
+    else setBlockModal({ data: null, show: false });
   };
   const getActionsSchema = useCallback(
     (row: UsersResponsePayload): SubmenuItem<UsersResponsePayload>[] => [
       {
-        buttonLabel: 'View',
+        buttonLabel: BUTTON_LABELS.VIEW,
         buttonAction: () => handleView(row), // Make sure to use the row parameter here
         icon: view,
         isPrimary: true,
       },
       {
-        buttonLabel: row.isBlocked ? 'UnBlock' : 'Block',
+        buttonLabel: row.isBlocked
+          ? BUTTON_LABELS.UNBLOCK
+          : BUTTON_LABELS.BLOCK,
         buttonAction: () => handleBlock(row), // Make sure to use the row parameter here
         icon: block,
         isDanger: row.isBlocked,
       },
       {
-        buttonLabel: 'Delete',
+        buttonLabel: BUTTON_LABELS.DELETE,
         buttonAction: () => handleDelete(row), // Make sure to use the row parameter here
         icon: Delete,
         isDanger: true,
@@ -235,7 +177,7 @@ export default function UsersList() {
   // Function to handle sorting click
   const handleSortingClick = (
     selectedOrder: number = FilterOrder.DESCENDING,
-    selectedSortKey: string = ''
+    selectedSortKey: string = STRINGS.EMPTY_STRING
   ) => {
     setSortKey(selectedSortKey);
     setSortDirection(selectedOrder);
@@ -245,9 +187,6 @@ export default function UsersList() {
     setDeleteModal({ show: true, data: { ids: selectedIds } });
   };
 
-  // const handleRowClick = (row: Row) => {
-  //   navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
-  // };
   // Function to handle search with debounce
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(0);
@@ -260,7 +199,7 @@ export default function UsersList() {
       if (foundIndex !== undefined && foundIndex > -1) {
         return prevSelectedIds?.filter((f) => f !== id);
       }
-      return [...(prevSelectedIds || []), id];
+      return [...(prevSelectedIds ?? []), id];
     });
   };
 
@@ -286,36 +225,77 @@ export default function UsersList() {
     });
     setCurrentPage(0);
   };
+  const handleSuccessDeleteOrBlock = (data: { message: string }) => {
+    toast.success(data?.message);
+    handleCloseModal(ActionType.DELETE);
+    handleCloseModal(ActionType.BLOCK);
+    setSelectedIds([]);
+    refetch();
+  };
+  const handleSubmit = async (actionType: ActionType) => {
+    try {
+      if (actionType === ActionType.DELETE) {
+        if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return;
+        const deletePayload = deleteModal?.data?.id
+          ? { userIds: [deleteModal?.data?.id] }
+          : { userIds: deleteModal?.data?.ids };
+        await deleteUser({
+          payload: deletePayload,
+          onSuccess: handleSuccessDeleteOrBlock,
+        });
+      } else if (actionType === ActionType.BLOCK) {
+        if (!blockModal?.data?.id) return;
+        const blockPayload = {
+          userId: blockModal?.data?.id,
+          isBlocked: !blockModal?.data?.isBlocked,
+        };
+        await editUser({
+          payload: blockPayload,
+          onSuccess: handleSuccessDeleteOrBlock,
+        });
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : ERROR_MESSAGES().SOMETHING_WENT_WRONG
+      );
+    }
+  };
+  const getModalTitle = (actionType: ActionType) => {
+    if (actionType === ActionType.DELETE) {
+      return CONFIRMATION_DESCRIPTION.DELETE;
+    }
+    if (actionType === ActionType.BLOCK) {
+      if (blockModal?.data?.isBlocked) {
+        return CONFIRMATION_DESCRIPTION.UNBLOCK;
+      }
+      return CONFIRMATION_DESCRIPTION.BLOCK;
+    }
+    return STRINGS.EMPTY_STRING;
+  };
+  const renderConfirmationModal = (
+    modalData: DeleteData | BlockData,
+    actionType: ActionType
+  ) => (
+    <ConfirmationModal
+      title={getModalTitle(actionType)}
+      open={modalData.show}
+      handleClose={() => handleCloseModal(actionType)}
+      showCancelButton
+      submitButtonText={BUTTON_LABELS.YES}
+      cancelButtonText={BUTTON_LABELS.NO}
+      icon={RED_WARNING}
+      handleSubmit={() => handleSubmit(actionType)}
+      showClose={false}
+    />
+  );
   return (
     <>
-      <ConfirmationModal
-        title={CONFIRMATION_DESCRIPTION.DELETE}
-        open={deleteModal?.show}
-        handleClose={handleCloseDelete}
-        showCancelButton
-        submitButtonText={BUTTON_LABELS.YES}
-        cancelButtonText={BUTTON_LABELS.NO}
-        icon={RED_WARNING}
-        handleSubmit={handleDeleteClick}
-        showClose={false}
-      />
-      <ConfirmationModal
-        title={
-          blockModal?.data?.isBlocked
-            ? CONFIRMATION_DESCRIPTION.UNBLOCK
-            : CONFIRMATION_DESCRIPTION.BLOCK
-        }
-        open={blockModal?.show}
-        handleClose={handleCloseBlock}
-        showCancelButton
-        submitButtonText={BUTTON_LABELS.YES}
-        cancelButtonText={BUTTON_LABELS.NO}
-        icon={RED_WARNING}
-        handleSubmit={handleBlockClick}
-        showClose={false}
-      />
+      {renderConfirmationModal(deleteModal, ActionType.DELETE)}
+      {renderConfirmationModal(blockModal, ActionType.BLOCK)}
       <StatsFilters
-        handleClearSearch={() => setSearch('')}
+        handleClearSearch={() => setSearch(STRINGS.EMPTY_STRING)}
         handleSearch={debounceSearch}
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
@@ -326,20 +306,19 @@ export default function UsersList() {
       />
 
       <CustomTableView
-        rows={(usersListing?.data?.data as unknown as Row[]) || []}
+        rows={(usersListing?.data?.data as unknown as Row[]) ?? []}
         columns={columns as unknown as Column[]}
         pageSize={USERS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
-        // handleRowClick={handleRowClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(usersListing?.data?.count || 1) / USERS_PAGE_LIMIT}
+            pageCount={(usersListing?.data?.count ?? 1) / USERS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((usersListing?.data?.count || 1) / USERS_PAGE_LIMIT) !==
+              Math.ceil((usersListing?.data?.count ?? 1) / USERS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

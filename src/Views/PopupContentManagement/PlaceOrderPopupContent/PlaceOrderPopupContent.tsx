@@ -8,11 +8,7 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import PLACE_ORDER_POPUP_SECTION_CONTENT from './helpers/constant';
-import {
-  PlaceOrderPopupContentFormData,
-  transAPIRequestDataToFormPlaceOrderPopupContent,
-  transformAPIRequestDataPlaceOrderPopupContent,
-} from './helpers/transform';
+import { PlaceOrderPopupContentFormData } from './helpers/transform';
 
 function PlaceOrderPopupContent() {
   const [initialValues, setInitialValues] = useState({});
@@ -21,9 +17,7 @@ function PlaceOrderPopupContent() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.PLACE_ORDER_POPUP]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormPlaceOrderPopupContent(
-        content.data[CONTENT_ENUMS.PLACE_ORDER_POPUP]
-      );
+      const initialFormValues = content.data[CONTENT_ENUMS.PLACE_ORDER_POPUP];
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
     }
@@ -32,8 +26,7 @@ function PlaceOrderPopupContent() {
     const formData = data as unknown as PlaceOrderPopupContentFormData;
 
     const payload = {
-      [CONTENT_ENUMS.PLACE_ORDER_POPUP]:
-        transformAPIRequestDataPlaceOrderPopupContent(formData),
+      [CONTENT_ENUMS.PLACE_ORDER_POPUP]: formData,
     };
     await updateContent({
       payload,

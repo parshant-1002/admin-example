@@ -14,8 +14,7 @@ function MarketText({ text, type }: Readonly<MarketTextType>) {
     case TEXT_TYPES.PENDING:
       return <span className="text-warning">{text}</span>;
     default:
-      <span className="text-green">{text}</span>;
-      break;
+      return <span className="text-green">{text}</span>;
   }
 }
 

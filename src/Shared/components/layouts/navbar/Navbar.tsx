@@ -47,16 +47,21 @@ function Navbar() {
       <NotificationToast />
 
       <div className="d-flex align-items-center justify-content-between">
-        <div
+        <button
+          type="button"
           aria-label="Hide Sidebar"
-          className="d-flex text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+          className="d-flex btn btn-transparent text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
           data-bs-toggle="sidebar"
           onClick={toggleSidebar}
         >
           <span />
-        </div>
+        </button>
         <Link to="/" className="logo d-flex align-items-center" />
-        <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
+        <button
+          type="button"
+          className="bi bi-list toggle-sidebar-btn btn btn-transparent"
+          onClick={toggleSidebar}
+        />
       </div>
       <nav className="header-nav ms-auto">
         <ul className="d-flex gap-2 align-items-center list-inline">

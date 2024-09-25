@@ -73,7 +73,6 @@
     right: 15px;
     width: 30px;
     height: 30px;
-    // filter: invert(1) brightness(9);
 
     svg {
         fill: #000; // Black color for the SVG
@@ -122,19 +121,28 @@
         }
 
         .notification-body {
+            width: 100%;
+            max-width: 86% !important;
+
             h4 {
                 margin-bottom: 5px; // Space between title and description
-                color: rgba(0,0,0,1);
+                color: rgba(0, 0, 0, 1);
                 font-size: 18px;
             }
 
             p {
                 margin: 0;
-                font-weight: 400;
                 font-size: 14px;
-                color: rgba(0,0,0,0.8);
+                color: rgba(0, 0, 0, 0.8);
                 font-weight: 500;
                 font-family: $Popin-font;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                line-height: 1.5;
+                max-height: 3em;
             }
 
             a {
@@ -148,21 +156,6 @@
                 &:hover {
                     text-decoration: underline;
                 }
-            }
-        }
-
-        .notification-body {
-            width: 100%;
-            max-width: 86% !important;
-
-            p {
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                line-height: 1.5;
-                max-height: 3em;
             }
         }
     }

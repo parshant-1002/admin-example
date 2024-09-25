@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 // consts
 import { SingleValue } from 'react-select';
-import { BUTTON_LABELS } from '../../constants/constants';
+import { BUTTON_LABELS, STRINGS } from '../../constants/constants';
 
 // components
 import Button from '../form/Button';
@@ -91,13 +91,13 @@ function StatsFilters({
   const [showFilters, setShowFilters] = useState(false);
   const [isFiltersOn, setIsFiltersOn] = useState(false);
   const [isInitialEmptyForDate, setIsInitialEmptyForDate] = useState(true);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(STRINGS.EMPTY_STRING);
   const [filtersState, setFiltersState] =
     useState<FiltersState>(intitialFilterState);
 
   const handleClear = () => {
     setIsFiltersOn(false);
-    setSearchValue('');
+    setSearchValue(STRINGS.EMPTY_STRING);
     handleClearSearch();
     handleClearAll();
     setFiltersState(intitialFilterState);

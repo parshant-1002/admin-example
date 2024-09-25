@@ -38,8 +38,9 @@ export const usersColumns = (
     noClickEvent: true,
     render: (row) => {
       return (
-        <div
-          className="custom-checkbox"
+        <button
+          type="button"
+          className="custom-checkbox btn btn-transparent"
           onClick={(e) => {
             e.stopPropagation();
             handleChangeCheckBox(row._id);
@@ -49,10 +50,9 @@ export const usersColumns = (
             type="checkbox"
             className="checkbox-input"
             checked={selectedIds?.includes(row._id)}
-            // onChange={() => handleChangeCheckBox(row._id)}
           />
           <span className="label" />
-        </div>
+        </button>
       );
     },
   },

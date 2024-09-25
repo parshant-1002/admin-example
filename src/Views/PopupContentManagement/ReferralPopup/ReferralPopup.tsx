@@ -8,11 +8,7 @@ import CustomCardWrapper from '../../../Shared/components/CustomCardWrapper/Cust
 import { CustomForm } from '../../../Shared/components/index';
 import { CONTENT_ENUMS } from '../../../Shared/constants/constants';
 import REFERRAL_POPUP_SECTION_CONTENT from './helpers/constant';
-import {
-  ReferralPopupFormData,
-  transAPIRequestDataToFormReferralPopup,
-  transformAPIRequestDataReferralPopup,
-} from './helpers/transform';
+import { ReferralPopupFormData } from './helpers/transform';
 
 function ReferralPopup() {
   const [initialValues, setInitialValues] = useState({});
@@ -21,9 +17,7 @@ function ReferralPopup() {
   useEffect(() => {
     if (content?.data?.[CONTENT_ENUMS.REFERRAL_POPUP]) {
       // Set initial form values
-      const initialFormValues = transAPIRequestDataToFormReferralPopup(
-        content.data[CONTENT_ENUMS.REFERRAL_POPUP]
-      );
+      const initialFormValues = content.data[CONTENT_ENUMS.REFERRAL_POPUP];
       setInitialValues(initialFormValues);
       // Extract and set socialConnectContent values
     }
@@ -32,8 +26,7 @@ function ReferralPopup() {
     const formData = data as unknown as ReferralPopupFormData;
 
     const payload = {
-      [CONTENT_ENUMS.REFERRAL_POPUP]:
-        transformAPIRequestDataReferralPopup(formData),
+      [CONTENT_ENUMS.REFERRAL_POPUP]: formData,
     };
     await updateContent({
       payload,

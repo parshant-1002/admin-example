@@ -118,12 +118,13 @@ function NotificationToast() {
           animation
         >
           <Toast.Header closeButton>
-            <div
-              className="w-100 d-flex completed_steps notification-container"
+            <button
+              type="button"
+              className="w-100 d-flex completed_steps notification-container btn btn-transparent"
               onClick={() =>
                 notification?.link
                   ? window.open(notification.link, '_blank')
-                  : ''
+                  : STRINGS.EMPTY_STRING
               }
             >
               <span
@@ -140,7 +141,7 @@ function NotificationToast() {
                         notification.backgroundColor.slice(-2),
                         16
                       )}, 0.5)`
-                    : '',
+                    : STRINGS.EMPTY_STRING,
                 }}
               >
                 <img
@@ -167,7 +168,7 @@ function NotificationToast() {
                         notification.backgroundColor.slice(-2),
                         16
                       )}, 0.4)`
-                    : '',
+                    : STRINGS.EMPTY_STRING,
                 }}
               >
                 <div className="toast-content-wrapper">
@@ -184,7 +185,7 @@ function NotificationToast() {
                   </p>
                 ) : null}
               </div>
-            </div>
+            </button>
             <button
               type="button"
               onClick={handleClose}

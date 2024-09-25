@@ -32,11 +32,13 @@ function DateFilterButtons({
 
     let fromDate; // Default to today
     let toDate; // Default to today
-
+    const setTodayDate = () => {
+      fromDate = formattedToday;
+      toDate = formattedToday;
+    };
     switch (type) {
       case BUTTON_LABELS.TODAY:
-        fromDate = formattedToday;
-        toDate = formattedToday;
+        setTodayDate();
         break;
 
       case BUTTON_LABELS.YESTERDAY: {
@@ -85,8 +87,7 @@ function DateFilterButtons({
         break;
 
       default:
-        fromDate = formattedToday;
-        toDate = formattedToday;
+        setTodayDate();
         break;
     }
 
