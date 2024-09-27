@@ -1,6 +1,13 @@
 /* eslint-disable consistent-return */
 // libs
-import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +34,7 @@ import {
   BUTTON_LABELS,
   CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
   FILE_TYPE,
+  STRINGS,
 } from '../../../constants/constants';
 import ERROR_MESSAGES from '../../../constants/messages';
 import TOAST_MESSAGES from '../../../constants/toastMessages';
@@ -63,6 +71,7 @@ import {
   getDeleteImageFunctionVariables,
   getUploadFileVariables,
 } from './helpers/utils';
+import ImageUploadBox from './components/ImageUploadBox';
 
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   function FileInput(
@@ -72,7 +81,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       label,
       subLabel,
       maxSize = FILE_MAX_SIZE, // 6mb
-      accept = '',
+      accept = STRINGS.EMPTY_STRING,
       singleImageSelectionEnabled = true,
       ratio = [],
       imageFileType = FILE_TYPE.CMS,
@@ -81,6 +90,9 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     },
     ref
   ) {
+    const selectedFilesList = useRef<FileData[]>();
+
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [deleteModal, setDeleteModal] = useState<DeleteData>({
       show: false,
       data: { fileId: [''] },
@@ -134,9 +146,12 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       }
     );
 
-    const imageList = {
-      files: [...(uploadedImages ?? [])],
-    };
+    const imageList = useMemo(
+      () => ({
+        files: [...(uploadedImages ?? [])],
+      }),
+      [uploadedImages]
+    );
 
     useEffect(() => {
       dispatch(updateUploadedImages(data?.files));
@@ -145,27 +160,96 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
-
+    const handleFileUpload = useCallback(
+      async (fileValueList: FileData[]) => {
+        try {
+          if (fileValueList && fileValueList.length === 0) {
+            return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
+          }
+          const { finalDataForProductAuction, allAssignedData, responseData } =
+            await getUploadFileVariables(
+              hideListSelection,
+              fileValueList,
+              fileUpload,
+              imageList,
+              singleImageSelectionEnabled,
+              imageFileType
+            );
+          // Dispatch actions based on conditions
+          if (isProductAuction) {
+            dispatch(updateUploadedImages(finalDataForProductAuction));
+            if (hideListSelection) {
+              onChange(allAssignedData);
+              setChooseFile(allAssignedData);
+              setShowModal(false);
+            } else {
+              setActiveTab(TABS.LIST_FILES);
+            }
+          } else {
+            onChange(responseData);
+            setChooseFile(responseData);
+          }
+          if (!isCreateProductAuction) {
+            refetch();
+          }
+          setFileValue([]);
+          selectedFilesList.current = [];
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            toast.error(error.message);
+          } else {
+            toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+          }
+        }
+      },
+      [
+        dispatch,
+        fileUpload,
+        hideListSelection,
+        imageFileType,
+        imageList,
+        isCreateProductAuction,
+        isProductAuction,
+        onChange,
+        refetch,
+        singleImageSelectionEnabled,
+      ]
+    );
     const imageOnLoad = useCallback(
-      (img: HTMLImageElement, file: File, result: string) => {
+      (
+        img: HTMLImageElement,
+        file: File,
+        result: string,
+        uploadOnLoad: string
+      ) => {
         const { width, height } = img;
         const calculatedRatio = width / height;
         const [firstValue, secondValue] = ratio;
         const calculatedRequiredRatio = firstValue / secondValue;
-
         if (Math.abs(calculatedRatio - calculatedRequiredRatio) < 0.1) {
           // Image has the required aspect ratio (tolerance of 0.1)
           setFileValue((prevState) => [
             ...(prevState ?? []),
             { file, src: result },
           ]);
+          if (uploadOnLoad) {
+            handleFileUpload([
+              ...(selectedFilesList.current ?? []),
+              { file, src: result },
+            ]);
+          } else {
+            selectedFilesList.current = [
+              ...(selectedFilesList.current ?? []),
+              { file, src: result },
+            ];
+          }
         } else {
           toast.error(
             TOAST_MESSAGES(firstValue, secondValue).IMAGE_RATIO_ERROR
           );
         }
       },
-      [ratio]
+      [handleFileUpload, ratio, selectedFilesList]
     );
 
     const isFileValid = useCallback(
@@ -186,31 +270,45 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     );
 
     const handleImageLoad = useCallback(
-      (result: string, file: File) => {
+      (result: string, file: File, uploadOnLoad: string) => {
         const img = new Image();
-        img.onload = () => imageOnLoad(img, file, result);
+        img.onload = () => imageOnLoad(img, file, result, uploadOnLoad);
         img.src = result;
       },
       [imageOnLoad]
     );
 
-    const addFileToState = (file: File, result: string) => {
-      setFileValue((prevState) => [
-        ...(prevState ?? []),
-        { file, src: result },
-      ]);
-    };
+    const addFileToState = useCallback(
+      (file: File, result: string, uploadOnLoad: string) => {
+        setFileValue((prevState) => [
+          ...(prevState ?? []),
+          { file, src: result },
+        ]);
+        if (uploadOnLoad) {
+          handleFileUpload([
+            ...(selectedFilesList.current ?? []),
+            { file, src: result },
+          ]);
+        } else {
+          selectedFilesList.current = [
+            ...(selectedFilesList.current ?? []),
+            { file, src: result },
+          ];
+        }
+      },
+      [handleFileUpload, selectedFilesList]
+    );
     const handleFileLoad = useCallback(
-      (e: ProgressEvent<FileReader>, file: File) => {
+      (e: ProgressEvent<FileReader>, file: File, uploadOnLoad: string) => {
         const result = e.target?.result as string;
 
         if (ratio && ratio.length === 2) {
-          handleImageLoad(result, file);
+          handleImageLoad(result, file, uploadOnLoad);
         } else {
-          addFileToState(file, result);
+          addFileToState(file, result, uploadOnLoad);
         }
       },
-      [handleImageLoad, ratio]
+      [addFileToState, handleImageLoad, ratio]
     );
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
@@ -222,7 +320,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
           const reader = new FileReader();
           reader.onload = (e: ProgressEvent<FileReader>) =>
-            handleFileLoad(e, file);
+            handleFileLoad(e, file, STRINGS.EMPTY_STRING);
           reader.readAsDataURL(file);
         });
       },
@@ -230,7 +328,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     );
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
-      multiple: true,
+      multiple: !singleImageSelectionEnabled,
     });
 
     const handleRemoveFile = useCallback((index: number) => {
@@ -388,54 +486,39 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       closeModal();
     };
 
-    const handleFileUpload = async () => {
-      try {
-        if (fileValue && fileValue.length === 0) {
-          return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
-        }
-        const { finalDataForProductAuction, allAssignedData, responseData } =
-          await getUploadFileVariables(
-            hideListSelection,
-            fileValue,
-            fileUpload,
-            imageList,
-            imageFileType
-          );
-        // Dispatch actions based on conditions
-        if (isProductAuction) {
-          dispatch(updateUploadedImages(finalDataForProductAuction));
-          if (hideListSelection) {
-            onChange(allAssignedData);
-            setChooseFile(allAssignedData);
-            setShowModal(false);
-          } else {
-            setActiveTab(TABS.LIST_FILES);
-          }
-        } else {
-          onChange(responseData);
-          setChooseFile(responseData);
-        }
-        if (!isCreateProductAuction) {
-          refetch();
-        }
-        setFileValue([]);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-        }
-      }
-    };
-
     const handleClickDeleteOnSelectedImages = (img: Files) => {
       const filteredFiles = chooseFile?.filter(
         (file) => file?._id !== img?._id
       );
       setChooseFile(filteredFiles);
       onChange(filteredFiles);
+      dispatch(updateUploadedImages(filteredFiles));
     };
+    const openFileInput = () => {
+      // Trigger the file input's click event
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    };
+    const handleAddFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        return;
+      }
+      const acceptedFiles = Array.from(e.target.files) as File[];
 
+      acceptedFiles?.forEach((file, index) => {
+        if (!isFileValid(file)) return;
+
+        const reader = new FileReader();
+        reader.onload = (loadEvent: ProgressEvent<FileReader>) =>
+          handleFileLoad(
+            loadEvent,
+            file,
+            index + 1 === acceptedFiles?.length ? 'uploadOnLoad' : ''
+          );
+        reader.readAsDataURL(file);
+      });
+    };
     return (
       <>
         <ConfirmationModal
@@ -450,15 +533,52 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           showClose={false}
         />
         <div className="form-control">
-          <Button
-            className="btn btn-md my-2  me-2"
-            variant="primary"
-            onClick={openModal}
-          >
-            {chooseFile?.length
-              ? BUTTON_LABELS.CHANGE_FILE
-              : BUTTON_LABELS.CHOOSE_FILE}
-          </Button>
+          {!hideListSelection ? (
+            <Button
+              className="btn btn-md my-2  me-2"
+              variant="primary"
+              onClick={openModal}
+            >
+              {chooseFile?.length
+                ? BUTTON_LABELS.CHANGE_FILE
+                : BUTTON_LABELS.CHOOSE_FILE}
+            </Button>
+          ) : null}
+          {imageList?.files?.length && hideListSelection ? (
+            <>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                multiple={!singleImageSelectionEnabled}
+                onChange={handleAddFiles}
+              />
+              <Button
+                className="btn btn-md my-2  me-2"
+                variant="primary"
+                onClick={openFileInput}
+              >
+                {singleImageSelectionEnabled
+                  ? BUTTON_LABELS.CHANGE_FILE
+                  : BUTTON_LABELS.ADD_FILE}
+              </Button>
+            </>
+          ) : null}
+          {!imageList?.files?.length && hideListSelection ? (
+            <ImageUploadBox
+              label={label}
+              subLabel={subLabel}
+              accept={accept}
+              renderSelectedFile={renderSelectedFile}
+              fileValue={fileValue}
+              getRootProps={getRootProps}
+              getInputProps={getInputProps}
+              ref={ref}
+              ratio={ratio}
+              isDragActive={isDragActive}
+              handleFileUpload={handleFileUpload}
+            />
+          ) : null}
           {chooseFile?.length ? (
             <div className="p-3">
               <div className="grid-container">

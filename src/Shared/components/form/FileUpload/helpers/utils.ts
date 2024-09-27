@@ -10,7 +10,10 @@ import {
   ImageUploadResponse,
   QueryParams,
 } from './modal';
-import { convertFilesToFormData } from '../../../../utils/functions';
+import {
+  convertFilesToFormData,
+  validExtensions,
+} from '../../../../utils/functions';
 
 const checkIsCreateProductAuction = (
   fetchImageDataConfig?: ImageConfig[],
@@ -170,6 +173,7 @@ const getUploadFileVariables = async (
     >
   >,
   imageList: { files: Files[] },
+  singleImageSelectionEnabled: boolean,
   imageFileType: string | undefined = FILE_TYPE.CMS
 ) => {
   const fileList = fileValue as FileData[];
@@ -191,7 +195,9 @@ const getUploadFileVariables = async (
   }));
 
   // Merge with existing files
-  const imageData = [...(imageList.files ?? []), ...responseData];
+  const imageData = !singleImageSelectionEnabled
+    ? [...(imageList.files ?? []), ...responseData]
+    : responseData;
   const allAssignedData = imageData.map((val) => ({
     ...val,
     assigned: true,
@@ -201,6 +207,29 @@ const getUploadFileVariables = async (
     : imageData;
   return { finalDataForProductAuction, allAssignedData, responseData };
 };
+
+const getRatioDescription = (ratioRequired?: number[]) => {
+  if (ratioRequired?.length) {
+    const shapeType =
+      ratioRequired[0] === ratioRequired[1] ? 'square' : 'rectangular';
+    const size = `${ratioRequired[0] * 378} * ${ratioRequired[1] * 378}`;
+    return `of ${shapeType} shape, example: of ratio (${ratioRequired[0]} : ${ratioRequired[1]}) / size (${size})`;
+  }
+  return '.';
+};
+
+const renderUploadInstructions = (
+  acceptFormat: string,
+  ratioRequired?: number[]
+) => {
+  // Convert the `accept` string to a more readable format
+  const fileTypes = validExtensions(acceptFormat).join(', ');
+
+  // Determine the aspect ratio description
+  const ratioDescription = getRatioDescription(ratioRequired);
+
+  return `Upload only ${fileTypes} ${ratioDescription}`;
+};
 export {
   checkIsCreateProductAuction,
   checkIsProductAuction,
@@ -209,5 +238,6 @@ export {
   getChoosenFilesWithId,
   getCloseModalVariables,
   getDeleteImageFunctionVariables,
+  renderUploadInstructions,
   uploadFile,
 };

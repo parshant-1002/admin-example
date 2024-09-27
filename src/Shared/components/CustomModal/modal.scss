@@ -25,6 +25,24 @@
         background-color: rgba($black-color, .9) !important;
     }
 
+    &-header {
+        color: $white-color;
+        background-color: #0e0e23;
+
+        h4 {
+            color: white;
+        }
+    }
+
+    &-footer {
+        margin-top: 10px;
+        border-color: $white-color;
+
+        .row {
+            margin: 0 -15px;
+        }
+    }
+
     &-content {
         @at-root {
             .modal-title {
@@ -36,25 +54,6 @@
                 }
             }
         }
-
-        &-header {
-            color: $white-color;
-            background-color: #0e0e23;
-
-            h4 {
-                color: white;
-            }
-        }
-
-        &-footer {
-            margin-top: 10px;
-            border-color: $white-color;
-
-            .row {
-                margin: 0 -15px;
-            }
-        }
-
 
     }
 }

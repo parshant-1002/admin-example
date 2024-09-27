@@ -293,6 +293,7 @@ const BUTTON_LABELS = {
   VIEW: 'View',
   UPLOAD: ' Upload',
   CHANGE_FILE: 'Change file',
+  ADD_FILE: 'Add file',
   CHOOSE_FILE: 'Choose file',
   UPDATE_SELECTION: 'Update Selection',
   SELECT_FILES: 'Select file',
