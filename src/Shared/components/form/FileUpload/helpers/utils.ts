@@ -195,9 +195,11 @@ const getUploadFileVariables = async (
   }));
 
   // Merge with existing files
-  const imageData = !singleImageSelectionEnabled
-    ? [...(imageList.files ?? []), ...responseData]
-    : responseData;
+  // checking if sigle select is on and list shoen is disabled.
+  const imageData =
+    !hideListSelection || !singleImageSelectionEnabled
+      ? [...(imageList.files ?? []), ...responseData]
+      : responseData;
   const allAssignedData = imageData.map((val) => ({
     ...val,
     assigned: true,

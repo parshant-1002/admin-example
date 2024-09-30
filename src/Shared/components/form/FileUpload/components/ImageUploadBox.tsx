@@ -31,7 +31,7 @@ export default function ImageUploadBox({
   ratio,
   isDragActive,
   handleFileUpload,
-}: ImageUploadBoxProps) {
+}: Readonly<ImageUploadBoxProps>) {
   return (
     <>
       {label && <label className="form-label">{label}</label>}
