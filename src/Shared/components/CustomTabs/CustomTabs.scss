@@ -1,0 +1,23 @@
+// CustomTabs.scss
+@import '../../../assets/scss/base';
+
+.nav-tabs {
+  border: $none;
+  .nav-item {
+    .nav-link {
+      width: 100%;
+      border: $none;
+      padding: .725rem 1.5rem;
+      @include font-size (.925);
+      text-transform: $capitalize;
+      @include border-radius (5px);
+      transition: background-color 0.3s ease;
+    }
+    &.active {
+      .nav-link {
+        background-color: $primary-color;
+        color: $white-color;
+      }
+    }
+  }
+}

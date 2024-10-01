@@ -1,0 +1,502 @@
+@import '../../../../assets/scss/base';
+
+$downArrow : url("../../../../assets/icons/downArrow.svg");
+$submenuArrow : url("../../../../assets/icons/arrow-right-bordered.svg");
+
+.sub-menu {
+  list-style: $none;
+
+  li {
+    a {
+      position: $relative;
+      color: rgba($white-color, 1);
+    }
+  }
+}
+
+.sidebar {
+  @include position($fixed, $top: 0, $left: 0, $bottom: 0);
+  width: 300px;
+  z-index: 111;
+  padding: 10px 0;
+  overflow-y: $auto;
+  scrollbar-color: $transparent $body-color;
+  background-color: $dark-voilet-color-900;
+  scrollbar-width: $none;
+
+  @media (max-width: 1199px) {
+    left: 0;
+    max-width: 70px;
+    overflow: $unset;
+  }
+
+  .sidebar-nav {
+    padding: 0;
+    margin: 0;
+    list-style: $none;
+
+    li {
+      .nav-link {
+        @include font(.875rem, 21.78px, $font-regular);
+        transition: 0s;
+        padding: 21px 15px 19px 55px;
+        margin-left: 10px;
+        border-top-left-radius: 32px;
+        border-bottom-left-radius: 32px;
+        position: $relative;
+
+        @media (max-width:1199.99px) {
+          padding-left: 15px;
+          margin-left: 5px;
+          @include font-size (0);
+        }
+
+        &::before {
+          @include top-curve-before;
+        }
+
+        &::after {
+          @include bottom-curve-after;
+        }
+
+        .curve-top {
+          @include curve-top;
+        }
+
+        .curve-bottom {
+          @include curve-bottom;
+        }
+
+        &.active {
+          background-color: $body-color;
+          color: $primary-color;
+          font-weight: $font-semibold;
+
+          &::before,
+          &::after {
+            border-color: $black-dark-color;
+          }
+
+          .curve-top,
+          .curve-bottom {
+            background: $body-color;
+          }
+
+          .bi {
+            background-color: $primary-color;
+          }
+        }
+      }
+
+      .bi {
+        content: "";
+        background-repeat: $no-repeat;
+        width: 25px;
+        height: 25px;
+        background-size: 25px;
+        position: $absolute;
+        top: 19px;
+        left: 15px;
+        -webkit-mask-repeat: $no-repeat;
+        mask-repeat: no-repeat;
+        background-color: $white-color;
+
+        @media(max-width: 1199px) {
+          left: 14px;
+        }
+      }
+
+      .bi-grid {
+        mask-image: url(/src/assets/icons/dash.svg);
+        -webkit-mask-image: url(/src/assets/icons/dash.svg);
+      }
+
+      .bi-user {
+        mask-image: url(/src/assets/icons/user.svg);
+        -webkit-mask-image: url(/src/assets/icons/user.svg);
+      }
+
+      .bi-category {
+        mask-image: url(/src/assets/icons/category.svg);
+        -webkit-mask-image: url(/src/assets/icons/category.svg);
+      }
+
+      .bi-product {
+        mask-image: url(/src/assets/icons/product.svg);
+        -webkit-mask-image: url(/src/assets/icons/product.svg);
+      }
+
+      .bi-invoice {
+        mask-image: url(/src/assets/icons/invoice.svg);
+        -webkit-mask-image: url(/src/assets/icons/invoice.svg);
+      }
+
+      .bi-referral {
+        mask-image: url(/src/assets/icons/referral.svg);
+        -webkit-mask-image: url(/src/assets/icons/referral.svg);
+      }
+
+      .bi-bids {
+        mask-image: url(/src/assets/icons/bids.svg);
+        -webkit-mask-image: url(/src/assets/icons/bids.svg);
+      }
+
+      .bi-transactions {
+        mask-image: url(/src/assets/icons/transactions.svg);
+        -webkit-mask-image: url(/src/assets/icons/transactions.svg);
+      }
+
+      .bi-notification-content {
+        mask-image: url(/src/assets/icons/notifications_content.svg);
+        -webkit-mask-image: url(/src/assets/icons/notifications_content.svg);
+      }
+
+      .bi-pages-content {
+        mask-image: url(/src/assets/icons/pages_content.svg);
+        -webkit-mask-image: url(/src/assets/icons/pages_content.svg);
+      }
+    }
+
+    .accordion-item {
+      padding-left: 10px;
+      background-color: $transparent;
+
+      @media (max-width: 1199.98px) {
+        padding-left: 0;
+      }
+
+      &:has(.active) {
+        .accordion-header {
+          .accordion-button {
+            background-color: $body-color;
+            color: $primary-color;
+
+            &::after {
+              background-color: $black-dark-color;
+            }
+          }
+
+          &::before,
+          &::after {
+            border-color: $black-dark-color;
+          }
+
+          .curve-top,
+          .curve-bottom {
+            background: $body-color;
+          }
+        }
+
+        .bi {
+          background-color: $primary-color;
+        }
+      }
+
+      .accordion-button {
+        border-radius: 0;
+        border-bottom-right-radius: 0 !important;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px !important;
+        padding: 21px 15px 19px 55px;
+        @include font(.875rem, 21.27px, 400);
+        background-color: $transparent;
+        color: $white-color;
+
+        @media (max-width:1199.98px) {
+          padding-left: 15px;
+          margin-left: 5px;
+          font-size: 0;
+        }
+      }
+
+      .dropdown-item {
+        border-radius: 0;
+        border-top-left-radius: 60px;
+        border-bottom-left-radius: 60px !important;
+        padding: 15px 10px 0px 55px;
+        @include font-size (.875);
+
+        @media (max-width:1199.98px) {
+          padding-top: 5px !important;
+        }
+
+        figure {
+          @media (max-width:1199.98px) {
+            margin-bottom: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  .accordion-header {
+    position: $relative;
+
+    &::before {
+      @include top-curve-before;
+    }
+
+    &::after {
+      @include bottom-curve-after;
+    }
+
+    .curve-top {
+      @include curve-top;
+    }
+
+    .curve-bottom {
+      @include curve-bottom;
+    }
+
+    color: $white-color;
+    border: $none;
+
+    button {
+      padding: 14px 15px;
+      border: 0 !important;
+
+      i {
+        margin-right: 10px;
+      }
+
+      &::after {
+        mask-image: $downArrow;
+        -webkit-mask-image: $downArrow;
+        background-size: 5px;
+        background-position: $center;
+        position: $relative;
+        z-index: 15;
+        margin-right: 15px;
+        background-color: $body-color;
+        width: 9px;
+        mask-repeat: $no-repeat;
+        mask-position: $center;
+
+        @media (max-width:1199px) {
+          transform: scale(1) rotate(-90deg);
+          margin-right: -3px;
+        }
+      }
+    }
+  }
+
+  .accordion-collapse {
+
+    &.show,
+    &.collapsing {
+      background-color: $body-color !important;
+      @media (max-width:1200px) {
+        margin-top: -70px;
+      }
+      @media (max-width: 1199.98px) {
+        @include position ($absolute, $left: 71px);
+        margin-top: -45px;
+        z-index: 9;
+      }
+
+      .accordion-body {
+        .dropdown-item {
+          color: rgba($white-color, 0.4) !important;
+
+          @media (max-width: 1199.98px) {
+            padding-left: 20px;
+            padding-right: 40px;
+          }
+
+          &:hover {
+            color: rgba($white-color, 1) !important;
+
+            svg {
+              fill: $white-color;
+            }
+          }
+        }
+
+        .active {
+          color: rgba($white-color, 1) !important;
+
+          svg {
+            fill: $white-color;
+          }
+        }
+      }
+    }
+  }
+
+  .accordion-item {
+    border: $none;
+  }
+}
+
+@media (max-width: 1199.99px) {
+  #main {
+    margin-left: 70px;
+  }
+
+  .toggle-sidebar .sidebar {
+    left: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .toggle-sidebar #main,
+  .toggle-sidebar #footer {
+    margin-left: 0;
+  }
+
+  .toggle-sidebar .sidebar {
+    left: -300px;
+  }
+}
+
+@media (max-width:1200px) {
+  .toggle-sidebar .sidebar {
+    left: -70px;
+  }
+
+  .toggle-sidebar #main,
+  .toggle-sidebar #footer {
+    margin-left: 0px;
+  }
+}
+
+.sidebar-nav .nav-link .bi-chevron-down {
+  margin-right: 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.sidebar-nav .nav-link:not(.collapsed) .bi-chevron-down {
+  @include transform (rotate(180deg));
+}
+
+.sidebar-nav .nav-content {
+  padding: 0;
+  margin: 0;
+
+  .sub-menu {
+    background-color: $black-dark-color;
+
+    @media (max-width:1199.99px) {
+      padding-block: 10px;
+      border-radius: 8px;
+    }
+
+    li {
+      .nav-link {
+        @include font(18px, 27px, 400);
+        font-weight: $font-regular;
+
+        &.active {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+
+.admin-brand-logo {
+  color: $white-color;
+  padding-left: 30px;
+  padding-right: 20px;
+
+  @media (max-width:1199.98px) {
+    color: $text-title-color;
+    margin-bottom: 0;
+  }
+}
+
+/* Alerts */
+.alert-heading {
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+}
+
+/* Close Button */
+.btn-close {
+  background-size: 25%;
+
+  &:focus {
+    outline: 0;
+    box-shadow: $none;
+  }
+}
+
+/* Accordion */
+.accordion-item {
+  border: 1px solid #ebeef4;
+}
+
+.accordion-button {
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.accordion-flush .accordion-button {
+  padding: 15px 0;
+  background: none;
+  border: 0;
+}
+
+#products {
+  .modal-form-field {
+    .react-select-prefix__control {
+      padding: 0;
+      border: 0;
+    }
+  }
+}
+.filter_main {
+  @media (max-width:767px) {
+    flex-direction: column !important;
+
+    >div {
+      width: 100% !important;
+    }
+  }
+}
+
+
+@media (max-height: 800px) and (max-width:1300px) {
+  #main {
+    min-height: 800px;
+  }
+
+  #main::before {
+    content: "";
+    position: absolute;
+    left: -70px;
+    top: 0px;
+    width: 70px;
+    background: #0e0e23;
+    height: 100%;
+  }
+
+  .sidebar {
+    position: absolute;
+  }
+
+  .sidebar-nav .nav-content .sub-menu {
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show {
+    margin-top: -160px;
+  }
+}
+
+@media (min-width:320px) and (max-width:1199px) {
+  .sidebar-nav .nav-content .sub-menu {
+    max-height: 400px;
+    overflow: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.show,
+  .sidebar .sidebar-nav li.nav-item:last-child .accordion-collapse.collapsing {
+    margin-top: -160px;
+  }
+}

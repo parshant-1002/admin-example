@@ -1,0 +1,19 @@
+@import '../../../../assets/scss/base';
+
+.common_title_grp {
+  position: relative;
+  margin: 0rem 0rem 1rem 0rem;
+  background-color: rgba($grey-color-700, 0.5);
+  border: 2px solid $grey-color-700;
+  border-radius: 10px;
+  padding: 1rem 1rem 0.5rem 1rem;
+  margin-bottom: 1.25rem;
+
+  &_btn {
+    @include position($absolute, $top: -7px, $right: 17px);
+  }
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}

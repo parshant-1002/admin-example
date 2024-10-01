@@ -1,0 +1,107 @@
+@import '../../../src/assets/scss/base';
+
+body {
+    .toast {
+        position: fixed;
+        top: 90px;
+        right: 20px;
+        min-width: 200px;
+        z-index: 9999;
+        border: 0;
+        display: block !important;
+        @include border-radius (6px);
+        background-color: $dark-voilet-color-900;
+        @include transform (translate(450px, 0));
+        @include transition (all, ease-in-out, 0.5s);
+
+        @media (min-width:768px) {
+            min-width: 479px;
+        }
+
+        &.show {
+            @include transform (translate(0px, 0));
+        }
+
+        .toast-body {
+            opacity: 1;
+            background-color: black;
+        }
+
+        .toast {
+            &-header {
+                background: transparent;
+                padding: 0;
+
+                .notification-icon {
+                    padding-right: 0;
+                    padding-top: 20px;
+                    padding-left: 18px;
+
+                    img {
+                        align-self: center;
+                        justify-content: center;
+                    }
+                }
+
+                .close {
+                    position: absolute;
+                    right: -12px;
+                    top: -12px;
+                    width: 28px;
+                    height: 28px;
+                    @include flexCenter;
+                    @include font-size (0);
+                    @include border-radius (14px);
+                    background-color: wh;
+                    background-image: url(../../../assets/icons/close_icon.svg);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    @include opacity (1);
+                    background-size: 11px;
+                }
+
+            }
+            &-content-wrapper{
+                display: flex;
+                justify-content: space-between;
+                small{
+                    color: $white-color !important;
+                    padding-right: 20px;
+                }
+            }
+        }
+        &-header{
+            .close-btn{
+                @include position($absolute, $top:5px, $right:5px)
+            }
+        }
+    }
+}
+
+.message_summary {
+    width: 100%;
+    margin: $auto 0;
+    padding: 30px 15px;
+    position: $relative;
+
+    .h6 {
+        @include font-size (1);
+        padding-right: 122px
+    }
+
+    .notification_time {
+        top: 20px;
+        right: 12px;
+    }
+
+    p {
+        @include font-size (.875);
+        color: $white-color;
+        font-weight: 200;
+    }
+}
+
+.notification-container {
+    position: $relative;
+    overflow: hidden;
+}

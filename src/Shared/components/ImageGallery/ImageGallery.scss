@@ -1,0 +1,101 @@
+@import "../../../assets/scss/base";
+
+.media-view-container {
+    max-width: 800px;
+    margin: 0 $auto;
+}
+
+.selected-image-container {
+    @include flexCenter;
+    text-align: $center;
+    margin-bottom: 20px;
+    position: relative;
+    img {
+        width: 100%;
+        max-height: 300px;
+        min-width: 300px;
+        min-height: 300px;
+        object-fit: $contain;
+        @include border-radius(7px);
+        background-color: $white-color;
+    }
+}
+
+.upload-image {
+    .h6 {
+        @include font-size (.875);
+        color: rgba($black-color, .7);
+    }
+}
+
+.arrow-btn {
+    background-color: $dark-voilet-color-700;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    top: 50%;
+    z-index: 10;
+    margin: 0 10px;
+    min-width: 40px;
+}
+
+.arrow-btn:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+}
+
+.arrow-btn:nth-of-type(1) {
+    left: -50px;
+}
+
+.arrow-btn:nth-of-type(2) {
+    right: -50px;
+}
+
+.thumbnail-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.thumbnails-container {
+    display: flex;
+    gap: 0.4rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.thumbnail-item {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    &.active {
+        border: 1px solid $primary-color;
+    }
+}
+
+.thumbnail-item:hover {
+    background-color: #e0f7fa;
+    transform: scale(1.05);
+}
+
+
+.thumbnail-item img {
+    max-width: 90px;
+    max-height: 90px;
+    min-width: 90px;
+    min-height: 90px;
+    width: 100%;
+    @include border-radius(7px);
+    padding: 4px;
+    object-fit: $contain;
+    background-color: $white-color;
+}
