@@ -1,4 +1,3 @@
-// _mixin.scss
 
 @each $aSize, $fSize in (24 50), (44),(60),(80) {
   .avtar#{$aSize} {
@@ -94,15 +93,8 @@
 }
 
 @mixin font-size($sizeValue: 1.6) {
-  // font-size: ($sizeValue * 16) + px;
   font-size: $sizeValue + rem;
 }
-
-//@include fontsize(12);
-// @mixin fontsize($size: 24, $base: 16) {
-//   font-size: $size + px;
-//   font-size: ($size / $base) * 1rem;
-// }
 
 // Position
 @mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
@@ -112,7 +104,6 @@
   bottom: $bottom;
   left: $left;
 }
-// @include position($absolute, $top: 0, $left: 0);
 
 @mixin box-shadow($top, $left, $blur, $color, $inset: false) {
   @if $inset {
@@ -130,7 +121,6 @@
 @mixin box-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $color: $default) {
   box-shadow: $x-axis $y-axis $blur $color;
 }
-// @include box-shadow(5px, 5px, 5px, #333);
 
 @mixin transform($property) {
   -webkit-transform: $property;
@@ -199,7 +189,6 @@
   -o-transition: $transition-property $transition-time $method;
   transition: $transition-property $transition-time $method;
 }
-/* @include transition-mixin(all, 0.2s, ease-in-out)
 
 /* Mixin for transition css */
 @mixin transition($for: all, $time-in: 250ms, $type: ease-in-out, $time-out: 0s) {
@@ -208,7 +197,6 @@
   -webkit-transition: $for $time-in $type $time-out;
   -o-transition: $for $time-in $type $time-out;
 }
-/* @include transition(all, 0.2s, ease-in-out, 0s); */
 
 @mixin vertical-align {
   position: relative;
@@ -241,7 +229,6 @@
     transform: translate(-50%, -50%);
   }
 }
-// @include center(both);
 
 // Aspect Ratio
 @mixin aspect-ratio($width, $height) {
@@ -253,7 +240,6 @@
     padding-top: ($height / $width) * 100%;
   }
 }
-// @include aspect-ratio(16, 9);
 
 // Animation
 @mixin animation-mixin($name, $from, $to) {

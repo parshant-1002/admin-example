@@ -5,6 +5,7 @@
   border: $none;
   .nav-item {
     .nav-link {
+      width: 100%;
       border: $none;
       padding: .725rem 1.5rem;
       @include font-size (.925);

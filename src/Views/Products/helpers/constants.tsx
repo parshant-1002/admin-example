@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-// libs
-
 // consts
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from 'react-bootstrap';
@@ -10,6 +7,7 @@ import {
   FILE_TYPE,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
+  VALIDATION_REGEX,
   blockInvalidChar,
 } from '../../../Shared/constants/constants';
 import { FORM_VALIDATION_MESSAGES } from '../../../Shared/constants/validationMessages';
@@ -19,6 +17,7 @@ import {
   FieldSchemaForSpecifications,
   ProductResponsePayload,
   SelectOption,
+  TableRenderValue,
   ViewMultiData,
   ViewSpecificationData,
 } from './model';
@@ -235,6 +234,7 @@ export const PRODUCT_FORM_SCHEMA = (
   images: {
     type: INPUT_TYPES.FILE,
     label: 'Images',
+    hideListSelection: true,
     accept: IMAGE_FILE_TYPES,
     className: 'col-md-12',
     placeholder: 'Add Images',
@@ -377,7 +377,7 @@ export const PRODUCT_FORM_SCHEMA = (
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
       pattern: {
-        value: /^[0-9]+$/,
+        value: VALIDATION_REGEX.NUMBER,
         message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
       },
     },
@@ -396,7 +396,7 @@ export const PRODUCT_FORM_SCHEMA = (
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
       pattern: {
-        value: /^[0-9]+$/,
+        value: VALIDATION_REGEX.NUMBER,
         message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
       },
     },
@@ -484,8 +484,9 @@ export const productsColumns = (
     title: '#',
     render: (row) => {
       return (
-        <div
-          className="custom-checkbox"
+        <button
+          type="button"
+          className="custom-checkbox btn btn-transparent"
           onClick={() => handleChangeCheckBox(row._id)}
         >
           <input
@@ -495,7 +496,7 @@ export const productsColumns = (
             // onChange={() => handleChangeCheckBox(row._id)}
           />
           <span className="label" />
-        </div>
+        </button>
       );
     },
   },
@@ -582,7 +583,6 @@ export const productsColumns = (
           }}
         >
           {BUTTON_LABELS.VIEW}
-          {/* <img src={view} alt="" /> */}
         </Button>
       );
     },
@@ -604,20 +604,20 @@ export const SPECIFICATIONS: FieldSchemaForSpecifications[] = [
   {
     label: 'fuel',
     key: 'fuel',
-    render: (value: string | number | undefined) =>
+    render: (value: TableRenderValue) =>
       FUEL_OPTIONS?.find((fuel) => fuel.value === Number(value))?.label,
   },
   { label: 'Motor', key: 'motor', format: true },
   {
     label: 'Gearbox',
     key: 'gearbox',
-    render: (value: string | number | undefined) =>
+    render: (value: TableRenderValue) =>
       GEARBOX_OPTIONS?.find((fuel) => fuel.value === Number(value))?.label,
   },
   {
     label: 'Body Type',
     key: 'bodyType',
-    render: (value: string | number | undefined) =>
+    render: (value: TableRenderValue) =>
       CAR_BODY_TYPE_OPTIONS?.find(
         (bodyType) => bodyType.value === Number(value)
       )?.label,

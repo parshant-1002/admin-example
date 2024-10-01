@@ -7,7 +7,12 @@ interface ImageFileProps {
   handleRemoveFile: (index: number) => void;
 }
 
-function ImageFile({ name, src, index, handleRemoveFile }: ImageFileProps) {
+function ImageFile({
+  name,
+  src,
+  index,
+  handleRemoveFile,
+}: Readonly<ImageFileProps>) {
   return (
     <div className="uploaded-pic-grid__item" key={index}>
       <img

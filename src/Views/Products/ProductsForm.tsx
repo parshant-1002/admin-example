@@ -11,7 +11,7 @@ import {
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
-import { BUTTON_LABELS } from '../../Shared/constants/constants';
+import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
 import {
@@ -41,10 +41,10 @@ export default function ProductForm({
   onEdit = () => {},
   onAdd = () => {},
   categoryOptions = [],
-  title = '',
+  title = STRINGS.EMPTY_STRING,
   show = false,
   onClose = () => {},
-}: ProductFormTypes) {
+}: Readonly<ProductFormTypes>) {
   // hooks
   const dispatch = useDispatch();
   const [addProduct] = useAddProductMutation();
@@ -58,7 +58,7 @@ export default function ProductForm({
   );
 
   const deleteFiles = async () => {
-    const fileIds = (deletedFiles || [])?.map(
+    const fileIds = (deletedFiles ?? [])?.map(
       (file: { _id: string }) => file?._id
     );
     if (fileIds?.length) {
@@ -89,11 +89,10 @@ export default function ProductForm({
         title: productData?.title,
         description: productData?.description,
         price: productData?.price,
-        // stock: productData?.stock,
         images: productData?.images?.map((image) => ({
-          url: addBaseUrl(image?.fileURL || image?.url || ''),
-          title: image?.fileName || image?.title,
-          fileId: image?.fileId || image?._id,
+          url: addBaseUrl(image?.fileURL ?? image?.url ?? STRINGS.EMPTY_STRING),
+          title: image?.fileName ?? image?.title,
+          fileId: image?.fileId ?? image?._id,
           assigned: image?.assigned,
         })),
         specifications: {
@@ -110,14 +109,9 @@ export default function ProductForm({
           appearance: productData?.appearance,
           bodyType: productData?.bodyType?.value,
         },
-        // status: productData?.status?.value,
-        // categoryIds: productData?.category?.map(
-        //   (category) => category?.value
-        // ),
         categoryIds: [productData?.category?.value],
       };
       if (isEdit) {
-        // payload.id = initialData?._id;
         const editPayload = { ...payload, productId: data?._id };
         await editProduct({
           payload: editPayload,
@@ -143,7 +137,7 @@ export default function ProductForm({
   };
   const handleClose = () => {
     dispatch(
-      updateUploadedImages([...(uploadedFiles || []), ...(deletedFiles || [])])
+      updateUploadedImages([...(uploadedFiles ?? []), ...(deletedFiles ?? [])])
     );
     dispatch(deletedImages(null));
     onClose();

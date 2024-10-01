@@ -26,7 +26,7 @@ function ListFiles({
   data,
   handleDeleteFile,
   singleImageSelectionEnabled = false,
-}: ListFilesProps) {
+}: Readonly<ListFilesProps>) {
   const files = data?.files;
   const toggleFileSelection = (file: Files) => {
     if (!file) return;
@@ -59,10 +59,11 @@ function ListFiles({
             // Remaining rendering logic
             if (file.fileName && file.fileURL && file._id) {
               return (
-                <div
+                <button
                   key={file._id}
+                  type="button"
                   className={`card-file d-flex align-items-center justify-content-between ${
-                    isSelected ? 'selected' : ''
+                    isSelected ? 'selected' : STRINGS.EMPTY_STRING
                   }`}
                   onClick={() => toggleFileSelection(file)}
                 >
@@ -90,12 +91,12 @@ function ListFiles({
                     className="btn  btn-danger"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDeleteFile([file._id || '']);
+                      handleDeleteFile([file._id ?? STRINGS.EMPTY_STRING]);
                     }}
                   >
                     <img src={Delete} alt="delete" />
                   </button>
-                </div>
+                </button>
               );
             }
             return null;
@@ -117,7 +118,6 @@ function ListFiles({
                 selectedFiles.map((file) => file._id),
                 true
               );
-              // setSelectedFiles([]);
             }}
           >
             {BUTTON_LABELS.DELETE_SELECTION}

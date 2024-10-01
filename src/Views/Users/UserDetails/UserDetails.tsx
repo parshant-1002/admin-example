@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import Filters from '../../../Shared/components/Filters';
 import { BUTTON_LABELS } from '../../../Shared/constants/constants';
-// import ProfileRelatedLists from './components/ProfileRelatedLists';
 import { useGetUsersQuery } from '../../../Services/Api/module/users';
 import UserProfile from './components/UserProfile';
 

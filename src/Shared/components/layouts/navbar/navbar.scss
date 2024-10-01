@@ -103,10 +103,6 @@ body.toggle-sidebar .animated-arrow span {
 
   &:focus {
     outline: none; // Tailwind 'focus:outline-none'
-    ring-color: #ffffff; // Tailwind 'focus:ring-2 focus:ring-white'
-    ring-width: 2px;
-    ring-offset-width: 2px; // Tailwind 'focus:ring-offset-2'
-    ring-offset-color: #1f2937; // Tailwind 'focus:ring-offset-gray-800'
   }
 
   .icon-background {

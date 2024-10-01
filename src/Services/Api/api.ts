@@ -25,11 +25,11 @@ const baseQuery: BaseQueryFn = fetchBaseQuery({
 });
 
 const baseQueryWithInterceptor = async (
-  args: unknown,
+  args: Record<string, unknown>,
   api: BaseQueryApi,
   extraOptions: object
 ) => {
-  if ((args as unknown as Record<string, unknown>)?.showLoader !== false) {
+  if (args?.showLoader !== false) {
     api.dispatch(setLoading(true));
   }
   const result = await baseQuery(args, api, extraOptions);

@@ -20,7 +20,7 @@ function CustomModal({
   children = null,
   size = 'lg',
   ...props
-}: CustomModalProps) {
+}: Readonly<CustomModalProps>) {
   return (
     <Modal
       onHide={onClose}

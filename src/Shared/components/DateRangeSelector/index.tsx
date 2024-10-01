@@ -1,15 +1,13 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DateRange, Range } from 'react-date-range';
 
 // styles
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { DATE_FORMATS } from '../../constants/constants';
-import './style.scss';
+import { DATE_FORMATS, STRINGS } from '../../constants/constants';
 import CONSTS from './helpers/Constants';
+import './style.scss';
 
 // Define types for dateRange and props
 interface DateRangeType {
@@ -36,12 +34,12 @@ function DateRangeSelector({
   dateRange = { startDate: '', endDate: '' },
   setDateRange = () => {},
   daysError,
-  titleText = 'Select Date Range',
+  titleText = STRINGS.SELECT_DATE_RANGE,
   icon,
   maxDate = new Date(),
   isInitialEmpty = true,
   setClickCount = () => {},
-}: DateRangeSelectorProps) {
+}: Readonly<DateRangeSelectorProps>) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const datePickerRef = useRef<HTMLDivElement>(null);
 
@@ -82,10 +80,6 @@ function DateRangeSelector({
     };
   }, [setClickCount]);
 
-  const handleCalendarMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation();
-  };
-
   const createDateRange = () => {
     // Define the type of range based on your usage
     const temoDateRange = { ...dateRange };
@@ -97,7 +91,11 @@ function DateRangeSelector({
 
   return (
     <div ref={datePickerRef} className="calender_field">
-      <div className="form-control position-relative" onClick={toggleCalendar}>
+      <button
+        className="form-control position-relative btn"
+        onClick={toggleCalendar}
+        type="button"
+      >
         {isInitialEmpty ? (
           <span>{titleText}</span>
         ) : (
@@ -105,9 +103,9 @@ function DateRangeSelector({
         )}
         {daysError && <span className="error">{daysError}</span>}
         {icon && <img src={icon} alt="Icon" className="icon calIcon" />}
-      </div>
+      </button>
       {isOpen && (
-        <div className="calendar-wrapper" onMouseDown={handleCalendarMouseDown}>
+        <div className="calendar-wrapper">
           <DateRange
             editableDateInputs
             ranges={[createDateRange()] as unknown as Range[]} // pass in currently selected date range to DateRange component

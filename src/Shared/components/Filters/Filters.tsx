@@ -1,16 +1,12 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // libs
 import React, { useEffect, useRef, useState } from 'react';
 
 // consts
 import { SingleValue } from 'react-select';
-import { BUTTON_LABELS } from '../../constants/constants';
+import { BUTTON_LABELS, STRINGS } from '../../constants/constants';
 
 // components
 import Button from '../form/Button';
-// import TextField from '../form/TextInput/TextInput';
 import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
@@ -74,33 +70,37 @@ function StatsFilters({
   rangeSilderTitle,
   handleApply = () => {},
   showDateFilterTabs,
-}: StatsFiltersProps) {
+}: Readonly<StatsFiltersProps>) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
+
   const intitialFilterState: FiltersState = {
-    priceRange: [priceRange?.min || 0, priceRange?.max || 0],
+    priceRange: [priceRange?.min ?? 0, priceRange?.max ?? 0],
     selectedBrand: null,
     selectedStatus: null,
     selectedSecondaryOptions: null,
     secondaryPriceRange: [
-      secondaryPriceRange?.min || 0,
-      secondaryPriceRange?.max || 0,
+      secondaryPriceRange?.min ?? 0,
+      secondaryPriceRange?.max ?? 0,
     ],
   };
+
   const [activeDateButtonIndex, setActiveDateButtonIndex] = useState<
     number | null
   >(0);
+
   const [showFilters, setShowFilters] = useState(false);
   const [isFiltersOn, setIsFiltersOn] = useState(false);
   const [isInitialEmptyForDate, setIsInitialEmptyForDate] = useState(true);
-  const [searchValue, setSearchValue] = useState('');
-  const [filtersState, setFilterState] =
+  const [searchValue, setSearchValue] = useState(STRINGS.EMPTY_STRING);
+  const [filtersState, setFiltersState] =
     useState<FiltersState>(intitialFilterState);
+
   const handleClear = () => {
     setIsFiltersOn(false);
-    setSearchValue('');
+    setSearchValue(STRINGS.EMPTY_STRING);
     handleClearSearch();
     handleClearAll();
-    setFilterState(intitialFilterState);
+    setFiltersState(intitialFilterState);
     handleApply(intitialFilterState);
   };
   const handleClickAllData = () => {
@@ -122,7 +122,7 @@ function StatsFilters({
   const handleChangeStatusOptions = (newValue: SingleValue<SelectOption>) => {
     setIsFiltersOn(true);
 
-    setFilterState((prev: FiltersState) => ({
+    setFiltersState((prev: FiltersState) => ({
       ...prev,
       selectedStatus: newValue,
     }));
@@ -133,7 +133,7 @@ function StatsFilters({
   ) => {
     setIsFiltersOn(true);
 
-    setFilterState((prev: FiltersState) => ({
+    setFiltersState((prev: FiltersState) => ({
       ...prev,
       selectedSecondaryOptions: newValue,
     }));
@@ -141,14 +141,14 @@ function StatsFilters({
   const handleChangeBrandFilter = (newValue: SingleValue<SelectOption>) => {
     setIsFiltersOn(true);
 
-    setFilterState((prev: FiltersState) => ({
+    setFiltersState((prev: FiltersState) => ({
       ...prev,
       selectedBrand: newValue,
     }));
   };
   const handleChangePriceRange = (selctedPriceRange: [number, number]) => {
     setIsFiltersOn(true);
-    setFilterState((prev: FiltersState) => ({
+    setFiltersState((prev: FiltersState) => ({
       ...prev,
       priceRange: [selctedPriceRange[0], selctedPriceRange[1]],
     }));
@@ -157,7 +157,7 @@ function StatsFilters({
     selctedPriceRange: [number, number]
   ) => {
     setIsFiltersOn(true);
-    setFilterState((prev: FiltersState) => ({
+    setFiltersState((prev: FiltersState) => ({
       ...prev,
       secondaryPriceRange: [selctedPriceRange[0], selctedPriceRange[1]],
     }));
@@ -173,7 +173,7 @@ function StatsFilters({
     <div className="filter-wrapper">
       <div className="w-100 align-items-center d-flex flex-sm-row flex-column justify-content-between filter_main">
         <div className="col-sm-6 col-md-5 col-xl-6 text-primary">
-          {showHeading ? heading || <Breadcrumbs /> : null}
+          {showHeading ? heading ?? <Breadcrumbs /> : null}
         </div>
         <div className=" col-12 col-sm-6 col-md-7 col-xl-6 mb-sm-3">
           <div className="d-flex justify-content-between justify-content-sm-end align-items-start stats_filter">
@@ -209,12 +209,14 @@ function StatsFilters({
                   onChange={handleSearchChange}
                 />
                 {searchValue ? (
-                  <em className="cross-icon" onClick={handleClear}>
-                    <img
-                      src={cross} // Replace with an actual path or URL
-                      alt=""
-                    />
-                  </em>
+                  <button onClick={handleClear} type="button">
+                    <em className="cross-icon">
+                      <img
+                        src={cross} // Replace with an actual path or URL
+                        alt=""
+                      />
+                    </em>
+                  </button>
                 ) : null}
               </div>
             ) : null}
@@ -276,7 +278,7 @@ function StatsFilters({
               <DateRange
                 startDate={filtersState?.startDate}
                 endDate={filtersState?.endDate}
-                setFilterState={setFilterState}
+                setFilterState={setFiltersState}
                 isInitialEmpty={isInitialEmptyForDate}
                 clearFilterRef={clearDateRangeFilterRef}
                 setIsInitialEmpty={setIsInitialEmptyForDate}

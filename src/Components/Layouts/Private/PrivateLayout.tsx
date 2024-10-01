@@ -7,7 +7,7 @@ interface PrivateLayoutProps {
   children: ReactNode; // ReactNode allows any React children: JSX, strings, fragments, etc.
 }
 
-function PrivateLayout({ children }: PrivateLayoutProps) {
+function PrivateLayout({ children }: Readonly<PrivateLayoutProps>) {
   return (
     <>
       <Navbar />

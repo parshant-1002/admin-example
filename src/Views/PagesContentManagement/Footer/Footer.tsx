@@ -11,6 +11,7 @@ import { CustomForm } from '../../../Shared/components/index';
 import {
   CONTENT_ENUMS,
   INPUT_TYPES,
+  STRINGS,
 } from '../../../Shared/constants/constants';
 import {
   FooterFormData,
@@ -23,13 +24,13 @@ import FOOTER_FORM_SCHEMA from './helpers/constants';
 import { isErrors } from '../../../Shared/utils/functions';
 
 const initialState: AddContentFormItem = {
-  file: [{ fileURL: '', fileId: '' }],
-  title: '',
+  file: [{ fileURL: STRINGS.EMPTY_STRING, fileId: STRINGS.EMPTY_STRING }],
+  title: STRINGS.EMPTY_STRING,
   errors: {},
 };
 const initialStateSections: AddContentFormItem = {
-  title: '',
-  content: '',
+  title: STRINGS.EMPTY_STRING,
+  content: STRINGS.EMPTY_STRING,
   errors: {},
 };
 const fieldTypes = {
@@ -86,7 +87,7 @@ function Footer() {
           fileId: string;
         }) => ({
           title: String(url),
-          file: [{ fileURL: String(imageURL), fileId: String(fileId) }] || [],
+          file: [{ fileURL: String(imageURL), fileId: String(fileId) }],
         })
       );
 
@@ -117,8 +118,8 @@ function Footer() {
       if (isErrors(section3Content, setSection3Content, sectionsLabels)) return;
       const formData = data as unknown as FooterFormData;
       const mappedRoadMap = socialConnectContent.map((item) => ({
-        url: item.title || '',
-        imageURL: item.file || [],
+        url: item.title ?? STRINGS.EMPTY_STRING,
+        imageURL: item.file ?? [],
       }));
       const payload = {
         [CONTENT_ENUMS.FOOTER]: transformAPIRequestDataFooter(

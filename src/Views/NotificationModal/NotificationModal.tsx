@@ -21,15 +21,15 @@ interface NotificationModalProps {
 
 function NotificationModal({
   handleChange = () => {},
-}: NotificationModalProps) {
+}: Readonly<NotificationModalProps>) {
   const dispatch = useDispatch();
-  const [pageno, setPageNo] = useState<number>(0);
+  const [pageNo, setPageNo] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(1);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { data, isLoading, refetch } = useNotificationsQuery(
     {
       params: {
-        skip: pageno * LIMIT,
+        skip: pageNo * LIMIT,
         limit: LIMIT,
       },
     },
@@ -85,9 +85,13 @@ function NotificationModal({
                   <div className="fw-bold header-title">
                     {STRINGS.NOTIFICATIONS_TITLE}
                   </div>
-                  <span className="clear_all ml-3" onClick={() => clearAll()}>
+                  <button
+                    type="button"
+                    className="clear_all ml-3 btn"
+                    onClick={() => clearAll()}
+                  >
                     {BUTTON_LABELS.CLEAR_ALL}
-                  </span>
+                  </button>
                   <button
                     type="button"
                     className="btn-close off-nav"

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/tabindex-no-positive */
 import JoditEditor, { Jodit } from 'jodit-react';
 import { forwardRef, useMemo } from 'react';
+import { STRINGS } from '../../../constants/constants';
 
 // Define types for the props
 interface RichTextProps {
@@ -14,7 +15,7 @@ const RichText = forwardRef<Jodit, RichTextProps>(
     const config = useMemo(
       () => ({
         readonly: false,
-        placeholder: placeholder || '',
+        placeholder: placeholder ?? STRINGS.EMPTY_STRING,
         enableDragAndDropFileToEditor: true,
         uploader: {
           url: 'https://xdsoft.net/jodit/connector/index.php?action=fileUpload',

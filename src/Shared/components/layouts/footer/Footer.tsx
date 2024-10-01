@@ -1,5 +1,3 @@
-import './footer.scss';
-
 export function Footer() {
   return (
     <footer id="footer" className="footer">
@@ -7,7 +5,7 @@ export function Footer() {
         &copy; Copyright{' '}
         <strong>
           <span>Premium token</span>
-        </strong>
+        </strong>{' '}
         . All Rights Reserved
       </div>
     </footer>

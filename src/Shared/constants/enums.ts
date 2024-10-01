@@ -20,6 +20,7 @@ enum POPUPTYPES {
 enum VariableTypes {
   string = 'string',
   number = 'number',
+  object = 'object',
 }
 
 enum ButtonType {

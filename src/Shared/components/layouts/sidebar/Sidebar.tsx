@@ -120,7 +120,7 @@ function Sidebar() {
                     ) : (
                       <NavLink
                         className="dropdown-item d-flex"
-                        to={children.route || ''}
+                        to={children.route ?? STRINGS.EMPTY_STRING}
                         onClick={handleItemClick}
                       >
                         <figure className="me-3">
@@ -164,7 +164,12 @@ function Sidebar() {
                   <span className="curve-bottom" />
                   {sidebar.iconClass && <i className={sidebar.iconClass} />}
                   {sidebar.icon && (
-                    <img width={18} className="me-2" src={sidebar.icon} />
+                    <img
+                      width={18}
+                      className="me-2"
+                      src={sidebar.icon}
+                      alt="SideBar Icon"
+                    />
                   )}
                   {sidebar.label}
                 </NavLink>
@@ -179,7 +184,12 @@ function Sidebar() {
                   <em>
                     {sidebar.iconClass && <i className={sidebar.iconClass} />}
                     {sidebar.icon && (
-                      <img width={18} className="me-2" src={sidebar.icon} />
+                      <img
+                        width={18}
+                        className="me-2"
+                        src={sidebar.icon}
+                        alt="SideBar Icon"
+                      />
                     )}
                   </em>
                   {sidebar.label}

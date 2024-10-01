@@ -1,21 +1,20 @@
 /* eslint-disable consistent-return */
 // libs
-import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Button } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 // types
-import { ImageConfig } from '../../../../Models/common';
-import {
-  DeleteData,
-  FileData,
-  FileInputProps,
-  Files,
-  ImageUploadResponse,
-  QueryParams,
-} from './helpers/modal';
+import { DeleteData, FileData, FileInputProps, Files } from './helpers/modal';
 
 // redux
 import {
@@ -35,6 +34,7 @@ import {
   BUTTON_LABELS,
   CONFIRMATION_DESCRIPTION_IMAGE_DELETE,
   FILE_TYPE,
+  STRINGS,
 } from '../../../constants/constants';
 import ERROR_MESSAGES from '../../../constants/messages';
 import TOAST_MESSAGES from '../../../constants/toastMessages';
@@ -48,7 +48,7 @@ import {
 // utils
 import {
   checkValidFileExtension,
-  convertFilesToFormData,
+  generateErrorMessage,
   removeEmptyValues,
 } from '../../../utils/functions';
 
@@ -62,16 +62,31 @@ import SpreadsheetFile from './components/SpreadsheetFile';
 
 // styles
 import './FileUpload.scss';
+import {
+  checkIsCreateProductAuction,
+  checkIsProductAuction,
+  createQueryParams,
+  getChoosenFilesWithId,
+  getCloseModalVariables,
+  getDeleteImageFunctionVariables,
+  getUploadFileVariables,
+} from './helpers/utils';
+import ImageUploadBox from './components/ImageUploadBox';
+
+const initialDeleteModalState: DeleteData = {
+  show: false,
+  data: { fileId: [STRINGS.EMPTY_STRING] },
+};
 
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
-  (
+  function FileInput(
     {
       value,
       onChange = () => {},
       label,
       subLabel,
       maxSize = FILE_MAX_SIZE, // 6mb
-      accept = '',
+      accept = STRINGS.EMPTY_STRING,
       singleImageSelectionEnabled = true,
       ratio = [],
       imageFileType = FILE_TYPE.CMS,
@@ -79,46 +94,40 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       hideListSelection = false,
     },
     ref
-  ) => {
-    const [deleteModal, setDeleteModal] = useState<DeleteData>({
-      show: false,
-      data: { fileId: [''] },
-    });
+  ) {
+    const selectedFilesList = useRef<FileData[]>();
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
     const uploadedImages = useSelector(
       (state: RootState) => state.UploadedImages.images
     );
     const deletedIds = useSelector(
       (state: RootState) => state.UploadedImages.deletedIds
     );
+
     // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION
     const isProductAuction = useMemo(
-      () =>
-        [FILE_TYPE.AUCTION, FILE_TYPE.PRODUCT]?.includes(String(imageFileType)),
+      () => checkIsProductAuction(imageFileType),
       [imageFileType]
     );
-    // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION FOR CREATION PURPOSE
-    const isCreateProductAuction = useMemo(
-      () =>
-        (fetchImageDataConfig || [])?.every((config) => !config.value) &&
-        String(imageFileType) !== FILE_TYPE.CMS,
-      [fetchImageDataConfig, imageFileType]
+
+    // SETTING UPLOADED FILES IN LIST
+    const imageList = useMemo(
+      () => ({
+        files: [...(uploadedImages ?? [])],
+      }),
+      [uploadedImages]
     );
 
-    const createQueryParams = (config?: ImageConfig[]): QueryParams => {
-      const params: QueryParams = {
-        startDate: '',
-        endDate: '',
-        type: imageFileType ? String(imageFileType) : '',
-      };
-
-      config?.forEach(({ key, value: id }) => {
-        params[String(key)] = id || '';
-      });
-
-      return params;
-    };
-
+    // CHECKING IS PRODUCT OR AUCTION IMAGE SELECTION FOR CREATION PURPOSE
+    const isCreateProductAuction = useMemo(
+      () => checkIsCreateProductAuction(fetchImageDataConfig, imageFileType),
+      [fetchImageDataConfig, imageFileType]
+    );
     const dispatch = useDispatch();
+
+    // STATE
+    const [deleteModal, setDeleteModal] = useState(initialDeleteModalState);
     const [chooseFile, setChooseFile] = useState(value);
     const [fileValue, setFileValue] = useState<FileData[]>();
     const [showModal, setShowModal] = useState(false);
@@ -131,42 +140,168 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     const [fileDelete] = useFileDeleteMutation();
     const [selectedFiles, setSelectedFiles] = useState<Files[]>([]);
 
-    useEffect(() => {
-      const choosenFiles = chooseFile?.filter((file) => file?.assigned);
-      const choosenFilesWithId = isProductAuction
-        ? choosenFiles?.map((file) => {
-            if (file?.fileId) {
-              return {
-                ...file,
-                _id: file?.fileId,
-              };
-            }
-            return file;
-          })
-        : chooseFile;
-      setSelectedFiles(choosenFilesWithId);
-    }, [chooseFile, isProductAuction]);
-
-    const { data, refetch } = useGetFilesQuery(
+    // FETCHING FILES FROM API
+    const { data, refetch, isLoading } = useGetFilesQuery(
       {
-        params: removeEmptyValues(createQueryParams(fetchImageDataConfig)),
+        params: removeEmptyValues(
+          createQueryParams(fetchImageDataConfig, imageFileType)
+        ),
       },
       {
         skip: isCreateProductAuction,
       }
     );
 
-    const imageList = {
-      files: [...(uploadedImages || [])],
-    };
-
     useEffect(() => {
       dispatch(updateUploadedImages(data?.files));
     }, [data?.files, dispatch]);
 
     useEffect(() => {
+      const choosenFilesWithId = getChoosenFilesWithId(
+        chooseFile,
+        isProductAuction
+      );
+      setSelectedFiles(choosenFilesWithId);
+    }, [chooseFile, isProductAuction]);
+
+    useEffect(() => {
       if (value) setChooseFile(value);
     }, [value]);
+
+    const openModal = useCallback(() => setShowModal(true), []);
+    const closeModal = useCallback(() => setShowModal(false), []);
+
+    const handleFileUpload = useCallback(
+      async (fileValueList: FileData[]) => {
+        try {
+          if (!fileValueList?.length) {
+            return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
+          }
+          const { finalDataForProductAuction, allAssignedData, responseData } =
+            await getUploadFileVariables(
+              hideListSelection,
+              fileValueList,
+              fileUpload,
+              imageList,
+              singleImageSelectionEnabled,
+              imageFileType
+            );
+          // Dispatch actions based on conditions
+          if (isProductAuction) {
+            dispatch(updateUploadedImages(finalDataForProductAuction));
+            if (hideListSelection) {
+              onChange(allAssignedData);
+              setChooseFile(allAssignedData);
+              setShowModal(false);
+            } else {
+              setActiveTab(TABS.LIST_FILES);
+            }
+          } else {
+            onChange(responseData);
+            setChooseFile(responseData);
+          }
+          if (!isCreateProductAuction) {
+            refetch();
+          }
+          setFileValue([]);
+          selectedFilesList.current = [];
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            toast.error(error.message);
+          } else {
+            toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
+          }
+        }
+      },
+      [
+        dispatch,
+        fileUpload,
+        hideListSelection,
+        imageFileType,
+        imageList,
+        isCreateProductAuction,
+        isProductAuction,
+        onChange,
+        refetch,
+        singleImageSelectionEnabled,
+      ]
+    );
+
+    const imageOnLoad = useCallback(
+      (img: HTMLImageElement, file: File, result: string) => {
+        const { width, height } = img;
+        const calculatedRatio = width / height;
+        const [firstValue, secondValue] = ratio;
+        const calculatedRequiredRatio = firstValue / secondValue;
+        if (Math.abs(calculatedRatio - calculatedRequiredRatio) < 0.1) {
+          // Image has the required aspect ratio (tolerance of 0.1)
+          setFileValue((prevState) => [
+            ...(prevState ?? []),
+            { file, src: result },
+          ]);
+          if (hideListSelection && imageList?.files?.length) {
+            openModal();
+          }
+        } else {
+          toast.error(
+            TOAST_MESSAGES(firstValue, secondValue).IMAGE_RATIO_ERROR
+          );
+        }
+      },
+      [ratio, hideListSelection, imageList?.files?.length, openModal]
+    );
+
+    const isFileValid = useCallback(
+      (file: File) => {
+        if (!checkValidFileExtension(file.name, accept)) {
+          toast.error(TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES);
+          return false;
+        }
+
+        if (file.size > maxSize) {
+          toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
+          return false;
+        }
+
+        return true;
+      },
+      [accept, maxSize]
+    );
+
+    const handleImageLoadToCheckRatio = useCallback(
+      (file: File, result: string) => {
+        const img = new Image();
+        img.onload = () => imageOnLoad(img, file, result);
+        img.src = result;
+      },
+      [imageOnLoad]
+    );
+
+    const addFileToState = useCallback(
+      (file: File, result: string) => {
+        setFileValue((prevState) => [
+          ...(prevState ?? []),
+          { file, src: result },
+        ]);
+        if (hideListSelection && imageList?.files?.length) {
+          openModal();
+        }
+      },
+      [hideListSelection, imageList?.files?.length, openModal]
+    );
+
+    const handleFileLoad = useCallback(
+      (e: ProgressEvent<FileReader>, file: File) => {
+        const result = e.target?.result as string;
+
+        if (ratio && ratio.length === 2) {
+          handleImageLoadToCheckRatio(file, result);
+        } else {
+          addFileToState(file, result);
+        }
+      },
+      [addFileToState, handleImageLoadToCheckRatio, ratio]
+    );
 
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
@@ -174,113 +309,66 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         setFileValue([]);
 
         acceptedFiles.forEach((file) => {
-          if (!checkValidFileExtension(file.name, accept)) {
-            toast.error(
-              TOAST_MESSAGES(accept).PLEASE_UPLOAD_ONLY_ACCEPTED_FILES
-            );
-            return;
-          }
-
-          if (file.size > maxSize) {
-            toast.error(ERROR_MESSAGES().FILE_SIZE_ERROR);
-            return;
-          }
+          if (!isFileValid(file)) return;
 
           const reader = new FileReader();
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-            const result = e.target?.result as string;
-
-            if (ratio && ratio.length === 2) {
-              // If ratio is provided, perform ratio check
-              const img = new Image();
-              img.onload = () => {
-                const { width, height } = img;
-                const calculatedRatio = width / height;
-                const [firstValue, secondValue] = ratio;
-                const calculatedRequiredRatio = firstValue / secondValue;
-
-                if (Math.abs(calculatedRatio - calculatedRequiredRatio) < 0.1) {
-                  // Image has the required aspect ratio (tolerance of 0.1)
-                  setFileValue((prevState) => [
-                    ...(prevState || []),
-                    { file, src: result },
-                  ]);
-                } else {
-                  toast.error(
-                    TOAST_MESSAGES(firstValue, secondValue).IMAGE_RATIO_ERROR
-                  );
-                }
-              };
-              img.src = result;
-            } else {
-              // If no ratio is provided, just add the file
-              setFileValue((prevState) => [
-                ...(prevState || []),
-                { file, src: result },
-              ]);
-            }
-          };
+          reader.onload = (e: ProgressEvent<FileReader>) =>
+            handleFileLoad(e, file);
           reader.readAsDataURL(file);
         });
       },
-      [accept, maxSize, ratio] // Added ratio to dependency array
+      [handleFileLoad, isFileValid] // Added ratio to dependency array
     );
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
       onDrop,
-      multiple: true,
+      multiple: !hideListSelection || !singleImageSelectionEnabled,
     });
 
-    const handleRemoveFile = useCallback((index: number) => {
+    const handleRemoveFileFromPreview = useCallback((index: number) => {
       setFileValue(
         (prevState: FileData[] | undefined) =>
           prevState?.filter((_, i) => i !== index)
       );
     }, []);
-    const handleDeleteFile = (
-      fileId: (string | undefined)[],
-      isMultiDelete?: boolean
-    ) => {
-      setDeleteModal({
-        data: { fileId, isMultiDelete },
-        show: true,
-      });
-    };
-    const handleCloseDelete = () => {
+
+    const handleOpenDeleteFileConfirmation = useCallback(
+      (fileId: (string | undefined)[], isMultiDelete?: boolean) => {
+        setDeleteModal({
+          data: { fileId, isMultiDelete },
+          show: true,
+        });
+      },
+      []
+    );
+
+    const handleCloseDelete = useCallback(() => {
       setDeleteModal({ data: null, show: false });
-    };
+    }, []);
 
     const handleDeleteClick = async () => {
-      const { fileId, isMultiDelete } = deleteModal?.data || {};
+      const {
+        shouldRefetch,
+        isResetValuesForProductionAuction,
+        deletedImagesArray,
+        filteredImages,
+        fileId,
+      } = getDeleteImageFunctionVariables(
+        isCreateProductAuction,
+        isProductAuction,
+        deleteModal,
+        imageList,
+        deletedIds,
+        selectedFiles
+      );
 
       try {
         if (isProductAuction) {
           handleCloseDelete();
-          const files = imageList?.files || [];
-
-          // Filter and separate images based on deletion criteria
-          const filteredImages = files.filter(
-            (file: { _id: string }) => !fileId?.includes(file._id)
-          );
-          const deletedImagesFromList = files.filter(
-            (file: { _id: string }) => fileId?.includes(file._id)
-          );
-          const deletedImagesArray = [
-            ...(deletedIds || []),
-            ...deletedImagesFromList,
-          ];
 
           dispatch(deletedImages(deletedImagesArray));
           dispatch(updateUploadedImages(filteredImages));
-
-          // Check if there are any remaining selected files after deletion
-          const isLeftOutFilesSelected = filteredImages.some(
-            (val: { _id: string }) =>
-              selectedFiles?.some((file) => file._id === val._id)
-          );
-
-          // Reset state if multiple delete or no files are left selected
-          if (isMultiDelete || !isLeftOutFilesSelected) {
+          if (isResetValuesForProductionAuction) {
             setChooseFile([]);
             onChange([]);
             setSelectedFiles([]);
@@ -291,19 +379,14 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             onSuccess: (res: { message: string }) => {
               toast.success(res?.message);
               handleCloseDelete();
-              if (isProductAuction && !isCreateProductAuction) {
-                refetch();
-              } else if (!isProductAuction) {
+              if (shouldRefetch) {
                 refetch();
               }
             },
           });
         }
       } catch (error: unknown) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : ERROR_MESSAGES().SOMETHING_WENT_WRONG;
+        const errorMessage = generateErrorMessage(error);
         toast.error(errorMessage);
       }
     };
@@ -312,7 +395,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       if (!fileValue) return null;
 
       return fileValue.map((fileData, index) => {
-        const { type, name } = fileData?.file || {};
+        const { type, name } = fileData?.file ?? {};
         const src = fileData?.src;
 
         if (!type || !name) return null;
@@ -323,7 +406,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               key={type}
               name={name}
               index={index}
-              handleRemoveFile={handleRemoveFile}
+              handleRemoveFile={handleRemoveFileFromPreview}
             />
           );
         }
@@ -335,7 +418,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
               name={name}
               src={src as string}
               index={index}
-              handleRemoveFile={handleRemoveFile}
+              handleRemoveFile={handleRemoveFileFromPreview}
             />
           );
         }
@@ -345,16 +428,13 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             key={type}
             name={name}
             index={index}
-            handleRemoveFile={handleRemoveFile}
+            handleRemoveFile={handleRemoveFileFromPreview}
           />
         );
       });
-    }, [fileValue, handleRemoveFile]);
+    }, [fileValue, handleRemoveFileFromPreview]);
 
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
-
-    const generateFilesData = (files: Files[]) => {
+    const generateFilesData = (files?: Files[]): Files[] | undefined => {
       if (!isProductAuction) return files;
 
       const selectedFileIds = new Set(files?.map((file) => file._id));
@@ -366,11 +446,11 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     const handleChooseFile = (files: Files[] | undefined) => {
-      if (!files || files?.length === 0) {
+      if (!files?.length) {
         return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
       }
 
-      const firstFileUrl = files?.[0]?.fileURL || files?.[0]?.url;
+      const firstFileUrl = files?.[0]?.fileURL ?? files?.[0]?.url;
       if (!checkValidFileExtension(firstFileUrl, accept)) {
         return toast.error(
           TOAST_MESSAGES(accept).PLEASE_CHOOSE_ONLY_ACCEPTED_FILES
@@ -379,113 +459,57 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
       const filesData = generateFilesData(files);
       onChange(filesData);
-      setChooseFile(filesData);
+      setChooseFile(filesData as Files[]);
       closeModal();
     };
 
-    const handleCloseModal = () => {
+    const handleCloseFileUploadModal = () => {
       if (isProductAuction && selectedFiles?.length && chooseFile?.length) {
         // Get the files to persist by filtering the selected files
-        const filesToPersist = selectedFiles?.filter(
-          (file) =>
-            chooseFile?.some(
-              (choosedFile) =>
-                choosedFile.assigned &&
-                (choosedFile.fileId || choosedFile._id) === file._id
-            )
+        const { updatedFiles } = getCloseModalVariables(
+          selectedFiles,
+          chooseFile,
+          imageList
         );
 
-        // Map over the image list files and mark the files that need to be persisted
-        const updatedFiles = imageList?.files?.map((file: { _id: string }) => ({
-          ...file,
-          assigned: filesToPersist?.some(
-            (selectedFile) => selectedFile._id === file._id
-          ),
-        }));
-
-        // Trigger the onChange event with the updated files list
         onChange(updatedFiles);
-
-        // Close the modal
       }
       closeModal();
     };
-    const handleFileUpload = async () => {
-      try {
-        if (!fileValue || fileValue.length === 0) {
-          return toast.error(TOAST_MESSAGES().SELECT_ATLEAST_ONE_FILE);
-        }
 
-        const fileList = fileValue as unknown as FileData[];
-        const files = convertFilesToFormData(fileList, 'image');
-        const filesWithType = files?.map((file) => {
-          file.append('type', String(imageFileType));
-          return file;
-        });
-
-        const uploadFile = (file: FormData) =>
-          new Promise<{ fileName: string; fileUrl: string; fileId: string }>(
-            (resolve, reject) => {
-              fileUpload({
-                payload: file,
-                onSuccess: (
-                  res: ImageUploadResponse | PromiseLike<ImageUploadResponse>
-                ) => resolve(res),
-                onError: (error: unknown) => reject(error),
-              });
-            }
-          );
-
-        // Upload files in parallel
-        const uploadedFiles = await Promise.all(
-          filesWithType.map((file) => uploadFile(file))
-        );
-
-        const responseData = uploadedFiles.map((res) => ({
-          fileName: res.fileName,
-          fileURL: res.fileUrl,
-          _id: res.fileId,
-        }));
-
-        // Merge with existing files
-        const imageData = [...(imageList.files || []), ...responseData];
-        const allAssignedData = imageData.map((val) => ({
-          ...val,
-          assigned: true,
-        }));
-
-        // Dispatch actions based on conditions
-        if (isProductAuction) {
-          const finalData = hideListSelection ? allAssignedData : imageData;
-          dispatch(updateUploadedImages(finalData));
-          if (hideListSelection) {
-            onChange(allAssignedData);
-            setChooseFile(allAssignedData);
-          } else {
-            setActiveTab(TABS.LIST_FILES);
-          }
-        } else {
-          onChange(responseData);
-          setChooseFile(responseData);
-        }
-        setShowModal(false);
-        setFileValue([]);
-        refetch();
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-        }
-      }
-    };
-
-    const handleClickDeleteOnSelectedImages = (img: Files) => {
+    const handleClickDeleteForNoListSelectionCase = (img: Files) => {
       const filteredFiles = chooseFile?.filter(
         (file) => file?._id !== img?._id
       );
       setChooseFile(filteredFiles);
       onChange(filteredFiles);
+      dispatch(updateUploadedImages(filteredFiles));
+    };
+
+    const openFileInputForNoListShownCase = () => {
+      // Trigger the file input's click event
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    };
+
+    const handleAddFilesForNoListShownCase = (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      if (!e.target.files) {
+        return;
+      }
+      const acceptedFiles = Array.from(e.target.files);
+
+      acceptedFiles?.forEach((file) => {
+        if (!isFileValid(file)) return;
+
+        const reader = new FileReader();
+        reader.onload = (loadEvent: ProgressEvent<FileReader>) =>
+          // upload when all selected images are loaded to check ratio and valid file type.
+          handleFileLoad(loadEvent, file);
+        reader.readAsDataURL(file);
+      });
     };
 
     return (
@@ -502,15 +526,52 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           showClose={false}
         />
         <div className="form-control">
-          <Button
-            className="btn btn-md my-2  me-2"
-            variant="primary"
-            onClick={openModal}
-          >
-            {chooseFile?.length
-              ? BUTTON_LABELS.CHANGE_FILE
-              : BUTTON_LABELS.CHOOSE_FILE}
-          </Button>
+          {!hideListSelection ? (
+            <Button
+              className="btn btn-md my-2  me-2"
+              variant="primary"
+              onClick={openModal}
+            >
+              {chooseFile?.length
+                ? BUTTON_LABELS.CHANGE_FILE
+                : BUTTON_LABELS.CHOOSE_FILE}
+            </Button>
+          ) : null}
+          {imageList?.files?.length && hideListSelection ? (
+            <>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                multiple={!singleImageSelectionEnabled}
+                onChange={handleAddFilesForNoListShownCase}
+              />
+              <Button
+                className="btn btn-md my-2  me-2"
+                variant="primary"
+                onClick={openFileInputForNoListShownCase}
+              >
+                {singleImageSelectionEnabled
+                  ? BUTTON_LABELS.CHANGE_FILE
+                  : BUTTON_LABELS.ADD_FILE}
+              </Button>
+            </>
+          ) : null}
+          {!imageList?.files?.length && hideListSelection && !isLoading ? (
+            <ImageUploadBox
+              label={label}
+              subLabel={subLabel}
+              accept={accept}
+              renderSelectedFile={renderSelectedFile}
+              fileValue={fileValue}
+              getRootProps={getRootProps}
+              getInputProps={getInputProps}
+              ref={ref}
+              ratio={ratio}
+              isDragActive={isDragActive}
+              handleFileUpload={handleFileUpload}
+            />
+          ) : null}
           {chooseFile?.length ? (
             <div className="p-3">
               <div className="grid-container">
@@ -519,20 +580,20 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                     return null;
                   }
                   return (
-                    <div key={img.url || img.fileURL} className="grid-item m-2">
+                    <div key={img.url ?? img.fileURL} className="grid-item m-2">
                       <span className="uploaded_file position-relative">
                         {hideListSelection ? (
                           <button
                             type="button"
                             className="btn  btn-danger d-inline-flex align-items-center justify-content-center btn-danger-outline ms-2 uploaded-pic-grid__delete-button"
                             onClick={() =>
-                              handleClickDeleteOnSelectedImages(img)
+                              handleClickDeleteForNoListSelectionCase(img)
                             }
                           >
                             <img src={Delete} alt="delete" />
                           </button>
                         ) : null}
-                        <FileRenderer fileURL={img.url || img.fileURL} />
+                        <FileRenderer fileURL={img.url ?? img.fileURL} />
                       </span>
                     </div>
                   );
@@ -543,7 +604,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
         </div>
         <FileUploadModal
           showModal={showModal}
-          handleCloseModal={handleCloseModal}
+          handleCloseModal={handleCloseFileUploadModal}
           label={label}
           subLabel={subLabel}
           accept={accept}
@@ -557,7 +618,7 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
           isDragActive={isDragActive}
           fileValue={fileValue}
           imageList={imageList}
-          handleDeleteFile={handleDeleteFile}
+          handleDeleteFile={handleOpenDeleteFileConfirmation}
           singleImageSelectionEnabled={singleImageSelectionEnabled}
           handleFileUpload={handleFileUpload}
           renderSelectedFile={renderSelectedFile}

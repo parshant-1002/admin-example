@@ -8,7 +8,7 @@ interface FooterProps {
   };
 }
 
-function Footer({ context }: FooterProps) {
+function Footer({ context }: Readonly<FooterProps>) {
   if (!context) return null;
 
   const { loadMore, loading, hasMore } = context;
@@ -48,7 +48,7 @@ function InfiniteScroll<T>({
   loadMore,
   hasMore,
   height = '300px',
-}: InfiniteScrollProps<T>) {
+}: Readonly<InfiniteScrollProps<T>>) {
   return (
     <Virtuoso
       style={{ height }}

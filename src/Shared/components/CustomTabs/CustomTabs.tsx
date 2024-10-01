@@ -1,16 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import './CustomTabs.scss'; // Import your custom SCSS if needed
 
+interface CustomTabsType {
+  tabs: string[];
+  setActiveTab: (tab: string) => void;
+  activeTab: string;
+}
 function CustomTabs({
   tabs,
   setActiveTab,
   activeTab,
-}: {
-  tabs: string[];
-  setActiveTab: (tab: string) => void;
-  activeTab: string;
-}) {
+}: Readonly<CustomTabsType>) {
   return (
     <ul className="nav nav-tabs mt-3 mx-0 mb-3 flex-column flex-lg-row bg-white border d-flex">
       {tabs?.map((tab: string) => (
@@ -23,15 +22,16 @@ function CustomTabs({
                 )}`
               : `nav-item  col-lg-${Math.floor(12 / tabs.length)}`
           }
-          onClick={() => setActiveTab(tab)}
         >
-          <a
+          <button
+            onClick={() => setActiveTab(tab)}
+            type="button"
             className={`text-center nav-link ${
               activeTab === tab ? 'text-white font-weight-bold' : 'text-dark'
             }`}
           >
             {tab}
-          </a>
+          </button>
         </li>
       ))}
     </ul>

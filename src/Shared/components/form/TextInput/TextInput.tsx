@@ -6,10 +6,10 @@ import FileInput from '../FileUpload/FileUpload';
 export function ErrorComponent({
   error,
   render,
-}: {
+}: Readonly<{
   error: FieldErrorsImpl<object> | undefined;
   render?: (error: FieldErrorsImpl<object> | undefined) => JSX.Element;
-}) {
+}>) {
   if (render) {
     return render(error);
   }
@@ -26,8 +26,8 @@ interface TextFieldProps {
   className?: string;
   control?: Control;
   accept?: string;
-  value?: number | string | undefined;
-  config?: object | undefined;
+  value?: number | string;
+  config?: object;
   minDate: string;
   [key: string]: unknown;
 }

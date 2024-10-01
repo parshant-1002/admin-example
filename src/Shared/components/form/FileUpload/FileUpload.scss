@@ -35,7 +35,6 @@
 }
 
 .uploaded_file {
-    // overflow: $hidden;
     gap: 5px;
     z-index: 0;
     min-height: 64px;
@@ -62,7 +61,9 @@
         max-width: 100%;
         height: auto
     }
-
+    video {
+        width: 100%;
+    }
     button {
         color: #fff;
         border: none;
@@ -299,12 +300,6 @@
                 text-decoration: none;
             }
         }
-    }
-}
-
-.uploaded_file {
-    video {
-        width: 100%;
     }
 }
 

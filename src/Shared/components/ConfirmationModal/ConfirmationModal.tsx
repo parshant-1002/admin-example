@@ -15,7 +15,7 @@ interface ConfirmationModalProps {
   showCancelButton?: boolean;
   cancelButtonText?: string;
   showClose?: boolean;
-  size?: 'sm' | 'lg' | 'xl' | undefined; // Adjust sizes based on your CustomModal component
+  size?: 'sm' | 'lg' | 'xl'; // Adjust sizes based on your CustomModal component
 }
 
 function ConfirmationModal({
@@ -30,7 +30,7 @@ function ConfirmationModal({
   cancelButtonText = BUTTON_LABELS.CANCEL,
   showClose,
   size = 'sm',
-}: ConfirmationModalProps) {
+}: Readonly<ConfirmationModalProps>) {
   return (
     <CustomModal
       show={open}

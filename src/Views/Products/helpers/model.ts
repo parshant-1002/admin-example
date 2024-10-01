@@ -1,5 +1,6 @@
 import { Image } from '../../../Models/common';
 
+export type TableRenderValue = string | number | undefined;
 export interface SelectOption {
   value: number | string;
   label: string | number;
@@ -83,7 +84,7 @@ export interface ViewMultiData {
     title: string;
     categories?: Category[];
     imgData?: Image[];
-    size?: 'sm' | 'lg' | 'xl' | undefined;
+    size?: 'sm' | 'lg' | 'xl';
   } | null;
   show?: boolean;
 }

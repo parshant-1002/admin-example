@@ -19,7 +19,7 @@ export default function InvoiceView({
   handleInvoice,
   disabled,
   tooltipLabel = STRINGS.PRODUCT_NOT_PURCHASED,
-}: InvoiceProps) {
+}: Readonly<InvoiceProps>) {
   return (
     <div
       className="text-right d-lg-flex justify-content-center"

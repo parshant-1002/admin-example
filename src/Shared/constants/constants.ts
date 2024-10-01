@@ -77,13 +77,13 @@ const blockInvalidChar = (
 
 const VALIDATION_REGEX = {
   OTP: /^\d{6}$/,
-  EMAIL: /^\S+@\S+\.\S+$/,
-  PASSWORD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/i,
+  EMAIL: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+  PASSWORD: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d).{6,20}$/i,
   NUMBER: /\d+/g,
   SPECIAL_CHARACTERS_NOT_ALLOWED: /^[a-zA-Z0-9\s]+$/,
   SPECIAL_CHARACTERS_AND_SPACES_NOT_ALLOWED: /^[a-zA-Z0-9]+$/,
   VALID_LINK:
-    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$/,
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9]{1,6}\b(?:[-a-zA-Z0-9@:%_+.~#?&/=]*)$/,
   USERNAME: /^[a-z0-9]+$/,
 };
 
@@ -91,6 +91,13 @@ const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 const STRINGS = {
+  SCAN_QR_CODE:
+    'Scan the qr code to get the authentication code on your authentication app',
+  SELECT_DATE_RANGE: 'Select Date Range',
+  PRICE: 'Price',
+  NO_COLOR_SELECTED: 'No color Selected',
+  HOME: 'Home',
+  FILE_UPLOAD_FAILED: 'File upload failed',
   DEFAULT_VALUE: '_._',
   ARE_YOU_SURE: 'Are you sure?',
   SELECT_COLOR: 'Select Color',
@@ -286,11 +293,14 @@ const BUTTON_LABELS = {
   VIEW: 'View',
   UPLOAD: ' Upload',
   CHANGE_FILE: 'Change file',
+  ADD_FILE: 'Add file',
   CHOOSE_FILE: 'Choose file',
   UPDATE_SELECTION: 'Update Selection',
   SELECT_FILES: 'Select file',
   ADD_BIDS: 'ADD BIDS',
   REVOKE: 'Revoke',
+  BLOCK: 'Block',
+  UNBLOCK: 'Unblock',
   YES: 'Yes',
   NO: 'No',
   CANCEL: 'Cancel',

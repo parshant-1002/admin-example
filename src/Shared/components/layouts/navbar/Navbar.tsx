@@ -2,8 +2,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-// import { logoutRequest } from '../../../../../store/actions/auth';
-// import { ROUTES } from '../../../../constants/routes';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from '../../../../Services/Api/module/auth';
@@ -49,20 +47,21 @@ function Navbar() {
       <NotificationToast />
 
       <div className="d-flex align-items-center justify-content-between">
-        <div
+        <button
+          type="button"
           aria-label="Hide Sidebar"
-          className="d-flex text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
+          className="d-flex btn btn-transparent text-center position-relative align-items-center sidemenu-toggle header-link animated-arrow hor-toggle horizontal-navtoggle"
           data-bs-toggle="sidebar"
           onClick={toggleSidebar}
-          // href="/spruha-js/preview/apps/tables/tables/"
         >
           <span />
-        </div>
-        <Link to="/" className="logo d-flex align-items-center">
-          {/* <img src="assets/img/logo.png" alt="Logo" /> */}
-          {/* <h4 className="admin-brand-logo ms-xl-4">Penny Auction</h4> */}
-        </Link>
-        <i className="bi bi-list toggle-sidebar-btn" onClick={toggleSidebar} />
+        </button>
+        <Link to="/" className="logo d-flex align-items-center" />
+        <button
+          type="button"
+          className="bi bi-list toggle-sidebar-btn btn btn-transparent"
+          onClick={toggleSidebar}
+        />
       </div>
       <nav className="header-nav ms-auto">
         <ul className="d-flex gap-2 align-items-center list-inline">

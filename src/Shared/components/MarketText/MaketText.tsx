@@ -5,7 +5,7 @@ interface MarketTextType {
   type: string;
 }
 
-function MarketText({ text, type }: MarketTextType) {
+function MarketText({ text, type }: Readonly<MarketTextType>) {
   switch (type) {
     case TEXT_TYPES.SUCCESS:
       return <span className="text-green">{text}</span>;
@@ -14,8 +14,7 @@ function MarketText({ text, type }: MarketTextType) {
     case TEXT_TYPES.PENDING:
       return <span className="text-warning">{text}</span>;
     default:
-      <span className="text-green">{text}</span>;
-      break;
+      return <span className="text-green">{text}</span>;
   }
 }
 

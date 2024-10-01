@@ -24,7 +24,7 @@ function getAuctionStatusText(auctionHistory: {
   auctionDetails: { status: number };
 }) {
   // Check if auctionHistory and auctionDetails are defined
-  if (auctionHistory && auctionHistory.auctionDetails) {
+  if (auctionHistory?.auctionDetails) {
     const { status } = auctionHistory.auctionDetails;
 
     // Determine status text based on status value

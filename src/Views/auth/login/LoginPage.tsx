@@ -1,4 +1,3 @@
-// import { Logo } from '../../../assets';
 import { SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
@@ -31,7 +30,7 @@ function LoginPage() {
   ) => {
     event.preventDefault();
     try {
-      const emailData = data?.email as unknown as string;
+      const emailData = data?.email as string;
       await loginRequest({
         payload: data,
         onSuccess: (res: LoginResponse) => onSuccessLogin(res, emailData),

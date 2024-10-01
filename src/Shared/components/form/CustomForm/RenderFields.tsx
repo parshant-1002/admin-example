@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 import { Ref, SyntheticEvent, useState } from 'react';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import { INPUT_TYPES } from '../../../constants/constants';
+import { INPUT_TYPES, STRINGS } from '../../../constants/constants';
 import ColorPicker from '../../ColorPicker';
 import CheckBox from '../CheckBox';
 import RichText from '../RIchText/RitchText';
@@ -9,6 +8,7 @@ import CustomSelect from '../Select';
 import { CustomSwitch } from '../Switch/Switch';
 import TextField, { ErrorComponent } from '../TextInput/TextInput';
 import type { FormDataProps } from './types/Formtypes';
+import { VariableTypes } from '../../../constants/enums';
 
 interface RenderFieldProps {
   field: FormDataProps;
@@ -30,17 +30,20 @@ function RenderField({
   value,
   errors,
   control,
-}: RenderFieldProps) {
+}: Readonly<RenderFieldProps>) {
   const maxLength =
-    typeof field.schema === 'object' &&
+    typeof field.schema === VariableTypes.object &&
+    field.schema &&
     'maxLength' in field.schema &&
     field.schema.maxLength?.value;
   const minLength =
-    typeof field.schema === 'object' &&
+    typeof field.schema === VariableTypes.object &&
+    field.schema &&
     'minLength' in field.schema &&
     field.schema.minLength?.value;
   const minDate =
-    typeof field.schema === 'object' &&
+    typeof field.schema === VariableTypes.object &&
+    field.schema &&
     'minDate' in field.schema &&
     field.schema.minDate?.value;
   const [inputType, setInputType] = useState(field.type);
@@ -63,9 +66,9 @@ function RenderField({
           <TextField
             id={id}
             type={inputType}
-            readOnly={field.readOnly || false}
+            readOnly={field.readOnly ?? false}
             placeholder={field.placeholder}
-            accept={field.accept || ''}
+            accept={field.accept ?? STRINGS.EMPTY_STRING}
             config={field.config}
             onChange={(e: SyntheticEvent) =>
               handleInputChange(id, (e.target as HTMLInputElement).value)
@@ -75,9 +78,9 @@ function RenderField({
                 field?.blockInvalidChars(e);
               }
             }}
-            maxLength={maxLength || ''}
-            minLength={minLength || ''}
-            minDate={minDate || ''}
+            maxLength={maxLength ?? STRINGS.EMPTY_STRING}
+            minLength={minLength ?? STRINGS.EMPTY_STRING}
+            minDate={minDate ?? STRINGS.EMPTY_STRING}
             control={control}
             className={className}
             {...handleRegister(id)}
@@ -91,13 +94,13 @@ function RenderField({
             id={id}
             type={inputType}
             placeholder={field.placeholder}
-            accept={field.accept || ''}
+            accept={field.accept ?? STRINGS.EMPTY_STRING}
             {...handleRegister(id)}
             onChange={(fileSelected: string) =>
               handleInputChange(id, fileSelected)
             }
-            maxLength={maxLength || ''}
-            minLength={minLength || ''}
+            maxLength={maxLength ?? STRINGS.EMPTY_STRING}
+            minLength={minLength ?? STRINGS.EMPTY_STRING}
             control={control}
             className={className}
             ratio={field?.ratio}
@@ -147,19 +150,6 @@ function RenderField({
             onChange={(richTextValue) => handleInputChange(id, richTextValue)}
           />
         );
-      //   case INPUT_TYPES.FILE_UPLOAD:
-      //     return (
-      //       <FileUpload
-      //         id={id}
-      //         placeholder={field.placeholder}
-      //         accept={field.accept || IMAGE_FILE_TYPES}
-      //         maxSize={field.maxSize}
-      //         {...handleRegister(id)}
-      //         value={value}
-      //         onChange={(value) => handleInputChange(id, value)}
-      //         control={control}
-      //       />
-      //     );
       case INPUT_TYPES.SWITCH:
         return (
           <Controller
@@ -212,7 +202,7 @@ function RenderField({
                     onChange(inputValue); // Update the React Hook Form state
                     handleInputChange(id, inputValue); // Perform additional actions
                   }}
-                  options={field?.checkOptions || []}
+                  options={field?.checkOptions ?? []}
                   isMulti={field?.isMulti}
                 />
               );
@@ -226,11 +216,16 @@ function RenderField({
   };
 
   return (
-    <div className={`mb-2 modal-form-field ${field?.className || ''}`} key={id}>
+    <div
+      className={`mb-2 modal-form-field ${
+        field?.className ?? STRINGS.EMPTY_STRING
+      }`}
+      key={id}
+    >
       {field.label && (
         <label
           className={
-            field?.labelClassName ||
+            field?.labelClassName ??
             'relative inline-block min-w-[96px] mq450:text-base '
           }
           htmlFor={id}
@@ -239,23 +234,20 @@ function RenderField({
         </label>
       )}
       {field.subLabel && (
-        <p className={field?.subLabelClassName || 'text-secondary '}>
+        <p className={field?.subLabelClassName ?? 'text-secondary '}>
           {field.subLabel}
         </p>
       )}
-      <div className={field.groupClassName || 'nc_choose_file'}>
+      <div className={field.groupClassName ?? 'nc_choose_file'}>
         {renderInput()}
         {field.type === INPUT_TYPES.PASSWORD && (
-          <img
-            role="button"
-            // src={
-            //   inputType === INPUT_TYPES.PASSWORD ? ICONS.CloseEye : ICONS.Eye
-            // }
-            className="h-[30px] w-[30px] z-[1] px-4 cursor-pointer absolute top-[35%] right-0"
+          <button
+            type="button"
             onClick={handleEyeClick}
-            onKeyDown={handleEyeClick}
-            alt="eye"
-          />
+            className="z-[1] px-4 cursor-pointer absolute top-[35%] right-0"
+          >
+            <img className="h-[30px] w-[30px] " alt="eye" />
+          </button>
         )}
         <ErrorComponent error={errors[id]} render={field.render} />
         {field?.isShowInputCount ? (

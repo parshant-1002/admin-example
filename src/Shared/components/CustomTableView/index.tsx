@@ -8,7 +8,8 @@ import { ascending, descending, downArrow } from '../../../assets';
 import { convertToLocale, getValueFromPath } from '../../utils/functions';
 import TruncatedText from '../TruncateText/TruncateText';
 import './table.scss';
-import { FilterOrder } from '../../constants/enums';
+import { FilterOrder, VariableTypes } from '../../constants/enums';
+import { STRINGS } from '../../constants/constants';
 
 interface CustomTableViewProps {
   columns?: Column[];
@@ -49,8 +50,8 @@ function CustomTableView({
   currentPage = 0,
   renderTableFooter = () => <> </>,
   pageSize = 10,
-  noDataFound = '',
-  quickEditRowId = '',
+  noDataFound = STRINGS.EMPTY_STRING,
+  quickEditRowId = STRINGS.EMPTY_STRING,
   selectedRow = null,
   isServerPagination = true,
   handleSortingClick = () => {},
@@ -60,7 +61,7 @@ function CustomTableView({
   pagination = false,
   pageCount = 0,
   onPageChange = () => {},
-}: CustomTableViewProps) {
+}: Readonly<CustomTableViewProps>) {
   const [selectedSortType, setSelectedSortType] = useState<FilterOrder>(
     FilterOrder.ASCENDING
   );
@@ -73,23 +74,24 @@ function CustomTableView({
     : rows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   const getColumnValue = useCallback((row: Row, column: Column) => {
-    // if (!column?.fieldName) return null;
     const fieldValue = column?.path?.length
       ? getValueFromPath(row, column?.path)
-      : row[column?.fieldName || ''];
-    // if (column.isTruncated) {
-    //   return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
-    // }
+      : row[column?.fieldName ?? STRINGS.EMPTY_STRING];
+
     if (column.render) {
       return column.render(row, fieldValue);
     }
-    if (typeof fieldValue === 'number') {
-      return convertToLocale(fieldValue);
+    if (typeof fieldValue === VariableTypes.number) {
+      return convertToLocale(fieldValue as number);
     }
-    if (typeof fieldValue === 'string') {
-      return fieldValue ? <TruncatedText text={fieldValue as string} /> : '-.-';
+    if (typeof fieldValue === VariableTypes.string) {
+      return fieldValue ? (
+        <TruncatedText text={fieldValue as string} />
+      ) : (
+        STRINGS.DEFAULT_VALUE
+      );
     }
-    return fieldValue || '-.-';
+    return fieldValue ?? STRINGS.DEFAULT_VALUE;
   }, []);
 
   const handleRowClickInternal = (
@@ -106,6 +108,15 @@ function CustomTableView({
   const handleToggleRow = (rowId: string | number) => {
     setActiveRowId((prevId) => (prevId === rowId ? null : rowId));
   };
+  function getSortDirection(column: { sortType?: string }): string {
+    if (selectedSortKey === column.sortType) {
+      if (selectedSortType === FilterOrder.ASCENDING) {
+        return ascending; // Return the ascending value
+      }
+      return descending; // Return the descending value
+    }
+    return ascending; // Default return value
+  }
 
   return (
     <>
@@ -119,8 +130,10 @@ function CustomTableView({
                     <th
                       scope="col"
                       key={column.title}
-                      style={{ width: column?.width || 0 }}
-                      className={column?.sortable ? 'pointer' : ''}
+                      style={{ width: column?.width ?? 0 }}
+                      className={
+                        column?.sortable ? 'pointer' : STRINGS.EMPTY_STRING
+                      }
                       onClick={() => {
                         if (!column?.sortable) return;
                         const sortKey = column.sortType;
@@ -139,13 +152,7 @@ function CustomTableView({
                         {column?.sortable ? (
                           <figure className="mb-0">
                             <img
-                              src={
-                                selectedSortKey === column.sortType
-                                  ? selectedSortType === FilterOrder.ASCENDING
-                                    ? ascending
-                                    : descending
-                                  : ascending
-                              }
+                              src={getSortDirection(column)}
                               alt=""
                               width={15}
                               height={15}
@@ -185,7 +192,9 @@ function CustomTableView({
                           <tr
                             key={row._id}
                             className={`tr-item afixing ${
-                              activeRowId === row._id ? 'tr-active' : ''
+                              activeRowId === row._id
+                                ? 'tr-active'
+                                : STRINGS.EMPTY_STRING
                             }`}
                           >
                             {columns.map((column, columnIndex) => (
@@ -243,7 +252,9 @@ function CustomTableView({
             onPageChange={onPageChange}
             activeClassName="active"
             nextClassName={`next-btn ${
-              Math.ceil(pageCount) !== currentPage + 1 ? '' : 'disabled'
+              Math.ceil(pageCount) !== currentPage + 1
+                ? STRINGS.EMPTY_STRING
+                : 'disabled'
             }`}
             previousClassName="pre-btn"
             disabledClassName="disabled"

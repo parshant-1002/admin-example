@@ -1,14 +1,11 @@
 @import './base';
 
-// _theme.scss
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    // font-family: $Inter-font;
-    // font-weight: $font-regular;
     font-family: $Popin-font;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -176,7 +173,6 @@ p {
     }
 }
 
-// $search_icon: url(../icons/search_icon.svg);
 $search_icon: url(../../../src/assets/icons/search_icon.svg);
 
 input {
@@ -192,15 +188,6 @@ input {
         -webkit-appearance: $none;
         display: $none;
     }
-
-    // &:-webkit-autofill,
-    // &:-webkit-autofill:hover,
-    // &:-webkit-autofill:focus,
-    // &:-webkit-autofill:active {
-    //     -webkit-text-fill-color: $base-color;
-    //     -webkit-background-clip: text !important;
-    //     -webkit-box-shadow: inset 5px 5px 4px $grey-color-400, inset -5px -5px 4px $grey-color-400 !important;
-    // }
     &[type="search"] {
         width: 100%;
         background-image: $search_icon;
@@ -405,9 +392,6 @@ label {
             border-color: rgba($primary-color, .5);
         }
 
-        // &[readonly] {
-        //     background-color: $white-color;
-        // }
         &.disabled,
         &:disabled {
             @include opacity (.5);
@@ -426,7 +410,6 @@ label {
 $downArrow : url("./assets/icons/downArrow.svg");
 
 select {
-    // background-image: $downArrow;
     background-repeat: $no-repeat;
     background-size: 24px;
     background-position: $center $right 15px;
@@ -486,5 +469,3 @@ input[type="search"]::-webkit-search-results-decoration {
         z-index: 1;
     }
 }
-
-.searchType {}

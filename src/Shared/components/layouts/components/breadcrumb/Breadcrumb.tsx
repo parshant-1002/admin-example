@@ -1,6 +1,6 @@
 import { Breadcrumb } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { ROUTES } from '../../../../constants/constants';
+import { ROUTES, STRINGS } from '../../../../constants/constants';
 import { capitalizeFirstLetter } from '../../../../utils/functions';
 import './style.scss';
 
@@ -16,10 +16,12 @@ function Breadcrumbs() {
       <Breadcrumb.Item key={to} active={isLast}>
         {!isLast ? (
           <Link to={to}>
-            {capitalizeFirstLetter(decodeURIComponent(value.replace('-', ' ')))}
+            {capitalizeFirstLetter(
+              decodeURIComponent(value.replace(/-/g, ' '))
+            )}
           </Link>
         ) : (
-          capitalizeFirstLetter(decodeURIComponent(value.replace('-', ' ')))
+          capitalizeFirstLetter(decodeURIComponent(value.replace(/-/g, ' ')))
         )}
       </Breadcrumb.Item>
     );
@@ -27,10 +29,9 @@ function Breadcrumbs() {
 
   return (
     <div className="page-title w-100 mb-3">
-      {/* {pageTitle && <h4>{pageTitle}</h4>} */}
       <Breadcrumb>
         <Breadcrumb.Item href="#">
-          <Link to={ROUTES.HOMEPAGE}>Home</Link>
+          <Link to={ROUTES.HOMEPAGE}>{STRINGS.HOME}</Link>
         </Breadcrumb.Item>
         {breadcrumbItems}
       </Breadcrumb>

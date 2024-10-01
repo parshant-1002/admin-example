@@ -99,3 +99,9 @@ export interface UserAuctionHistoryResponse {
   data: UserBid[];
   count: number;
 }
+
+export enum ActionType {
+  VIEW = 'view',
+  BLOCK = 'block',
+  DELETE = 'delete',
+}
