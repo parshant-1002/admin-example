@@ -91,6 +91,7 @@ const IMAGE_FILE_TYPES = 'image/png,image/jpeg,image/svg,image/jpg';
 const VIDEO_FILES_TYPES = 'video/mp4,video/x-m4v,video/webm,video/mov';
 
 const STRINGS = {
+  PRICE_RANGE: 'PriceRange',
   SCAN_QR_CODE:
     'Scan the qr code to get the authentication code on your authentication app',
   SELECT_DATE_RANGE: 'Select Date Range',

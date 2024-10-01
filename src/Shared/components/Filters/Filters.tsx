@@ -1,8 +1,7 @@
 // libs
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 // consts
-import { SingleValue } from 'react-select';
 import { BUTTON_LABELS, STRINGS } from '../../constants/constants';
 
 // components
@@ -10,14 +9,18 @@ import Button from '../form/Button';
 import Breadcrumbs from '../layouts/components/breadcrumb';
 
 // styles
-import { SelectOption } from '../../../Models/common';
+import DateFilterButtons from '../../../Views/Dashboard/components/DateFilterButtons';
 import { Filter, addIcon, cross } from '../../../assets';
 import CustomSelect from '../form/Select/Select';
 import DateRange from './components/DateRange';
 import PriceRangeSlider from './components/PriceRange';
-import { FiltersState, PriceRange } from './helpers/models';
+import {
+  DateRangeState,
+  FilterFieldTypes,
+  FilterSchema,
+  FiltersState,
+} from './helpers/models';
 import './style.scss';
-import DateFilterButtons from '../../../Views/Dashboard/components/DateFilterButtons';
 
 // types
 interface StatsFiltersProps {
@@ -31,24 +34,19 @@ interface StatsFiltersProps {
   filterToggleImage?: string;
   showHeading?: boolean;
   showSearch?: boolean;
-  brandOptions?: SelectOption[];
-  showDateFilter?: boolean;
   showFiltersToggle?: boolean;
-  priceRange?: PriceRange;
-  secondaryPriceRange?: PriceRange;
-  secondarySelectPlaceHolder?: string;
-  statusOptions?: SelectOption[];
   handleApply?: (filter: FiltersState) => void;
-  secondarySelectOptions?: SelectOption[];
-  rangeSilderTitle?: string;
-  secondaryRangeSilderTitle?: string;
   showDateFilterTabs?: boolean;
   heading?: string;
+  filterSchema?: FilterSchema[];
+  setFiltersState?: Dispatch<SetStateAction<FiltersState>>;
+  filtersState?: FiltersState;
 }
 
 function StatsFilters({
   setAddData,
   heading,
+  filterSchema = [],
   addButtonLabel = BUTTON_LABELS.ADD,
   handleSearch = () => {},
   handleClearSearch = () => {}, // heading = 'Transactions',
@@ -58,50 +56,29 @@ function StatsFilters({
   showHeading = true,
   showSearch = true,
   handleClearAll = () => {},
-  brandOptions,
-  showDateFilter,
-  secondaryRangeSilderTitle,
-  secondaryPriceRange,
   showFiltersToggle = true,
-  priceRange,
-  statusOptions,
-  secondarySelectOptions,
-  secondarySelectPlaceHolder,
-  rangeSilderTitle,
   handleApply = () => {},
   showDateFilterTabs,
+  filtersState = {},
+  setFiltersState = () => {},
 }: Readonly<StatsFiltersProps>) {
   const clearDateRangeFilterRef = useRef<HTMLButtonElement>(null);
-
-  const intitialFilterState: FiltersState = {
-    priceRange: [priceRange?.min ?? 0, priceRange?.max ?? 0],
-    selectedBrand: null,
-    selectedStatus: null,
-    selectedSecondaryOptions: null,
-    secondaryPriceRange: [
-      secondaryPriceRange?.min ?? 0,
-      secondaryPriceRange?.max ?? 0,
-    ],
-  };
 
   const [activeDateButtonIndex, setActiveDateButtonIndex] = useState<
     number | null
   >(0);
 
   const [showFilters, setShowFilters] = useState(false);
-  const [isFiltersOn, setIsFiltersOn] = useState(false);
   const [isInitialEmptyForDate, setIsInitialEmptyForDate] = useState(true);
   const [searchValue, setSearchValue] = useState(STRINGS.EMPTY_STRING);
-  const [filtersState, setFiltersState] =
-    useState<FiltersState>(intitialFilterState);
+  const [dateRange, setDateRange] = useState<DateRangeState>({});
 
   const handleClear = () => {
-    setIsFiltersOn(false);
     setSearchValue(STRINGS.EMPTY_STRING);
     handleClearSearch();
     handleClearAll();
-    setFiltersState(intitialFilterState);
-    handleApply(intitialFilterState);
+    setFiltersState({});
+    handleApply({});
   };
   const handleClickAllData = () => {
     setActiveDateButtonIndex(0);
@@ -112,62 +89,59 @@ function StatsFilters({
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsFiltersOn(true);
     setSearchValue(e.target.value);
     handleSearch(e);
   };
   const handleShowFilter = () => {
     setShowFilters((prev) => !prev);
   };
-  const handleChangeStatusOptions = (newValue: SingleValue<SelectOption>) => {
-    setIsFiltersOn(true);
 
-    setFiltersState((prev: FiltersState) => ({
-      ...prev,
-      selectedStatus: newValue,
-    }));
-  };
-
-  const handleChangeSecondarySelectOptions = (
-    newValue: SingleValue<SelectOption>
-  ) => {
-    setIsFiltersOn(true);
-
-    setFiltersState((prev: FiltersState) => ({
-      ...prev,
-      selectedSecondaryOptions: newValue,
-    }));
-  };
-  const handleChangeBrandFilter = (newValue: SingleValue<SelectOption>) => {
-    setIsFiltersOn(true);
-
-    setFiltersState((prev: FiltersState) => ({
-      ...prev,
-      selectedBrand: newValue,
-    }));
-  };
-  const handleChangePriceRange = (selctedPriceRange: [number, number]) => {
-    setIsFiltersOn(true);
-    setFiltersState((prev: FiltersState) => ({
-      ...prev,
-      priceRange: [selctedPriceRange[0], selctedPriceRange[1]],
-    }));
-  };
-  const handleChangeSecondaryPriceRange = (
-    selctedPriceRange: [number, number]
-  ) => {
-    setIsFiltersOn(true);
-    setFiltersState((prev: FiltersState) => ({
-      ...prev,
-      secondaryPriceRange: [selctedPriceRange[0], selctedPriceRange[1]],
-    }));
-  };
-
-  useEffect(() => {
-    if (selectedIds) {
-      setIsFiltersOn(true);
+  const renderFilterComponent = (filter: FilterSchema) => {
+    switch (filter.type) {
+      case FilterFieldTypes.select:
+        return (
+          <div className={filter.className} key={filter.placeholder}>
+            <CustomSelect
+              options={filter.options}
+              onChange={filter.onChange}
+              value={filter.value ?? null}
+              className="react-select"
+              classNamePrefix="react-select-prefix"
+              placeholder={filter.placeholder}
+            />
+          </div>
+        );
+      case FilterFieldTypes.dateRange:
+        return (
+          <div className="col-12 col-sm-5 col-md-3 col-xxl-2" key="dateRange">
+            <DateRange
+              startDate={dateRange?.startDate}
+              endDate={dateRange?.endDate}
+              setSelectedDateRange={setDateRange}
+              onChange={filter.onChange}
+              isInitialEmpty={isInitialEmptyForDate}
+              clearFilterRef={clearDateRangeFilterRef}
+              setIsInitialEmpty={setIsInitialEmptyForDate}
+            />
+          </div>
+        );
+      case FilterFieldTypes.slider:
+        return (
+          <div className={filter.className} key={filter.title}>
+            <PriceRangeSlider
+              isFiltersOn={!!Object.keys(filtersState)?.length}
+              rangeSilderTitle={filter.title}
+              min={filter.min}
+              max={filter.max}
+              value={filter.value}
+              onChange={filter.onChange}
+            />
+          </div>
+        );
+      default:
+        return null;
     }
-  }, [selectedIds]);
+  };
 
   return (
     <div className="filter-wrapper">
@@ -209,8 +183,12 @@ function StatsFilters({
                   onChange={handleSearchChange}
                 />
                 {searchValue ? (
-                  <button onClick={handleClear} type="button">
-                    <em className="cross-icon">
+                  <button
+                    onClick={handleClear}
+                    type="button"
+                    className="btn btn-transparent cross-icon m-0 p-0"
+                  >
+                    <em>
                       <img
                         src={cross} // Replace with an actual path or URL
                         alt=""
@@ -259,103 +237,36 @@ function StatsFilters({
           </div>
         </div>
       </div>
-      {showFilters ? (
+      {showFilters && (
         <div className="w-100 align-items-start align-items-md-end d-flex flex-md-row flex-wrap gap-2 mt-1 mb-3 filter-items-box">
-          {brandOptions ? (
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
-              <CustomSelect
-                options={brandOptions}
-                onChange={handleChangeBrandFilter}
-                value={filtersState.selectedBrand}
-                className="react-select"
-                classNamePrefix="react-select-prefix"
-                placeholder="Select Company"
-              />
-            </div>
-          ) : null}
-          {showDateFilter ? (
-            <div className="col-12 col-sm-5 col-md-3 col-xxl-2">
-              <DateRange
-                startDate={filtersState?.startDate}
-                endDate={filtersState?.endDate}
-                setFilterState={setFiltersState}
-                isInitialEmpty={isInitialEmptyForDate}
-                clearFilterRef={clearDateRangeFilterRef}
-                setIsInitialEmpty={setIsInitialEmptyForDate}
-                setIsFiltersOn={setIsFiltersOn}
-              />
-            </div>
-          ) : null}
-          {priceRange ? (
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-3">
-              <PriceRangeSlider
-                isFiltersOn={isFiltersOn}
-                rangeSilderTitle={rangeSilderTitle}
-                min={priceRange.min}
-                max={priceRange.max}
-                value={filtersState?.priceRange}
-                onChange={handleChangePriceRange}
-              />
-            </div>
-          ) : null}
-          {secondaryPriceRange ? (
-            <div className="col-12 col-sm-5 col-md-4 col-lg-3 col-xxl-3">
-              <PriceRangeSlider
-                isFiltersOn={isFiltersOn}
-                rangeSilderTitle={secondaryRangeSilderTitle}
-                min={secondaryPriceRange.min}
-                max={secondaryPriceRange.max}
-                value={filtersState?.secondaryPriceRange}
-                onChange={handleChangeSecondaryPriceRange}
-              />
-            </div>
-          ) : null}
+          {filterSchema.map((filter) => renderFilterComponent(filter))}
 
-          {statusOptions ? (
-            <div className="col-12 col-sm-6 col-md-3 col-xxl-2">
-              <CustomSelect
-                options={statusOptions}
-                onChange={handleChangeStatusOptions}
-                value={filtersState?.selectedStatus}
-                placeholder="Status"
-              />
-            </div>
-          ) : null}
-          {secondarySelectOptions ? (
-            <div className="col-12 col-sm-5 col-md-3 col-xxl-2">
-              <CustomSelect
-                options={secondarySelectOptions}
-                onChange={handleChangeSecondarySelectOptions}
-                value={filtersState?.selectedSecondaryOptions}
-                placeholder={secondarySelectPlaceHolder}
-              />
-            </div>
-          ) : null}
+          {searchValue ||
+            selectedIds?.length ||
+            (!!Object.keys(filtersState)?.length && (
+              <>
+                <Button
+                  className="btn btn-sm"
+                  btnType="primary"
+                  onClick={() => {
+                    setActiveDateButtonIndex(null);
+                    handleApply(filtersState);
+                  }}
+                >
+                  {BUTTON_LABELS.APPLY}
+                </Button>
 
-          {isFiltersOn ? (
-            <Button
-              className="btn btn-sm"
-              btnType="primary"
-              onClick={() => {
-                setActiveDateButtonIndex(null);
-                handleApply(filtersState);
-              }}
-            >
-              {BUTTON_LABELS.APPLY}
-            </Button>
-          ) : null}
-
-          {isFiltersOn ? (
-            <Button
-              className="btn btn-sm"
-              btnType="secondary"
-              onClick={handleClickAllData}
-            >
-              {BUTTON_LABELS.CLEAR_ALL}
-            </Button>
-          ) : null}
+                <Button
+                  className="btn btn-sm"
+                  btnType="secondary"
+                  onClick={handleClickAllData}
+                >
+                  {BUTTON_LABELS.CLEAR_ALL}
+                </Button>
+              </>
+            ))}
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

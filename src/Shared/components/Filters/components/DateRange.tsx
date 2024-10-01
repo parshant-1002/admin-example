@@ -6,31 +6,31 @@ import moment from 'moment';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 // components
-import { FILTER_CONSTS } from '../../../constants/constants';
+import { FILTER_CONSTS, STRINGS } from '../../../constants/constants';
 import DateRangeSelector from '../../DateRangeSelector';
-import { FiltersState } from '../helpers/models';
+import { DateRangeState } from '../helpers/models';
 import { calender } from '../../../../assets';
 // types
 interface DateRangeProps {
   startDate?: string | Date;
   endDate?: string | Date;
-  setFilterState?: Dispatch<SetStateAction<FiltersState>>;
+  setSelectedDateRange?: Dispatch<SetStateAction<DateRangeState>>;
   isInitialEmpty?: boolean;
   clearFilterRef?: React.RefObject<HTMLButtonElement>;
   setIsInitialEmpty?: (value: boolean) => void;
-  setIsFiltersOn?: (value: boolean) => void;
+  onChange?: (value: DateRangeState) => void;
 }
 
 const KEY_FOR_DATE_RANGE = 'selection';
 
 function DateRange({
-  startDate = '',
-  endDate = '',
-  setFilterState = () => {},
+  setSelectedDateRange = () => {},
+  setIsInitialEmpty = () => {},
+  onChange = () => {},
+  startDate = STRINGS.EMPTY_STRING,
+  endDate = STRINGS.EMPTY_STRING,
   isInitialEmpty = false,
   clearFilterRef,
-  setIsInitialEmpty = () => {},
-  setIsFiltersOn = () => {},
 }: Readonly<DateRangeProps>) {
   const [dateRange, setDateRange] = useState<{
     from?: string | Date;
@@ -40,11 +40,15 @@ function DateRange({
 
   useEffect(() => {
     if (!dateRange || (!dateRange.to && clickCount <= 2)) return; // if both dates are not selected return the function
-    setFilterState((prev: FiltersState) => ({
-      ...(prev || {}),
+    setSelectedDateRange((prev: DateRangeState) => ({
+      ...(prev ?? {}),
       startDate: moment(dateRange.from).format(FILTER_CONSTS.dateFormat),
       endDate: moment(dateRange.to).format(FILTER_CONSTS.dateFormat),
     }));
+    onChange({
+      startDate: moment(dateRange.from).format(FILTER_CONSTS.dateFormat),
+      endDate: moment(dateRange.to).format(FILTER_CONSTS.dateFormat),
+    });
     setClickCount(0);
   }, [clickCount, dateRange.to]);
 
@@ -54,9 +58,9 @@ function DateRange({
 
   const initialDateRange = {
     startDate: dateRange.from
-      ? new Date(dateRange.from || startDate)
+      ? new Date(dateRange.from ?? startDate)
       : new Date(),
-    endDate: dateRange.to ? new Date(dateRange.to || endDate) : new Date(),
+    endDate: dateRange.to ? new Date(dateRange.to ?? endDate) : new Date(),
     key: KEY_FOR_DATE_RANGE,
   };
 
@@ -69,18 +73,20 @@ function DateRange({
     const isBothDatesSame = moment(selectedStartDate).isSame(selectedEndDate);
     setDateRange({ from: selectedStartDate, to: selectedEndDate }); // set the startDate so that there is initial date in the range picker
     setIsInitialEmpty(false);
-    setIsFiltersOn(true);
     if (isBothDatesSame && isOpen) {
       // checking if date range is open and date selected is same.
       setClickCount((prevCount) => prevCount + 1);
       if (clickCount < 1)
-        return setFilterState((prev: FiltersState) => ({
-          ...(prev || {}),
-          endDate: '',
+        return setSelectedDateRange((prev: DateRangeState) => ({
+          ...(prev ?? {}),
+          endDate: STRINGS.EMPTY_STRING,
         }));
+      onChange({
+        endDate: STRINGS.EMPTY_STRING,
+      });
     }
     setDateRange((prevDates: { from?: string | Date; to?: string | Date }) => ({
-      ...(prevDates || {}),
+      ...(prevDates ?? {}),
       to: selectedEndDate,
     }));
     setIsOpen(false);
@@ -89,11 +95,15 @@ function DateRange({
 
   const handleClickReset = () => {
     setDateRange({});
-    setFilterState((prev: FiltersState) => ({
-      ...(prev || {}),
+    setSelectedDateRange((prev: DateRangeState) => ({
+      ...(prev ?? {}),
       startDate: undefined,
       endDate: undefined,
     }));
+    onChange({
+      startDate: undefined,
+      endDate: undefined,
+    });
     setIsInitialEmpty(true);
   };
   return (

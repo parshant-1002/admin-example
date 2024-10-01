@@ -4,18 +4,24 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetDashboardQuery } from '../../Services/Api/module/dashboard';
 import { Filters } from '../../Shared/components';
-import { FiltersState } from '../../Shared/components/Filters/helpers/models';
-import { DATE_FORMATS } from '../../Shared/constants/constants';
+import {
+  FilterFieldTypes,
+  FilterSchema,
+  FiltersState,
+} from '../../Shared/components/Filters/helpers/models';
+import { DATE_FORMATS, STRINGS } from '../../Shared/constants/constants';
 import {
   convertToLocale,
   removeEmptyValues,
 } from '../../Shared/utils/functions';
 import { Lossicon, profitIcon } from '../../assets';
-import { cardData } from './helpers/constants';
+import { cardData, FiltersKeys } from './helpers/constants';
 import './style.scss';
+import { SelectedFilters } from './helpers/model';
 
 function Dashboard() {
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>(STRINGS.EMPTY_STRING);
+  const [filtersState, setFiltersState] = useState<FiltersState>({});
   const onComponentMountRef = useRef(false);
 
   const [filters, setFilters] = useState<{
@@ -41,11 +47,12 @@ function Dashboard() {
   }, 1000);
 
   const handleApplyFilters = (filterState: FiltersState) => {
+    const selectedFilters = filterState as SelectedFilters;
     setFilters({
-      fromDate: moment(filterState?.startDate).format(
+      fromDate: moment(selectedFilters?.dateRange?.startDate).format(
         DATE_FORMATS.DISPLAY_DATE_REVERSE
       ),
-      toDate: moment(filterState?.endDate).format(
+      toDate: moment(selectedFilters?.dateRange?.endDate).format(
         DATE_FORMATS.DISPLAY_DATE_REVERSE
       ),
     });
@@ -57,15 +64,31 @@ function Dashboard() {
     }
     onComponentMountRef.current = true;
   }, [refetch, search, filters]);
+  const onChangeFilter = (key: string, newValue: unknown) => {
+    setFiltersState((prev: FiltersState) => ({
+      ...prev,
+      [key]: newValue,
+    }));
+  };
+  const filterSchema: FilterSchema[] = [
+    {
+      type: FilterFieldTypes.dateRange,
+      id: FiltersKeys.dateRange,
+      onChange: (value) => onChangeFilter(FiltersKeys.dateRange, value),
+      className: STRINGS.EMPTY_STRING,
+    },
+  ];
   return (
     <>
       <Filters
         handleClearSearch={() => setSearch('')}
         handleSearch={debounceSearch}
-        showDateFilter
         showSearch={false}
+        filterSchema={filterSchema}
         handleApply={handleApplyFilters}
         showDateFilterTabs
+        setFiltersState={setFiltersState}
+        filtersState={filtersState}
       />
       <div className="row dashboad-cards">
         {cardData?.map((card) => (

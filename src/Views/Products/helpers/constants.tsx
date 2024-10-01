@@ -7,6 +7,8 @@ import {
   FILE_TYPE,
   IMAGE_FILE_TYPES,
   INPUT_TYPES,
+  PRICE_RANGE,
+  STRINGS,
   VALIDATION_REGEX,
   blockInvalidChar,
 } from '../../../Shared/constants/constants';
@@ -21,6 +23,11 @@ import {
   ViewMultiData,
   ViewSpecificationData,
 } from './model';
+import {
+  FilterFieldTypes,
+  FilterSchema,
+  FiltersState,
+} from '../../../Shared/components/Filters/helpers/models';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 
@@ -630,4 +637,55 @@ export const SPECIFICATIONS: FieldSchemaForSpecifications[] = [
   },
   { label: 'Comfort', key: 'comfort' },
   { label: 'Appearance', key: 'appearance' },
+];
+
+export const FiltersKeys = {
+  company: 'company',
+  dateRange: 'dateRange',
+  priceRange: 'priceRange',
+  productStatus: 'productStatus',
+};
+
+export const filterSchema = (
+  categoryOptions: SelectOption[],
+  onChangeFilter: (key: string, newValue: unknown) => void,
+  filtersState: FiltersState
+): FilterSchema[] => [
+  {
+    type: FilterFieldTypes.select,
+    id: FiltersKeys.company,
+    options: categoryOptions,
+    onChange: (value) => onChangeFilter(FiltersKeys.company, value),
+    value: filtersState?.[FiltersKeys.company] as SelectOption,
+    className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2',
+    placeholder: 'Select Company',
+  },
+  {
+    type: FilterFieldTypes.dateRange,
+    id: FiltersKeys.dateRange,
+    onChange: (value) => onChangeFilter(FiltersKeys.dateRange, value),
+    className: STRINGS.EMPTY_STRING,
+  },
+  {
+    type: FilterFieldTypes.slider,
+    id: FiltersKeys.priceRange,
+    title: STRINGS.PRICE_RANGE || STRINGS.EMPTY_STRING,
+    min: PRICE_RANGE?.min ?? 0,
+    max: PRICE_RANGE?.max ?? 0,
+    value: (filtersState?.[FiltersKeys.priceRange] as [number, number]) ?? [
+      0, 0,
+    ],
+    onChange: (value) =>
+      onChangeFilter(FiltersKeys.priceRange, [value[0], value[1]]),
+    className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-3',
+  },
+  {
+    type: FilterFieldTypes.select,
+    id: FiltersKeys.productStatus,
+    options: PRODUCT_AVAILABILITY_STATUS_OPTIONS as SelectOption[],
+    onChange: (value) => onChangeFilter(FiltersKeys.productStatus, value),
+    value: filtersState?.[FiltersKeys.productStatus] as SelectOption,
+    className: 'col-12 col-sm-6 col-md-3 col-xxl-2',
+    placeholder: 'Status',
+  },
 ];

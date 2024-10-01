@@ -17,20 +17,16 @@ import ViewMultiTableItem from '../../Shared/components/ViewMultiTableItem';
 import ProductForm from './ProductsForm';
 
 // Constants
-import {
-  BUTTON_LABELS,
-  PRICE_RANGE,
-  STRINGS,
-} from '../../Shared/constants/constants';
+import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import { Delete, Filter, RED_WARNING, edit } from '../../assets';
 import {
   CAR_BODY_TYPE_OPTIONS,
   CONFIRMATION_DESCRIPTION,
   FUEL_OPTIONS,
   GEARBOX_OPTIONS,
-  PRODUCT_AVAILABILITY_STATUS_OPTIONS,
   PRODUCT_STATUS,
   SPECIFICATIONS,
+  filterSchema,
   productsColumns,
 } from './helpers/constants';
 
@@ -38,6 +34,7 @@ import {
 import {
   Category,
   ProductResponsePayload,
+  SelectedFilters,
   ViewMultiData,
   ViewSpecificationData,
 } from './helpers/model';
@@ -55,11 +52,11 @@ import CustomDetailsBoard from '../../Shared/components/CustomDetailsBoard';
 import CustomFilterIcons from '../../Shared/components/CustomFilterIcons';
 import { SubmenuItem } from '../../Shared/components/CustomFilterIcons/CustomFilterIcons';
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import { FilterOrder } from '../../Shared/constants/enums';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
 import { RootState } from '../../Store';
 import { updateUploadedImages } from '../../Store/UploadedImages';
-import { FilterOrder } from '../../Shared/constants/enums';
 
 // Interfaces
 interface EditData {
@@ -93,6 +90,7 @@ export default function ProductsList() {
     show: false,
     data: { id: STRINGS.EMPTY_STRING, ids: [STRINGS.EMPTY_STRING] },
   });
+  const [filtersState, setFiltersState] = useState<FiltersState>({});
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
@@ -241,13 +239,13 @@ export default function ProductsList() {
   const getActionsSchema = useCallback(
     (row: ProductResponsePayload): SubmenuItem<ProductResponsePayload>[] => [
       {
-        buttonLabel: 'Edit',
+        buttonLabel: BUTTON_LABELS.EDIT,
         buttonAction: () => handleEdit(row),
         isPrimary: true,
         icon: edit,
       },
       {
-        buttonLabel: 'Delete',
+        buttonLabel: BUTTON_LABELS.DELETE,
         buttonAction: () => handleDelete(row), // Make sure to use the row parameter here
         icon: Delete,
         isDanger: true,
@@ -328,13 +326,14 @@ export default function ProductsList() {
   );
 
   const handleApplyFilters = (filterState: FiltersState) => {
+    const selectedFilters = filterState as SelectedFilters;
     setFilters({
-      fromDate: filterState?.startDate,
-      toDate: filterState?.endDate,
-      status: filterState?.selectedStatus?.value,
-      priceRangeMin: filterState?.priceRange?.[0],
-      priceRangeMax: filterState?.priceRange?.[1],
-      categoryId: filterState?.selectedBrand?.value,
+      fromDate: selectedFilters?.dateRange?.startDate,
+      toDate: selectedFilters?.dateRange?.endDate,
+      status: selectedFilters?.productStatus?.value,
+      priceRangeMin: selectedFilters?.priceRange?.[0],
+      priceRangeMax: selectedFilters?.priceRange?.[1],
+      categoryId: selectedFilters?.company?.value,
     });
     setCurrentPage(0);
   };
@@ -347,6 +346,17 @@ export default function ProductsList() {
     setAddData(false);
     dispatch(updateUploadedImages([]));
   };
+  const onChangeFilter = (key: string, newValue: unknown) => {
+    setFiltersState((prev: FiltersState) => ({
+      ...prev,
+      [key]: newValue,
+    }));
+  };
+
+  const filterSchemaConfig = useMemo(
+    () => filterSchema(categoryOptions, onChangeFilter, filtersState),
+    [categoryOptions, filtersState]
+  );
   return (
     <div>
       <ViewMultiTableItem
@@ -379,7 +389,7 @@ export default function ProductsList() {
       )}
       {(editData?.show || addData) && (
         <ProductForm
-          title={editData?.show ? 'Edit' : 'Add'}
+          title={editData?.show ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
           show={editData?.show || addData}
           onClose={handleCloseForm}
           isEdit={!!editData?.show}
@@ -397,10 +407,9 @@ export default function ProductsList() {
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
-        brandOptions={categoryOptions}
-        statusOptions={PRODUCT_AVAILABILITY_STATUS_OPTIONS}
-        showDateFilter
-        priceRange={PRICE_RANGE}
+        filterSchema={filterSchemaConfig}
+        setFiltersState={setFiltersState}
+        filtersState={filtersState}
         handleApply={handleApplyFilters}
         handleClearAll={() => setSelectedIds([])}
       />

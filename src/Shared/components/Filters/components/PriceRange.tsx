@@ -4,7 +4,7 @@ import 'react-range-slider-input/dist/style.css';
 import { Tooltip } from 'react-tooltip';
 import { downArrowFilter } from '../../../../assets';
 import Button from '../../form/Button';
-import { STRINGS } from '../../../constants/constants';
+import { BUTTON_LABELS, STRINGS } from '../../../constants/constants';
 
 interface PriceRangeSliderProps {
   min: number;
@@ -83,7 +83,7 @@ function PriceRangeSlider({
         onClick={toggleTooltip}
         data-tooltip-id={isOpen ? `my-tooltip-${rangeSilderTitle}` : ''}
       >
-        {rangeSilderTitle} ({value?.[0]} - {value?.[1]}) SEK{' '}
+        {rangeSilderTitle} ({min} - {max}) SEK{' '}
         <span className={!isOpen ? 'arrow-down' : 'arrow-right'}>
           <img src={downArrowFilter} alt="" height={20} width={20} />
         </span>{' '}
@@ -98,8 +98,7 @@ function PriceRangeSlider({
       >
         <div className="d-flex justify-content-between">
           <div className="tooltip__range">
-            <h6>{rangeSilderTitle} Range Selector</h6>({value?.[0]} -
-            {value?.[1]}) SEK
+            <h6>{rangeSilderTitle} Range Selector</h6>({min} -{max}) SEK
           </div>
           {isFiltersOn ? (
             <div>
@@ -107,7 +106,7 @@ function PriceRangeSlider({
                 className="clear-Button btn-outline-primary"
                 onClick={handleClear}
               >
-                Clear
+                {BUTTON_LABELS.CLEAR}
               </Button>
             </div>
           ) : null}
