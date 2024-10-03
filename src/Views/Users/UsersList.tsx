@@ -19,15 +19,15 @@ import {
   ROUTES,
   STRINGS,
 } from '../../Shared/constants/constants';
-import { Delete, Filter, RED_WARNING, block, view } from '../../assets';
+import { block, Delete, Filter, RED_WARNING, view } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
-  USER_STATUS,
+  filterSchema,
   usersColumns,
 } from './helpers/constants';
 
 // Models
-import { UsersResponsePayload } from './helpers/model';
+import { SelectedFilters, UsersResponsePayload } from './helpers/model';
 
 // Utilities
 import {
@@ -39,9 +39,9 @@ import CustomFilterIcons, {
   SubmenuItem,
 } from '../../Shared/components/CustomFilterIcons/CustomFilterIcons';
 import { FiltersState } from '../../Shared/components/Filters/helpers/models';
+import { FilterOrder } from '../../Shared/constants/enums';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { removeEmptyValues } from '../../Shared/utils/functions';
-import { FilterOrder } from '../../Shared/constants/enums';
 import { ActionType } from './UserDetails/helpers/model';
 
 interface DeleteData {
@@ -73,6 +73,7 @@ export default function UsersList() {
     show: false,
     data: { id: STRINGS.EMPTY_STRING },
   });
+  const [filtersState, setFiltersState] = useState<FiltersState>({});
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState({});
   const [selectedIds, setSelectedIds] = useState<string[]>();
@@ -218,10 +219,11 @@ export default function UsersList() {
   }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
   const handleApplyFilters = (filterState: FiltersState) => {
+    const selectedFilter = filterState as SelectedFilters;
     setFilters({
-      fromDate: filterState?.startDate,
-      toDate: filterState?.endDate,
-      blockedStatus: filterState?.selectedStatus?.value,
+      fromDate: selectedFilter?.dateRange?.startDate,
+      toDate: selectedFilter?.dateRange?.endDate,
+      blockedStatus: selectedFilter?.userStatus?.value,
     });
     setCurrentPage(0);
   };
@@ -290,6 +292,17 @@ export default function UsersList() {
       showClose={false}
     />
   );
+  const onChangeFilter = (key: string, newValue: unknown) => {
+    setFiltersState((prev: FiltersState) => ({
+      ...prev,
+      [key]: newValue,
+    }));
+  };
+
+  const filterSchemaConfig = useMemo(
+    () => filterSchema(onChangeFilter, filtersState),
+    [filtersState]
+  );
   return (
     <>
       {renderConfirmationModal(deleteModal, ActionType.DELETE)}
@@ -300,9 +313,10 @@ export default function UsersList() {
         selectedIds={selectedIds}
         handleDeleteAll={handleDeleteAll}
         filterToggleImage={Filter}
-        statusOptions={USER_STATUS}
-        showDateFilter
+        filterSchema={filterSchemaConfig}
         handleApply={handleApplyFilters}
+        setFiltersState={setFiltersState}
+        filtersState={filtersState}
       />
 
       <CustomTableView

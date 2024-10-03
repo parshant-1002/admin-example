@@ -1,3 +1,5 @@
+import { DateRangeState } from '../../../Shared/components/Filters/helpers/models';
+
 // Define the type for the SelectOption field
 export interface SelectOption {
   value: number;
@@ -67,4 +69,9 @@ export interface ViewMultiData {
     size?: 'sm' | 'lg' | 'xl';
   } | null;
   show?: boolean;
+}
+
+export interface SelectedFilters {
+  dateRange?: DateRangeState;
+  userStatus?: SelectOption;
 }

@@ -45,4 +45,7 @@ const cardData = [
   },
 ];
 
+export const FiltersKeys = {
+  dateRange: 'dateRange',
+};
 export { cardData, BUTTON_LABELS, DateRange };

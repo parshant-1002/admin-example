@@ -2,9 +2,14 @@
 
 // consts
 import moment from 'moment';
-import { DATE_FORMATS } from '../../../Shared/constants/constants';
-import { UsersResponsePayload } from './model';
+import { DATE_FORMATS, STRINGS } from '../../../Shared/constants/constants';
+import { SelectOption, UsersResponsePayload } from './model';
 import { convertToLocale } from '../../../Shared/utils/functions';
+import {
+  FilterFieldTypes,
+  FilterSchema,
+  FiltersState,
+} from '../../../Shared/components/Filters/helpers/models';
 
 export const USER_STATUS = [
   { value: 1, label: 'BLOCKED' },
@@ -141,3 +146,28 @@ export const CONFIRMATION_DESCRIPTION: Record<string, string> = {
   BLOCK: 'Are you sure you want to block',
   UNBLOCK: 'Are you sure you want to unblock',
 };
+
+export const FiltersKeys = {
+  dateRange: 'dateRange',
+  userStatus: 'userStatus',
+};
+export const filterSchema = (
+  onChangeFilter: (key: string, newValue: unknown) => void,
+  filtersState: FiltersState
+): FilterSchema[] => [
+  {
+    type: FilterFieldTypes.dateRange,
+    id: FiltersKeys.dateRange,
+    onChange: (value) => onChangeFilter(FiltersKeys.dateRange, value),
+    className: STRINGS.EMPTY_STRING,
+  },
+  {
+    type: FilterFieldTypes.select,
+    id: FiltersKeys.userStatus,
+    options: USER_STATUS as SelectOption[],
+    onChange: (value) => onChangeFilter(FiltersKeys.userStatus, value),
+    value: filtersState?.[FiltersKeys.userStatus] as SelectOption,
+    className: 'col-12 col-sm-6 col-md-3 col-xxl-2',
+    placeholder: 'Status',
+  },
+];

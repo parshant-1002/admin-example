@@ -1,4 +1,8 @@
 import { Image } from '../../../Models/common';
+import {
+  DateRangeState,
+  SliderValue,
+} from '../../../Shared/components/Filters/helpers/models';
 
 export type TableRenderValue = string | number | undefined;
 export interface SelectOption {
@@ -87,4 +91,11 @@ export interface ViewMultiData {
     size?: 'sm' | 'lg' | 'xl';
   } | null;
   show?: boolean;
+}
+
+export interface SelectedFilters {
+  company?: SelectOption;
+  dateRange?: DateRangeState;
+  priceRange?: SliderValue;
+  productStatus?: SelectOption;
 }
