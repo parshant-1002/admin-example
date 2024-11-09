@@ -5,7 +5,7 @@ import ReservePriceReached from '../Views/NotificationsContentManagement/Reserve
 import Footer from '../Views/PagesContentManagement/Footer';
 import HeaderContent from '../Views/PagesContentManagement/HeaderContent';
 import LogoutPopup from '../Views/PopupContentManagement/LogoutPopup';
-import { ProductsList } from '../Views/Products';
+import { ProductsList } from '../Views/Plans';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import { CustomRouter } from './RootRoutes';

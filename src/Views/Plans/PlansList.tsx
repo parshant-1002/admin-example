@@ -14,7 +14,7 @@ import CustomTableView, {
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
 import ViewMultiTableItem from '../../Shared/components/ViewMultiTableItem';
-import ProductForm from './ProductsForm';
+import ProductForm from './PlansForm';
 
 // Constants
 import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';

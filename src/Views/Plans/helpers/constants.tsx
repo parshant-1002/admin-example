@@ -188,7 +188,7 @@ export const CAR_BODY_TYPE_OPTIONS = [
     label: 'Low Rider',
   },
 ];
-export const PRODUCT_FORM_SCHEMA = (
+export const PLANS_FORM_SCHEMA = (
   cateroryOptions: SelectOption[],
   productId?: string
 ) => ({

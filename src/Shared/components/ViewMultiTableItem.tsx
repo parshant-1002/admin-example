@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import CustomModal from './CustomModal';
 import ImageGallery from './ImageGallery';
-import { ViewMultiData } from '../../Views/Products/helpers/model';
+import { ViewMultiData } from '../../Views/Plans/helpers/model';
 
 interface ViewMultiTableItemProp {
   show: ViewMultiData;

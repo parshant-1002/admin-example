@@ -18,13 +18,13 @@ import {
   deletedImages,
   updateUploadedImages,
 } from '../../Store/UploadedImages';
-import { PRODUCT_FORM_SCHEMA } from './helpers/constants';
+import { PLANS_FORM_SCHEMA } from './helpers/constants';
 import { ProductPayload, SelectOption } from './helpers/model';
 import { useFileDeleteMutation } from '../../Services/Api/module/file';
 import { RootState } from '../../Store';
 import { CustomModal } from '../../Shared/components';
 
-interface ProductFormTypes {
+interface PlansFormTypes {
   initialData: { _id?: string } | null;
   isEdit: boolean;
   onAdd?: () => void;
@@ -35,7 +35,7 @@ interface ProductFormTypes {
   onClose: () => void;
 }
 // component
-export default function ProductForm({
+export default function PlansForm({
   isEdit = false,
   initialData = {},
   onEdit = () => {},
@@ -44,7 +44,7 @@ export default function ProductForm({
   title = STRINGS.EMPTY_STRING,
   show = false,
   onClose = () => {},
-}: Readonly<ProductFormTypes>) {
+}: Readonly<PlansFormTypes>) {
   // hooks
   const dispatch = useDispatch();
   const [addProduct] = useAddProductMutation();
@@ -147,7 +147,7 @@ export default function ProductForm({
       <CustomForm
         id="products"
         className="row"
-        formData={PRODUCT_FORM_SCHEMA(categoryOptions, initialData?._id)}
+        formData={PLANS_FORM_SCHEMA(categoryOptions, initialData?._id)}
         onSubmit={onSubmit}
         defaultValues={
           initialData as unknown as Record<string, unknown> | undefined

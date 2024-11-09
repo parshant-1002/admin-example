@@ -7,47 +7,13 @@ const SIDEBAR_NAV = [
     route: ROUTES.HOMEPAGE,
   },
   {
-    iconClass: 'bi bi-notification-content',
-    label: 'Notifications Content',
-    children: [
-      {
-        label: 'Reserve Price Reached',
-        route: ROUTES.RESERVE_PRICE_REACHED,
-      },
-    ],
-  },
-  {
-    iconClass: 'bi bi-pages-content',
-    label: 'Popup pages Content',
-    children: [
-      {
-        label: 'Logout',
-        route: ROUTES.LOGOUT_POPUP,
-      },
-    ],
-  },
-  {
-    iconClass: 'bi bi-pages-content',
-    label: 'Pages Content',
-    children: [
-      {
-        label: 'Headers',
-        route: ROUTES.HEADERS_CONTENT,
-      },
-      {
-        label: 'Footer',
-        route: ROUTES.FOOTER,
-      },
-    ],
-  },
-  {
     iconClass: 'bi bi-user',
     label: 'Users',
     route: ROUTES.USERS,
   },
   {
     iconClass: 'bi bi-product',
-    label: 'Products',
+    label: 'Plans',
     route: ROUTES.PRODUCTS,
   },
 ];

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import FileRenderer from '../form/FileUpload/components/FileRenderer';
-import { ViewMultiData } from '../../../Views/Products/helpers/model';
+import { ViewMultiData } from '../../../Views/Plans/helpers/model';
 
 // Define the types for the props
 interface ImageWithCountProps {
