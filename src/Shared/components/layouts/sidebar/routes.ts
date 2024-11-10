@@ -16,6 +16,11 @@ const SIDEBAR_NAV = [
     label: 'Plans',
     route: ROUTES.PRODUCTS,
   },
+  {
+    iconClass: 'bi bi-product',
+    label: 'Transactions',
+    route: ROUTES.TRANSACTION_HISTORY,
+  },
 ];
 
 export default SIDEBAR_NAV;

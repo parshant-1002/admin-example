@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "planName": "John Doe",
+      "type": ["Basic"],
+      "description": "Basic plan with limited features",
+      "price": 100
+    },
+    {
+      "id": 2,
+      "planName": "Jane Smith",
+      "type": ["Standard"],
+      "description": "Standard plan with additional features",
+      "price": 200
+    },
+    {
+      "id": 3,
+      "planName": "Alice Johnson",
+      "type": ["Premium"],
+      "description": "Premium plan with all features",
+      "price": 300
+    },
+    {
+      "id": 4,
+      "planName": "Bob Brown",
+      "type": ["Enterprise"],
+      "description": "Enterprise plan for large teams",
+      "price": 500
+    },
+    {
+      "id": 5,
+      "planName": "Charlie Davis",
+      "type": ["Basic"],
+      "description": "Basic plan with limited features",
+      "price": 100
+    }
+  ]
+  

@@ -9,6 +9,7 @@ import { CustomSwitch } from '../Switch/Switch';
 import TextField, { ErrorComponent } from '../TextInput/TextInput';
 import type { FormDataProps } from './types/Formtypes';
 import { VariableTypes } from '../../../constants/enums';
+import { eyeOff, view } from '../../../../assets';
 
 interface RenderFieldProps {
   field: FormDataProps;
@@ -238,15 +239,21 @@ function RenderField({
           {field.subLabel}
         </p>
       )}
-      <div className={field.groupClassName ?? 'nc_choose_file'}>
+      <div
+        className={field.groupClassName ?? 'nc_choose_file position-relative'}
+      >
         {renderInput()}
         {field.type === INPUT_TYPES.PASSWORD && (
           <button
             type="button"
             onClick={handleEyeClick}
-            className="z-[1] px-4 cursor-pointer absolute top-[35%] right-0"
+            className="px-3 cursor-pointer position-absolute top-0 end-0 btn btn-transparent pass-btn"
           >
-            <img className="h-[30px] w-[30px] " alt="eye" />
+            <img
+              className="w-100 h-100"
+              alt="eye"
+              src={inputType === INPUT_TYPES.PASSWORD ? view : eyeOff}
+            />
           </button>
         )}
         <ErrorComponent error={errors[id]} render={field.render} />

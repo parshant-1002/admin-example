@@ -5,10 +5,7 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
-import { toast } from 'react-toastify';
-import { ErrorResponse } from '../../Models/Apis/Error';
 import type { RootState } from '../../Store';
-import { updateAuthTokenRedux } from '../../Store/Common';
 import { setLoading } from '../../Store/Loader';
 import { API_BASE_URL, VITE_API_VERSION } from './Constants';
 import { ResponseOptions } from './api.d';
@@ -34,11 +31,11 @@ const baseQueryWithInterceptor = async (
   }
   const result = await baseQuery(args, api, extraOptions);
   if ((result as ResponseOptions).error) {
-    const errorMessage = (result.error as ErrorResponse)?.data?.message;
-    if ((result as ResponseOptions).error.status === 401) {
-      api.dispatch(updateAuthTokenRedux({ token: null }));
-    }
-    toast.error(errorMessage);
+    // const errorMessage = (result.error as ErrorResponse)?.data?.message;
+    // if ((result as ResponseOptions).error.status === 401) {
+    //   api.dispatch(updateAuthTokenRedux({ token: null }));
+    // }
+    // toast.error(errorMessage);
     // Dispatch the logout action
   }
   if ((args as unknown as Record<string, unknown>)?.showLoader !== false) {

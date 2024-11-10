@@ -1,28 +1,28 @@
 import { SyntheticEvent } from 'react';
-import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useLoginMutation } from '../../../Services/Api/module/auth';
 import CustomForm from '../../../Shared/components/form/CustomForm';
-import { ROUTES } from '../../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
+import { updateAuthTokenRedux } from '../../../Store/Common';
 import { auction } from '../../../assets';
 import LOGIN_FORM_SCHEMA from './helpers/loginSchema';
 import './style.scss';
 
-interface LoginResponse {
-  message: string;
-  qrCodeURL: string;
-}
+// interface LoginResponse {
+//   message: string;
+//   qrCodeURL: string;
+// }
 function LoginPage() {
-  const [loginRequest] = useLoginMutation();
+  const dispatch = useDispatch();
+  // const [loginRequest] = useLoginMutation();
 
-  const navigate = useNavigate();
-  const onSuccessLogin = (data: LoginResponse, emailData: string) => {
-    toast.success(data?.message);
-    navigate(ROUTES.OTP_FORM, {
-      state: { qrCode: data?.qrCodeURL, email: emailData },
-    });
-  };
+  // const navigate = useNavigate();
+  // const onSuccessLogin = (data: LoginResponse, emailData: string) => {
+  //   toast.success(data?.message);
+  //   navigate(ROUTES.OTP_FORM, {
+  //     state: { qrCode: data?.qrCodeURL, email: emailData },
+  //   });
+  // };
   const onSubmit = async (
     data: Record<string, unknown>,
     event: SyntheticEvent,
@@ -30,11 +30,15 @@ function LoginPage() {
   ) => {
     event.preventDefault();
     try {
-      const emailData = data?.email as string;
-      await loginRequest({
-        payload: data,
-        onSuccess: (res: LoginResponse) => onSuccessLogin(res, emailData),
-      });
+      console.log(data);
+
+      // const emailData = data?.email as string;
+      // await loginRequest({
+      //   payload: data,
+      //   onSuccess: (res: LoginResponse) => onSuccessLogin(res, emailData),
+      // });
+      dispatch(updateAuthTokenRedux({ token: true }));
+
       reset();
     } catch (error: unknown) {
       if (error instanceof Error) {

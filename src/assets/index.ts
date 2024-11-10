@@ -17,6 +17,7 @@ import downArrow from './icons/downArrow.svg';
 import earnings from './icons/earning.svg';
 import edit from './icons/edit.svg';
 import view from './icons/eye.svg';
+import eyeOff from './icons/eyeOff.svg';
 import facebook from './icons/facebook.svg';
 import Filter from './icons/filter.svg';
 import profitIcon from './icons/high_icon.svg';
@@ -82,4 +83,5 @@ export {
   whiteCross,
   actions,
   dangerDelete,
+  eyeOff,
 };

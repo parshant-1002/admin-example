@@ -15,6 +15,10 @@ $downArrow : url("./assets/icons/downArrow.svg");
   width: 100%;
 }
 
+.pass-btn {
+  padding-top: 9px;
+}
+
 .bg-img {
   @include position($absolute, $top: 0, $left: 0, $right: 0);
   background: url(assets/images/header_bg.jpg) $no-repeat;

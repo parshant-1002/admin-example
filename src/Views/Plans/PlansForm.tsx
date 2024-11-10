@@ -2,8 +2,8 @@
 import { SyntheticEvent } from 'react';
 
 // components
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   useAddProductMutation,
   useEditProductMutation,
@@ -11,25 +11,25 @@ import {
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
+import { useFileDeleteMutation } from '../../Services/Api/module/file';
+import { CustomModal } from '../../Shared/components';
 import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
 import { addBaseUrl } from '../../Shared/utils/functions';
+import { RootState } from '../../Store';
 import {
   deletedImages,
   updateUploadedImages,
 } from '../../Store/UploadedImages';
 import { PLANS_FORM_SCHEMA } from './helpers/constants';
-import { ProductPayload, SelectOption } from './helpers/model';
-import { useFileDeleteMutation } from '../../Services/Api/module/file';
-import { RootState } from '../../Store';
-import { CustomModal } from '../../Shared/components';
+import { ProductPayload } from './helpers/model';
 
 interface PlansFormTypes {
   initialData: { _id?: string } | null;
   isEdit: boolean;
   onAdd?: () => void;
   onEdit?: () => void;
-  categoryOptions: SelectOption[];
+  // categoryOptions: SelectOption[];
   title: string;
   show: boolean;
   onClose: () => void;

@@ -9,7 +9,7 @@ import {
   INPUT_TYPES,
   PRICE_RANGE,
   STRINGS,
-  blockInvalidChar
+  blockInvalidChar,
 } from '../../../Shared/constants/constants';
 import { FORM_VALIDATION_MESSAGES } from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
@@ -19,7 +19,7 @@ import {
   ProductResponsePayload,
   SelectOption,
   TableRenderValue,
-  ViewMultiData
+  ViewMultiData,
 } from './model';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
@@ -490,7 +490,7 @@ export const productsColumns = (
   renderActions: RenderActions,
   setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
   handleChangeCheckBox: (id: string) => void,
-  selectedIds: string[] | undefined,
+  selectedIds: string[] | undefined
   // setViewSpecifications: Dispatch<SetStateAction<ViewSpecificationData>>
 ): ColumnData[] => [
   {
@@ -515,7 +515,7 @@ export const productsColumns = (
   },
   {
     title: 'Plan Name',
-    fieldName: 'title',
+    fieldName: 'planName',
     sortable: true,
     sortType: 'title',
     // render: (row, val) => {
@@ -536,32 +536,30 @@ export const productsColumns = (
   },
   {
     title: 'Type',
-    fieldName: 'categories',
+    fieldName: 'type',
     render: (_, val) => {
-      const categories = (val || []) as unknown as Category[];
-      if (!categories?.length) return '- - -';
+      const type = (val || []) as unknown as Category[];
+      if (!type?.length) return '- - -';
       return (
         <>
-          {categories?.map((category: { name: string }, index) => {
+          {type?.map((category: { name: string }, index) => {
             if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
-              return `${category.name}${
-                index < categories.length - 1 ? ', ' : ' '
-              }`;
+              return `${category}${index < type.length - 1 ? ', ' : ' '}`;
             }
             return null;
           })}
-          {categories?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+          {type?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
             <button
               type="button"
               className="btn border py-0 px-1 cat-count"
               onClick={() =>
                 setShowMultiItemView({
                   show: true,
-                  data: { title: 'Company', size: 'sm', categories },
+                  data: { title: 'Company', size: 'sm' },
                 })
               }
             >
-              {`+${categories.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
+              {`+${type.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
             </button>
           ) : null}
         </>
@@ -653,19 +651,19 @@ export const FiltersKeys = {
 };
 
 export const filterSchema = (
-  categoryOptions: SelectOption[],
+  // categoryOptions: SelectOption[],
   onChangeFilter: (key: string, newValue: unknown) => void,
   filtersState: FiltersState
 ): FilterSchema[] => [
-  {
-    type: FilterFieldTypes.select,
-    id: FiltersKeys.company,
-    options: categoryOptions,
-    onChange: (value) => onChangeFilter(FiltersKeys.company, value),
-    value: filtersState?.[FiltersKeys.company] as SelectOption,
-    className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2',
-    placeholder: 'Select Company',
-  },
+  // {
+  //   type: FilterFieldTypes.select,
+  //   id: FiltersKeys.company,
+  //   options: categoryOptions,
+  //   onChange: (value) => onChangeFilter(FiltersKeys.company, value),
+  //   value: filtersState?.[FiltersKeys.company] as SelectOption,
+  //   className: 'col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2',
+  //   placeholder: 'Select Company',
+  // },
   {
     type: FilterFieldTypes.dateRange,
     id: FiltersKeys.dateRange,

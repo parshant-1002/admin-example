@@ -233,7 +233,7 @@ a.btn {
     padding-inline: 7px;
     white-space: nowrap;
     font-weight: $font-regular;
-
+    box-shadow: $none !important;
     img {
         width: 16px;
     }
@@ -316,6 +316,7 @@ a.btn {
             color: $white-color;
             border-color: $transparent !important;
             background-color: $transparent !important;
+            box-shadow: $none !important;
         }
     }
 

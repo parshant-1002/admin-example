@@ -380,6 +380,7 @@ const STRING: string = 'Test';
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
+  TRANSACTION_HISTORY: '/transactions',
   OTP_FORM: '/otp-form',
   QR_CODE: '/qr-code',
   REGISTER: '/register',
@@ -410,7 +411,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.PRODUCTS,
     title: 'Product',
   },
-
+  TRANSACTION_HISTORY: {
+    path: ROUTES.TRANSACTION_HISTORY,
+    title: 'Transaction History',
+  },
   USERS: {
     path: ROUTES.USERS,
     title: 'Users',

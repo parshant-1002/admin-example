@@ -17,6 +17,7 @@ import ViewMultiTableItem from '../../Shared/components/ViewMultiTableItem';
 import ProductForm from './PlansForm';
 
 // Constants
+import dummyData from './helpers/data.json';
 import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import { Delete, Filter, RED_WARNING, edit } from '../../assets';
 import {
@@ -32,7 +33,6 @@ import {
 
 // Models
 import {
-  Category,
   ProductResponsePayload,
   SelectedFilters,
   ViewMultiData,
@@ -47,7 +47,6 @@ import {
 
 // Utilities
 import { Image } from '../../Models/common';
-import { useGetCategorysQuery } from '../../Services/Api/module/category';
 import CustomDetailsBoard from '../../Shared/components/CustomDetailsBoard';
 import CustomFilterIcons from '../../Shared/components/CustomFilterIcons';
 import { SubmenuItem } from '../../Shared/components/CustomFilterIcons/CustomFilterIcons';
@@ -125,10 +124,10 @@ export default function ProductsList() {
   };
 
   // API Queries
-  const { data: categoryList } = useGetCategorysQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
+  // const { data: categoryList } = useGetCategorysQuery(
+  //   {},
+  //   { refetchOnMountOrArgChange: true }
+  // );
 
   const { data: productListing, refetch } = useGetProductsQuery({
     params: removeEmptyValues(
@@ -302,7 +301,7 @@ export default function ProductsList() {
         renderActions,
         setShowMultiItemView,
         handleChangeCheckBox,
-        selectedIds,
+        selectedIds
         // setViewSpecifications
       ),
     [renderActions, selectedIds]
@@ -316,14 +315,14 @@ export default function ProductsList() {
     onComponentMountRef.current = true;
   }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
 
-  const categoryOptions = useMemo(
-    () =>
-      categoryList?.data?.map((category: Category) => ({
-        value: category?._id,
-        label: category?.name,
-      })),
-    [categoryList?.data]
-  );
+  // const categoryOptions = useMemo(
+  //   () =>
+  //     categoryList?.data?.map((category: Category) => ({
+  //       value: category?._id,
+  //       label: category?.name,
+  //     })),
+  //   [categoryList?.data]
+  // );
 
   const handleApplyFilters = (filterState: FiltersState) => {
     const selectedFilters = filterState as SelectedFilters;
@@ -354,8 +353,8 @@ export default function ProductsList() {
   };
 
   const filterSchemaConfig = useMemo(
-    () => filterSchema(categoryOptions, onChangeFilter, filtersState),
-    [categoryOptions, filtersState]
+    () => filterSchema(onChangeFilter, filtersState),
+    [filtersState]
   );
   return (
     <div>
@@ -396,7 +395,7 @@ export default function ProductsList() {
           initialData={editData?.show ? editData?.data : {}}
           onEdit={handleEditSuccess}
           onAdd={handleAddSuccess}
-          categoryOptions={categoryOptions}
+          // categoryOptions={categoryOptions}
         />
       )}
 
@@ -415,7 +414,7 @@ export default function ProductsList() {
       />
 
       <CustomTableView
-        rows={(productListing?.data as unknown as Row[]) || []}
+        rows={productListing?.data || (dummyData as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
         pageSize={PRODUCTS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
