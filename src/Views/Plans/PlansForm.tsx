@@ -40,7 +40,6 @@ export default function PlansForm({
   initialData = {},
   onEdit = () => {},
   onAdd = () => {},
-  categoryOptions = [],
   title = STRINGS.EMPTY_STRING,
   show = false,
   onClose = () => {},
@@ -147,7 +146,7 @@ export default function PlansForm({
       <CustomForm
         id="products"
         className="row"
-        formData={PLANS_FORM_SCHEMA(categoryOptions, initialData?._id)}
+        formData={PLANS_FORM_SCHEMA()}
         onSubmit={onSubmit}
         defaultValues={
           initialData as unknown as Record<string, unknown> | undefined

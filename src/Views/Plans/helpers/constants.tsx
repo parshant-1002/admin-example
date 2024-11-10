@@ -1,16 +1,15 @@
 // consts
 import { Dispatch, SetStateAction } from 'react';
-import { Button } from 'react-bootstrap';
-import ImageWithCount from '../../../Shared/components/ImageWithCount';
 import {
-  BUTTON_LABELS,
-  FILE_TYPE,
-  IMAGE_FILE_TYPES,
+  FilterFieldTypes,
+  FilterSchema,
+  FiltersState,
+} from '../../../Shared/components/Filters/helpers/models';
+import {
   INPUT_TYPES,
   PRICE_RANGE,
   STRINGS,
-  VALIDATION_REGEX,
-  blockInvalidChar,
+  blockInvalidChar
 } from '../../../Shared/constants/constants';
 import { FORM_VALIDATION_MESSAGES } from '../../../Shared/constants/validationMessages';
 import { convertToLocale } from '../../../Shared/utils/functions';
@@ -20,14 +19,8 @@ import {
   ProductResponsePayload,
   SelectOption,
   TableRenderValue,
-  ViewMultiData,
-  ViewSpecificationData,
+  ViewMultiData
 } from './model';
-import {
-  FilterFieldTypes,
-  FilterSchema,
-  FiltersState,
-} from '../../../Shared/components/Filters/helpers/models';
 
 const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 
@@ -188,17 +181,30 @@ export const CAR_BODY_TYPE_OPTIONS = [
     label: 'Low Rider',
   },
 ];
-export const PLANS_FORM_SCHEMA = (
-  cateroryOptions: SelectOption[],
-  productId?: string
-) => ({
+
+const planTypeOptions = [
+  {
+    label: 'Weekly',
+    value: 1,
+  },
+  {
+    label: 'Monthly',
+    value: 2,
+  },
+  {
+    label: 'Yearly',
+    value: 3,
+  },
+];
+
+export const PLANS_FORM_SCHEMA = () => ({
   title: {
     type: INPUT_TYPES.TEXT,
-    label: 'Name',
+    label: 'Plan Name',
     className: 'col-md-12',
-    placeholder: 'Name',
+    placeholder: 'Plan Name',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Name').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Plan Name').REQUIRED,
       minLength: {
         value: 3,
         message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
@@ -229,50 +235,50 @@ export const PLANS_FORM_SCHEMA = (
 
   category: {
     type: INPUT_TYPES.SELECT,
-    label: 'Company',
+    label: 'Plan Type',
     className: 'col-md-12',
-    placeholder: 'Select a Company',
+    placeholder: 'Select a Plan Type',
     // isMulti: true,
-    options: cateroryOptions,
+    options: planTypeOptions,
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Company').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Plan Type').REQUIRED,
     },
   },
-  images: {
-    type: INPUT_TYPES.FILE,
-    label: 'Images',
-    hideListSelection: true,
-    accept: IMAGE_FILE_TYPES,
-    className: 'col-md-12',
-    placeholder: 'Add Images',
-    singleImageSelectionEnabled: false,
-    imageFileType: FILE_TYPE.PRODUCT,
-    ratio: [1.5, 1],
-    fetchImageDataConfig: [
-      {
-        key: 'productId',
-        value: productId,
-      },
-    ],
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
-    },
-  },
-  bodyType: {
-    type: INPUT_TYPES.SELECT,
-    label: 'Body Type',
-    className: 'col-md-6',
-    placeholder: 'Select a body type',
-    options: CAR_BODY_TYPE_OPTIONS,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Body Type').REQUIRED,
-    },
-  },
+  // images: {
+  //   type: INPUT_TYPES.FILE,
+  //   label: 'Images',
+  //   hideListSelection: true,
+  //   accept: IMAGE_FILE_TYPES,
+  //   className: 'col-md-12',
+  //   placeholder: 'Add Images',
+  //   singleImageSelectionEnabled: false,
+  //   imageFileType: FILE_TYPE.PRODUCT,
+  //   ratio: [1.5, 1],
+  //   fetchImageDataConfig: [
+  //     {
+  //       key: 'productId',
+  //       value: productId,
+  //     },
+  //   ],
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Image').REQUIRED,
+  //   },
+  // },
+  // bodyType: {
+  //   type: INPUT_TYPES.SELECT,
+  //   label: 'Body Type',
+  //   className: 'col-md-6',
+  //   placeholder: 'Select a body type',
+  //   options: CAR_BODY_TYPE_OPTIONS,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Body Type').REQUIRED,
+  //   },
+  // },
   price: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Price (SEK)',
-    className: 'col-md-3',
-    placeholder: 'Price (SEK)',
+    label: 'Price',
+    className: 'col-md-12',
+    placeholder: 'Price',
     schema: {
       required: FORM_VALIDATION_MESSAGES('Price').REQUIRED,
       min: {
@@ -282,30 +288,30 @@ export const PLANS_FORM_SCHEMA = (
     },
     blockInvalidChars: blockInvalidChar,
   },
-  registrationNumber: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Registration Number',
-    className: 'col-md-3',
-    placeholder: 'Registration Number',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Registration Number').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 30,
-        message: FORM_VALIDATION_MESSAGES(30).MAX_LENGTH,
-      },
-    },
-  },
+  // registrationNumber: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Registration Number',
+  //   className: 'col-md-3',
+  //   placeholder: 'Registration Number',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Registration Number').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //     maxLength: {
+  //       value: 30,
+  //       message: FORM_VALIDATION_MESSAGES(30).MAX_LENGTH,
+  //     },
+  //   },
+  // },
   modelYear: {
     type: INPUT_TYPES.TEXT,
-    label: 'Model Year',
+    label: 'Duration',
     className: 'col-md-3',
-    placeholder: 'Model Year',
+    placeholder: 'Duration',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Model Year').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('Duration').REQUIRED,
       minLength: {
         value: 4,
         message: FORM_VALIDATION_MESSAGES(4).MIN_LENGTH,
@@ -316,151 +322,151 @@ export const PLANS_FORM_SCHEMA = (
       },
     },
   },
-  paint: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Paint',
-    className: 'col-md-3',
-    placeholder: 'Paint',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Paint').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 25,
-        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
-      },
-    },
-  },
-  fuel: {
-    type: INPUT_TYPES.SELECT,
-    label: 'Fuel',
-    className: 'col-md-3',
-    placeholder: 'Select a fuel',
-    options: FUEL_OPTIONS,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Fuel').REQUIRED,
-    },
-  },
-  gearbox: {
-    type: INPUT_TYPES.SELECT,
-    label: 'GearBox',
-    className: 'col-md-3',
-    placeholder: 'Select a gearbox',
-    options: GEARBOX_OPTIONS,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('GearBox').REQUIRED,
-    },
-  },
+  // paint: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Paint',
+  //   className: 'col-md-3',
+  //   placeholder: 'Paint',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Paint').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //     maxLength: {
+  //       value: 25,
+  //       message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+  //     },
+  //   },
+  // },
+  // fuel: {
+  //   type: INPUT_TYPES.SELECT,
+  //   label: 'Fuel',
+  //   className: 'col-md-3',
+  //   placeholder: 'Select a fuel',
+  //   options: FUEL_OPTIONS,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Fuel').REQUIRED,
+  //   },
+  // },
+  // gearbox: {
+  //   type: INPUT_TYPES.SELECT,
+  //   label: 'GearBox',
+  //   className: 'col-md-3',
+  //   placeholder: 'Select a gearbox',
+  //   options: GEARBOX_OPTIONS,
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('GearBox').REQUIRED,
+  //   },
+  // },
 
-  motor: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Motor',
-    className: 'col-md-3',
-    placeholder: 'Motor',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Motor').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 25,
-        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
-      },
-    },
-  },
+  // motor: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Motor',
+  //   className: 'col-md-3',
+  //   placeholder: 'Motor',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Motor').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //     maxLength: {
+  //       value: 25,
+  //       message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+  //     },
+  //   },
+  // },
 
-  gearCount: {
-    type: INPUT_TYPES.NUMBER,
-    label: 'Gear Count',
-    className: 'col-md-3',
-    placeholder: 'Gear Count',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Gear Count').REQUIRED,
-      min: {
-        value: 1,
-        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
-      },
-      pattern: {
-        value: VALIDATION_REGEX.NUMBER,
-        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
-      },
-    },
-    config: { min: 1, type: 'number' },
-    blockInvalidChars: blockInvalidChar,
-  },
-  seatCount: {
-    type: INPUT_TYPES.NUMBER,
-    label: 'Seat Count',
-    className: 'col-md-3',
-    placeholder: 'Seat Count',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Seat Count').REQUIRED,
-      min: {
-        value: 1,
-        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
-      },
-      pattern: {
-        value: VALIDATION_REGEX.NUMBER,
-        message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
-      },
-    },
-    config: { min: 1, type: 'number' },
-    blockInvalidChars: blockInvalidChar,
-  },
-  security: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Security',
-    className: 'col-md-3',
-    placeholder: 'Security',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Security').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 25,
-        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
-      },
-    },
-  },
-  comfort: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Comfort',
-    className: 'col-md-3',
-    placeholder: 'Comfort',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Comfort').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 25,
-        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
-      },
-    },
-  },
-  appearance: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Appearance',
-    className: 'col-md-3',
-    placeholder: 'Appearance',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Appearance').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 25,
-        message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
-      },
-    },
-  },
+  // gearCount: {
+  //   type: INPUT_TYPES.NUMBER,
+  //   label: 'Gear Count',
+  //   className: 'col-md-3',
+  //   placeholder: 'Gear Count',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Gear Count').REQUIRED,
+  //     min: {
+  //       value: 1,
+  //       message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+  //     },
+  //     pattern: {
+  //       value: VALIDATION_REGEX.NUMBER,
+  //       message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+  //     },
+  //   },
+  //   config: { min: 1, type: 'number' },
+  //   blockInvalidChars: blockInvalidChar,
+  // },
+  // seatCount: {
+  //   type: INPUT_TYPES.NUMBER,
+  //   label: 'Seat Count',
+  //   className: 'col-md-3',
+  //   placeholder: 'Seat Count',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Seat Count').REQUIRED,
+  //     min: {
+  //       value: 1,
+  //       message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+  //     },
+  //     pattern: {
+  //       value: VALIDATION_REGEX.NUMBER,
+  //       message: FORM_VALIDATION_MESSAGES().ENTER_INTEGER,
+  //     },
+  //   },
+  //   config: { min: 1, type: 'number' },
+  //   blockInvalidChars: blockInvalidChar,
+  // },
+  // security: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Security',
+  //   className: 'col-md-3',
+  //   placeholder: 'Security',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Security').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //     maxLength: {
+  //       value: 25,
+  //       message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+  //     },
+  //   },
+  // },
+  // comfort: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Comfort',
+  //   className: 'col-md-3',
+  //   placeholder: 'Comfort',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Comfort').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //     maxLength: {
+  //       value: 25,
+  //       message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+  //     },
+  //   },
+  // },
+  // appearance: {
+  //   type: INPUT_TYPES.TEXT,
+  //   label: 'Appearance',
+  //   className: 'col-md-3',
+  //   placeholder: 'Appearance',
+  //   schema: {
+  //     required: FORM_VALIDATION_MESSAGES('Appearance').REQUIRED,
+  //     minLength: {
+  //       value: 3,
+  //       message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
+  //     },
+  //     maxLength: {
+  //       value: 25,
+  //       message: FORM_VALIDATION_MESSAGES(25).MAX_LENGTH,
+  //     },
+  //   },
+  // },
 });
 
 // Define types for renderActions and column data
@@ -485,7 +491,7 @@ export const productsColumns = (
   setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
   handleChangeCheckBox: (id: string) => void,
   selectedIds: string[] | undefined,
-  setViewSpecifications: Dispatch<SetStateAction<ViewSpecificationData>>
+  // setViewSpecifications: Dispatch<SetStateAction<ViewSpecificationData>>
 ): ColumnData[] => [
   {
     title: '#',
@@ -508,28 +514,28 @@ export const productsColumns = (
     },
   },
   {
-    title: 'Name',
-    fieldName: 'images',
+    title: 'Plan Name',
+    fieldName: 'title',
     sortable: true,
     sortType: 'title',
-    render: (row, val) => {
-      const imgData = val as unknown as {
-        _id: string;
-        url: string;
-        title: string;
-      }[];
-      return (
-        <ImageWithCount
-          title={row?.title}
-          imgData={imgData}
-          setShowMultiItemView={setShowMultiItemView}
-          count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
-        />
-      );
-    },
+    // render: (row, val) => {
+    //   const imgData = val as unknown as {
+    //     _id: string;
+    //     url: string;
+    //     title: string;
+    //   }[];
+    //   return (
+    //     <ImageWithCount
+    //       title={row?.title}
+    //       imgData={imgData}
+    //       setShowMultiItemView={setShowMultiItemView}
+    //       count={COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}
+    //     />
+    //   );
+    // },
   },
   {
-    title: 'Company',
+    title: 'Type',
     fieldName: 'categories',
     render: (_, val) => {
       const categories = (val || []) as unknown as Category[];
@@ -569,31 +575,31 @@ export const productsColumns = (
     sortable: true,
     sortType: 'description',
   },
+  // {
+  //   title: 'Status',
+  //   fieldName: 'stock',
+  //   render: (_, val) => `${val === 0 ? 'SOLD OUT' : 'Available'}`,
+  // },
   {
-    title: 'Status',
-    fieldName: 'stock',
-    render: (_, val) => `${val === 0 ? 'SOLD OUT' : 'Available'}`,
-  },
-  {
-    title: 'Price (SEK)',
+    title: 'Price',
     fieldName: 'price',
     render: (_, val) => `${convertToLocale(val)}`,
   },
-  {
-    title: 'Specifications',
-    render: (row) => {
-      return (
-        <Button
-          className="btn btn-primary px-3"
-          onClick={() => {
-            setViewSpecifications({ data: row?.specifications, show: true });
-          }}
-        >
-          {BUTTON_LABELS.VIEW}
-        </Button>
-      );
-    },
-  },
+  // {
+  //   title: 'Specifications',
+  //   render: (row) => {
+  //     return (
+  //       <Button
+  //         className="btn btn-primary px-3"
+  //         onClick={() => {
+  //           setViewSpecifications({ data: row?.specifications, show: true });
+  //         }}
+  //       >
+  //         {BUTTON_LABELS.VIEW}
+  //       </Button>
+  //     );
+  //   },
+  // },
   {
     title: 'Actions',
     render: (row, val) => renderActions(val, row),

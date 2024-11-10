@@ -303,7 +303,7 @@ export default function ProductsList() {
         setShowMultiItemView,
         handleChangeCheckBox,
         selectedIds,
-        setViewSpecifications
+        // setViewSpecifications
       ),
     [renderActions, selectedIds]
   );
