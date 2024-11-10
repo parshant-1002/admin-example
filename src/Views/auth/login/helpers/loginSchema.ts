@@ -18,6 +18,19 @@ const LOGIN_FORM_SCHEMA = {
       },
     },
   },
+  password: {
+    type: INPUT_TYPES.PASSWORD,
+    label: '',
+    className: 'col-md-12',
+    placeholder: 'Password',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Password').REQUIRED,
+      pattern: {
+        value: VALIDATION_REGEX.PASSWORD,
+        message: FORM_VALIDATION_MESSAGES().VALID_PASSWORD,
+      },
+    },
+  },
 };
 
 export default LOGIN_FORM_SCHEMA;
