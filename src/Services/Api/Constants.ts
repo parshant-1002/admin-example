@@ -8,6 +8,7 @@ export const API_END_POINTS = {
   LOGIN: '/admin/login',
   PRODUCT: '/product',
   USER: '/user',
+  TRANSACTIONS: '/transactions',
   USER_BIDS: '/user/addBids',
   USER_PRODUCTS: '/userProducts',
   USER_INVOICES: '/user/invoices',

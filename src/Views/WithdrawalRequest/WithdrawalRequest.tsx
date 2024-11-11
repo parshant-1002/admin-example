@@ -23,7 +23,7 @@ import { block, Delete, Filter, RED_WARNING, view } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   filterSchema,
-  transactionColumns,
+  withdrawalRequestColumns,
 } from './helpers/constants';
 
 // Models
@@ -63,7 +63,7 @@ interface QueryParams {
 // Constants
 const TRANSACTIONS_PAGE_LIMIT = 10;
 
-export default function TransactionHistory() {
+export default function WithdrawalRequest() {
   // State Management
   const [deleteModal, setDeleteModal] = useState<DeleteData>({
     show: false,
@@ -100,7 +100,7 @@ export default function TransactionHistory() {
   };
 
   // API Queries
-  const { data: transactionHistory, refetch } = useGetTransactionsQuery({
+  const { data: withdrawalRequest, refetch } = useGetTransactionsQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
@@ -206,7 +206,7 @@ export default function TransactionHistory() {
 
   // Memoized columns for table
   const columns = useMemo(
-    () => transactionColumns(renderActions, handleChangeCheckBox, selectedIds),
+    () => withdrawalRequestColumns(renderActions, handleChangeCheckBox, selectedIds),
     [renderActions, selectedIds]
   );
 
@@ -319,7 +319,7 @@ export default function TransactionHistory() {
       />
 
       <CustomTableView
-        rows={(transactionHistory?.data?.data as unknown as Row[]) ?? []}
+        rows={(withdrawalRequest?.data?.data as unknown as Row[]) ?? []}
         columns={columns as unknown as Column[]}
         pageSize={TRANSACTIONS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
@@ -328,13 +328,13 @@ export default function TransactionHistory() {
         renderTableFooter={() => (
           <ReactPaginate
             pageCount={
-              (transactionHistory?.data?.count ?? 1) / TRANSACTIONS_PAGE_LIMIT
+              (withdrawalRequest?.data?.count ?? 1) / TRANSACTIONS_PAGE_LIMIT
             }
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
               Math.ceil(
-                (transactionHistory?.data?.count ?? 1) / TRANSACTIONS_PAGE_LIMIT
+                (withdrawalRequest?.data?.count ?? 1) / TRANSACTIONS_PAGE_LIMIT
               ) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING

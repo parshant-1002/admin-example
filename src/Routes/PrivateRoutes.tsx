@@ -1,15 +1,12 @@
 import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/constants/constants';
 import Dashboard from '../Views/Dashboard';
-import ReservePriceReached from '../Views/NotificationsContentManagement/ReservePriceReached/ReservePriceReached';
-import Footer from '../Views/PagesContentManagement/Footer';
-import HeaderContent from '../Views/PagesContentManagement/HeaderContent';
-import LogoutPopup from '../Views/PopupContentManagement/LogoutPopup';
 import { ProductsList } from '../Views/Plans';
 import Users from '../Views/Users';
 import UserDetails from '../Views/Users/UserDetails';
 import { CustomRouter } from './RootRoutes';
 import TransactionHistory from '../Views/TransactionHistory';
+import WithdrawalRequest from '../Views/WithdrawalRequest';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -24,19 +21,14 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.PRODUCTS.title,
   },
   {
+    path: ROUTES_CONFIG.WITHDRAWAL_LIST.path,
+    element: <WithdrawalRequest />,
+    title: ROUTES_CONFIG.WITHDRAWAL_LIST.title,
+  },
+  {
     path: ROUTES_CONFIG.TRANSACTION_HISTORY.path,
     element: <TransactionHistory />,
     title: ROUTES_CONFIG.TRANSACTION_HISTORY.title,
-  },
-  {
-    path: ROUTES_CONFIG.HEADERS_CONTENT.path,
-    element: <HeaderContent />,
-    title: ROUTES_CONFIG.HEADERS_CONTENT.title,
-  },
-  {
-    path: ROUTES_CONFIG.FOOTER.path,
-    element: <Footer />,
-    title: ROUTES_CONFIG.FOOTER.title,
   },
   {
     path: ROUTES_CONFIG.USERS.path,
@@ -47,17 +39,6 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.USERS_DETAILS.path,
     element: <UserDetails />,
     title: ROUTES_CONFIG.USERS_DETAILS.title,
-  },
-
-  {
-    path: ROUTES_CONFIG.RESERVE_PRICE_REACHED.path,
-    element: <ReservePriceReached />,
-    title: ROUTES_CONFIG.RESERVE_PRICE_REACHED.title,
-  },
-  {
-    path: ROUTES_CONFIG.LOGOUT_POPUP.path,
-    element: <LogoutPopup />,
-    title: ROUTES_CONFIG.LOGOUT_POPUP.title,
   },
   // Wildcard
   {

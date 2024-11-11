@@ -21,6 +21,11 @@ const SIDEBAR_NAV = [
     label: 'Transactions',
     route: ROUTES.TRANSACTION_HISTORY,
   },
+  {
+    iconClass: 'bi bi-product',
+    label: 'WithDrawal Requests',
+    route: ROUTES.WITHDRAWAL_LIST,
+  },
 ];
 
 export default SIDEBAR_NAV;

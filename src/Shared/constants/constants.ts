@@ -380,6 +380,7 @@ const STRING: string = 'Test';
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
+  WITHDRAWAL_LIST: '/withdrawal-list',
   TRANSACTION_HISTORY: '/transactions',
   OTP_FORM: '/otp-form',
   QR_CODE: '/qr-code',
@@ -410,6 +411,10 @@ const ROUTES_CONFIG = {
   PRODUCTS: {
     path: ROUTES.PRODUCTS,
     title: 'Product',
+  },
+  WITHDRAWAL_LIST: {
+    path: ROUTES.WITHDRAWAL_LIST,
+    title: 'WithDrawal List',
   },
   TRANSACTION_HISTORY: {
     path: ROUTES.TRANSACTION_HISTORY,
