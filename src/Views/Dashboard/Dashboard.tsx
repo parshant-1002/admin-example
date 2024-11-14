@@ -36,11 +36,14 @@ function Dashboard() {
     searchString: search,
     ...filters,
   };
-  const { data: dashboard, refetch } = useGetDashboardQuery({
-    params: removeEmptyValues(
-      queryParams as unknown as Record<string, unknown>
-    ),
-  });
+  const { data: dashboard } = useGetDashboardQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    { skip: true }
+  );
 
   const debounceSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -60,10 +63,10 @@ function Dashboard() {
 
   useEffect(() => {
     if (onComponentMountRef.current) {
-      refetch();
+      // refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, search, filters]);
+  }, [search, filters]);
   const onChangeFilter = (key: string, newValue: unknown) => {
     setFiltersState((prev: FiltersState) => ({
       ...prev,

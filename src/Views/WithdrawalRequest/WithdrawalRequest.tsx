@@ -100,11 +100,14 @@ export default function WithdrawalRequest() {
   };
 
   // API Queries
-  const { data: withdrawalRequest, refetch } = useGetTransactionsQuery({
-    params: removeEmptyValues(
-      queryParams as unknown as Record<string, unknown>
-    ),
-  });
+  const { data: withdrawalRequest } = useGetTransactionsQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    { skip: true }
+  );
   const [deleteUser] = useDeleteUsersMutation();
   const [editUser] = useEditUsersMutation();
 
@@ -206,17 +209,22 @@ export default function WithdrawalRequest() {
 
   // Memoized columns for table
   const columns = useMemo(
-    () => withdrawalRequestColumns(renderActions, handleChangeCheckBox, selectedIds),
+    () =>
+      withdrawalRequestColumns(
+        renderActions,
+        handleChangeCheckBox,
+        selectedIds
+      ),
     [renderActions, selectedIds]
   );
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
-      refetch();
+      // refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+  }, [currentPage, search, sortKey, sortDirection, filters]);
 
   const handleApplyFilters = (filterState: FiltersState) => {
     const selectedFilter = filterState as SelectedFilters;
@@ -232,7 +240,7 @@ export default function WithdrawalRequest() {
     handleCloseModal(ActionType.DELETE);
     handleCloseModal(ActionType.BLOCK);
     setSelectedIds([]);
-    refetch();
+    // refetch();
   };
   const handleSubmit = async (actionType: ActionType) => {
     try {

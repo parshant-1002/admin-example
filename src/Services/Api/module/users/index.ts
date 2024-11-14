@@ -27,9 +27,8 @@ export const loginApi = api.injectEndpoints({
     }),
     deleteUsers: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.USER,
+        url: `${API_END_POINTS.USER}/${payload}`,
         method: HTTPS_METHODS.DELETE,
-        body: payload,
       }),
       async onQueryStarted(arg, { queryFulfilled }) {
         onQueryStarted(arg, { queryFulfilled });
@@ -37,7 +36,7 @@ export const loginApi = api.injectEndpoints({
     }),
     getUsers: builder.query({
       query: ({ params }) => ({
-        url: API_END_POINTS.USER,
+        url: API_END_POINTS.GET_ALL_USERS,
         params,
       }),
     }),

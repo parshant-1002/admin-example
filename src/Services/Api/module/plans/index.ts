@@ -5,7 +5,7 @@ import api from '../../api';
 // Define the API service
 export const loginApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    addProduct: builder.mutation({
+    addPlan: builder.mutation({
       query: ({ payload }) => ({
         url: API_END_POINTS.PLANS.ADD,
         method: HTTPS_METHODS.POST,
@@ -15,9 +15,10 @@ export const loginApi = api.injectEndpoints({
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
-    editProduct: builder.mutation({
+    editPlan: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PLANS.EDIT,
+        url: `${API_END_POINTS.PLANS.EDIT}/${payload?.id}`,
+
         method: HTTPS_METHODS.PUT,
         body: payload,
       }),
@@ -25,19 +26,24 @@ export const loginApi = api.injectEndpoints({
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
-    deleteProduct: builder.mutation({
+    deletePlan: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PLANS.DELETE,
+        url: `${API_END_POINTS.PLANS.DELETE}/${payload}`,
         method: HTTPS_METHODS.DELETE,
-        body: payload,
       }),
       async onQueryStarted(arg, { queryFulfilled }) {
         onQueryStarted(arg, { queryFulfilled });
       },
     }),
-    getProducts: builder.query({
+    getPlans: builder.query({
       query: ({ params }) => ({
         url: API_END_POINTS.PLANS.LIST,
+        params,
+      }),
+    }),
+    getPlan: builder.query({
+      query: ({ params }) => ({
+        url: API_END_POINTS.PLANS.GET_SINGLE,
         params,
       }),
     }),
@@ -45,8 +51,8 @@ export const loginApi = api.injectEndpoints({
 });
 
 export const {
-  useAddProductMutation,
-  useDeleteProductMutation,
-  useEditProductMutation,
-  useGetProductsQuery,
+  useAddPlanMutation,
+  useDeletePlanMutation,
+  useEditPlanMutation,
+  useGetPlansQuery,
 } = loginApi;

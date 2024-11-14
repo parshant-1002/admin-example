@@ -311,7 +311,7 @@ const BUTTON_LABELS = {
   SAVE: 'Save',
   CLEAR: 'Clear',
   DOWNLOAD_CSV: 'Download csv ',
-  EDIT: 'SAVE',
+  EDIT: 'EDIT',
   ADD: 'ADD',
   DELETE_ALL: 'Delete all',
   CLEAR_ALL: 'Clear all',

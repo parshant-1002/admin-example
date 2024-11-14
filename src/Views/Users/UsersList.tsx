@@ -5,7 +5,6 @@ import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
 // Components
-import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../../Shared/components/ConfirmationModal/ConfirmationModal';
 import CustomTableView, {
   Column,
@@ -14,12 +13,8 @@ import CustomTableView, {
 import StatsFilters from '../../Shared/components/Filters';
 
 // Constants
-import {
-  BUTTON_LABELS,
-  ROUTES,
-  STRINGS,
-} from '../../Shared/constants/constants';
-import { block, Delete, Filter, RED_WARNING, view } from '../../assets';
+import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
+import { Delete, Filter, RED_WARNING } from '../../assets';
 import {
   CONFIRMATION_DESCRIPTION,
   filterSchema,
@@ -87,7 +82,7 @@ export default function UsersList() {
   const onComponentMountRef = useRef(false);
 
   // navigate
-  const navigate = useNavigate();
+  // const navigate = useNavigate();P
 
   // Query Parameters
   const queryParams: QueryParams = {
@@ -105,6 +100,7 @@ export default function UsersList() {
       queryParams as unknown as Record<string, unknown>
     ),
   });
+
   const [deleteUser] = useDeleteUsersMutation();
   const [editUser] = useEditUsersMutation();
 
@@ -118,41 +114,42 @@ export default function UsersList() {
     setDeleteModal({ show: true, data: { id: row?._id } });
   }, []);
 
-  const handleView = useCallback(
-    (row: UsersResponsePayload) => {
-      navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
-    },
-    [navigate]
-  );
+  // const handleView = useCallback(
+  //   (row: UsersResponsePayload) => {
+  //     navigate(`${ROUTES.USERS}/${row?.name}`, { state: row?._id });
+  //   },
+  //   [navigate]
+  // );
 
-  const handleBlock = useCallback((row: UsersResponsePayload) => {
-    setBlockModal({
-      show: true,
-      data: { id: row?._id, isBlocked: row?.isBlocked },
-    });
-  }, []);
+  // const handleBlock = useCallback((row: UsersResponsePayload) => {
+  //   setBlockModal({
+  //     show: true,
+  //     data: { id: row?._id, isBlocked: row?.isBlocked },
+  //   });
+  // }, []);
   // Function to close delete modal
   const handleCloseModal = (modalType: ActionType) => {
     if (modalType === ActionType.DELETE)
       setDeleteModal({ data: null, show: false });
     else setBlockModal({ data: null, show: false });
   };
+
   const getActionsSchema = useCallback(
     (row: UsersResponsePayload): SubmenuItem<UsersResponsePayload>[] => [
-      {
-        buttonLabel: BUTTON_LABELS.VIEW,
-        buttonAction: () => handleView(row), // Make sure to use the row parameter here
-        icon: view,
-        isPrimary: true,
-      },
-      {
-        buttonLabel: row.isBlocked
-          ? BUTTON_LABELS.UNBLOCK
-          : BUTTON_LABELS.BLOCK,
-        buttonAction: () => handleBlock(row), // Make sure to use the row parameter here
-        icon: block,
-        isDanger: row.isBlocked,
-      },
+      // {
+      //   buttonLabel: BUTTON_LABELS.VIEW,
+      //   buttonAction: () => handleView(row), // Make sure to use the row parameter here
+      //   icon: view,
+      //   isPrimary: true,
+      // },
+      // {
+      //   buttonLabel: row.isBlocked
+      //     ? BUTTON_LABELS.UNBLOCK
+      //     : BUTTON_LABELS.BLOCK,
+      //   buttonAction: () => handleBlock(row), // Make sure to use the row parameter here
+      //   icon: block,
+      //   isDanger: row.isBlocked,
+      // },
       {
         buttonLabel: BUTTON_LABELS.DELETE,
         buttonAction: () => handleDelete(row), // Make sure to use the row parameter here
@@ -160,7 +157,7 @@ export default function UsersList() {
         isDanger: true,
       },
     ],
-    [handleView, handleBlock, handleDelete] // Include all dependencies
+    [handleDelete] // Include all dependencies
   );
 
   // Render actions column
@@ -194,21 +191,18 @@ export default function UsersList() {
     setSearch(e.target.value);
   }, 1000);
 
-  const handleChangeCheckBox = (id: string) => {
-    setSelectedIds((prevSelectedIds) => {
-      const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
-      if (foundIndex !== undefined && foundIndex > -1) {
-        return prevSelectedIds?.filter((f) => f !== id);
-      }
-      return [...(prevSelectedIds ?? []), id];
-    });
-  };
+  // const handleChangeCheckBox = (id: string) => {
+  //   setSelectedIds((prevSelectedIds) => {
+  //     const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
+  //     if (foundIndex !== undefined && foundIndex > -1) {
+  //       return prevSelectedIds?.filter((f) => f !== id);
+  //     }
+  //     return [...(prevSelectedIds ?? []), id];
+  //   });
+  // };
 
   // Memoized columns for table
-  const columns = useMemo(
-    () => usersColumns(renderActions, handleChangeCheckBox, selectedIds),
-    [renderActions, selectedIds]
-  );
+  const columns = useMemo(() => usersColumns(renderActions), [renderActions]);
 
   // Effect to refetch data on dependencies change
   useEffect(() => {
@@ -238,9 +232,9 @@ export default function UsersList() {
     try {
       if (actionType === ActionType.DELETE) {
         if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return;
-        const deletePayload = deleteModal?.data?.id
-          ? { userIds: [deleteModal?.data?.id] }
-          : { userIds: deleteModal?.data?.ids };
+        const deletePayload = deleteModal?.data?.id;
+        // ? { userIds: [deleteModal?.data?.id] }
+        // : { userIds: deleteModal?.data?.ids };
         await deleteUser({
           payload: deletePayload,
           onSuccess: handleSuccessDeleteOrBlock,
@@ -299,10 +293,7 @@ export default function UsersList() {
     }));
   };
 
-  const filterSchemaConfig = useMemo(
-    () => filterSchema(onChangeFilter, filtersState),
-    [filtersState]
-  );
+  const filterSchemaConfig = useMemo(() => filterSchema(onChangeFilter), []);
   return (
     <>
       {renderConfirmationModal(deleteModal, ActionType.DELETE)}
@@ -320,7 +311,7 @@ export default function UsersList() {
       />
 
       <CustomTableView
-        rows={(usersListing?.data?.data as unknown as Row[]) ?? []}
+        rows={(usersListing?.users as unknown as Row[]) ?? []}
         columns={columns as unknown as Column[]}
         pageSize={USERS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
@@ -328,11 +319,11 @@ export default function UsersList() {
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(usersListing?.data?.count ?? 1) / USERS_PAGE_LIMIT}
+            pageCount={(usersListing?.count ?? 1) / USERS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((usersListing?.data?.count ?? 1) / USERS_PAGE_LIMIT) !==
+              Math.ceil((usersListing?.count ?? 1) / USERS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

@@ -55,10 +55,13 @@ function NotificationToast() {
   const unseenCount = useSelector(
     (state: RootState) => state.unseenCount.count
   );
-  const { data } = useNotificationsQuery({
-    skip: pageNo - 1,
-    limit: LIMIT,
-  });
+  const { data } = useNotificationsQuery(
+    {
+      skip: pageNo - 1,
+      limit: LIMIT,
+    },
+    { skip: true }
+  );
 
   const handleMessage = (event: NotificationEvent) => {
     const { title, message, url, icon, image } = event.data;

@@ -26,7 +26,7 @@ function NotificationModal({
   const [pageNo, setPageNo] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(1);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { data, isLoading, refetch } = useNotificationsQuery(
+  const { data, isLoading } = useNotificationsQuery(
     {
       params: {
         skip: pageNo * LIMIT,
@@ -34,7 +34,8 @@ function NotificationModal({
       },
     },
     {
-      refetchOnMountOrArgChange: true,
+      skip: true,
+      // refetchOnMountOrArgChange: true,
     }
   );
   const [clearAllNotification] = useClearAllNotificationsMutation();
@@ -63,7 +64,7 @@ function NotificationModal({
       if (success) {
         setNotifications([]);
         setTotalCount(0);
-        refetch();
+        // refetch();
       }
     } catch (error) {
       console.error(ERROR_MESSAGES().FAILED_CLEAR_NOTIFICATIONS, error);

@@ -2,14 +2,12 @@
 
 // consts
 import moment from 'moment';
-import { DATE_FORMATS, STRINGS } from '../../../Shared/constants/constants';
-import { SelectOption, UsersResponsePayload } from './model';
-import { convertToLocale } from '../../../Shared/utils/functions';
 import {
   FilterFieldTypes,
-  FilterSchema,
-  FiltersState,
+  FilterSchema
 } from '../../../Shared/components/Filters/helpers/models';
+import { DATE_FORMATS, STRINGS } from '../../../Shared/constants/constants';
+import { UsersResponsePayload } from './model';
 
 export const USER_STATUS = [
   { value: 1, label: 'BLOCKED' },
@@ -35,57 +33,50 @@ type RenderActions = (val: unknown, row: UsersResponsePayload) => JSX.Element;
 // Define the shape of the columns
 export const usersColumns = (
   renderActions: RenderActions,
-  handleChangeCheckBox: (id: string) => void,
-  selectedIds: string[] | undefined
+  // handleChangeCheckBox: (id: string) => void,
+  // selectedIds: string[] | undefined
 ): ColumnData[] => [
+  // {
+  //   title: '#',
+  //   noClickEvent: true,
+  //   render: (row) => {
+  //     return (
+  //       <button
+  //         type="button"
+  //         className="custom-checkbox btn btn-transparent"
+  //         onClick={(e) => {
+  //           e.stopPropagation();
+  //           handleChangeCheckBox(row._id);
+  //         }}
+  //       >
+  //         <input
+  //           type="checkbox"
+  //           className="checkbox-input"
+  //           checked={selectedIds?.includes(row._id)}
+  //         />
+  //         <span className="label" />
+  //       </button>
+  //     );
+  //   },
+  // },
   {
-    title: '#',
-    noClickEvent: true,
-    render: (row) => {
-      return (
-        <button
-          type="button"
-          className="custom-checkbox btn btn-transparent"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleChangeCheckBox(row._id);
-          }}
-        >
-          <input
-            type="checkbox"
-            className="checkbox-input"
-            checked={selectedIds?.includes(row._id)}
-          />
-          <span className="label" />
-        </button>
-      );
-    },
+    title: 'First Name',
+    fieldName: 'firstname',
+    sortable: true,
+    sortType: 'name',
   },
   {
-    title: 'Name',
-    fieldName: 'name',
+    title: 'Last Name',
+    fieldName: 'lastname',
     sortable: true,
     sortType: 'name',
   },
   {
     title: 'Email',
-    fieldName: 'email',
+    fieldName: 'username',
     isTruncated: true,
     sortable: true,
     sortType: 'email',
-  },
-  {
-    title: 'Phone',
-    fieldName: 'phoneNumber',
-    sortable: true,
-    sortType: 'phoneNumber',
-  },
-  {
-    title: 'Address',
-    fieldName: 'address',
-    isTruncated: true,
-    sortable: true,
-    sortType: 'address',
   },
   {
     title: 'Date',
@@ -95,31 +86,31 @@ export const usersColumns = (
     render: (_, val) =>
       val ? moment(val)?.format(DATE_FORMATS.DISPLAY_DATE_WITH_TIME) : '_',
   },
-  {
-    title: 'Wallet Address',
-    fieldName: 'walletAddress',
-    isTruncated: true,
-    sortable: true,
-    sortType: 'walletAddress',
-  },
-  {
-    title: 'Current Plan',
-    fieldName: 'currentPlan',
-    sortable: true,
-    sortType: 'currentPlan',
-    render: (_, val) => `${convertToLocale(val)}`,
-  },
-  {
-    title: 'Blocked',
-    fieldName: 'isBlocked',
-    sortable: true,
-    sortType: 'isBlocked',
-    render: (_, val) => (
-      <div className={val ? 'text-danger' : 'text-green'}>
-        {val ? 'Yes' : 'No'}
-      </div>
-    ),
-  },
+  // {
+  //   title: 'Wallet Address',
+  //   fieldName: 'walletAddress',
+  //   isTruncated: true,
+  //   sortable: true,
+  //   sortType: 'walletAddress',
+  // },
+  // {
+  //   title: 'Current Plan',
+  //   fieldName: 'currentPlan',
+  //   sortable: true,
+  //   sortType: 'currentPlan',
+  //   render: (_, val) => `${convertToLocale(val)}`,
+  // },
+  // {
+  //   title: 'Blocked',
+  //   fieldName: 'isBlocked',
+  //   sortable: true,
+  //   sortType: 'isBlocked',
+  //   render: (_, val) => (
+  //     <div className={val ? 'text-danger' : 'text-green'}>
+  //       {val ? 'Yes' : 'No'}
+  //     </div>
+  //   ),
+  // },
   {
     title: 'Actions',
     noClickEvent: true,
@@ -140,7 +131,7 @@ export const FiltersKeys = {
 };
 export const filterSchema = (
   onChangeFilter: (key: string, newValue: unknown) => void,
-  filtersState: FiltersState
+  // filtersState: FiltersStatef
 ): FilterSchema[] => [
   {
     type: FilterFieldTypes.dateRange,
@@ -148,13 +139,13 @@ export const filterSchema = (
     onChange: (value) => onChangeFilter(FiltersKeys.dateRange, value),
     className: STRINGS.EMPTY_STRING,
   },
-  {
-    type: FilterFieldTypes.select,
-    id: FiltersKeys.userStatus,
-    options: USER_STATUS as SelectOption[],
-    onChange: (value) => onChangeFilter(FiltersKeys.userStatus, value),
-    value: filtersState?.[FiltersKeys.userStatus] as SelectOption,
-    className: 'col-12 col-sm-6 col-md-3 col-xxl-2',
-    placeholder: 'Status',
-  },
+  // {
+  //   type: FilterFieldTypes.select,
+  //   id: FiltersKeys.userStatus,
+  //   options: USER_STATUS as SelectOption[],
+  //   onChange: (value) => onChangeFilter(FiltersKeys.userStatus, value),
+  //   value: filtersState?.[FiltersKeys.userStatus] as SelectOption,
+  //   className: 'col-12 col-sm-6 col-md-3 col-xxl-2',
+  //   placeholder: 'Status',
+  // },
 ];

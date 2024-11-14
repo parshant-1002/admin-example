@@ -4,10 +4,7 @@ import { SyntheticEvent } from 'react';
 // components
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-  useAddProductMutation,
-  useEditProductMutation,
-} from '../../Services/Api/module/products';
+
 import CustomForm from '../../Shared/components/form/CustomForm';
 
 // consts
@@ -15,14 +12,17 @@ import { useFileDeleteMutation } from '../../Services/Api/module/file';
 import { CustomModal } from '../../Shared/components';
 import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../Shared/constants/messages';
-import { addBaseUrl } from '../../Shared/utils/functions';
 import { RootState } from '../../Store';
 import {
   deletedImages,
   updateUploadedImages,
 } from '../../Store/UploadedImages';
 import { PLANS_FORM_SCHEMA } from './helpers/constants';
-import { ProductPayload } from './helpers/model';
+import { PlanPayload } from './helpers/model';
+import {
+  useAddPlanMutation,
+  useEditPlanMutation,
+} from '../../Services/Api/module/plans';
 
 interface PlansFormTypes {
   initialData: { _id?: string } | null;
@@ -46,8 +46,8 @@ export default function PlansForm({
 }: Readonly<PlansFormTypes>) {
   // hooks
   const dispatch = useDispatch();
-  const [addProduct] = useAddProductMutation();
-  const [editProduct] = useEditProductMutation();
+  const [addPlan] = useAddPlanMutation();
+  const [editPlan] = useEditPlanMutation();
   const [fileDelete] = useFileDeleteMutation();
   const deletedFiles = useSelector(
     (state: RootState) => state?.UploadedImages?.deletedIds
@@ -83,36 +83,10 @@ export default function PlansForm({
   ) => {
     event.preventDefault();
     try {
-      const productData = data as unknown as ProductPayload;
-      const payload = {
-        title: productData?.title,
-        description: productData?.description,
-        price: productData?.price,
-        images: productData?.images?.map((image) => ({
-          url: addBaseUrl(image?.fileURL ?? image?.url ?? STRINGS.EMPTY_STRING),
-          title: image?.fileName ?? image?.title,
-          fileId: image?.fileId ?? image?._id,
-          assigned: image?.assigned,
-        })),
-        specifications: {
-          registrationNumber: productData?.registrationNumber,
-          modelYear: productData?.modelYear,
-          paint: productData?.paint,
-          fuel: productData?.fuel?.value,
-          motor: productData?.motor,
-          gearbox: productData?.gearbox?.value,
-          gearCount: productData?.gearCount,
-          seatCount: productData?.seatCount,
-          security: productData?.security,
-          comfort: productData?.comfort,
-          appearance: productData?.appearance,
-          bodyType: productData?.bodyType?.value,
-        },
-        categoryIds: [productData?.category?.value],
-      };
+      const planData = data as unknown as PlanPayload;
       if (isEdit) {
-        const editPayload = { ...payload, productId: data?._id };
-        await editProduct({
+        const editPayload = { ...planData, id: data?._id };
+        await editPlan({
           payload: editPayload,
           onSuccess: (res: { message: string }) => {
             onSuccess(res);
@@ -122,8 +96,8 @@ export default function PlansForm({
         });
         return;
       }
-      await addProduct({
-        payload,
+      await addPlan({
+        payload: planData,
         onSuccess,
       });
     } catch (error: unknown) {
@@ -144,7 +118,7 @@ export default function PlansForm({
   return (
     <CustomModal title={title} show={show} onClose={handleClose}>
       <CustomForm
-        id="products"
+        id="Plans"
         className="row"
         formData={PLANS_FORM_SCHEMA()}
         onSubmit={onSubmit}

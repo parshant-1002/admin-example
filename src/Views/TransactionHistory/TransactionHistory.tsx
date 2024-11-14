@@ -100,11 +100,14 @@ export default function TransactionHistory() {
   };
 
   // API Queries
-  const { data: transactionHistory, refetch } = useGetTransactionsQuery({
-    params: removeEmptyValues(
-      queryParams as unknown as Record<string, unknown>
-    ),
-  });
+  const { data: transactionHistory } = useGetTransactionsQuery(
+    {
+      params: removeEmptyValues(
+        queryParams as unknown as Record<string, unknown>
+      ),
+    },
+    { skip: true }
+  );
   const [deleteUser] = useDeleteUsersMutation();
   const [editUser] = useEditUsersMutation();
 
@@ -213,10 +216,10 @@ export default function TransactionHistory() {
   // Effect to refetch data on dependencies change
   useEffect(() => {
     if (onComponentMountRef.current) {
-      refetch();
+      // refetch();
     }
     onComponentMountRef.current = true;
-  }, [refetch, currentPage, search, sortKey, sortDirection, filters]);
+  }, [currentPage, search, sortKey, sortDirection, filters]);
 
   const handleApplyFilters = (filterState: FiltersState) => {
     const selectedFilter = filterState as SelectedFilters;
@@ -232,7 +235,7 @@ export default function TransactionHistory() {
     handleCloseModal(ActionType.DELETE);
     handleCloseModal(ActionType.BLOCK);
     setSelectedIds([]);
-    refetch();
+    // refetch();
   };
   const handleSubmit = async (actionType: ActionType) => {
     try {

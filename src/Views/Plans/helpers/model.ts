@@ -41,7 +41,7 @@ export interface Specification {
   bodyType?: string;
 }
 // Define the main type
-export interface ProductPayload {
+export interface PlanPayload {
   title: string;
   description: string;
   price: string;
@@ -70,7 +70,7 @@ export interface Category {
 }
 
 // Define the main type
-export interface ProductResponsePayload {
+export interface PlanResponsePayload {
   _id: string;
   price: number;
   status: number;

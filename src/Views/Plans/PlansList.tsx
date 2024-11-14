@@ -14,39 +14,36 @@ import CustomTableView, {
 } from '../../Shared/components/CustomTableView';
 import StatsFilters from '../../Shared/components/Filters';
 import ViewMultiTableItem from '../../Shared/components/ViewMultiTableItem';
-import ProductForm from './PlansForm';
+import PlanForm from './PlansForm';
 
 // Constants
-import dummyData from './helpers/data.json';
 import { BUTTON_LABELS, STRINGS } from '../../Shared/constants/constants';
 import { Delete, Filter, RED_WARNING, edit } from '../../assets';
 import {
-  CAR_BODY_TYPE_OPTIONS,
+  // CAR_BODY_TYPE_OPTIONS,
   CONFIRMATION_DESCRIPTION,
-  FUEL_OPTIONS,
-  GEARBOX_OPTIONS,
-  PRODUCT_STATUS,
+  PlansColumns,
   SPECIFICATIONS,
   filterSchema,
-  productsColumns,
 } from './helpers/constants';
+import dummyData from './helpers/data.json';
 
 // Models
 import {
-  ProductResponsePayload,
+  PlanResponsePayload,
   SelectedFilters,
   ViewMultiData,
   ViewSpecificationData,
 } from './helpers/model';
 
 // API
-import {
-  useDeleteProductMutation,
-  useGetProductsQuery,
-} from '../../Services/Api/module/products';
 
 // Utilities
 import { Image } from '../../Models/common';
+import {
+  useDeletePlanMutation,
+  useGetPlansQuery,
+} from '../../Services/Api/module/plans';
 import CustomDetailsBoard from '../../Shared/components/CustomDetailsBoard';
 import CustomFilterIcons from '../../Shared/components/CustomFilterIcons';
 import { SubmenuItem } from '../../Shared/components/CustomFilterIcons/CustomFilterIcons';
@@ -77,9 +74,9 @@ interface QueryParams {
 }
 
 // Constants
-const PRODUCTS_PAGE_LIMIT = 10;
+const PLANS_PAGE_LIMIT = 10;
 
-export default function ProductsList() {
+export default function PlansList() {
   // State Management
   const dispatch = useDispatch();
   const uploadedImages = useSelector(
@@ -115,8 +112,8 @@ export default function ProductsList() {
 
   // Query Parameters
   const queryParams: QueryParams = {
-    skip: currentPage * PRODUCTS_PAGE_LIMIT,
-    limit: PRODUCTS_PAGE_LIMIT,
+    skip: currentPage * PLANS_PAGE_LIMIT,
+    limit: PLANS_PAGE_LIMIT,
     searchString: search,
     sortKey,
     sortDirection,
@@ -129,12 +126,12 @@ export default function ProductsList() {
   //   { refetchOnMountOrArgChange: true }
   // );
 
-  const { data: productListing, refetch } = useGetProductsQuery({
+  const { data: plansList, refetch } = useGetPlansQuery({
     params: removeEmptyValues(
       queryParams as unknown as Record<string, unknown>
     ),
   });
-  const [deleteProduct] = useDeleteProductMutation();
+  const [deletePlan] = useDeletePlanMutation();
 
   // Function to handle page click
   const handlePageClick = (selectedItem: { selected: number }) => {
@@ -142,46 +139,17 @@ export default function ProductsList() {
   };
 
   // Function to handle edit action
-  const handleEdit = (row: ProductResponsePayload) => {
+  const handleEdit = (row: PlanResponsePayload) => {
     setEditData({
       data: {
         ...row,
-        ...(row?.specifications || {}),
-        status: {
-          value: row?.status,
-          label: PRODUCT_STATUS?.find((status) => status.value === row?.status)
-            ?.label,
-        },
-        category: row?.categories?.map((category) => ({
-          value: category._id,
-          label: category?.name,
-        }))?.[0],
-        fuel: {
-          label: FUEL_OPTIONS?.find(
-            (fuel) => fuel.value === Number(row?.specifications?.fuel)
-          )?.label,
-          value: row?.specifications?.fuel,
-        },
-        gearbox: {
-          label: GEARBOX_OPTIONS?.find(
-            (gearbox) => gearbox.value === Number(row?.specifications?.gearbox)
-          )?.label,
-          value: row?.specifications?.gearbox,
-        },
-        bodyType: {
-          label: CAR_BODY_TYPE_OPTIONS?.find(
-            (bodyType) =>
-              bodyType.value === Number(row?.specifications?.bodyType)
-          )?.label,
-          value: row?.specifications?.bodyType,
-        },
       },
       show: true,
     });
   };
 
   // Function to handle delete action
-  const handleDelete = (row: ProductResponsePayload) => {
+  const handleDelete = (row: PlanResponsePayload) => {
     setDeleteModal({ show: true, data: { id: row?._id } });
   };
 
@@ -206,20 +174,8 @@ export default function ProductsList() {
   // eslint-disable-next-line consistent-return
   const handleDeleteClick = async () => {
     try {
-      let deletePayload;
-      if (!deleteModal?.data?.id && !deleteModal?.data?.ids) return null;
-      if (deleteModal?.data?.id) {
-        deletePayload = {
-          productIds: [deleteModal?.data?.id],
-        };
-      }
-      if (deleteModal?.data?.ids) {
-        deletePayload = {
-          productIds: deleteModal?.data?.ids,
-        };
-      }
-      await deleteProduct({
-        payload: deletePayload,
+      await deletePlan({
+        payload: deleteModal?.data?.id,
         onSuccess: (data: { message: string }) => {
           toast.success(data?.message);
           handleCloseDelete();
@@ -236,7 +192,7 @@ export default function ProductsList() {
     }
   };
   const getActionsSchema = useCallback(
-    (row: ProductResponsePayload): SubmenuItem<ProductResponsePayload>[] => [
+    (row: PlanResponsePayload): SubmenuItem<PlanResponsePayload>[] => [
       {
         buttonLabel: BUTTON_LABELS.EDIT,
         buttonAction: () => handleEdit(row),
@@ -254,12 +210,12 @@ export default function ProductsList() {
   );
   // Render actions column
   const renderActions = useCallback(
-    (_: unknown, row: ProductResponsePayload) => (
+    (_: unknown, row: PlanResponsePayload) => (
       <div className="d-flex justify-content-end justify-content-lg-start">
         <CustomFilterIcons
           row={row}
           schema={getActionsSchema(row)}
-          isDropDown={false} // or true based on your needs
+          isDropDown // or true based on your needs
         />
       </div>
     ),
@@ -284,27 +240,27 @@ export default function ProductsList() {
     setSearch(e.target.value);
   }, 1000);
 
-  const handleChangeCheckBox = (id: string) => {
-    setSelectedIds((prevSelectedIds) => {
-      const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
-      if (foundIndex !== undefined && foundIndex > -1) {
-        return prevSelectedIds?.filter((f) => f !== id);
-      }
-      return [...(prevSelectedIds || []), id];
-    });
-  };
+  // const handleChangeCheckBox = (id: string) => {
+  //   setSelectedIds((prevSelectedIds) => {
+  //     const foundIndex = prevSelectedIds?.findIndex((f) => f === id);
+  //     if (foundIndex !== undefined && foundIndex > -1) {
+  //       return prevSelectedIds?.filter((f) => f !== id);
+  //     }
+  //     return [...(prevSelectedIds || []), id];
+  //   });
+  // };
 
   // Memoized columns for table
   const columns = useMemo(
     () =>
-      productsColumns(
-        renderActions,
-        setShowMultiItemView,
-        handleChangeCheckBox,
-        selectedIds
+      PlansColumns(
+        renderActions
+        // setShowMultiItemView
+        // handleChangeCheckBox,
+        // selectedIds
         // setViewSpecifications
       ),
-    [renderActions, selectedIds]
+    [renderActions]
   );
 
   // Effect to refetch data on dependencies change
@@ -329,7 +285,6 @@ export default function ProductsList() {
     setFilters({
       fromDate: selectedFilters?.dateRange?.startDate,
       toDate: selectedFilters?.dateRange?.endDate,
-      status: selectedFilters?.productStatus?.value,
       priceRangeMin: selectedFilters?.priceRange?.[0],
       priceRangeMax: selectedFilters?.priceRange?.[1],
       categoryId: selectedFilters?.company?.value,
@@ -387,7 +342,7 @@ export default function ProductsList() {
         </CustomModal>
       )}
       {(editData?.show || addData) && (
-        <ProductForm
+        <PlanForm
           title={editData?.show ? BUTTON_LABELS.EDIT : BUTTON_LABELS.ADD}
           show={editData?.show || addData}
           onClose={handleCloseForm}
@@ -414,19 +369,19 @@ export default function ProductsList() {
       />
 
       <CustomTableView
-        rows={productListing?.data || (dummyData as unknown as Row[]) || []}
+        rows={plansList || (dummyData as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
-        pageSize={PRODUCTS_PAGE_LIMIT}
+        pageSize={PLANS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
         renderTableFooter={() => (
           <ReactPaginate
-            pageCount={(productListing?.count || 1) / PRODUCTS_PAGE_LIMIT}
+            pageCount={(plansList?.count || 1) / PLANS_PAGE_LIMIT}
             onPageChange={handlePageClick}
             activeClassName={STRINGS.ACTIVE}
             nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((productListing?.count || 1) / PRODUCTS_PAGE_LIMIT) !==
+              Math.ceil((plansList?.count || 1) / PLANS_PAGE_LIMIT) !==
               currentPage + 1
                 ? STRINGS.EMPTY_STRING
                 : STRINGS.DISABLED

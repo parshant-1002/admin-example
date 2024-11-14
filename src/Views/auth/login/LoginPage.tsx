@@ -1,51 +1,48 @@
 import { SyntheticEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useLoginMutation } from '../../../Services/Api/module/auth';
 import CustomForm from '../../../Shared/components/form/CustomForm';
+import { ROUTES } from '../../../Shared/constants/constants';
 import ERROR_MESSAGES from '../../../Shared/constants/messages';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import { auction } from '../../../assets';
 import LOGIN_FORM_SCHEMA from './helpers/loginSchema';
 import './style.scss';
 
-// interface LoginResponse {
-//   message: string;
-//   qrCodeURL: string;
-// }
+interface LoginResponse {
+  message: string;
+  token: string;
+}
 function LoginPage() {
   const dispatch = useDispatch();
-  // const [loginRequest] = useLoginMutation();
+  const navigate = useNavigate();
+  const [loginRequest] = useLoginMutation();
 
-  // const navigate = useNavigate();
-  // const onSuccessLogin = (data: LoginResponse, emailData: string) => {
-  //   toast.success(data?.message);
-  //   navigate(ROUTES.OTP_FORM, {
-  //     state: { qrCode: data?.qrCodeURL, email: emailData },
-  //   });
-  // };
+  const onSuccessLogin = (data: LoginResponse) => {
+    toast.success(data?.message);
+    dispatch(updateAuthTokenRedux({ token: data?.token }));
+    navigate(ROUTES.HOMEPAGE);
+  };
   const onSubmit = async (
     data: Record<string, unknown>,
     event: SyntheticEvent,
     reset: () => void
   ) => {
     event.preventDefault();
+
     try {
-      console.log(data);
+      await loginRequest({
+        payload: { ...data, isAdmin: true },
+        onSuccess: (res: LoginResponse) => onSuccessLogin(res),
+      });
+      // dispatch(updateAuthTokenRedux({ token: true }));
 
-      // const emailData = data?.email as string;
-      // await loginRequest({
-      //   payload: data,
-      //   onSuccess: (res: LoginResponse) => onSuccessLogin(res, emailData),
-      // });
-      dispatch(updateAuthTokenRedux({ token: true }));
-
+      // navigate(ROUTES.HOMEPAGE);
       reset();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
-      }
+      toast.error(ERROR_MESSAGES().SOMETHING_WENT_WRONG);
     }
   };
 

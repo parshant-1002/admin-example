@@ -1,5 +1,4 @@
 // consts
-import { Dispatch, SetStateAction } from 'react';
 import {
   FilterFieldTypes,
   FilterSchema,
@@ -12,17 +11,14 @@ import {
   blockInvalidChar,
 } from '../../../Shared/constants/constants';
 import { FORM_VALIDATION_MESSAGES } from '../../../Shared/constants/validationMessages';
-import { convertToLocale } from '../../../Shared/utils/functions';
 import {
-  Category,
   FieldSchemaForSpecifications,
-  ProductResponsePayload,
+  PlanResponsePayload,
   SelectOption,
   TableRenderValue,
-  ViewMultiData,
 } from './model';
 
-const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
+// const COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW = 1;
 
 export const FUEL_TYPE = {
   DIESEL: 1,
@@ -63,142 +59,9 @@ export const PRODUCT_AVAILABILITY_STATUS_OPTIONS = [
   { value: PRODUCT_AVAILABILITY_STATUS.SOLD_OUT, label: 'SOLD OUT' },
   { value: PRODUCT_AVAILABILITY_STATUS.AVAILABLE, label: 'Available' },
 ];
-export const CAR_BODY_TYPE_OPTIONS = [
-  {
-    value: 3,
-    label: 'Suv',
-  },
-  {
-    value: 1,
-    label: 'Sedan',
-  },
-  {
-    value: 4,
-    label: 'Hatchback',
-  },
-  {
-    value: 6,
-    label: 'Coupe',
-  },
-  {
-    value: 14,
-    label: 'Convertible',
-  },
-  {
-    value: 8,
-    label: 'Minivan',
-  },
-  {
-    value: 7,
-    label: 'Pickup Truck',
-  },
-  {
-    value: 2,
-    label: 'Crossover',
-  },
-  {
-    value: 5,
-    label: 'Station Wagon',
-  },
-  {
-    value: 9,
-    label: 'Roadster',
-  },
-  {
-    value: 10,
-    label: 'Van',
-  },
-  {
-    value: 11,
-    label: 'Sports Car',
-  },
-  {
-    value: 13,
-    label: 'Luxury Car',
-  },
-  {
-    value: 12,
-    label: 'Supercar',
-  },
-  {
-    value: 15,
-    label: 'Muscle Car',
-  },
-  {
-    value: 16,
-    label: 'Microcar',
-  },
-  {
-    value: 17,
-    label: 'Camper Van',
-  },
-  {
-    value: 18,
-    label: 'Minitruck',
-  },
-  {
-    value: 19,
-    label: 'Limousine',
-  },
-  {
-    value: 20,
-    label: 'Truck',
-  },
-  {
-    value: 21,
-    label: 'Hot Hatch',
-  },
-  {
-    value: 22,
-    label: 'Ute',
-  },
-  {
-    value: 23,
-    label: 'Pony Car',
-  },
-  {
-    value: 24,
-    label: 'Military Vehicle',
-  },
-  {
-    value: 25,
-    label: 'Dragster',
-  },
-  {
-    value: 26,
-    label: 'Grand Tourer',
-  },
-  {
-    value: 27,
-    label: 'Shooting Brake',
-  },
-  {
-    value: 28,
-    label: 'Hot Rod',
-  },
-  {
-    value: 29,
-    label: 'Low Rider',
-  },
-];
-
-const planTypeOptions = [
-  {
-    label: 'Weekly',
-    value: 1,
-  },
-  {
-    label: 'Monthly',
-    value: 2,
-  },
-  {
-    label: 'Yearly',
-    value: 3,
-  },
-];
 
 export const PLANS_FORM_SCHEMA = () => ({
-  title: {
+  planName: {
     type: INPUT_TYPES.TEXT,
     label: 'Plan Name',
     className: 'col-md-12',
@@ -215,35 +78,34 @@ export const PLANS_FORM_SCHEMA = () => ({
       },
     },
   },
-  description: {
-    type: INPUT_TYPES.TEXT_AREA,
-    label: 'Description',
+  duration: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Duration (Days)',
     className: 'col-md-12',
-    placeholder: 'Description',
+    placeholder: 'Duration',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Description').REQUIRED,
-      minLength: {
-        value: 3,
-        message: FORM_VALIDATION_MESSAGES(3).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 500,
-        message: FORM_VALIDATION_MESSAGES(500).MAX_LENGTH,
+      required: FORM_VALIDATION_MESSAGES('Duration').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
       },
     },
+  },
+  interestRate: {
+    type: INPUT_TYPES.NUMBER,
+    label: 'Interest Rate %',
+    className: 'col-md-12',
+    placeholder: 'Interest Rate',
+    schema: {
+      required: FORM_VALIDATION_MESSAGES('Interest Rate').REQUIRED,
+      min: {
+        value: 1,
+        message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
+      },
+    },
+    blockInvalidChars: blockInvalidChar,
   },
 
-  category: {
-    type: INPUT_TYPES.SELECT,
-    label: 'Plan Type',
-    className: 'col-md-12',
-    placeholder: 'Select a Plan Type',
-    // isMulti: true,
-    options: planTypeOptions,
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Plan Type').REQUIRED,
-    },
-  },
   // images: {
   //   type: INPUT_TYPES.FILE,
   //   label: 'Images',
@@ -274,13 +136,13 @@ export const PLANS_FORM_SCHEMA = () => ({
   //     required: FORM_VALIDATION_MESSAGES('Body Type').REQUIRED,
   //   },
   // },
-  price: {
+  minInvestment: {
     type: INPUT_TYPES.NUMBER,
-    label: 'Price',
+    label: 'Min Investment',
     className: 'col-md-12',
-    placeholder: 'Price',
+    placeholder: 'minInvestment',
     schema: {
-      required: FORM_VALIDATION_MESSAGES('Price').REQUIRED,
+      required: FORM_VALIDATION_MESSAGES('minInvestment').REQUIRED,
       min: {
         value: 1,
         message: FORM_VALIDATION_MESSAGES(1).MIN_VALUE,
@@ -305,23 +167,6 @@ export const PLANS_FORM_SCHEMA = () => ({
   //     },
   //   },
   // },
-  modelYear: {
-    type: INPUT_TYPES.TEXT,
-    label: 'Duration',
-    className: 'col-md-3',
-    placeholder: 'Duration',
-    schema: {
-      required: FORM_VALIDATION_MESSAGES('Duration').REQUIRED,
-      minLength: {
-        value: 4,
-        message: FORM_VALIDATION_MESSAGES(4).MIN_LENGTH,
-      },
-      maxLength: {
-        value: 4,
-        message: FORM_VALIDATION_MESSAGES(4).MAX_LENGTH,
-      },
-    },
-  },
   // paint: {
   //   type: INPUT_TYPES.TEXT,
   //   label: 'Paint',
@@ -478,41 +323,41 @@ interface ColumnData {
   sortable?: boolean;
   sortType?: string;
   render?: (
-    row: ProductResponsePayload,
+    row: PlanResponsePayload,
     val: string | number
   ) => JSX.Element[] | string | JSX.Element | string[];
 }
 
-type RenderActions = (val: unknown, row: ProductResponsePayload) => JSX.Element;
+type RenderActions = (val: unknown, row: PlanResponsePayload) => JSX.Element;
 
 // Define the shape of the columns
-export const productsColumns = (
-  renderActions: RenderActions,
-  setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>,
-  handleChangeCheckBox: (id: string) => void,
-  selectedIds: string[] | undefined
+export const PlansColumns = (
+  renderActions: RenderActions
+  // setShowMultiItemView: Dispatch<SetStateAction<ViewMultiData>>
+  // handleChangeCheckBox: (id: string) => void,
+  // selectedIds: string[] | undefined
   // setViewSpecifications: Dispatch<SetStateAction<ViewSpecificationData>>
 ): ColumnData[] => [
-  {
-    title: '#',
-    render: (row) => {
-      return (
-        <button
-          type="button"
-          className="custom-checkbox btn btn-transparent"
-          onClick={() => handleChangeCheckBox(row._id)}
-        >
-          <input
-            type="checkbox"
-            className="checkbox-input"
-            checked={selectedIds?.includes(row._id)}
-            // onChange={() => handleChangeCheckBox(row._id)}
-          />
-          <span className="label" />
-        </button>
-      );
-    },
-  },
+  // {
+  //   title: '#',
+  //   render: (row) => {
+  //     return (
+  //       <button
+  //         type="button"
+  //         className="custom-checkbox btn btn-transparent"
+  //         onClick={() => handleChangeCheckBox(row._id)}
+  //       >
+  //         <input
+  //           type="checkbox"
+  //           className="checkbox-input"
+  //           checked={selectedIds?.includes(row._id)}
+  //           // onChange={() => handleChangeCheckBox(row._id)}
+  //         />
+  //         <span className="label" />
+  //       </button>
+  //     );
+  //   },
+  // },
   {
     title: 'Plan Name',
     fieldName: 'planName',
@@ -535,54 +380,60 @@ export const productsColumns = (
     // },
   },
   {
-    title: 'Type',
-    fieldName: 'type',
-    render: (_, val) => {
-      const type = (val || []) as unknown as Category[];
-      if (!type?.length) return '- - -';
-      return (
-        <>
-          {type?.map((category: { name: string }, index) => {
-            if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
-              return `${category}${index < type.length - 1 ? ', ' : ' '}`;
-            }
-            return null;
-          })}
-          {type?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
-            <button
-              type="button"
-              className="btn border py-0 px-1 cat-count"
-              onClick={() =>
-                setShowMultiItemView({
-                  show: true,
-                  data: { title: 'Company', size: 'sm' },
-                })
-              }
-            >
-              {`+${type.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
-            </button>
-          ) : null}
-        </>
-      );
-    },
+    title: 'Duration (Days)',
+    fieldName: 'duration',
+    sortable: true,
+    sortType: 'title',
   },
   {
-    title: 'Description',
-    fieldName: 'description',
-    isTruncated: true,
+    title: 'Interest Rate %',
+    fieldName: 'interestRate',
     sortable: true,
-    sortType: 'description',
+    sortType: 'title',
   },
+  {
+    title: 'Min Investment',
+    fieldName: 'minInvestment',
+    sortable: true,
+    sortType: 'title',
+  },
+  // {
+  //   title: 'Duration (Days)',
+  //   fieldName: 'duration',
+  //   render: (_, val) => {
+  //     const type = (val || []) as unknown as Category[];
+  //     if (!type?.length) return '- - -';
+  //     return (
+  //       <>
+  //         {type?.map((category: { name: string }, index) => {
+  //           if (index < COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW) {
+  //             return `${category}${index < type.length - 1 ? ', ' : ' '}`;
+  //           }
+  //           return null;
+  //         })}
+  //         {type?.length > COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW ? (
+  //           <button
+  //             type="button"
+  //             className="btn border py-0 px-1 cat-count"
+  //             onClick={() =>
+  //               setShowMultiItemView({
+  //                 show: true,
+  //                 data: { title: 'Company', size: 'sm' },
+  //               })
+  //             }
+  //           >
+  //             {`+${type.length - COUNT_OF_MULTI_RENDER_ELEMENTS_TO_VIEW}`}
+  //           </button>
+  //         ) : null}
+  //       </>
+  //     );
+  //   },
+  // },
   // {
   //   title: 'Status',
   //   fieldName: 'stock',
   //   render: (_, val) => `${val === 0 ? 'SOLD OUT' : 'Available'}`,
   // },
-  {
-    title: 'Price',
-    fieldName: 'price',
-    render: (_, val) => `${convertToLocale(val)}`,
-  },
   // {
   //   title: 'Specifications',
   //   render: (row) => {
@@ -625,14 +476,14 @@ export const SPECIFICATIONS: FieldSchemaForSpecifications[] = [
     render: (value: TableRenderValue) =>
       GEARBOX_OPTIONS?.find((fuel) => fuel.value === Number(value))?.label,
   },
-  {
-    label: 'Body Type',
-    key: 'bodyType',
-    render: (value: TableRenderValue) =>
-      CAR_BODY_TYPE_OPTIONS?.find(
-        (bodyType) => bodyType.value === Number(value)
-      )?.label,
-  },
+  // {
+  //   label: 'Body Type',
+  //   key: 'bodyType',
+  //   render: (value: TableRenderValue) =>
+  //     CAR_BODY_TYPE_OPTIONS?.find(
+  //       (bodyType) => bodyType.value === Number(value)
+  //     )?.label,
+  // },
   { label: 'Gear Count', key: 'gearCount', format: true },
   { label: 'Seat Count', key: 'seatCount', format: true },
   {
