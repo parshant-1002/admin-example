@@ -1,7 +1,6 @@
 // Libraries
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
 // Components
@@ -133,10 +132,10 @@ export default function PlansList() {
   });
   const [deletePlan] = useDeletePlanMutation();
 
-  // Function to handle page click
-  const handlePageClick = (selectedItem: { selected: number }) => {
-    setCurrentPage(selectedItem.selected);
-  };
+  // // Function to handle page click
+  // const handlePageClick = (selectedItem: { selected: number }) => {
+  //   setCurrentPage(selectedItem.selected);
+  // };
 
   // Function to handle edit action
   const handleEdit = (row: PlanResponsePayload) => {
@@ -369,28 +368,28 @@ export default function PlansList() {
       />
 
       <CustomTableView
-        rows={plansList || (dummyData as unknown as Row[]) || []}
+        rows={plansList?.plans || (dummyData as unknown as Row[]) || []}
         columns={columns as unknown as Column[]}
         pageSize={PLANS_PAGE_LIMIT}
         noDataFound={STRINGS.NO_RESULT}
         handleSortingClick={handleSortingClick}
         quickEditRowId={null}
-        renderTableFooter={() => (
-          <ReactPaginate
-            pageCount={(plansList?.count || 1) / PLANS_PAGE_LIMIT}
-            onPageChange={handlePageClick}
-            activeClassName={STRINGS.ACTIVE}
-            nextClassName={`${STRINGS.NEXT_BTN} ${
-              Math.ceil((plansList?.count || 1) / PLANS_PAGE_LIMIT) !==
-              currentPage + 1
-                ? STRINGS.EMPTY_STRING
-                : STRINGS.DISABLED
-            }`}
-            previousClassName={STRINGS.PREV_BTN}
-            disabledClassName={STRINGS.DISABLED}
-            forcePage={currentPage}
-          />
-        )}
+        // renderTableFooter={() => (
+        //   <ReactPaginate
+        //     pageCount={(plansList?.count || 1) / PLANS_PAGE_LIMIT}
+        //     onPageChange={handlePageClick}
+        //     activeClassName={STRINGS.ACTIVE}
+        //     nextClassName={`${STRINGS.NEXT_BTN} ${
+        //       Math.ceil((plansList?.count || 1) / PLANS_PAGE_LIMIT) !==
+        //       currentPage + 1
+        //         ? STRINGS.EMPTY_STRING
+        //         : STRINGS.DISABLED
+        //     }`}
+        //     previousClassName={STRINGS.PREV_BTN}
+        //     disabledClassName={STRINGS.DISABLED}
+        //     forcePage={currentPage}
+        //   />
+        // )}
       />
     </div>
   );

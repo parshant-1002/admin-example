@@ -7,7 +7,7 @@ export const loginApi = api.injectEndpoints({
   endpoints: (builder) => ({
     addPlan: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PLANS.ADD,
+        url: API_END_POINTS.PLAN,
         method: HTTPS_METHODS.POST,
         body: payload,
       }),
@@ -17,7 +17,7 @@ export const loginApi = api.injectEndpoints({
     }),
     editPlan: builder.mutation({
       query: ({ payload }) => ({
-        url: `${API_END_POINTS.PLANS.EDIT}/${payload?.id}`,
+        url: `${API_END_POINTS.PLAN}/${payload?.id}`,
 
         method: HTTPS_METHODS.PUT,
         body: payload,
@@ -28,7 +28,7 @@ export const loginApi = api.injectEndpoints({
     }),
     deletePlan: builder.mutation({
       query: ({ payload }) => ({
-        url: `${API_END_POINTS.PLANS.DELETE}/${payload}`,
+        url: `${API_END_POINTS.PLAN}/${payload}`,
         method: HTTPS_METHODS.DELETE,
       }),
       async onQueryStarted(arg, { queryFulfilled }) {
@@ -37,13 +37,13 @@ export const loginApi = api.injectEndpoints({
     }),
     getPlans: builder.query({
       query: ({ params }) => ({
-        url: API_END_POINTS.PLANS.LIST,
+        url: API_END_POINTS.PLAN,
         params,
       }),
     }),
     getPlan: builder.query({
       query: ({ params }) => ({
-        url: API_END_POINTS.PLANS.GET_SINGLE,
+        url: API_END_POINTS.PLAN,
         params,
       }),
     }),

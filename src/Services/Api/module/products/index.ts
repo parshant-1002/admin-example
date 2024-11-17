@@ -7,7 +7,7 @@ export const loginApi = api.injectEndpoints({
   endpoints: (builder) => ({
     addProduct: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PLANS.ADD,
+        url: API_END_POINTS.PLAN,
         method: HTTPS_METHODS.POST,
         body: payload,
       }),
@@ -17,7 +17,7 @@ export const loginApi = api.injectEndpoints({
     }),
     editProduct: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PLANS.EDIT,
+        url: API_END_POINTS.PLAN,
         method: HTTPS_METHODS.PUT,
         body: payload,
       }),
@@ -27,7 +27,7 @@ export const loginApi = api.injectEndpoints({
     }),
     deleteProduct: builder.mutation({
       query: ({ payload }) => ({
-        url: API_END_POINTS.PLANS.DELETE,
+        url: API_END_POINTS.PLAN,
         method: HTTPS_METHODS.DELETE,
         body: payload,
       }),
@@ -37,7 +37,7 @@ export const loginApi = api.injectEndpoints({
     }),
     getProducts: builder.query({
       query: ({ params }) => ({
-        url: API_END_POINTS.PLANS.LIST,
+        url: API_END_POINTS.PLAN,
         params,
       }),
     }),

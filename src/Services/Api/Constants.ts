@@ -5,13 +5,7 @@ export const { VITE_PRODUCT_DETAIL_PATH } = import.meta.env;
 export const { VITE_API_VERSION } = import.meta.env;
 
 export const API_END_POINTS = {
-  PLANS: {
-    ADD: '/plans/createPlan',
-    LIST: '/plans/getAllPlans',
-    GET_SINGLE: '/plans/getPlan',
-    DELETE: 'plans/deletePlan',
-    EDIT: 'plans/updatePlan',
-  },
+  PLAN: '/planinfo/plan',
   LOGIN: '/auth/login',
   PRODUCT: '/product',
   USER: '/user',

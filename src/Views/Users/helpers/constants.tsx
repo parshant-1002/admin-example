@@ -4,7 +4,7 @@
 import moment from 'moment';
 import {
   FilterFieldTypes,
-  FilterSchema
+  FilterSchema,
 } from '../../../Shared/components/Filters/helpers/models';
 import { DATE_FORMATS, STRINGS } from '../../../Shared/constants/constants';
 import { UsersResponsePayload } from './model';
@@ -32,7 +32,7 @@ type RenderActions = (val: unknown, row: UsersResponsePayload) => JSX.Element;
 
 // Define the shape of the columns
 export const usersColumns = (
-  renderActions: RenderActions,
+  renderActions: RenderActions
   // handleChangeCheckBox: (id: string) => void,
   // selectedIds: string[] | undefined
 ): ColumnData[] => [
@@ -130,7 +130,7 @@ export const FiltersKeys = {
   userStatus: 'userStatus',
 };
 export const filterSchema = (
-  onChangeFilter: (key: string, newValue: unknown) => void,
+  onChangeFilter: (key: string, newValue: unknown) => void
   // filtersState: FiltersStatef
 ): FilterSchema[] => [
   {
